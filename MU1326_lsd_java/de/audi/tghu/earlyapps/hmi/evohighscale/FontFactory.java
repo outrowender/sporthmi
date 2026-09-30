@@ -66,7 +66,7 @@ public class FontFactory {
                 break;
             }
             default: {
-                iFrameworkAccess.getLogChannel("FontFactory").log(10000, new StringBuffer().append("Invalid font array id ").append(n).append(".").toString());
+                iFrameworkAccess.getLogChannel("FontFactory").log(10000, "Invalid font array id " + n + ".");
             }
         }
         return fontArrays[n];

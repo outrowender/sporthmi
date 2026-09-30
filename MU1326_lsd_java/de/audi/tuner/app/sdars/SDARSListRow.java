@@ -21,28 +21,28 @@ public class SDARSListRow
 extends AbstractRadioListRow
 implements ISDARSRow,
 IStationInfo {
-    private static final int RS_WHITE;
-    private static final int RS_GREY;
-    protected static final int INDEX_ST_CHNUM;
-    protected static final int INDEX_ST_NAME;
-    protected static final int INDEX_ST_CATID;
-    private static final int INDEX_RS;
-    private static final int INDEX_ST_IS_FAVORITE;
-    private static final int INDEX_ST_SEEK_ALERT;
-    private static final int INDEX_ARTIST_ICON;
-    private static final int INDEX_ARTIST;
-    private static final int INDEX_TITLE_ICON;
-    private static final int INDEX_TITLE;
-    protected static final int INDEX_ST_CATID_LONG;
-    private static final int INDEX_ST_NAME_LONG;
-    private static final int INDEX_DASH;
-    protected static final int INDEX_RADIOTEXT_ICON;
-    protected static final int INDEX_ITUNES_ICON;
-    private static final int INDEX_IMAGE;
-    protected static final int INDEX_PROPERTIES;
-    private static final int INDEX_COMPOSER_ICON;
-    private static final int INDEX_COMPOSER;
-    public static final int NUM_OF_COLS;
+    private static final int RS_WHITE = 0;
+    private static final int RS_GREY = 1;
+    protected static final int INDEX_ST_CHNUM = 0;
+    protected static final int INDEX_ST_NAME = 1;
+    protected static final int INDEX_ST_CATID = 2;
+    private static final int INDEX_RS = 3;
+    private static final int INDEX_ST_IS_FAVORITE = 4;
+    private static final int INDEX_ST_SEEK_ALERT = 5;
+    private static final int INDEX_ARTIST_ICON = 6;
+    private static final int INDEX_ARTIST = 7;
+    private static final int INDEX_TITLE_ICON = 8;
+    private static final int INDEX_TITLE = 9;
+    protected static final int INDEX_ST_CATID_LONG = 10;
+    private static final int INDEX_ST_NAME_LONG = 11;
+    private static final int INDEX_DASH = 12;
+    protected static final int INDEX_RADIOTEXT_ICON = 13;
+    protected static final int INDEX_ITUNES_ICON = 14;
+    private static final int INDEX_IMAGE = 15;
+    protected static final int INDEX_PROPERTIES = 16;
+    private static final int INDEX_COMPOSER_ICON = 17;
+    private static final int INDEX_COMPOSER = 18;
+    public static final int NUM_OF_COLS = 19;
     private final StationInfoExt station;
     private boolean tmpAdded;
     private RadioText pdt;
@@ -74,12 +74,10 @@ IStationInfo {
         this.pdt = sDARSListRow.pdt;
     }
 
-    @Override
     public EvoListRow copy() {
         return new SDARSListRow(this);
     }
 
-    @Override
     public StationInfoExt getStation() {
         return this.station;
     }
@@ -88,12 +86,10 @@ IStationInfo {
         this.setText(2, bl ? "NoSignal" : this.station.getShortCategory());
     }
 
-    @Override
     public TunerObjectContainer getTOContainer() {
         return new TunerObjectContainer(this.station);
     }
 
-    @Override
     public void resetPdt() {
         this.setText(7, "");
         this.setText(9, "");
@@ -117,7 +113,6 @@ IStationInfo {
         return bl ? this.station.getFullCategory() : this.station.getShortCategory();
     }
 
-    @Override
     public void setProgramData(SdarsRadioText sdarsRadioText, int n) {
         this.pdt = sdarsRadioText;
         this.setText(7, sdarsRadioText.shortArtistName);
@@ -135,7 +130,6 @@ IStationInfo {
         return this.pdt;
     }
 
-    @Override
     public String toString() {
         Buffer buffer = new Buffer(300);
         buffer.append(this.station.toString());
@@ -143,7 +137,6 @@ IStationInfo {
         return buffer.toString();
     }
 
-    @Override
     public void setSeekPossibility(AddToSeeksPossibilityEnum addToSeeksPossibilityEnum, AddToSeeksPossibilityEnum addToSeeksPossibilityEnum2, AddToSeeksPossibilityEnum addToSeeksPossibilityEnum3, AddToSeeksPossibilityEnum addToSeeksPossibilityEnum4) {
     }
 }

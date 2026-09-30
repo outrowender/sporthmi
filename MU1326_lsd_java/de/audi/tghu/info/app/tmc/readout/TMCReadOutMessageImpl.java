@@ -10,9 +10,9 @@ import org.dsi.ifc.tmc.TmcPhoneme;
 
 public class TMCReadOutMessageImpl
 implements TMCReadOutMessage {
-    static final int READ_OUT_NEVER;
-    static final int READ_OUT_COMPLETELY;
-    static final int READ_OUT_ONCE;
+    static final int READ_OUT_NEVER = -1;
+    static final int READ_OUT_COMPLETELY = 3;
+    static final int READ_OUT_ONCE = 1;
     private String roadName;
     private String roadNumber;
     private long messageId;
@@ -61,12 +61,10 @@ implements TMCReadOutMessage {
         return this.roadNumber;
     }
 
-    @Override
     public long getMessageID() {
         return this.messageId;
     }
 
-    @Override
     public String getReadOutString() {
         return this.readOutString;
     }

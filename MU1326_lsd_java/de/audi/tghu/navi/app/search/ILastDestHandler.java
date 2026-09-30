@@ -9,22 +9,16 @@ import org.dsi.ifc.global.NavLocation;
 import org.dsi.ifc.search.SearchResult;
 
 public interface ILastDestHandler {
-    default public NavLocation getLastDestNavLocation(long l) {
-    }
+    public NavLocation getLastDestNavLocation(long var1);
 
-    default public SDSListEntry[] getLastDestListForSDS() {
-    }
+    public SDSListEntry[] getLastDestListForSDS();
 
-    default public SearchResult getLastDest(long l) {
-    }
+    public SearchResult getLastDest(long var1);
 
-    default public byte[] getLastDestByteStream(int n) {
-    }
+    public byte[] getLastDestByteStream(int var1);
 
-    default public void languageChanged() {
-    }
+    public void languageChanged();
 
-    default public NavCommand getLanguageChangedCommand() {
-    }
+    public NavCommand getLanguageChangedCommand();
 }
 

@@ -14,14 +14,13 @@ extends AudioState {
         super(navigationEnv, audioStateMachine, speechManager);
     }
 
-    @Override
     public void stopConnection(int n, int n2) {
         if (AudioStateMachine.isNaviAudioConnection(n)) {
-            this.logChannel.log(-2137614336, "WaitForConnectionStopped#stopConnection( %1 ) - going to CONNECTION_STOPPED ", (long)n);
+            this.logChannel.log(10000000, "WaitForConnectionStopped#stopConnection( %1 ) - going to CONNECTION_STOPPED ", (long)n);
             this.acknowledgeStopAudio(n);
             int n3 = this.stateMachine.getAudioState();
             if (n3 == 3 || n3 == 1) {
-                this.logChannel.log(-1601830656, "WaitForConnectionStopped#stopConnection() - another connection requested! ");
+                this.logChannel.log(100000, "WaitForConnectionStopped#stopConnection() - another connection requested! ");
                 this.requestConnection();
             }
         }

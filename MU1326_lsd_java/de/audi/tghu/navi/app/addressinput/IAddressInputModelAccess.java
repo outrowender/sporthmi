@@ -7,10 +7,8 @@ import java.util.Map;
 import org.dsi.ifc.global.NavLocation;
 
 public interface IAddressInputModelAccess {
-    default public void onStart(NavLocation navLocation) {
-    }
+    public void onStart(NavLocation var1);
 
-    default public void onUpdateLocation(NavLocation navLocation, Map map) {
-    }
+    public void onUpdateLocation(NavLocation var1, Map var2);
 }
 

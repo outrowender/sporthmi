@@ -18,7 +18,6 @@ implements a {
         this.b = n;
     }
 
-    @Override
     public void a() {
         if (null == this.a) {
             return;

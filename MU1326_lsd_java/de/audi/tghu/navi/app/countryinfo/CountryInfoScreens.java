@@ -5,7 +5,7 @@ package de.audi.tghu.navi.app.countryinfo;
 
 public class CountryInfoScreens {
     public static int getCountryInfoSpeller() {
-        return 1679623680;
+        return 400740;
     }
 }
 

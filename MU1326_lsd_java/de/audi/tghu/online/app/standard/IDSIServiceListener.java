@@ -4,10 +4,9 @@
 package de.audi.tghu.online.app.standard;
 
 public interface IDSIServiceListener {
-    public static final int BITMASK_SERVICE_ACTIVE_GPS;
-    public static final int ATTRVALIDFLAG_VALID;
+    public static final int BITMASK_SERVICE_ACTIVE_GPS = 2048;
+    public static final int ATTRVALIDFLAG_VALID = 1;
 
-    default public void updateServiceState(int n, int n2) {
-    }
+    public void updateServiceState(int var1, int var2);
 }
 

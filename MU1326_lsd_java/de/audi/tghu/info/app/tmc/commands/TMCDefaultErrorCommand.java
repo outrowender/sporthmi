@@ -16,16 +16,14 @@ extends TMCCommand {
         this.tmcApp = appTMC;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "[TMCDefaultErrorCommand#execute] requestInitialTMCWindow()");
+        this.logger.log(10000000, "[TMCDefaultErrorCommand#execute] requestInitialTMCWindow()");
         this.tmcApp.requestInitialTMCWindow();
         this.getCommandList().commandFinished();
     }
 
-    @Override
     public String toString() {
-        return super.getClass().getName();
+        return this.getClass().getName();
     }
 }
 

@@ -60,12 +60,10 @@ IDSIClient {
         return this.dsi == object;
     }
 
-    @Override
     public void setDSI(DSIBase dSIBase) {
         this.dsi = dSIBase;
     }
 
-    @Override
     public int[] getAutoNotifications() {
         return new int[0];
     }
@@ -73,7 +71,7 @@ IDSIClient {
     public void setNotification(int[] nArray) {
         if (this.getDSI() != null) {
             for (int i2 = 0; i2 < nArray.length; ++i2) {
-                this.getLogDSI().log(1078071040, "[AbstractSwdlDSIHandler] %1.setNotification for attribute %2", (Object)this.getName(), (long)nArray[i2]);
+                this.getLogDSI().log(1000000, "[AbstractSwdlDSIHandler] %1.setNotification for attribute %2", (Object)this.getName(), (long)nArray[i2]);
             }
             this.getDSI().setNotification(nArray, (DSIListener)this);
         }
@@ -82,7 +80,7 @@ IDSIClient {
     public void clearNotification(int[] nArray) {
         if (this.getDSI() != null) {
             for (int i2 = 0; i2 < nArray.length; ++i2) {
-                this.getLogDSI().log(1078071040, "[AbstractSwdlDSIHandler] %1.clearNotification for attribute %2", (Object)this.getName(), (long)nArray[i2]);
+                this.getLogDSI().log(1000000, "[AbstractSwdlDSIHandler] %1.clearNotification for attribute %2", (Object)this.getName(), (long)nArray[i2]);
             }
             this.getDSI().clearNotification(nArray, (DSIListener)this);
         }
@@ -93,7 +91,6 @@ IDSIClient {
         this.getLogDSI().log(10000, "[AbstractSwdlDSIHandler]", throwable);
     }
 
-    @Override
     public void asyncException(int n, String string, int n2) {
         this.getLogDSI().log(10000, this.asyncErrorTemplate, (Object)string, (long)n, (long)n2);
     }

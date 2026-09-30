@@ -17,7 +17,6 @@ extends AbstractLogSink {
         }
     }
 
-    @Override
     public void writeLog(LogEntry logEntry) {
         try {
             if ("Ext.Startup".equals(logEntry.getChannelName())) {

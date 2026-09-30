@@ -15,9 +15,8 @@ extends NavCommand {
         this.mapKey = string;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "%1#execute() - use mapKey = %2", (Object)this.CLASS_NAME, (Object)this.mapKey);
+        this.logger.log(10000000, "%1#execute() - use mapKey = %2", (Object)this.CLASS_NAME, (Object)this.mapKey);
         Object object = this.getCommandList().get(this.mapKey);
         if (object instanceof NavLocation) {
             Vehicle.getInstance().setVehicleCountryLocation((NavLocation)object);

@@ -24,15 +24,13 @@ extends NavCommand {
         this.openedListAnchorId = n4;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "LiGetViaPointListCommand#execute() - calling liGetViaPointList() ");
+        this.logger.log(10000000, "LiGetViaPointListCommand#execute() - calling liGetViaPointList() ");
         this.getDSINavigation().liGetViaPointList(this.windowSize, this.offset, this.anchorId, this.openedListAnchorId);
     }
 
-    @Override
     public void liGetViaPointListResult(int n, ViaPointListElement[] viaPointListElementArray, int n2, int n3) {
-        this.logger.log(-2137614336, "LiGetViaPointListCommand#liGetViaPointListResult()");
+        this.logger.log(10000000, "LiGetViaPointListCommand#liGetViaPointListResult()");
         if (this.listener != null) {
             this.listener.updateViaList(n, viaPointListElementArray, n2, n3);
             this.getCommandList().commandFinished();

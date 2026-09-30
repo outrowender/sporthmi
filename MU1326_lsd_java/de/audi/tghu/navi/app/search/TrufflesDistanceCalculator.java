@@ -23,11 +23,11 @@ import org.dsi.ifc.navigation.RrdCalculationInfo;
 
 public class TrufflesDistanceCalculator
 implements TimerListener {
-    private static final long AIR_DELAY_UPDATE;
-    private static final long RRD_DELAY_UPDATE;
-    private static final long RRD_DELAY_AFTER_USER_INPUT;
-    private static final int MAX_RRD_ENTRIES;
-    private static final int RRD_ARROW_OFFSET;
+    private static final long AIR_DELAY_UPDATE = 5000L;
+    private static final long RRD_DELAY_UPDATE = 60000L;
+    private static final long RRD_DELAY_AFTER_USER_INPUT = 5000L;
+    private static final int MAX_RRD_ENTRIES = 10;
+    private static final int RRD_ARROW_OFFSET = 8;
     private final Timer updateAirdistanceTimer;
     private Timer updateRRDTimer;
     private final LogChannel lc;
@@ -44,9 +44,9 @@ implements TimerListener {
         this.listModel = baseListModelApp;
         this.lock = object;
         this.commandListFactory = iCommandListFactory;
-        this.updateAirdistanceTimer = new Timer("TrufflesDistanceCalculator", 5, this.lc, this, 0, false);
+        this.updateAirdistanceTimer = new Timer("TrufflesDistanceCalculator", 5, this.lc, this, 5000L, false);
         if (Boolean.getBoolean("DRRD_TRUFFLES")) {
-            this.updateRRDTimer = new Timer("TrufflesDistanceCalculator", 5, this.lc, this, 0, false);
+            this.updateRRDTimer = new Timer("TrufflesDistanceCalculator", 5, this.lc, this, 60000L, false);
         }
     }
 
@@ -74,7 +74,7 @@ implements TimerListener {
         if (this.updateRRDTimer == null) {
             return;
         }
-        this.updateRRDTimer.setDelay(0);
+        this.updateRRDTimer.setDelay(5000L);
         this.updateRRDTimer.restart();
     }
 
@@ -95,7 +95,7 @@ implements TimerListener {
             }
             if (arrayList.size() == 0) {
                 if (this.lc.isDebug2()) {
-                    this.lc.log(14808325, "TrufflesDistanceCalculator#getAllVisibleRowsFromListModel() Counter is 0 will return NULL");
+                    this.lc.log(100000000, "TrufflesDistanceCalculator#getAllVisibleRowsFromListModel() Counter is 0 will return NULL");
                 }
                 return null;
             }
@@ -134,7 +134,7 @@ implements TimerListener {
      * WARNING - Removed try catching itself - possible behaviour change.
      */
     public void updateRrdCalculationInfo(RrdCalculationInfo[] rrdCalculationInfoArray) {
-        this.lc.log(-2137614336, "TrufflesDistanceCalculator#updateRrdCalculationInfo() updateRRDTimer is initialized=%1", this.updateRRDTimer != null);
+        this.lc.log(10000000, "TrufflesDistanceCalculator#updateRrdCalculationInfo() updateRRDTimer is initialized=%1", this.updateRRDTimer != null);
         if (this.updateRRDTimer == null) {
             return;
         }
@@ -178,7 +178,7 @@ implements TimerListener {
     }
 
     private void triggerRRDCalculation() {
-        this.lc.log(-2137614336, "TrufflesDistanceCalculator#triggerRRDCalculation() updateRRDTimer is initialized=%1", this.updateRRDTimer != null);
+        this.lc.log(10000000, "TrufflesDistanceCalculator#triggerRRDCalculation() updateRRDTimer is initialized=%1", this.updateRRDTimer != null);
         if (this.updateRRDTimer == null) {
             return;
         }
@@ -211,23 +211,22 @@ implements TimerListener {
     protected boolean isUpdatePossible(EvoListRow[] evoListRowArray) {
         if (this.listModel == null || evoListRowArray == null || evoListRowArray.length == 0) {
             if (this.listModel == null) {
-                this.lc.log(-1601830656, "TrufflesDistanceCalculator#updateDirectionAndAirDistance listModel is null");
+                this.lc.log(100000, "TrufflesDistanceCalculator#updateDirectionAndAirDistance listModel is null");
             } else if (evoListRowArray == null) {
                 if (this.lc.isDebug2()) {
-                    this.lc.log(14808325, "TrufflesDistanceCalculator#updateDirectionAndAirDistance visible rows List is null");
+                    this.lc.log(100000000, "TrufflesDistanceCalculator#updateDirectionAndAirDistance visible rows List is null");
                 }
             } else if (this.lc.isDebug2()) {
-                this.lc.log(14808325, "TrufflesDistanceCalculator#updateDirectionAndAirDistance visible rows List is empty");
+                this.lc.log(100000000, "TrufflesDistanceCalculator#updateDirectionAndAirDistance visible rows List is empty");
             }
             return false;
         }
         return true;
     }
 
-    @Override
     public void fireTimer(Timer timer) {
         if (this.lc.isDebug2()) {
-            this.lc.log(14808325, "IntelliDestDistanceCalculator#fireTimer() - Timer: %1 ", (Object)timer.getName());
+            this.lc.log(100000000, "IntelliDestDistanceCalculator#fireTimer() - Timer: %1 ", (Object)timer.getName());
         }
         if (timer == this.updateAirdistanceTimer) {
             this.updateDirectionAndAirDistance();
@@ -236,14 +235,13 @@ implements TimerListener {
                 return;
             }
             this.triggerRRDCalculation();
-            this.updateRRDTimer.setDelay(0);
+            this.updateRRDTimer.setDelay(60000L);
             this.updateRRDTimer.restart();
         } else {
-            this.lc.log(-1601830656, "IntelliDestDistanceCalculator#fireTimer() - Unknown timer: %1! ", (Object)timer);
+            this.lc.log(100000, "IntelliDestDistanceCalculator#fireTimer() - Unknown timer: %1! ", (Object)timer);
         }
     }
 
-    @Override
     public void cancelTimer(Timer timer) {
     }
 }

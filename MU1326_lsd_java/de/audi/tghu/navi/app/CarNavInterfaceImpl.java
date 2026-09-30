@@ -45,23 +45,22 @@ implements CarNavListener {
     }
 
     public void addListener(CarNavListener carNavListener) {
-        this.logChannel.log(1078071040, "CarNavInterfaceImpl#setListener() - listener registered");
+        this.logChannel.log(1000000, "CarNavInterfaceImpl#setListener() - listener registered");
         this.listeners.add(carNavListener);
         this.refreshPosPosition(true);
         this.refreshPosPositionDescription(true);
     }
 
     public void removeListener(CarNavListener carNavListener) {
-        this.logChannel.log(1078071040, "CarNavInterfaceImpl#removeListener() - listener deregistered");
+        this.logChannel.log(1000000, "CarNavInterfaceImpl#removeListener() - listener deregistered");
         this.listeners.remove(carNavListener);
     }
 
     public void removeAllCarNavListeners() {
-        this.logChannel.log(1078071040, "CarNavInterfaceImpl#removeAllCarNavListeners()");
+        this.logChannel.log(1000000, "CarNavInterfaceImpl#removeAllCarNavListeners()");
         this.listeners.clear();
     }
 
-    @Override
     public void updateVehicleHeading(int n, int n2, boolean bl) {
         for (int i2 = 0; i2 < this.listeners.size(); ++i2) {
             CarNavListener carNavListener = (CarNavListener)this.listeners.get(i2);
@@ -75,7 +74,6 @@ implements CarNavListener {
         }
     }
 
-    @Override
     public void updateVehicleHeight(int n, boolean bl) {
         for (int i2 = 0; i2 < this.listeners.size(); ++i2) {
             CarNavListener carNavListener = (CarNavListener)this.listeners.get(i2);
@@ -89,7 +87,6 @@ implements CarNavListener {
         }
     }
 
-    @Override
     public void updateVehiclePosition(int n, int n2, boolean bl) {
         for (int i2 = 0; i2 < this.listeners.size(); ++i2) {
             CarNavListener carNavListener = (CarNavListener)this.listeners.get(i2);
@@ -103,7 +100,6 @@ implements CarNavListener {
         }
     }
 
-    @Override
     public void updateVehiclePositionDescription(String string, String string2, String string3, String string4, String string5, boolean bl) {
         for (int i2 = 0; i2 < this.listeners.size(); ++i2) {
             CarNavListener carNavListener = (CarNavListener)this.listeners.get(i2);

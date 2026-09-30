@@ -14,29 +14,25 @@ implements ButtonListener {
     public StartupHMIListener(NavigationEnv navigationEnv, OperationManager operationManager) {
         this.operationManager = operationManager;
         try {
-            navigationEnv.getButtonModel(-467859968).setButtonListener(this);
+            navigationEnv.getButtonModel(400868).setButtonListener(this);
         }
         catch (NullPointerException nullPointerException) {
-            navigationEnv.getLogChannel().log(-1601830656, "StartupHMIListener#constructor EXCEPTION: %1", (Throwable)nullPointerException);
+            navigationEnv.getLogChannel().log(100000, "StartupHMIListener#constructor EXCEPTION: %1", (Throwable)nullPointerException);
         }
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
-        if (n == -467859968) {
+        if (n == 400868) {
             this.operationManager.proceedWithoutCalibration();
         }
     }
 
-    @Override
     public void keyLongTyped(int n, int n2, int n3) {
     }
 }

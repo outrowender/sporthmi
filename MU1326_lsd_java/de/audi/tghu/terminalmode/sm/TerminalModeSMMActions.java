@@ -12,6 +12,7 @@ import de.audi.atip.statemachine.SMServices;
 import de.audi.atip.statemachine.ap.ConnectivityActionProxy;
 import de.audi.atip.statemachine.ap.EntertainmentActionProxy;
 import de.audi.atip.statemachine.ap.TerminalModeActionProxy;
+import java.util.NoSuchElementException;
 
 public class TerminalModeSMMActions
 implements SMModuleConstants {
@@ -30,17 +31,17 @@ implements SMModuleConstants {
     public void removeActionProxy(int n, ActionProxy actionProxy) {
         if (actionProxy instanceof EntertainmentActionProxy) {
             this.ap1 = null;
-            this.logChannel.log(-2137614336, "EntertainmentActionProxy Action Proxy removed");
+            this.logChannel.log(10000000, "EntertainmentActionProxy Action Proxy removed");
             return;
         }
         if (actionProxy instanceof ConnectivityActionProxy) {
             this.ap2 = null;
-            this.logChannel.log(-2137614336, "ConnectivityActionProxy Action Proxy removed");
+            this.logChannel.log(10000000, "ConnectivityActionProxy Action Proxy removed");
             return;
         }
         if (actionProxy instanceof TerminalModeActionProxy) {
             this.ap0 = null;
-            this.logChannel.log(-2137614336, "TerminalModeActionProxy Action Proxy removed");
+            this.logChannel.log(10000000, "TerminalModeActionProxy Action Proxy removed");
             return;
         }
     }
@@ -48,17 +49,17 @@ implements SMModuleConstants {
     public ActionProxy addActionProxy(int n, ActionProxy actionProxy) {
         if (actionProxy instanceof EntertainmentActionProxy) {
             this.ap1 = (EntertainmentActionProxy)actionProxy;
-            this.logChannel.log(-2137614336, "EntertainmentActionProxy Action Proxy added");
+            this.logChannel.log(10000000, "EntertainmentActionProxy Action Proxy added");
             return this.ap1;
         }
         if (actionProxy instanceof ConnectivityActionProxy) {
             this.ap2 = (ConnectivityActionProxy)actionProxy;
-            this.logChannel.log(-2137614336, "ConnectivityActionProxy Action Proxy added");
+            this.logChannel.log(10000000, "ConnectivityActionProxy Action Proxy added");
             return this.ap2;
         }
         if (actionProxy instanceof TerminalModeActionProxy) {
             this.ap0 = (TerminalModeActionProxy)actionProxy;
-            this.logChannel.log(-2137614336, "TerminalModeActionProxy Action Proxy added");
+            this.logChannel.log(10000000, "TerminalModeActionProxy Action Proxy added");
             return this.ap0;
         }
         return null;
@@ -69,7 +70,7 @@ implements SMModuleConstants {
             this.logChannel.log(1000, "Action Proxy 'EntertainmentActionProxy' is causing an exception in call '%1'", (Object)string, (Throwable)nullPointerException);
             throw nullPointerException;
         }
-        this.logChannel.log(1078071040, "Action Proxy 'EntertainmentActionProxy' missing for call '%1'", (Object)string);
+        this.logChannel.log(1000000, "Action Proxy 'EntertainmentActionProxy' missing for call '%1'", (Object)string);
     }
 
     private void catchActionExceptionConnectivityActionProxy(ActionProxy actionProxy, NullPointerException nullPointerException, String string) {
@@ -77,7 +78,7 @@ implements SMModuleConstants {
             this.logChannel.log(1000, "Action Proxy 'ConnectivityActionProxy' is causing an exception in call '%1'", (Object)string, (Throwable)nullPointerException);
             throw nullPointerException;
         }
-        this.logChannel.log(1078071040, "Action Proxy 'ConnectivityActionProxy' missing for call '%1'", (Object)string);
+        this.logChannel.log(1000000, "Action Proxy 'ConnectivityActionProxy' missing for call '%1'", (Object)string);
     }
 
     private void catchActionExceptionTerminalModeActionProxy(ActionProxy actionProxy, NullPointerException nullPointerException, String string) {
@@ -85,7 +86,7 @@ implements SMModuleConstants {
             this.logChannel.log(1000, "Action Proxy 'TerminalModeActionProxy' is causing an exception in call '%1'", (Object)string, (Throwable)nullPointerException);
             throw nullPointerException;
         }
-        this.logChannel.log(1078071040, "Action Proxy 'TerminalModeActionProxy' missing for call '%1'", (Object)string);
+        this.logChannel.log(1000000, "Action Proxy 'TerminalModeActionProxy' missing for call '%1'", (Object)string);
     }
 
     public void execFocusGainedAction(SMServices sMServices, int n) {
@@ -207,7 +208,7 @@ implements SMModuleConstants {
         }
     }
 
-    public HMIModel getModel(int n) {
+    public HMIModel getModel(int n) throws NoSuchElementException {
         return this.smm.getModel(n);
     }
 }

@@ -29,10 +29,9 @@ implements Runnable {
         }
     }
 
-    @Override
     public void run() {
         this.currentlySaving = true;
-        Thread.currentThread().setName(new StringBuffer().append(Thread.currentThread().getName()).append("TV FavoriteList Saver").toString());
+        Thread.currentThread().setName(Thread.currentThread().getName() + "TV FavoriteList Saver");
         while (this.saveRequests) {
             this.saveRequests = false;
             ServiceInfo[] serviceInfoArray = this.memoryList.getServices();

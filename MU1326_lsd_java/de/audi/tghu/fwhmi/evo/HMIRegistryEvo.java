@@ -18,37 +18,37 @@ extends HMIRegistry {
 
     public IDrawerControllerEvo[] getSelectionDrawers(int n, int n2) {
         IDrawerControllerEvo[] iDrawerControllerEvoArray = null;
-        HMIBundle hMIBundle = this.getHMIBundle(n2 * -1601830656);
+        HMIBundle hMIBundle = this.getHMIBundle(n2 * 100000);
         if (hMIBundle != null) {
-            this.log.log(-2137614336, "HMIRegistryEvo.getSelectionDrawers(): hmiBundle == %1", (Object)hMIBundle);
+            this.log.log(10000000, "HMIRegistryEvo.getSelectionDrawers(): hmiBundle == %1", (Object)hMIBundle);
             long l = this.getFramework().getMonotonicTime();
             iDrawerControllerEvoArray = this.toEvo(hMIBundle.getSelectionDrawers(n));
-            this.log.log(-2137614336, "HMIRegistryEvo.getSelectionDrawers moduledID(%1) creating drawers took: %2", (long)n2, this.getFramework().getMonotonicTime() - l);
+            this.log.log(10000000, "HMIRegistryEvo.getSelectionDrawers moduledID(%1) creating drawers took: %2", (long)n2, this.getFramework().getMonotonicTime() - l);
             if (iDrawerControllerEvoArray == null && n2 != 0) {
                 this.log.log(10000, "HMIRegistryEvo.getSelectionDrawers(): selectionDrawers (%1) not found ", (long)n2);
             }
         } else {
             this.log.log(10000, "HMIRegistryEvo.getSelectionDrawers(): No HMIBundle for moduleID %1 ", (long)n2);
         }
-        this.log.log(-2137614336, "HMIRegistryEvo.getSelectionDrawers(): returning %1 ", iDrawerControllerEvoArray);
+        this.log.log(10000000, "HMIRegistryEvo.getSelectionDrawers(): returning %1 ", iDrawerControllerEvoArray);
         return iDrawerControllerEvoArray;
     }
 
     public IDrawerControllerEvo[] getOptionDrawers(int n, int n2) {
         IDrawerControllerEvo[] iDrawerControllerEvoArray = null;
-        HMIBundle hMIBundle = this.getHMIBundle(n2 * -1601830656);
+        HMIBundle hMIBundle = this.getHMIBundle(n2 * 100000);
         if (hMIBundle != null) {
-            this.log.log(-2137614336, "HMIRegistryEvo.getOptionDrawers(): hmiBundle == %1", (Object)hMIBundle);
+            this.log.log(10000000, "HMIRegistryEvo.getOptionDrawers(): hmiBundle == %1", (Object)hMIBundle);
             long l = this.getFramework().getMonotonicTime();
             iDrawerControllerEvoArray = this.toEvo(hMIBundle.getOptionDrawers(n));
-            this.log.log(-2137614336, "HMIRegistryEvo.getOptionDrawers moduledID(%1) creating drawers took: %2", (long)n2, this.getFramework().getMonotonicTime() - l);
+            this.log.log(10000000, "HMIRegistryEvo.getOptionDrawers moduledID(%1) creating drawers took: %2", (long)n2, this.getFramework().getMonotonicTime() - l);
             if (iDrawerControllerEvoArray == null) {
                 this.log.log(10000, "HMIRegistryEvo.getOptionDrawers(): optionDrawers (%1) not found ", (long)n2);
             }
         } else {
             this.log.log(10000, "HMIRegistryEvo.getOptionDrawers(): No HMIBundle for moduleID %1 ", (long)n2);
         }
-        this.log.log(-2137614336, "HMIRegistryEvo.getOptionDrawers(): returning %1 ", iDrawerControllerEvoArray);
+        this.log.log(10000000, "HMIRegistryEvo.getOptionDrawers(): returning %1 ", iDrawerControllerEvoArray);
         return iDrawerControllerEvoArray;
     }
 

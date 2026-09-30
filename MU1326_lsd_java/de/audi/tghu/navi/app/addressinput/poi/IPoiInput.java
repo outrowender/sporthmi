@@ -11,40 +11,28 @@ import org.dsi.ifc.global.NavLocation;
 
 public interface IPoiInput
 extends IPoiInputSequence {
-    default public void startTopPoiInputSequence(IPoiSpellerModelAccess iPoiSpellerModelAccess) {
-    }
+    public void startTopPoiInputSequence(IPoiSpellerModelAccess var1);
 
-    default public CommandList getStartTopPoiInputSequence(IPoiSpellerModelAccess iPoiSpellerModelAccess) {
-    }
+    public CommandList getStartTopPoiInputSequence(IPoiSpellerModelAccess var1);
 
-    default public void startPoiClassesInputSequence(IPoiSpellerModelAccess iPoiSpellerModelAccess) {
-    }
+    public void startPoiClassesInputSequence(IPoiSpellerModelAccess var1);
 
-    default public void startPersonalPoiInputSequence(IPoiSpellerModelAccess iPoiSpellerModelAccess) {
-    }
+    public void startPersonalPoiInputSequence(IPoiSpellerModelAccess var1);
 
-    default public void startTopPoiByUID(IPoiSpellerModelAccess iPoiSpellerModelAccess, IPoiSpellerModelAccess iPoiSpellerModelAccess2, PoiSearchArea poiSearchArea, int n) {
-    }
+    public void startTopPoiByUID(IPoiSpellerModelAccess var1, IPoiSpellerModelAccess var2, PoiSearchArea var3, int var4);
 
-    default public CommandList getTopPoiByUID(IPoiSpellerModelAccess iPoiSpellerModelAccess, IPoiSpellerModelAccess iPoiSpellerModelAccess2, PoiSearchArea poiSearchArea, int n) {
-    }
+    public CommandList getTopPoiByUID(IPoiSpellerModelAccess var1, IPoiSpellerModelAccess var2, PoiSearchArea var3, int var4);
 
-    default public void cancelAlongRouteSearch() {
-    }
+    public void cancelAlongRouteSearch();
 
-    default public boolean isActive() {
-    }
+    public boolean isActive();
 
-    default public void finish() {
-    }
+    public void finish();
 
-    default public void updateAdbNavLocation(byte[] byArray) {
-    }
+    public void updateAdbNavLocation(byte[] var1);
 
-    default public void startStoringNavLocationOnAdbEntry(NavLocation navLocation) {
-    }
+    public void startStoringNavLocationOnAdbEntry(NavLocation var1);
 
-    default public void saveHomeAddress(NavLocation navLocation) {
-    }
+    public void saveHomeAddress(NavLocation var1);
 }
 

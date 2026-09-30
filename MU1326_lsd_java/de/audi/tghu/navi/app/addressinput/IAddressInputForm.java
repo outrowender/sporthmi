@@ -14,52 +14,36 @@ import org.dsi.ifc.global.NavLocation;
 
 public interface IAddressInputForm
 extends IBackupLocationHandler {
-    default public CommandList acceptGivenInput(AddressInputHandler addressInputHandler, NavLocation navLocation) {
-    }
+    public CommandList acceptGivenInput(AddressInputHandler var1, NavLocation var2);
 
-    default public void destAddressInputHKReturn(int n, int n2, Command command, Command command2) {
-    }
+    public void destAddressInputHKReturn(int var1, int var2, Command var3, Command var4);
 
-    default public NavLocation getInitialLocation() {
-    }
+    public NavLocation getInitialLocation();
 
-    default public CommandList getStartAddressInputCommandList(NavLocation navLocation) {
-    }
+    public CommandList getStartAddressInputCommandList(NavLocation var1);
 
-    default public CommandList getStartAddressInputCommandList(NavLocation navLocation, int n) {
-    }
+    public CommandList getStartAddressInputCommandList(NavLocation var1, int var2);
 
-    default public void onNewNaviServiceListener() {
-    }
+    public void onNewNaviServiceListener();
 
-    default public void resetMemorySettings() {
-    }
+    public void resetMemorySettings();
 
-    default public void setPoiService(IPoiService iPoiService) {
-    }
+    public void setPoiService(IPoiService var1);
 
-    default public void start() {
-    }
+    public void start();
 
-    default public void start(NavLocation navLocation) {
-    }
+    public void start(NavLocation var1);
 
-    default public void startForOnline() {
-    }
+    public void startForOnline();
 
-    default public void startWithoutStrip(NavLocation navLocation) {
-    }
+    public void startWithoutStrip(NavLocation var1);
 
-    default public void startCityZipInputSequence() {
-    }
+    public void startCityZipInputSequence();
 
-    default public void startForRemoteHMI() {
-    }
+    public void startForRemoteHMI();
 
-    default public IAddressInputFormModelAccessHelper getModelAccessHelper() {
-    }
+    public IAddressInputFormModelAccessHelper getModelAccessHelper();
 
-    default public IAddressInputSDSForm getSDSAddressInputForm() {
-    }
+    public IAddressInputSDSForm getSDSAddressInputForm();
 }
 

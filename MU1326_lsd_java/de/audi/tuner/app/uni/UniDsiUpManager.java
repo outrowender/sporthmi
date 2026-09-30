@@ -3,7 +3,10 @@
  */
 package de.audi.tuner.app.uni;
 
+import de.audi.atip.log.LogChannel;
+import de.audi.atip.timer.DefaultTimerListener;
 import de.audi.atip.timer.Timer;
+import de.audi.tuner.app.AbstractSlsSpeedManagerBase;
 import de.audi.tuner.app.Logger;
 import de.audi.tuner.app.RadioComparators;
 import de.audi.tuner.app.RadioTextPlusStorage;
@@ -15,13 +18,9 @@ import de.audi.tuner.app.amfm.dsi.RadioInfo;
 import de.audi.tuner.app.dab.stationlist.DabDummyNames;
 import de.audi.tuner.app.gracenote.CoverArtHandler;
 import de.audi.tuner.app.gracenote.IGracenoteRequest;
+import de.audi.tuner.app.rsdb.IRSDBResult;
 import de.audi.tuner.app.uni.UniDsiDownInfo;
 import de.audi.tuner.app.uni.UniDsiUpInfo;
-import de.audi.tuner.app.uni.UniDsiUpManager$DsiDownInfo;
-import de.audi.tuner.app.uni.UniDsiUpManager$RsdbResultListener;
-import de.audi.tuner.app.uni.UniDsiUpManager$SlsSpeedManager;
-import de.audi.tuner.app.uni.UniDsiUpManager$TimerListener;
-import de.audi.tuner.app.uni.UniDsiUpManager$UniCoverArtHandler;
 import de.audi.tuner.app.uni.UnifiedStationExt;
 import de.audi.tuner.app.uni.UnifiedTuner;
 import de.audi.tuner.ifc.ILogoDatabase;
@@ -39,11 +38,11 @@ import org.dsi.ifc.radio.UnifiedStation;
 
 class UniDsiUpManager
 implements UnifiedTunerListener {
-    private static final long UPDATE_DELAY_TIME;
-    private static final long LIST_UPDATE_WAIT_TIME;
-    final UniDsiDownInfo dsiDownListener = new UniDsiUpManager$DsiDownInfo(this, null);
-    private final UniDsiUpManager$SlsSpeedManager slsManager;
-    private static final ResourceLocator EMPTY_RESOURCE_LOCATOR;
+    private static final long UPDATE_DELAY_TIME = 5000L;
+    private static final long LIST_UPDATE_WAIT_TIME = 2000L;
+    final UniDsiDownInfo dsiDownListener = new DsiDownInfo();
+    private final SlsSpeedManager slsManager;
+    private static final ResourceLocator EMPTY_RESOURCE_LOCATOR = new ResourceLocator(-1, "");
     private final Logger logger;
     private UniDsiUpInfo[] listeners = new UniDsiUpInfo[0];
     private RadioInfo[] basicListeners = new RadioInfo[0];
@@ -58,10 +57,10 @@ implements UnifiedTunerListener {
     private final Object globalUniLock;
     private final IPSFreezeDB psFreeze;
     private final RadioTextPlusStorage rtPlusStorage;
-    UniDsiUpManager$TimerListener tL = new UniDsiUpManager$TimerListener(this, null);
-    private final Timer updateDelayTimer = new Timer("updateDelayTimer", 0, true, this.tL);
-    private final Timer waitingListTimer = new Timer("waitingListTimer", 0, true, this.tL);
-    private final Timer listRequestTimer = new Timer("listRequestTimer", 0, true, this.tL);
+    TimerListener tL = new TimerListener();
+    private final Timer updateDelayTimer = new Timer("updateDelayTimer", 5000L, true, this.tL);
+    private final Timer waitingListTimer = new Timer("waitingListTimer", 2000L, true, this.tL);
+    private final Timer listRequestTimer = new Timer("listRequestTimer", 500L, true, this.tL);
     private final CoverArtHandler coverArt;
     private final UnifiedTuner uniTuner;
     private final DabDummyNames dummyNames;
@@ -76,8 +75,8 @@ implements UnifiedTunerListener {
         this.psFreeze = iPSFreezeDB;
         this.uniTuner = unifiedTuner;
         this.dummyNames = dabDummyNames;
-        this.coverArt = new UniDsiUpManager$UniCoverArtHandler(this, tunerBasics);
-        this.slsManager = new UniDsiUpManager$SlsSpeedManager(this, this.logger.uniDSI);
+        this.coverArt = new UniCoverArtHandler(tunerBasics);
+        this.slsManager = new SlsSpeedManager(this.logger.uniDSI);
         this.rtPlusStorage = new RadioTextPlusStorage(this.logger.radioText, "Uni");
         this.logoDatabase = new NullLogoDatabase();
     }
@@ -133,7 +132,7 @@ implements UnifiedTunerListener {
                 unifiedStationExt.setRadioTextPlus(this.rtPlusStorage.getRadioTextPlus());
                 unifiedStationExt.setSlsImage(this.slsManager.getSlsImage());
                 unifiedStationExt.setCoverArt(this.coverArt.getCoverArt());
-                this.logoDatabase.requestUniData(new UnifiedStationExt[]{unifiedStationExt}, new UniDsiUpManager$RsdbResultListener(this, 1));
+                this.logoDatabase.requestUniData(new UnifiedStationExt[]{unifiedStationExt}, new RsdbResultListener(1));
                 UniDsiUpInfo[] uniDsiUpInfoArray = this.listeners;
                 this.doUpdateStationList(unifiedStationExt);
                 if (!this.updateDelayTimer.isRunning()) {
@@ -157,7 +156,7 @@ implements UnifiedTunerListener {
         this.waitingListTimer.cancel();
         Object object = this.globalUniLock;
         synchronized (object) {
-            this.logger.uniDSI.log(-2137614336, "[UniDsiUpManager.doUpdateStationList] %1", (Object)unifiedStationExt);
+            this.logger.uniDSI.log(10000000, "[UniDsiUpManager.doUpdateStationList] %1", (Object)unifiedStationExt);
             UniDsiUpInfo[] uniDsiUpInfoArray = this.listeners;
             if (this.waitingStationList != null) {
                 this.currentStationList = this.waitingStationList;
@@ -195,7 +194,7 @@ implements UnifiedTunerListener {
         if (unifiedStationExt == null) {
             return unifiedStationExtArray;
         }
-        this.logger.uniDSI.log(-2137614336, "[UniDsiUpManager.addItemToList] added station to uni station list: %1", (Object)unifiedStationExt);
+        this.logger.uniDSI.log(10000000, "[UniDsiUpManager.addItemToList] added station to uni station list: %1", (Object)unifiedStationExt);
         UnifiedStationExt[] unifiedStationExtArray2 = new UnifiedStationExt[unifiedStationExtArray.length + 1];
         System.arraycopy((Object)unifiedStationExtArray, 0, (Object)unifiedStationExtArray2, 0, unifiedStationExtArray.length);
         unifiedStationExtArray2[unifiedStationExtArray.length] = unifiedStationExt;
@@ -237,7 +236,7 @@ implements UnifiedTunerListener {
             for (int i2 = 0; i2 < unifiedStationArray.length; ++i2) {
                 if (unifiedStationArray[i2] == null || unifiedStationArray[i2].piSId != unifiedStationExt.piSId || unifiedStationArray[i2].sCIDI != 0) continue;
                 unifiedStationExt.setPrimaryService(unifiedStationArray[i2]);
-                this.logger.uniDSI.log(-2137614336, "[UniDsiUpManager.findAndAddPrimaryService] primary service found and added station component: %1", (Object)unifiedStationExt);
+                this.logger.uniDSI.log(10000000, "[UniDsiUpManager.findAndAddPrimaryService] primary service found and added station component: %1", (Object)unifiedStationExt);
                 return unifiedStationExt;
             }
         }
@@ -270,7 +269,6 @@ implements UnifiedTunerListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void selectStationStatus(int n) {
         UniDsiUpInfo[] uniDsiUpInfoArray = this.listeners;
         for (int i2 = 0; i2 < uniDsiUpInfoArray.length; ++i2) {
@@ -279,7 +277,7 @@ implements UnifiedTunerListener {
         Object object = this.globalUniLock;
         synchronized (object) {
             if (this.waitForSelectRunning && n != 1) {
-                this.logger.uniDSI.log(-2137614336, "[UniDsiUpManager.selectStationStatus] ignore status because waiting for status RUNNING");
+                this.logger.uniDSI.log(10000000, "[UniDsiUpManager.selectStationStatus] ignore status because waiting for status RUNNING");
                 return;
             }
             this.waitForSelectRunning = false;
@@ -300,7 +298,6 @@ implements UnifiedTunerListener {
         }
     }
 
-    @Override
     public void updateAudioStatus(int n) {
         this.audioStatus = n;
         UniDsiUpInfo[] uniDsiUpInfoArray = this.listeners;
@@ -313,7 +310,6 @@ implements UnifiedTunerListener {
         this.doUpdateSelectedStation();
     }
 
-    @Override
     public void updateDetectedDevice(int n) {
         UniDsiUpInfo[] uniDsiUpInfoArray = this.listeners;
         for (int i2 = 0; i2 < uniDsiUpInfoArray.length; ++i2) {
@@ -324,7 +320,6 @@ implements UnifiedTunerListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updateSelectedStation(UnifiedStation unifiedStation) {
         UnifiedStationExt unifiedStationExt = new UnifiedStationExt(unifiedStation);
         Object object = this.globalUniLock;
@@ -360,30 +355,30 @@ implements UnifiedTunerListener {
                 unifiedStationExt2.shortName = Utilities.getShortName(unifiedStationExt2.longName);
             }
             if (unifiedStationExt2.shortName.length() == 0 || unifiedStationExt2.longName.length() == 0) {
-                this.logger.uniDSI.log(-2137614336, "[UniDsiUpManager.checkNames] empty names received %1", (Object)unifiedStationExt2);
+                this.logger.uniDSI.log(10000000, "[UniDsiUpManager.checkNames] empty names received %1", (Object)unifiedStationExt2);
                 UnifiedStationExt unifiedStationExt3 = this.uniTuner.getActiveStation();
                 if (RadioComparators.equals(unifiedStationExt3, unifiedStationExt2)) {
                     unifiedStationExt2.shortName = unifiedStationExt3.shortName;
                     unifiedStationExt2.longName = unifiedStationExt3.longName;
                     unifiedStationExt2.ptyCodes = unifiedStationExt3.ptyCodes;
                 } else {
-                    this.logger.uniDSI.log(-2137614336, "[UniDsiUpManager.checkNames] station %1 not found \nActive is %2", (Object)unifiedStationExt2, (Object)unifiedStationExt3);
+                    this.logger.uniDSI.log(10000000, "[UniDsiUpManager.checkNames] station %1 not found \nActive is %2", (Object)unifiedStationExt2, (Object)unifiedStationExt3);
                     if (unifiedStationExt2.sCIDI == 0) {
                         ServiceInfo serviceInfo = this.dummyNames.getDummyServiceName(unifiedStationExt2.piSId);
                         unifiedStationExt2.shortName = serviceInfo.shortName;
                         unifiedStationExt2.longName = serviceInfo.fullName;
-                        this.logger.uniDSI.log(-2137614336, "[UniDsiUpManager.checkNames] new Name %1 ", (Object)unifiedStationExt2);
+                        this.logger.uniDSI.log(10000000, "[UniDsiUpManager.checkNames] new Name %1 ", (Object)unifiedStationExt2);
                     } else {
                         ComponentInfo componentInfo = this.dummyNames.getDummyComponentName(unifiedStationExt2.piSId, unifiedStationExt2.sCIDI);
                         unifiedStationExt2.shortName = componentInfo.shortName;
                         unifiedStationExt2.longName = componentInfo.fullName;
                     }
-                    this.logger.uniDSI.log(-2137614336, "[UniDsiUpManager.checkNames] reproduced station %1 ", (Object)unifiedStationExt2);
+                    this.logger.uniDSI.log(10000000, "[UniDsiUpManager.checkNames] reproduced station %1 ", (Object)unifiedStationExt2);
                 }
             }
         }
         if (this.logger.uniList.isDebug2()) {
-            this.logger.uniDSI.log(14808325, "[UniDsiUpManager.checkNames] adjusted station %1", (Object)unifiedStationExt2);
+            this.logger.uniDSI.log(100000000, "[UniDsiUpManager.checkNames] adjusted station %1", (Object)unifiedStationExt2);
         }
         return unifiedStationExt2;
     }
@@ -391,12 +386,11 @@ implements UnifiedTunerListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updateStationList(UnifiedStation[] unifiedStationArray) {
         this.listRequestTimer.cancel();
         if (this.logger.uniList.isDebug2()) {
             for (int i2 = 0; i2 < unifiedStationArray.length; ++i2) {
-                this.logger.uniList.log(14808325, "%2: %1", (Object)unifiedStationArray[i2], (long)i2);
+                this.logger.uniList.log(100000000, "%2: %1", (Object)unifiedStationArray[i2], (long)i2);
             }
         } else if (this.logger.uniDSI.isDebug()) {
             Buffer buffer = new Buffer(5000);
@@ -416,11 +410,11 @@ implements UnifiedTunerListener {
                 }
                 buffer.append(i3).append(": NULL\n");
             }
-            this.logger.uniDSI.log(-2137614336, "%1", (Object)buffer);
+            this.logger.uniDSI.log(10000000, "%1", (Object)buffer);
         }
         UnifiedStationExt[] unifiedStationExtArray = this.convertList(unifiedStationArray);
         unifiedStationExtArray = this.addActiveStationToList(unifiedStationExtArray);
-        this.logoDatabase.requestUniData(unifiedStationExtArray, new UniDsiUpManager$RsdbResultListener(this, 2));
+        this.logoDatabase.requestUniData(unifiedStationExtArray, new RsdbResultListener(2));
         Object object = this.globalUniLock;
         synchronized (object) {
             this.waitingStationList = unifiedStationExtArray;
@@ -433,7 +427,6 @@ implements UnifiedTunerListener {
         }
     }
 
-    @Override
     public void updateRadioText(UnifiedRadioText unifiedRadioText) {
         if (!this.selectRunning) {
             this.doUpdateRadioText(unifiedRadioText);
@@ -442,7 +435,6 @@ implements UnifiedTunerListener {
         }
     }
 
-    @Override
     public void updateEnhancedRadioText(UnifiedRadioText unifiedRadioText) {
         if (!this.selectRunning) {
             this.doUpdateRadioText(unifiedRadioText);
@@ -456,7 +448,7 @@ implements UnifiedTunerListener {
             String string = unifiedRadioText.radioText.trim();
             unifiedRadioText.radioText = Utilities.radioTextReplace(string).trim();
             if (unifiedRadioText.radioText.length() == 0) {
-                this.logger.uniDSI.log(-1601830656, "[UniDsiUpManager.updateRadioText] received empty text -> ignore");
+                this.logger.uniDSI.log(100000, "[UniDsiUpManager.updateRadioText] received empty text -> ignore");
                 return;
             }
             UniDsiUpInfo[] uniDsiUpInfoArray = this.listeners;
@@ -467,7 +459,6 @@ implements UnifiedTunerListener {
         }
     }
 
-    @Override
     public void updateRadioTextPlus(UnifiedRadioTextPlus unifiedRadioTextPlus) {
         if (!this.selectRunning) {
             if (this.lastSelectedStation != null && this.lastSelectedStation.piSId == unifiedRadioTextPlus.piSId && this.lastSelectedStation.ensId == unifiedRadioTextPlus.ensId && this.lastSelectedStation.ecc == unifiedRadioTextPlus.ecc && this.lastSelectedStation.sCIDI == unifiedRadioTextPlus.sCIDI) {
@@ -479,36 +470,31 @@ implements UnifiedTunerListener {
                     uniDsiUpInfoArray[i2].updateRadioTextPlus(this.rtPlusStorage);
                 }
             } else {
-                this.logger.uniDSI.log(-1601830656, "[UniDsiUpManager.updateRadioTextPlusInfo] activeStation and RT+ differ X1 - %2", (Object)this.lastSelectedStation, (Object)unifiedRadioTextPlus);
+                this.logger.uniDSI.log(100000, "[UniDsiUpManager.updateRadioTextPlusInfo] activeStation and RT+ differ X1 - %2", (Object)this.lastSelectedStation, (Object)unifiedRadioTextPlus);
             }
         } else {
             this.rtPlusReceivedWhileTune = true;
         }
     }
 
-    @Override
     public void updateEnhancedRadioTextPlus(UnifiedRadioTextPlus unifiedRadioTextPlus) {
     }
 
-    @Override
     public void updateSlideShowInfo(DABSlideShowInfo dABSlideShowInfo) {
         if (!this.selectRunning && this.lastSelectedStation != null && (this.lastSelectedStation.ensId == 0 && this.lastSelectedStation.piSId == dABSlideShowInfo.sID || this.lastSelectedStation.piSId == dABSlideShowInfo.sID && this.lastSelectedStation.ensId == dABSlideShowInfo.ensID && this.lastSelectedStation.ecc == dABSlideShowInfo.ensECC && this.lastSelectedStation.sCIDI == dABSlideShowInfo.sCIDI)) {
             this.slsManager.setImage(dABSlideShowInfo.slideshowImage);
             this.doUpdateSelectedStation();
         } else {
-            this.logger.uniDSI.log(-1601830656, "[UniDsiUpManager.updateSlideShowInfo] activeStation and Slide differ %1 - %2", (Object)this.lastSelectedStation, (Object)dABSlideShowInfo);
+            this.logger.uniDSI.log(100000, "[UniDsiUpManager.updateSlideShowInfo] activeStation and Slide differ %1 - %2", (Object)this.lastSelectedStation, (Object)dABSlideShowInfo);
         }
     }
 
-    @Override
     public void listMode(int n) {
     }
 
-    @Override
     public void stationFollowingMode(int n) {
     }
 
-    @Override
     public void updateSoftLinkSwitchStatus(int n) {
         UniDsiUpInfo[] uniDsiUpInfoArray = this.listeners;
         for (int i2 = 0; i2 < uniDsiUpInfoArray.length; ++i2) {
@@ -516,79 +502,140 @@ implements UnifiedTunerListener {
         }
     }
 
-    @Override
     public void updateDeviceUsageStatus(int n) {
     }
 
-    @Override
     public void updateRegModeStatus(int n) {
     }
 
-    static /* synthetic */ Timer access$200(UniDsiUpManager uniDsiUpManager) {
-        return uniDsiUpManager.updateDelayTimer;
+    private class DsiDownInfo
+    extends UniDsiDownInfo {
+        private DsiDownInfo() {
+        }
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void blockUpdates() {
+            Object object = UniDsiUpManager.this.globalUniLock;
+            synchronized (object) {
+                UniDsiUpManager.this.waitForSelectRunning = true;
+            }
+        }
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void preTuneCommand(UnifiedStationExt unifiedStationExt) {
+            Object object = UniDsiUpManager.this.globalUniLock;
+            synchronized (object) {
+                UniDsiUpManager.this.selectRunning = true;
+                UniDsiUpManager.this.slsManager.clear();
+                UniDsiUpManager.this.rtPlusStorage.reset();
+                UniDsiUpManager.this.coverArt.clear();
+                UniDsiUpManager.this.waitForSelectRunning = true;
+                UniDsiUpManager.this.updateDelayTimer.restart();
+                if (unifiedStationExt.hasPrimaryService()) {
+                    UniDsiUpManager.this.preSelectedStation = unifiedStationExt;
+                } else {
+                    UniDsiUpManager.this.preSelectedStation = null;
+                }
+            }
+        }
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void postTuneCommand(UnifiedStationExt unifiedStationExt, int n) {
+            if (n == 0) {
+                Object object = UniDsiUpManager.this.globalUniLock;
+                synchronized (object) {
+                    UniDsiUpManager.this.updateDelayTimer.cancel();
+                }
+            }
+        }
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void unBlockUpdates() {
+            Object object = UniDsiUpManager.this.globalUniLock;
+            synchronized (object) {
+                UniDsiUpManager.this.selectRunning = false;
+                UniDsiUpManager.this.waitForSelectRunning = false;
+                UniDsiUpManager.this.updateDelayTimer.cancel();
+            }
+        }
     }
 
-    static /* synthetic */ Object access$300(UniDsiUpManager uniDsiUpManager) {
-        return uniDsiUpManager.globalUniLock;
+    private class TimerListener
+    extends DefaultTimerListener {
+        private TimerListener() {
+        }
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void fireTimer(Timer timer) {
+            if (timer.equals(UniDsiUpManager.this.updateDelayTimer)) {
+                Object object = UniDsiUpManager.this.globalUniLock;
+                synchronized (object) {
+                    UniDsiUpManager.this.doUpdateSelectedStation();
+                }
+            } else if (timer.equals(UniDsiUpManager.this.waitingListTimer)) {
+                Object object = UniDsiUpManager.this.globalUniLock;
+                synchronized (object) {
+                    if (!UniDsiUpManager.this.selectRunning) {
+                        UniDsiUpManager.this.doUpdateStationList(null);
+                    } else if (UniDsiUpManager.this.waitingStationList != null) {
+                        UniDsiUpManager.this.waitingListTimer.restart();
+                    }
+                }
+            } else if (timer.equals(UniDsiUpManager.this.listRequestTimer)) {
+                UniDsiUpManager.this.uniTuner.reNotification(4);
+            }
+        }
     }
 
-    static /* synthetic */ void access$400(UniDsiUpManager uniDsiUpManager) {
-        uniDsiUpManager.doUpdateSelectedStation();
+    private class SlsSpeedManager
+    extends AbstractSlsSpeedManagerBase {
+        public SlsSpeedManager(LogChannel logChannel) {
+            super(logChannel);
+        }
+
+        protected void update() {
+            UniDsiUpManager.this.doUpdateSelectedStation();
+        }
     }
 
-    static /* synthetic */ Timer access$500(UniDsiUpManager uniDsiUpManager) {
-        return uniDsiUpManager.waitingListTimer;
+    private class RsdbResultListener
+    implements IRSDBResult {
+        private final int type;
+
+        public RsdbResultListener(int n) {
+            this.type = n;
+        }
+
+        public void resultAvailable() {
+            UniDsiUpManager.this.doUpdateSelectedStation();
+            if (this.type == 2) {
+                UniDsiUpManager.this.listRequestTimer.start();
+            }
+        }
     }
 
-    static /* synthetic */ boolean access$600(UniDsiUpManager uniDsiUpManager) {
-        return uniDsiUpManager.selectRunning;
-    }
+    private class UniCoverArtHandler
+    extends CoverArtHandler {
+        public UniCoverArtHandler(TunerBasics tunerBasics) {
+            super(tunerBasics);
+        }
 
-    static /* synthetic */ void access$700(UniDsiUpManager uniDsiUpManager, UnifiedStationExt unifiedStationExt) {
-        uniDsiUpManager.doUpdateStationList(unifiedStationExt);
-    }
-
-    static /* synthetic */ UnifiedStationExt[] access$800(UniDsiUpManager uniDsiUpManager) {
-        return uniDsiUpManager.waitingStationList;
-    }
-
-    static /* synthetic */ Timer access$900(UniDsiUpManager uniDsiUpManager) {
-        return uniDsiUpManager.listRequestTimer;
-    }
-
-    static /* synthetic */ UnifiedTuner access$1000(UniDsiUpManager uniDsiUpManager) {
-        return uniDsiUpManager.uniTuner;
-    }
-
-    static /* synthetic */ boolean access$1102(UniDsiUpManager uniDsiUpManager, boolean bl) {
-        uniDsiUpManager.waitForSelectRunning = bl;
-        return uniDsiUpManager.waitForSelectRunning;
-    }
-
-    static /* synthetic */ boolean access$602(UniDsiUpManager uniDsiUpManager, boolean bl) {
-        uniDsiUpManager.selectRunning = bl;
-        return uniDsiUpManager.selectRunning;
-    }
-
-    static /* synthetic */ UniDsiUpManager$SlsSpeedManager access$1200(UniDsiUpManager uniDsiUpManager) {
-        return uniDsiUpManager.slsManager;
-    }
-
-    static /* synthetic */ RadioTextPlusStorage access$1300(UniDsiUpManager uniDsiUpManager) {
-        return uniDsiUpManager.rtPlusStorage;
-    }
-
-    static /* synthetic */ CoverArtHandler access$1400(UniDsiUpManager uniDsiUpManager) {
-        return uniDsiUpManager.coverArt;
-    }
-
-    static /* synthetic */ UnifiedStationExt access$1502(UniDsiUpManager uniDsiUpManager, UnifiedStationExt unifiedStationExt) {
-        uniDsiUpManager.preSelectedStation = unifiedStationExt;
-        return uniDsiUpManager.preSelectedStation;
-    }
-
-    static {
-        EMPTY_RESOURCE_LOCATOR = new ResourceLocator(-1, "");
+        public boolean setCoverArt(int n, ResourceLocator resourceLocator) {
+            if (super.setCoverArt(n, resourceLocator)) {
+                UniDsiUpManager.this.doUpdateSelectedStation();
+            }
+            return false;
+        }
     }
 }
 

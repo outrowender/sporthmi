@@ -6,6 +6,7 @@ package de.eso.remotehmi.xpath;
 import de.eso.remotehmi.xpath.AbstractPathEntry;
 import de.eso.remotehmi.xpath.ExpressionCache;
 import de.eso.remotehmi.xpath.NodeListWrapper;
+import de.eso.remotehmi.xpath.PoorMansXPathException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -14,7 +15,7 @@ import org.w3c.dom.Node;
 public class PoorMansXPath {
     private static final ExpressionCache cache = new ExpressionCache();
 
-    public static Object resolve(Map map, Node node, String string) {
+    public static Object resolve(Map map, Node node, String string) throws PoorMansXPathException {
         AbstractPathEntry[] abstractPathEntryArray = cache.get(map, string);
         if (abstractPathEntryArray == null) {
             return null;

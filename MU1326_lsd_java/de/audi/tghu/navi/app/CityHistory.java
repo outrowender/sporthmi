@@ -3,10 +3,11 @@
  */
 package de.audi.tghu.navi.app;
 
+import de.audi.atip.hmi.model.list.EvoListRow;
 import de.audi.atip.log.LogChannel;
 import de.audi.tghu.command.CommandList;
 import de.audi.tghu.command.ICommandListFactory;
-import de.audi.tghu.navi.app.CityHistory$HistoryEntry;
+import de.audi.tghu.navi.app.HistoryListRowBuilder;
 import de.audi.tghu.navi.app.NavigationEnv;
 import de.audi.tghu.navi.app.command.LiLastCityOrStreetHistoryAddCommand;
 import de.audi.tghu.navi.app.command.LiLastCityOrStreetHistoryDeleteAllCommand;
@@ -21,7 +22,7 @@ import org.dsi.ifc.navigation.LIStateHistoryEntry;
 import org.dsi.ifc.navigation.LIStreetHistoryEntry;
 
 public class CityHistory {
-    public static final String DEFAULT_LCH_RESOURCE;
+    public static final String DEFAULT_LCH_RESOURCE = "resources/AppNavi/default.lch";
     private final ICommandListFactory commandListFactory;
     private final LogChannel logChannel;
     private LIStateHistoryEntry[] stateHistory;
@@ -34,14 +35,14 @@ public class CityHistory {
     }
 
     public CommandList addLastCityCommandList(NavLocation navLocation, boolean bl) {
-        this.logChannel.log(-2137614336, "CityHistory#addLastCityCommandList( %2, %1 )", bl, (Object)LocationFormatter.formatLocationShort(navLocation));
+        this.logChannel.log(10000000, "CityHistory#addLastCityCommandList( %2, %1 )", bl, (Object)LocationFormatter.formatLocationShort(navLocation));
         CommandList commandList = this.commandListFactory.createCommandList();
         commandList.add(new LiLastCityOrStreetHistoryAddCommand(navLocation, bl, LocationFormatter.formatCityTitleWithoutCityCenter(navLocation)));
         return commandList;
     }
 
     public CommandList addLastStreetCommandList(NavLocation navLocation) {
-        this.logChannel.log(-2137614336, "CityHistory#addLastStreetCommandList( %1 )", (Object)LocationFormatter.formatLocationShort(navLocation));
+        this.logChannel.log(10000000, "CityHistory#addLastStreetCommandList( %1 )", (Object)LocationFormatter.formatLocationShort(navLocation));
         CommandList commandList = this.commandListFactory.createCommandList();
         commandList.add(new LiLastCityOrStreetHistoryAddCommand(navLocation, LocationFormatter.formatStreet(navLocation)));
         return commandList;
@@ -61,10 +62,10 @@ public class CityHistory {
         for (int i2 = 0; i2 < n; ++i2) {
             if (bl) {
                 if (!this.cityHistory[i2].isStreetsInCity()) continue;
-                arrayList.add(new CityHistory$HistoryEntry(this.cityHistory[i2]));
+                arrayList.add(new HistoryEntry(this.cityHistory[i2]));
                 continue;
             }
-            arrayList.add(new CityHistory$HistoryEntry(this.cityHistory[i2]));
+            arrayList.add(new HistoryEntry(this.cityHistory[i2]));
         }
         return arrayList;
     }
@@ -82,7 +83,7 @@ public class CityHistory {
         for (int i2 = 0; i2 < n; ++i2) {
             LIStateHistoryEntry lIStateHistoryEntry = this.stateHistory[i2];
             if (!this.stateMatches(lIStateHistoryEntry, string)) continue;
-            arrayList.add(new CityHistory$HistoryEntry(lIStateHistoryEntry));
+            arrayList.add(new HistoryEntry(lIStateHistoryEntry));
         }
         return arrayList;
     }
@@ -103,7 +104,7 @@ public class CityHistory {
         for (int i2 = 0; i2 < n; ++i2) {
             LICityHistoryEntry lICityHistoryEntry = this.cityHistory[i2];
             if (!this.cityMatches(lICityHistoryEntry, string)) continue;
-            arrayList.add(new CityHistory$HistoryEntry(lICityHistoryEntry));
+            arrayList.add(new HistoryEntry(lICityHistoryEntry));
         }
         return arrayList;
     }
@@ -124,7 +125,7 @@ public class CityHistory {
         for (int i2 = 0; i2 < n; ++i2) {
             LIStreetHistoryEntry lIStreetHistoryEntry = this.streetHistory[i2];
             if (!this.streetMatches(lIStreetHistoryEntry, string)) continue;
-            arrayList.add(new CityHistory$HistoryEntry(lIStreetHistoryEntry));
+            arrayList.add(new HistoryEntry(lIStreetHistoryEntry));
         }
         return arrayList;
     }
@@ -146,33 +147,33 @@ public class CityHistory {
     }
 
     public void updateLastState(LIStateHistoryEntry[] lIStateHistoryEntryArray) {
-        this.logChannel.log(1078071040, "CityHistory#updateLastState()");
+        this.logChannel.log(1000000, "CityHistory#updateLastState()");
         if (lIStateHistoryEntryArray != null) {
             for (int i2 = 0; i2 < lIStateHistoryEntryArray.length; ++i2) {
-                this.logChannel.log(1078071040, "CityHistory#updateLastState() - entry %2: %1", (Object)lIStateHistoryEntryArray[i2], (long)i2);
+                this.logChannel.log(1000000, "CityHistory#updateLastState() - entry %2: %1", (Object)lIStateHistoryEntryArray[i2], (long)i2);
             }
         }
         this.stateHistory = lIStateHistoryEntryArray;
     }
 
     public void updateLastCity(LICityHistoryEntry[] lICityHistoryEntryArray) {
-        this.logChannel.log(1078071040, "CityHistory#updateLastCity()");
+        this.logChannel.log(1000000, "CityHistory#updateLastCity()");
         if (lICityHistoryEntryArray != null) {
             for (int i2 = 0; i2 < lICityHistoryEntryArray.length; ++i2) {
-                this.logChannel.log(1078071040, "CityHistory#updateLastCity() - entry %2: %1", (Object)lICityHistoryEntryArray[i2], (long)i2);
+                this.logChannel.log(1000000, "CityHistory#updateLastCity() - entry %2: %1", (Object)lICityHistoryEntryArray[i2], (long)i2);
             }
         }
         this.cityHistory = lICityHistoryEntryArray;
     }
 
     public void updateLastStreet(LIStreetHistoryEntry[] lIStreetHistoryEntryArray) {
-        this.logChannel.log(1078071040, "CityHistory#updateLastStreet()");
+        this.logChannel.log(1000000, "CityHistory#updateLastStreet()");
         if (lIStreetHistoryEntryArray == null) {
-            this.logChannel.log(1078071040, "CityHistory#updateLastStreet() - ignoring null array");
+            this.logChannel.log(1000000, "CityHistory#updateLastStreet() - ignoring null array");
             return;
         }
         for (int i2 = 0; i2 < lIStreetHistoryEntryArray.length; ++i2) {
-            this.logChannel.log(1078071040, "CityHistory#updateLastStreet() - entry %2: %1", (Object)lIStreetHistoryEntryArray[i2], (long)i2);
+            this.logChannel.log(1000000, "CityHistory#updateLastStreet() - entry %2: %1", (Object)lIStreetHistoryEntryArray[i2], (long)i2);
         }
         this.streetHistory = lIStreetHistoryEntryArray;
     }
@@ -220,6 +221,88 @@ public class CityHistory {
     private boolean historyNameAndPrefixMatch(String string, String string2) {
         String string3 = Util.deleteDash(Util.deleteWhiteSpaces(string.toUpperCase()));
         return Util.isEmpty(string3) ? true : Util.deleteDash(Util.deleteWhiteSpaces(string2.toUpperCase())).startsWith(string3);
+    }
+
+    public static class HistoryEntry {
+        private final LIStateHistoryEntry stateEntry;
+        private final LICityHistoryEntry cityEntry;
+        private final LIStreetHistoryEntry streetEntry;
+
+        public HistoryEntry(LIStateHistoryEntry lIStateHistoryEntry) {
+            this.stateEntry = lIStateHistoryEntry;
+            this.cityEntry = null;
+            this.streetEntry = null;
+        }
+
+        public HistoryEntry(LICityHistoryEntry lICityHistoryEntry) {
+            this.stateEntry = null;
+            this.cityEntry = lICityHistoryEntry;
+            this.streetEntry = null;
+        }
+
+        public HistoryEntry(LIStreetHistoryEntry lIStreetHistoryEntry) {
+            this.stateEntry = null;
+            this.cityEntry = null;
+            this.streetEntry = lIStreetHistoryEntry;
+        }
+
+        public Object getEntry() {
+            if (this.stateEntry != null) {
+                return this.stateEntry;
+            }
+            if (this.cityEntry != null) {
+                return this.cityEntry;
+            }
+            return this.streetEntry;
+        }
+
+        public String getEntryName() {
+            if (this.stateEntry != null) {
+                return this.stateEntry.getName();
+            }
+            if (this.cityEntry != null) {
+                return this.cityEntry.getName();
+            }
+            return this.streetEntry.getName();
+        }
+
+        public long getId() {
+            if (this.stateEntry != null) {
+                return this.stateEntry.getId();
+            }
+            if (this.cityEntry != null) {
+                return this.cityEntry.getId();
+            }
+            return this.streetEntry.getId();
+        }
+    }
+
+    public static class HistoryForCurrentInput {
+        public static final HistoryForCurrentInput NO_HISTORY = new HistoryForCurrentInput(new ArrayList());
+        private final List matchingHistoryEntries;
+
+        public HistoryForCurrentInput(List list) {
+            this.matchingHistoryEntries = list;
+        }
+
+        public HistoryEntry getBestMatchingEntry() {
+            if (this.matchingHistoryEntries != null && !this.matchingHistoryEntries.isEmpty()) {
+                return (HistoryEntry)this.matchingHistoryEntries.get(0);
+            }
+            return null;
+        }
+
+        public EvoListRow[] getEntriesForList(LogChannel logChannel, HistoryListRowBuilder historyListRowBuilder) {
+            logChannel.log(10000000, "CityHistory#HistoryForCurrentInput#getEntriesForList");
+            if (this.matchingHistoryEntries == null) {
+                return null;
+            }
+            EvoListRow[] evoListRowArray = new EvoListRow[this.matchingHistoryEntries.size()];
+            for (int i2 = 0; i2 < this.matchingHistoryEntries.size(); ++i2) {
+                evoListRowArray[i2] = historyListRowBuilder.buildListRow((HistoryEntry)this.matchingHistoryEntries.get(i2), 1000000 + i2);
+            }
+            return evoListRowArray;
+        }
     }
 }
 

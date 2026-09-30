@@ -6,7 +6,6 @@ package de.audi.tghu.smi;
 import de.audi.tghu.smi.IStateMachinePresetAccess;
 
 public interface ISMPresetHandler {
-    default public void setStateMachine(IStateMachinePresetAccess iStateMachinePresetAccess) {
-    }
+    public void setStateMachine(IStateMachinePresetAccess var1);
 }
 

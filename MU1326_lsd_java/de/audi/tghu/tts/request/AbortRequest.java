@@ -15,10 +15,9 @@ public class AbortRequest
 extends AbstractRequest {
     public AbortRequest(LogChannel logChannel, TTSListener tTSListener, DSITTSCaller dSITTSCaller, RequestQueue requestQueue, short s) {
         super(logChannel, tTSListener, dSITTSCaller, requestQueue, s, 0);
-        this.logCh.log(-2137614336, "[AbortRequest#ctor] Called.");
+        this.logCh.log(10000000, "[AbortRequest#ctor] Called.");
     }
 
-    @Override
     public String toString() {
         Buffer buffer = new Buffer();
         buffer.append("AbortRequest{");
@@ -28,28 +27,26 @@ extends AbstractRequest {
         return buffer.toString();
     }
 
-    @Override
     public void process() {
         AbstractRequest abstractRequest = this.requestProcessor.getRunningRequest();
         if (abstractRequest == null) {
-            this.logCh.log(-2137614336, "[AbortRequest#process] No running request, nothing to abort.");
+            this.logCh.log(10000000, "[AbortRequest#process] No running request, nothing to abort.");
         } else if (abstractRequest.getType() == 0 || abstractRequest.getType() == 1) {
-            this.logCh.log(-2137614336, "[AbortRequest#process] Speak request is running: %1", (Object)abstractRequest);
+            this.logCh.log(10000000, "[AbortRequest#process] Speak request is running: %1", (Object)abstractRequest);
             if (abstractRequest.getSourceId() == this.sourceId) {
-                this.logCh.log(-2137614336, "[AbortRequest#process] Abort speaking of source ID '%1'", (long)abstractRequest.getSourceId());
+                this.logCh.log(10000000, "[AbortRequest#process] Abort speaking of source ID '%1'", (long)abstractRequest.getSourceId());
                 ((SpeakRequest)abstractRequest).abort();
             } else {
-                this.logCh.log(-2137614336, "[AbortRequest#process] Running speak request is not of the same source, do nothing.");
+                this.logCh.log(10000000, "[AbortRequest#process] Running speak request is not of the same source, do nothing.");
             }
             this.requestProcessor.removeSpeakRequestsFromQueue(this.sourceId);
         } else {
-            this.logCh.log(-2137614336, "[AbortRequest#process] No running speak request, nothing to abort.");
+            this.logCh.log(10000000, "[AbortRequest#process] No running speak request, nothing to abort.");
         }
     }
 
-    @Override
     public void execute() {
-        this.logCh.log(-2137614336, "[AbortRequest#process] Nothing to do.");
+        this.logCh.log(10000000, "[AbortRequest#process] Nothing to do.");
     }
 }
 

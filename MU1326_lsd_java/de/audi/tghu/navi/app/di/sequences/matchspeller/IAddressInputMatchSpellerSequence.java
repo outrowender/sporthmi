@@ -10,37 +10,27 @@ import org.dsi.ifc.navigation.LIValueListElement;
 
 public interface IAddressInputMatchSpellerSequence
 extends IAddressInputSequence {
-    public static final int WINDOWSIZE_DEFAULT;
-    public static final int WINDOWSIZE_FAST;
+    public static final int WINDOWSIZE_DEFAULT = -1;
+    public static final int WINDOWSIZE_FAST = 5;
 
-    default public CommandList getStartCommandList(String string) {
-    }
+    public CommandList getStartCommandList(String var1);
 
-    default public void requestNextResultListWindow(int n, int n2) {
-    }
+    public void requestNextResultListWindow(int var1, int var2);
 
-    default public void requestPreviousResultListWindow(int n) {
-    }
+    public void requestPreviousResultListWindow(int var1);
 
-    default public void addCharacter(String string) {
-    }
+    public void addCharacter(String var1);
 
-    default public void addCharacter(String string, int n, boolean bl) {
-    }
+    public void addCharacter(String var1, int var2, boolean var3);
 
-    default public void undoCharacter() {
-    }
+    public void undoCharacter();
 
-    default public void deleteAllCharacters() {
-    }
+    public void deleteAllCharacters();
 
-    default public void unrequestItems(int n, int n2) {
-    }
+    public void unrequestItems(int var1, int var2);
 
-    default public void showLocationInPreviewMap(IPreviewMap iPreviewMap, LIValueListElement lIValueListElement) {
-    }
+    public void showLocationInPreviewMap(IPreviewMap var1, LIValueListElement var2);
 
-    default public void hidePreviewMap(IPreviewMap iPreviewMap) {
-    }
+    public void hidePreviewMap(IPreviewMap var1);
 }
 

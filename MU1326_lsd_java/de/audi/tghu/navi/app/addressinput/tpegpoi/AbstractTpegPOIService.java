@@ -16,7 +16,7 @@ import de.audi.tghu.navi.app.util.Util;
 
 public abstract class AbstractTpegPOIService
 implements ITpegPOIService {
-    protected final String CLASS_NAME = Util.getClassNameFromPackageName(super.getClass());
+    protected final String CLASS_NAME = Util.getClassNameFromPackageName(this.getClass());
     protected final NavigationEnv env;
     protected final LogChannel logChannel;
     protected final ICommandListFactory commandListFactory;
@@ -36,15 +36,12 @@ implements ITpegPOIService {
         this.tpegPOICommandListMonitor = new Monitor(this.logChannel);
     }
 
-    protected abstract void initTpegPOIInput() {
-    }
+    protected abstract void initTpegPOIInput();
 
-    @Override
     public void destTpegPOIHKReturn(int n, int n2) {
         this.inputManager.destTpegPOIHKReturn(n, n2);
     }
 
-    @Override
     public void checkIfTpegPOIAvailable() {
     }
 }

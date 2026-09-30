@@ -18,13 +18,10 @@ import de.audi.tghu.navi.app.map.MapConfig;
 import de.audi.tghu.navi.app.map.MapInterface;
 import de.audi.tghu.navi.app.map.MapManager;
 import de.audi.tghu.navi.app.map.constants.SwitchContextEnum;
+import de.audi.tghu.navi.app.map.gui.SimpleButtonListener;
 import de.audi.tghu.navi.app.map.handler.IRouteInfo;
-import de.audi.tghu.navi.app.map.handler.IRouteInfo$IRouteInfoHandlerEnv;
 import de.audi.tghu.navi.app.map.handler.selection.MapSelectionHandlerFactory;
 import de.audi.tghu.navi.app.map.impl.MapContentSyncHandler;
-import de.audi.tghu.navi.app.map.instances.MapMain$1;
-import de.audi.tghu.navi.app.map.instances.MapMain$2;
-import de.audi.tghu.navi.app.map.instances.MapMain$3;
 import de.audi.tghu.navi.app.map.routecalc.IRouteCalculator;
 import de.audi.tghu.navi.app.map.routeinfo.RouteInfoHandler;
 import de.audi.tghu.navi.app.map.utils.MapUtils;
@@ -48,7 +45,7 @@ implements HasRouteInfo {
             iNaviInterface.getPOICategoryManager().registerObserver(this.mapDataContainer.sMapContentList);
         }
         try {
-            BaseListModelApp baseListModelApp = navigationEnv.getBaseListModel(-316799488);
+            BaseListModelApp baseListModelApp = navigationEnv.getBaseListModel(401133);
             baseListModelApp.removeAll();
             if (this.getZoomHandler().getZoomList() == null) {
                 float[] fArray = this.getZoomHandler().getZoomList();
@@ -72,72 +69,88 @@ implements HasRouteInfo {
     }
 
     protected void createDDSEnterListener() {
-        this.getViews().getRouteBriefingView().setDDSEnterListener(new MapMain$1(this));
+        this.getViews().getRouteBriefingView().setDDSEnterListener(new SimpleButtonListener(){
+
+            public void keyPressed(int n, int n2, int n3) {
+                MapMain.this.getMapLogChannel().log(10000000, "MapMain#<setDDSEnterListener>#keyPressed()");
+                MapMain.this.getActiveContext().keyPressed(n, n2);
+            }
+        });
     }
 
     protected void createShowAltRouteListener() {
-        this.getViews().getMainMapView().setShowAltRouteListener(new MapMain$2(this));
+        this.getViews().getMainMapView().setShowAltRouteListener(new SimpleButtonListener(){
+
+            public void keyTyped(int n, int n2, int n3) {
+                if (MapMain.this.getActiveContextIndex() != 5) {
+                    MapMain.this.getMapLogChannel().log(10000000, "MapMain#<setShowAltRouteListener>#keyPressed()");
+                    MapMain.this.getGuiInterface().fireModelEvent(n);
+                    MapMain.this.enterAlternativeRoutes();
+                }
+            }
+        });
     }
 
     protected void createOptMenuRubberbandListener() {
-        this.getViews().getMainMapView().addOptMenuRubberbandListener(new MapMain$3(this));
+        this.getViews().getMainMapView().addOptMenuRubberbandListener(new SimpleButtonListener(){
+
+            public void keyPressed(int n, int n2, int n3) {
+                MapMain.this.getMapLogChannel().log(10000000, "MapMain#<addOptMenuRubberbandListener>#keyPressed()");
+                MapMain.this.getGuiInterface().fireModelEvent(n);
+                MapMain.this.getMapDataContainer().enterRbbFromRightDrawer = true;
+                MapMain.this.getMapInterface().enterRubberband(false);
+            }
+        });
     }
 
-    protected void initializeRouteInfoHandler(NavigationEnv navigationEnv, IconHandler iconHandler, IRouteInfo$IRouteInfoHandlerEnv iRouteInfo$IRouteInfoHandlerEnv) {
+    protected void initializeRouteInfoHandler(NavigationEnv navigationEnv, IconHandler iconHandler, IRouteInfo.IRouteInfoHandlerEnv iRouteInfoHandlerEnv) {
         this.routeInfo = new RouteInfoHandler(navigationEnv, iconHandler, this.getRouteInfoEnv());
     }
 
-    @Override
     public void mapInitialized() {
         super.mapInitialized();
         this.getNaviInterface().mapInitialized(true);
     }
 
-    @Override
     public void mapNotInitialized() {
         super.mapNotInitialized();
         this.getNaviInterface().mapInitialized(false);
     }
 
-    @Override
     public String getName() {
         return "MapMain";
     }
 
-    @Override
     protected boolean isSwitchContextAllowed() {
         IContext iContext = this.getActiveContext();
         int n = this.getSetup().getAutoZoom(true);
         return !iContext.getManoeuvreZoomDisabledWithReturn() && this.getZoomEngineState() == 3 && (n == 1 || n == 0);
     }
 
-    @Override
     public IRouteInfo getRouteInfo() {
         return this.routeInfo;
     }
 
-    @Override
     public void hideRouteInfo() {
-        this.getMapLogChannel().log(14808325, "MapMain#hideRouteInfo()");
+        this.getMapLogChannel().log(100000000, "MapMain#hideRouteInfo()");
         this.getRouteInfo().hide();
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void initDSI() {
         boolean bl = false;
         Object object = this.getMutexSwitchToContext();
         synchronized (object) {
             if (this.allStdMapDSIsReceived()) {
                 if (!this.bStdMapInitiated) {
-                    this.sMapLogChannel.log(1078071040, "MapMain#init() - all StdMap DSIs received. Starting initialization...");
+                    this.sMapLogChannel.log(1000000, "MapMain#init() - all StdMap DSIs received. Starting initialization...");
                     this.bStdMapInitiated = true;
                     this.switchToContext(1);
                 }
             } else if (this.bStdMapInitiated) {
-                this.sMapLogChannel.log(-1601830656, "MapMain#init() - StdMap DSIs failed! StdMap is not operable any more!");
+                this.sMapLogChannel.log(100000, "MapMain#init() - StdMap DSIs failed! StdMap is not operable any more!");
                 this.bStdMapInitiated = false;
                 this.getMVRequest().getMVRequestStd().setOperable(false);
                 this.switchToContext(0);
@@ -155,13 +168,13 @@ implements HasRouteInfo {
                 this.naviInterface.googleEarthUpdateStatusCompleted(0, bl2);
                 if (bl2) {
                     if (!this.bGEInitiated) {
-                        this.sMapLogChannel.log(1078071040, "MapMain#init() - all GE DSIs received. Starting initialization...");
+                        this.sMapLogChannel.log(1000000, "MapMain#init() - all GE DSIs received. Starting initialization...");
                         Util.logStartupEvent(this.env.getFramework(), "[Startup] MapMain#initDSI() - all GE DSIs received. Starting initialization...");
                         Util.logStartupEvent(this.env.getFramework(), new Buffer().append("MapMain#initDSI() - Google Earth map enabled in setup: ").append(this.getMapRepresentation() == 1));
                         this.bGEInitiated = true;
                     }
                 } else if (this.bGEInitiated) {
-                    this.sMapLogChannel.log(-1601830656, "MapMain#init() - GE DSIs failed! GE is not operable any more!");
+                    this.sMapLogChannel.log(100000, "MapMain#init() - GE DSIs failed! GE is not operable any more!");
                     this.bGEInitiated = false;
                     this.getMVRequest().getMVRequestGoogleCtrl().setOperable(false);
                 }
@@ -169,12 +182,10 @@ implements HasRouteInfo {
         }
     }
 
-    @Override
     public boolean isStdMapInitiated() {
         return this.bStdMapInitiated;
     }
 
-    @Override
     protected boolean isGEInitiated() {
         return this.bGEInitiated;
     }
@@ -186,7 +197,7 @@ implements HasRouteInfo {
         Object object = this.getMutexSwitchToContext();
         synchronized (object) {
             int n = this.getActiveContextIndex();
-            this.getMapLogChannel().log(-2137614336, "MapMain#hideMapInMapPictureDest() - activeContext: %1", (long)n);
+            this.getMapLogChannel().log(10000000, "MapMain#hideMapInMapPictureDest() - activeContext: %1", (long)n);
             if (n == 27) {
                 this.switchToContext(3);
             }
@@ -196,9 +207,8 @@ implements HasRouteInfo {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void forceHiddenContextRefresh() {
-        this.sMapLogChannel.log(1078071040, "MapMain#forceHiddenContextRefresh()");
+        this.sMapLogChannel.log(1000000, "MapMain#forceHiddenContextRefresh()");
         Object object = this.getMutexSwitchToContext();
         synchronized (object) {
             this.forceSwitchToAShownContext();
@@ -206,7 +216,6 @@ implements HasRouteInfo {
         }
     }
 
-    @Override
     protected void beforeSwitch(int n, int n2) {
         this.setScreen(n2);
     }
@@ -249,7 +258,7 @@ implements HasRouteInfo {
             }
             case 30: {
                 if (!this.getMapDataContainer().isInMap) break;
-                this.getMapLogChannel().log(-1601830656, "MapMain#switchToContext() - still in map screen, cound not switch to previewmap");
+                this.getMapLogChannel().log(100000, "MapMain#switchToContext() - still in map screen, cound not switch to previewmap");
                 return;
             }
             case 3: {
@@ -261,59 +270,54 @@ implements HasRouteInfo {
         }
     }
 
-    @Override
     protected ChoiceModelApp getActiveRendererChoice() {
-        return this.env.getChoiceModel(958137856);
+        return this.env.getChoiceModel(400441);
     }
 
-    @Override
     public void showPreviewMap() {
         if (!Util.isPreviewMapPresent(this.env.getFramework())) {
-            this.sMapLogChannel.log(14808325, "MapMain#showPreviewMap() - Preview map not available! ");
+            this.sMapLogChannel.log(100000000, "MapMain#showPreviewMap() - Preview map not available! ");
             return;
         }
         if (!this.getNaviInterface().getOperationManager().isFullyOperable()) {
-            this.sMapLogChannel.log(-1601830656, "MapMain#showPreviewMap() - Navi not operable! ");
+            this.sMapLogChannel.log(100000, "MapMain#showPreviewMap() - Navi not operable! ");
             return;
         }
         int n = this.getLastVisibleCID();
         boolean bl = !MapUtils.isPreviewMapContext(n);
-        this.sMapLogChannel.log(-2137614336, "MapMain#showPreviewMap() - isBackupMapStateRequired: %1 (lastVisibleCID=%2)", bl, (long)n);
+        this.sMapLogChannel.log(10000000, "MapMain#showPreviewMap() - isBackupMapStateRequired: %1 (lastVisibleCID=%2)", bl, (long)n);
         if (bl) {
             this.backupMapState();
         }
         this.switchToContext(30);
     }
 
-    @Override
     public void hide() {
-        this.sMapLogChannel.log(-2137614336, "MapMain#hide()");
+        this.sMapLogChannel.log(10000000, "MapMain#hide()");
     }
 
     public void calculateAlternativeRoutes(boolean bl) {
         if (!this.getMapDataContainer().sRGActive) {
-            this.getMapLogChannel().log(-1601830656, "MapMain#calculateAlternativeRoutes() - rgActive = false. Alternative route will not be calculated.");
+            this.getMapLogChannel().log(100000, "MapMain#calculateAlternativeRoutes() - rgActive = false. Alternative route will not be calculated.");
             return;
         }
-        this.getMapLogChannel().log(-2137614336, "MapMain#calculateAlternativeRoutes()");
+        this.getMapLogChannel().log(10000000, "MapMain#calculateAlternativeRoutes()");
         this.getRouteCalculationHandler().onStartRouteCalculation(false, bl, null);
         this.getRouteCalculationHandler().calculateAlternativeRoutes();
         this.getNaviInterface().calculateAlternativeRoutes();
         this.switchToContext(5);
     }
 
-    @Override
     public void viewSizeChanged(int n) {
-        this.getMapLogChannel().log(-2137614336, "MapMain#viewSizeChanged() - newViewSize: %1 ", (long)n);
+        this.getMapLogChannel().log(10000000, "MapMain#viewSizeChanged() - newViewSize: %1 ", (long)n);
         this.getActiveCtx().viewSizeChanged(n);
     }
 
-    @Override
     protected int determineShownContext() {
-        this.sMapLogChannel.log(1078071040, "MapMain#determineShownContext - getSetupMapType() = %1, mForcedContext = %2", (long)this.getSetup().getMapType(true), (long)this.ctxTimeline.getIntention());
+        this.sMapLogChannel.log(1000000, "MapMain#determineShownContext - getSetupMapType() = %1, mForcedContext = %2", (long)this.getSetup().getMapType(true), (long)this.ctxTimeline.getIntention());
         int n = 6;
         if (this.getShowTrigger(true) == 1) {
-            this.getMapLogChannel().log(-1601830656, "MapMain#determineShownContext() - triggered by [show in map]");
+            this.getMapLogChannel().log(100000, "MapMain#determineShownContext() - triggered by [show in map]");
             n = 13;
             return n;
         }
@@ -322,7 +326,7 @@ implements HasRouteInfo {
             this.ctxTimeline.clearIntention();
         } else if (this.ctxTimeline.getIntention() != -1) {
             if (this.getMapDataContainer().viewSize == 1 && !MapUtils.isCtxAllowedInSmallStage(this.ctxTimeline.getIntention())) {
-                this.getMapLogChannel().log(-1601830656, "MapMain#determineShownContext() - can not enter crosshair mode in small stage");
+                this.getMapLogChannel().log(100000, "MapMain#determineShownContext() - can not enter crosshair mode in small stage");
             } else {
                 n = this.ctxTimeline.getIntention();
             }
@@ -336,7 +340,7 @@ implements HasRouteInfo {
     public int determineContext(int n) {
         int n2 = this.getActiveContextIndex();
         int n3 = this.getLastCtxShownID();
-        this.getMapLogChannel().log(-2137614336, "MapMain#determineContext( %1 ) - active CID: %2, last shown CID: %3", (long)n, (long)n2, (long)n3);
+        this.getMapLogChannel().log(10000000, "MapMain#determineContext( %1 ) - active CID: %2, last shown CID: %3", (long)n, (long)n2, (long)n3);
         int n4 = -1;
         switch (n) {
             case 1: {
@@ -344,25 +348,25 @@ implements HasRouteInfo {
             }
             case 2: {
                 if (this.getMapDataContainer().isInNavi) {
-                    this.getMapLogChannel().log(-2137614336, "MapMain#determineContext() - show online map inside navi");
+                    this.getMapLogChannel().log(10000000, "MapMain#determineContext() - show online map inside navi");
                 } else {
-                    this.getMapLogChannel().log(-2137614336, "MapMain#determineContext() - show online map outside navi");
+                    this.getMapLogChannel().log(10000000, "MapMain#determineContext() - show online map outside navi");
                 }
                 return 15;
             }
             case 3: {
                 if (this.getMapDataContainer().isInNavi) {
-                    this.getMapLogChannel().log(-2137614336, "MapMain#determineContext() - show remoteHMI map inside navi");
+                    this.getMapLogChannel().log(10000000, "MapMain#determineContext() - show remoteHMI map inside navi");
                 } else {
-                    this.getMapLogChannel().log(-2137614336, "MapMain#determineContext() - show remoteHMI map outside navi");
+                    this.getMapLogChannel().log(10000000, "MapMain#determineContext() - show remoteHMI map outside navi");
                 }
                 return 28;
             }
             case 8: {
                 if (this.getMapDataContainer().isInNavi) {
-                    this.getMapLogChannel().log(-2137614336, "MapMain#determineContext() - show operator call map inside navi");
+                    this.getMapLogChannel().log(10000000, "MapMain#determineContext() - show operator call map inside navi");
                 } else {
-                    this.getMapLogChannel().log(-2137614336, "MapMain#determineContext() - show operator call map outside navi");
+                    this.getMapLogChannel().log(10000000, "MapMain#determineContext() - show operator call map outside navi");
                 }
                 return 37;
             }
@@ -375,19 +379,19 @@ implements HasRouteInfo {
         }
         IRouteCalculator iRouteCalculator = this.getRouteCalculationHandler();
         if (n2 == 20 && iRouteCalculator.hasBetterRoute()) {
-            this.getMapLogChannel().log(-2137614336, "MapMain#determineContext( %1 ) - already in SDRG screen", (long)n);
+            this.getMapLogChannel().log(10000000, "MapMain#determineContext( %1 ) - already in SDRG screen", (long)n);
             return 20;
         }
         if (iRouteCalculator.isCalculatingSingleRoute() && iRouteCalculator.getWaitForAvailableRoute()) {
-            this.getMapLogChannel().log(-2137614336, "MapMain#determineContext( %1 ) - single route calculating", (long)n);
+            this.getMapLogChannel().log(10000000, "MapMain#determineContext( %1 ) - single route calculating", (long)n);
             return 33;
         }
         if (iRouteCalculator.isRGAboutToBeStarted() || (iRouteCalculator.isCalculatingSingleRoute() || iRouteCalculator.isCalculatingAltRoutes()) && iRouteCalculator.getWaitForAvailableRoute()) {
-            this.getMapLogChannel().log(-2137614336, "MapMain#determineContext( %1 ) - route calculating", (long)n);
+            this.getMapLogChannel().log(10000000, "MapMain#determineContext( %1 ) - route calculating", (long)n);
             return this.getRouteCalculationHandler().isSingleRoute() ? 33 : 5;
         }
         if (!this.getMapDataContainer().isInMap && this.getLastVisibleCtxInsideNaviMap() != 0 && this.getLastVisibleCtxInsideNaviMap() != 34) {
-            this.getMapLogChannel().log(-2137614336, "MapMain#determineContext() - restore last visible ctx inside navi map");
+            this.getMapLogChannel().log(10000000, "MapMain#determineContext() - restore last visible ctx inside navi map");
             return this.getLastVisibleCtxInsideNaviMap();
         }
         if (MapUtils.isPreviewMapContext(n2) || MapUtils.isHiddenContext(n2)) {
@@ -405,13 +409,13 @@ implements HasRouteInfo {
                     return n3;
                 }
                 default: {
-                    this.getMapLogChannel().log(-2137614336, "MapMain#determineContext( %1 ) - restore last context", (long)n);
+                    this.getMapLogChannel().log(10000000, "MapMain#determineContext( %1 ) - restore last context", (long)n);
                     return n3;
                 }
             }
         }
         if (n4 == -1) {
-            this.getMapLogChannel().log(-2137614336, "MapMain#determineContext( %1 ) - according to settings", (long)n);
+            this.getMapLogChannel().log(10000000, "MapMain#determineContext( %1 ) - according to settings", (long)n);
             int n5 = this.ctxTimeline.getIntention();
             n4 = this.determineShownContext();
             this.ctxTimeline.setIntention(n5);
@@ -419,7 +423,6 @@ implements HasRouteInfo {
         return n4;
     }
 
-    @Override
     public void switchToHiddenContext() {
         if (this.getRouteCalculationHandler().isRouteCalculationActive()) {
             this.switchToContext(this.getRouteCalculationHandler().isSingleRoute() ? 33 : 5);
@@ -427,15 +430,13 @@ implements HasRouteInfo {
         super.switchToHiddenContext();
     }
 
-    @Override
     public void forceSwitchToContext(int n, SwitchContextEnum switchContextEnum) {
         super.forceSwitchToContext(n, switchContextEnum);
         this.fireMapEvent(102, this.getActiveContextIndex());
     }
 
-    @Override
     public void showRouteBriefing(int n) {
-        this.getMapLogChannel().log(-2137614336, "MapMain#showRouteBriefing( %1 )", (long)n);
+        this.getMapLogChannel().log(10000000, "MapMain#showRouteBriefing( %1 )", (long)n);
         this.forceContext(-1);
         this.forceSwitchToContext(n == 3 ? 5 : 33, SwitchContextEnum.ShowRouteBriefing);
     }
@@ -446,7 +447,6 @@ implements HasRouteInfo {
     public void previewPredictiveNavigationRoute(NavSegmentID navSegmentID) {
     }
 
-    @Override
     public void enterAlternativeRoutes() {
         this.getMapDataContainer().enterAltRoutesFromRightDrawer = true;
         this.getRouteCalculationHandler().setCalcFurtherAltRoutes(true);

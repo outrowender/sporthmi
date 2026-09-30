@@ -16,7 +16,6 @@ extends FormatAddressAsiaEnglishPAG {
         super(navigationEnv);
     }
 
-    @Override
     protected void formatStreet(LocationFormattingRequest locationFormattingRequest, LocationFormattingResponse locationFormattingResponse) {
         if (locationFormattingRequest.junction.isEmpty()) {
             if (locationFormattingRequest.houseNumber.isEmpty()) {
@@ -36,7 +35,6 @@ extends FormatAddressAsiaEnglishPAG {
         }
     }
 
-    @Override
     protected void formatDefaultTwoLines(LocationFormattingRequest locationFormattingRequest, LocationFormattingResponse locationFormattingResponse) {
         if (locationFormattingRequest.district.isEmpty()) {
             if (!locationFormattingRequest.city.isEmpty()) {
@@ -50,7 +48,7 @@ extends FormatAddressAsiaEnglishPAG {
                 locationFormattingResponse.appendToFirstLine(locationFormattingRequest.state);
                 locationFormattingResponse.appendToSecondLine(locationFormattingRequest.state);
             } else {
-                this.logChannel.log(-2137614336, "%1#formatDefaultTwoLines -- formatRequest contains no any useful information, show Offroad as default text", (Object)this.CLASS_NAME);
+                this.logChannel.log(10000000, "%1#formatDefaultTwoLines -- formatRequest contains no any useful information, show Offroad as default text", (Object)this.CLASS_NAME);
                 if (locationFormattingRequest.areaInfo.isEmpty()) {
                     locationFormattingResponse.appendToFirstLine(new FormattedHighlightedText(this.env.getTranslatedText(13)));
                 } else {
@@ -74,7 +72,6 @@ extends FormatAddressAsiaEnglishPAG {
         }
     }
 
-    @Override
     protected void formatFullAddressInformationForSecondLine(LocationFormattingRequest locationFormattingRequest, LocationFormattingResponse locationFormattingResponse) {
         if (!locationFormattingRequest.houseNumber.isEmpty() && !locationFormattingRequest.street.isEmpty()) {
             locationFormattingResponse.appendToSecondLine(locationFormattingRequest.houseNumber);
@@ -92,7 +89,6 @@ extends FormatAddressAsiaEnglishPAG {
         }
     }
 
-    @Override
     protected void formatThreeLevelCityForSecondLine(LocationFormattingRequest locationFormattingRequest, LocationFormattingResponse locationFormattingResponse) {
         locationFormattingResponse.appendToSecondLine(locationFormattingRequest.district);
         if (!locationFormattingRequest.city.isEmpty()) {

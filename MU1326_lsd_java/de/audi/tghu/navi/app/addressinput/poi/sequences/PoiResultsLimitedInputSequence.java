@@ -22,7 +22,6 @@ extends PoiResultsGeneralInputSequence {
         super(iPoiSpellerModelAccess, iCommandListFactory, poiSearchArea, navigationEnv, lIValueListElement, iVehicle, bl, n, null);
     }
 
-    @Override
     public CommandList createStartSequence() {
         CommandList commandList = super.createStartSequence();
         commandList.add(new LISPRequestValueListByListIndexCommand(0, true));
@@ -33,13 +32,12 @@ extends PoiResultsGeneralInputSequence {
         return commandList;
     }
 
-    @Override
     public void updatePoiSubstringSearchStatus(ValueListStatus valueListStatus) {
         if (this.hasActiveSubSequence()) {
             this.currentInputSequence.updatePoiSubstringSearchStatus(valueListStatus);
             return;
         }
-        this.env.getLogChannel().log(-2137614336, "[PoiInput] PoiResultsLimitedInputSequence#updatePoiSubstringSearchStatus() - ignore");
+        this.env.getLogChannel().log(10000000, "[PoiInput] PoiResultsLimitedInputSequence#updatePoiSubstringSearchStatus() - ignore");
     }
 }
 

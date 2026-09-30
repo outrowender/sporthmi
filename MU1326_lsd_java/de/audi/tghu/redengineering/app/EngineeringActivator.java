@@ -18,7 +18,6 @@ extends CoreEngineeringActivator {
     static /* synthetic */ Class class$de$audi$atip$statemachine$ActionProxy;
     static /* synthetic */ Class class$de$audi$atip$audio$HMIAudioServiceListener;
 
-    @Override
     public void start(BundleContext bundleContext) {
         super.start(bundleContext);
         EngineeringEnv engineeringEnv = new EngineeringEnv(this.getFramework(), new EngineeringTextFactoryEvo());

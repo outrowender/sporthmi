@@ -18,8 +18,9 @@ import de.audi.tghu.navi.app.addressinput.commands.ModelSelectListElementCommand
 import de.audi.tghu.navi.app.addressinput.commands.ModelStartCommand;
 import de.audi.tghu.navi.app.addressinput.commands.ModelUpdateSpellerAndResultListCommand;
 import de.audi.tghu.navi.app.addressinput.commands.UpdateAddressInputFormScreenModelsCommand;
-import de.audi.tghu.navi.app.addressinput.housenumber.HousenumberMatchspellerInputSimpleSequence$1;
+import de.audi.tghu.navi.app.addressinput.country.SetBackupLocationForAddressInputFormCommand;
 import de.audi.tghu.navi.app.command.LISPCancelSpellerCommand;
+import de.audi.tghu.navi.app.command.NavCommand;
 import de.audi.tghu.navi.app.li.SpellerStack;
 import org.dsi.ifc.navigation.LIValueListElement;
 
@@ -33,7 +34,6 @@ implements IMatchspellerInputSequenceExt {
         this.addressInputForm = iAddressInputForm;
     }
 
-    @Override
     public CommandList createStartCommandList(boolean bl) {
         CommandList commandList = this.commandListFactory.createCommandList();
         commandList.add(new LISPCancelSpellerCommand());
@@ -41,18 +41,32 @@ implements IMatchspellerInputSequenceExt {
         return commandList;
     }
 
-    @Override
     public void selectListElement(LIValueListElement lIValueListElement, boolean bl) {
         CommandList commandList = this.getSelectListElementCommandList(lIValueListElement, bl);
         commandList.execute("HousenumberInputSequence#selectListElement");
     }
 
-    @Override
-    public CommandList getSelectListElementCommandList(LIValueListElement lIValueListElement, boolean bl) {
+    public CommandList getSelectListElementCommandList(final LIValueListElement lIValueListElement, boolean bl) {
         CommandList commandList = this.commandListFactory.createCommandList();
         this.addGetStateCommand(commandList, bl, lIValueListElement);
         commandList.add(new LISPSelectListItemCommand(lIValueListElement.getListIndex()));
-        commandList.add(new HousenumberMatchspellerInputSimpleSequence$1(this, lIValueListElement));
+        commandList.add(new NavCommand(){
+
+            public void execute() {
+                if (lIValueListElement.isToRefine()) {
+                    HousenumberMatchspellerInputSimpleSequence.this.modelAccess.onAmbiguousElementSelected();
+                    this.getCommandList().commandFinishedWithPostSequence(HousenumberMatchspellerInputSimpleSequence.this.createStartSequence(127, false));
+                } else {
+                    HousenumberMatchspellerInputSimpleSequence.this.modelAccess.onElementSelected(this.dsiResponseContainer.getLiCurrentLD());
+                    CommandList commandList = HousenumberMatchspellerInputSimpleSequence.this.commandListFactory.createCommandList();
+                    commandList.add(new UpdateAddressInputFormScreenModelsCommand(HousenumberMatchspellerInputSimpleSequence.this.modelAccess));
+                    commandList.add(new CmdNaviPreviewMapUpdate(HousenumberMatchspellerInputSimpleSequence.this.previewMap, 1, null, null));
+                    commandList.add(new SetBackupLocationForAddressInputFormCommand(HousenumberMatchspellerInputSimpleSequence.this.addressInputForm));
+                    commandList.add(new UpdateAddressInputFormScreenModelsCommand(HousenumberMatchspellerInputSimpleSequence.this.modelAccess));
+                    this.getCommandList().commandFinishedWithPostSequence(commandList);
+                }
+            }
+        });
         return commandList;
     }
 
@@ -69,13 +83,11 @@ implements IMatchspellerInputSequenceExt {
         return commandList;
     }
 
-    @Override
     public void selectElementByIdentifier(String string) {
         CommandList commandList = this.getSelectElementByIdentifierCommandList(string);
         commandList.execute("HousenumberMatchspellerInputSimpleSequence#selectElementByIdentifier");
     }
 
-    @Override
     public CommandList getSelectElementByIdentifierCommandList(String string) {
         CommandList commandList = this.commandListFactory.createCommandList();
         commandList.add(new LispSelectListItemByIdent(string));
@@ -83,34 +95,6 @@ implements IMatchspellerInputSequenceExt {
         commandList.add(new UpdateAddressInputFormScreenModelsCommand(this.modelAccess));
         commandList.add(new CmdNaviPreviewMapUpdate(this.previewMap, false, 1, null, null));
         return commandList;
-    }
-
-    static /* synthetic */ IMatchspellerModelAccess access$000(HousenumberMatchspellerInputSimpleSequence housenumberMatchspellerInputSimpleSequence) {
-        return housenumberMatchspellerInputSimpleSequence.modelAccess;
-    }
-
-    static /* synthetic */ CommandList access$100(HousenumberMatchspellerInputSimpleSequence housenumberMatchspellerInputSimpleSequence, int n, boolean bl) {
-        return housenumberMatchspellerInputSimpleSequence.createStartSequence(n, bl);
-    }
-
-    static /* synthetic */ IMatchspellerModelAccess access$200(HousenumberMatchspellerInputSimpleSequence housenumberMatchspellerInputSimpleSequence) {
-        return housenumberMatchspellerInputSimpleSequence.modelAccess;
-    }
-
-    static /* synthetic */ ICommandListFactory access$300(HousenumberMatchspellerInputSimpleSequence housenumberMatchspellerInputSimpleSequence) {
-        return housenumberMatchspellerInputSimpleSequence.commandListFactory;
-    }
-
-    static /* synthetic */ IMatchspellerModelAccess access$400(HousenumberMatchspellerInputSimpleSequence housenumberMatchspellerInputSimpleSequence) {
-        return housenumberMatchspellerInputSimpleSequence.modelAccess;
-    }
-
-    static /* synthetic */ IPreviewMap access$500(HousenumberMatchspellerInputSimpleSequence housenumberMatchspellerInputSimpleSequence) {
-        return housenumberMatchspellerInputSimpleSequence.previewMap;
-    }
-
-    static /* synthetic */ IMatchspellerModelAccess access$600(HousenumberMatchspellerInputSimpleSequence housenumberMatchspellerInputSimpleSequence) {
-        return housenumberMatchspellerInputSimpleSequence.modelAccess;
     }
 }
 

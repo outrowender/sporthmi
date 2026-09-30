@@ -30,7 +30,6 @@ extends PreviewMapStateTrafficInfo {
         this.trafficInfoEvent = lArray;
     }
 
-    @Override
     public void applyToScreenDetail() {
         this.getPreviewMapHandler().getPreviewMapEventVisibilities().resetEventVisibilities();
         if (Util.isNavRectangleValid(this.navRectangleTrafficInfo)) {
@@ -47,16 +46,14 @@ extends PreviewMapStateTrafficInfo {
         }
     }
 
-    @Override
     public void applyToScreenDetailModels() {
     }
 
-    @Override
     public void applyToScreenFullMap() {
         AbstractMap abstractMap = this.getMapForFullScreen();
         if (Util.isNavRectangleValid(this.navRectangleTrafficInfo)) {
             if (this.getPreviewMapHandler().isPreviewMapPositionRefreshAllowed()) {
-                int n = this.getMapForFullScreen().getZoomHandler().getZoomListIndex(51266);
+                int n = this.getMapForFullScreen().getZoomHandler().getZoomListIndex(100.0f);
                 abstractMap.getMVRequest().setMapViewPortByWGS84Rectangle(this.navRectangleTrafficInfo, n);
             }
         } else if (this.trafficInfoEvent != null && this.trafficInfoEvent.length >= 1) {
@@ -82,12 +79,10 @@ extends PreviewMapStateTrafficInfo {
         abstractMap.getMVRequest().ensureTMCVisibility((int)this.trafficInfoEvent[0]);
     }
 
-    @Override
     public NavLocation getNavLocationForEnterInMap() {
         return null;
     }
 
-    @Override
     public String toString() {
         Buffer buffer = new Buffer();
         buffer.append("PreviewMapStateTrafficInfoRectangle() traffic ids=");
@@ -101,7 +96,6 @@ extends PreviewMapStateTrafficInfo {
         return buffer.toString();
     }
 
-    @Override
     public boolean isPreviewMapItemArea() {
         return Util.isNavRectangleValid(this.navRectangleTrafficInfo) && (this.navRectangleTrafficInfo.xLeft != this.navRectangleTrafficInfo.xLeft || this.navRectangleTrafficInfo.yBottom != this.navRectangleTrafficInfo.yUp);
     }

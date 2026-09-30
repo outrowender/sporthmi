@@ -4,7 +4,6 @@
 package de.audi.tghu.navi.app.addressinput.poi;
 
 public interface IPoiDiagnosisUI {
-    default public void deletePersonalPOIDataBases() {
-    }
+    public void deletePersonalPOIDataBases();
 }
 

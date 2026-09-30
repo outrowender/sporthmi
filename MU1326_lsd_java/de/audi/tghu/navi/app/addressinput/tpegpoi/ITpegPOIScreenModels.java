@@ -4,13 +4,13 @@
 package de.audi.tghu.navi.app.addressinput.tpegpoi;
 
 public interface ITpegPOIScreenModels {
-    public static final int categoryLabelModelId;
-    public static final int categoryListModelId;
-    public static final int dataAvailableChoiceModelId;
-    public static final int resultListModelId;
-    public static final int tpegPOIBottonModelId;
-    public static final int tpegPOIDataAvailableModelId;
-    public static final int tpegPOIDetailEmailAddressnModel;
-    public static final int tpegPOIDetailImageModel;
+    public static final int categoryLabelModelId = 402071;
+    public static final int categoryListModelId = 402065;
+    public static final int dataAvailableChoiceModelId = 402067;
+    public static final int resultListModelId = 402068;
+    public static final int tpegPOIBottonModelId = 402161;
+    public static final int tpegPOIDataAvailableModelId = 402067;
+    public static final int tpegPOIDetailEmailAddressnModel = 402296;
+    public static final int tpegPOIDetailImageModel = 402311;
 }
 

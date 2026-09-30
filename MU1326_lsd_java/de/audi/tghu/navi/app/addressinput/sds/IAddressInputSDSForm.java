@@ -7,181 +7,122 @@ import de.audi.atip.interapp.NaviServiceListener;
 import java.util.Map;
 
 public interface IAddressInputSDSForm {
-    default public void startDestinationInput(int n, NaviServiceListener naviServiceListener) {
-    }
+    public void startDestinationInput(int var1, NaviServiceListener var2);
 
-    default public void startDestinationInputWithCurrentLD(int n, NaviServiceListener naviServiceListener) {
-    }
+    public void startDestinationInputWithCurrentLD(int var1, NaviServiceListener var2);
 
-    default public void setCountry(String string, String string2, NaviServiceListener naviServiceListener) {
-    }
+    public void setCountry(String var1, String var2, NaviServiceListener var3);
 
-    default public void setState(String string, String string2, NaviServiceListener naviServiceListener) {
-    }
+    public void setState(String var1, String var2, NaviServiceListener var3);
 
-    default public void setCity(String string, String string2, NaviServiceListener naviServiceListener) {
-    }
+    public void setCity(String var1, String var2, NaviServiceListener var3);
 
-    default public void setStreet(String string, String string2, NaviServiceListener naviServiceListener) {
-    }
+    public void setStreet(String var1, String var2, NaviServiceListener var3);
 
-    default public void setJunction(String string, String string2, NaviServiceListener naviServiceListener) {
-    }
+    public void setJunction(String var1, String var2, NaviServiceListener var3);
 
-    default public void setHouseNumber(String string, String string2, NaviServiceListener naviServiceListener) {
-    }
+    public void setHouseNumber(String var1, String var2, NaviServiceListener var3);
 
-    default public void setHouseNumberByIndex(int n, NaviServiceListener naviServiceListener) {
-    }
+    public void setHouseNumberByIndex(int var1, NaviServiceListener var2);
 
-    default public void setCenter(NaviServiceListener naviServiceListener) {
-    }
+    public void setCenter(NaviServiceListener var1);
 
-    default public void setZIPCode(String string, String string2, NaviServiceListener naviServiceListener) {
-    }
+    public void setZIPCode(String var1, String var2, NaviServiceListener var3);
 
-    default public void setProvince(String string, String string2, NaviServiceListener naviServiceListener) {
-    }
+    public void setProvince(String var1, String var2, NaviServiceListener var3);
 
-    default public void setPrefecture(String string, String string2, NaviServiceListener naviServiceListener) {
-    }
+    public void setPrefecture(String var1, String var2, NaviServiceListener var3);
 
-    default public void setPlacename(String string, String string2, NaviServiceListener naviServiceListener) {
-    }
+    public void setPlacename(String var1, String var2, NaviServiceListener var3);
 
-    default public void setWard(String string, String string2, NaviServiceListener naviServiceListener) {
-    }
+    public void setWard(String var1, String var2, NaviServiceListener var3);
 
-    default public void setChome(String string, String string2, NaviServiceListener naviServiceListener) {
-    }
+    public void setChome(String var1, String var2, NaviServiceListener var3);
 
-    default public void setSubmunicipalTownOrStreet(String string, String string2, NaviServiceListener naviServiceListener) {
-    }
+    public void setSubmunicipalTownOrStreet(String var1, String var2, NaviServiceListener var3);
 
-    default public void setVillageAndStreet(String string, String string2, NaviServiceListener naviServiceListener) {
-    }
+    public void setVillageAndStreet(String var1, String var2, NaviServiceListener var3);
 
-    default public void setOneShotData(Map map, NaviServiceListener naviServiceListener) {
-    }
+    public void setOneShotData(Map var1, NaviServiceListener var2);
 
-    default public void validateSpelledStreetName(String string, NaviServiceListener naviServiceListener) {
-    }
+    public void validateSpelledStreetName(String var1, NaviServiceListener var2);
 
-    default public void querySpelledCityResultList(String string, NaviServiceListener naviServiceListener) {
-    }
+    public void querySpelledCityResultList(String var1, NaviServiceListener var2);
 
-    default public void querySpelledStreetResultList(String string, NaviServiceListener naviServiceListener) {
-    }
+    public void querySpelledStreetResultList(String var1, NaviServiceListener var2);
 
-    default public void querySpelledStreetResultList2(String string, NaviServiceListener naviServiceListener) {
-    }
+    public void querySpelledStreetResultList2(String var1, NaviServiceListener var2);
 
-    default public void selectSpelledCityName(boolean bl, Object object, NaviServiceListener naviServiceListener) {
-    }
+    public void selectSpelledCityName(boolean var1, Object var2, NaviServiceListener var3);
 
-    default public void selectSpelledStreetName(boolean bl, Object object, NaviServiceListener naviServiceListener) {
-    }
+    public void selectSpelledStreetName(boolean var1, Object var2, NaviServiceListener var3);
 
-    default public void selectSpelledStreetName2(boolean bl, Object object, NaviServiceListener naviServiceListener) {
-    }
+    public void selectSpelledStreetName2(boolean var1, Object var2, NaviServiceListener var3);
 
-    default public void queryCityListLength(NaviServiceListener naviServiceListener) {
-    }
+    public void queryCityListLength(NaviServiceListener var1);
 
-    default public void queryZIPCodeListLength(NaviServiceListener naviServiceListener) {
-    }
+    public void queryZIPCodeListLength(NaviServiceListener var1);
 
-    default public void queryHouseNrListLength(NaviServiceListener naviServiceListener) {
-    }
+    public void queryHouseNrListLength(NaviServiceListener var1);
 
-    default public void queryStreetListLength(NaviServiceListener naviServiceListener) {
-    }
+    public void queryStreetListLength(NaviServiceListener var1);
 
-    default public void queryIntersectionListLength(NaviServiceListener naviServiceListener) {
-    }
+    public void queryIntersectionListLength(NaviServiceListener var1);
 
-    default public void setCountryAndState(String string, String string2, String string3, String string4, NaviServiceListener naviServiceListener) {
-    }
+    public void setCountryAndState(String var1, String var2, String var3, String var4, NaviServiceListener var5);
 
-    default public void updateDetailScreenInfo(NaviServiceListener naviServiceListener) {
-    }
+    public void updateDetailScreenInfo(NaviServiceListener var1);
 
-    default public void enterMapCode(NaviServiceListener naviServiceListener) {
-    }
+    public void enterMapCode(NaviServiceListener var1);
 
-    default public void inputMapCode(String string, NaviServiceListener naviServiceListener) {
-    }
+    public void inputMapCode(String var1, NaviServiceListener var2);
 
-    default public void deleteLastMapCodeInput(NaviServiceListener naviServiceListener) {
-    }
+    public void deleteLastMapCodeInput(NaviServiceListener var1);
 
-    default public void clearMapCode(NaviServiceListener naviServiceListener) {
-    }
+    public void clearMapCode(NaviServiceListener var1);
 
-    default public void disambiguateMapCode(NaviServiceListener naviServiceListener) {
-    }
+    public void disambiguateMapCode(NaviServiceListener var1);
 
-    default public void selectDisambiguatedMapCodeByIndex(int n, NaviServiceListener naviServiceListener) {
-    }
+    public void selectDisambiguatedMapCodeByIndex(int var1, NaviServiceListener var2);
 
-    default public String getLastValidMapCodeBlock() {
-    }
+    public String getLastValidMapCodeBlock();
 
-    default public String getCurrentMapCode() {
-    }
+    public String getCurrentMapCode();
 
-    default public boolean isCurrentMapCodeNavigable() {
-    }
+    public boolean isCurrentMapCodeNavigable();
 
-    default public boolean isFurtherMapCodeInputPossible() {
-    }
+    public boolean isFurtherMapCodeInputPossible();
 
-    default public void enterTelephoneNumber(NaviServiceListener naviServiceListener) {
-    }
+    public void enterTelephoneNumber(NaviServiceListener var1);
 
-    default public void inputTelephoneNumber(String string, NaviServiceListener naviServiceListener) {
-    }
+    public void inputTelephoneNumber(String var1, NaviServiceListener var2);
 
-    default public void deleteLastTelephoneNumberInput(NaviServiceListener naviServiceListener) {
-    }
+    public void deleteLastTelephoneNumberInput(NaviServiceListener var1);
 
-    default public void clearTelephoneNumber(NaviServiceListener naviServiceListener) {
-    }
+    public void clearTelephoneNumber(NaviServiceListener var1);
 
-    default public void selectTelephoneNumberByIndex(int n, NaviServiceListener naviServiceListener) {
-    }
+    public void selectTelephoneNumberByIndex(int var1, NaviServiceListener var2);
 
-    default public String getLastValidTelephoneNumberBlock() {
-    }
+    public String getLastValidTelephoneNumberBlock();
 
-    default public String getCurrentTelephoneNumber() {
-    }
+    public String getCurrentTelephoneNumber();
 
-    default public boolean isFurtherTelephonenumberInputPossible() {
-    }
+    public boolean isFurtherTelephonenumberInputPossible();
 
-    default public void startTpegPOI(NaviServiceListener naviServiceListener) {
-    }
+    public void startTpegPOI(NaviServiceListener var1);
 
-    default public void getTpegPOIResultsByCategoryIndex(int n, NaviServiceListener naviServiceListener) {
-    }
+    public void getTpegPOIResultsByCategoryIndex(int var1, NaviServiceListener var2);
 
-    default public void selectTpegPOIResultByIndex(int n, NaviServiceListener naviServiceListener) {
-    }
+    public void selectTpegPOIResultByIndex(int var1, NaviServiceListener var2);
 
-    default public void triggerAddressInputReturn(int n, NaviServiceListener naviServiceListener) {
-    }
+    public void triggerAddressInputReturn(int var1, NaviServiceListener var2);
 
-    default public void triggerAddressInputReturn(int n, int n2, NaviServiceListener naviServiceListener) {
-    }
+    public void triggerAddressInputReturn(int var1, int var2, NaviServiceListener var3);
 
-    default public void synchronizeSpeechCountryWithCurrentLD(NaviServiceListener naviServiceListener) {
-    }
+    public void synchronizeSpeechCountryWithCurrentLD(NaviServiceListener var1);
 
-    default public void triggerMapCodeReturn(NaviServiceListener naviServiceListener) {
-    }
+    public void triggerMapCodeReturn(NaviServiceListener var1);
 
-    default public void nextDestinationInput(int n) {
-    }
+    public void nextDestinationInput(int var1);
 }
 

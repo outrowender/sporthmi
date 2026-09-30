@@ -14,20 +14,17 @@ extends TMCCommand {
         super(appTMC, logChannel);
     }
 
-    @Override
     public String toString() {
-        return super.getClass().getName();
+        return this.getClass().getName();
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "[RequestBoundingRectangleCommand#execute] Requesting rectangle for %1 ", (Object)this.tmcApp.getResponseContainer().getChildrenTrafficEvents());
+        this.logger.log(10000000, "[RequestBoundingRectangleCommand#execute] Requesting rectangle for %1 ", (Object)this.tmcApp.getResponseContainer().getChildrenTrafficEvents());
         this.tmcApp.getTMCHandler().getBoundingRectangle(this.tmcApp.getResponseContainer().getChildrenTrafficEvents());
     }
 
-    @Override
     public void getBoundingRectangleForTrafficMessagesResult(NavRectangle navRectangle) {
-        this.logger.log(-2137614336, "[RequestBoundingRectangleCommand#getBoundingRectangleForTrafficMessagesResult]rectangle %1 ", (Object)navRectangle);
+        this.logger.log(10000000, "[RequestBoundingRectangleCommand#getBoundingRectangleForTrafficMessagesResult]rectangle %1 ", (Object)navRectangle);
         this.tmcApp.getResponseContainer().setRectangle(navRectangle);
         this.getCommandList().commandFinished();
     }

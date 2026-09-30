@@ -29,8 +29,7 @@ implements MapConsts {
         return n2;
     }
 
-    protected abstract BaseListRow getListRow() {
-    }
+    protected abstract BaseListRow getListRow();
 
     public int getScreenWidth() {
         return this.get(0);
@@ -144,10 +143,8 @@ implements MapConsts {
         return new Point();
     }
 
-    public abstract Rect getVisibleArea(int n, boolean bl, boolean bl2) {
-    }
+    public abstract Rect getVisibleArea(int var1, boolean var2, boolean var3);
 
-    public abstract Rect getVisibleArea(int n, boolean bl, boolean bl2, boolean bl3) {
-    }
+    public abstract Rect getVisibleArea(int var1, boolean var2, boolean var3, boolean var4);
 }
 

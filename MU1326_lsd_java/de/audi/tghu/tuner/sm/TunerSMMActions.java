@@ -12,6 +12,7 @@ import de.audi.atip.statemachine.SMServices;
 import de.audi.atip.statemachine.ap.EntertainmentActionProxy;
 import de.audi.atip.statemachine.ap.FrameworkActionProxy;
 import de.audi.atip.statemachine.ap.TunerActionProxy;
+import java.util.NoSuchElementException;
 
 public class TunerSMMActions
 implements SMModuleConstants {
@@ -30,17 +31,17 @@ implements SMModuleConstants {
     public void removeActionProxy(int n, ActionProxy actionProxy) {
         if (actionProxy instanceof EntertainmentActionProxy) {
             this.ap2 = null;
-            this.logChannel.log(-2137614336, "EntertainmentActionProxy Action Proxy removed");
+            this.logChannel.log(10000000, "EntertainmentActionProxy Action Proxy removed");
             return;
         }
         if (actionProxy instanceof FrameworkActionProxy) {
             this.ap1 = null;
-            this.logChannel.log(-2137614336, "FrameworkActionProxy Action Proxy removed");
+            this.logChannel.log(10000000, "FrameworkActionProxy Action Proxy removed");
             return;
         }
         if (actionProxy instanceof TunerActionProxy) {
             this.ap0 = null;
-            this.logChannel.log(-2137614336, "TunerActionProxy Action Proxy removed");
+            this.logChannel.log(10000000, "TunerActionProxy Action Proxy removed");
             return;
         }
     }
@@ -48,17 +49,17 @@ implements SMModuleConstants {
     public ActionProxy addActionProxy(int n, ActionProxy actionProxy) {
         if (actionProxy instanceof EntertainmentActionProxy) {
             this.ap2 = (EntertainmentActionProxy)actionProxy;
-            this.logChannel.log(-2137614336, "EntertainmentActionProxy Action Proxy added");
+            this.logChannel.log(10000000, "EntertainmentActionProxy Action Proxy added");
             return this.ap2;
         }
         if (actionProxy instanceof FrameworkActionProxy) {
             this.ap1 = (FrameworkActionProxy)actionProxy;
-            this.logChannel.log(-2137614336, "FrameworkActionProxy Action Proxy added");
+            this.logChannel.log(10000000, "FrameworkActionProxy Action Proxy added");
             return this.ap1;
         }
         if (actionProxy instanceof TunerActionProxy) {
             this.ap0 = (TunerActionProxy)actionProxy;
-            this.logChannel.log(-2137614336, "TunerActionProxy Action Proxy added");
+            this.logChannel.log(10000000, "TunerActionProxy Action Proxy added");
             return this.ap0;
         }
         return null;
@@ -69,7 +70,7 @@ implements SMModuleConstants {
             this.logChannel.log(1000, "Action Proxy 'EntertainmentActionProxy' is causing an exception in call '%1'", (Object)string, (Throwable)nullPointerException);
             throw nullPointerException;
         }
-        this.logChannel.log(1078071040, "Action Proxy 'EntertainmentActionProxy' missing for call '%1'", (Object)string);
+        this.logChannel.log(1000000, "Action Proxy 'EntertainmentActionProxy' missing for call '%1'", (Object)string);
     }
 
     private void catchActionExceptionFrameworkActionProxy(ActionProxy actionProxy, NullPointerException nullPointerException, String string) {
@@ -77,7 +78,7 @@ implements SMModuleConstants {
             this.logChannel.log(1000, "Action Proxy 'FrameworkActionProxy' is causing an exception in call '%1'", (Object)string, (Throwable)nullPointerException);
             throw nullPointerException;
         }
-        this.logChannel.log(1078071040, "Action Proxy 'FrameworkActionProxy' missing for call '%1'", (Object)string);
+        this.logChannel.log(1000000, "Action Proxy 'FrameworkActionProxy' missing for call '%1'", (Object)string);
     }
 
     private void catchActionExceptionTunerActionProxy(ActionProxy actionProxy, NullPointerException nullPointerException, String string) {
@@ -85,7 +86,7 @@ implements SMModuleConstants {
             this.logChannel.log(1000, "Action Proxy 'TunerActionProxy' is causing an exception in call '%1'", (Object)string, (Throwable)nullPointerException);
             throw nullPointerException;
         }
-        this.logChannel.log(1078071040, "Action Proxy 'TunerActionProxy' missing for call '%1'", (Object)string);
+        this.logChannel.log(1000000, "Action Proxy 'TunerActionProxy' missing for call '%1'", (Object)string);
     }
 
     public void execFocusGainedAction(SMServices sMServices, int n) {
@@ -120,7 +121,7 @@ implements SMModuleConstants {
             }
             case 100010: {
                 sMServices.popDrawerIDs();
-                sMServices.removeContext(0);
+                sMServices.removeContext(813421785L);
                 return;
             }
             case 100017: {
@@ -132,7 +133,7 @@ implements SMModuleConstants {
                 return;
             }
             case 100021: {
-                sMServices.removeContext(0);
+                sMServices.removeContext(149234859L);
                 return;
             }
             case 100030: {
@@ -140,7 +141,7 @@ implements SMModuleConstants {
                 return;
             }
             case 100032: {
-                sMServices.removeContext(0);
+                sMServices.removeContext(2011252774L);
                 return;
             }
             case 100035: {
@@ -163,7 +164,7 @@ implements SMModuleConstants {
                 return;
             }
             case 100069: {
-                sMServices.removeContext(0);
+                sMServices.removeContext(967773909L);
                 return;
             }
             case 100073: {
@@ -189,7 +190,7 @@ implements SMModuleConstants {
                     this.catchActionExceptionTunerActionProxy(tunerActionProxy, nullPointerException, "tunerSDARSManageAlertsLeft");
                 }
                 sMServices.popDrawerIDs();
-                sMServices.removeContext(0);
+                sMServices.removeContext(1427689803L);
                 return;
             }
             case 100126: {
@@ -221,7 +222,7 @@ implements SMModuleConstants {
                 return;
             }
             case 100138: {
-                sMServices.removeContext(0);
+                sMServices.removeContext(86942196L);
                 return;
             }
             case 100157: {
@@ -229,7 +230,7 @@ implements SMModuleConstants {
                 return;
             }
             case 100182: {
-                sMServices.removeContext(0);
+                sMServices.removeContext(1446942497L);
                 return;
             }
             case 100185: {
@@ -265,11 +266,11 @@ implements SMModuleConstants {
                 return;
             }
             case 100202: {
-                sMServices.removeContext(0);
+                sMServices.removeContext(86942196L);
                 return;
             }
             case 100205: {
-                sMServices.removeContext(0);
+                sMServices.removeContext(149234859L);
                 return;
             }
             case 100206: {
@@ -314,7 +315,7 @@ implements SMModuleConstants {
                 catch (NullPointerException nullPointerException) {
                     this.catchActionExceptionFrameworkActionProxy(actionProxy, nullPointerException, "activeApplication");
                 }
-                sMServices.pushDrawerIDs(0, 0);
+                sMServices.pushDrawerIDs(100080L, 100005L);
                 sMServices.setColor(2);
                 return;
             }
@@ -324,8 +325,8 @@ implements SMModuleConstants {
                 return;
             }
             case 100010: {
-                sMServices.pushDrawerIDs(0L, 0);
-                sMServices.addContext(0);
+                sMServices.pushDrawerIDs(0L, 100147L);
+                sMServices.addContext(813421785L);
                 return;
             }
             case 100012: {
@@ -337,7 +338,7 @@ implements SMModuleConstants {
                 return;
             }
             case 100021: {
-                sMServices.addContext(0);
+                sMServices.addContext(149234859L);
                 return;
             }
             case 100030: {
@@ -345,7 +346,7 @@ implements SMModuleConstants {
                 return;
             }
             case 100032: {
-                sMServices.addContext(0);
+                sMServices.addContext(2011252774L);
                 return;
             }
             case 100035: {
@@ -362,16 +363,16 @@ implements SMModuleConstants {
                 return;
             }
             case 100069: {
-                sMServices.addContext(0);
+                sMServices.addContext(967773909L);
                 return;
             }
             case 100073: {
-                sMServices.pushDrawerIDs(0L, 0);
+                sMServices.pushDrawerIDs(0L, 69L);
                 return;
             }
             case 100116: {
-                sMServices.pushDrawerIDs(0L, 0);
-                sMServices.addContext(0);
+                sMServices.pushDrawerIDs(0L, 100147L);
+                sMServices.addContext(1427689803L);
                 return;
             }
             case 100126: {
@@ -393,7 +394,7 @@ implements SMModuleConstants {
                 return;
             }
             case 100138: {
-                sMServices.addContext(0);
+                sMServices.addContext(86942196L);
                 return;
             }
             case 100149: {
@@ -414,7 +415,7 @@ implements SMModuleConstants {
             }
             case 100157: {
                 sMServices.setColor(2);
-                sMServices.pushDrawerIDs(0L, 0);
+                sMServices.pushDrawerIDs(0L, 100005L);
                 return;
             }
             case 100159: {
@@ -426,7 +427,7 @@ implements SMModuleConstants {
                 return;
             }
             case 100182: {
-                sMServices.addContext(0);
+                sMServices.addContext(1446942497L);
                 return;
             }
             case 100185: {
@@ -440,7 +441,7 @@ implements SMModuleConstants {
                 return;
             }
             case 100188: {
-                sMServices.pushDrawerIDs(0, 0);
+                sMServices.pushDrawerIDs(100080L, 69L);
                 return;
             }
             case 100200: {
@@ -452,11 +453,11 @@ implements SMModuleConstants {
                 return;
             }
             case 100202: {
-                sMServices.addContext(0);
+                sMServices.addContext(86942196L);
                 return;
             }
             case 100205: {
-                sMServices.addContext(0);
+                sMServices.addContext(149234859L);
                 return;
             }
             case 100206: {
@@ -464,7 +465,7 @@ implements SMModuleConstants {
                 return;
             }
             case 100218: {
-                sMServices.pushDrawerIDs(0, 0L);
+                sMServices.pushDrawerIDs(100080L, 0L);
                 return;
             }
             case 100243: {
@@ -743,7 +744,7 @@ implements SMModuleConstants {
                 return;
             }
             case 100319: {
-                sMServices.showPartialPopup(143065344);
+                sMServices.showPartialPopup(100104);
                 return;
             }
             case 100320: {
@@ -824,11 +825,11 @@ implements SMModuleConstants {
                 return;
             }
             case 100398: {
-                sMServices.showPartialPopup(914817280);
+                sMServices.showPartialPopup(100150);
                 return;
             }
             case 100399: {
-                sMServices.showPartialPopup(931594496);
+                sMServices.showPartialPopup(100151);
                 return;
             }
             case 100400: {
@@ -932,22 +933,22 @@ implements SMModuleConstants {
             case 100449: {
                 switch (n2) {
                     case 0: {
-                        sMServices.showPartialPopup(1099366656);
+                        sMServices.showPartialPopup(100161);
                         sMServices.addScreenAnimation(32);
                         return;
                     }
                     case 1: {
-                        sMServices.showPartialPopup(1116143872);
+                        sMServices.showPartialPopup(100162);
                         sMServices.addScreenAnimation(32);
                         return;
                     }
                     case 2: {
-                        sMServices.showPartialPopup(1132921088);
+                        sMServices.showPartialPopup(100163);
                         sMServices.addScreenAnimation(32);
                         return;
                     }
                     case 3: {
-                        sMServices.showPartialPopup(1149698304);
+                        sMServices.showPartialPopup(100164);
                         sMServices.addScreenAnimation(32);
                         return;
                     }
@@ -965,22 +966,22 @@ implements SMModuleConstants {
             case 100510: {
                 switch (n2) {
                     case 0: {
-                        sMServices.showPartialPopup(1099366656);
+                        sMServices.showPartialPopup(100161);
                         sMServices.addScreenAnimation(32);
                         return;
                     }
                     case 1: {
-                        sMServices.showPartialPopup(1116143872);
+                        sMServices.showPartialPopup(100162);
                         sMServices.addScreenAnimation(32);
                         return;
                     }
                     case 2: {
-                        sMServices.showPartialPopup(1132921088);
+                        sMServices.showPartialPopup(100163);
                         sMServices.addScreenAnimation(32);
                         return;
                     }
                     case 3: {
-                        sMServices.showPartialPopup(1149698304);
+                        sMServices.showPartialPopup(100164);
                         sMServices.addScreenAnimation(32);
                         return;
                     }
@@ -996,7 +997,7 @@ implements SMModuleConstants {
                 return;
             }
             case 100518: {
-                sMServices.showPartialPopup(1216807168);
+                sMServices.showPartialPopup(100168);
                 return;
             }
             case 100519: {
@@ -1006,7 +1007,7 @@ implements SMModuleConstants {
             case 100525: {
                 switch (n2) {
                     case 1: {
-                        sMServices.hidePartialPopup(143065344);
+                        sMServices.hidePartialPopup(100104);
                         return;
                     }
                 }
@@ -1015,7 +1016,7 @@ implements SMModuleConstants {
             case 100526: {
                 switch (n2) {
                     case 1: {
-                        sMServices.hidePartialPopup(143065344);
+                        sMServices.hidePartialPopup(100104);
                         return;
                     }
                 }
@@ -1024,7 +1025,7 @@ implements SMModuleConstants {
         }
     }
 
-    public HMIModel getModel(int n) {
+    public HMIModel getModel(int n) throws NoSuchElementException {
         return this.smm.getModel(n);
     }
 }

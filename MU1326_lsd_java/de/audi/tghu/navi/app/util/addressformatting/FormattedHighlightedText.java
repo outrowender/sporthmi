@@ -14,8 +14,8 @@ import org.dsi.ifc.search.Highlight;
 import org.dsi.ifc.search.Token;
 
 public class FormattedHighlightedText {
-    public static final int EMPTY;
-    public static final int NOT_EMPTY;
+    public static final int EMPTY = 0;
+    public static final int NOT_EMPTY = 1;
     public final int stateText;
     public final int stateHighlights;
     public final String formattedText;
@@ -96,10 +96,10 @@ public class FormattedHighlightedText {
     public void formatToPhoneticType(IMyLocationAccessor iMyLocationAccessor) {
         LogChannel logChannel = Navigation.getInstance().getEnv().getLogChannel();
         if (this.stateText == 1 && this.phoneticType != 0) {
-            this.phonemeText = this.phoneticType == 13 && Util.isHURegionNAR() ? new StringBuffer().append(LocationFormatter.getStringForPhoneticType(this.phoneticType)).append(LocationFormatter.splitStringToSingleCharactersWithWhitespace(this.formattedText)).toString() : (iMyLocationAccessor.isTownOrder9() && this.phoneticType == 2 ? new StringBuffer().append(LocationFormatter.getStringForPhoneticType(3)).append(this.formattedText).toString() : (iMyLocationAccessor.isTownOrder9() && this.phoneticType == 3 ? new StringBuffer().append(LocationFormatter.getStringForPhoneticType(2)).append(this.formattedText).toString() : new StringBuffer().append(LocationFormatter.getStringForPhoneticType(this.phoneticType)).append(this.formattedText).toString()));
+            this.phonemeText = this.phoneticType == 13 && Util.isHURegionNAR() ? LocationFormatter.getStringForPhoneticType(this.phoneticType) + LocationFormatter.splitStringToSingleCharactersWithWhitespace(this.formattedText) : (iMyLocationAccessor.isTownOrder9() && this.phoneticType == 2 ? LocationFormatter.getStringForPhoneticType(3) + this.formattedText : (iMyLocationAccessor.isTownOrder9() && this.phoneticType == 3 ? LocationFormatter.getStringForPhoneticType(2) + this.formattedText : LocationFormatter.getStringForPhoneticType(this.phoneticType) + this.formattedText));
             if (this.phoneticType <= 8 && this.phoneticType >= 0) {
                 if (logChannel.isDebug2()) {
-                    logChannel.log(14808325, "   --> Try to Add Phoneme and Alphabet for Case: %1", (long)this.phoneticType);
+                    logChannel.log(100000000, "   --> Try to Add Phoneme and Alphabet for Case: %1", (long)this.phoneticType);
                 }
                 if (null != iMyLocationAccessor) {
                     PhonemeData phonemeData = iMyLocationAccessor.getPhoneme(this.phoneticType);
@@ -109,23 +109,23 @@ public class FormattedHighlightedText {
                             buffer.append("\u241e");
                             buffer.append(phonemeData.getAlphabet());
                             if (logChannel.isDebug2()) {
-                                logChannel.log(14808325, "   --> ADDING Alphabet: %1", (Object)phonemeData.getAlphabet());
+                                logChannel.log(100000000, "   --> ADDING Alphabet: %1", (Object)phonemeData.getAlphabet());
                             }
                             buffer.append("\u241e");
                             buffer.append(phonemeData.getPhoneme());
                             if (logChannel.isDebug2()) {
-                                logChannel.log(14808325, "   --> ADDING Phoneme: %1", (Object)phonemeData.getPhoneme());
+                                logChannel.log(100000000, "   --> ADDING Phoneme: %1", (Object)phonemeData.getPhoneme());
                             }
-                            this.phonemeText = new StringBuffer().append(this.phonemeText).append(buffer.toString()).toString();
+                            this.phonemeText = this.phonemeText + buffer.toString();
                         }
                     } else if (logChannel.isDebug2()) {
-                        logChannel.log(14808325, "      --> locationAccessor.getPhoneme(%1) is NULL", (long)this.phoneticType);
+                        logChannel.log(100000000, "      --> locationAccessor.getPhoneme(%1) is NULL", (long)this.phoneticType);
                     }
                 } else if (logChannel.isDebug2()) {
-                    logChannel.log(14808325, "      --> locationAccessor is NULL", (long)this.phoneticType);
+                    logChannel.log(100000000, "      --> locationAccessor is NULL", (long)this.phoneticType);
                 }
             } else if (logChannel.isDebug2()) {
-                logChannel.log(14808325, "      --> CONVERTING FROM PHONEME IS NO SUPPORTED", (long)this.phoneticType);
+                logChannel.log(100000000, "      --> CONVERTING FROM PHONEME IS NO SUPPORTED", (long)this.phoneticType);
             }
         }
     }

@@ -27,7 +27,7 @@ public class TVStorage {
     }
 
     public void setTunedService(ServiceInfo serviceInfo) {
-        this.lc.log(-2137614336, "[TVStorage.setTunedService] %1", (Object)serviceInfo);
+        this.lc.log(10000000, "[TVStorage.setTunedService] %1", (Object)serviceInfo);
         if (TVUtil.equalsFullPID(this.activeService, serviceInfo) && this.activeService.name.equals(serviceInfo.name)) {
             return;
         }
@@ -39,25 +39,25 @@ public class TVStorage {
         if (this.activeService == null) {
             this.activeService = this.activeServiceStorage.load();
         }
-        this.lc.log(-2137614336, "[TVStorage.getTunedService] %1", (Object)this.activeService);
+        this.lc.log(10000000, "[TVStorage.getTunedService] %1", (Object)this.activeService);
         return this.activeService;
     }
 
     public ServiceInfo[] loadMemoryList() {
-        this.lc.log(14808325, "[TVStorage.loadMemoryList]");
+        this.lc.log(100000000, "[TVStorage.loadMemoryList]");
         MemoryListStorage memoryListStorage = new MemoryListStorage(this.storageAccess, this.lc);
         ServiceInfo[] serviceInfoArray = memoryListStorage.read();
         return serviceInfoArray;
     }
 
     void saveFavoriteList(ServiceInfo[] serviceInfoArray) {
-        this.lc.log(14808325, "[TVStorage.saveMemoryList]");
+        this.lc.log(100000000, "[TVStorage.saveMemoryList]");
         MemoryListStorage memoryListStorage = new MemoryListStorage(this.storageAccess, this.lc);
         memoryListStorage.write(serviceInfoArray);
     }
 
     public void removeMemoryList() {
-        this.lc.log(-2137614336, "[TVStorage.removeMemoryList]");
+        this.lc.log(10000000, "[TVStorage.removeMemoryList]");
         MemoryListStorage memoryListStorage = new MemoryListStorage(this.storageAccess, this.lc);
         memoryListStorage.write(memoryListStorage.createEmptyMemoryList());
     }

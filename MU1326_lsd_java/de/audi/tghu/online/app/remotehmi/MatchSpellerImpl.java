@@ -3,12 +3,11 @@
  */
 package de.audi.tghu.online.app.remotehmi;
 
-import de.audi.tghu.online.app.remotehmi.MatchSpellerImpl$SpellerState;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 public class MatchSpellerImpl {
-    MatchSpellerImpl$SpellerState currentState;
+    SpellerState currentState;
     StringBuffer curPrefix;
     String[] values;
     boolean changed = true;
@@ -31,16 +30,16 @@ public class MatchSpellerImpl {
         this.changed = true;
     }
 
-    public MatchSpellerImpl$SpellerState getCurrentState() {
+    public SpellerState getCurrentState() {
         int n;
         if (this.currentState != null && !this.changed) {
             return this.currentState;
         }
         if (this.currentState == null) {
-            this.currentState = new MatchSpellerImpl$SpellerState();
+            this.currentState = new SpellerState();
         }
-        MatchSpellerImpl$SpellerState.access$002(this.currentState, this.getNextChars());
-        MatchSpellerImpl$SpellerState.access$102(this.currentState, this.curPrefix.toString());
+        this.currentState.validChars = this.getNextChars();
+        this.currentState.uniqueChars = this.curPrefix.toString();
         String string = this.curPrefix.toString();
         ArrayList arrayList = new ArrayList(3);
         ArrayList arrayList2 = new ArrayList(3);
@@ -53,12 +52,12 @@ public class MatchSpellerImpl {
             arrayList.add(this.values[n]);
             arrayList2.add(Boolean.FALSE);
         }
-        MatchSpellerImpl$SpellerState.access$202(this.currentState, (String[])arrayList.toArray(new String[arrayList.size()]));
-        MatchSpellerImpl$SpellerState.access$302(this.currentState, new boolean[arrayList2.size()]);
-        for (n = 0; n < MatchSpellerImpl$SpellerState.access$300(this.currentState).length; ++n) {
-            MatchSpellerImpl$SpellerState.access$300((MatchSpellerImpl$SpellerState)this.currentState)[n] = (Boolean)arrayList2.get(n);
+        SpellerState.access$202(this.currentState, (String[])arrayList.toArray(new String[arrayList.size()]));
+        SpellerState.access$302(this.currentState, new boolean[arrayList2.size()]);
+        for (n = 0; n < this.currentState.valueListToRefine.length; ++n) {
+            ((SpellerState)this.currentState).valueListToRefine[n] = (Boolean)arrayList2.get(n);
         }
-        MatchSpellerImpl$SpellerState.access$402(this.currentState, Arrays.binarySearch(this.values, MatchSpellerImpl$SpellerState.access$100(this.currentState)) > -1);
+        this.currentState.fullMatch = Arrays.binarySearch(this.values, this.currentState.uniqueChars) > -1;
         this.changed = false;
         return this.currentState;
     }
@@ -123,6 +122,44 @@ public class MatchSpellerImpl {
             stringBuffer.setLength(0);
             if (this.getNextChars(stringBuffer) != n || stringBuffer.length() != 1) break;
             this.curPrefix.deleteCharAt(this.curPrefix.length() - 1);
+        }
+    }
+
+    public static class SpellerState {
+        private String uniqueChars;
+        private String validChars;
+        private String[] valueList;
+        private boolean[] valueListToRefine;
+        private boolean fullMatch = false;
+
+        public boolean isFullMatch() {
+            return this.fullMatch;
+        }
+
+        public String getUniqueChars() {
+            return this.uniqueChars;
+        }
+
+        public String getValidChars() {
+            return this.validChars;
+        }
+
+        public String[] getValueList() {
+            return this.valueList;
+        }
+
+        public boolean[] getValueListToRefine() {
+            return this.valueListToRefine;
+        }
+
+        static /* synthetic */ String[] access$202(SpellerState spellerState, String[] stringArray) {
+            spellerState.valueList = stringArray;
+            return stringArray;
+        }
+
+        static /* synthetic */ boolean[] access$302(SpellerState spellerState, boolean[] blArray) {
+            spellerState.valueListToRefine = blArray;
+            return blArray;
         }
     }
 }

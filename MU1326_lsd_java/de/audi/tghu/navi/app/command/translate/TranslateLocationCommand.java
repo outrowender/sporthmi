@@ -18,10 +18,8 @@ extends TranslateRouteCommand {
         super(navLocation == null ? null : TranslateLocationCommand.constructRouteToTranslate(navLocation));
     }
 
-    public abstract CommandList handleTranslatedLocation(NavLocation navLocation) {
-    }
+    public abstract CommandList handleTranslatedLocation(NavLocation var1);
 
-    @Override
     public void translateRouteResult(Route route) {
         if (this.handleTranslatedRoute(route)) {
             this.getCommandList().commandFinishedWithPostSequence(this.handleTranslatedLocation(this.getTranslatedLocation()));

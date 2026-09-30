@@ -15,10 +15,9 @@ extends FormatAddressAsiaNativeEvo {
         super(navigationEnv);
     }
 
-    @Override
     protected void formatStreet(LocationFormattingRequest locationFormattingRequest, LocationFormattingResponse locationFormattingResponse) {
         if (this.logChannel.isDebug2()) {
-            this.logChannel.log(14808325, "%1#formatStreet House number is empty = %2", (Object)this.CLASS_NAME, (Object)Boolean.toString(locationFormattingRequest.houseNumber.isEmpty()));
+            this.logChannel.log(100000000, "%1#formatStreet House number is empty = %2", (Object)this.CLASS_NAME, (Object)Boolean.toString(locationFormattingRequest.houseNumber.isEmpty()));
         }
         if (locationFormattingRequest.houseNumber.isEmpty()) {
             if (!locationFormattingRequest.cityPart.isEmpty()) {
@@ -39,7 +38,6 @@ extends FormatAddressAsiaNativeEvo {
         }
     }
 
-    @Override
     protected void formatDefaultTwoLines(LocationFormattingRequest locationFormattingRequest, LocationFormattingResponse locationFormattingResponse) {
         if (!locationFormattingRequest.cityPart.isEmpty()) {
             locationFormattingResponse.appendToFirstLine(locationFormattingRequest.cityPart);
@@ -62,7 +60,6 @@ extends FormatAddressAsiaNativeEvo {
         }
     }
 
-    @Override
     protected void formatFullAddressInformationForSecondLine(LocationFormattingRequest locationFormattingRequest, LocationFormattingResponse locationFormattingResponse) {
         this.formatThreeLevelCityForSecondLine(locationFormattingRequest, locationFormattingResponse);
         if (!(locationFormattingRequest.cityPart.isEmpty() && locationFormattingRequest.street.isEmpty() && locationFormattingRequest.houseNumber.isEmpty())) {
@@ -94,7 +91,6 @@ extends FormatAddressAsiaNativeEvo {
         }
     }
 
-    @Override
     protected void formatThreeLevelCityForSecondLine(LocationFormattingRequest locationFormattingRequest, LocationFormattingResponse locationFormattingResponse) {
         if (!locationFormattingRequest.state.isEmpty()) {
             locationFormattingResponse.appendToSecondLine(locationFormattingRequest.state);

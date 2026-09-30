@@ -24,8 +24,8 @@ import org.dsi.ifc.navigation.PosPosition;
 
 public class PreviewMapStateNavLocations
 extends PreviewMapStateAbstract {
-    private static final int BUTTON_DETAILS_HIDE;
-    private static final int BUTTON_DETAILS_SHOW;
+    private static final int BUTTON_DETAILS_HIDE = 0;
+    private static final int BUTTON_DETAILS_SHOW = 1;
     protected NavLocation[] navLocations;
     protected boolean forSdsShowNumberedMapPins;
     protected boolean forTourShowNumberedMapPins;
@@ -59,9 +59,8 @@ extends PreviewMapStateAbstract {
         this.urlOnlineGoogleEarthMapPoi = string;
     }
 
-    @Override
     public void applyToScreenDetail() {
-        this.logger.log(-2137614336, "PreviewMapStateNavLocations#applyToScreenDetail()");
+        this.logger.log(10000000, "PreviewMapStateNavLocations#applyToScreenDetail()");
         if (this.navLocations == null || this.navLocations.length == 0) {
             this.logger.log(10000, "PreviewMapStateNavLocations#applyToScreenDetail() no nav location given");
             return;
@@ -70,7 +69,6 @@ extends PreviewMapStateAbstract {
         this.applyToScreenDetailNavLocations();
     }
 
-    @Override
     public void applyToScreenDetailModels() {
         if (this.navLocations == null || this.navLocations.length == 0) {
             this.logger.log(10000, "PreviewMapStateNavLocations#applyToScreenDetailModels() no nav location given");
@@ -148,9 +146,8 @@ extends PreviewMapStateAbstract {
         abstractMap.getGuiInterface().showPreviewMap(true);
     }
 
-    @Override
     public void applyToScreenFullMap() {
-        this.logger.log(-2137614336, "PreviewMapStateNavLocations#applyToScreenFullMap()");
+        this.logger.log(10000000, "PreviewMapStateNavLocations#applyToScreenFullMap()");
         if (this.navLocations == null || this.navLocations.length == 0) {
             this.logger.log(10000, "PreviewMapStateNavLocations#applyToScreenFullMap() no navLocations given");
             return;
@@ -164,7 +161,7 @@ extends PreviewMapStateAbstract {
 
     private void applyToScreenFullMapNavLocationSingle() {
         MapItemSelectionAction mapItemSelectionAction;
-        this.logger.log(-2137614336, "PreviewMapStateNavLocations#applyToScreenFullMapNavLocationSingle()");
+        this.logger.log(10000000, "PreviewMapStateNavLocations#applyToScreenFullMapNavLocationSingle()");
         AbstractMap abstractMap = this.getMapForFullScreen();
         if (this.getPreviewMapHandler().isPreviewMapPositionRefreshAllowed()) {
             abstractMap.getMVRequest().setLocationByLocation(this.navLocations[0]);
@@ -175,7 +172,7 @@ extends PreviewMapStateAbstract {
     }
 
     private void applyToScreenFullMapNavLocationsMultiple() {
-        this.logger.log(-2137614336, "PreviewMapStateNavLocations#applyToScreenFullMapNavLocationsMultiple()");
+        this.logger.log(10000000, "PreviewMapStateNavLocations#applyToScreenFullMapNavLocationsMultiple()");
         AbstractMap abstractMap = this.getMapForFullScreen();
         PosPosition posPosition = abstractMap.getNaviInterface().getVehicle().getPosition();
         int n = posPosition.getLatitude();
@@ -183,7 +180,7 @@ extends PreviewMapStateAbstract {
         int n3 = posPosition.getLongitude();
         int n4 = posPosition.getLongitude();
         for (int i2 = 0; i2 < this.navLocations.length; ++i2) {
-            this.logger.log(-2137614336, "PreviewMapStateNavLocations#showLastLocations() - [%1] lat=%2, long=%3", (long)i2, (long)this.navLocations[i2].getLatitude(), (long)this.navLocations[i2].getLongitude());
+            this.logger.log(10000000, "PreviewMapStateNavLocations#showLastLocations() - [%1] lat=%2, long=%3", (long)i2, (long)this.navLocations[i2].getLatitude(), (long)this.navLocations[i2].getLongitude());
             n = Math.min(n, this.navLocations[i2].getLatitude());
             n2 = Math.max(n2, this.navLocations[i2].getLatitude());
             n3 = Math.min(n3, this.navLocations[i2].getLongitude());
@@ -191,7 +188,7 @@ extends PreviewMapStateAbstract {
         }
         NavLocation navLocation = Util.getLocationFromGeoPos(n3, n);
         NavLocation navLocation2 = Util.getLocationFromGeoPos(n4, n2);
-        int n5 = this.getMapForFullScreen().getZoomHandler().getZoomListIndex(51266);
+        int n5 = this.getMapForFullScreen().getZoomHandler().getZoomListIndex(100.0f);
         MapPin[] mapPinArray = new MapPin[this.navLocations.length];
         for (int i3 = 0; i3 < mapPinArray.length; ++i3) {
             int n6 = PreviewMapUtils.getMapStyleType(this.navLocations.length, i3, this.forSdsShowNumberedMapPins, this.forTourShowNumberedMapPins);
@@ -207,7 +204,6 @@ extends PreviewMapStateAbstract {
         return null;
     }
 
-    @Override
     public NavLocation getNavLocationForEnterInMap() {
         if (this.navLocations != null && this.navLocations.length == 1) {
             return this.navLocations[0];
@@ -216,16 +212,14 @@ extends PreviewMapStateAbstract {
     }
 
     public String toString() {
-        return new StringBuffer().append("PreviewMapStateNavLocations() ").append(PreviewMapUtils.toStringNavLocations(this.navLocations)).toString();
+        return "PreviewMapStateNavLocations() " + PreviewMapUtils.toStringNavLocations(this.navLocations);
     }
 
-    @Override
     public void releaseApplyToScreenDetail() {
         super.releaseApplyToScreenDetail();
         this.getPreviewMapHandler().getPreviewMapModelDetailView().setValue(0);
     }
 
-    @Override
     public void releaseApplyToScreenFullMap() {
         super.releaseApplyToScreenFullMap();
         this.getPreviewMapHandler().getPreviewMapModelDetailView().setValue(0);

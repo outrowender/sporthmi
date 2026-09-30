@@ -39,15 +39,14 @@ implements MsgListener {
     }
 
     public void addMessageListener(MessageListener messageListener) {
-        this.logger.main.log(-2137614336, "[TunerMessageListener.addMessageListener] %1", (Object)messageListener);
+        this.logger.main.log(10000000, "[TunerMessageListener.addMessageListener] %1", (Object)messageListener);
         this.messageListeners.add(messageListener);
     }
 
-    @Override
     public void processMsg(int n) {
         switch (n) {
             case 29: {
-                this.logger.main.log(1078071040, "Resetting Tuner to default values.");
+                this.logger.main.log(1000000, "Resetting Tuner to default values.");
                 TunerProxyManager.getInstance().getDABTuner().resetToDefaultSettings();
                 TunerProxyManager.getInstance().getAmFmTuner().resetToDefaultSettings();
                 TunerProxyManager.getInstance().getSDARSTuner().resetToDefaultSettings();
@@ -79,17 +78,17 @@ implements MsgListener {
                 break;
             }
             case 43: {
-                this.logger.main.log(-1601830656, "[TunerMessageListener.processMessage] DiagnosisSession active");
+                this.logger.main.log(100000, "[TunerMessageListener.processMessage] DiagnosisSession active");
                 this.basics.getStatus().setDiagnosisActive(true);
                 break;
             }
             case 44: {
-                this.logger.main.log(-1601830656, "[TunerMessageListener.processMessage] DiagnosisSession inactive");
+                this.logger.main.log(100000, "[TunerMessageListener.processMessage] DiagnosisSession inactive");
                 this.basics.getStatus().setDiagnosisActive(false);
                 break;
             }
             case 11: {
-                this.logger.main.log(1078071040, "[TunerMessageListener.processMessage] UNITS_CHANGED");
+                this.logger.main.log(1000000, "[TunerMessageListener.processMessage] UNITS_CHANGED");
                 for (int i3 = 0; i3 < this.messageListeners.size(); ++i3) {
                     try {
                         MessageListener messageListener = (MessageListener)this.messageListeners.get(i3);
@@ -103,12 +102,12 @@ implements MsgListener {
                 break;
             }
             case 80: {
-                this.logger.main.log(1078071040, "[TunerMessageListener.processMessage] DEBUG_INFO_DAB_ON");
+                this.logger.main.log(1000000, "[TunerMessageListener.processMessage] DEBUG_INFO_DAB_ON");
                 TunerProxyManager.getInstance().getDABTuner().switchDebugInfos(true);
                 break;
             }
             case 81: {
-                this.logger.main.log(1078071040, "[TunerMessageListener.processMessage] DEBUG_INFO_DAB_OFF");
+                this.logger.main.log(1000000, "[TunerMessageListener.processMessage] DEBUG_INFO_DAB_OFF");
                 TunerProxyManager.getInstance().getDABTuner().switchDebugInfos(false);
                 break;
             }

@@ -4,7 +4,6 @@
 package de.audi.tghu.online.app.onlinedest.commands;
 
 import de.audi.atip.interapp.NaviMyAudiImport;
-import de.audi.atip.interapp.NaviMyAudiImport$IMyAudiImportResultListener;
 import de.audi.atip.interapp.OnlineAdbEntry;
 import de.audi.atip.log.LogChannel;
 import de.audi.tghu.online.app.onlinedest.commands.AbstractOnlineDestinationCommand;
@@ -13,16 +12,15 @@ import org.dsi.ifc.online.PortalADBEntry;
 
 public class StoreAddressListInNavigation
 extends AbstractOnlineDestinationCommand {
-    private NaviMyAudiImport$IMyAudiImportResultListener callback;
+    private NaviMyAudiImport.IMyAudiImportResultListener callback;
 
-    public StoreAddressListInNavigation(LogChannel logChannel, NaviMyAudiImport$IMyAudiImportResultListener naviMyAudiImport$IMyAudiImportResultListener) {
+    public StoreAddressListInNavigation(LogChannel logChannel, NaviMyAudiImport.IMyAudiImportResultListener iMyAudiImportResultListener) {
         this.logger = logChannel;
-        this.callback = naviMyAudiImport$IMyAudiImportResultListener;
+        this.callback = iMyAudiImportResultListener;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(1078071040, "StoreAddressListInNavigation#execute()");
+        this.logger.log(1000000, "StoreAddressListInNavigation#execute()");
         NaviMyAudiImport naviMyAudiImport = this.getNaviMyAudiService();
         if (naviMyAudiImport == null) {
             this.logger.log(10000, "StoreAddressListInNavigation#execute(): no NaviMyAudiImport Service tracked!!");

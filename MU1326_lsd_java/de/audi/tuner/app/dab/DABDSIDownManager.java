@@ -56,7 +56,7 @@ public class DABDSIDownManager {
      * WARNING - Removed try catching itself - possible behaviour change.
      */
     public void setNotification(int[] nArray, DSIListener dSIListener) {
-        this.log.log(-2137614336, "[DABDSIDownManager.setNotification] %1", (Object)nArray);
+        this.log.log(10000000, "[DABDSIDownManager.setNotification] %1", (Object)nArray);
         SimpleIntObjectMap simpleIntObjectMap = this.notifications;
         synchronized (simpleIntObjectMap) {
             for (int i2 = 0; i2 < nArray.length; ++i2) {
@@ -70,7 +70,7 @@ public class DABDSIDownManager {
      * WARNING - Removed try catching itself - possible behaviour change.
      */
     public void clearNotification(int[] nArray, DSIListener dSIListener) {
-        this.log.log(-2137614336, "[DABDSIDownManager.clearNotification] %1", (Object)nArray);
+        this.log.log(10000000, "[DABDSIDownManager.clearNotification] %1", (Object)nArray);
         SimpleIntObjectMap simpleIntObjectMap = this.notifications;
         synchronized (simpleIntObjectMap) {
             for (int i2 = 0; i2 < nArray.length; ++i2) {
@@ -88,7 +88,7 @@ public class DABDSIDownManager {
         synchronized (simpleIntObjectMap) {
             DSIListener dSIListener = (DSIListener)this.notifications.get(n);
             if (dSIListener != null) {
-                this.log.log(-2137614336, "[DABDSIDownManager.reNotification] again for arrt %1", (long)n);
+                this.log.log(10000000, "[DABDSIDownManager.reNotification] again for arrt %1", (long)n);
                 this.dsi.setNotification(n, dSIListener);
             }
         }
@@ -96,7 +96,7 @@ public class DABDSIDownManager {
 
     public void selectStation(DabStation dabStation, int n, DabReceptionStatus dabReceptionStatus, int n2) {
         int n3;
-        this.log.log(-2137614336, "[DABDSIDownManager.selectStation] %1 Mode: %2", (Object)dabStation, (long)n);
+        this.log.log(10000000, "[DABDSIDownManager.selectStation] %1 Mode: %2", (Object)dabStation, (long)n);
         DabStation dabStation2 = new DabStation(dabStation);
         dabStation2.resetProgramData();
         DABDsiDownInfo[] dABDsiDownInfoArray = this.listeners;
@@ -135,13 +135,13 @@ public class DABDSIDownManager {
             buffer.append(" ensECC:").append(n3);
             buffer.append(" sCIDI:").append(n4);
             buffer.append(" frequency:").append(l2);
-            this.log.log(-2137614336, "[DABDSIDownManager.selectService] %1", (Object)buffer);
+            this.log.log(10000000, "[DABDSIDownManager.selectService] %1", (Object)buffer);
         }
         this.dsi.selectService(n, l, n2, n3, n4, n5, l2);
     }
 
     public void seekService(int n) {
-        this.log.log(-2137614336, "[DABDSIDownManager.seekService] mode %1", (long)n);
+        this.log.log(10000000, "[DABDSIDownManager.seekService] mode %1", (long)n);
         if (n != 4) {
             DABDsiDownInfo[] dABDsiDownInfoArray = this.listeners;
             for (int i2 = 0; i2 < dABDsiDownInfoArray.length; ++i2) {
@@ -152,51 +152,51 @@ public class DABDSIDownManager {
     }
 
     public void switchLinking(int n) {
-        this.log.log(-2137614336, "[DABDSIDownManager.switchLinking] %1", (long)n);
+        this.log.log(10000000, "[DABDSIDownManager.switchLinking] %1", (long)n);
         this.dsi.switchLinking(n);
     }
 
     public void switchLinkingDeviceUsage(int n) {
-        this.log.log(-2137614336, "[DABDSIDownManager.switchLinkingDeviceUsage] %1", (long)n);
+        this.log.log(10000000, "[DABDSIDownManager.switchLinkingDeviceUsage] %1", (long)n);
         this.dsi.switchLinkingDeviceUsage(n);
     }
 
     public void switchFrequencyTable(int n) {
-        this.log.log(-2137614336, "[DABDSIDownManager.switchFrequencyTable] %1", (long)n);
+        this.log.log(10000000, "[DABDSIDownManager.switchFrequencyTable] %1", (long)n);
         this.dsi.switchFrequencyTable(n);
     }
 
     public void reset(int n) {
         if (Utilities.isStd()) {
-            this.log.log(-2137614336, "[DABDSIDownManager.reset] ignored at Std platform");
+            this.log.log(10000000, "[DABDSIDownManager.reset] ignored at Std platform");
             return;
         }
-        this.log.log(-2137614336, "[DABDSIDownManager.reset] %1", (long)n);
+        this.log.log(10000000, "[DABDSIDownManager.reset] %1", (long)n);
         this.dsi.reset(n);
     }
 
     public void forceLMUpdate(int n) {
-        this.log.log(-2137614336, "[DABDSIDownManager.forceLMUpdate] %1", (long)n);
+        this.log.log(10000000, "[DABDSIDownManager.forceLMUpdate] %1", (long)n);
         this.dsi.forceLMUpdate(n);
     }
 
     public void enableRadioTextPlus(int[] nArray) {
-        this.log.log(-2137614336, "[DABDSIDownManager.enableRadioTextPlus] %1", (Object)nArray);
+        this.log.log(10000000, "[DABDSIDownManager.enableRadioTextPlus] %1", (Object)nArray);
         this.dsi.enableRadioTextPlus(nArray);
     }
 
     public void setEpgMode(int n) {
-        this.log.log(-2137614336, "[DABDSIDownManager.setEpgMode] %1", (long)n);
+        this.log.log(10000000, "[DABDSIDownManager.setEpgMode] %1", (long)n);
         this.dsi.setEpgMode(n);
     }
 
     public void setSlideShowMode(int n) {
-        this.log.log(-2137614336, "[DABDSIDownManager.setSlideShowMode] %1", (long)n);
+        this.log.log(10000000, "[DABDSIDownManager.setSlideShowMode] %1", (long)n);
         this.dsi.setSlideShowMode(n);
     }
 
     public void getEPGDetailData(DabStation dabStation) {
-        this.log.log(-2137614336, "[DABDSIDownManager.getEPGDetailData] %1", (Object)dabStation);
+        this.log.log(10000000, "[DABDSIDownManager.getEPGDetailData] %1", (Object)dabStation);
         this.dsi.getEPGDetailData(dabStation.ensemble.ensID, dabStation.ensemble.ensECC, dabStation.service.sID, dabStation.component.sCIDI);
     }
 }

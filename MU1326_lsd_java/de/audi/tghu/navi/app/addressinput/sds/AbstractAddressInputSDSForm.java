@@ -17,12 +17,11 @@ import de.audi.tghu.navi.app.addressinput.IAddressInputFormModelAccessHelper;
 import de.audi.tghu.navi.app.addressinput.asia.DisambiguatedNavLocation;
 import de.audi.tghu.navi.app.addressinput.commands.LISetCurrentLDCommand;
 import de.audi.tghu.navi.app.addressinput.commands.ReplySDSTriggerAddressInputReturnCommand;
-import de.audi.tghu.navi.app.addressinput.sds.AbstractAddressInputSDSForm$1;
-import de.audi.tghu.navi.app.addressinput.sds.AbstractAddressInputSDSForm$2;
-import de.audi.tghu.navi.app.addressinput.sds.AbstractAddressInputSDSForm$3;
 import de.audi.tghu.navi.app.addressinput.sds.AddressInputSDSSequence;
 import de.audi.tghu.navi.app.addressinput.sds.IAddressInputSDSForm;
 import de.audi.tghu.navi.app.command.LIGetStateCommand;
+import de.audi.tghu.navi.app.command.LISetHistoryCommand;
+import de.audi.tghu.navi.app.command.NavCommand;
 import de.audi.tghu.navi.app.guidance.Vehicle;
 import de.audi.tghu.navi.app.li.SpellerStack;
 import de.audi.tghu.navi.app.li.sc.SpellerContextManager;
@@ -32,7 +31,7 @@ import org.dsi.ifc.global.NavLocation;
 
 public abstract class AbstractAddressInputSDSForm
 implements IAddressInputSDSForm {
-    protected final String CLASS_NAME = Util.getClassNameFromPackageName(super.getClass());
+    protected final String CLASS_NAME = Util.getClassNameFromPackageName(this.getClass());
     protected final IAddressInputForm addressInputService;
     protected final LogChannel logChannel;
     protected final INavigationInputModeManager inputModeManager;
@@ -55,9 +54,8 @@ implements IAddressInputSDSForm {
         this.addressInputSDSSequence = addressInputSDSSequence;
     }
 
-    @Override
     public void triggerAddressInputReturn(int n, NaviServiceListener naviServiceListener) {
-        this.logChannel.log(-2137614336, "%1#triggerAddressInputReturn() - returnCode = %2", (Object)this.CLASS_NAME, (long)n);
+        this.logChannel.log(10000000, "%1#triggerAddressInputReturn() - returnCode = %2", (Object)this.CLASS_NAME, (long)n);
         if (null == naviServiceListener) {
             this.logChannel.log(10000, "%1#triggerAddressInputReturn() - naviServiceListener is null can't continue and cant reply to SDS", (Object)this.CLASS_NAME);
             return;
@@ -67,16 +65,21 @@ implements IAddressInputSDSForm {
         this.addressInputService.destAddressInputHKReturn(0, n, replySDSTriggerAddressInputReturnCommand2, replySDSTriggerAddressInputReturnCommand);
     }
 
-    @Override
-    public void triggerAddressInputReturn(int n, int n2, NaviServiceListener naviServiceListener) {
-        this.logChannel.log(-2137614336, "%1#triggerAddressInputReturn() - returnCode = %2", (Object)this.CLASS_NAME, (long)n);
+    public void triggerAddressInputReturn(int n, final int n2, final NaviServiceListener naviServiceListener) {
+        this.logChannel.log(10000000, "%1#triggerAddressInputReturn() - returnCode = %2", (Object)this.CLASS_NAME, (long)n);
         if (null == naviServiceListener) {
             this.logChannel.log(10000, "%1#triggerAddressInputReturn() - naviServiceListener is null can't continue and cant reply to SDS", (Object)this.CLASS_NAME);
             return;
         }
         ReplySDSTriggerAddressInputReturnCommand replySDSTriggerAddressInputReturnCommand = new ReplySDSTriggerAddressInputReturnCommand(naviServiceListener, 1);
-        AbstractAddressInputSDSForm$1 abstractAddressInputSDSForm$1 = new AbstractAddressInputSDSForm$1(this, "Adjust Cursorp\u00fcosition and add replay for SDS", n2, naviServiceListener);
-        this.addressInputService.destAddressInputHKReturn(0, n, abstractAddressInputSDSForm$1, replySDSTriggerAddressInputReturnCommand);
+        NavCommand navCommand = new NavCommand("Adjust Cursorp\u00fcosition and add replay for SDS"){
+
+            public void execute() {
+                AbstractAddressInputSDSForm.this.nextDestinationInput(n2);
+                this.getCommandList().commandFinishedWithPostCommand(new ReplySDSTriggerAddressInputReturnCommand(naviServiceListener, 0));
+            }
+        };
+        this.addressInputService.destAddressInputHKReturn(0, n, navCommand, replySDSTriggerAddressInputReturnCommand);
     }
 
     protected void updateMapCodeSDSDisambiguatedPickList(DisambiguatedNavLocation[] disambiguatedNavLocationArray) {
@@ -87,22 +90,33 @@ implements IAddressInputSDSForm {
             baseListModelApp2.append(SDSNaviPicklistRowCreator.createPickListRowByIndexAndNameForMapCode(i2, disambiguatedNavLocation.getLocation().street, disambiguatedNavLocation.getType()));
         }
         baseListModelApp.update(baseListModelApp2);
-        this.logChannel.log(-2137614336, "%1#updateSDSPickList - Pick List Length is %2", (Object)this.CLASS_NAME, (long)baseListModelApp.getLength());
+        this.logChannel.log(10000000, "%1#updateSDSPickList - Pick List Length is %2", (Object)this.CLASS_NAME, (long)baseListModelApp.getLength());
     }
 
-    @Override
-    public void synchronizeSpeechCountryWithCurrentLD(NaviServiceListener naviServiceListener) {
+    public void synchronizeSpeechCountryWithCurrentLD(final NaviServiceListener naviServiceListener) {
         boolean bl = this.speechCountryNeedsSync();
         if (bl) {
-            this.logChannel.log(1078071040, "%1#synchronizeSpeechCountryWithCurrentLD() - a sync is necessary, set currentLD on Southside", (Object)this.CLASS_NAME);
+            this.logChannel.log(1000000, "%1#synchronizeSpeechCountryWithCurrentLD() - a sync is necessary, set currentLD on Southside", (Object)this.CLASS_NAME);
             CommandList commandList = this.commandListFactory.createCommandList();
             commandList.add(new LIGetStateCommand(SpellerStack.getInstance(), SpellerContextManager.getSpellerContext(116)));
             commandList.add(new LISetCurrentLDCommand(this.getSynchronisationLocation()));
-            commandList.add(new AbstractAddressInputSDSForm$2(this, "AbstractAddressInputSDSForm#synchronizeSpeechCountryWithCurrentLD() Set correct Country for City History "));
-            commandList.add(new AbstractAddressInputSDSForm$3(this, "AbstractAddressInputSDSForm#synchronizeSpeechCountryWithCurrentLD() - reply to SDS", naviServiceListener));
-            commandList.execute(new StringBuffer().append(this.CLASS_NAME).append("#synchronizeSpeechCountryWithCurrentLD").toString());
+            commandList.add(new NavCommand("AbstractAddressInputSDSForm#synchronizeSpeechCountryWithCurrentLD() Set correct Country for City History "){
+
+                public void execute() {
+                    this.getCommandList().commandFinishedWithPostCommand(new LISetHistoryCommand(this.dsiResponseContainer.getLiCurrentLD()));
+                }
+            });
+            commandList.add(new NavCommand("AbstractAddressInputSDSForm#synchronizeSpeechCountryWithCurrentLD() - reply to SDS"){
+
+                public void execute() {
+                    AbstractAddressInputSDSForm.this.logChannel.log(1000000, "%1#synchronizeSpeechCountryWithCurrentLD() - sync is done", (Object)this.CLASS_NAME);
+                    naviServiceListener.responseSynchronizeSpeechCountryWithCurrentLDResult((byte)0, true);
+                    this.getCommandList().commandFinished();
+                }
+            });
+            commandList.execute(this.CLASS_NAME + "#synchronizeSpeechCountryWithCurrentLD");
         } else {
-            this.logChannel.log(1078071040, "%1#synchronizeSpeechCountryWithCurrentLD() - no sync is necessary", (Object)this.CLASS_NAME);
+            this.logChannel.log(1000000, "%1#synchronizeSpeechCountryWithCurrentLD() - no sync is necessary", (Object)this.CLASS_NAME);
             naviServiceListener.responseSynchronizeSpeechCountryWithCurrentLDResult((byte)0, false);
         }
     }

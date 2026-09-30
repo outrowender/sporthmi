@@ -19,7 +19,7 @@ public class RMLDSIHandler {
         if (n == 0) {
             this.updateList(true);
         } else {
-            this.env.getRMLLogChannel().log(-2137614336, "RMLDSIHandler#windowChanged - reason = %1 ignored", (long)n);
+            this.env.getRMLLogChannel().log(10000000, "RMLDSIHandler#windowChanged - reason = %1 ignored", (long)n);
         }
     }
 
@@ -27,7 +27,7 @@ public class RMLDSIHandler {
         if (!this.checkRmlSequenceRegistered()) {
             return;
         }
-        this.env.getRMLLogChannel().log(-2137614336, "RMLDSIHandler#windowChanged - windowChanged(%1)", bl);
+        this.env.getRMLLogChannel().log(10000000, "RMLDSIHandler#windowChanged - windowChanged(%1)", bl);
         this.rmlSequence.windowChanged(bl);
     }
 
@@ -42,7 +42,7 @@ public class RMLDSIHandler {
         if (!this.checkRmlSequenceRegistered()) {
             return;
         }
-        this.env.getRMLLogChannel().log(-2137614336, "RMLDSIHandler#updateElementsTotal - total = %1, visible = %2, valid = %3", l, l2, (long)n);
+        this.env.getRMLLogChannel().log(10000000, "RMLDSIHandler#updateElementsTotal - total = %1, visible = %2, valid = %3", l, l2, (long)n);
         this.rmlSequence.updateElementsTotal(l);
     }
 

@@ -13,13 +13,12 @@ class RowSortAlgoGenre
 extends SortAlgoAlphabetically
 implements Comparator,
 Serializable {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = 4463002463855733570L;
 
     RowSortAlgoGenre(LanguageManager languageManager) {
         super(languageManager);
     }
 
-    @Override
     public int compare(Object object, Object object2) {
         int n = ((AbstractAmFmRow)object).getStation().ptyCode;
         int n2 = ((AbstractAmFmRow)object2).getStation().ptyCode;

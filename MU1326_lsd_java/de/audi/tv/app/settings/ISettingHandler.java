@@ -4,13 +4,10 @@
 package de.audi.tv.app.settings;
 
 public interface ISettingHandler {
-    default public void setAudioToggleButtonAvailability(boolean bl) {
-    }
+    public void setAudioToggleButtonAvailability(boolean var1);
 
-    default public void resetPasswordConfirmation() {
-    }
+    public void resetPasswordConfirmation();
 
-    default public void parentalRatingLeft() {
-    }
+    public void parentalRatingLeft();
 }
 

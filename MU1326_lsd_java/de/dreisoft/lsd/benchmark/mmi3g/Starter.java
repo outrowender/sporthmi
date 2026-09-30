@@ -24,9 +24,9 @@ public class Starter {
         LSD.main(stringArray);
         try {
             if (MMI3gBenchmarkSuite.TARGET == 2) {
-                Thread.sleep(0);
+                Thread.sleep(60000L);
             } else {
-                Thread.sleep(0);
+                Thread.sleep(30000L);
             }
         }
         catch (InterruptedException interruptedException) {

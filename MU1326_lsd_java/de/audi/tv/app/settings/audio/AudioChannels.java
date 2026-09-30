@@ -3,19 +3,21 @@
  */
 package de.audi.tv.app.settings.audio;
 
+import de.audi.atip.hmi.model.DefaultButtonListener;
 import de.audi.atip.hmi.model.list.BaseListModelApp;
+import de.audi.atip.hmi.model.list.DefaultBaseListModelListener;
+import de.audi.atip.hmi.model.list.EvoListRow;
+import de.audi.atip.hmi.model.list.SelectedItem;
 import de.audi.atip.hmi.modelaccess.ChoiceModelApp;
 import de.audi.tv.app.base.TVEnv;
 import de.audi.tv.app.dsi.DSITV;
 import de.audi.tv.app.settings.audio.AudioChannelRow;
-import de.audi.tv.app.settings.audio.AudioChannels$AudioFormatListListener;
-import de.audi.tv.app.settings.audio.AudioChannels$ToggleAudioListener;
 import de.audi.tv.app.settings.audio.AudioLanguageCodes;
 import org.dsi.ifc.tvtuner.AudioChannel;
 
 public class AudioChannels {
-    private static final int CHANNEL_DISABLED;
-    private static final int CHANNEL_ENABLED;
+    private static final int CHANNEL_DISABLED = 0;
+    private static final int CHANNEL_ENABLED = 1;
     private final BaseListModelApp listModel;
     private int currentlySelectedAudioChannelID = -1;
     private final TVEnv env;
@@ -27,9 +29,9 @@ public class AudioChannels {
     public AudioChannels(TVEnv tVEnv, DSITV dSITV) {
         this.env = tVEnv;
         this.dsi = dSITV;
-        this.listModel = tVEnv.getBaseListModel(1605117696);
-        this.listModel.setListener(new AudioChannels$AudioFormatListListener(this, null));
-        tVEnv.getButtonModel(-307484928).setButtonListener(new AudioChannels$ToggleAudioListener(this, null));
+        this.listModel = tVEnv.getBaseListModel(2600031);
+        this.listModel.setListener(new AudioFormatListListener());
+        tVEnv.getButtonModel(2600173).setButtonListener(new ToggleAudioListener());
         this.updateAudioToggleButtonStatus();
     }
 
@@ -41,7 +43,7 @@ public class AudioChannels {
      * WARNING - Removed try catching itself - possible behaviour change.
      */
     public void updateActiveAudioChannel(int n) {
-        this.env.lcMain.log(-2137614336, "[AudioChannels.updateActiveAudioChannel] channelID:%1", (long)n);
+        this.env.lcMain.log(10000000, "[AudioChannels.updateActiveAudioChannel] channelID:%1", (long)n);
         Object object = this.mutex;
         synchronized (object) {
             this.currentlySelectedAudioChannelID = n;
@@ -82,13 +84,13 @@ public class AudioChannels {
     public void update(AudioChannel[] audioChannelArray) {
         if (this.env.lcMain.isDebug()) {
             for (int i2 = 0; i2 < audioChannelArray.length; ++i2) {
-                this.env.lcMain.log(-2137614336, "[AudioChannels.update] [%2] %1", (Object)audioChannelArray[i2], (long)i2);
+                this.env.lcMain.log(10000000, "[AudioChannels.update] [%2] %1", (Object)audioChannelArray[i2], (long)i2);
             }
         }
         Object object = this.mutex;
         synchronized (object) {
             this.hasMultipleAudioChannels = audioChannelArray.length > 1;
-            this.env.getChoiceModel(-72603904).setValue(audioChannelArray.length);
+            this.env.getChoiceModel(2600187).setValue(audioChannelArray.length);
             this.updateAudioToggleButtonStatus();
             BaseListModelApp baseListModelApp = this.listModel.getEmptyCopy();
             int n = -1;
@@ -103,7 +105,7 @@ public class AudioChannels {
                 }
                 int n3 = AudioLanguageCodes.getTextID(audioChannel);
                 if (n3 == 0) {
-                    this.env.lcMain.log(-1601830656, "[AudioChannels.update] No text ID found for %1", (Object)audioChannel);
+                    this.env.lcMain.log(100000, "[AudioChannels.update] No text ID found for %1", (Object)audioChannel);
                 }
                 AudioChannelRow audioChannelRow = new AudioChannelRow(audioChannel, n3, n2);
                 baseListModelApp.append(audioChannelRow);
@@ -115,7 +117,7 @@ public class AudioChannels {
     }
 
     private void updatePreview(int n) {
-        ChoiceModelApp choiceModelApp = this.env.getChoiceModel(-1532221696);
+        ChoiceModelApp choiceModelApp = this.env.getChoiceModel(2600100);
         if (n == -1) {
             choiceModelApp.setValue(0);
         } else {
@@ -124,23 +126,49 @@ public class AudioChannels {
     }
 
     private final void updateAudioToggleButtonStatus() {
-        this.env.getButtonModel(-307484928).setStatus(this.showAudioToggleButton ? (this.hasMultipleAudioChannels ? 1 : 3) : 0);
+        this.env.getButtonModel(2600173).setStatus(this.showAudioToggleButton ? (this.hasMultipleAudioChannels ? 1 : 3) : 0);
     }
 
-    static /* synthetic */ TVEnv access$200(AudioChannels audioChannels) {
-        return audioChannels.env;
+    private class ToggleAudioListener
+    extends DefaultButtonListener {
+        private ToggleAudioListener() {
+        }
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void keyPressed(int n, int n2, int n3) {
+            ((AudioChannels)AudioChannels.this).env.lcHMI.log(10000000, "[AudioChannels.keyPressed] toggle audio channel");
+            int n4 = 0;
+            Object object = AudioChannels.this.mutex;
+            synchronized (object) {
+                SelectedItem selectedItem = AudioChannels.this.listModel.getSelected();
+                int n5 = AudioChannels.this.listModel.getLength();
+                if (selectedItem == null || n5 < 2) {
+                    return;
+                }
+                int n6 = selectedItem.getIndex() + 1;
+                if (n6 >= n5) {
+                    n6 = 0;
+                }
+                n4 = ((AudioChannelRow)((AudioChannels)AudioChannels.this).listModel.getRow((int)n6)).getAudioChannel().channelID;
+            }
+            AudioChannels.this.updateActiveAudioChannel(n4);
+            AudioChannels.this.dsi.setAudioChannel(n4);
+        }
     }
 
-    static /* synthetic */ DSITV access$300(AudioChannels audioChannels) {
-        return audioChannels.dsi;
-    }
+    private class AudioFormatListListener
+    extends DefaultBaseListModelListener {
+        private AudioFormatListListener() {
+        }
 
-    static /* synthetic */ BaseListModelApp access$400(AudioChannels audioChannels) {
-        return audioChannels.listModel;
-    }
-
-    static /* synthetic */ Object access$500(AudioChannels audioChannels) {
-        return audioChannels.mutex;
+        public void itemSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
+            ((AudioChannels)AudioChannels.this).env.lcHMI.log(10000000, "[AudioChannels.itemSelected] [%2] %1", (Object)((AudioChannelRow)evoListRow).getAudioChannel(), (long)n2);
+            AudioChannels.this.updateActiveAudioChannel(((AudioChannelRow)evoListRow).getAudioChannel().channelID);
+            AudioChannels.this.dsi.setAudioChannel(((AudioChannelRow)evoListRow).getAudioChannel().channelID);
+            AudioChannels.this.listModel.fireEvent(n4);
+        }
     }
 }
 

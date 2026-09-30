@@ -10,64 +10,44 @@ import org.dsi.ifc.base.DSIListener;
 import org.dsi.ifc.radio.DSIAMFMTuner;
 
 public interface IAmFmDsiDownManager {
-    default public void isOnPreset(int n, int n2, int n3, String string) {
-    }
+    public void isOnPreset(int var1, int var2, int var3, String var4);
 
-    default public void enableRadiotextPlus(int[] nArray) {
-    }
+    public void enableRadiotextPlus(int[] var1);
 
-    default public AMFMDsiUpInfo getDsiUpListener() {
-    }
+    public AMFMDsiUpInfo getDsiUpListener();
 
-    default public void register(RadioInfo radioInfo) {
-    }
+    public void register(RadioInfo var1);
 
-    default public void forceAMUpdate(int n) {
-    }
+    public void forceAMUpdate(int var1);
 
-    default public void switchAF(boolean bl) {
-    }
+    public void switchAF(boolean var1);
 
-    default public void switchREG(int n) {
-    }
+    public void switchREG(int var1);
 
-    default public void tuneStation(AMFMStation aMFMStation, boolean bl, boolean bl2, int n) {
-    }
+    public void tuneStation(AMFMStation var1, boolean var2, boolean var3, int var4);
 
-    default public void clearNotification(int[] nArray, DSIListener dSIListener) {
-    }
+    public void clearNotification(int[] var1, DSIListener var2);
 
-    default public void setNotification(int[] nArray, DSIListener dSIListener) {
-    }
+    public void setNotification(int[] var1, DSIListener var2);
 
-    default public void reNotification(int n) {
-    }
+    public void reNotification(int var1);
 
-    default public void switchRDSIgnore(boolean bl) {
-    }
+    public void switchRDSIgnore(boolean var1);
 
-    default public boolean isDsiFound() {
-    }
+    public boolean isDsiFound();
 
-    default public void reset(int n) {
-    }
+    public void reset(int var1);
 
-    default public void seekStation(int n) {
-    }
+    public void seekStation(int var1);
 
-    default public void switchLinkingDeviceUsage(int n) {
-    }
+    public void switchLinkingDeviceUsage(int var1);
 
-    default public void setDeviceService(DSIAMFMTuner dSIAMFMTuner) {
-    }
+    public void setDeviceService(DSIAMFMTuner var1);
 
-    default public void setERTPrefered(boolean bl) {
-    }
+    public void setERTPrefered(boolean var1);
 
-    default public void setERTDisplayable(boolean bl) {
-    }
+    public void setERTDisplayable(boolean var1);
 
-    default public void setModeHD(int n) {
-    }
+    public void setModeHD(int var1);
 }
 

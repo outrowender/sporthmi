@@ -9,7 +9,7 @@ import de.audi.atip.storage.IStorageAccess;
 public class PrivacyFeatureStorageAccess {
     private IStorageAccess storageAccess;
     private LogChannel log;
-    private static final boolean STORAGE_ACCESS_DEFAULT;
+    private static final boolean STORAGE_ACCESS_DEFAULT = true;
 
     public PrivacyFeatureStorageAccess(IStorageAccess iStorageAccess, LogChannel logChannel) {
         this.storageAccess = iStorageAccess;
@@ -17,13 +17,13 @@ public class PrivacyFeatureStorageAccess {
     }
 
     public void setStorageValue(boolean bl) {
-        this.log.log(1078071040, "PrivacyFeatureStorageAccess#setStorageValue: %1", bl);
+        this.log.log(1000000, "PrivacyFeatureStorageAccess#setStorageValue: %1", bl);
         this.storageAccess.setBoolean(1023, 42, bl);
     }
 
     public boolean isPrivacyFeatureAvailable() {
         boolean bl = this.storageAccess.getBoolean(1023, 42, true);
-        this.log.log(1078071040, "PrivacyFeatureStorageAccess#isPrivacyFeatureAvailable: %1", bl);
+        this.log.log(1000000, "PrivacyFeatureStorageAccess#isPrivacyFeatureAvailable: %1", bl);
         return bl;
     }
 }

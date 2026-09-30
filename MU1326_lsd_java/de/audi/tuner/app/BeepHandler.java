@@ -4,14 +4,13 @@
 package de.audi.tuner.app;
 
 import de.audi.tghu.waveplayer.SystemTonePlayer;
+import de.audi.tghu.waveplayer.WavePlayerListener;
 import de.audi.tuner.app.AudioInfo;
-import de.audi.tuner.app.BeepHandler$AudioListener;
-import de.audi.tuner.app.BeepHandler$MyWavePlayerListener;
 import de.audi.tuner.app.Logger;
 import de.audi.tuner.app.TunerAudioMgmt;
 
 public class BeepHandler {
-    final AudioInfo audioInfoListener = new BeepHandler$AudioListener(this, null);
+    final AudioInfo audioInfoListener = new AudioListener();
     private boolean systemToneRequested = false;
     private SystemTonePlayer systemTone;
     private final Logger logger;
@@ -24,10 +23,10 @@ public class BeepHandler {
 
     void registerSystemTonePlayer(SystemTonePlayer systemTonePlayer) {
         if (systemTonePlayer != null) {
-            this.logger.hmi.log(-2137614336, "register System Tone Player");
-            systemTonePlayer.setListener(new BeepHandler$MyWavePlayerListener(this, null));
+            this.logger.hmi.log(10000000, "register System Tone Player");
+            systemTonePlayer.setListener(new MyWavePlayerListener());
         } else {
-            this.logger.hmi.log(-2137614336, "unregister System Tone Player");
+            this.logger.hmi.log(10000000, "unregister System Tone Player");
         }
         this.systemTone = systemTonePlayer;
     }
@@ -61,20 +60,34 @@ public class BeepHandler {
         this.audio.releaseAudioChannel(120, 0);
     }
 
-    static /* synthetic */ boolean access$200(BeepHandler beepHandler) {
-        return beepHandler.systemToneRequested;
+    private class AudioListener
+    extends AudioInfo {
+        private AudioListener() {
+        }
+
+        public void handleFadedIn(int n) {
+            if (n == 120 && BeepHandler.this.systemToneRequested) {
+                ((BeepHandler)BeepHandler.this).logger.audio.log(1000000, "Audio for Tuner system tone connection %1 is audible.", (long)n);
+                BeepHandler.this.playBeep();
+            }
+        }
     }
 
-    static /* synthetic */ Logger access$300(BeepHandler beepHandler) {
-        return beepHandler.logger;
-    }
+    private class MyWavePlayerListener
+    implements WavePlayerListener {
+        private MyWavePlayerListener() {
+        }
 
-    static /* synthetic */ void access$400(BeepHandler beepHandler) {
-        beepHandler.playBeep();
-    }
+        public void state(int n) {
+            ((BeepHandler)BeepHandler.this).logger.hmi.log(10000000, "beepHandler state %1 ", (long)n);
+            if (n != 0) {
+                BeepHandler.this.releaseAudio();
+            }
+        }
 
-    static /* synthetic */ void access$500(BeepHandler beepHandler) {
-        beepHandler.releaseAudio();
+        public void playToneInfo(int n) {
+            ((BeepHandler)BeepHandler.this).logger.hmi.log(10000000, "beepHandler playTone %1 set.", (long)n);
+        }
     }
 }
 

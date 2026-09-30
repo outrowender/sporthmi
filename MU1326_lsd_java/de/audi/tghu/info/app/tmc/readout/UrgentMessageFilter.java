@@ -21,22 +21,22 @@ public class UrgentMessageFilter {
         this.logger = logChannel;
         this.shownMsgsMap = new HashMap(16);
         this.msgs = new ArrayList(16);
-        this.logger.log(-2137614336, "[UrgentMessageFilter#UrgentMessageFilter] Called.");
+        this.logger.log(10000000, "[UrgentMessageFilter#UrgentMessageFilter] Called.");
     }
 
     public void filterMessages(TmcMessage[] tmcMessageArray) {
-        this.logger.log(-2137614336, "[UrgentMessageFilter#filterMessages] Called, messages: %1", (long)tmcMessageArray.length);
+        this.logger.log(10000000, "[UrgentMessageFilter#filterMessages] Called, messages: %1", (long)tmcMessageArray.length);
         this.msgs.clear();
         for (int i2 = 0; i2 < tmcMessageArray.length; ++i2) {
             if (this.shownMsgsMap.get(new Long(tmcMessageArray[i2].getMessageID())) == null) {
                 if (this.logger.isDebug()) {
-                    this.logger.log(-2137614336, "[UrgentMessageFilter#filterMessages] Message was not shown yet, add to internal queue! Message: %1", (Object)TMCHelper.formatTmcMessageForDebugging(tmcMessageArray[i2]));
+                    this.logger.log(10000000, "[UrgentMessageFilter#filterMessages] Message was not shown yet, add to internal queue! Message: %1", (Object)TMCHelper.formatTmcMessageForDebugging(tmcMessageArray[i2]));
                 }
                 this.msgs.add(tmcMessageArray[i2]);
                 continue;
             }
             if (!this.logger.isDebug()) continue;
-            this.logger.log(-2137614336, "[UrgentMessageFilter#filterMessages] Message was already shown, ignore it! Message: %1", (Object)TMCHelper.formatTmcMessageForDebugging(tmcMessageArray[i2]));
+            this.logger.log(10000000, "[UrgentMessageFilter#filterMessages] Message was already shown, ignore it! Message: %1", (Object)TMCHelper.formatTmcMessageForDebugging(tmcMessageArray[i2]));
         }
         Set set = this.shownMsgsMap.keySet();
         Iterator iterator = set.iterator();
@@ -49,12 +49,12 @@ public class UrgentMessageFilter {
             }
             if (!bl) {
                 iterator.remove();
-                this.logger.log(-2137614336, "[UrgentMessageFilter#filterMessages] Message with ID '%1' removed from map which contains shown msgs.", (long)l);
+                this.logger.log(10000000, "[UrgentMessageFilter#filterMessages] Message with ID '%1' removed from map which contains shown msgs.", (long)l);
                 continue;
             }
             bl = false;
         }
-        this.logger.log(-2137614336, "[UrgentMessageFilter#filterMessages] Map containing shown messages is of size: %1", (long)this.shownMsgsMap.size());
+        this.logger.log(10000000, "[UrgentMessageFilter#filterMessages] Map containing shown messages is of size: %1", (long)this.shownMsgsMap.size());
     }
 
     public void setMessageAsShown(TmcMessage tmcMessage) {

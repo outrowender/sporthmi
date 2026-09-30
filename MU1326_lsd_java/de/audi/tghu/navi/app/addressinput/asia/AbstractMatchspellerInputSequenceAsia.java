@@ -33,19 +33,16 @@ implements IMatchspellerInputSequenceExt {
         this.addressInputForm = iAddressInputForm;
     }
 
-    @Override
     public void selectListElement(LIValueListElement lIValueListElement, boolean bl) {
         CommandList commandList = this.getSelectListElementCommandList(lIValueListElement, bl);
-        commandList.execute(new StringBuffer().append(this.CLASS_NAME).append("#selectListElement").toString());
+        commandList.execute(this.CLASS_NAME + "#selectListElement");
     }
 
-    @Override
     public void selectElementByIdentifier(String string) {
         CommandList commandList = this.getSelectElementByIdentifierCommandList(string);
-        commandList.execute(new StringBuffer().append(this.CLASS_NAME).append("#selectElementByIdentifier").toString());
+        commandList.execute(this.CLASS_NAME + "#selectElementByIdentifier");
     }
 
-    @Override
     public CommandList getSelectElementByIdentifierCommandList(String string) {
         CommandList commandList = this.commandListFactory.createCommandList();
         commandList.add(new LispSelectListItemByIdent(string));
@@ -56,7 +53,6 @@ implements IMatchspellerInputSequenceExt {
         return commandList;
     }
 
-    @Override
     public CommandList getSelectListElementCommandList(LIValueListElement lIValueListElement, boolean bl) {
         CommandList commandList = this.commandListFactory.createCommandList();
         this.addGetStateCommand(commandList, bl, lIValueListElement);
@@ -68,7 +64,6 @@ implements IMatchspellerInputSequenceExt {
         return commandList;
     }
 
-    @Override
     public CommandList createStartCommandList(boolean bl) {
         CommandList commandList = this.commandListFactory.createCommandList();
         this.addGetStateCommand(commandList, bl, null);
@@ -83,7 +78,6 @@ implements IMatchspellerInputSequenceExt {
         return commandList;
     }
 
-    protected abstract NavCommand getStartSpellerCommand() {
-    }
+    protected abstract NavCommand getStartSpellerCommand();
 }
 

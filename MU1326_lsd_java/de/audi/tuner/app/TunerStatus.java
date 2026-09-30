@@ -5,14 +5,13 @@ package de.audi.tuner.app;
 
 import de.audi.tuner.app.TunerModels;
 import de.audi.tuner.app.TunerProxyManager;
-import de.audi.tuner.app.TunerStatus$PowerEventListener;
-import de.audi.tuner.app.TunerStatus$TunerActionProxyListenerExt;
 import de.audi.tuner.app.ap.TunerActionProxyListener;
+import de.audi.tuner.ifc.IPowerEvent;
 import de.esolutions.fw.util.commons.Buffer;
 
 public class TunerStatus {
-    public final TunerStatus$PowerEventListener powerEventListener = new TunerStatus$PowerEventListener(this, null);
-    final TunerActionProxyListener actionProxyListener = new TunerStatus$TunerActionProxyListenerExt(this, null);
+    public final PowerEventListener powerEventListener = new PowerEventListener();
+    final TunerActionProxyListener actionProxyListener = new TunerActionProxyListenerExt();
     private int[] activeScreen = new int[8];
     private boolean[] audioFocus = new boolean[8];
     private boolean taVolumeAdjustmentActive = false;
@@ -276,12 +275,29 @@ public class TunerStatus {
         return this.porscheNameMode;
     }
 
-    static /* synthetic */ TunerModels access$200(TunerStatus tunerStatus) {
-        return tunerStatus.models;
+    private class PowerEventListener
+    implements IPowerEvent {
+        private PowerEventListener() {
+        }
+
+        public void notifyPowerEvent(int n, int n2) {
+            if (n2 < 8) {
+                ((TunerStatus)TunerStatus.this).powerStates[n2] = n;
+            }
+            if (n2 == 0) {
+                ((TunerStatus)TunerStatus.this).powerStates[7] = n;
+            }
+        }
     }
 
-    static /* synthetic */ int[] access$300(TunerStatus tunerStatus) {
-        return tunerStatus.powerStates;
+    private class TunerActionProxyListenerExt
+    extends TunerActionProxyListener {
+        private TunerActionProxyListenerExt() {
+        }
+
+        public void stationListEntered() {
+            TunerStatus.this.models.getChoiceModel(100316).setValue(TunerStatus.this.models.getActiveTuner());
+        }
     }
 }
 

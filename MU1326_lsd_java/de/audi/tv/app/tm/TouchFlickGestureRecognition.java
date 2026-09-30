@@ -4,13 +4,11 @@
 package de.audi.tv.app.tm;
 
 import de.audi.tv.app.tm.ITouchFlickGestureRecognitionListener;
-import de.audi.tv.app.tm.TouchFlickGestureRecognition$Clock;
-import de.audi.tv.app.tm.TouchFlickGestureRecognition$RealClock;
 
 public class TouchFlickGestureRecognition {
-    public static final int THRESHOLD_DISTANCE;
-    public static final int THRESHOLD_TIME;
-    public TouchFlickGestureRecognition$Clock clock;
+    public static final int THRESHOLD_DISTANCE = 80;
+    public static final int THRESHOLD_TIME = 250;
+    public Clock clock;
     private ITouchFlickGestureRecognitionListener listener;
     private boolean moving = false;
     private long startTime = 0L;
@@ -20,12 +18,12 @@ public class TouchFlickGestureRecognition {
     private int currY;
 
     public TouchFlickGestureRecognition(ITouchFlickGestureRecognitionListener iTouchFlickGestureRecognitionListener) {
-        this(iTouchFlickGestureRecognitionListener, new TouchFlickGestureRecognition$RealClock(null));
+        this(iTouchFlickGestureRecognitionListener, new RealClock());
     }
 
-    TouchFlickGestureRecognition(ITouchFlickGestureRecognitionListener iTouchFlickGestureRecognitionListener, TouchFlickGestureRecognition$Clock touchFlickGestureRecognition$Clock) {
+    TouchFlickGestureRecognition(ITouchFlickGestureRecognitionListener iTouchFlickGestureRecognitionListener, Clock clock) {
         this.listener = iTouchFlickGestureRecognitionListener;
-        this.clock = touchFlickGestureRecognition$Clock;
+        this.clock = clock;
     }
 
     public void startMove() {
@@ -37,7 +35,7 @@ public class TouchFlickGestureRecognition {
     }
 
     public void move(int n, int n2, int n3, int n4) {
-        if (!this.moving || this.clock.getTime() - this.startTime > 0) {
+        if (!this.moving || this.clock.getTime() - this.startTime > 250L) {
             this.startTime = this.clock.getTime();
             this.moving = true;
             this.startX = n;
@@ -53,7 +51,7 @@ public class TouchFlickGestureRecognition {
         int n = this.euclideanDistance(this.startX, this.startY, this.currX, this.currY);
         int n2 = this.currX - this.startX;
         int n3 = this.currY - this.startY;
-        if (l < 0 && n > 80) {
+        if (l < 250L && n > 80) {
             if (Math.abs(n2) > Math.abs(n3)) {
                 if (n2 > 0) {
                     this.listener.flickRight();
@@ -72,6 +70,20 @@ public class TouchFlickGestureRecognition {
 
     private int euclideanDistance(int n, int n2, int n3, int n4) {
         return (int)Math.sqrt(Math.pow(n - n3, 2.0) + Math.pow(n2 - n4, 2.0));
+    }
+
+    public static interface Clock {
+        public long getTime();
+    }
+
+    private static class RealClock
+    implements Clock {
+        private RealClock() {
+        }
+
+        public long getTime() {
+            return System.currentTimeMillis();
+        }
     }
 }
 

@@ -4,10 +4,8 @@
 package de.audi.tghu.navi.app.navobserver;
 
 public interface ICountryStateUpdatedObserver {
-    default public void countryUpdated(String string, String string2) {
-    }
+    public void countryUpdated(String var1, String var2);
 
-    default public void stateUpdated(String string, String string2) {
-    }
+    public void stateUpdated(String var1, String var2);
 }
 

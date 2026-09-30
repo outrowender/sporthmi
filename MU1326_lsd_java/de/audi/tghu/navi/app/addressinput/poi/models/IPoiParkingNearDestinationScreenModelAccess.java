@@ -16,7 +16,6 @@ IPoiScreenUpdateResultList,
 IPoiScreenRequestItems,
 IPoiScreenUnrequestItems,
 ISubstringSearchModelAccess {
-    default public void updateNavLocationForAirDistance(NavLocation navLocation) {
-    }
+    public void updateNavLocationForAirDistance(NavLocation var1);
 }
 

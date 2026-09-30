@@ -4,7 +4,6 @@
 package de.audi.tghu.navi.app.version;
 
 public interface INavVersionInfoButtonListModelAccess {
-    default public void update(String[] stringArray) {
-    }
+    public void update(String[] var1);
 }
 

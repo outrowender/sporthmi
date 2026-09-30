@@ -39,9 +39,9 @@ MsgListener {
     private OnlineServiceRegistrationDataContainer container;
     private boolean isLoginCancelable = true;
     public static final String[] WHITE_FILTER = new String[]{"service_dsi_onlinetraffic", "service_trafficlight", "dictation", "service_dsi_poi", "service_dsi_satellitemaps", "ebnav", "awnavicore", "service_dsi_operatorcall", "weatherinmaponlineservice", "service_dsi_destimport", "service_core", "hotspotwlan", "ncfstracker", "ncfsdownload", "UpdateOverTheAir", "online_metadata_service_app"};
-    public static final String APP_ID_CORE_SERVICES;
-    public static final String LOCHANNEL_ORS;
-    public static final String LOCHANNEL_ORS_CL;
+    public static final String APP_ID_CORE_SERVICES = "service_core";
+    public static final String LOCHANNEL_ORS = "App.Online.ORS";
+    public static final String LOCHANNEL_ORS_CL = "App.Online.ORS.CL";
     private final Object mutex = new Object();
     private final IFrameworkAccess framework;
     private T2AuthenticationService authenticationController;
@@ -54,24 +54,24 @@ MsgListener {
     public OnlineServiceRegistrationSubsystem(IFrameworkAccess iFrameworkAccess, AbstractOnlineActivator abstractOnlineActivator) {
         this.framework = iFrameworkAccess;
         this.activator = abstractOnlineActivator;
-        this.logCh = iFrameworkAccess.getLogChannel("App.Online.ORS");
-        this.logChCL = iFrameworkAccess.getLogChannel("App.Online.ORS.CL");
+        this.logCh = iFrameworkAccess.getLogChannel(LOCHANNEL_ORS);
+        this.logChCL = iFrameworkAccess.getLogChannel(LOCHANNEL_ORS_CL);
         this.init();
     }
 
     private void init() {
         this.container = new OnlineServiceRegistrationDataContainer(this);
-        this.cmdListMgr = new CommandListManager(super.getClass().getName(), this.framework, this.logChCL, null, null);
-        this.logCh.log(1078071040, "OnlineServiceRegistrationSubsystem#init container: %1, cmdListMgr: %2", (Object)this.container, (Object)this.cmdListMgr);
+        this.cmdListMgr = new CommandListManager(this.getClass().getName(), this.framework, this.logChCL, null, null);
+        this.logCh.log(1000000, "OnlineServiceRegistrationSubsystem#init container: %1, cmdListMgr: %2", (Object)this.container, (Object)this.cmdListMgr);
         this.defaultListener = new OnlineServiceRegistrationDefaultListener(this);
         this.authenticationController = new T2AuthenticationService(this.logCh, this);
         this.osrListener = new OnlineServiceRegistrationListener(this.logCh, this.cmdListMgr, this.defaultListener);
         this.cmdListMgr.start();
-        this.logCh.log(-1601830656, "OnlineServiceRegistrationSubsystem#init defaultListener: %1, authenticationController: %2, osrListener: %3", (Object)this.defaultListener, (Object)this.authenticationController, (Object)this.osrListener);
+        this.logCh.log(100000, "OnlineServiceRegistrationSubsystem#init defaultListener: %1, authenticationController: %2, osrListener: %3", (Object)this.defaultListener, (Object)this.authenticationController, (Object)this.osrListener);
     }
 
     public void setFactoryResetState(FactoryResetState factoryResetState) {
-        this.logCh.log(1078071040, "OnlineServiceRegistrationSubsystem#setFactoryResetState %1", (Object)factoryResetState);
+        this.logCh.log(1000000, "OnlineServiceRegistrationSubsystem#setFactoryResetState %1", (Object)factoryResetState);
         this.factoryReset = factoryResetState;
     }
 
@@ -83,7 +83,7 @@ MsgListener {
             oSRCommandList.add(new OSRSetNotificationCommand());
             oSRCommandList.add(new OSRGetOnlineApplicationListCommand(null));
             oSRCommandList.execute("OnlineServiceRegistrationSubsystem#SetNotificationsAndListAndStartServices");
-            this.logCh.log(-2137614336, "OnlineServiceRegistrationSubsystem#setDsi: core services available");
+            this.logCh.log(10000000, "OnlineServiceRegistrationSubsystem#setDsi: core services available");
             this.framework.getHmiServiceApp().getChoiceModel(2).setValue(1);
             this.activator.registerAuthenticationService(this.getAuthenticationController());
             if (this.activeLanguage != null) {
@@ -94,7 +94,7 @@ MsgListener {
                 this.sendPrivacyModeOnDsiRegistration = false;
             }
         } else {
-            this.logCh.log(-2137614336, "OnlineServiceRegistrationSubsystem#setDsi: core services not available");
+            this.logCh.log(10000000, "OnlineServiceRegistrationSubsystem#setDsi: core services not available");
             this.framework.getHmiServiceApp().getChoiceModel(2).setValue(0);
             this.dsi.clearNotification(this.getDSIListener());
             this.dsi = dSIOnlineServiceRegistration;
@@ -107,18 +107,18 @@ MsgListener {
      * WARNING - Removed try catching itself - possible behaviour change.
      */
     public void syncServices() {
-        this.logCh.log(-2137614336, "OnlineServiceRegistrationSubsystem#syncServices: Called.");
+        this.logCh.log(10000000, "OnlineServiceRegistrationSubsystem#syncServices: Called.");
         Object object = this.mutex;
         synchronized (object) {
             Iterator iterator = this.getContainer().getApplications().iterator();
             while (iterator.hasNext()) {
                 OnlineService onlineService = (OnlineService)iterator.next();
                 if (onlineService.getServiceRegistration() != null && onlineService.getOnlineApplication() == null) {
-                    this.logCh.log(-2137614336, "OnlineServiceRegistrationSubsystem#syncServices: stopping service %1", (Object)onlineService.getServiceRegistration());
+                    this.logCh.log(10000000, "OnlineServiceRegistrationSubsystem#syncServices: stopping service %1", (Object)onlineService.getServiceRegistration());
                     this.activator.unregisterOnlineApplicationService(onlineService);
                 }
                 if (onlineService.getServiceRegistration() != null || onlineService.getOnlineApplication() == null) continue;
-                this.logCh.log(-2137614336, "OnlineServiceRegistrationSubsystem#syncServices: starting service %1", (Object)onlineService.getOnlineApplication().getId());
+                this.logCh.log(10000000, "OnlineServiceRegistrationSubsystem#syncServices: starting service %1", (Object)onlineService.getOnlineApplication().getId());
                 this.activator.registerOnlineApplicationService(onlineService);
             }
         }
@@ -185,28 +185,26 @@ MsgListener {
         return this.licenseCollector;
     }
 
-    @Override
     public void setLanguage(String string) {
         if (this.dsi == null) {
             this.activeLanguage = string;
             return;
         }
-        this.logCh.log(1078071040, "OnlineServiceRegistrationSubsystem#setLanguage: %1. Updating CoreServices", (Object)string);
+        this.logCh.log(1000000, "OnlineServiceRegistrationSubsystem#setLanguage: %1. Updating CoreServices", (Object)string);
         OSRCommandList oSRCommandList = this.createCommandList();
         oSRCommandList.add(new OSRSetLanguageCommand(string));
         oSRCommandList.execute("orsSubsystem - setLanguage");
     }
 
-    @Override
     public void processMsg(int n) {
         if (n == 88) {
-            this.logCh.log(1078071040, "OnlineServiceRegistrationSubsystem#processMsg resetNavSettings received");
+            this.logCh.log(1000000, "OnlineServiceRegistrationSubsystem#processMsg resetNavSettings received");
             if (this.dsi == null) {
-                this.logCh.log(-1601830656, "OnlineServiceRegistrationSubsystem#processMsg no dsi. No Reset done!");
+                this.logCh.log(100000, "OnlineServiceRegistrationSubsystem#processMsg no dsi. No Reset done!");
                 return;
             }
             if (this.factoryReset == null) {
-                this.logCh.log(-1601830656, "OnlineServiceRegistrationSubsystem#processMsg no factory reset. No Reset done!");
+                this.logCh.log(100000, "OnlineServiceRegistrationSubsystem#processMsg no factory reset. No Reset done!");
                 return;
             }
             if (this.factoryReset.isFactoryResetAllowed()) {
@@ -226,10 +224,10 @@ MsgListener {
     }
 
     public void triggerPrivacyMode(boolean bl) {
-        this.logCh.log(1078071040, "OnlineServiceRegistrationSubsystem#triggerPrivacyMode");
+        this.logCh.log(1000000, "OnlineServiceRegistrationSubsystem#triggerPrivacyMode");
         this.privacyModeIsActive = bl;
         if (this.dsi == null) {
-            this.logCh.log(1078071040, "OnlineServiceRegistrationSubsystem#triggerPrivacyMode: Delayed, waiting for DSI registration.");
+            this.logCh.log(1000000, "OnlineServiceRegistrationSubsystem#triggerPrivacyMode: Delayed, waiting for DSI registration.");
             this.sendPrivacyModeOnDsiRegistration = true;
             return;
         }

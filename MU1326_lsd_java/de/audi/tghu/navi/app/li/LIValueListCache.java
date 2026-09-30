@@ -9,7 +9,7 @@ import org.dsi.ifc.navigation.LIValueList;
 import org.dsi.ifc.navigation.LIValueListElement;
 
 public class LIValueListCache {
-    private static final int PATCH_MAX_SIZE;
+    private static final int PATCH_MAX_SIZE = 50;
     private LogChannel logChannel;
     private LIValueList cachedList;
 
@@ -24,7 +24,7 @@ public class LIValueListCache {
     private void dumpList(LIValueList lIValueList) {
         LIValueListElement[] lIValueListElementArray = lIValueList.getList();
         for (int i2 = 0; i2 < lIValueListElementArray.length; ++i2) {
-            this.logChannel.log(-2137614336, "LIValueListCache#dumpList() - index: %2, entry: %1", (Object)lIValueListElementArray[i2].getData(), (long)lIValueListElementArray[i2].getListIndex());
+            this.logChannel.log(10000000, "LIValueListCache#dumpList() - index: %2, entry: %1", (Object)lIValueListElementArray[i2].getData(), (long)lIValueListElementArray[i2].getListIndex());
         }
     }
 
@@ -49,11 +49,11 @@ public class LIValueListCache {
             if (n5 < 0) {
                 n5 = n;
             }
-            this.logChannel.log(-2137614336, "LIValueListCache#updateListPatch() - downwards, found anchor in list at %1", (long)n5);
+            this.logChannel.log(10000000, "LIValueListCache#updateListPatch() - downwards, found anchor in list at %1", (long)n5);
             int n6 = Math.max(0, n2 + n5 - 50);
             int n7 = Math.min(50, n2 + n5);
-            this.logChannel.log(-2137614336, "LIValueListCache#updateListPatch() - list sizes %1 / %2", (long)n, (long)n2);
-            this.logChannel.log(-2137614336, "LIValueListCache#updateListPatch() - old list segment [%1 / %2), complete new length %3", (long)n6, (long)n5, (long)n7);
+            this.logChannel.log(10000000, "LIValueListCache#updateListPatch() - list sizes %1 / %2", (long)n, (long)n2);
+            this.logChannel.log(10000000, "LIValueListCache#updateListPatch() - old list segment [%1 / %2), complete new length %3", (long)n6, (long)n5, (long)n7);
             lIValueListElementArray = new LIValueListElement[n7];
             int n8 = 0;
             for (n3 = n6; n3 < n5; ++n3) {
@@ -69,11 +69,11 @@ public class LIValueListCache {
             if (n11 < 0) {
                 n11 = 0;
             }
-            this.logChannel.log(-2137614336, "LIValueListCache#updateListPatch() - upwards, found anchor in list at %1", (long)n11);
+            this.logChannel.log(10000000, "LIValueListCache#updateListPatch() - upwards, found anchor in list at %1", (long)n11);
             int n12 = 50 + n11 - n2;
             int n13 = Math.min(50, n2 + n - n11);
-            this.logChannel.log(-2137614336, "LIValueListCache#updateListPatch() - list sizes %1 / %2", (long)n, (long)n2);
-            this.logChannel.log(-2137614336, "LIValueListCache#updateListPatch() - old list segment [%1 / %2), complete new length %3", (long)n11, (long)n12, (long)n13);
+            this.logChannel.log(10000000, "LIValueListCache#updateListPatch() - list sizes %1 / %2", (long)n, (long)n2);
+            this.logChannel.log(10000000, "LIValueListCache#updateListPatch() - old list segment [%1 / %2), complete new length %3", (long)n11, (long)n12, (long)n13);
             lIValueListElementArray = new LIValueListElement[n13];
             int n14 = 0;
             for (n9 = 0; n9 < n2; ++n9) {

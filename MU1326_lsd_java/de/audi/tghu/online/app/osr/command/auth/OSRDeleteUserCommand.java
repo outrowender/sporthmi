@@ -4,7 +4,6 @@
 package de.audi.tghu.online.app.osr.command.auth;
 
 import de.audi.tghu.online.app.osr.command.AbstractOSRCommand;
-import de.audi.tghu.online.app.osr.command.auth.OSRDeleteUserCommand$IDeleteUserCommandResponseListener;
 import org.dsi.ifc.online.DSIOnlineServiceRegistration;
 import org.dsi.ifc.online.OSRServiceState;
 import org.dsi.ifc.online.OSRUser;
@@ -12,14 +11,13 @@ import org.dsi.ifc.online.OSRUser;
 public class OSRDeleteUserCommand
 extends AbstractOSRCommand {
     private OSRUser user;
-    private OSRDeleteUserCommand$IDeleteUserCommandResponseListener listener;
+    private IDeleteUserCommandResponseListener listener;
 
-    public OSRDeleteUserCommand(OSRUser oSRUser, OSRDeleteUserCommand$IDeleteUserCommandResponseListener oSRDeleteUserCommand$IDeleteUserCommandResponseListener) {
+    public OSRDeleteUserCommand(OSRUser oSRUser, IDeleteUserCommandResponseListener iDeleteUserCommandResponseListener) {
         this.user = oSRUser;
-        this.listener = oSRDeleteUserCommand$IDeleteUserCommandResponseListener;
+        this.listener = iDeleteUserCommandResponseListener;
     }
 
-    @Override
     public void execute() {
         DSIOnlineServiceRegistration dSIOnlineServiceRegistration = this.getDSI();
         if (this.user == null) {
@@ -30,11 +28,10 @@ extends AbstractOSRCommand {
             this.logger.log(10000, "ORSDeleteUserCommand#execute() no dsi");
             return;
         }
-        this.logger.log(1078071040, "ORSDeleteUserCommand#execute() deleting user: %1", (Object)this.user.getName());
+        this.logger.log(1000000, "ORSDeleteUserCommand#execute() deleting user: %1", (Object)this.user.getName());
         dSIOnlineServiceRegistration.removeUser(this.user);
     }
 
-    @Override
     public void removeUserResponse(OSRUser oSRUser, int n) {
         if (this.listener != null) {
             this.listener.removeUserResponse(oSRUser, n);
@@ -43,6 +40,10 @@ extends AbstractOSRCommand {
     }
 
     public void updateServiceList(OSRServiceState[] oSRServiceStateArray, int n) {
+    }
+
+    public static interface IDeleteUserCommandResponseListener {
+        public void removeUserResponse(OSRUser var1, int var2);
     }
 }
 

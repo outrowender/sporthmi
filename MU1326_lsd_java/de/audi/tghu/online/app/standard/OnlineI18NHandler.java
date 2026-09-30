@@ -30,22 +30,26 @@ I18NTarget {
         this.textConstantFields = fieldArray;
         this.logChannel = logChannel;
         this.generateFields();
-        this.logChannel.log(1078071040, "OnlineI18NHandler#c'tor");
+        this.logChannel.log(1000000, "OnlineI18NHandler#c'tor");
     }
 
     private void generateFields() {
         this.currentTexts.clear();
         if (this.textConstantFields != null && this.textConstantFields.length > 0) {
-            for (Field field : this.textConstantFields) {
+            int n = this.textConstantFields.length;
+            for (int i2 = 0; i2 < n; ++i2) {
+                Field field = this.textConstantFields[i2];
                 String string = field.getName();
                 try {
                     Object object;
-                    int n = field.getType().isArray() ? (((int[])(object = (int[])field.get(null))).length == 1 ? object[0] : -1) : field.getInt(null);
-                    object = this.service.getText(n);
+                    int n2 = field.getType().isArray() ? (((int[])(object = (int[])field.get(null))).length == 1 ? object[0] : -1) : field.getInt(null);
+                    object = this.service.getText(n2);
                     this.currentTexts.put(string, object);
+                    continue;
                 }
                 catch (IllegalArgumentException illegalArgumentException) {
                     this.logChannel.log(10000, "OnlineI18NHandler#generateFields(): IllegalArgumentException %1 for field %2", (Object)illegalArgumentException, (Object)field.getName());
+                    continue;
                 }
                 catch (IllegalAccessException illegalAccessException) {
                     this.logChannel.log(10000, "OnlineI18NHandler#generateFields(): IllegalAccessException %1 for field %2", (Object)illegalAccessException, (Object)field.getName());
@@ -56,19 +60,17 @@ I18NTarget {
         }
     }
 
-    @Override
     public String getText(String string) {
         String string2 = "";
         string2 = (String)this.currentTexts.get(string);
         if (string2 == null || string2.length() == 0) {
-            return new StringBuffer().append("Text constant '").append(string).append("' could not be replaced!").toString();
+            return "Text constant '" + string + "' could not be replaced!";
         }
         return string2;
     }
 
-    @Override
     public void setLanguage(Language language) {
-        this.logChannel.log(1078071040, "OnlineI18NHandler#setLanguage: changed to %1", (Object)language.getLanguageName());
+        this.logChannel.log(1000000, "OnlineI18NHandler#setLanguage: changed to %1", (Object)language.getLanguageName());
         this.generateFields();
         this.notifyListeners();
     }

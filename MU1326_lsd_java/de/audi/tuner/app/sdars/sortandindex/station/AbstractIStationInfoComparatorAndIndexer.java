@@ -15,20 +15,16 @@ extends AbstractComparatorAndIndexer {
         super(languageManager, bl);
     }
 
-    @Override
     protected String getStringUsedForIndexing(Object object) {
         return this.getStringUsedForIndexing(((IStationInfo)object).getStation());
     }
 
-    @Override
     protected int compare(Object object, Object object2, Collator collator) {
         return this.compare(((IStationInfo)object).getStation(), ((IStationInfo)object2).getStation(), collator);
     }
 
-    protected abstract String getStringUsedForIndexing(StationInfoExt stationInfoExt) {
-    }
+    protected abstract String getStringUsedForIndexing(StationInfoExt var1);
 
-    protected abstract int compare(StationInfoExt stationInfoExt, StationInfoExt stationInfoExt2, Collator collator) {
-    }
+    protected abstract int compare(StationInfoExt var1, StationInfoExt var2, Collator var3);
 }
 

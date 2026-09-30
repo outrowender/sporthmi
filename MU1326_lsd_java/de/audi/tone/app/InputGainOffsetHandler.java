@@ -25,7 +25,7 @@ implements RangeListener {
         this.dsiSound = iDSISoundHandler;
         this.activeConnections = new int[8];
         Arrays.fill(this.activeConnections, 0);
-        this.mediaAuxLevelRange = toneEnv.getRangeModel(0, 1833045760);
+        this.mediaAuxLevelRange = toneEnv.getRangeModel(0, 1000045);
         this.mediaAuxLevelRange.setRangeListener(this);
     }
 
@@ -33,7 +33,6 @@ implements RangeListener {
         this.requestRangeAndLevel(hMIAudioService.getActiveEntertainmentConnection(n), n);
     }
 
-    @Override
     public void updateConnectionStatus(int n, int n2, int n3) {
         if (n2 != 2) {
             return;
@@ -43,7 +42,7 @@ implements RangeListener {
 
     private void requestRangeAndLevel(int n, int n2) {
         if (this.isUsedConnection(n)) {
-            this.env.lcMain.log(-2137614336, "[InputGainOffsetHandler.requestRangeAndLevel] AC:%1 HT:%2", (long)n, (long)n2);
+            this.env.lcMain.log(10000000, "[InputGainOffsetHandler.requestRangeAndLevel] AC:%1 HT:%2", (long)n, (long)n2);
             if (n != this.activeConnections[n2]) {
                 this.activeConnections[n2] = n;
                 this.dsiSound.getInputGainOffsetRange(n2, n);
@@ -52,47 +51,42 @@ implements RangeListener {
         }
     }
 
-    @Override
     public void inputGainOffsetRange(int n, int n2) {
-        this.env.lcMain.log(-2137614336, "[InputGainOffsetHandler.inputGainOffsetRange] min:%1 max:%2", (long)n, (long)n2);
+        this.env.lcMain.log(10000000, "[InputGainOffsetHandler.inputGainOffsetRange] min:%1 max:%2", (long)n, (long)n2);
         this.mediaAuxLevelRange.setLimits(n, n2, 1);
     }
 
-    @Override
     public void updateInputGainOffset(int n, int n2) {
         if (this.isUsedConnection(n)) {
-            this.env.lcMain.log(-2137614336, "[InputGainOffsetHandler.updateInputGainOffset] inputGainOffset:%1", (long)n2);
+            this.env.lcMain.log(10000000, "[InputGainOffsetHandler.updateInputGainOffset] inputGainOffset:%1", (long)n2);
             this.mediaAuxLevelRange.setValue(n2);
         } else {
-            this.env.lcMain.log(-2137614336, "[InputGainOffsetHandler.updateInputGainOffset] connection :%1 is not in use do not update", (long)n2);
+            this.env.lcMain.log(10000000, "[InputGainOffsetHandler.updateInputGainOffset] connection :%1 is not in use do not update", (long)n2);
         }
     }
 
-    @Override
     public void decrement(int n, int n2, int n3) {
         int n4 = this.activeConnections[n3];
         if (n4 != 0) {
-            this.env.lcHMI.log(-2137614336, "[InputGainOffsetHandler.decrement] model:%1 steps:%2 HT:%3", (long)n, (long)n2, (long)n3);
+            this.env.lcHMI.log(10000000, "[InputGainOffsetHandler.decrement] model:%1 steps:%2 HT:%3", (long)n, (long)n2, (long)n3);
             this.dsiSound.changeInputGainOffset(n3, n4, -n2);
         } else {
-            this.env.lcHMI.log(-1601830656, "[InputGainOffsetHandler.decrement] No connection active for HT:%1", (long)n3);
+            this.env.lcHMI.log(100000, "[InputGainOffsetHandler.decrement] No connection active for HT:%1", (long)n3);
         }
     }
 
-    @Override
     public void increment(int n, int n2, int n3) {
         int n4 = this.activeConnections[n3];
         if (n4 != 0) {
-            this.env.lcHMI.log(-2137614336, "[InputGainOffsetHandler.increment] model:%1 steps:%2 HT:%3", (long)n, (long)n2, (long)n3);
+            this.env.lcHMI.log(10000000, "[InputGainOffsetHandler.increment] model:%1 steps:%2 HT:%3", (long)n, (long)n2, (long)n3);
             this.dsiSound.changeInputGainOffset(n3, n4, n2);
         } else {
-            this.env.lcHMI.log(-1601830656, "[InputGainOffsetHandler.increment] No connection active for HT:%1", (long)n3);
+            this.env.lcHMI.log(100000, "[InputGainOffsetHandler.increment] No connection active for HT:%1", (long)n3);
         }
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
-        this.env.lcHMI.log(-2137614336, "[InputGainOffsetHandler.keyTyped] model:%1 HT:%2", (long)n, (long)n3);
+        this.env.lcHMI.log(10000000, "[InputGainOffsetHandler.keyTyped] model:%1 HT:%2", (long)n, (long)n3);
         this.mediaAuxLevelRange.fireEvent(n3);
     }
 

@@ -13,36 +13,32 @@ import de.audi.tone.app.volume.samples.ISamplePlayer;
 
 public class HeartbeatVolumeRange
 extends AbstractVolumeRange {
-    private static final int CONNECTION;
+    private static final int CONNECTION = 82;
     private final int[] volumeConnections = new int[]{48, 82};
     private final int[] greyOutConnections = AudioConnection.GREY_OUT_ALL;
     private final HeartbeatPlayer player;
     private final String name;
 
     HeartbeatVolumeRange(VolumeRangeManager volumeRangeManager) {
-        super(volumeRangeManager, 1531055872, -2126377216, 82);
+        super(volumeRangeManager, 1000027, 1000065, 82);
         this.name = "HeartbeatVolumeRange";
         this.player = new HeartbeatPlayer(volumeRangeManager.env.lcMain, 1);
-        ChoiceModelApp choiceModelApp = volumeRangeManager.env.getChoiceModel(-1807610112);
+        ChoiceModelApp choiceModelApp = volumeRangeManager.env.getChoiceModel(1000084);
         this.greyOutHandler = new DefaultGreyOutAndPopupHandler(choiceModelApp, this.greyOutConnections, volumeRangeManager.env.lcHMI, "HeartbeatVolumeRange");
     }
 
-    @Override
     protected ISamplePlayer getSamplePlayer() {
         return this.player;
     }
 
-    @Override
     protected int[] getVolumeConnections() {
         return this.volumeConnections;
     }
 
-    @Override
     protected String getName() {
         return "HeartbeatVolumeRange";
     }
 
-    @Override
     protected int getID() {
         return 8;
     }

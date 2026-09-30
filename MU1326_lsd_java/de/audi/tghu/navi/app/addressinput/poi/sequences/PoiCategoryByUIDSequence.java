@@ -18,11 +18,10 @@ extends AbstractStartPoiInputSequence {
     private final IVehicle vehicle;
 
     public PoiCategoryByUIDSequence(IPoiSpellerModelAccess iPoiSpellerModelAccess, ICommandListFactory iCommandListFactory, PoiSearchArea poiSearchArea, NavigationEnv navigationEnv, IVehicle iVehicle, IDetailsScreen iDetailsScreen) {
-        super(iPoiSpellerModelAccess, iCommandListFactory, 0xF800000, poiSearchArea, navigationEnv, iDetailsScreen);
+        super(iPoiSpellerModelAccess, iCommandListFactory, 32783, poiSearchArea, navigationEnv, iDetailsScreen);
         this.vehicle = iVehicle;
     }
 
-    @Override
     public void startResultsSequence(IPoiSpellerModelAccess iPoiSpellerModelAccess, int n) {
         if (this.hasActiveSubSequence()) {
             this.currentInputSequence.startResultsSequence(iPoiSpellerModelAccess, n);
@@ -32,19 +31,16 @@ extends AbstractStartPoiInputSequence {
         this.currentInputSequence.start();
     }
 
-    @Override
     public void start() {
-        this.env.getLogChannel().log(-2137614336, "[PoiInput] PoiCategoryByUIDSequence#start() ");
+        this.env.getLogChannel().log(10000000, "[PoiInput] PoiCategoryByUIDSequence#start() ");
         CommandList commandList = this.createStartSequence();
         commandList.execute("PoiCategoryByUIDSequence#start");
     }
 
-    @Override
     protected int getSortOrder() {
         return 0;
     }
 
-    @Override
     protected String getStringId() {
         return "PoiCategoryByUIDSequence";
     }

@@ -14,36 +14,36 @@ import java.math.BigInteger;
 
 public class MapSetupView
 extends AbstractView {
-    public static final int ITEM_PANORAMA;
-    public static final int ITEM_COLOR;
-    public static final int ITEM_TYPE;
-    public static final int ITEM_DISPLAY;
-    public static final int ITEM_ADDITIONAL_INFO;
-    public static final int ITEM_INTERSECTION;
-    public static final int ITEM_AUTOZOOM;
-    public static final int ITEM_MAX;
-    private static final int BITMASK_ADD_INFO_ROUTEINFO;
-    private static final int BITMASK_ADD_INFO_COMPLETE;
-    private static final int BITMASK_ADD_INFO_TURN;
-    private static final int BITMASK_ADD_INFO_OVERVIEW;
-    private static final int BITMASK_ADD_INFO_ON;
-    private static final int BITMASK_ADD_INFO_OFF;
-    private static final int BITMASK_MAP_REPRESENTATION_STANDARD;
-    private static final int BITMASK_MAP_REPRESENTATION_GOOGLE;
-    private static final int BITMASK_MAP_REPRESENTATION_TRAFFIC;
-    private static final int BITMASK_MAP_REPRESENTATION_RANGE;
+    public static final int ITEM_PANORAMA = 0;
+    public static final int ITEM_COLOR = 1;
+    public static final int ITEM_TYPE = 2;
+    public static final int ITEM_DISPLAY = 3;
+    public static final int ITEM_ADDITIONAL_INFO = 4;
+    public static final int ITEM_INTERSECTION = 5;
+    public static final int ITEM_AUTOZOOM = 6;
+    public static final int ITEM_MAX = 7;
+    private static final int BITMASK_ADD_INFO_ROUTEINFO = 1;
+    private static final int BITMASK_ADD_INFO_COMPLETE = 2;
+    private static final int BITMASK_ADD_INFO_TURN = 4;
+    private static final int BITMASK_ADD_INFO_OVERVIEW = 8;
+    private static final int BITMASK_ADD_INFO_ON = 16;
+    private static final int BITMASK_ADD_INFO_OFF = 32;
+    private static final int BITMASK_MAP_REPRESENTATION_STANDARD = 1;
+    private static final int BITMASK_MAP_REPRESENTATION_GOOGLE = 2;
+    private static final int BITMASK_MAP_REPRESENTATION_TRAFFIC = 4;
+    private static final int BITMASK_MAP_REPRESENTATION_RANGE = 8;
     private final ChoiceModelApp[] models = new ChoiceModelApp[7];
     private final AdvancedChoiceListener[] listeners;
 
     public MapSetupView(NavigationEnv navigationEnv, boolean bl, boolean bl2, boolean bl3, boolean bl4, boolean bl5) {
         super(navigationEnv);
-        this.models[0] = bl ? navigationEnv.getChoiceModel(-1843526144) : null;
-        this.models[1] = navigationEnv.getChoiceModel(-1843591680);
-        this.models[2] = navigationEnv.getChoiceModel(-1726151168);
-        this.models[3] = navigationEnv.getChoiceModel(1780221440);
-        this.models[4] = navigationEnv.getChoiceModel(-1927477760);
-        this.models[5] = bl2 ? navigationEnv.getChoiceModel(18744832) : null;
-        this.models[6] = navigationEnv.getChoiceModel(-1575156224);
+        this.models[0] = bl ? navigationEnv.getChoiceModel(401042) : null;
+        this.models[1] = navigationEnv.getChoiceModel(400786);
+        this.models[2] = navigationEnv.getChoiceModel(400793);
+        this.models[3] = navigationEnv.getChoiceModel(400490);
+        this.models[4] = navigationEnv.getChoiceModel(400781);
+        this.models[5] = bl2 ? navigationEnv.getChoiceModel(400897) : null;
+        this.models[6] = navigationEnv.getChoiceModel(400802);
         int n = 0;
         if (bl5) {
             n = 8;
@@ -128,7 +128,7 @@ extends AbstractView {
                 buffer.append(", TFC=").append(BigInteger.valueOf(n).testBit(2));
                 buffer.append(", GEC=").append(BigInteger.valueOf(n).testBit(1));
                 buffer.append(", STD=").append(BigInteger.valueOf(n).testBit(0));
-                this.getLogger().log(14808325, "MapSetupView#setGoogleSettingVisible(%1) - %2 -> %3 (%4)", (Object)bl, (Object)Integer.toBinaryString(this.models[3].getHints()), (Object)Integer.toBinaryString(n), (Object)buffer);
+                this.getLogger().log(100000000, "MapSetupView#setGoogleSettingVisible(%1) - %2 -> %3 (%4)", (Object)bl, (Object)Integer.toBinaryString(this.models[3].getHints()), (Object)Integer.toBinaryString(n), (Object)buffer);
             }
             this.models[3].resetHints();
             this.models[3].addHint(n);

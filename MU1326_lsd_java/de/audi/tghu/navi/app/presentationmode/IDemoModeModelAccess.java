@@ -4,13 +4,10 @@
 package de.audi.tghu.navi.app.presentationmode;
 
 public interface IDemoModeModelAccess {
-    default public void updateDemoModeState(boolean bl) {
-    }
+    public void updateDemoModeState(boolean var1);
 
-    default public void setDemoStatus(int n) {
-    }
+    public void setDemoStatus(int var1);
 
-    default public boolean isDemoModeActive() {
-    }
+    public boolean isDemoModeActive();
 }
 

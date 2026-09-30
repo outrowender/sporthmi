@@ -25,7 +25,6 @@ extends Command {
         super(null, string);
     }
 
-    @Override
     public void setCommandList(ICommandList iCommandList) {
         super.setCommandList(iCommandList);
         if (!(iCommandList instanceof MapCommandList)) {

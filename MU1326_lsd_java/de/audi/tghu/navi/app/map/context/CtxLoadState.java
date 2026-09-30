@@ -17,7 +17,6 @@ extends Context {
         super(navigationEnv, abstractMap);
     }
 
-    @Override
     public void enter() {
         IStorageAccess iStorageAccess = this.env.getFramework().getStorageMgr();
         if (iStorageAccess != null) {
@@ -29,7 +28,7 @@ extends Context {
             this.getLogChannel().log(10000, "CtxLoadState#enter(): could not load persistent data");
         }
         try {
-            this.getLogChannel().log(-2137614336, "CtxLoadState#enter() - fetchPOICategories");
+            this.getLogChannel().log(10000000, "CtxLoadState#enter() - fetchPOICategories");
             POICategoryManager pOICategoryManager = this.getMap().getNaviInterface().getPOICategoryManager();
             pOICategoryManager.fetchPOICategories(0).execute("CtxLoadState#fetchPOICategories(Standard/Traffic)");
         }
@@ -43,9 +42,8 @@ extends Context {
         }
     }
 
-    @Override
     public void exitMapScreen() {
-        this.getLogChannel().log(-2137614336, "CtxLoadState#exitMapScreen(): ignoring");
+        this.getLogChannel().log(10000000, "CtxLoadState#exitMapScreen(): ignoring");
     }
 }
 

@@ -23,7 +23,6 @@ extends AbstractPictureStoreCommand {
         this.callBack = pictureStoreProviderListener;
     }
 
-    @Override
     public void execute() {
         DSIPictureStore dSIPictureStore = this.psp.getDSIPictureStore();
         if (dSIPictureStore != null) {
@@ -31,13 +30,11 @@ extends AbstractPictureStoreCommand {
         }
     }
 
-    @Override
     public void getPictureAttributesResult(ResourceLocator resourceLocator, PictureAttribute[] pictureAttributeArray, int n) {
         this.callBack.getPictureAttributesResult(resourceLocator, pictureAttributeArray, n);
         this.commandList.commandFinished();
     }
 
-    @Override
     public void invalidData(int[] nArray, int n) {
     }
 }

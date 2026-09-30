@@ -22,7 +22,6 @@ extends NavCommand {
         this.favoritesList = favoriteIndex;
     }
 
-    @Override
     public void execute() {
         try {
             byte[] byArray = this.serialize();
@@ -34,8 +33,8 @@ extends NavCommand {
         this.getCommandList().commandFinished();
     }
 
-    protected byte[] serialize() {
-        this.logger.log(-2137614336, "[%1#serialize] favorites=%2", (Object)CLASS_NAME, (Object)this.favoritesList);
+    protected byte[] serialize() throws IOException {
+        this.logger.log(10000000, "[%1#serialize] favorites=%2", (Object)CLASS_NAME, (Object)this.favoritesList);
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         DataOutputStream dataOutputStream = new DataOutputStream(byteArrayOutputStream);
         ObjectOutputStream objectOutputStream = new ObjectOutputStream(dataOutputStream);

@@ -29,30 +29,28 @@ implements ICommandListFactory {
         this.modelAccess = iOnlineSearchForm;
         this.onlineSearchContext = onlineSearchContext;
         this.logger = commandListManager.getLogChannel();
-        this.logger.log(1078071040, "OnlinePoiCommandListFactory#OnlinePoiCommandListFactory()");
+        this.logger.log(1000000, "OnlinePoiCommandListFactory#OnlinePoiCommandListFactory()");
     }
 
     public void setDsiOnline(DSIPoiOnlineSearch dSIPoiOnlineSearch) {
-        this.logger.log(1078071040, "OnlinePoiCommandListFactory#setDsiOnline()");
+        this.logger.log(1000000, "OnlinePoiCommandListFactory#setDsiOnline()");
         this.dsiOnline = dSIPoiOnlineSearch;
     }
 
     public DSIPoiOnlineSearch getDsiOnline() {
-        this.logger.log(1078071040, "OnlinePoiCommandListFactory#getDsiOnline()");
+        this.logger.log(1000000, "OnlinePoiCommandListFactory#getDsiOnline()");
         return this.dsiOnline;
     }
 
-    @Override
     public CommandList createCommandList() {
-        this.logger.log(1078071040, "OnlinePoiCommandListFactory#createCommandList()");
+        this.logger.log(1000000, "OnlinePoiCommandListFactory#createCommandList()");
         OnlinePoiCommandList onlinePoiCommandList = new OnlinePoiCommandList(this.commandListManager, this.onlineDSIListener, this.dsiOnline);
         onlinePoiCommandList.setErrorCommand(new OnlineSearchErrorCommand(this.logger, this.modelAccess, this.onlineSearchContext));
         return onlinePoiCommandList;
     }
 
-    @Override
     public CommandList createCommandList(int n) {
-        this.logger.log(1078071040, "OnlinePoiCommandListFactory#createCommandList()");
+        this.logger.log(1000000, "OnlinePoiCommandListFactory#createCommandList()");
         return new OnlinePoiCommandList(this.commandListManager, this.onlineDSIListener, n, this.dsiOnline);
     }
 }

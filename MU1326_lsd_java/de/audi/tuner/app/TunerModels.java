@@ -27,48 +27,48 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TunerModels {
-    public static final int CHOICE_ON;
-    public static final int CHOICE_OFF;
-    public static final int CHECKBOX_UNCHECKED;
-    public static final int CHECKBOX_CHECKED;
-    public static final int CHECKBOX_HALFCHECKED;
-    public static final int AUTOSTORE_STATUS_INACTIVE;
-    public static final int AUTOSTORE_STATUS_ACTIVE;
-    public static final int DATA_UPD_AVAILABLE;
-    public static final int DATA_UPD_NOTAVAILABLE;
-    public static final int DATA_UPD_WAITING;
-    public static final int DATA_UPD_ERROR;
-    public static final int STATUS_DISABLED;
-    public static final int STATUS_ENABLED;
-    public static final int ICON_NO_ICON;
-    public static final int ICON_DARKENED;
-    public static final int ICON_LIGHTED;
-    public static final int ICON_POOR_RECEPTION;
+    public static final int CHOICE_ON = 0;
+    public static final int CHOICE_OFF = 1;
+    public static final int CHECKBOX_UNCHECKED = 0;
+    public static final int CHECKBOX_CHECKED = 1;
+    public static final int CHECKBOX_HALFCHECKED = 128;
+    public static final int AUTOSTORE_STATUS_INACTIVE = 0;
+    public static final int AUTOSTORE_STATUS_ACTIVE = 1;
+    public static final int DATA_UPD_AVAILABLE = 1;
+    public static final int DATA_UPD_NOTAVAILABLE = 2;
+    public static final int DATA_UPD_WAITING = 3;
+    public static final int DATA_UPD_ERROR = 4;
+    public static final int STATUS_DISABLED = 0;
+    public static final int STATUS_ENABLED = 1;
+    public static final int ICON_NO_ICON = 0;
+    public static final int ICON_DARKENED = 1;
+    public static final int ICON_LIGHTED = 2;
+    public static final int ICON_POOR_RECEPTION = 3;
     private final SimpleIntObjectMap internalModels = new SimpleIntObjectMap();
     private final IHMIServiceApp hmiService;
-    private final int listChoiceModel = Utilities.isPGen1OrBentley() ? -410582784 : -595132160;
+    private final int listChoiceModel = Utilities.isPGen1OrBentley() ? 100327 : 100316;
 
     TunerModels(IFrameworkAccess iFrameworkAccess) {
         this.hmiService = iFrameworkAccess.getHmiServiceApp();
     }
 
     void initializeModels() {
-        this.getChoiceModel(42467584).setStatus(0);
-        this.getBaseListModel(1804075264).setStatus(0);
+        this.getChoiceModel(100354).setStatus(0);
+        this.getBaseListModel(100459).setStatus(0);
         this.getChoiceModel(220).setStatus(0);
-        this.getLabelModel(1166672128).setText("");
-        this.getLabelModel(1200226560).setText("");
-        this.getLabelModel(847773952).setText("");
-        this.getChoiceModel(-528023296).setValue(TunerConfiguration.isAMDoubleTuner() ? 1 : 0);
-        this.getChoiceModel(92799232).setValue(TunerConfiguration.isDABDoubleTuner() ? 1 : 0);
+        this.getLabelModel(100933).setText("");
+        this.getLabelModel(100935).setText("");
+        this.getLabelModel(100402).setText("");
+        this.getChoiceModel(100320).setValue(TunerConfiguration.isAMDoubleTuner() ? 1 : 0);
+        this.getChoiceModel(100357).setValue(TunerConfiguration.isDABDoubleTuner() ? 1 : 0);
     }
 
     public int getActiveTuner() {
-        return this.getChoiceModel(-410582784).getValue();
+        return this.getChoiceModel(100327).getValue();
     }
 
     public void setActiveTuner(int n) {
-        this.getChoiceModel(-410582784).setValue(n);
+        this.getChoiceModel(100327).setValue(n);
     }
 
     public int getActiveList() {
@@ -135,7 +135,7 @@ public class TunerModels {
         return this.hmiService.getBaseListModel(n);
     }
 
-    public ListModelApp getListModel(int n) {
+    public ListModelApp getListModel(int n) throws IllegalArgumentException {
         return (ListModelApp)this.getModel(n);
     }
 
@@ -210,25 +210,25 @@ public class TunerModels {
 
     public List getAvailableLists() {
         ArrayList arrayList = new ArrayList(10);
-        if (this.getBaseListModel(1938292992).getLength() > 0) {
+        if (this.getBaseListModel(100467).getLength() > 0) {
             arrayList.add(new Integer(12));
         }
-        if (this.getBaseListModel(1921515776).getLength() > 0) {
+        if (this.getBaseListModel(100466).getLength() > 0) {
             arrayList.add(new Integer(13));
         }
-        if (this.getChoiceModel(-779681536).getValue() == 1) {
+        if (this.getChoiceModel(100305).getValue() == 1) {
             arrayList.add(new Integer(11));
         }
-        if (this.getChoiceModel(42467584).getValue() == 1) {
+        if (this.getChoiceModel(100354).getValue() == 1) {
             arrayList.add(new Integer(5));
         }
         if (this.getChoiceModel(220).getValue() == 1) {
             arrayList.add(new Integer(7));
         }
-        if (this.getChoiceModel(596115712).getValue() == 1) {
+        if (this.getChoiceModel(100387).getValue() == 1) {
             arrayList.add(new Integer(1));
         }
-        if (this.getChoiceModel(-544800512).getValue() == 1) {
+        if (this.getChoiceModel(100319).getValue() == 1) {
             arrayList.add(new Integer(4));
         }
         return arrayList;

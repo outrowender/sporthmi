@@ -9,7 +9,6 @@ import de.audi.atip.hmi.model.TextListCell;
 import de.audi.atip.hmi.modelaccess.ListModelApp;
 import de.audi.atip.interapp.NaviADBService;
 import de.audi.atip.interapp.OnlineAdbEntry;
-import de.audi.atip.interapp.OnlineAdbEntry$FullAdressData;
 import de.audi.atip.log.LogChannel;
 import de.esolutions.fw.util.commons.Buffer;
 import org.dsi.ifc.global.NavLocationWgs84;
@@ -25,21 +24,21 @@ import org.dsi.ifc.organizer.PhoneData;
 
 public final class OnlineDestinationAddressUtility {
     private static LogChannel log;
-    private static final int MAX_COLUMNS;
-    public static final int PHONE_ICON_ISDN;
-    public static final int PHONE_ICON_ISDN_PRIVATE;
-    public static final int PHONE_ICON_ISDN_BUSINESS;
-    public static final int PHONE_ICON_MOBILE;
-    public static final int PHONE_ICON_MOBILE_PRIVATE;
-    public static final int PHONE_ICON_MOBILE_BUSINESS;
-    public static final int PHONE_ICON_FAX;
-    public static final int PHONE_ICON_FAX_PRIVATE;
-    public static final int PHONE_ICON_FAX_BUSINESS;
-    public static final int PHONE_ICON_NONE;
-    public static final int PHONE_ICON_PRIVATE;
-    public static final int PHONE_ICON_BUSINESS;
-    public static final int PHONETYPES_ALL_CATS_PATTERN;
-    public static final int PHONETYPES_ALL_TYPES_PATTERN;
+    private static final int MAX_COLUMNS = 6;
+    public static final int PHONE_ICON_ISDN = 0;
+    public static final int PHONE_ICON_ISDN_PRIVATE = 1;
+    public static final int PHONE_ICON_ISDN_BUSINESS = 2;
+    public static final int PHONE_ICON_MOBILE = 3;
+    public static final int PHONE_ICON_MOBILE_PRIVATE = 4;
+    public static final int PHONE_ICON_MOBILE_BUSINESS = 5;
+    public static final int PHONE_ICON_FAX = 6;
+    public static final int PHONE_ICON_FAX_PRIVATE = 7;
+    public static final int PHONE_ICON_FAX_BUSINESS = 8;
+    public static final int PHONE_ICON_NONE = 9;
+    public static final int PHONE_ICON_PRIVATE = 10;
+    public static final int PHONE_ICON_BUSINESS = 11;
+    public static final int PHONETYPES_ALL_CATS_PATTERN = 8184;
+    public static final int PHONETYPES_ALL_TYPES_PATTERN = 6;
 
     private OnlineDestinationAddressUtility() {
     }
@@ -52,7 +51,7 @@ public final class OnlineDestinationAddressUtility {
         int n;
         AddressData[] addressDataArray;
         int n2;
-        log.log(-2137614336, "OnlineDestinationAddressUtility#convertPortalEntryToAdbEntry(): portalEntry: %1", (Object)portalADBEntry);
+        log.log(10000000, "OnlineDestinationAddressUtility#convertPortalEntryToAdbEntry(): portalEntry: %1", (Object)portalADBEntry);
         AdbEntry adbEntry = new AdbEntry();
         OnlineAdbEntry onlineAdbEntry = new OnlineAdbEntry(adbEntry, portalADBEntry.additionalDescription);
         adbEntry.entryId = portalADBEntry.entryID;
@@ -84,14 +83,14 @@ public final class OnlineDestinationAddressUtility {
                 int n3 = portalADBEntry.navigationData[i2].naviType == 0L ? 0 : 1;
                 AddressData addressData = OnlineDestinationAddressUtility.getAddressData(n3, adbEntry.addressData);
                 if (addressData == null) {
-                    log.log(-1601830656, "OnlineDestinationAddressUtility#convertPortalEntryToAdbEntry(): portalEntry: %1", (Object)portalADBEntry);
+                    log.log(100000, "OnlineDestinationAddressUtility#convertPortalEntryToAdbEntry(): portalEntry: %1", (Object)portalADBEntry);
                     continue;
                 }
                 OnlineDestinationAddressUtility.copyNavData(addressData, portalADBEntry.navigationData[i2], naviADBService);
                 onlineAdbEntry.addAdressData(OnlineDestinationAddressUtility.getFullAdressAndNavigationData(addressData, portalADBEntry.navigationData[i2]));
             }
         }
-        log.log(-2137614336, "OnlineDestinationAddressUtility#convertPortalEntryToAdbEntry(): converstion done, returning AdbEntry: %1", (Object)adbEntry);
+        log.log(10000000, "OnlineDestinationAddressUtility#convertPortalEntryToAdbEntry(): converstion done, returning AdbEntry: %1", (Object)adbEntry);
         return onlineAdbEntry;
     }
 
@@ -122,7 +121,7 @@ public final class OnlineDestinationAddressUtility {
     }
 
     private static AddressData copyPostalAddress(PortalAddressData portalAddressData) {
-        log.log(1078071040, "OnlineDestinationAddressUtility#copyPostalAddress()");
+        log.log(1000000, "OnlineDestinationAddressUtility#copyPostalAddress()");
         AddressData addressData = new AddressData();
         addressData.addressType = (int)portalAddressData.addressType;
         addressData.country = portalAddressData.country;
@@ -134,34 +133,34 @@ public final class OnlineDestinationAddressUtility {
     }
 
     private static void copyNavData(AddressData addressData, PortalNavigationData portalNavigationData, NaviADBService naviADBService) {
-        log.log(1078071040, "OnlineDestinationAddressUtility#copyNavData()");
+        log.log(1000000, "OnlineDestinationAddressUtility#copyNavData()");
         addressData.geoPosition = portalNavigationData.geoPosition;
         addressData.topDestination = portalNavigationData.topDestination;
         addressData.navLocation = naviADBService.resolveGeoCoords(portalNavigationData.naviLocation.longitude, portalNavigationData.naviLocation.latitude, "");
     }
 
-    private static OnlineAdbEntry$FullAdressData getFullAdressAndNavigationData(AddressData addressData, PortalNavigationData portalNavigationData) {
+    private static OnlineAdbEntry.FullAdressData getFullAdressAndNavigationData(AddressData addressData, PortalNavigationData portalNavigationData) {
         NavLocationWgs84 navLocationWgs84;
-        OnlineAdbEntry$FullAdressData onlineAdbEntry$FullAdressData = new OnlineAdbEntry$FullAdressData();
-        onlineAdbEntry$FullAdressData.adress = addressData;
+        OnlineAdbEntry.FullAdressData fullAdressData = new OnlineAdbEntry.FullAdressData();
+        fullAdressData.adress = addressData;
         PortalLocation portalLocation = portalNavigationData.naviLocation;
-        log.log(1078071040, "OnlineDestinationAddressUtility#getFullAdressAndnavigation matching adress %1 to navLocation %2", (Object)addressData, (Object)portalLocation);
-        onlineAdbEntry$FullAdressData.navLocation = navLocationWgs84 = new NavLocationWgs84(portalLocation.longitude, portalLocation.latitude);
-        return onlineAdbEntry$FullAdressData;
+        log.log(1000000, "OnlineDestinationAddressUtility#getFullAdressAndnavigation matching adress %1 to navLocation %2", (Object)addressData, (Object)portalLocation);
+        fullAdressData.navLocation = navLocationWgs84 = new NavLocationWgs84(portalLocation.longitude, portalLocation.latitude);
+        return fullAdressData;
     }
 
     public static boolean hasPostalAddressForDisplayInAdrDetailScreen(AddressData addressData) {
-        log.log(1078071040, "OnlineDestinationAddressUtility#hasPostalAddressForDisplayInAdrDetailScreen()");
+        log.log(1000000, "OnlineDestinationAddressUtility#hasPostalAddressForDisplayInAdrDetailScreen()");
         return addressData.locality != null && addressData.locality.length() != 0 || addressData.street != null && addressData.street.length() != 0 || addressData.postalCode != null && addressData.postalCode.length() != 0;
     }
 
     public static String getFirstDisplayLineOfPostalAddress(AddressData addressData) {
-        log.log(1078071040, "OnlineDestinationAddressUtility#getFirstDisplayLineOfPostalAddress()");
+        log.log(1000000, "OnlineDestinationAddressUtility#getFirstDisplayLineOfPostalAddress()");
         return OnlineDestinationAddressUtility.isEmpty(addressData.street) ? "" : addressData.street;
     }
 
     public static String getSecondDisplayLineOfPostalAddress(AddressData addressData, boolean bl) {
-        log.log(1078071040, "OnlineDestinationAddressUtility#getSecondDisplayLineOfPostalAddress()");
+        log.log(1000000, "OnlineDestinationAddressUtility#getSecondDisplayLineOfPostalAddress()");
         Buffer buffer = new Buffer();
         if (bl) {
             if (!OnlineDestinationAddressUtility.isEmpty(addressData.locality)) {
@@ -190,7 +189,7 @@ public final class OnlineDestinationAddressUtility {
     }
 
     public static boolean isEmpty(String string) {
-        log.log(1078071040, "OnlineDestinationAddressUtility#isEmpty()");
+        log.log(1000000, "OnlineDestinationAddressUtility#isEmpty()");
         if (string == null) {
             return true;
         }
@@ -202,7 +201,7 @@ public final class OnlineDestinationAddressUtility {
     }
 
     public static void fillTelNumberList(AdbEntry adbEntry, ListModelApp listModelApp) {
-        log.log(1078071040, "OnlineDestinationAddressUtility#fillTelNumberList()");
+        log.log(1000000, "OnlineDestinationAddressUtility#fillTelNumberList()");
         listModelApp.clear();
         listModelApp.setMaxColumns(6);
         if (adbEntry.phoneData != null) {
@@ -214,7 +213,7 @@ public final class OnlineDestinationAddressUtility {
     }
 
     public static int getIconTypeForPhoneNumber(int n) {
-        log.log(1078071040, "OnlineDestinationAddressUtility#getIconTypeForPhoneNumber()");
+        log.log(1000000, "OnlineDestinationAddressUtility#getIconTypeForPhoneNumber()");
         int n2 = n & 0x1FF8;
         int n3 = n & 6;
         int n4 = 9;

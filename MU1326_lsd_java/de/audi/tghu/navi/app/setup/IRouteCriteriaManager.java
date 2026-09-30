@@ -6,16 +6,12 @@ package de.audi.tghu.navi.app.setup;
 import de.audi.tghu.navi.app.setup.IRouteCriteria;
 
 public interface IRouteCriteriaManager {
-    default public void persistState() {
-    }
+    public void persistState();
 
-    default public IRouteCriteria getRouteCriteria() {
-    }
+    public IRouteCriteria getRouteCriteria();
 
-    default public void setRouteCriteria(IRouteCriteria iRouteCriteria) {
-    }
+    public void setRouteCriteria(IRouteCriteria var1);
 
-    default public void resetSettings() {
-    }
+    public void resetSettings();
 }
 

@@ -24,7 +24,6 @@ implements a {
         this.b = n;
     }
 
-    @Override
     public final void a() {
         d d2 = new d();
         de.eso.vcalendar.c.a a2 = new de.eso.vcalendar.c.a(d2);

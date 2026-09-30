@@ -17,7 +17,6 @@ implements IContainsDabStation {
         this.station = dabStation;
     }
 
-    @Override
     public DabStation getDabStation() {
         return this.station;
     }

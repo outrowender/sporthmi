@@ -8,25 +8,18 @@ import de.audi.tghu.navi.app.navobserver.ICountryStateUpdatedObserver;
 import org.dsi.ifc.global.NavLocation;
 
 public interface INavObserverRegistry {
-    default public boolean addCountryUpdatedObserver(ICountryStateUpdatedObserver iCountryStateUpdatedObserver) {
-    }
+    public boolean addCountryUpdatedObserver(ICountryStateUpdatedObserver var1);
 
-    default public boolean removeCountryUpdatedObserver(ICountryStateUpdatedObserver iCountryStateUpdatedObserver) {
-    }
+    public boolean removeCountryUpdatedObserver(ICountryStateUpdatedObserver var1);
 
-    default public boolean addCcpCountryUpdatedObserver(ICcpCountryUpdatedObserver iCcpCountryUpdatedObserver) {
-    }
+    public boolean addCcpCountryUpdatedObserver(ICcpCountryUpdatedObserver var1);
 
-    default public boolean removeCcpCountryUpdatedObserver(ICcpCountryUpdatedObserver iCcpCountryUpdatedObserver) {
-    }
+    public boolean removeCcpCountryUpdatedObserver(ICcpCountryUpdatedObserver var1);
 
-    default public void countryUpdated(String string, String string2) {
-    }
+    public void countryUpdated(String var1, String var2);
 
-    default public void stateUpdated(String string, String string2) {
-    }
+    public void stateUpdated(String var1, String var2);
 
-    default public void ccpCountryUpdated(NavLocation navLocation) {
-    }
+    public void ccpCountryUpdated(NavLocation var1);
 }
 

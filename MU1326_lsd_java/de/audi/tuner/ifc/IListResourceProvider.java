@@ -4,7 +4,6 @@
 package de.audi.tuner.ifc;
 
 public interface IListResourceProvider {
-    default public long getFocussedItemUniqueId() {
-    }
+    public long getFocussedItemUniqueId();
 }
 

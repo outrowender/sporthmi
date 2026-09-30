@@ -14,17 +14,16 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Map$Entry;
 import org.dsi.ifc.has.HASDataContainer;
 import org.dsi.ifc.has.HASDataElement;
 
 public class MediaPlayInfoContainer
 extends AbstractContainer {
-    private static final int CONTAINER_ID_MEDIA_PLAY_INFO;
-    private static final int ELEMENT_ID_STATE;
-    private static final int ELEMENT_ID_TRACK_POSITION;
-    private static final int ELEMENT_ID_ENTRY_TYPE;
-    private static final int ELEMENT_ID_ENTRY_ID;
+    private static final int CONTAINER_ID_MEDIA_PLAY_INFO = 23;
+    private static final int ELEMENT_ID_STATE = 66;
+    private static final int ELEMENT_ID_TRACK_POSITION = 45;
+    private static final int ELEMENT_ID_ENTRY_TYPE = 60;
+    private static final int ELEMENT_ID_ENTRY_ID = 46;
     private Map map = new HashMap();
 
     public MediaPlayInfoContainer(MediaPlayStateEnumeration mediaPlayStateEnumeration) {
@@ -101,14 +100,12 @@ extends AbstractContainer {
         return (Long)this.map.get(new Integer(46));
     }
 
-    @Override
     public List createContainer(int n, int n2, int n3) {
         ArrayList arrayList = new ArrayList();
         arrayList.add(new HASDataContainer(23, n2, n, this.createElements(), n3));
         return arrayList;
     }
 
-    @Override
     public HASDataContainer[] createContainer() {
         List list = this.createContainer(-1, 1, -1);
         return (HASDataContainer[])list.toArray(new HASDataContainer[list.size()]);
@@ -119,23 +116,23 @@ extends AbstractContainer {
         HASDataElement[] hASDataElementArray = new HASDataElement[this.map.size()];
         Iterator iterator = this.map.entrySet().iterator();
         while (iterator.hasNext()) {
-            Map$Entry map$Entry = (Map$Entry)iterator.next();
-            if (map$Entry.getValue() == null) continue;
-            switch ((Integer)map$Entry.getKey()) {
+            Map.Entry entry = (Map.Entry)iterator.next();
+            if (entry.getValue() == null) continue;
+            switch ((Integer)entry.getKey()) {
                 case 66: {
-                    hASDataElementArray[n++] = new IntegerElement(66, ((MediaPlayStateEnumeration)map$Entry.getValue()).ordinal());
+                    hASDataElementArray[n++] = new IntegerElement(66, ((MediaPlayStateEnumeration)entry.getValue()).ordinal());
                     break;
                 }
                 case 45: {
-                    hASDataElementArray[n++] = new IntegerElement(45, ((Long)map$Entry.getValue()).intValue());
+                    hASDataElementArray[n++] = new IntegerElement(45, ((Long)entry.getValue()).intValue());
                     break;
                 }
                 case 60: {
-                    hASDataElementArray[n++] = new IntegerElement(60, ((MediaEntryTypeEnumeration)map$Entry.getValue()).ordinal());
+                    hASDataElementArray[n++] = new IntegerElement(60, ((MediaEntryTypeEnumeration)entry.getValue()).ordinal());
                     break;
                 }
                 case 46: {
-                    hASDataElementArray[n++] = new LongElement(46, (long)((Long)map$Entry.getValue()));
+                    hASDataElementArray[n++] = new LongElement(46, (long)((Long)entry.getValue()));
                     break;
                 }
             }
@@ -143,50 +140,49 @@ extends AbstractContainer {
         return hASDataElementArray;
     }
 
-    @Override
     public void toString(StringWriter stringWriter) {
         stringWriter.write("MediaPlayInfoContainer(");
         Iterator iterator = this.map.entrySet().iterator();
         while (iterator.hasNext()) {
-            Map$Entry map$Entry = (Map$Entry)iterator.next();
-            switch ((Integer)map$Entry.getKey()) {
+            Map.Entry entry = (Map.Entry)iterator.next();
+            switch ((Integer)entry.getKey()) {
                 case 66: {
-                    if (map$Entry.getValue() == null) {
+                    if (entry.getValue() == null) {
                         stringWriter.write("state(MediaPlayStateEnumeration)=null");
                         break;
                     }
                     stringWriter.write("state(MediaPlayStateEnumeration)='");
-                    stringWriter.write(map$Entry.getValue().toString());
+                    stringWriter.write(entry.getValue().toString());
                     stringWriter.write("'");
                     break;
                 }
                 case 45: {
-                    if (map$Entry.getValue() == null) {
+                    if (entry.getValue() == null) {
                         stringWriter.write("trackPosition(int)=null");
                         break;
                     }
                     stringWriter.write("trackPosition(int)='");
-                    stringWriter.write(map$Entry.getValue().toString());
+                    stringWriter.write(entry.getValue().toString());
                     stringWriter.write("'");
                     break;
                 }
                 case 60: {
-                    if (map$Entry.getValue() == null) {
+                    if (entry.getValue() == null) {
                         stringWriter.write("entryType(MediaEntryTypeEnumeration)=null");
                         break;
                     }
                     stringWriter.write("entryType(MediaEntryTypeEnumeration)='");
-                    stringWriter.write(map$Entry.getValue().toString());
+                    stringWriter.write(entry.getValue().toString());
                     stringWriter.write("'");
                     break;
                 }
                 case 46: {
-                    if (map$Entry.getValue() == null) {
+                    if (entry.getValue() == null) {
                         stringWriter.write("entryId(long)=null");
                         break;
                     }
                     stringWriter.write("entryId(long)='");
-                    stringWriter.write(map$Entry.getValue().toString());
+                    stringWriter.write(entry.getValue().toString());
                     stringWriter.write("'");
                     break;
                 }
@@ -197,7 +193,6 @@ extends AbstractContainer {
         stringWriter.write(")");
     }
 
-    @Override
     protected Object clone() {
         MediaPlayInfoContainer mediaPlayInfoContainer = new MediaPlayInfoContainer(this);
         return mediaPlayInfoContainer;

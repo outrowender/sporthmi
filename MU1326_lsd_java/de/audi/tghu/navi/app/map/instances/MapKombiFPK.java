@@ -26,23 +26,19 @@ extends MapKombi {
         this.setGUIInterface(new GUIKombiFPK(this.env, this));
     }
 
-    @Override
     public String getName() {
         return "MapKombiFPK";
     }
 
-    @Override
     public void mapInitialized() {
         super.mapInitialized();
     }
 
-    @Override
     public void viewSizeChanged(int n) {
-        this.getMapLogChannel().log(-2137614336, "MapKombiFPK#viewSizeChanged() - newViewSize: %1 ", (long)n);
+        this.getMapLogChannel().log(10000000, "MapKombiFPK#viewSizeChanged() - newViewSize: %1 ", (long)n);
         this.getActiveCtx().viewSizeChanged(n);
     }
 
-    @Override
     protected void forceSwitchToContext(int n, SwitchContextEnum switchContextEnum) {
         super.forceSwitchToContext(n, switchContextEnum);
     }

@@ -5,6 +5,7 @@ package de.audi.tghu.navi.app.map;
 
 import de.audi.atip.hmi.modelaccess.ChoiceModelApp;
 import de.audi.atip.interapp.maptmc.MapTmcService;
+import de.audi.atip.interapp.navigation.previewmap.IPreviewMap;
 import de.audi.atip.log.LogChannel;
 import de.audi.atip.mmicombi.IViewSizeListener;
 import de.audi.atip.sysapp.SpeedThresholdListener;
@@ -14,10 +15,7 @@ import de.audi.tghu.command.ICommandListFactory;
 import de.audi.tghu.navi.app.IconHandler;
 import de.audi.tghu.navi.app.LocationSerializer;
 import de.audi.tghu.navi.app.NavigationEnv;
-import de.audi.tghu.navi.app.map.AbstractMap$1;
-import de.audi.tghu.navi.app.map.AbstractMap$2;
-import de.audi.tghu.navi.app.map.AbstractMap$3;
-import de.audi.tghu.navi.app.map.AbstractMap$MapState;
+import de.audi.tghu.navi.app.favorite.IFavorite;
 import de.audi.tghu.navi.app.map.Context;
 import de.audi.tghu.navi.app.map.GUIInterface;
 import de.audi.tghu.navi.app.map.IContext;
@@ -48,24 +46,23 @@ import de.audi.tghu.navi.app.map.dsi.MVResponseZoomEngine;
 import de.audi.tghu.navi.app.map.dsi.MapFlagHandler;
 import de.audi.tghu.navi.app.map.dsi.MapResponseDispatcher;
 import de.audi.tghu.navi.app.map.dsi.ZoomHandler;
+import de.audi.tghu.navi.app.map.event.IEventBroker;
 import de.audi.tghu.navi.app.map.event.MapEventListener;
 import de.audi.tghu.navi.app.map.gui.IMapTooltip;
 import de.audi.tghu.navi.app.map.gui.ViewFactory;
 import de.audi.tghu.navi.app.map.handler.IMapFlagHandler;
-import de.audi.tghu.navi.app.map.handler.IRouteInfo$IRouteInfoHandlerEnv;
+import de.audi.tghu.navi.app.map.handler.IRouteInfo;
 import de.audi.tghu.navi.app.map.handler.IRouteInfoContextHandler;
 import de.audi.tghu.navi.app.map.handler.ISetupHandler;
 import de.audi.tghu.navi.app.map.handler.IZoomHandler;
-import de.audi.tghu.navi.app.map.handler.IZoomHandler$IZoomHandlerEnv;
 import de.audi.tghu.navi.app.map.handler.ZoomEventListener;
 import de.audi.tghu.navi.app.map.handler.selection.MapItemSelectionInfo;
 import de.audi.tghu.navi.app.map.handler.selection.MapSelectionHandler;
-import de.audi.tghu.navi.app.map.handler.selection.MapSelectionHandler$IMapSelectionListener;
 import de.audi.tghu.navi.app.map.handler.selection.MapSelectionHandlerFactory;
 import de.audi.tghu.navi.app.map.instances.ContextTimeline;
 import de.audi.tghu.navi.app.map.instances.MapKombi;
 import de.audi.tghu.navi.app.map.routecalc.IRouteCalculator;
-import de.audi.tghu.navi.app.map.routecalc.IRouteCalculator$IRouteCalcEnv;
+import de.audi.tghu.navi.app.map.utils.MapPin;
 import de.audi.tghu.navi.app.map.utils.MapUtils;
 import de.audi.tghu.navi.app.map.utils.NullFactory;
 import de.audi.tghu.navi.app.util.addressformatting.ITooltipFormatter;
@@ -78,14 +75,16 @@ import org.dsi.ifc.global.NavLocation;
 import org.dsi.ifc.global.NavLocationWgs84;
 import org.dsi.ifc.map.DSIMapViewerManeuverView;
 import org.dsi.ifc.map.DSIMapViewerZoomEngine;
+import org.dsi.ifc.map.MapFlag;
+import org.dsi.ifc.organizer.AdbEntry;
 import org.dsi.ifc.tmc.TmcMessage;
 
 public abstract class AbstractMap
 implements MapConsts,
 IViewSizeListener,
-MapSelectionHandler$IMapSelectionListener,
+MapSelectionHandler.IMapSelectionListener,
 MapEventListener,
-IZoomHandler$IZoomHandlerEnv,
+IZoomHandler.IZoomHandlerEnv,
 SpeedThresholdListener {
     protected final NavigationEnv env;
     protected final MapManager mapMgr;
@@ -116,7 +115,7 @@ SpeedThresholdListener {
     protected volatile int mContextSwitchStatus = 0;
     protected int mLastForcedContext = -1;
     private final IconHandler iconHandler;
-    private AbstractMap$MapState lastState = null;
+    private MapState lastState = null;
     private boolean isDeepSwitchingEnabled = false;
     public final LocationSerializer locationSerializer;
     protected ITooltipFormatter tooltipFormatter;
@@ -139,7 +138,7 @@ SpeedThresholdListener {
         this.sMapDSICtrlLogChannel = MapUtils.getMapDSICtrlLogChannel(navigationEnv, n);
         this.sMapGuidanceLogChannel = navigationEnv.getLogChannel("App.Map.Guidance");
         this.mvRequest = new MVRequest(this, mapConfig, navigationEnv);
-        this.satelliteMapsManager = n == 0 ? this.createSatelliteMapsManager(navigationEnv, 958137856, 0) : (n == 3 ? this.createSatelliteMapsManager(navigationEnv, -568392192, 1) : new SatelliteMapsManager(navigationEnv, this, -1, 0));
+        this.satelliteMapsManager = n == 0 ? this.createSatelliteMapsManager(navigationEnv, 400441, 0) : (n == 3 ? this.createSatelliteMapsManager(navigationEnv, 401374, 1) : new SatelliteMapsManager(navigationEnv, this, -1, 0));
         int[] nArray = mapConfig.getSupportedContextClsIds();
         for (int i2 = 0; i2 < nArray.length; ++i2) {
             IContext iContext = null;
@@ -151,7 +150,7 @@ SpeedThresholdListener {
             }
             this.sMapLogChannel.log(10000, "AbstractMap#AbstractMap(): error - context object for ctxtype %1 not found", (long)n2);
         }
-        this.sMapLogChannel.log(-2137614336, "AbstractMap[%1]#<init> - ctx = %2", (Object)this.getName(), (Object)MapUtils.toString(nArray));
+        this.sMapLogChannel.log(10000000, "AbstractMap[%1]#<init> - ctx = %2", (Object)this.getName(), (Object)MapUtils.toString(nArray));
         this.mapCommandListManager = new CommandListManager(new StringBuffer().append("MapCommandLists-").append(this.getName()).toString(), navigationEnv.getFramework(), MapUtils.getMapCommandLogChannel(navigationEnv, mapConfig.getMapInstanceId()), new MapCommandListSupplier(navigationEnv, this), null);
         this.mapResponseDispatcher = new MapResponseDispatcher(navigationEnv, this.mapCommandListManager, this, this.sMapDSILogChannel);
         this.commandListFactory = new MapCommandListFactory(this.mapCommandListManager, this.mapResponseDispatcher, navigationEnv, this);
@@ -169,9 +168,7 @@ SpeedThresholdListener {
         }
     }
 
-    @Override
-    public abstract String getName() {
-    }
+    public abstract String getName();
 
     protected void cleanup() {
         GUIInterface gUIInterface;
@@ -214,7 +211,6 @@ SpeedThresholdListener {
         this.guiInterface = gUIInterface;
     }
 
-    @Override
     public MapConfig getMapConfig() {
         return this.mapConfig;
     }
@@ -251,14 +247,51 @@ SpeedThresholdListener {
                 buffer.append(" ");
             }
             buffer.append("}");
-            this.getMapLogChannel().log(-2137614336, buffer.toString());
+            this.getMapLogChannel().log(10000000, buffer.toString());
         }
         return iContext;
     }
 
     public IMapFlagHandler getMapFlagHandler() {
         if (this.mapFlagHandler == null) {
-            this.mapFlagHandler = new MapFlagHandler(new AbstractMap$1(this));
+            this.mapFlagHandler = new MapFlagHandler(new IMapFlagHandler.IMapFlagHandlerEnv(){
+
+                public AdbEntry[] getTops() {
+                    return AbstractMap.this.mapDataContainer.sTopDestinations;
+                }
+
+                public NavLocation getHome() {
+                    return AbstractMap.this.mapDataContainer.sHomeAddress;
+                }
+
+                public NavLocation getOffice() {
+                    return AbstractMap.this.mapDataContainer.sOfficeAddress;
+                }
+
+                public MapPin[] getContextDependedPins() {
+                    return AbstractMap.this.getActiveContext().getDynamicPins();
+                }
+
+                public boolean isFavoriteVisible(int n) {
+                    return AbstractMap.this.getSetup().isFavoriteVisible(n);
+                }
+
+                public IFavorite[] getFavorites() {
+                    return AbstractMap.this.naviInterface.getFavorites();
+                }
+
+                public MapDataContainer getMapDataContainer() {
+                    return AbstractMap.this.mapDataContainer;
+                }
+
+                public void configureFlags(int n, MapFlag[] mapFlagArray) {
+                    AbstractMap.this.getMVRequest().configureFlags(n, mapFlagArray);
+                }
+
+                public LogChannel getLogger() {
+                    return AbstractMap.this.getMapLogChannel();
+                }
+            });
         }
         return this.mapFlagHandler;
     }
@@ -271,7 +304,7 @@ SpeedThresholdListener {
         if (this.mvRequest.getMVRequestZoomEngine() != null) {
             this.mvRequest.getMVRequestZoomEngine().bind(dSIMapViewerZoomEngine);
         } else {
-            this.getMapLogChannel().log(-1601830656, "AbstractMap[%1]#setDSIMapZoomEngine() - no DSIMapZoomEngine", (Object)this.getName());
+            this.getMapLogChannel().log(100000, "AbstractMap[%1]#setDSIMapZoomEngine() - no DSIMapZoomEngine", (Object)this.getName());
         }
     }
 
@@ -279,7 +312,7 @@ SpeedThresholdListener {
         if (this.mvRequest.getMVRequestManeuverView() != null) {
             this.mvRequest.getMVRequestManeuverView().bind(dSIMapViewerManeuverView);
         } else {
-            this.getMapLogChannel().log(-1601830656, "AbstractMap[%1]#getMVRequestManeuverView() - no MVRequestManeuverView", (Object)this.getName());
+            this.getMapLogChannel().log(100000, "AbstractMap[%1]#getMVRequestManeuverView() - no MVRequestManeuverView", (Object)this.getName());
         }
     }
 
@@ -300,19 +333,18 @@ SpeedThresholdListener {
         return this.mapConfig.hasGoogleEarth() ? this.getMVRequest().getMVRequestGoogleCtrl().isReady() : false;
     }
 
-    public abstract void initDSI() {
-    }
+    public abstract void initDSI();
 
     public void hide() {
-        this.getMapLogChannel().log(-1601830656, "AbstractMap[%1]#hide() - unexpected call", (Object)this.getName());
+        this.getMapLogChannel().log(100000, "AbstractMap[%1]#hide() - unexpected call", (Object)this.getName());
     }
 
     public void hideRouteInfo() {
-        this.getMapLogChannel().log(14808325, "AbstractMap[%1]#hideRouteInfo()");
+        this.getMapLogChannel().log(100000000, "AbstractMap[%1]#hideRouteInfo()");
     }
 
     public void show() {
-        this.getMapLogChannel().log(-1601830656, "AbstractMap[%1]#show() - unexpected call", (Object)this.getName());
+        this.getMapLogChannel().log(100000, "AbstractMap[%1]#show() - unexpected call", (Object)this.getName());
     }
 
     protected void mapNotInitialized() {
@@ -327,7 +359,6 @@ SpeedThresholdListener {
         return this.mMapInitialized;
     }
 
-    @Override
     public LogChannel getMapLogChannel() {
         return this.sMapLogChannel;
     }
@@ -357,19 +388,19 @@ SpeedThresholdListener {
      */
     protected void forceSwitchToContext(int n, SwitchContextEnum switchContextEnum) {
         int n2 = n;
-        this.sMapLogChannel.log(-2137614336, "AbstractMap#forceSwitchToContext() - Context = %1 Reson = %2", (Object)Integer.toString(n2), (Object)switchContextEnum.description);
+        this.sMapLogChannel.log(10000000, "AbstractMap#forceSwitchToContext() - Context = %1 Reson = %2", (Object)Integer.toString(n2), (Object)switchContextEnum.description);
         Object object = this.getMutexSwitchToContext();
         synchronized (object) {
             if (this.isSwitchContextAllowed()) {
                 switch (n2) {
                     case 11: {
-                        this.sMapLogChannel.log(-2137614336, "AbstractMap#forceSwitchToContext():  cDestinationMap");
+                        this.sMapLogChannel.log(10000000, "AbstractMap#forceSwitchToContext():  cDestinationMap");
                         this.setSwitchBackToContext(11);
                         n2 = 8;
                         break;
                     }
                     case 10: {
-                        this.sMapLogChannel.log(-2137614336, "AbstractMap#forceSwitchToContext():  cOverviewMap");
+                        this.sMapLogChannel.log(10000000, "AbstractMap#forceSwitchToContext():  cOverviewMap");
                         this.setSwitchBackToContext(10);
                         n2 = 8;
                         break;
@@ -380,7 +411,7 @@ SpeedThresholdListener {
                     }
                 }
             } else {
-                this.sMapLogChannel.log(14808325, "AbstractMap#forceSwitchToContext(): else: ctx.setSwitchbackToOverviewMap( false )");
+                this.sMapLogChannel.log(100000000, "AbstractMap#forceSwitchToContext(): else: ctx.setSwitchbackToOverviewMap( false )");
                 this.setSwitchBackToContext(0);
             }
             this.beforeSwitch(this.ctxTimeline.activeCid, n2);
@@ -391,11 +422,11 @@ SpeedThresholdListener {
                 this.mLastVisibleCtxInsideNaviMap = this.ctxTimeline.activeCid;
             }
             if (this.sMapLogChannel.isDebug2()) {
-                this.sMapLogChannel.log(1078071040, "**************************************************");
-                this.sMapLogChannel.log(1078071040, "CONTEXT %1 [%2]", (Object)super.getClass().getName(), (Object)switchContextEnum.description);
-                this.sMapLogChannel.log(1078071040, "**************************************************");
+                this.sMapLogChannel.log(1000000, "**************************************************");
+                this.sMapLogChannel.log(1000000, "CONTEXT %1 [%2]", (Object)this.getActiveContext().getClass().getName(), (Object)switchContextEnum.description);
+                this.sMapLogChannel.log(1000000, "**************************************************");
             } else {
-                this.sMapLogChannel.log(1078071040, "*** CONTEXT %1 *** [%2]", (Object)super.getClass().getName(), (Object)switchContextEnum.description);
+                this.sMapLogChannel.log(1000000, "*** CONTEXT %1 *** [%2]", (Object)this.getActiveContext().getClass().getName(), (Object)switchContextEnum.description);
             }
             this.mContextSwitchStatus = 2;
             try {
@@ -407,7 +438,7 @@ SpeedThresholdListener {
                 this.getMapLogChannel().log(10000, "AbstractMap#forceSwitchToContext() - %1", (Throwable)exception);
             }
             this.mContextSwitchStatus = 0;
-            this.sMapLogChannel.log(-2137614336, "*** Activated CONTEXT %1 ***", (Object)super.getClass().getName());
+            this.sMapLogChannel.log(10000000, "*** Activated CONTEXT %1 ***", (Object)this.getActiveContext().getClass().getName());
         }
     }
 
@@ -429,7 +460,6 @@ SpeedThresholdListener {
         return this.mapMgr.getMutexSwitchToContext();
     }
 
-    @Override
     public void switchToContext(int n) {
         this.switchToContext(n, SwitchContextEnum.NoReason);
     }
@@ -441,7 +471,7 @@ SpeedThresholdListener {
         Object object = this.getMutexSwitchToContext();
         synchronized (object) {
             if (this.ctxTimeline.activeCid == n) {
-                this.sMapLogChannel.log(1078071040, "AbstractMap#switchToContext( %2 ) - context %2 already active, ignoring, reason:%1", (Object)switchContextEnum, (long)n);
+                this.sMapLogChannel.log(1000000, "AbstractMap#switchToContext( %2 ) - context %2 already active, ignoring, reason:%1", (Object)switchContextEnum, (long)n);
                 return;
             }
             this.forceSwitchToContext(n, switchContextEnum);
@@ -455,7 +485,7 @@ SpeedThresholdListener {
         Object object = this.getMutexSwitchToContext();
         synchronized (object) {
             if (this.ctxTimeline.activeCid == n) {
-                this.sMapLogChannel.log(1078071040, "AbstractMap#switchToContext(): context %1 already active, ignoring", (long)n);
+                this.sMapLogChannel.log(1000000, "AbstractMap#switchToContext(): context %1 already active, ignoring", (long)n);
                 return;
             }
             this.forceSwitchToContext(n, navLocation.latitude, navLocation.longitude);
@@ -463,7 +493,7 @@ SpeedThresholdListener {
     }
 
     protected int determineShownContext() {
-        this.sMapLogChannel.log(1078071040, "AbstractMap#determineShownContext - getSetupMapType(true) = %1, mForcedContext = %2", (long)this.getSetup().getMapType(true), (long)this.ctxTimeline.getIntention());
+        this.sMapLogChannel.log(1000000, "AbstractMap#determineShownContext - getSetupMapType(true) = %1, mForcedContext = %2", (long)this.getSetup().getMapType(true), (long)this.ctxTimeline.getIntention());
         int n = 6;
         block0 : switch (this.getSetup().getMapType(true)) {
             case 0: {
@@ -502,7 +532,7 @@ SpeedThresholdListener {
         }
         if (this.ctxTimeline.getIntention() != -1) {
             if (this.getMapDataContainer().viewSize == 1 && !MapUtils.isCtxAllowedInSmallStage(this.ctxTimeline.getIntention())) {
-                this.getMapLogChannel().log(-1601830656, "AbstractMap#determineShownContext() - can not enter crosshair mode in small stage");
+                this.getMapLogChannel().log(100000, "AbstractMap#determineShownContext() - can not enter crosshair mode in small stage");
             } else {
                 n = this.ctxTimeline.getIntention();
             }
@@ -524,7 +554,7 @@ SpeedThresholdListener {
     }
 
     public void forceContext(int n) {
-        this.sMapLogChannel.log(1078071040, "AbstractMap#forceContext(%1)", (long)n);
+        this.sMapLogChannel.log(1000000, "AbstractMap#forceContext(%1)", (long)n);
         this.ctxTimeline.setIntention(n);
         this.mLastForcedContext = this.ctxTimeline.getIntention();
         if (n == -1) {
@@ -536,8 +566,7 @@ SpeedThresholdListener {
         }
     }
 
-    public abstract void forceHiddenContextRefresh() {
-    }
+    public abstract void forceHiddenContextRefresh();
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
@@ -546,7 +575,7 @@ SpeedThresholdListener {
         Object object = this.getMutexSwitchToContext();
         synchronized (object) {
             if (this.getActiveContext() instanceof CtxHidden) {
-                this.sMapLogChannel.log(1078071040, "AbstractMap#forceShownContextRefresh(): A hidden context is already active, ignoring");
+                this.sMapLogChannel.log(1000000, "AbstractMap#forceShownContextRefresh(): A hidden context is already active, ignoring");
                 return;
             }
             int n = this.ctxTimeline.activeCid;
@@ -559,12 +588,10 @@ SpeedThresholdListener {
         return this.mLastForcedContext;
     }
 
-    @Override
     public IContext getActiveContext() {
         return this.ctxTimeline.active;
     }
 
-    @Override
     public Context getActiveCtx() {
         try {
             return (Context)this.ctxTimeline.active;
@@ -574,7 +601,6 @@ SpeedThresholdListener {
         }
     }
 
-    @Override
     public int getActiveContextIndex() {
         return this.ctxTimeline.activeCid;
     }
@@ -587,7 +613,6 @@ SpeedThresholdListener {
         return this.ctxTimeline.lastShownAndModifiedCid;
     }
 
-    @Override
     public MapDataContainer getMapDataContainer() {
         return this.mapDataContainer;
     }
@@ -604,7 +629,6 @@ SpeedThresholdListener {
         return this.mapInterface;
     }
 
-    @Override
     public GUIInterface getGuiInterface() {
         return this.guiInterface;
     }
@@ -617,12 +641,10 @@ SpeedThresholdListener {
         return this.mapMgr.getRouteInfoContextHandler();
     }
 
-    @Override
     public IMapRequest getMVRequest() {
         return this.mvRequest;
     }
 
-    @Override
     public MVResponseControl getMVResponseControl() {
         MVRequestControl mVRequestControl = this.getMVRequest().getMVRequestControlActive();
         if (mVRequestControl != null) {
@@ -659,7 +681,6 @@ SpeedThresholdListener {
         return null;
     }
 
-    @Override
     public MVResponseZoomEngine getMVResponseZoomEngine() {
         MVRequestZoomEngine mVRequestZoomEngine = this.getMVRequest().getMVRequestZoomEngine();
         if (mVRequestZoomEngine != null) {
@@ -678,7 +699,7 @@ SpeedThresholdListener {
     }
 
     public void cancelOverviewMapTimer() {
-        this.sMapLogChannel.log(1078071040, "AbstractMap#cancelOverviewMapTimer()");
+        this.sMapLogChannel.log(1000000, "AbstractMap#cancelOverviewMapTimer()");
         this.getZoomHandler().stopOverviewMapSwitchBackTimer();
     }
 
@@ -726,7 +747,6 @@ SpeedThresholdListener {
         return buffer.toString();
     }
 
-    @Override
     public ISetupHandler getSetup() {
         if (this.setupHandler == null) {
             this.getMapLogChannel().log(10000, "AbstractMap[%1]#getSetup() - no setup handler", (Object)this.getName());
@@ -755,7 +775,6 @@ SpeedThresholdListener {
         return this.getMVRequest().getMVRequestStd();
     }
 
-    @Override
     public NavigationEnv getNavigationEnv() {
         return this.env;
     }
@@ -771,7 +790,7 @@ SpeedThresholdListener {
                 return 2;
             }
         }
-        this.getMapLogChannel().log(-1601830656, "AbstractMap[%1]#getCurrentMapStyle(): Unknown mapRepresentation: %2", (Object)this.getName(), (long)n);
+        this.getMapLogChannel().log(100000, "AbstractMap[%1]#getCurrentMapStyle(): Unknown mapRepresentation: %2", (Object)this.getName(), (long)n);
         return 0;
     }
 
@@ -795,11 +814,10 @@ SpeedThresholdListener {
         return this.getSetup().getMapType();
     }
 
-    @Override
     public int getZoomEngineState() {
         int n = -1;
         n = this.getMapConfig().hasZoomEngine() ? this.getMVResponseZoomEngine().getZoomEngineState() : 0;
-        this.getMapLogChannel().log(14808325, "AbstractMap[%1]#getZoomEngineState() state = %2 (off=0, auto=2, maneuver=3)", (Object)this.getName(), (long)n);
+        this.getMapLogChannel().log(100000000, "AbstractMap[%1]#getZoomEngineState() state = %2 (off=0, auto=2, maneuver=3)", (Object)this.getName(), (long)n);
         return n;
     }
 
@@ -809,7 +827,7 @@ SpeedThresholdListener {
             case 10: 
             case 11: {
                 this.mapDataContainer.sSwitchBackToContext = n;
-                this.getMapLogChannel().log(-2137614336, "AbstractMap[%1]#setSwitchBackToContext( %2 )", (Object)this.getName(), (long)n);
+                this.getMapLogChannel().log(10000000, "AbstractMap[%1]#setSwitchBackToContext( %2 )", (Object)this.getName(), (long)n);
                 break;
             }
             default: {
@@ -847,7 +865,6 @@ SpeedThresholdListener {
         return buffer.toString();
     }
 
-    @Override
     public boolean isMapMain() {
         return this == this.getMapManager().getMapMain();
     }
@@ -868,8 +885,7 @@ SpeedThresholdListener {
         return this instanceof MapKombi;
     }
 
-    protected abstract ChoiceModelApp getActiveRendererChoice() {
-    }
+    protected abstract ChoiceModelApp getActiveRendererChoice();
 
     public IconHandler getIconHandler() {
         return this.iconHandler;
@@ -879,7 +895,6 @@ SpeedThresholdListener {
         return this.ctxTimeline.lastVisibleCid;
     }
 
-    @Override
     public int getLastCtxShownID() {
         return this.ctxTimeline.lastShownCid;
     }
@@ -894,7 +909,7 @@ SpeedThresholdListener {
 
     public void backupMapState() {
         if (this.lastState == null) {
-            this.lastState = new AbstractMap$MapState();
+            this.lastState = new MapState();
         }
         this.lastState.zoomlevel = this.getZoomHandler().getZoom();
         this.lastState.pins = this.getMapFlagHandler().getPins();
@@ -902,10 +917,10 @@ SpeedThresholdListener {
         if (this.getMapPosition() != null) {
             this.lastState.position = new NavLocationWgs84(this.getMapPosition().getLongitude(), this.getMapPosition().getLatitude());
         }
-        this.sMapLogChannel.log(-2137614336, "AbstractMap#backupMapState() - %1", (Object)this.lastState);
+        this.sMapLogChannel.log(10000000, "AbstractMap#backupMapState() - %1", (Object)this.lastState);
     }
 
-    public AbstractMap$MapState getLastMapState() {
+    public MapState getLastMapState() {
         return this.lastState;
     }
 
@@ -913,7 +928,7 @@ SpeedThresholdListener {
     }
 
     public void setEnableDeepSwitching(boolean bl) {
-        this.sMapLogChannel.log(-2137614336, "AbstractMap[%2]#setEnableDeepSwitching( %1 )", bl, (Object)this.getName());
+        this.sMapLogChannel.log(10000000, "AbstractMap[%2]#setEnableDeepSwitching( %1 )", bl, (Object)this.getName());
         this.isDeepSwitchingEnabled = bl;
     }
 
@@ -925,12 +940,11 @@ SpeedThresholdListener {
         return this.mapMgr.getViews();
     }
 
-    @Override
     public void viewSizeChanged(int n) {
     }
 
     public void postSwitchRenderer() {
-        this.sMapLogChannel.log(-2137614336, "AbstractMap[%1]#postSwitchRenderer( )", (Object)this.getName());
+        this.sMapLogChannel.log(10000000, "AbstractMap[%1]#postSwitchRenderer( )", (Object)this.getName());
         if (this.mapDataContainer.sMapContentList != null) {
             this.mapDataContainer.sMapContentList.onChangedMapRenderer();
         }
@@ -944,22 +958,21 @@ SpeedThresholdListener {
         return this.mapSelectionHandler;
     }
 
-    @Override
     public void onSelectionChanged(MapItemSelectionInfo mapItemSelectionInfo) {
-        if (this.getActiveContext() instanceof MapSelectionHandler$IMapSelectionListener) {
+        if (this.getActiveContext() instanceof MapSelectionHandler.IMapSelectionListener) {
             try {
-                ((MapSelectionHandler$IMapSelectionListener)((Object)this.getActiveContext())).onSelectionChanged(mapItemSelectionInfo);
+                ((MapSelectionHandler.IMapSelectionListener)((Object)this.getActiveContext())).onSelectionChanged(mapItemSelectionInfo);
             }
             catch (Exception exception) {
-                this.getMapLogChannel().log(-1601830656, "AbstractMap#onSelectionChanged() - %1", (Throwable)exception);
+                this.getMapLogChannel().log(100000, "AbstractMap#onSelectionChanged() - %1", (Throwable)exception);
             }
         } else {
-            this.getMapLogChannel().log(-1601830656, "AbstractMap#onSelectionChanged() - unexpected call, CID = %1", (long)this.getActiveContextIndex());
+            this.getMapLogChannel().log(100000, "AbstractMap#onSelectionChanged() - unexpected call, CID = %1", (long)this.getActiveContextIndex());
         }
     }
 
     public void show(int n) {
-        this.getMapLogChannel().log(-2137614336, "AbstractMap[%1]#show( %2 )", (Object)this.getName(), (long)n);
+        this.getMapLogChannel().log(10000000, "AbstractMap[%1]#show( %2 )", (Object)this.getName(), (long)n);
         this.mapDataContainer.iShowTrigger = n;
     }
 
@@ -973,17 +986,17 @@ SpeedThresholdListener {
     }
 
     public void clearShowTrigger() {
-        this.getMapLogChannel().log(-2137614336, "AbstractMap[%1]#clearShowTrigger() - trigger : %2", (Object)this.getName(), (long)this.mapDataContainer.iShowTrigger);
+        this.getMapLogChannel().log(10000000, "AbstractMap[%1]#clearShowTrigger() - trigger : %2", (Object)this.getName(), (long)this.mapDataContainer.iShowTrigger);
         this.mapDataContainer.iShowTrigger = -1;
     }
 
     public void onEvent(int n) {
-        this.getMapLogChannel().log(14808325, "AbstractMap[%1]#onEvent( %2 )", (Object)this.getName(), (long)n);
+        this.getMapLogChannel().log(100000000, "AbstractMap[%1]#onEvent( %2 )", (Object)this.getName(), (long)n);
         this.getActiveContext().onEvent(n);
     }
 
     public void onEvent(int n, Object object) {
-        this.getMapLogChannel().log(14808325, "AbstractMap[%2]#onEvent( %3 ) - %1", object, (Object)this.getName(), (long)n);
+        this.getMapLogChannel().log(100000000, "AbstractMap[%2]#onEvent( %3 ) - %1", object, (Object)this.getName(), (long)n);
         this.getActiveContext().onEvent(n, object);
     }
 
@@ -992,7 +1005,7 @@ SpeedThresholdListener {
     }
 
     public int getNavMapMagnificationRange() {
-        return 1545340416;
+        return 400476;
     }
 
     public int getContextSwitchStatus() {
@@ -1005,7 +1018,7 @@ SpeedThresholdListener {
 
     public void clearForcedCrosshairCtx() {
         if (this.ctxTimeline.getIntention() == 12) {
-            this.getMapLogChannel().log(-2137614336, "AbstractMap[%1]#clearForcedCrosshairCtx()", (Object)this.getName());
+            this.getMapLogChannel().log(10000000, "AbstractMap[%1]#clearForcedCrosshairCtx()", (Object)this.getName());
             this.ctxTimeline.clearIntention();
         }
     }
@@ -1023,23 +1036,143 @@ SpeedThresholdListener {
     public void showTMCInMainMap(TmcMessage tmcMessage) {
     }
 
-    @Override
     public void onEvent(int n, int n2) {
     }
 
-    public IRouteInfo$IRouteInfoHandlerEnv getRouteInfoEnv() {
-        return new AbstractMap$2(this);
+    public IRouteInfo.IRouteInfoHandlerEnv getRouteInfoEnv() {
+        return new IRouteInfo.IRouteInfoHandlerEnv(){
+
+            public void updateDestDistance(int n) {
+                AbstractMap.this.getActiveContext().updateDestDistance(n);
+            }
+
+            public boolean showETAandDistanceToNextStopover() {
+                return AbstractMap.this.showETAandDistanceToNextStopover();
+            }
+
+            public boolean isInMap() {
+                return AbstractMap.this.getMapDataContainer().isInMap;
+            }
+
+            public boolean isRouteInfoEnabled() {
+                return AbstractMap.this.getSetup().isRouteInfoEnabled();
+            }
+
+            public boolean supportsAdditionalInfo() {
+                return AbstractMap.this.getActiveContext().supportsAdditionalInfo();
+            }
+
+            public boolean isRouteInfoAllowedToFadeIn() {
+                return AbstractMap.this.getRouteInfoContextHandler().isRouteInfoAllowedToFadeIn();
+            }
+
+            public void automaticOrientateMap() {
+                AbstractMap.this.getActiveContext().automaticOrientateMap();
+            }
+
+            public INaviInterface getNaviInterface() {
+                return AbstractMap.this.naviInterface;
+            }
+
+            public GUIInterface getGuiInterface() {
+                return AbstractMap.this.getGuiInterface();
+            }
+        };
     }
 
-    public IRouteCalculator$IRouteCalcEnv getRouteCalcEnv() {
-        return new AbstractMap$3(this);
+    public IRouteCalculator.IRouteCalcEnv getRouteCalcEnv() {
+        return new IRouteCalculator.IRouteCalcEnv(){
+
+            public void switchToContext(int n) {
+                AbstractMap.this.switchToContext(n);
+            }
+
+            public void switchToContext(int n, SwitchContextEnum switchContextEnum) {
+                AbstractMap.this.switchToContext(n, switchContextEnum);
+            }
+
+            public void switchToAShownContext() {
+                AbstractMap.this.switchToAShownContext();
+            }
+
+            public void showRouteBriefing(int n) {
+                AbstractMap.this.showRouteBriefing(n);
+            }
+
+            public void onFiredRGAutoStartTimer() {
+                this.getActiveContext().onFiredRGAutoStartTimer();
+            }
+
+            public void onEvent(int n) {
+                AbstractMap.this.onEvent(n);
+            }
+
+            public ViewFactory getViews() {
+                return AbstractMap.this.getViews();
+            }
+
+            public NavigationEnv getNavigationEnv() {
+                return AbstractMap.this.getNavigationEnv();
+            }
+
+            public INaviInterface getNaviInterface() {
+                return AbstractMap.this.getNaviInterface();
+            }
+
+            public IEventBroker getMapEventDispatcher() {
+                return AbstractMap.this.mapMgr.getMapEventDispatcher();
+            }
+
+            public MapDataContainer getMapDataContainer() {
+                return AbstractMap.this.mapDataContainer;
+            }
+
+            public MVRequest getMVRequest() {
+                return AbstractMap.this.mvRequest;
+            }
+
+            public int getActiveContextIndex() {
+                return AbstractMap.this.getActiveContextIndex();
+            }
+
+            public IContext getActiveContext() {
+                return AbstractMap.this.getActiveContext();
+            }
+
+            public IPreviewMap getPreviewMapHandler() {
+                return AbstractMap.this.getMapManager().getPreviewMapHandler();
+            }
+
+            public int getActiveNaviOrMapContext() {
+                return this.getMapDataContainer().activeNaviOrMapContext;
+            }
+
+            public int getActiveTab() {
+                return this.getMapDataContainer().currentNavTab;
+            }
+
+            public int getLastSelectedRouteIndex() {
+                return AbstractMap.this.getMapManager().getRouteManager().getLastSelectedRouteIndex();
+            }
+
+            public Object getMutexSwitchToContext() {
+                return AbstractMap.this.getMutexSwitchToContext();
+            }
+
+            public boolean isInNavigation() {
+                return this.getMapDataContainer().isInNavi;
+            }
+
+            public ISatelliteMapsManager getSatelliteManager() {
+                return AbstractMap.this.getSatellitemapsManager();
+            }
+        };
     }
 
-    public IZoomHandler$IZoomHandlerEnv getZoomHandlerEnv() {
+    public IZoomHandler.IZoomHandlerEnv getZoomHandlerEnv() {
         return this;
     }
 
-    @Override
     public boolean isMapEnablingSoftTiltDesired() {
         return true;
     }
@@ -1050,7 +1183,6 @@ SpeedThresholdListener {
     public void enterAlternativeRoutes() {
     }
 
-    @Override
     public void exceedsUpperThreshold(int n) {
         if (n == 1) {
             this.getMapInterface().setCarMoving(true);
@@ -1058,7 +1190,6 @@ SpeedThresholdListener {
         }
     }
 
-    @Override
     public void belowLowerThreshold(int n) {
         if (n == 1) {
             this.getMapInterface().setCarMoving(false);
@@ -1084,6 +1215,21 @@ SpeedThresholdListener {
         }
         catch (ClassNotFoundException classNotFoundException) {
             throw new NoClassDefFoundError().initCause(classNotFoundException);
+        }
+    }
+
+    public static class MapState {
+        public float zoomlevel = -1.0f;
+        public int mapOrientation = 2;
+        public NavLocationWgs84 position = null;
+        public boolean showPOI = false;
+        public boolean showTMC = false;
+        public MapPin[] pins = null;
+
+        public String toString() {
+            Buffer buffer = new Buffer(150);
+            buffer.append("zoomLevel:").append(this.zoomlevel).append(", position:").append(this.position).append(", showPOI:").append(this.showPOI).append(", showTMC:").append(this.showTMC).append(", mapOrientation:").append(this.mapOrientation);
+            return buffer.toString();
         }
     }
 }

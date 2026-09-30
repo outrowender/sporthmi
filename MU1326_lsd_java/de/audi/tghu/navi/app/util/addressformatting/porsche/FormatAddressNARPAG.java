@@ -15,7 +15,6 @@ extends FormatAddressPAG {
         super(navigationEnv);
     }
 
-    @Override
     protected LocationFormattingResponse asTwoLines(LocationFormattingRequest locationFormattingRequest) {
         if (!locationFormattingRequest.poiName.isEmpty()) {
             return this.formatPoi(locationFormattingRequest);
@@ -27,12 +26,11 @@ extends FormatAddressPAG {
             return this.formattingFallback();
         }
         if (this.logChannel.isDebug2()) {
-            this.logChannel.log(14808325, "%1#asTwoLines -- returning default result", (Object)this.CLASS_NAME);
+            this.logChannel.log(100000000, "%1#asTwoLines -- returning default result", (Object)this.CLASS_NAME);
         }
         return this.formatDefault(locationFormattingRequest);
     }
 
-    @Override
     protected LocationFormattingResponse asThreeLines(LocationFormattingRequest locationFormattingRequest) {
         int n;
         LocationFormattingResponse locationFormattingResponse = new LocationFormattingResponse();
@@ -143,7 +141,6 @@ extends FormatAddressPAG {
         locationFormattingResponse.replaceSecondLine(this.formatDefault(locationFormattingRequest).createOneLineLocationFormattingResponse().getFirstLineList());
     }
 
-    @Override
     protected LocationFormattingResponse asSingleLine(LocationFormattingRequest locationFormattingRequest) {
         LocationFormattingResponse locationFormattingResponse = this.asTwoLines(locationFormattingRequest);
         return locationFormattingResponse.createOneLineLocationFormattingResponse();

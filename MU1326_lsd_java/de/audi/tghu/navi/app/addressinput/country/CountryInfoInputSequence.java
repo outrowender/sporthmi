@@ -10,13 +10,14 @@ import de.audi.tghu.navi.app.NavigationEnv;
 import de.audi.tghu.navi.app.addressinput.IMatchspellerModelAccess;
 import de.audi.tghu.navi.app.addressinput.commands.LISPSelectListItemCommand;
 import de.audi.tghu.navi.app.addressinput.commands.LISetCurrentLDCommand;
+import de.audi.tghu.navi.app.addressinput.commands.LIStartSpellerCommand;
 import de.audi.tghu.navi.app.addressinput.commands.ModelSelectListElementCommand;
 import de.audi.tghu.navi.app.addressinput.commands.ModelStartCommand;
 import de.audi.tghu.navi.app.addressinput.commands.ModelUpdateSpellerAndResultListCommand;
 import de.audi.tghu.navi.app.addressinput.commands.UpdateAddressInputFormScreenModelsCommand;
-import de.audi.tghu.navi.app.addressinput.country.CountryInfoInputSequence$1;
 import de.audi.tghu.navi.app.addressinput.country.CountryInputSequence;
 import de.audi.tghu.navi.app.command.LISPCancelSpellerCommand;
+import de.audi.tghu.navi.app.command.NavCommand;
 import de.audi.tghu.navi.app.guidance.Vehicle;
 import de.audi.tghu.navi.app.li.SpellerStack;
 import org.dsi.ifc.navigation.LIValueListElement;
@@ -27,7 +28,6 @@ extends CountryInputSequence {
         super(iMatchspellerModelAccess, spellerStack, iCommandListFactory, null, iPreviewMap, navigationEnv);
     }
 
-    @Override
     public CommandList getSelectListElementCommandList(LIValueListElement lIValueListElement, boolean bl) {
         CommandList commandList = this.commandListFactory.createCommandList();
         commandList.add(new LISPSelectListItemCommand(lIValueListElement.getListIndex()));
@@ -36,14 +36,22 @@ extends CountryInputSequence {
         return commandList;
     }
 
-    @Override
     public CommandList createStartCommandList(boolean bl) {
         CommandList commandList = this.commandListFactory.createCommandList();
         this.addGetStateCommand(commandList, bl, null);
         commandList.add(new ModelStartCommand(this.modelAccess));
         commandList.add(new LISetCurrentLDCommand(Vehicle.getInstance().getVehicleCountryLocation()));
         commandList.add(new LISPCancelSpellerCommand());
-        commandList.add(new CountryInfoInputSequence$1(this));
+        commandList.add(new NavCommand(){
+
+            public void execute() {
+                if (this.dsiResponseContainer.selectionCriterionAvailable(1)) {
+                    this.getCommandList().commandFinishedWithPostCommand(new LIStartSpellerCommand(1, true, true, true));
+                } else {
+                    this.getCommandList().commandAborted("SELCRITDES_COUNTRY is not available as selection criteria");
+                }
+            }
+        });
         commandList.add(new ModelUpdateSpellerAndResultListCommand(this.modelAccess));
         return commandList;
     }

@@ -13,33 +13,33 @@ import org.dsi.ifc.organizer.AdbEntry;
 import org.dsi.ifc.organizer.AddressData;
 
 public class NaviMyAudiImportUtil {
-    public static final int PHONE_ICON_ISDN;
-    public static final int PHONE_ICON_ISDN_PRIVATE;
-    public static final int PHONE_ICON_ISDN_BUSINESS;
-    public static final int PHONE_ICON_MOBILE;
-    public static final int PHONE_ICON_MOBILE_PRIVATE;
-    public static final int PHONE_ICON_MOBILE_BUSINESS;
-    public static final int PHONE_ICON_FAX;
-    public static final int PHONE_ICON_FAX_PRIVATE;
-    public static final int PHONE_ICON_FAX_BUSINESS;
-    public static final int PHONE_ICON_NONE;
-    public static final int PHONE_ICON_PRIVATE;
-    public static final int PHONE_ICON_BUSINESS;
-    public static final int PHONETYPES_ALL_CATS_PATTERN;
-    public static final int PHONETYPES_ALL_TYPES_PATTERN;
+    public static final int PHONE_ICON_ISDN = 0;
+    public static final int PHONE_ICON_ISDN_PRIVATE = 1;
+    public static final int PHONE_ICON_ISDN_BUSINESS = 2;
+    public static final int PHONE_ICON_MOBILE = 3;
+    public static final int PHONE_ICON_MOBILE_PRIVATE = 4;
+    public static final int PHONE_ICON_MOBILE_BUSINESS = 5;
+    public static final int PHONE_ICON_FAX = 6;
+    public static final int PHONE_ICON_FAX_PRIVATE = 7;
+    public static final int PHONE_ICON_FAX_BUSINESS = 8;
+    public static final int PHONE_ICON_NONE = 9;
+    public static final int PHONE_ICON_PRIVATE = 10;
+    public static final int PHONE_ICON_BUSINESS = 11;
+    public static final int PHONETYPES_ALL_CATS_PATTERN = 8184;
+    public static final int PHONETYPES_ALL_TYPES_PATTERN = 6;
 
     public static boolean hasPostalAddressForDisplayInAdrDetailScreen(AddressData addressData, LogChannel logChannel) {
-        logChannel.log(1078071040, "NaviMyAudiImportUtil#hasPostalAddressForDisplayInAdrDetailScreen()");
+        logChannel.log(1000000, "NaviMyAudiImportUtil#hasPostalAddressForDisplayInAdrDetailScreen()");
         return addressData.locality != null && addressData.locality.length() != 0 || addressData.street != null && addressData.street.length() != 0 || addressData.postalCode != null && addressData.postalCode.length() != 0;
     }
 
     public static String getFirstDisplayLineOfPostalAddress(AddressData addressData, LogChannel logChannel) {
-        logChannel.log(1078071040, "NaviMyAudiImportUtil#getFirstDisplayLineOfPostalAddress()");
+        logChannel.log(1000000, "NaviMyAudiImportUtil#getFirstDisplayLineOfPostalAddress()");
         return NaviMyAudiImportUtil.isEmpty(addressData.street) ? "" : addressData.street;
     }
 
     public static String getSecondDisplayLineOfPostalAddress(AddressData addressData, boolean bl, LogChannel logChannel) {
-        logChannel.log(1078071040, "NaviMyAudiImportUtil#getSecondDisplayLineOfPostalAddress()");
+        logChannel.log(1000000, "NaviMyAudiImportUtil#getSecondDisplayLineOfPostalAddress()");
         Buffer buffer = new Buffer();
         if (bl) {
             if (!NaviMyAudiImportUtil.isEmpty(addressData.locality)) {
@@ -79,7 +79,7 @@ public class NaviMyAudiImportUtil {
     }
 
     public static void fillTelNumberList(AdbEntry adbEntry, ListModelApp listModelApp, LogChannel logChannel) {
-        logChannel.log(1078071040, "OnlineDestinationAddressUtility#fillTelNumberList()");
+        logChannel.log(1000000, "OnlineDestinationAddressUtility#fillTelNumberList()");
         listModelApp.clear();
         listModelApp.setMaxColumns(6);
         if (adbEntry.phoneData != null) {
@@ -92,7 +92,7 @@ public class NaviMyAudiImportUtil {
 
     public static int getIconTypeForPhoneNumber(int n, LogChannel logChannel) {
         int n2;
-        logChannel.log(1078071040, "OnlineDestinationAddressUtility#getIconTypeForPhoneNumber()");
+        logChannel.log(1000000, "OnlineDestinationAddressUtility#getIconTypeForPhoneNumber()");
         int n3 = n & 0x1FF8;
         int n4 = n & 6;
         switch (n3) {

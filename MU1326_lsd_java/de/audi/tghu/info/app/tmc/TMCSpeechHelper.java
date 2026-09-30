@@ -27,10 +27,10 @@ public class TMCSpeechHelper {
     String getStringForTTS(TmcMessage tmcMessage) {
         String[] stringArray;
         if (tmcMessage == null) {
-            this.logger.log(-2137614336, "[TMCSpeechHelper#getStringForTTS] No current detail message available, build default text! ");
+            this.logger.log(10000000, "[TMCSpeechHelper#getStringForTTS] No current detail message available, build default text! ");
             return this.env.getTranslatedText(8).toLowerCase();
         }
-        this.logger.log(-2137614336, "[TMCSpeechHelper#getStringForTTS] before getting phonemes: %1 ", (Object)Thread.currentThread().getName());
+        this.logger.log(10000000, "[TMCSpeechHelper#getStringForTTS] before getting phonemes: %1 ", (Object)Thread.currentThread().getName());
         this.replaceWithPhonemes(tmcMessage);
         Buffer buffer = new Buffer();
         if (tmcMessage.isUrbanFlag()) {
@@ -93,12 +93,12 @@ public class TMCSpeechHelper {
         }
         buffer.append(".");
         String string = buffer.toString();
-        this.logger.log(-2137614336, "[TMCSpeechHelper#getStringForTTS] Built message: '%1' ", (Object)string);
+        this.logger.log(10000000, "[TMCSpeechHelper#getStringForTTS] Built message: '%1' ", (Object)string);
         return string;
     }
 
     private void replaceWithPhonemes(TmcMessage tmcMessage) {
-        this.logger.log(-2137614336, "[TMCSpeechHelper#replaceWithPhonemes] Called, msg: %1", (Object)tmcMessage);
+        this.logger.log(10000000, "[TMCSpeechHelper#replaceWithPhonemes] Called, msg: %1", (Object)tmcMessage);
         TmcPhoneme tmcPhoneme = tmcMessage.getPhoneme();
         this.tempRoadName = tmcMessage.getRoadName();
         if (this.tempRoadName != null) {
@@ -121,52 +121,52 @@ public class TMCSpeechHelper {
             this.tempEndLocation = this.tempEndLocation.toLowerCase();
         }
         if (tmcPhoneme == null) {
-            this.logger.log(-2137614336, "[TMCSpeechHelper#replaceWithPhonemes] No phonemes available!");
+            this.logger.log(10000000, "[TMCSpeechHelper#replaceWithPhonemes] No phonemes available!");
             return;
         }
         if (tmcPhoneme.getRoadName() != null && !tmcPhoneme.getRoadName().equals("")) {
             this.tempRoadName = TTSStringUtil.buildPhonemeString(tmcPhoneme.getRoadName(), tmcPhoneme.getPhonemeAlphabet(), tmcMessage.getRoadName());
-            this.logger.log(-2137614336, "[TMCSpeechHelper#replaceWithPhonemes] Phoneme for road name: %1", (Object)this.tempRoadName);
+            this.logger.log(10000000, "[TMCSpeechHelper#replaceWithPhonemes] Phoneme for road name: %1", (Object)this.tempRoadName);
         }
         if (tmcPhoneme.getDirectionOfRoad1() != null && !tmcPhoneme.getDirectionOfRoad1().equals("")) {
             this.tempDirectionOfRoad1 = TTSStringUtil.buildPhonemeString(tmcPhoneme.getDirectionOfRoad1(), tmcPhoneme.getPhonemeAlphabet(), tmcMessage.getDirectionOfRoad1());
-            this.logger.log(-2137614336, "[TMCSpeechHelper#replaceWithPhonemes] Phoneme for directionOfRoad1: %1", (Object)this.tempDirectionOfRoad1);
+            this.logger.log(10000000, "[TMCSpeechHelper#replaceWithPhonemes] Phoneme for directionOfRoad1: %1", (Object)this.tempDirectionOfRoad1);
         }
         if (tmcPhoneme.getDirectionOfRoad2() != null && !tmcPhoneme.getDirectionOfRoad2().equals("")) {
             this.tempDirectionOfRoad2 = TTSStringUtil.buildPhonemeString(tmcPhoneme.getDirectionOfRoad2(), tmcPhoneme.getPhonemeAlphabet(), tmcMessage.getDirectionOfRoad2());
-            this.logger.log(-2137614336, "[TMCSpeechHelper#replaceWithPhonemes] Phoneme for directionOfRoad2: %1", (Object)this.tempDirectionOfRoad2);
+            this.logger.log(10000000, "[TMCSpeechHelper#replaceWithPhonemes] Phoneme for directionOfRoad2: %1", (Object)this.tempDirectionOfRoad2);
         }
         if (tmcPhoneme.getStartLocation() != null && !tmcPhoneme.getStartLocation().equals("")) {
             this.tempStartLocation = TTSStringUtil.buildPhonemeString(tmcPhoneme.getStartLocation(), tmcPhoneme.getPhonemeAlphabet(), tmcMessage.getStartLocation());
-            this.logger.log(-2137614336, "[TMCSpeechHelper#replaceWithPhonemes] Phoneme for startLocation: %1", (Object)this.tempStartLocation);
+            this.logger.log(10000000, "[TMCSpeechHelper#replaceWithPhonemes] Phoneme for startLocation: %1", (Object)this.tempStartLocation);
         }
         if (tmcPhoneme.getEndLocation() != null && !tmcPhoneme.getEndLocation().equals("")) {
             this.tempEndLocation = TTSStringUtil.buildPhonemeString(tmcPhoneme.getEndLocation(), tmcPhoneme.getPhonemeAlphabet(), tmcMessage.getEndLocation());
-            this.logger.log(-2137614336, "[TMCSpeechHelper#replaceWithPhonemes] Phoneme for endLocation: %1", (Object)this.tempEndLocation);
+            this.logger.log(10000000, "[TMCSpeechHelper#replaceWithPhonemes] Phoneme for endLocation: %1", (Object)this.tempEndLocation);
         }
     }
 
     String getSeveralMessagesOnRouteString() {
         String string = this.env.getTranslatedText(5);
-        this.logger.log(-2137614336, "[TMCSpeechHelper#getSeveralMessagesOnRouteString] String: '%1' ", (Object)string);
+        this.logger.log(10000000, "[TMCSpeechHelper#getSeveralMessagesOnRouteString] String: '%1' ", (Object)string);
         return string;
     }
 
     String getAvailableMessagesString() {
         String string = this.env.getTranslatedText(4).toLowerCase();
-        this.logger.log(-2137614336, "[TMCSpeechHelper#getAvailableMessagesString] String: '%1'", (Object)string);
+        this.logger.log(10000000, "[TMCSpeechHelper#getAvailableMessagesString] String: '%1'", (Object)string);
         return string;
     }
 
     String getOneMessageOnRouteString() {
         String string = this.env.getTranslatedText(21).toLowerCase();
-        this.logger.log(-2137614336, "[TMCSpeechHelper#getOneMessageOnRouteString] String: '%1' ", (Object)string);
+        this.logger.log(10000000, "[TMCSpeechHelper#getOneMessageOnRouteString] String: '%1' ", (Object)string);
         return string;
     }
 
     String getNoMessagesOnRouteString() {
         String string = this.env.getTranslatedText(9).toLowerCase();
-        this.logger.log(-2137614336, "[TMCSpeechHelper#getNoMessagesOnRouteString] String: '%1' ", (Object)string);
+        this.logger.log(10000000, "[TMCSpeechHelper#getNoMessagesOnRouteString] String: '%1' ", (Object)string);
         return string;
     }
 }

@@ -22,7 +22,7 @@ import de.audi.tghu.navi.app.favorite.IFavorite;
 import de.audi.tghu.navi.app.guidance.IVehicle;
 import de.audi.tghu.navi.app.interapp.IViewSizeChangeHandler;
 import de.audi.tghu.navi.app.map.AbstractMap;
-import de.audi.tghu.navi.app.map.NaviInterface$INotifyWhenRealRouteCalulcationisDone;
+import de.audi.tghu.navi.app.map.NaviInterface;
 import de.audi.tghu.navi.app.map.minimap.ITrafficMiniMap;
 import de.audi.tghu.navi.app.online.traffic.OnlineTrafficHandler;
 import de.audi.tghu.navi.app.poi.POICategoryManager;
@@ -39,235 +39,158 @@ import org.dsi.ifc.navigation.Route;
 import org.dsi.ifc.tmc.TmcMessage;
 
 public interface INaviInterface {
-    default public void calculateRealRouteDistanceTo(NavLocationWgs84 navLocationWgs84, NaviInterface$INotifyWhenRealRouteCalulcationisDone naviInterface$INotifyWhenRealRouteCalulcationisDone) {
-    }
+    public void calculateRealRouteDistanceTo(NavLocationWgs84 var1, NaviInterface.INotifyWhenRealRouteCalulcationisDone var2);
 
-    default public void mapReady(boolean bl) {
-    }
+    public void mapReady(boolean var1);
 
-    default public void mapInitialized(boolean bl) {
-    }
+    public void mapInitialized(boolean var1);
 
-    default public void updateMapFreeze(boolean bl) {
-    }
+    public void updateMapFreeze(boolean var1);
 
-    default public void alternativeRoutesScreenEntered() {
-    }
+    public void alternativeRoutesScreenEntered();
 
-    default public void alternativeRoutesChangedToSingleRG() {
-    }
+    public void alternativeRoutesChangedToSingleRG();
 
-    default public HomeAddressHandler getHomeAddressHandler() {
-    }
+    public HomeAddressHandler getHomeAddressHandler();
 
-    default public void startGuidanceCalculatedRoute(int n) {
-    }
+    public void startGuidanceCalculatedRoute(int var1);
 
-    default public CommandList startGuidanceCalculatedRouteByUID(NavSegmentID navSegmentID) {
-    }
+    public CommandList startGuidanceCalculatedRouteByUID(NavSegmentID var1);
 
-    default public void abortSDSSession() {
-    }
+    public void abortSDSSession();
 
-    default public CalculatedRouteListElement[] getCalculatedRoutes() {
-    }
+    public CalculatedRouteListElement[] getCalculatedRoutes();
 
-    default public int getRouteListLength() {
-    }
+    public int getRouteListLength();
 
-    default public int getIndexOfCurrentDestination() {
-    }
+    public int getIndexOfCurrentDestination();
 
-    default public void addressbookMapActive(boolean bl) {
-    }
+    public void addressbookMapActive(boolean var1);
 
-    default public void requestTmcMessage(int n) {
-    }
+    public void requestTmcMessage(int var1);
 
-    default public void requestOnlineResultFlagDetails(int n, OnlinePOIResultList onlinePOIResultList, AbstractMap abstractMap) {
-    }
+    public void requestOnlineResultFlagDetails(int var1, OnlinePOIResultList var2, AbstractMap var3);
 
-    default public void stopRouteGuidance() {
-    }
+    public void stopRouteGuidance();
 
-    default public boolean isOffroad() {
-    }
+    public boolean isOffroad();
 
-    default public POICategoryManager getPOICategoryManager() {
-    }
+    public POICategoryManager getPOICategoryManager();
 
-    default public void setDemoModeSpeed(long l) {
-    }
+    public void setDemoModeSpeed(long var1);
 
-    default public boolean isDemoModeActive() {
-    }
+    public boolean isDemoModeActive();
 
-    default public KOMOService getKOMOService() {
-    }
+    public KOMOService getKOMOService();
 
-    default public void updateTMCMapFreeze(boolean bl) {
-    }
+    public void updateTMCMapFreeze(boolean var1);
 
-    default public CountryInfo[] getCountryInfo() {
-    }
+    public CountryInfo[] getCountryInfo();
 
-    default public TrafficRegulationService getTrafficRegulationService() {
-    }
+    public TrafficRegulationService getTrafficRegulationService();
 
-    default public IFrameworkAccess getFramework() {
-    }
+    public IFrameworkAccess getFramework();
 
-    default public void resetEditInputMode() {
-    }
+    public void resetEditInputMode();
 
-    default public INaviAudioHandler getNaviAudioHandler() {
-    }
+    public INaviAudioHandler getNaviAudioHandler();
 
-    default public DSINavigationManager getDSINavigationManager() {
-    }
+    public DSINavigationManager getDSINavigationManager();
 
-    default public void startPoiStackSequence(NavLocation navLocation) {
-    }
+    public void startPoiStackSequence(NavLocation var1);
 
-    default public void startDestinationDetails(NavLocation navLocation) {
-    }
+    public void startDestinationDetails(NavLocation var1);
 
-    default public void startDestinationDetailsTMC(TmcMessage tmcMessage) {
-    }
+    public void startDestinationDetailsTMC(TmcMessage var1);
 
-    default public void googleEarthUpdateStatusCompleted(int n, boolean bl) {
-    }
+    public void googleEarthUpdateStatusCompleted(int var1, boolean var2);
 
-    default public void setOperationTaskCompleted(int n) {
-    }
+    public void setOperationTaskCompleted(int var1);
 
-    default public IVehicle getVehicle() {
-    }
+    public IVehicle getVehicle();
 
-    default public NavLocation streamToLocation(byte[] byArray) {
-    }
+    public NavLocation streamToLocation(byte[] var1);
 
-    default public void resetDetour() {
-    }
+    public void resetDetour();
 
-    default public Route getRoute() {
-    }
+    public Route getRoute();
 
-    default public IRouteManager getRouteManager() {
-    }
+    public IRouteManager getRouteManager();
 
-    default public NaviOnlineService getNaviOnlineService() {
-    }
+    public NaviOnlineService getNaviOnlineService();
 
-    default public int getNavigationMode() {
-    }
+    public int getNavigationMode();
 
-    default public void setNavigationMode(int n) {
-    }
+    public void setNavigationMode(int var1);
 
-    default public void showMapDestination(NavLocation navLocation, String string) {
-    }
+    public void showMapDestination(NavLocation var1, String var2);
 
-    default public void executeCallDiscardOld(INavCall iNavCall, String string) {
-    }
+    public void executeCallDiscardOld(INavCall var1, String var2);
 
-    default public int getConfiguredTimeMode() {
-    }
+    public int getConfiguredTimeMode();
 
-    default public void updateKombiMapReady(boolean bl) {
-    }
+    public void updateKombiMapReady(boolean var1);
 
-    default public OperationManager getOperationManager() {
-    }
+    public OperationManager getOperationManager();
 
-    default public INavigationInputModeManager getInputModeManager() {
-    }
+    public INavigationInputModeManager getInputModeManager();
 
-    default public ClusterService getClusterService() {
-    }
+    public ClusterService getClusterService();
 
-    default public void calculateAlternativeRoutes() {
-    }
+    public void calculateAlternativeRoutes();
 
-    default public TMCService getTMCGateWay() {
-    }
+    public TMCService getTMCGateWay();
 
-    default public void updateDelayOnCurrentRoute(long l) {
-    }
+    public void updateDelayOnCurrentRoute(long var1);
 
-    default public CommandList createCommandList() {
-    }
+    public CommandList createCommandList();
 
-    default public IViewSizeChangeHandler getViewSizeChangeHandler() {
-    }
+    public IViewSizeChangeHandler getViewSizeChangeHandler();
 
-    default public IFavorite[] getFavorites() {
-    }
+    public IFavorite[] getFavorites();
 
-    default public void stopRouteCalculation() {
-    }
+    public void stopRouteCalculation();
 
-    default public PreviewMapCallback getDetailsScreen() {
-    }
+    public PreviewMapCallback getDetailsScreen();
 
-    default public void updateInfoForNextTmcEvent(long l, TmcMessage tmcMessage) {
-    }
+    public void updateInfoForNextTmcEvent(long var1, TmcMessage var3);
 
-    default public void sdsSessionAborted() {
-    }
+    public void sdsSessionAborted();
 
-    default public void sdsDialogStarted() {
-    }
+    public void sdsDialogStarted();
 
-    default public void sdsDialogEnded() {
-    }
+    public void sdsDialogEnded();
 
-    default public IRouteCriteria getRouteCriteria() {
-    }
+    public IRouteCriteria getRouteCriteria();
 
-    default public void triggerEventAudioMessage(int n) {
-    }
+    public void triggerEventAudioMessage(int var1);
 
-    default public AEAService getAeaService() {
-    }
+    public AEAService getAeaService();
 
-    default public void triggerUpdateRcci() {
-    }
+    public void triggerUpdateRcci();
 
-    default public void afaRepeat(int n) {
-    }
+    public void afaRepeat(int var1);
 
-    default public void sdsDialogAborting() {
-    }
+    public void sdsDialogAborting();
 
-    default public ITrafficMiniMap getTrafficMiniMap() {
-    }
+    public ITrafficMiniMap getTrafficMiniMap();
 
-    default public OnlineTrafficHandler getOnlineTrafficHandler() {
-    }
+    public OnlineTrafficHandler getOnlineTrafficHandler();
 
-    default public void stopRrdMonitor() {
-    }
+    public void stopRrdMonitor();
 
-    default public void setAddressInputFormModelAccessHelper(IAddressInputFormModelAccessHelper iAddressInputFormModelAccessHelper) {
-    }
+    public void setAddressInputFormModelAccessHelper(IAddressInputFormModelAccessHelper var1);
 
-    default public void sendCalculatateAltRoutesResult(byte by) {
-    }
+    public void sendCalculatateAltRoutesResult(byte var1);
 
-    default public NavLocation getCurrentPoiProximityWarningLocation() {
-    }
+    public NavLocation getCurrentPoiProximityWarningLocation();
 
-    default public void hideCurrentPoiProximityWarningAfterSelection() {
-    }
+    public void hideCurrentPoiProximityWarningAfterSelection();
 
-    default public void focusSelenaRoutes(boolean bl) {
-    }
+    public void focusSelenaRoutes(boolean var1);
 
-    default public boolean isFeatureToBeLocked() {
-    }
+    public boolean isFeatureToBeLocked();
 
-    default public void setFeatureToBeLocked(boolean bl) {
-    }
+    public void setFeatureToBeLocked(boolean var1);
 }
 

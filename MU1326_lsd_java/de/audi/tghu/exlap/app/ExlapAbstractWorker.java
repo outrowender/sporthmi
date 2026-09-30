@@ -36,44 +36,36 @@ implements IExlapWorker {
         this.registerListener();
     }
 
-    @Override
     public void stop() {
         this.removeListener();
         this.service = null;
     }
 
-    @Override
     public int getInterval() {
         return this.interval;
     }
 
-    @Override
     public void enable(int n) {
         this.interval = n;
         this.trigger();
     }
 
-    @Override
     public void disable() {
         this.interval = -1;
     }
 
-    @Override
     public long getLastExecution() {
         return this.lastExecution;
     }
 
-    @Override
     public boolean hasNewData() {
         return this.newData;
     }
 
-    @Override
     public void setNewData(boolean bl) {
         this.newData = bl;
     }
 
-    @Override
     public void setLastExecution(long l) {
         this.lastExecution = l;
     }
@@ -82,13 +74,10 @@ implements IExlapWorker {
         this.dispatcher.trigger(this);
     }
 
-    protected abstract ExlapListener createListener() {
-    }
+    protected abstract ExlapListener createListener();
 
-    protected abstract int[] getAttributes() {
-    }
+    protected abstract int[] getAttributes();
 
-    @Override
     public void registerListener() {
         if (this.service != null) {
             this.service.addListener(this.getAttributes(), this.listener);

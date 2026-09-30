@@ -4,7 +4,7 @@
 package de.eso.vcalendar.b;
 
 public class a {
-    public static final String a;
+    public static final String a = "VALARM";
     private String b;
     private String c;
     private String d;

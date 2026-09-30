@@ -20,18 +20,17 @@ extends NavCommand {
         this.resultSent = false;
     }
 
-    @Override
     public void execute() {
         boolean bl = this.dsiResponseContainer.isRgActive();
         boolean bl2 = this.checkRouteCalculation();
         if (bl2) {
-            this.logger.log(-2137614336, "RGStartGuidanceCalculatedRoute#execute() - calling rgStartGuidanceCalculatedRoute( %1 ) ", (long)this.index);
+            this.logger.log(10000000, "RGStartGuidanceCalculatedRoute#execute() - calling rgStartGuidanceCalculatedRoute( %1 ) ", (long)this.index);
             this.getDSINavigation().rgStartGuidanceCalculatedRoute(this.index);
             if (bl) {
                 // empty if block
             }
         } else {
-            this.logger.log(-1601830656, "RGStartGuidanceCalculatedRoute#execute() - route calculation state is not valid, do not start guidance!");
+            this.logger.log(100000, "RGStartGuidanceCalculatedRoute#execute() - route calculation state is not valid, do not start guidance!");
             this.getCommandList().commandFinished();
         }
     }
@@ -43,7 +42,7 @@ extends NavCommand {
             Buffer buffer = new Buffer();
             Util.appendObjectArray(buffer, objectArray);
             if (this.logger.isDebug2()) {
-                this.logger.log(14808325, "RGStartGuidanceCalculatedRoute#checkRouteCalculation() - rgRouteCalculationState: %2, rgCalculatedRoutes: %1", (Object)buffer, (long)n);
+                this.logger.log(100000000, "RGStartGuidanceCalculatedRoute#checkRouteCalculation() - rgRouteCalculationState: %2, rgCalculatedRoutes: %1", (Object)buffer, (long)n);
             }
         }
         boolean bl = n == 1 || n == 2 || n == 3;
@@ -57,23 +56,21 @@ extends NavCommand {
 
     private void checkFinished() {
         if ((this.rgActiveSent || this.dsiResponseContainer.isRgActive()) && this.resultSent) {
-            this.logger.log(-2137614336, "RGStartGuidanceCalculatedRoute#checkFinished() - guidance has been started successfully!");
+            this.logger.log(10000000, "RGStartGuidanceCalculatedRoute#checkFinished() - guidance has been started successfully!");
             this.getCommandList().commandFinished();
         }
     }
 
-    @Override
     public void updateRgActive(boolean bl) {
-        this.logger.log(-2137614336, "RGStartGuidanceCalculatedRoute#updateRgActive( %1 ) ", bl);
+        this.logger.log(10000000, "RGStartGuidanceCalculatedRoute#updateRgActive( %1 ) ", bl);
         super.updateRgActive(bl);
         this.rgActiveSent = bl;
         this.checkFinished();
     }
 
-    @Override
     public void rgStartGuidanceCalculatedRouteResult(int n) {
         if (n == 0) {
-            this.logger.log(-2137614336, "RGStartGuidanceCalculatedRoute#rgStartGuidanceCalculatedRouteResult()");
+            this.logger.log(10000000, "RGStartGuidanceCalculatedRoute#rgStartGuidanceCalculatedRouteResult()");
             this.resultSent = true;
             this.checkFinished();
         } else {
@@ -82,7 +79,6 @@ extends NavCommand {
         }
     }
 
-    @Override
     public void rgNotPossible(int n) {
         this.logger.log(10000, "RGStartGuidanceCalculatedRoute#rgNotPossible( %1 )", (long)n);
         super.rgNotPossible(n);

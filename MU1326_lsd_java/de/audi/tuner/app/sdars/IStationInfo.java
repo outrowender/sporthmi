@@ -6,7 +6,6 @@ package de.audi.tuner.app.sdars;
 import de.audi.tuner.app.sdars.StationInfoExt;
 
 public interface IStationInfo {
-    default public StationInfoExt getStation() {
-    }
+    public StationInfoExt getStation();
 }
 

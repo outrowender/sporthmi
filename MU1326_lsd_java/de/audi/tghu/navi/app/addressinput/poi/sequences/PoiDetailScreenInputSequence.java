@@ -7,16 +7,17 @@ import de.audi.atip.interapp.navigation.previewmap.IPreviewMap;
 import de.audi.tghu.command.CommandList;
 import de.audi.tghu.command.ICommandListFactory;
 import de.audi.tghu.navi.app.NavigationEnv;
+import de.audi.tghu.navi.app.addressinput.commands.LISPSelectListItemCommand;
 import de.audi.tghu.navi.app.addressinput.poi.IPoiManager;
 import de.audi.tghu.navi.app.addressinput.poi.commands.PoiModelStartCommand;
 import de.audi.tghu.navi.app.addressinput.poi.models.IPoiDetailScreenModelAccess;
 import de.audi.tghu.navi.app.addressinput.poi.searcharea.PoiSearchArea;
 import de.audi.tghu.navi.app.addressinput.poi.sequences.AbstractPoiScreenInputSequence;
-import de.audi.tghu.navi.app.addressinput.poi.sequences.PoiDetailScreenInputSequence$1;
-import de.audi.tghu.navi.app.addressinput.poi.sequences.PoiDetailScreenInputSequence$2;
-import de.audi.tghu.navi.app.addressinput.poi.sequences.PoiDetailScreenInputSequence$3;
+import de.audi.tghu.navi.app.command.NavCommand;
 import de.audi.tghu.navi.app.li.SpellerStack;
 import de.audi.tghu.navi.app.li.sc.SpellerContext;
+import org.dsi.ifc.global.NavLocation;
+import org.dsi.ifc.navigation.LIValueListElement;
 
 public class PoiDetailScreenInputSequence
 extends AbstractPoiScreenInputSequence {
@@ -29,26 +30,34 @@ extends AbstractPoiScreenInputSequence {
         this.previewMapInterface = iPreviewMap;
     }
 
-    @Override
     public CommandList getStartCommandList() {
         CommandList commandList = this.commandListFactory.createCommandList();
         commandList.add(new PoiModelStartCommand(this.modelAccess));
-        commandList.add(new PoiDetailScreenInputSequence$1(this, "SelectListItem with Element from CommandListContext"));
-        commandList.add(new PoiDetailScreenInputSequence$2(this, "Model onUpdateLocation"));
-        commandList.add(new PoiDetailScreenInputSequence$3(this, new StringBuffer().append(this.CLASS_NAME).append(" - Setting preview map").toString()));
+        commandList.add(new NavCommand("SelectListItem with Element from CommandListContext"){
+
+            public void execute() {
+                this.getCommandList().commandFinishedWithPostCommand(new LISPSelectListItemCommand(((LIValueListElement)this.getCommandList().get("CurrentSelection")).getListIndex()));
+            }
+        });
+        commandList.add(new NavCommand("Model onUpdateLocation"){
+
+            public void execute() {
+                PoiDetailScreenInputSequence.this.modelAccess.onUpdateLocation(this.dsiResponseContainer.getLiCurrentLD());
+                this.getCommandList().commandFinished();
+            }
+        });
+        commandList.add(new NavCommand(new StringBuffer().append(this.CLASS_NAME).append(" - Setting preview map").toString()){
+
+            public void execute() {
+                PoiDetailScreenInputSequence.this.previewMapInterface.setPreviewPOIsOnboard(new NavLocation[]{this.dsiResponseContainer.getLiCurrentLD()}, 1, null, null);
+                this.getCommandList().commandFinished();
+            }
+        });
         return commandList;
     }
 
     public CommandList getStartGuidanceCommandList() {
         return this.commandListFactory.createCommandList();
-    }
-
-    static /* synthetic */ IPoiDetailScreenModelAccess access$000(PoiDetailScreenInputSequence poiDetailScreenInputSequence) {
-        return poiDetailScreenInputSequence.modelAccess;
-    }
-
-    static /* synthetic */ IPreviewMap access$100(PoiDetailScreenInputSequence poiDetailScreenInputSequence) {
-        return poiDetailScreenInputSequence.previewMapInterface;
     }
 }
 

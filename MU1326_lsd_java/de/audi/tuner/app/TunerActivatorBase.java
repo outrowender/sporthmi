@@ -100,7 +100,6 @@ implements ServiceTrackerCustomizer {
         this.appTuner = new AppTuner(this.logger, this.framework, iTunerVariantExt);
     }
 
-    @Override
     public void stop(BundleContext bundleContext) {
         this.tracker.close();
         if (this.trackerGracenoteSrv != null) {
@@ -229,7 +228,7 @@ implements ServiceTrackerCustomizer {
 
     private void registerAnnouncementDSI() {
         this.registerDSIListener(class$org$dsi$ifc$radio$DSITunerAnnouncementListener == null ? (class$org$dsi$ifc$radio$DSITunerAnnouncementListener = TunerActivatorBase.class$("org.dsi.ifc.radio.DSITunerAnnouncementListener")) : class$org$dsi$ifc$radio$DSITunerAnnouncementListener, this.appTuner.getAnnouncementHandler(), 0);
-        this.logger.startup.log(-2137614336, "[TunerActivatorBase.registerAnnouncementDSI] startDSIService(DSITunerAnnouncement)");
+        this.logger.startup.log(10000000, "[TunerActivatorBase.registerAnnouncementDSI] startDSIService(DSITunerAnnouncement)");
         this.framework.startDSIService((class$org$dsi$ifc$radio$DSITunerAnnouncement == null ? (class$org$dsi$ifc$radio$DSITunerAnnouncement = TunerActivatorBase.class$("org.dsi.ifc.radio.DSITunerAnnouncement")) : class$org$dsi$ifc$radio$DSITunerAnnouncement).getName(), 0);
         this.framework.getStartupMgr().logStartupEvent("[RADIO] startDSIService(DSITunerAnnouncement)");
     }
@@ -237,7 +236,7 @@ implements ServiceTrackerCustomizer {
     private void registerAmFmDSI() {
         this.registerDSIListener(class$org$dsi$ifc$radio$DSIAMFMTunerListener == null ? (class$org$dsi$ifc$radio$DSIAMFMTunerListener = TunerActivatorBase.class$("org.dsi.ifc.radio.DSIAMFMTunerListener")) : class$org$dsi$ifc$radio$DSIAMFMTunerListener, this.appTuner.dsiAMFMTunerListener, 0);
         if (!TunerProxyManager.getInstance().getAmFmTuner().isDsiFound()) {
-            this.logger.startup.log(-2137614336, "[TunerActivatorBase.registerAmFmDSI] startDSIService(DSIAMFMTuner)");
+            this.logger.startup.log(10000000, "[TunerActivatorBase.registerAmFmDSI] startDSIService(DSIAMFMTuner)");
             this.framework.startDSIService((class$org$dsi$ifc$radio$DSIAMFMTuner == null ? (class$org$dsi$ifc$radio$DSIAMFMTuner = TunerActivatorBase.class$("org.dsi.ifc.radio.DSIAMFMTuner")) : class$org$dsi$ifc$radio$DSIAMFMTuner).getName(), 0);
             this.framework.getStartupMgr().logStartupEvent("[RADIO] startDSIService(DSIAMFMTuner)");
         }
@@ -247,7 +246,7 @@ implements ServiceTrackerCustomizer {
         if (Utilities.isDABPresent()) {
             this.registerDSIListener(class$org$dsi$ifc$radio$DSIDABTunerListener == null ? (class$org$dsi$ifc$radio$DSIDABTunerListener = TunerActivatorBase.class$("org.dsi.ifc.radio.DSIDABTunerListener")) : class$org$dsi$ifc$radio$DSIDABTunerListener, this.appTuner.dsiDABTunerListener, 0);
             if (!TunerProxyManager.getInstance().getDABTuner().isDsiFound()) {
-                this.logger.startup.log(-2137614336, "[TunerActivatorBase.registerDabDSI] startDSIService(DSIDABTuner)");
+                this.logger.startup.log(10000000, "[TunerActivatorBase.registerDabDSI] startDSIService(DSIDABTuner)");
                 this.framework.startDSIService((class$org$dsi$ifc$radio$DSIDABTuner == null ? (class$org$dsi$ifc$radio$DSIDABTuner = TunerActivatorBase.class$("org.dsi.ifc.radio.DSIDABTuner")) : class$org$dsi$ifc$radio$DSIDABTuner).getName(), 0);
                 this.framework.getStartupMgr().logStartupEvent("[RADIO] startDSIService(DSIDABTuner)");
             }
@@ -258,7 +257,7 @@ implements ServiceTrackerCustomizer {
         if (TunerProxyManager.getInstance().getUnifiedTuner() instanceof UnifiedTuner) {
             this.registerDSIListener(class$org$dsi$ifc$radio$DSIUnifiedTunerListener == null ? (class$org$dsi$ifc$radio$DSIUnifiedTunerListener = TunerActivatorBase.class$("org.dsi.ifc.radio.DSIUnifiedTunerListener")) : class$org$dsi$ifc$radio$DSIUnifiedTunerListener, this.appTuner.dsiUniTunerListener, 0);
             if (!TunerProxyManager.getInstance().getUnifiedTuner().isDsiFound()) {
-                this.logger.startup.log(-2137614336, "[TunerActivatorBase.registerUniDSI] startDSIService(DSIUnifiedTuner)");
+                this.logger.startup.log(10000000, "[TunerActivatorBase.registerUniDSI] startDSIService(DSIUnifiedTuner)");
                 this.framework.startDSIService((class$org$dsi$ifc$radio$DSIUnifiedTuner == null ? (class$org$dsi$ifc$radio$DSIUnifiedTuner = TunerActivatorBase.class$("org.dsi.ifc.radio.DSIUnifiedTuner")) : class$org$dsi$ifc$radio$DSIUnifiedTuner).getName(), 0);
                 this.framework.getStartupMgr().logStartupEvent("[RADIO] startDSIService(DSIUnifiedTuner)");
             }
@@ -269,7 +268,7 @@ implements ServiceTrackerCustomizer {
         if (Utilities.isSDARSPresent()) {
             this.registerDSIListener(class$org$dsi$ifc$sdars$DSISDARSTunerListener == null ? (class$org$dsi$ifc$sdars$DSISDARSTunerListener = TunerActivatorBase.class$("org.dsi.ifc.sdars.DSISDARSTunerListener")) : class$org$dsi$ifc$sdars$DSISDARSTunerListener, this.appTuner.dsiSDARSTunerListener, 0);
             if (!TunerProxyManager.getInstance().getSDARSTuner().isDsiFound()) {
-                this.logger.startup.log(-2137614336, "[TunerActivatorBase.registerSdarsDSI] startDSIService(DSISDARSTuner)");
+                this.logger.startup.log(10000000, "[TunerActivatorBase.registerSdarsDSI] startDSIService(DSISDARSTuner)");
                 this.framework.startDSIService((class$org$dsi$ifc$sdars$DSISDARSTuner == null ? (class$org$dsi$ifc$sdars$DSISDARSTuner = TunerActivatorBase.class$("org.dsi.ifc.sdars.DSISDARSTuner")) : class$org$dsi$ifc$sdars$DSISDARSTuner).getName(), 0);
             }
         }
@@ -278,7 +277,7 @@ implements ServiceTrackerCustomizer {
     private void registerGracenoteDSI() {
         this.registerDSIListener(class$org$dsi$ifc$media$DSIMetadataServiceListener == null ? (class$org$dsi$ifc$media$DSIMetadataServiceListener = TunerActivatorBase.class$("org.dsi.ifc.media.DSIMetadataServiceListener")) : class$org$dsi$ifc$media$DSIMetadataServiceListener, this.appTuner.gracenote.gracenoteListener, 0);
         if (!this.appTuner.gracenote.isDsiFound()) {
-            this.logger.startup.log(-2137614336, "[TunerActivatorBase.registerGracenoteDSI] startDSIService(DSIMetadataService)");
+            this.logger.startup.log(10000000, "[TunerActivatorBase.registerGracenoteDSI] startDSIService(DSIMetadataService)");
             this.framework.startDSIService((class$org$dsi$ifc$media$DSIMetadataService == null ? (class$org$dsi$ifc$media$DSIMetadataService = TunerActivatorBase.class$("org.dsi.ifc.media.DSIMetadataService")) : class$org$dsi$ifc$media$DSIMetadataService).getName(), 0);
         }
     }
@@ -288,7 +287,7 @@ implements ServiceTrackerCustomizer {
         if (iSDARSTuner instanceof SDARSTuner) {
             this.registerDSIListener(class$org$dsi$ifc$sdars$DSISDARSSeekListener == null ? (class$org$dsi$ifc$sdars$DSISDARSSeekListener = TunerActivatorBase.class$("org.dsi.ifc.sdars.DSISDARSSeekListener")) : class$org$dsi$ifc$sdars$DSISDARSSeekListener, iSDARSTuner.getSeekListener(), 0);
             if (!((SDARSTuner)iSDARSTuner).isDsiSeekFound()) {
-                this.logger.startup.log(-2137614336, "[TunerActivatorBase.registerSdarsSeekDSI] startDSIService(DSISDARSSeek)");
+                this.logger.startup.log(10000000, "[TunerActivatorBase.registerSdarsSeekDSI] startDSIService(DSISDARSSeek)");
                 this.framework.startDSIService((class$org$dsi$ifc$sdars$DSISDARSSeek == null ? (class$org$dsi$ifc$sdars$DSISDARSSeek = TunerActivatorBase.class$("org.dsi.ifc.sdars.DSISDARSSeek")) : class$org$dsi$ifc$sdars$DSISDARSSeek).getName(), 0);
             }
         }
@@ -300,12 +299,12 @@ implements ServiceTrackerCustomizer {
             if (radioDataListenerImpl != null) {
                 this.registerDSIListener(class$org$dsi$ifc$radiodata$DSIRadioDataListener == null ? (class$org$dsi$ifc$radiodata$DSIRadioDataListener = TunerActivatorBase.class$("org.dsi.ifc.radiodata.DSIRadioDataListener")) : class$org$dsi$ifc$radiodata$DSIRadioDataListener, radioDataListenerImpl, 0);
                 if (!this.appTuner.getRadioDataDsi().isDsiFound()) {
-                    this.logger.startup.log(-2137614336, "[TunerActivatorBase.registerRadioDataDSI] startDSIService(DSIRadioData)");
+                    this.logger.startup.log(10000000, "[TunerActivatorBase.registerRadioDataDSI] startDSIService(DSIRadioData)");
                     this.framework.startDSIService((class$org$dsi$ifc$radiodata$DSIRadioData == null ? (class$org$dsi$ifc$radiodata$DSIRadioData = TunerActivatorBase.class$("org.dsi.ifc.radiodata.DSIRadioData")) : class$org$dsi$ifc$radiodata$DSIRadioData).getName(), 0);
                 }
             }
         } else {
-            this.logger.startup.log(1078071040, "[TunerActivatorBase.registerRadioDataDSI] not starting DSIRAdioData: region:%1", (long)Utilities.getDatabaseRegion());
+            this.logger.startup.log(1000000, "[TunerActivatorBase.registerRadioDataDSI] not starting DSIRAdioData: region:%1", (long)Utilities.getDatabaseRegion());
         }
     }
 
@@ -314,7 +313,7 @@ implements ServiceTrackerCustomizer {
         if (Utilities.isNARBuild() && (iTunesTaggingDSI = this.appTuner.getTagging()) != null) {
             this.registerDSIListener(class$org$dsi$ifc$media$DSIRadioTaggingListener == null ? (class$org$dsi$ifc$media$DSIRadioTaggingListener = TunerActivatorBase.class$("org.dsi.ifc.media.DSIRadioTaggingListener")) : class$org$dsi$ifc$media$DSIRadioTaggingListener, iTunesTaggingDSI, 0);
             if (!iTunesTaggingDSI.isDsiFound()) {
-                this.logger.startup.log(-2137614336, "[TunerActivatorBase.registerTaggingDSI] startDSIService(DSIRadioTagging)");
+                this.logger.startup.log(10000000, "[TunerActivatorBase.registerTaggingDSI] startDSIService(DSIRadioTagging)");
                 this.framework.startDSIService((class$org$dsi$ifc$media$DSIRadioTagging == null ? (class$org$dsi$ifc$media$DSIRadioTagging = TunerActivatorBase.class$("org.dsi.ifc.media.DSIRadioTagging")) : class$org$dsi$ifc$media$DSIRadioTagging).getName(), 0);
             }
         }
@@ -347,7 +346,7 @@ implements ServiceTrackerCustomizer {
 
     protected void registerFrameworkService(Class clazz, Object object, Dictionary dictionary) {
         String string = clazz.getName();
-        this.logger.startup.log(-2137614336, "[TunerActivatorBase.registerFrameworkService] ( %1 ) ", (Object)string);
+        this.logger.startup.log(10000000, "[TunerActivatorBase.registerFrameworkService] ( %1 ) ", (Object)string);
         this.registerService(string, object, dictionary);
     }
 
@@ -356,13 +355,12 @@ implements ServiceTrackerCustomizer {
         Hashtable hashtable = new Hashtable();
         hashtable.put("DEVICE_NAME", string);
         hashtable.put("DEVICE_INSTANCE", new Integer(n));
-        this.logger.startup.log(-2137614336, "[TunerActivatorBase.registerDSIListener] (%1, %2, %3) ", (Object)string, (Object)dSIListener, (long)n);
+        this.logger.startup.log(10000000, "[TunerActivatorBase.registerDSIListener] (%1, %2, %3) ", (Object)string, (Object)dSIListener, (long)n);
         this.registerService((class$org$dsi$ifc$base$DSIListener == null ? (class$org$dsi$ifc$base$DSIListener = TunerActivatorBase.class$("org.dsi.ifc.base.DSIListener")) : class$org$dsi$ifc$base$DSIListener).getName(), (Object)dSIListener, (Dictionary)hashtable);
     }
 
-    @Override
     public Object addingService(ServiceReference serviceReference) {
-        this.logger.startup.log(14808325, "[TunerActivatorBase.addingService] ( %1 ) ", (Object)serviceReference);
+        this.logger.startup.log(100000000, "[TunerActivatorBase.addingService] ( %1 ) ", (Object)serviceReference);
         Object object = this.bundleContext.getService(serviceReference);
         Object object2 = serviceReference.getProperty("DEVICE_NAME");
         Object object3 = serviceReference.getProperty("DEVICE_INSTANCE");
@@ -405,11 +403,9 @@ implements ServiceTrackerCustomizer {
         return null;
     }
 
-    @Override
     public void modifiedService(ServiceReference serviceReference, Object object) {
     }
 
-    @Override
     public void removedService(ServiceReference serviceReference, Object object) {
         Object object2 = serviceReference.getProperty("DEVICE_NAME");
         Object object3 = serviceReference.getProperty("DEVICE_INSTANCE");

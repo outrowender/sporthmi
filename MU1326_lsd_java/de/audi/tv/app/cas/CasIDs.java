@@ -4,15 +4,15 @@
 package de.audi.tv.app.cas;
 
 public final class CasIDs {
-    public static final int CAS_OK;
-    public static final int CAS_OK_AND_ACTIVE;
-    private static final int CAS_NO_SMARTCARD;
-    public static final int CAS_CONFIRMATION_VIA_TM;
-    public static final int CAS_SYSTEM_LOCKED;
-    public static final int HMI_CAS_OK;
-    public static final int HMI_CAS_CARD_ERROR_ICON_ID;
-    public static final int HMI_CAS_CARD_MISSING_ICON_ID;
-    public static final int HMI_CAS_LOCKED_ICON_ID;
+    public static final int CAS_OK = 0;
+    public static final int CAS_OK_AND_ACTIVE = 1;
+    private static final int CAS_NO_SMARTCARD = 2;
+    public static final int CAS_CONFIRMATION_VIA_TM = 5;
+    public static final int CAS_SYSTEM_LOCKED = 11;
+    public static final int HMI_CAS_OK = -1;
+    public static final int HMI_CAS_CARD_ERROR_ICON_ID = 2;
+    public static final int HMI_CAS_CARD_MISSING_ICON_ID = 3;
+    public static final int HMI_CAS_LOCKED_ICON_ID = 4;
 
     public static int getIconID(int n) {
         int n2 = -1;

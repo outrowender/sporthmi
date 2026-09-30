@@ -6,16 +6,12 @@ package de.audi.tghu.navi.app.addressinput.poi.rrd;
 import org.dsi.ifc.navigation.RrdCalculationInfo;
 
 public interface IRRDListener {
-    default public void updateRrdCalculationInfo(RrdCalculationInfo[] rrdCalculationInfoArray) {
-    }
+    public void updateRrdCalculationInfo(RrdCalculationInfo[] var1);
 
-    default public void enterRRD(int n) {
-    }
+    public void enterRRD(int var1);
 
-    default public void exitRRD(int n) {
-    }
+    public void exitRRD(int var1);
 
-    default public void cleanUp() {
-    }
+    public void cleanUp();
 }
 

@@ -7,7 +7,7 @@ import java.util.HashMap;
 
 public final class UpdateStates
 extends HashMap {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = -7344014020055883599L;
 
     public UpdateStates() {
         this.put(new Integer(0), "UPDATE_ADD");

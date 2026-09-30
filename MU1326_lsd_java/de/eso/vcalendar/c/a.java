@@ -42,11 +42,9 @@ implements de.eso.a.b.f {
         this.i = b2;
     }
 
-    @Override
     public void d(String string) {
     }
 
-    @Override
     public void a(String string) {
         if (string != null) {
             string = string.toUpperCase();
@@ -54,7 +52,6 @@ implements de.eso.a.b.f {
         this.a = string;
     }
 
-    @Override
     public void e() {
         this.a(this.a, this.c, this.d);
         this.a = null;
@@ -63,7 +60,6 @@ implements de.eso.a.b.f {
         this.d.clear();
     }
 
-    @Override
     public void d() {
         String string;
         if (this.g()) {
@@ -81,7 +77,7 @@ implements de.eso.a.b.f {
             int n = this.e.d().size() - 1;
             this.f = this.e.d().get(n);
         } else if (string.equalsIgnoreCase("VCALENDAR")) {
-            this.f(new StringBuffer().append("countImportedObjects = ").append(this.h).append(" maxAmountOfImportObjects = ").append(this.i.a()).toString());
+            this.f("countImportedObjects = " + this.h + " maxAmountOfImportObjects = " + this.i.a());
             if (this.h >= this.i.a()) {
                 this.g.clear();
                 return;
@@ -91,7 +87,6 @@ implements de.eso.a.b.f {
         }
     }
 
-    @Override
     public void b(String string) {
         if (string != null) {
             string = string.toUpperCase();
@@ -99,7 +94,6 @@ implements de.eso.a.b.f {
         this.b = string;
     }
 
-    @Override
     public void c(String string) {
         if (string != null) {
             string = string.toUpperCase();
@@ -107,17 +101,14 @@ implements de.eso.a.b.f {
         this.c.put(this.b, string);
     }
 
-    @Override
     public void a(String string, int n) {
         this.d.add(string);
     }
 
-    @Override
     public void a(File file, int n) {
         this.d.add(file);
     }
 
-    @Override
     public void a(byte[] byArray, int n) {
         this.d.add(byArray);
     }
@@ -193,7 +184,7 @@ implements de.eso.a.b.f {
                 StackTraceElement stackTraceElement = new Exception().getStackTrace()[0];
                 int n = stackTraceElement.getLineNumber();
                 String string2 = stackTraceElement.getMethodName();
-                this.f(new StringBuffer().append(string2).append("-").append(n).append("conversion for ").append(string).append(" is not implemented").toString());
+                this.f(string2 + "-" + n + "conversion for " + string + " is not implemented");
             }
             this.g.add(string);
         }
@@ -236,7 +227,7 @@ implements de.eso.a.b.f {
             String string4 = de.eso.vcalendar.e.a.a(this.a(i2, "TZID"), '\"', null);
             if (string4 != null && string4.length() > 0) {
                 String string5 = de.eso.vcalendar.e.a.a(this.a(list, 0), '\"', null);
-                d2.g(new StringBuffer().append("TZID=\"").append(this.a(string4, string5)).toString());
+                d2.g("TZID=\"" + this.a(string4, string5));
             } else {
                 d2.g(this.a(list, 0));
             }
@@ -246,7 +237,7 @@ implements de.eso.a.b.f {
             StackTraceElement stackTraceElement = new Exception().getStackTrace()[0];
             int n = stackTraceElement.getLineNumber();
             String string6 = stackTraceElement.getMethodName();
-            this.f(new StringBuffer().append(string6).append("-LINE:").append(n).append("- VCalendar-Reader does not support property ").append(string).append("").toString());
+            this.f(string6 + "-LINE:" + n + "- VCalendar-Reader does not support property " + string + "");
         }
     }
 
@@ -264,7 +255,7 @@ implements de.eso.a.b.f {
             this.a(string, (Map)i2, list);
         } else {
             int n = new Exception().getStackTrace()[0].getLineNumber();
-            this.f(new StringBuffer().append(super.getClass().getName()).append("-LINE:").append(n).append("- converter for ").append(this.f.getClass().getName()).append(" ist not implemented").toString());
+            this.f(this.getClass().getName() + "-LINE:" + n + "- converter for " + this.f.getClass().getName() + " ist not implemented");
         }
     }
 
@@ -280,7 +271,7 @@ implements de.eso.a.b.f {
             StackTraceElement stackTraceElement = new Exception().getStackTrace()[0];
             int n = stackTraceElement.getLineNumber();
             String string2 = stackTraceElement.getMethodName();
-            this.f(new StringBuffer().append(string2).append("-LINE:").append(n).append("- VCalendar-Reader does not support property ").append(string).append("").toString());
+            this.f(string2 + "-LINE:" + n + "- VCalendar-Reader does not support property " + string + "");
         }
     }
 
@@ -343,7 +334,7 @@ implements de.eso.a.b.f {
             StackTraceElement stackTraceElement = new Exception().getStackTrace()[0];
             int n = stackTraceElement.getLineNumber();
             String string6 = stackTraceElement.getMethodName();
-            this.f(new StringBuffer().append(string6).append("-LINE:").append(n).append("- VCalendar-Reader does not support property ").append(string).append("").toString());
+            this.f(string6 + "-LINE:" + n + "- VCalendar-Reader does not support property " + string + "");
         }
         if (e2.p() == null) {
             e2.n(de.eso.vcalendar.e.a.a());
@@ -379,11 +370,11 @@ implements de.eso.a.b.f {
                         String string2 = (String)arrayList.get(0);
                         if (list == null || list.get(0) == null) break block12;
                         File file = (File)list.get(0);
-                        if (file.renameTo(new File(new StringBuffer().append(string = file.getPath().substring(0, file.getPath().lastIndexOf(47) + 1)).append(string2).toString()))) {
-                            de.eso.a.d.b.c(new StringBuffer().append("rename okay ").append(file.getAbsoluteFile()).toString());
+                        if (file.renameTo(new File((string = file.getPath().substring(0, file.getPath().lastIndexOf(47) + 1)) + string2))) {
+                            de.eso.a.d.b.c("rename okay " + file.getAbsoluteFile());
                             break block12;
                         }
-                        de.eso.a.d.b.d(new StringBuffer().append("rename faild ").append(file.getAbsoluteFile()).toString());
+                        de.eso.a.d.b.d("rename faild " + file.getAbsoluteFile());
                     }
                     catch (ClassCastException classCastException) {
                         this.f(classCastException.getMessage());
@@ -394,7 +385,7 @@ implements de.eso.a.b.f {
                 if (object instanceof File) {
                     File file = (File)object;
                     if (file.exists() && !file.delete()) {
-                        this.f(new StringBuffer().append(file).append(" can not be deleted").toString());
+                        this.f(file + " can not be deleted");
                     }
                 } else if (object instanceof String) {
                     // empty if block
@@ -409,7 +400,7 @@ implements de.eso.a.b.f {
             String string2 = de.eso.vcalendar.e.a.a(this.a(i2, "TZID"), '\"', null);
             if (string2 != null && string2.length() > 0) {
                 String string3 = de.eso.vcalendar.e.a.a(this.a(list, 0), '\"', null);
-                j2.a(new StringBuffer().append("TZID=\"").append(this.a(string2, string3)).toString());
+                j2.a("TZID=\"" + this.a(string2, string3));
             } else {
                 j2.a(this.a(list, 0));
             }
@@ -427,12 +418,12 @@ implements de.eso.a.b.f {
             StackTraceElement stackTraceElement = new Exception().getStackTrace()[0];
             int n = stackTraceElement.getLineNumber();
             String string4 = stackTraceElement.getMethodName();
-            this.f(new StringBuffer().append(string4).append("-LINE:").append(n).append("- VCalendar-Reader does not support property ").append(string).append("").toString());
+            this.f(string4 + "-LINE:" + n + "- VCalendar-Reader does not support property " + string + "");
         }
     }
 
     private void f(String string) {
-        de.eso.a.d.b.a(new StringBuffer().append(super.getClass().getName()).append(" | ").append(string).toString());
+        de.eso.a.d.b.a(this.getClass().getName() + " | " + string);
     }
 
     private String a(List list, int n) {
@@ -472,7 +463,6 @@ implements de.eso.a.b.f {
         return "";
     }
 
-    @Override
     public boolean g() {
         if (this.h >= this.i.a()) {
             return true;

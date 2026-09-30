@@ -4,55 +4,43 @@
 package de.audi.tghu.exlap.impl.worker;
 
 import de.audi.atip.base.IFrameworkAccess;
-import de.audi.atip.log.LogChannel;
-import de.audi.tghu.exlap.Container;
 import de.audi.tghu.exlap.ExlapListener;
 import de.audi.tghu.exlap.app.ExlapAbstractWorker;
 import de.audi.tghu.exlap.app.ExlapDispatcher;
-import de.audi.tghu.exlap.impl.worker.ExlapCurrentTrackPathWorker$1;
+import de.audi.tghu.exlap.impl.container.MediaBrowserPathContainer;
+import de.audi.tghu.exlap.impl.listener.ExlapMediaEmptyListener;
 import org.dsi.ifc.has.DSIHAS;
 
 public class ExlapCurrentTrackPathWorker
 extends ExlapAbstractWorker {
-    private static final int CURRENT_TRACK_PATH_PROPERTY;
+    private static final int CURRENT_TRACK_PATH_PROPERTY = 50;
 
     public ExlapCurrentTrackPathWorker(IFrameworkAccess iFrameworkAccess, ExlapDispatcher exlapDispatcher, DSIHAS dSIHAS) {
         super(iFrameworkAccess, exlapDispatcher, dSIHAS);
     }
 
-    @Override
     public void sendUpdates() {
-        this.log.log(-2137614336, "[ExlapCurrentTrackPathWorker#sendUpdates] sending container: %1", (Object)this.container);
+        this.log.log(10000000, "[ExlapCurrentTrackPathWorker#sendUpdates] sending container: %1", (Object)this.container);
         if (this.container != null) {
             this.dsiHas.propertyUpdate(50, this.container.createContainer(), 0);
         }
     }
 
-    @Override
     public ExlapListener createListener() {
-        return new ExlapCurrentTrackPathWorker$1(this);
+        return new ExlapMediaEmptyListener(){
+
+            public void updateCurrentTrackPath(MediaBrowserPathContainer mediaBrowserPathContainer) {
+                ExlapCurrentTrackPathWorker.this.log.log(10000000, "[new ExlapMediaEmptyListener#updateCurrentTrackPath] received new container: %1", (Object)mediaBrowserPathContainer);
+                ExlapCurrentTrackPathWorker.this.container = mediaBrowserPathContainer;
+                if (ExlapCurrentTrackPathWorker.this.interval != -1) {
+                    ExlapCurrentTrackPathWorker.this.trigger();
+                }
+            }
+        };
     }
 
-    @Override
     public int[] getAttributes() {
         return new int[]{50};
-    }
-
-    static /* synthetic */ LogChannel access$000(ExlapCurrentTrackPathWorker exlapCurrentTrackPathWorker) {
-        return exlapCurrentTrackPathWorker.log;
-    }
-
-    static /* synthetic */ Container access$102(ExlapCurrentTrackPathWorker exlapCurrentTrackPathWorker, Container container) {
-        exlapCurrentTrackPathWorker.container = container;
-        return exlapCurrentTrackPathWorker.container;
-    }
-
-    static /* synthetic */ int access$200(ExlapCurrentTrackPathWorker exlapCurrentTrackPathWorker) {
-        return exlapCurrentTrackPathWorker.interval;
-    }
-
-    static /* synthetic */ void access$300(ExlapCurrentTrackPathWorker exlapCurrentTrackPathWorker) {
-        exlapCurrentTrackPathWorker.trigger();
     }
 }
 

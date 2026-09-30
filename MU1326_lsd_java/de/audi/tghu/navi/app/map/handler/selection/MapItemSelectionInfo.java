@@ -13,9 +13,9 @@ import org.dsi.ifc.online.PoiOnlineSearchValuelistElement;
 import org.dsi.ifc.tmc.TmcMessage;
 
 public class MapItemSelectionInfo {
-    public static final int RESOLVED;
-    public static final int RESOLVING;
-    public static final int RESOLVING_FAILED;
+    public static final int RESOLVED = 0;
+    public static final int RESOLVING = 1;
+    public static final int RESOLVING_FAILED = 255;
     public final long ID;
     public int state = 0;
     public final PosInfo posInfo;

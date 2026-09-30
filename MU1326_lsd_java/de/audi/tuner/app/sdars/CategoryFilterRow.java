@@ -8,10 +8,10 @@ import org.dsi.ifc.sdars.CategoryInfo;
 
 public class CategoryFilterRow
 extends EvoListRow {
-    private static final int MAX_COLS;
-    public static final int INDEX_FULL_NAME;
-    private static final int INDEX_FILTER_CHECKED;
-    private static final int INDEX_FILTER_DISABLED;
+    private static final int MAX_COLS = 3;
+    public static final int INDEX_FULL_NAME = 0;
+    private static final int INDEX_FILTER_CHECKED = 1;
+    private static final int INDEX_FILTER_DISABLED = 2;
     private volatile boolean hasSubscribedStations;
 
     public CategoryFilterRow(CategoryInfo categoryInfo, int n) {
@@ -26,7 +26,6 @@ extends EvoListRow {
         this.hasSubscribedStations = categoryFilterRow.hasSubscribedStations;
     }
 
-    @Override
     public EvoListRow copy() {
         return new CategoryFilterRow(this);
     }

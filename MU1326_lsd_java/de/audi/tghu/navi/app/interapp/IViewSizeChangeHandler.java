@@ -7,19 +7,14 @@ import de.audi.atip.mmicombi.IViewSizeListener;
 import de.audi.atip.mmicombi.IViewSizeManager;
 
 public interface IViewSizeChangeHandler {
-    default public void setViewSizeManager(IViewSizeManager iViewSizeManager) {
-    }
+    public void setViewSizeManager(IViewSizeManager var1);
 
-    default public void addViewSizeChangedListener(IViewSizeListener iViewSizeListener) {
-    }
+    public void addViewSizeChangedListener(IViewSizeListener var1);
 
-    default public boolean isSmallStageActive() {
-    }
+    public boolean isSmallStageActive();
 
-    default public void requestLargeViewSize(int n) {
-    }
+    public void requestLargeViewSize(int var1);
 
-    default public void unrequestLargeViewSize(int n) {
-    }
+    public void unrequestLargeViewSize(int var1);
 }
 

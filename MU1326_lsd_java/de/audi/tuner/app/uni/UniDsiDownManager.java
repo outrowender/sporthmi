@@ -56,7 +56,7 @@ public class UniDsiDownManager {
      * WARNING - Removed try catching itself - possible behaviour change.
      */
     void setNotification(int[] nArray, DSIUnifiedTunerListener dSIUnifiedTunerListener) {
-        this.log.log(-2137614336, "[UniDSIDownManager.setNotification] %1", (Object)nArray);
+        this.log.log(10000000, "[UniDSIDownManager.setNotification] %1", (Object)nArray);
         Object object = this.globalUniLock;
         synchronized (object) {
             for (int i2 = 0; i2 < nArray.length; ++i2) {
@@ -70,7 +70,7 @@ public class UniDsiDownManager {
      * WARNING - Removed try catching itself - possible behaviour change.
      */
     void clearNotification(int[] nArray, DSIUnifiedTunerListener dSIUnifiedTunerListener) {
-        this.log.log(-2137614336, "[UniDsiDownManager.clearNotification] %1", (Object)nArray);
+        this.log.log(10000000, "[UniDsiDownManager.clearNotification] %1", (Object)nArray);
         Object object = this.globalUniLock;
         synchronized (object) {
             for (int i2 = 0; i2 < nArray.length; ++i2) {
@@ -95,7 +95,7 @@ public class UniDsiDownManager {
         synchronized (object) {
             DSIListener dSIListener = (DSIListener)this.notifications.get(n);
             if (dSIListener != null) {
-                this.log.log(-2137614336, "[UniDsiDownManager.setNotification] again for arrt %1", (long)n);
+                this.log.log(10000000, "[UniDsiDownManager.setNotification] again for arrt %1", (long)n);
                 this.dsi.setNotification(n, dSIListener);
             } else {
                 this.log.log(10000, "[UniDsiDownManager.setNotification] No listener set for reNotification in UNITuner arrt: %1", (long)n);
@@ -104,7 +104,7 @@ public class UniDsiDownManager {
     }
 
     public void selectStation(UnifiedStationExt unifiedStationExt, int n) {
-        this.log.log(-2137614336, "[UniDsiDownManager.selectStation] %1", (Object)unifiedStationExt);
+        this.log.log(10000000, "[UniDsiDownManager.selectStation] %1", (Object)unifiedStationExt);
         UnifiedStationExt unifiedStationExt2 = new UnifiedStationExt(unifiedStationExt);
         unifiedStationExt2.resetProgramData();
         this.blockUpdates();
@@ -115,32 +115,32 @@ public class UniDsiDownManager {
     }
 
     public void setStationFollowingMode(int n) {
-        this.log.log(-2137614336, "[UniDsiDownManager.setStationFollowingMode] %1", (long)n);
+        this.log.log(10000000, "[UniDsiDownManager.setStationFollowingMode] %1", (long)n);
         this.dsi.setStationFollowingMode(n);
     }
 
     public void setListMode(int n) {
-        this.log.log(-2137614336, "[UniDsiDownManager.setListMode] %1", (long)n);
+        this.log.log(10000000, "[UniDsiDownManager.setListMode] %1", (long)n);
         this.dsi.setListMode(n);
     }
 
     void switchDeviceUsage(boolean bl) {
-        this.log.log(-2137614336, "[UniDsiDownManager.switchDeviceUsage] %1", bl);
+        this.log.log(10000000, "[UniDsiDownManager.switchDeviceUsage] %1", bl);
         this.dsi.switchDeviceUsage(bl ? 1 : 0);
     }
 
     public void setSoftLinkSwitch(boolean bl) {
-        this.log.log(-2137614336, "[UniDsiDownManager.setSoftLinkSwitch] %1", bl);
+        this.log.log(10000000, "[UniDsiDownManager.setSoftLinkSwitch] %1", bl);
         this.dsi.setSoftLinkSwitch(bl ? 1 : 0);
     }
 
     public void setRegMode(int n) {
-        this.log.log(-2137614336, "[UniDsiDownManager.setRegMode] %1", (long)n);
+        this.log.log(10000000, "[UniDsiDownManager.setRegMode] %1", (long)n);
         this.dsi.setRegMode(n);
     }
 
     public void enableRadioTextPlus(int[] nArray) {
-        this.log.log(-2137614336, "[UniDsiDownManager.enableRadioTextPlus] %1", (Object)nArray);
+        this.log.log(10000000, "[UniDsiDownManager.enableRadioTextPlus] %1", (Object)nArray);
         this.dsi.enableRadioTextPlus(nArray);
     }
 

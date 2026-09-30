@@ -4,34 +4,24 @@
 package de.audi.tghu.exlap.app;
 
 public interface IExlapWorker {
-    default public void sendUpdates() {
-    }
+    public void sendUpdates();
 
-    default public int getInterval() {
-    }
+    public int getInterval();
 
-    default public long getLastExecution() {
-    }
+    public long getLastExecution();
 
-    default public boolean hasNewData() {
-    }
+    public boolean hasNewData();
 
-    default public void setNewData(boolean bl) {
-    }
+    public void setNewData(boolean var1);
 
-    default public void setLastExecution(long l) {
-    }
+    public void setLastExecution(long var1);
 
-    default public void registerListener() {
-    }
+    public void registerListener();
 
-    default public void stop() {
-    }
+    public void stop();
 
-    default public void enable(int n) {
-    }
+    public void enable(int var1);
 
-    default public void disable() {
-    }
+    public void disable();
 }
 

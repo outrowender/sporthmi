@@ -8,7 +8,6 @@ import org.dsi.ifc.global.NavLocation;
 
 public class FavoriteLocationFormatDummy
 implements IFavoriteLocationFormat {
-    @Override
     public String getDefaultName(NavLocation navLocation) {
         return "";
     }

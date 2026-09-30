@@ -14,7 +14,7 @@ import de.audi.tghu.swdl.app.hmiswitcher.manager.ISelectionManager;
 public abstract class AbstractSelectionManager
 extends AbstractManager
 implements ISelectionManager {
-    private static final String CLASSNAME;
+    private static final String CLASSNAME = "[AbstractSelectionManager]";
     private final SwdlDSIHandlerSelection selectionDSIHandler;
     private final SwdlDSIHandlerDeviceInfo deviceInfoDSIHandler;
     private boolean userDownload = false;
@@ -24,7 +24,7 @@ implements ISelectionManager {
         super(swdlEnv, abstractPopupManager);
         this.selectionDSIHandler = swdlDSIHandlerSelection;
         this.deviceInfoDSIHandler = swdlDSIHandlerDeviceInfo;
-        this.getLogHMI().log(-2137614336, "%1 <init>", (Object)"[AbstractSelectionManager]");
+        this.getLogHMI().log(10000000, "%1 <init>", (Object)CLASSNAME);
         this.getSwdlModels().getIpSpeller().setMaxLength(15);
         this.deviceInfoManager = iDeviceInfoManager;
     }
@@ -33,7 +33,6 @@ implements ISelectionManager {
         return this.deviceInfoDSIHandler;
     }
 
-    @Override
     public final SwdlDSIHandlerSelection getSelectionDSIHandler() {
         return this.selectionDSIHandler;
     }
@@ -46,17 +45,15 @@ implements ISelectionManager {
         this.deviceInfoManager = iDeviceInfoManager;
     }
 
-    @Override
     public void updateRingNotOk(boolean bl) {
-        this.getSwdlEnv().getLogMain().log(-2137614336, "%1 updateRingNotOk( %2 ) ", (Object)"[AbstractSelectionManager]", (Object)bl);
+        this.getSwdlEnv().getLogMain().log(10000000, "%1 updateRingNotOk( %2 ) ", (Object)CLASSNAME, (Object)bl);
         if (bl) {
             this.getPopupManager().indicateDismissAllPopUps(4);
         }
     }
 
-    @Override
     public void updateUserSwdl(boolean bl) {
-        this.getSwdlEnv().getLogMain().log(-2137614336, "%1 updateUserSwdl( %2 ) ", (Object)"[AbstractSelectionManager]", (Object)bl);
+        this.getSwdlEnv().getLogMain().log(10000000, "%1 updateUserSwdl( %2 ) ", (Object)CLASSNAME, (Object)bl);
         this.userDownload = bl;
         if (!this.isUserSwdl()) {
             // empty if block
@@ -67,21 +64,18 @@ implements ISelectionManager {
         return this.userDownload;
     }
 
-    @Override
     public void updateNfsIpAddress(String string) {
-        this.getSwdlEnv().getLogHMI().log(1078071040, "%1 IP Address of Download Server is: %2 ", (Object)"[AbstractSelectionManager]", (Object)string);
+        this.getSwdlEnv().getLogHMI().log(1000000, "%1 IP Address of Download Server is: %2 ", (Object)CLASSNAME, (Object)string);
         this.getSwdlModels().getIpSpeller().setText(string);
         this.getSwdlModels().getSelectIpAddressLabel().setText(string);
     }
 
-    @Override
     public void updateNfsPath(String string) {
-        this.getSwdlEnv().getLogHMI().log(1078071040, "%1 Path of Download Server is: %2 ", (Object)"[AbstractSelectionManager]", (Object)string);
+        this.getSwdlEnv().getLogHMI().log(1000000, "%1 Path of Download Server is: %2 ", (Object)CLASSNAME, (Object)string);
         this.getSwdlModels().getFsPathSpeller().setText(string);
         this.getSwdlModels().getSelectNetworkPathLabel().setText(string);
     }
 
-    @Override
     public void updateFsPath(String string) {
     }
 
@@ -89,25 +83,21 @@ implements ISelectionManager {
         return this.getSwdlModels().getIpSpeller().getText();
     }
 
-    @Override
     public void doGetSourceMedia() {
-        this.getLogHMI().log(1078071040, "%1 -> doGetSourceMedia() ", (Object)"[AbstractSelectionManager]");
+        this.getLogHMI().log(1000000, "%1 -> doGetSourceMedia() ", (Object)CLASSNAME);
         this.getSelectionDSIHandler().doGetMedia();
     }
 
-    @Override
     public void leaveReadingReleases() {
-        this.getLogHMI().log(1078071040, "%1 -> leaveReadingReleases() ", (Object)"[AbstractSelectionManager]");
+        this.getLogHMI().log(1000000, "%1 -> leaveReadingReleases() ", (Object)CLASSNAME);
         this.getSelectionDSIHandler().doAbortSetMedium();
     }
 
-    @Override
     public void leaveReadingMetainfo() {
-        this.getLogHMI().log(1078071040, "%1 -> leaveReadingMetainfo() ", (Object)"[AbstractSelectionManager]");
+        this.getLogHMI().log(1000000, "%1 -> leaveReadingMetainfo() ", (Object)CLASSNAME);
         this.getSelectionDSIHandler().doAbortSetRelease();
     }
 
-    @Override
     public void updateUserDefinedAllowed(boolean bl) {
         this.getSwdlModels().getUserDefinedChoice().setValue(bl ? 1 : 0);
     }
@@ -116,20 +106,18 @@ implements ISelectionManager {
         this.getSelectionDSIHandler().doSetInstallationType(bl);
     }
 
-    @Override
     public boolean isUserDefinedMode() {
         return this.getSelectionDSIHandler().isUserDefinedMode();
     }
 
     public void doCheckConsistency() {
-        this.getLogHMI().log(1078071040, "%1 doCheckConsistency ", (Object)"[AbstractSelectionManager]");
+        this.getLogHMI().log(1000000, "%1 doCheckConsistency ", (Object)CLASSNAME);
         this.getSwdlModels().getIncompatibleUpdatesChoice().setValue(0);
         this.getSelectionDSIHandler().doCheckConsistency();
     }
 
-    @Override
     public void doCheckStartDownload() {
-        this.getLogHMI().log(1078071040, "%1 doCheckStartDownload ", (Object)"[AbstractSelectionManager]");
+        this.getLogHMI().log(1000000, "%1 doCheckStartDownload ", (Object)CLASSNAME);
         if (this.getSwdlModels().getShowDowngradeWarningChoice().getValue() == 0) {
             this.checkDowngrade();
         }
@@ -140,43 +128,28 @@ implements ISelectionManager {
         this.getDeviceInfoDSIHandler().doGetAdditionalInfo(n, n2);
     }
 
-    @Override
-    public abstract void updateSourceMediaList(int[] nArray) {
-    }
+    public abstract void updateSourceMediaList(int[] var1);
 
-    @Override
-    public abstract void doSelectSourceMedium(int n) {
-    }
+    public abstract void doSelectSourceMedium(int var1);
 
-    @Override
-    public abstract void updateReleaseList(String[] stringArray, String string, int n) {
-    }
+    public abstract void updateReleaseList(String[] var1, String var2, int var3);
 
-    @Override
-    public abstract void doSelectRelease(int n) {
-    }
+    public abstract void doSelectRelease(int var1);
 
-    @Override
-    public abstract void updateReleaseResult(String string, int n) {
-    }
+    public abstract void updateReleaseResult(String var1, int var2);
 
-    @Override
     public void setDefaultMedium(int n) {
     }
 
-    @Override
     public void preSelectSourceMedium(int n) {
     }
 
-    @Override
     public void doStartVersionUpload() {
     }
 
-    @Override
     public void versionUploadDone(boolean bl) {
     }
 
-    @Override
     public void enterComponentUpdateConfirmation() {
     }
 

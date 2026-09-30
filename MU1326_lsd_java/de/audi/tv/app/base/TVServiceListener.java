@@ -4,17 +4,14 @@
 package de.audi.tv.app.base;
 
 import de.audi.atip.interapp.media.IMediaDrawerContext;
+import de.audi.atip.interapp.media.IMediaDrawerContextListener;
+import de.audi.atip.interapp.media.IMediaDrawerElement;
 import de.audi.atip.interapp.tv.ITVService;
 import de.audi.atip.log.LogChannel;
 import de.audi.tv.app.ISourceChanger;
 import de.audi.tv.app.audio.AudioFocusClient;
 import de.audi.tv.app.base.ITVEventListener;
-import de.audi.tv.app.base.TVServiceListener$1;
-import de.audi.tv.app.base.TVServiceListener$2;
-import de.audi.tv.app.base.TVServiceListener$CallListener;
-import de.audi.tv.app.base.TVServiceListener$ContextListener;
-import de.audi.tv.app.base.TVServiceListener$TVEventListener;
-import de.audi.tv.app.base.TVServiceListener$TVListener;
+import de.audi.tv.app.base.TVEventDefaultListener;
 import de.audi.tv.app.dsi.DSICallListener;
 import de.audi.tv.app.dsi.DSIHandler;
 import de.audi.tv.app.dsi.DefaultTVListener;
@@ -34,10 +31,10 @@ implements ITVService {
     private final Object mutex = new Object();
     private volatile boolean isFavoritesActive = false;
     private int lastSource = 0;
-    private final TVServiceListener$ContextListener contextListener = new TVServiceListener$ContextListener(this, null);
-    final DSICallListener callListener = new TVServiceListener$CallListener(this, null);
-    final DefaultTVListener tvListener = new TVServiceListener$TVListener(this, null);
-    final ITVEventListener tvStatusListener = new TVServiceListener$TVEventListener(this, null);
+    private final ContextListener contextListener = new ContextListener();
+    final DSICallListener callListener = new CallListener();
+    final DefaultTVListener tvListener = new TVListener();
+    final ITVEventListener tvStatusListener = new TVEventListener();
     private DSIHandler dsiHandler;
 
     public TVServiceListener(LogChannel logChannel, FocusHandler focusHandler, ISourceChanger iSourceChanger, AudioFocusClient audioFocusClient, DSIHandler dSIHandler) {
@@ -51,9 +48,8 @@ implements ITVService {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void activate(int n, IMediaDrawerContext iMediaDrawerContext) {
-        this.log.log(1078071040, "[TVServiceListener.activate] isTvIsActive:%1 ,activating source: %2", this.tvIsActive, (long)n);
+        this.log.log(1000000, "[TVServiceListener.activate] isTvIsActive:%1 ,activating source: %2", this.tvIsActive, (long)n);
         Object object = this.mutex;
         synchronized (object) {
             this.drawerContext = iMediaDrawerContext;
@@ -66,9 +62,8 @@ implements ITVService {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void deactivate() {
-        this.log.log(1078071040, "[TVServiceListener.deactivate] deactivating TV");
+        this.log.log(1000000, "[TVServiceListener.deactivate] deactivating TV");
         Object object = this.mutex;
         synchronized (object) {
             if (this.drawerContext != null && this.tvIsActive) {
@@ -80,32 +75,73 @@ implements ITVService {
 
     private void sendSubList(int n) {
         if (this.drawerContext == null) {
-            this.log.log(-2137614336, "[TVServiceListener.sendSubList] will not send sub list because drawer context is null.");
+            this.log.log(10000000, "[TVServiceListener.sendSubList] will not send sub list because drawer context is null.");
             return;
         }
         ArrayList arrayList = new ArrayList(2);
-        int n2 = this.focusHandler.getFocusedListId();
+        final int n2 = this.focusHandler.getFocusedListId();
         this.lastSource = n;
         if (n == 0) {
             if (!this.focusHandler.isFavoritesEmpty()) {
                 this.isFavoritesActive = true;
-                arrayList.add(new TVServiceListener$1(this, n2));
+                arrayList.add(new IMediaDrawerElement(){
+
+                    public String getName() {
+                        return "favorites";
+                    }
+
+                    public int getIconID() {
+                        return 0;
+                    }
+
+                    public int getID() {
+                        return 1;
+                    }
+
+                    public boolean isSelected() {
+                        return n2 == 1;
+                    }
+
+                    public boolean isFocused() {
+                        return n2 == 1;
+                    }
+                });
             } else {
                 this.isFavoritesActive = false;
             }
-            arrayList.add(new TVServiceListener$2(this, n2));
+            arrayList.add(new IMediaDrawerElement(){
+
+                public String getName() {
+                    return "stations";
+                }
+
+                public int getIconID() {
+                    return 0;
+                }
+
+                public int getID() {
+                    return 0;
+                }
+
+                public boolean isSelected() {
+                    return n2 == 0;
+                }
+
+                public boolean isFocused() {
+                    return n2 == 0;
+                }
+            });
             this.drawerContext.setDrawerElements(arrayList, this.contextListener);
         } else {
             this.drawerContext.setDrawerElements(arrayList, null);
         }
         int n3 = arrayList.size();
-        this.log.log(-2137614336, "[TVServiceListener.sendSubList] sending sub elements for source %2 -> %1, list: %3", (long)n3, (long)n, (long)n2);
+        this.log.log(10000000, "[TVServiceListener.sendSubList] sending sub elements for source %2 -> %1, list: %3", (long)n3, (long)n, (long)n2);
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updateFavoritesListSize(int n) {
         boolean bl;
         boolean bl2 = bl = n == 0;
@@ -117,29 +153,74 @@ implements ITVService {
         }
     }
 
-    static /* synthetic */ FocusHandler access$400(TVServiceListener tVServiceListener) {
-        return tVServiceListener.focusHandler;
+    private class TVListener
+    extends DefaultTVListener {
+        private TVListener() {
+        }
+
+        public void updateSelectedSource(int n) {
+            TVServiceListener.this.sendSubList(n == 0 ? 0 : 1);
+        }
     }
 
-    static /* synthetic */ Object access$500(TVServiceListener tVServiceListener) {
-        return tVServiceListener.mutex;
+    private class CallListener
+    extends DSICallListener {
+        private CallListener() {
+        }
+
+        public void switchSource(int n, boolean bl) {
+            TVServiceListener.this.sendSubList(n == 0 ? 0 : 1);
+        }
     }
 
-    static /* synthetic */ int access$600(TVServiceListener tVServiceListener) {
-        return tVServiceListener.lastSource;
+    private class ContextListener
+    implements IMediaDrawerContextListener {
+        private ContextListener() {
+        }
+
+        public void drawerElementSelected(IMediaDrawerElement iMediaDrawerElement) {
+            TVServiceListener.this.focusHandler.changeFocus(iMediaDrawerElement.getID());
+        }
     }
 
-    static /* synthetic */ void access$700(TVServiceListener tVServiceListener, int n) {
-        tVServiceListener.sendSubList(n);
-    }
+    private class TVEventListener
+    extends TVEventDefaultListener {
+        private TVEventListener() {
+        }
 
-    static /* synthetic */ boolean access$802(TVServiceListener tVServiceListener, boolean bl) {
-        tVServiceListener.tvIsActive = bl;
-        return tVServiceListener.tvIsActive;
-    }
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void onTunerAvailable() {
+            Object object = TVServiceListener.this.mutex;
+            synchronized (object) {
+                TVServiceListener.this.sendSubList(TVServiceListener.this.lastSource);
+                TVServiceListener.this.tvIsActive = true;
+            }
+        }
 
-    static /* synthetic */ boolean access$800(TVServiceListener tVServiceListener) {
-        return tVServiceListener.tvIsActive;
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void onTunerUnavailable() {
+            Object object = TVServiceListener.this.mutex;
+            synchronized (object) {
+                TVServiceListener.this.deactivate();
+                TVServiceListener.this.tvIsActive = false;
+            }
+        }
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void onFocusedListChanged(int n) {
+            Object object = TVServiceListener.this.mutex;
+            synchronized (object) {
+                if (TVServiceListener.this.tvIsActive) {
+                    TVServiceListener.this.sendSubList(TVServiceListener.this.lastSource);
+                }
+            }
+        }
     }
 }
 

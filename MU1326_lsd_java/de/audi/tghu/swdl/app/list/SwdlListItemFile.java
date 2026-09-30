@@ -14,8 +14,8 @@ import de.audi.tghu.swdl.app.list.ISwdlListItem;
 
 public class SwdlListItemFile
 extends AbstractSwdlListItemDeviceInfo {
-    private static final int CHECKED;
-    private static final int UNCHECKED;
+    private static final int CHECKED = 1;
+    private static final int UNCHECKED = 0;
     private int checked = 0;
     private int additionalInfo;
     private long currentVersion;
@@ -55,7 +55,6 @@ extends AbstractSwdlListItemDeviceInfo {
         return this.checked == 1;
     }
 
-    @Override
     public void select(int n) {
         this.getDeviceInfoManager().doSelectFile(n);
     }
@@ -68,7 +67,6 @@ extends AbstractSwdlListItemDeviceInfo {
         return this.enabled && (this.getVersion() != 0L || this.getTargetVersion() != 0L) && this.additionalInfo != 3 && this.additionalInfo != 4;
     }
 
-    @Override
     public void updateListRow(BaseListRow baseListRow) {
         super.updateListRow(baseListRow);
         baseListRow.setInteger(2, !this.isSelection || this.isEnabled() ? 1 : 0);

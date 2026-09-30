@@ -18,23 +18,20 @@ extends AbstractRequest {
 
     public InitRequest(LogChannel logChannel, TTSListener tTSListener, TTSOperable tTSOperable, DSITTSCaller dSITTSCaller, RequestQueue requestQueue) {
         super(logChannel, tTSListener, dSITTSCaller, requestQueue, (short)-1, 3);
-        this.logCh.log(-2137614336, "[InitRequest#ctor] Called.");
+        this.logCh.log(10000000, "[InitRequest#ctor] Called.");
         this.ttsOperable = tTSOperable;
     }
 
-    @Override
     public void execute() {
-        this.logCh.log(-2137614336, "[InitRequest#execute] Called.");
+        this.logCh.log(10000000, "[InitRequest#execute] Called.");
         this.dsiCaller.dsiInitTTSEngine(this.sourceId);
     }
 
-    @Override
     public void process() {
-        this.logCh.log(-2137614336, "[InitRequest#process] Called.");
+        this.logCh.log(10000000, "[InitRequest#process] Called.");
         super.process();
     }
 
-    @Override
     public String toString() {
         Buffer buffer = new Buffer();
         buffer.append("InitRequest{");
@@ -44,9 +41,8 @@ extends AbstractRequest {
         return buffer.toString();
     }
 
-    @Override
     public TTSResult responseInit(int n) {
-        this.logCh.log(-2137614336, "[InitRequest#responseInit] Called, result: %1", (long)n);
+        this.logCh.log(10000000, "[InitRequest#responseInit] Called, result: %1", (long)n);
         this.finish();
         this.ttsOperable.fullyOperable();
         return new TTSResult(null, 1);

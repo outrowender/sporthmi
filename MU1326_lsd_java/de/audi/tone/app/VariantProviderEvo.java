@@ -9,12 +9,10 @@ import de.audi.tone.app.ToneTextConstantsImplEvo;
 
 public class VariantProviderEvo
 implements IGUIVariantProvider {
-    @Override
     public IIDMapper getTextConstantsMapper() {
         return new ToneTextConstantsImplEvo();
     }
 
-    @Override
     public IIDMapper getSMEventConstantsMapper() {
         throw new UnsupportedOperationException("Not implemented");
     }

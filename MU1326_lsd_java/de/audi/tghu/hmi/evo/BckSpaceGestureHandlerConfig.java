@@ -4,38 +4,38 @@
 package de.audi.tghu.hmi.evo;
 
 public final class BckSpaceGestureHandlerConfig {
-    public static final int MAX_DELTA_TIME;
-    public static final int SPEEDUP_MAX_DELTA_TIME;
-    public static final int SLOWDOWN_STEP;
-    public static final int MAX_SPEED;
-    public static final int SCROLL_DELETE_FACTOR;
-    public static final int IDX_INT_MAX_DELTA_TIME;
-    public static final int IDX_INT_SPEEDUP_MAX_DELTA_TIME;
-    public static final int IDX_INT_SLOWDOWN_STEP;
-    public static final int IDX_INT_MAX_SPEED;
-    public static final int IDX_INT_SCROLL_DELETE_FACTOR;
-    public static final int NO_IDX_INT;
-    public static final int[][] INT_DEFAULT_CONFIG;
-    public static final String INT_ARRAY_EL_NAMES;
-    public static final float SPEEDUP_FACTOR;
-    public static final float SLOWDOWN_FACTOR;
-    public static final float RESET_FACTOR;
-    public static final float MAX_SPEED_FACTOR;
-    public static final float MAX_SPEED_ADD;
-    public static final int IDX_FLOAT_SPEEDUP_FACTOR;
-    public static final int IDX_FLOAT_SLOWDOWN_FACTOR;
-    public static final int IDX_FLOAT_RESET_FACTOR;
-    public static final int IDX_FLOAT_MAX_SPEED_FACTOR;
-    public static final int IDX_FLOAT_MAX_SPEED_ADD;
-    public static final int NO_IDX_FLOAT;
-    public static final float[][] FLOAT_DEFAULT_CONFIG;
-    public static final String FLOAT_ARRAY_EL_NAMES;
-    public static final int IDX_KEYPNL_FIRST;
-    public static final int IDX_KEYPNL_OLD;
-    public static final int IDX_KEYPNL_NEW_ROTARY;
-    public static final int IDX_KEYPNL_NEW_BIG;
-    public static final int IDX_KEYPNL_LAST;
-    private static volatile BckSpaceGestureHandlerConfig thisIsJimmy;
+    public static final int MAX_DELTA_TIME = 1500;
+    public static final int SPEEDUP_MAX_DELTA_TIME = 350;
+    public static final int SLOWDOWN_STEP = 2;
+    public static final int MAX_SPEED = 10;
+    public static final int SCROLL_DELETE_FACTOR = 2;
+    public static final int IDX_INT_MAX_DELTA_TIME = 0;
+    public static final int IDX_INT_SPEEDUP_MAX_DELTA_TIME = 1;
+    public static final int IDX_INT_SLOWDOWN_STEP = 2;
+    public static final int IDX_INT_MAX_SPEED = 3;
+    public static final int IDX_INT_SCROLL_DELETE_FACTOR = 4;
+    public static final int NO_IDX_INT = 5;
+    public static final int[][] INT_DEFAULT_CONFIG = new int[][]{{1500, 350, 2, 10, 2}, {1500, 350, 2, 10, 2}, {1500, 350, 2, 10, 2}};
+    public static final String INT_ARRAY_EL_NAMES = "{ MAX_DELTA_TIME, SPEEDUP_MAX_DELTA_TIME, SLOWDOWN_STEP, MAX_SPEED, SCROLL_DELETE_FACTOR };";
+    public static final float SPEEDUP_FACTOR = 1.3f;
+    public static final float SLOWDOWN_FACTOR = 1.5f;
+    public static final float RESET_FACTOR = 2.2f;
+    public static final float MAX_SPEED_FACTOR = 1.2f;
+    public static final float MAX_SPEED_ADD = 0.7f;
+    public static final int IDX_FLOAT_SPEEDUP_FACTOR = 0;
+    public static final int IDX_FLOAT_SLOWDOWN_FACTOR = 1;
+    public static final int IDX_FLOAT_RESET_FACTOR = 2;
+    public static final int IDX_FLOAT_MAX_SPEED_FACTOR = 3;
+    public static final int IDX_FLOAT_MAX_SPEED_ADD = 4;
+    public static final int NO_IDX_FLOAT = 5;
+    public static final float[][] FLOAT_DEFAULT_CONFIG = new float[][]{{1.3f, 1.5f, 2.2f, 1.2f, 0.7f}, {1.3f, 1.5f, 2.2f, 1.2f, 0.7f}, {1.3f, 1.5f, 2.2f, 1.2f, 0.7f}};
+    public static final String FLOAT_ARRAY_EL_NAMES = "{ SPEEDUP_FACTOR, SLOWDOWN_FACTOR, RESET_FACTOR, MAX_SPEED_FACTOR, MAX_SPEED_ADD };";
+    public static final int IDX_KEYPNL_FIRST = -1;
+    public static final int IDX_KEYPNL_OLD = 0;
+    public static final int IDX_KEYPNL_NEW_ROTARY = 1;
+    public static final int IDX_KEYPNL_NEW_BIG = 2;
+    public static final int IDX_KEYPNL_LAST = 3;
+    private static volatile BckSpaceGestureHandlerConfig thisIsJimmy = null;
     private volatile int[][] m_intConfig;
     private volatile float[][] m_floatConfig;
 
@@ -114,7 +114,7 @@ public final class BckSpaceGestureHandlerConfig {
         if (this.checkFArr(n, n2)) {
             return this.m_floatConfig[n][n2];
         }
-        return 49279;
+        return Float.NaN;
     }
 
     public synchronized void setConfigFloats(int n, float[] fArray) {
@@ -158,12 +158,6 @@ public final class BckSpaceGestureHandlerConfig {
             System.arraycopy((Object)this.m_intConfig[n], 0, (Object)nArray2, 0, nArray2.length);
         }
         return nArray2;
-    }
-
-    static {
-        INT_DEFAULT_CONFIG = new int[][]{{1500, 350, 2, 10, 2}, {1500, 350, 2, 10, 2}, {1500, 350, 2, 10, 2}};
-        FLOAT_DEFAULT_CONFIG = new float[][]{{1718003263, 49215, -842265536, -1701209793, 0x3333333F}, {1718003263, 49215, -842265536, -1701209793, 0x3333333F}, {1718003263, 49215, -842265536, -1701209793, 0x3333333F}};
-        thisIsJimmy = null;
     }
 }
 

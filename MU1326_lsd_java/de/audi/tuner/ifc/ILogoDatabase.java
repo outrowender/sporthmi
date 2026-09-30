@@ -11,25 +11,18 @@ import de.audi.tuner.app.rsdb.IRSDBResult;
 import de.audi.tuner.app.uni.UnifiedStationExt;
 
 public interface ILogoDatabase {
-    default public void requestDataById(TunerObjectContainer[] tunerObjectContainerArray, IRSDBResult iRSDBResult) {
-    }
+    public void requestDataById(TunerObjectContainer[] var1, IRSDBResult var2);
 
-    default public HMIResourceLocator getLogo(long l) {
-    }
+    public HMIResourceLocator getLogo(long var1);
 
-    default public void requestAmFmData(AMFMStation[] aMFMStationArray, IRSDBResult iRSDBResult) {
-    }
+    public void requestAmFmData(AMFMStation[] var1, IRSDBResult var2);
 
-    default public void requestUniData(UnifiedStationExt[] unifiedStationExtArray, IRSDBResult iRSDBResult) {
-    }
+    public void requestUniData(UnifiedStationExt[] var1, IRSDBResult var2);
 
-    default public void requestDabData(DabStation[] dabStationArray, IRSDBResult iRSDBResult) {
-    }
+    public void requestDabData(DabStation[] var1, IRSDBResult var2);
 
-    default public void resetToDefaultSettings() {
-    }
+    public void resetToDefaultSettings();
 
-    default public boolean isRealDatabase() {
-    }
+    public boolean isRealDatabase();
 }
 

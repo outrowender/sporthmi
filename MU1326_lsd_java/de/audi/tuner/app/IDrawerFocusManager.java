@@ -4,7 +4,6 @@
 package de.audi.tuner.app;
 
 public interface IDrawerFocusManager {
-    default public boolean isDrawerOpen() {
-    }
+    public boolean isDrawerOpen();
 }
 

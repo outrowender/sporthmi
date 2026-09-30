@@ -6,8 +6,7 @@ package de.audi.tghu.navi.app.map.context;
 import de.audi.tghu.navi.app.NavigationEnv;
 import de.audi.tghu.navi.app.map.AbstractMap;
 import de.audi.tghu.navi.app.map.GUIInterface;
-import de.audi.tghu.navi.app.map.context.CTags$HasPosition;
-import de.audi.tghu.navi.app.map.context.CTags$HasZoomArea;
+import de.audi.tghu.navi.app.map.context.CTags;
 import de.audi.tghu.navi.app.map.context.CtxFreeMap;
 import de.audi.tghu.navi.app.map.dsi.IMapRequest;
 import org.dsi.ifc.global.NavSegmentID;
@@ -15,23 +14,22 @@ import org.dsi.ifc.map.Rect;
 
 public class CtxSelenaOverview
 extends CtxFreeMap
-implements CTags$HasZoomArea,
-CTags$HasPosition {
-    protected static final float fOrientationThresholdCHM;
+implements CTags.HasZoomArea,
+CTags.HasPosition {
+    protected static final float fOrientationThresholdCHM = 100000.0f;
     protected NavSegmentID[] preparedVisibleRoutes;
 
     public CtxSelenaOverview(NavigationEnv navigationEnv, AbstractMap abstractMap) {
         super(navigationEnv, abstractMap);
     }
 
-    @Override
     public void enter() {
         IMapRequest iMapRequest = this.naviMap.getMVRequest();
         GUIInterface gUIInterface = this.naviMap.getGuiInterface();
         boolean bl = this.naviMap.getSatellitemapsManager().isSatelliteMapActive();
         boolean bl2 = this.getSetupMapType() == 2;
         Rect rect = this.getVisibleArea();
-        this.getLogChannel().log(-2137614336, "CtxSelenaOverview#enter() - visible area : %1", (Object)rect);
+        this.getLogChannel().log(10000000, "CtxSelenaOverview#enter() - visible area : %1", (Object)rect);
         int n = rect.kordX + (rect.diffX >> 1);
         int n2 = rect.kordY + (rect.diffY >> 1);
         if (bl && bl2) {
@@ -41,7 +39,7 @@ CTags$HasPosition {
         this.setVisibleArea();
         iMapRequest.setEnableSoftZoom(false);
         if (this.preparedVisibleRoutes != null) {
-            this.getLogChannel().log(-2137614336, "CtxSelenaOverview#enter() - preparedVisibleRoute %1", (Object)this.preparedVisibleRoutes);
+            this.getLogChannel().log(10000000, "CtxSelenaOverview#enter() - preparedVisibleRoute %1", (Object)this.preparedVisibleRoutes);
             iMapRequest.setMode(16);
             this.setVisibleRoutes(this.preparedVisibleRoutes);
         } else {
@@ -55,34 +53,30 @@ CTags$HasPosition {
         super.enter();
     }
 
-    @Override
     public void exit() {
         super.exit();
         this.preparedVisibleRoutes = null;
         this.getMapMain().getCtxTimeline().clearIntention();
     }
 
-    @Override
     public void updateZoomListIndex(int n) {
         super.updateZoomListIndex(n);
     }
 
-    @Override
     public void automaticOrientateMap() {
     }
 
-    @Override
     public void keyPressed(int n, int n2) {
-        this.getLogChannel().log(-2137614336, "CtxCrosshairMap#keyPressed( modelID = %1, keyID = %2)", (long)n, (long)n2);
+        this.getLogChannel().log(10000000, "CtxCrosshairMap#keyPressed( modelID = %1, keyID = %2)", (long)n, (long)n2);
         switch (n) {
             case 400450: {
-                this.getLogChannel().log(1078071040, "CtxCrosshairMap#keyPressed - NAV_MAP_FULLSCREEN_RETURN_BUTTON");
+                this.getLogChannel().log(1000000, "CtxCrosshairMap#keyPressed - NAV_MAP_FULLSCREEN_RETURN_BUTTON");
                 this.naviMap.getGuiInterface().openOrCloseSidebar(3);
                 this.naviMap.switchToAShownContext();
                 break;
             }
             case 401004: {
-                this.getLogChannel().log(-2137614336, "CtxCrosshairMap#keyPressed() - Crosshairs event");
+                this.getLogChannel().log(10000000, "CtxCrosshairMap#keyPressed() - Crosshairs event");
                 if (n2 == 17) {
                     this.onDDSClicked();
                     break;
@@ -91,7 +85,7 @@ CTags$HasPosition {
                     this.onHKBackClicked();
                     break;
                 }
-                this.getLogChannel().log(-1601830656, "CtxCrosshairMap#keyPressed() - unknown keyID = %1", (long)n2);
+                this.getLogChannel().log(100000, "CtxCrosshairMap#keyPressed() - unknown keyID = %1", (long)n2);
                 break;
             }
             default: {
@@ -100,7 +94,6 @@ CTags$HasPosition {
         }
     }
 
-    @Override
     public void keyReleased(int n, int n2) {
         switch (n) {
             case 401567: 
@@ -117,60 +110,52 @@ CTags$HasPosition {
         }
     }
 
-    @Override
     protected void onDDSClicked() {
-        this.getLogChannel().log(1078071040, "CtxCrosshairMap#onDDSClicked() - selection event received");
+        this.getLogChannel().log(1000000, "CtxCrosshairMap#onDDSClicked() - selection event received");
         this.bUserHasSelectedOnMap = true;
         this.getMap().getNaviInterface().getInputModeManager().setInputMode(0, this.env);
-        this.joystick(-887224832, -1);
+        this.joystick(401099, -1);
     }
 
-    @Override
     protected void onHKBackClicked() {
-        this.getLogChannel().log(1078071040, "CtxCrosshairMap#onHKBackClicked() - HK back event received");
+        this.getLogChannel().log(1000000, "CtxCrosshairMap#onHKBackClicked() - HK back event received");
         this.getMap().forceContext(-1);
         this.getMap().switchToAShownContext();
     }
 
-    @Override
     public void hkBackPressed() {
-        this.getLogChannel().log(1078071040, "CtxCrosshairMap#hkBackPressed() - HK back event received");
+        this.getLogChannel().log(1000000, "CtxCrosshairMap#hkBackPressed() - HK back event received");
         this.getMap().forceContext(-1);
     }
 
-    @Override
     public void exitMapScreen() {
-        this.getLogChannel().log(-2137614336, "CtxCrosshairMap#exitMapScreen()");
+        this.getLogChannel().log(10000000, "CtxCrosshairMap#exitMapScreen()");
         int n = this.getCID();
         super.exitMapScreen();
         if (n == 12) {
-            this.getLogChannel().log(-2137614336, "CtxCrosshairMap#exitMapScreen(): forceContext to (%1)", (long)n);
+            this.getLogChannel().log(10000000, "CtxCrosshairMap#exitMapScreen(): forceContext to (%1)", (long)n);
             this.naviMap.forceContext(n);
         }
     }
 
-    @Override
     public void viewSizeChanged(int n) {
         super.viewSizeChanged(n);
         if (n == 1) {
-            this.getLogChannel().log(1078071040, "CtxCrosshairMap#viewSizeChanged( ) - switch to normal map context.");
+            this.getLogChannel().log(1000000, "CtxCrosshairMap#viewSizeChanged( ) - switch to normal map context.");
         }
         this.setVisibleArea();
     }
 
-    @Override
     public void incrementGesture(int n) {
         super.incrementGesture(n);
         this.container.fUserZoomLevel = n / 100;
         this.container.lastZoomLevelInCrossHairMode = n / 100;
     }
 
-    @Override
     protected int getMixedListOffset() {
         return 0;
     }
 
-    @Override
     protected void initFocusedProperty() {
     }
 
@@ -178,7 +163,6 @@ CTags$HasPosition {
         this.naviMap.getMVRequest().setVisibleRoutes(navSegmentIDArray);
     }
 
-    @Override
     public Rect getVisibleArea() {
         return this.getGUI().getLayout().getVisibleArea(this.getMap().getActiveContextIndex(), false, false, this.getData().viewSize == 1);
     }

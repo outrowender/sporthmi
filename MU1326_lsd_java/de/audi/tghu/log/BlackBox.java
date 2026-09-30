@@ -17,7 +17,6 @@ extends AbstractLogSink {
         this.content = new RingBuffer(n);
     }
 
-    @Override
     public synchronized void writeLog(LogEntry logEntry) {
         if (logEntry != null) {
             logEntry.freezeArgs();

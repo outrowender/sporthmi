@@ -18,12 +18,12 @@ import org.dsi.ifc.global.NavLocation;
 
 public class NaviSDISStartGuidanceHandler
 implements ButtonListener {
-    protected static final int POPUP_A2LS_NAVI_ACCEPT_BUTTON;
-    protected static final int POPUP_A2LS_NAVI_DECLINE_BUTTON;
-    protected static final int POPUP_A2LS_NAVI_SETTINGS_BUTTON;
-    protected static final int POPUP_A2LS_NAVI_LINE_ONE_LABEL;
-    protected static final int POPUP_A2LS_NAVI_LINE_TWO_LABEL;
-    protected static final int POPUP_A2LS_NAVI_LINE_THREE_LABEL;
+    protected static final int POPUP_A2LS_NAVI_ACCEPT_BUTTON = 4183;
+    protected static final int POPUP_A2LS_NAVI_DECLINE_BUTTON = 4223;
+    protected static final int POPUP_A2LS_NAVI_SETTINGS_BUTTON = 4224;
+    protected static final int POPUP_A2LS_NAVI_LINE_ONE_LABEL = 4650;
+    protected static final int POPUP_A2LS_NAVI_LINE_TWO_LABEL = 4652;
+    protected static final int POPUP_A2LS_NAVI_LINE_THREE_LABEL = 4651;
     protected final NavigationEnv env;
     protected final LogChannel logChannel;
     protected final IStartGuidanceToDestinationSequence startGuidanceToDestinationSequence;
@@ -48,9 +48,8 @@ implements ButtonListener {
         this.env.getButtonModel(4224).setButtonListener(this);
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
-        this.logChannel.log(-2137614336, "NaviSDISStartGuidanceHandler#keyTyped(%1, %2)", (long)n, (long)n2);
+        this.logChannel.log(10000000, "NaviSDISStartGuidanceHandler#keyTyped(%1, %2)", (long)n, (long)n2);
         if (n == 4183) {
             this.startGuidance();
         } else if (n == 4223) {
@@ -90,7 +89,7 @@ implements ButtonListener {
             if (this.replyCommand == null) {
                 return;
             }
-            this.env.getSdisLogChannel().log(-2137614336, "NaviTabletService#startGuidanceToDestinations Destinations: %1", (Object)this.destinations);
+            this.env.getSdisLogChannel().log(10000000, "NaviTabletService#startGuidanceToDestinations Destinations: %1", (Object)this.destinations);
             CommandList commandList = this.startGuidanceToDestinationSequence.getStartSequence(this.destinations[0], false);
             commandList.add(this.replyCommand);
             commandList.execute("NaviSDISStartGuidanceHandler#keyTyped#executeStartGuidance");
@@ -99,15 +98,12 @@ implements ButtonListener {
         }
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyLongTyped(int n, int n2, int n3) {
     }
 
@@ -118,18 +114,18 @@ implements ButtonListener {
         Object object = this.lock;
         synchronized (object) {
             this.replyDeclinedCommand = navCommand2;
-            this.logChannel.log(-2137614336, "NaviSDISStartGuidanceHandler#prepareStartGuidance() destinationCount = %2 firstDestinationFormatted: %1", (Object)LocationFormatter.formatLocationShort(navLocationArray[0]), (long)navLocationArray.length);
-            ChoiceModelApp choiceModelApp = this.env.getChoiceModel(415895552);
+            this.logChannel.log(10000000, "NaviSDISStartGuidanceHandler#prepareStartGuidance() destinationCount = %2 firstDestinationFormatted: %1", (Object)LocationFormatter.formatLocationShort(navLocationArray[0]), (long)navLocationArray.length);
+            ChoiceModelApp choiceModelApp = this.env.getChoiceModel(1100312);
             if (choiceModelApp == null) {
-                this.logChannel.log(-1601830656, "NaviSDISStartGuidanceHandler#prepareStartGuidance() sdis settings model is null");
+                this.logChannel.log(100000, "NaviSDISStartGuidanceHandler#prepareStartGuidance() sdis settings model is null");
                 this.decline();
                 return;
             }
             int n = choiceModelApp.getValue();
-            this.logChannel.log(-2137614336, "NaviSDISStartGuidanceHandler#prepareStartGuidance() current RequestMode =  %1", (long)n);
+            this.logChannel.log(10000000, "NaviSDISStartGuidanceHandler#prepareStartGuidance() current RequestMode =  %1", (long)n);
             switch (n) {
                 case 1: {
-                    this.logChannel.log(-2137614336, "NaviSDISStartGuidanceHandler#prepareStartGuidance() - Mode is set to ALLOW start routeguidance and trigger choicemodel to show popup if needed");
+                    this.logChannel.log(10000000, "NaviSDISStartGuidanceHandler#prepareStartGuidance() - Mode is set to ALLOW start routeguidance and trigger choicemodel to show popup if needed");
                     this.destinations = navLocationArray;
                     this.replyCommand = navCommand;
                     this.startGuidance();
@@ -138,31 +134,31 @@ implements ButtonListener {
                     break;
                 }
                 case 2: {
-                    this.logChannel.log(-2137614336, "NaviSDISStartGuidanceHandler#prepareStartGuidance() - Mode is set to DECLINE --> Send decline() answer to SDIS");
+                    this.logChannel.log(10000000, "NaviSDISStartGuidanceHandler#prepareStartGuidance() - Mode is set to DECLINE --> Send decline() answer to SDIS");
                     this.decline();
                     break;
                 }
                 case 0: {
-                    this.logChannel.log(-2137614336, "NaviSDISStartGuidanceHandler#prepareStartGuidance() - Mode is set to ask for permission --> Show popup");
+                    this.logChannel.log(10000000, "NaviSDISStartGuidanceHandler#prepareStartGuidance() - Mode is set to ask for permission --> Show popup");
                     this.destinations = navLocationArray;
                     this.replyCommand = navCommand;
                     this.showGuidanceRequestPopUp();
                     break;
                 }
                 default: {
-                    this.logChannel.log(1078071040, "NaviSDISStartGuidanceHandler#prepareStartGuidance no match found for value = %1", (long)n);
+                    this.logChannel.log(1000000, "NaviSDISStartGuidanceHandler#prepareStartGuidance no match found for value = %1", (long)n);
                 }
             }
         }
     }
 
     protected void showGuidanceRequestPopUp() {
-        this.env.getChoiceModel(237110784).setValue(0);
-        this.env.getChoiceModel(237110784).setValue(1);
+        this.env.getChoiceModel(401934).setValue(0);
+        this.env.getChoiceModel(401934).setValue(1);
     }
 
     protected void hideGuidanceRequestPopUp() {
-        this.env.getChoiceModel(237110784).setValue(0);
+        this.env.getChoiceModel(401934).setValue(0);
     }
 }
 

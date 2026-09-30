@@ -13,19 +13,15 @@ extends PreviewMapStateAbstract {
         super(previewMapHandlerAbstract, null, null);
     }
 
-    @Override
     public void applyToScreenDetail() {
     }
 
-    @Override
     public void applyToScreenDetailModels() {
     }
 
-    @Override
     public void applyToScreenFullMap() {
     }
 
-    @Override
     public NavLocation getNavLocationForEnterInMap() {
         return null;
     }

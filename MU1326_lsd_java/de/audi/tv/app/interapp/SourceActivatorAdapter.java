@@ -6,7 +6,6 @@ package de.audi.tv.app.interapp;
 import de.audi.atip.interapp.tv.ITVParentActivationService;
 import de.audi.atip.log.LogChannel;
 import de.audi.tv.app.interapp.ISourceActivator;
-import de.audi.tv.app.interapp.SourceActivatorAdapter$1;
 
 public class SourceActivatorAdapter
 implements ISourceActivator {
@@ -14,19 +13,23 @@ implements ISourceActivator {
     private final ITVParentActivationService defaultService;
     private ITVParentActivationService service;
 
-    public SourceActivatorAdapter(LogChannel logChannel) {
+    public SourceActivatorAdapter(final LogChannel logChannel) {
         this.lc = logChannel;
-        this.service = this.defaultService = new SourceActivatorAdapter$1(this, logChannel);
+        this.service = this.defaultService = new ITVParentActivationService(){
+
+            public void activateSource(int n) {
+                logChannel.log(1000000, "[SourceActivatorAdapter.DefaultService.activateSource] source %1", (long)n);
+            }
+        };
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void activate(int n) {
         SourceActivatorAdapter sourceActivatorAdapter = this;
         synchronized (sourceActivatorAdapter) {
-            this.lc.log(14808325, "[SourceActivatorAdapter.activate] source %1", (long)n);
+            this.lc.log(100000000, "[SourceActivatorAdapter.activate] source %1", (long)n);
             if (n == 0) {
                 this.service.activateSource(0);
             } else if (n == 1) {

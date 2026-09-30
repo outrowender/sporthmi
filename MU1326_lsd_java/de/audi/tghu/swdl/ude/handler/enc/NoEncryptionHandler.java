@@ -19,13 +19,13 @@ extends EncryptionHandler {
     }
 
     public void encrypt(File file, String string) {
-        this.lc.log(-2137614336, "[NoEncryptionHandler.encrypt] %1", (Object)file);
+        this.lc.log(10000000, "[NoEncryptionHandler.encrypt] %1", (Object)file);
         int n = this.copy(file, IEClient.FILE_ZIP_ENC);
         this.encryptFile(IEClient.FILE_ZIP_ENC.getAbsolutePath(), n);
     }
 
     public void decrypt(File file, String string) {
-        this.lc.log(-2137614336, "[NoEncryptionHandler.decrypt] %1", (Object)file);
+        this.lc.log(10000000, "[NoEncryptionHandler.decrypt] %1", (Object)file);
         int n = this.copy(file, IEClient.FILE_ZIP_DEC);
         this.decryptFile(IEClient.FILE_ZIP_DEC.getAbsolutePath(), n);
     }
@@ -34,8 +34,8 @@ extends EncryptionHandler {
      * WARNING - Removed try catching itself - possible behaviour change.
      */
     private int copy(File file, File file2) {
-        this.lc.log(-2137614336, "[NoEncryptionHandler.copy] src: %1", (Object)file);
-        this.lc.log(-2137614336, "[NoEncryptionHandler.copy] target: %1 (%2 bytes)", (Object)file2);
+        this.lc.log(10000000, "[NoEncryptionHandler.copy] src: %1", (Object)file);
+        this.lc.log(10000000, "[NoEncryptionHandler.copy] target: %1 (%2 bytes)", (Object)file2);
         FileInputStream fileInputStream = null;
         FileOutputStream fileOutputStream = null;
         try {

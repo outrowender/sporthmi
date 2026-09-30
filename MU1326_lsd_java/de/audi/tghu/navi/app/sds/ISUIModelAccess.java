@@ -3,10 +3,9 @@
  */
 package de.audi.tghu.navi.app.sds;
 
-import de.audi.atip.interapp.NaviService$NaviSUIDetails;
+import de.audi.atip.interapp.NaviService;
 
 public interface ISUIModelAccess {
-    default public byte fillNaviSUIList(NaviService$NaviSUIDetails[] naviService$NaviSUIDetailsArray) {
-    }
+    public byte fillNaviSUIList(NaviService.NaviSUIDetails[] var1);
 }
 

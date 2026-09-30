@@ -5,6 +5,7 @@ package de.audi.tuner.app.storage;
 
 import de.audi.atip.interapp.tv.TVStation;
 import de.audi.atip.log.LogChannel;
+import de.audi.atip.storage.AbstractStorageDataContainer;
 import de.audi.atip.storage.IStorageAccess;
 import de.audi.tuner.app.TunerObjectContainer;
 import de.audi.tuner.app.amfm.AMFMStation;
@@ -16,7 +17,6 @@ import de.audi.tuner.app.memory.DABMemoryRow;
 import de.audi.tuner.app.memory.SDARSMemoryRow;
 import de.audi.tuner.app.memory.UniMemoryRow;
 import de.audi.tuner.app.sdars.StationInfoExt;
-import de.audi.tuner.app.storage.AbstractMemListStorage$StorageDataContainer;
 import de.audi.tuner.app.storage.IMemListStorage;
 import de.audi.tuner.app.storage.SerializingHelpers;
 import de.audi.tuner.app.uni.UnifiedStationExt;
@@ -24,10 +24,11 @@ import de.audi.tuner.ifc.AbstractListRowFactory;
 import de.audi.tuner.ifc.ILogoDatabase;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.IOException;
 
 public abstract class AbstractMemListStorage
 implements IMemListStorage {
-    public static final int VERSION;
+    public static final int VERSION = 8;
     private final IStorageAccess storageAccess;
     private final LogChannel lc;
     protected final AbstractListRowFactory rowFactory;
@@ -40,7 +41,6 @@ implements IMemListStorage {
         this.rowFactory = abstractListRowFactory;
     }
 
-    @Override
     public void setPreferredImgType(int n) {
         this.imgType = n;
     }
@@ -50,17 +50,17 @@ implements IMemListStorage {
     }
 
     protected synchronized void doWrite(AbstractMemoryRow[] abstractMemoryRowArray, int n) {
-        this.lc.log(-2137614336, "[AbstractMemListStorage.doWrite]");
-        AbstractMemListStorage$StorageDataContainer abstractMemListStorage$StorageDataContainer = new AbstractMemListStorage$StorageDataContainer(this, n);
-        abstractMemListStorage$StorageDataContainer.setRows(abstractMemoryRowArray);
-        abstractMemListStorage$StorageDataContainer.serializeAndWrite();
+        this.lc.log(10000000, "[AbstractMemListStorage.doWrite]");
+        StorageDataContainer storageDataContainer = new StorageDataContainer(n);
+        storageDataContainer.setRows(abstractMemoryRowArray);
+        storageDataContainer.serializeAndWrite();
     }
 
     public AbstractMemoryRow[] doRead(int n) {
-        this.lc.log(-2137614336, "[AbstractMemListStorage.doRead]");
-        AbstractMemListStorage$StorageDataContainer abstractMemListStorage$StorageDataContainer = new AbstractMemListStorage$StorageDataContainer(this, n);
-        abstractMemListStorage$StorageDataContainer.readAndDeserialize();
-        AbstractMemoryRow[] abstractMemoryRowArray = abstractMemListStorage$StorageDataContainer.getRows();
+        this.lc.log(10000000, "[AbstractMemListStorage.doRead]");
+        StorageDataContainer storageDataContainer = new StorageDataContainer(n);
+        storageDataContainer.readAndDeserialize();
+        AbstractMemoryRow[] abstractMemoryRowArray = storageDataContainer.getRows();
         if (n == 338) {
             abstractMemoryRowArray = this.chkLength(abstractMemoryRowArray);
         }
@@ -79,7 +79,7 @@ implements IMemListStorage {
         return abstractMemoryRowArray;
     }
 
-    private void serializeRow(AbstractMemoryRow abstractMemoryRow, DataOutputStream dataOutputStream) {
+    private void serializeRow(AbstractMemoryRow abstractMemoryRow, DataOutputStream dataOutputStream) throws IOException {
         dataOutputStream.writeInt(abstractMemoryRow.getBand());
         if (abstractMemoryRow.isEmpty()) {
             return;
@@ -112,7 +112,7 @@ implements IMemListStorage {
         throw new IllegalArgumentException(new StringBuffer().append("Unknown memory row: ").append(abstractMemoryRow).toString());
     }
 
-    private AbstractMemoryRow deserializeRow(int n, int n2, DataInputStream dataInputStream, int n3) {
+    private AbstractMemoryRow deserializeRow(int n, int n2, DataInputStream dataInputStream, int n3) throws IOException {
         switch (n2) {
             case 8: {
                 return this.rowFactory.getEmptyFavRow(n);
@@ -154,23 +154,63 @@ implements IMemListStorage {
         throw new IllegalArgumentException(new StringBuffer().append("Unknown band ").append(n2).append(" at index ").append(n).toString());
     }
 
-    protected abstract AbstractMemoryRow[] getDefaultList() {
-    }
+    protected abstract AbstractMemoryRow[] getDefaultList();
 
-    static /* synthetic */ IStorageAccess access$000(AbstractMemListStorage abstractMemListStorage) {
-        return abstractMemListStorage.storageAccess;
-    }
+    private class StorageDataContainer
+    extends AbstractStorageDataContainer {
+        private AbstractMemoryRow[] rows;
 
-    static /* synthetic */ LogChannel access$100(AbstractMemListStorage abstractMemListStorage) {
-        return abstractMemListStorage.lc;
-    }
+        StorageDataContainer(int n) {
+            super(AbstractMemListStorage.this.storageAccess, 8, 1001, n);
+            this.rows = AbstractMemListStorage.this.getDefaultList();
+        }
 
-    static /* synthetic */ void access$200(AbstractMemListStorage abstractMemListStorage, AbstractMemoryRow abstractMemoryRow, DataOutputStream dataOutputStream) {
-        abstractMemListStorage.serializeRow(abstractMemoryRow, dataOutputStream);
-    }
+        protected void handleCRC32Error() {
+            AbstractMemListStorage.this.lc.log(10000, "[AbstractMemListStorage.handleCRC32Error]");
+            this.rows = AbstractMemListStorage.this.getDefaultList();
+        }
 
-    static /* synthetic */ AbstractMemoryRow access$300(AbstractMemListStorage abstractMemListStorage, int n, int n2, DataInputStream dataInputStream, int n3) {
-        return abstractMemListStorage.deserializeRow(n, n2, dataInputStream, n3);
+        protected void handleStorageReadError(Exception exception) {
+            AbstractMemListStorage.this.lc.log(10000, "[AbstractMemListStorage.handleStorageReadError] %1", (Object)exception.getMessage());
+            AbstractMemListStorage.this.lc.log(100000, "[AbstractMemListStorage.handleStorageReadError]", (Throwable)exception);
+            this.rows = AbstractMemListStorage.this.getDefaultList();
+        }
+
+        protected void convertContainer(int n, int n2, DataInputStream dataInputStream) throws IOException {
+            AbstractMemListStorage.this.lc.log(1000000, "[AbstractMemListStorage.convertContainer] persisted:%1 container:%2", (long)n, (long)n2);
+            this.deserialize(dataInputStream, n);
+        }
+
+        void setRows(AbstractMemoryRow[] abstractMemoryRowArray) {
+            this.rows = abstractMemoryRowArray;
+        }
+
+        protected void serialize(DataOutputStream dataOutputStream) throws IOException {
+            AbstractMemListStorage.this.lc.log(10000000, "[AbstractMemListStorage.serialize]");
+            dataOutputStream.writeInt(this.rows.length);
+            for (int i2 = 0; i2 < this.rows.length; ++i2) {
+                AbstractMemListStorage.this.serializeRow(this.rows[i2], dataOutputStream);
+            }
+        }
+
+        AbstractMemoryRow[] getRows() {
+            return this.rows;
+        }
+
+        protected void deserialize(DataInputStream dataInputStream) throws IOException {
+            AbstractMemListStorage.this.lc.log(10000000, "[AbstractMemListStorage.deserialize]");
+            this.deserialize(dataInputStream, 8);
+        }
+
+        private void deserialize(DataInputStream dataInputStream, int n) throws IOException {
+            AbstractMemListStorage.this.lc.log(10000000, "[AbstractMemListStorage.deserialize]");
+            int n2 = dataInputStream.readInt();
+            this.rows = new AbstractMemoryRow[n2];
+            for (int i2 = 0; i2 < this.rows.length; ++i2) {
+                int n3 = dataInputStream.readInt();
+                this.rows[i2] = AbstractMemListStorage.this.deserializeRow(i2, n3, dataInputStream, n);
+            }
+        }
     }
 }
 

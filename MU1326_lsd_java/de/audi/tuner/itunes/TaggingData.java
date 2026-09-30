@@ -4,6 +4,7 @@
 package de.audi.tuner.itunes;
 
 import de.esolutions.fw.util.commons.Buffer;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
@@ -12,7 +13,7 @@ import org.dsi.ifc.media.TagInformation;
 
 public class TaggingData
 implements Serializable {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = 7885527371250286647L;
     private TagInformation tag1;
     private TagInformation tag2;
     private int id;
@@ -106,7 +107,7 @@ implements Serializable {
         return n;
     }
 
-    private void writeObject(ObjectOutputStream objectOutputStream) {
+    private void writeObject(ObjectOutputStream objectOutputStream) throws IOException {
         this.writeTagInfo(objectOutputStream, this.tag1);
         if (this.tag2 != null) {
             objectOutputStream.writeBoolean(true);
@@ -116,7 +117,7 @@ implements Serializable {
         }
     }
 
-    private void writeTagInfo(ObjectOutputStream objectOutputStream, TagInformation tagInformation) {
+    private void writeTagInfo(ObjectOutputStream objectOutputStream, TagInformation tagInformation) throws IOException {
         objectOutputStream.writeBoolean(tagInformation.ambiguousTag);
         objectOutputStream.writeBoolean(tagInformation.buttonPressed);
         objectOutputStream.writeUTF(tagInformation.title);
@@ -135,13 +136,13 @@ implements Serializable {
         objectOutputStream.writeUTF(tagInformation.unknownData);
     }
 
-    private void readObject(ObjectInputStream objectInputStream) {
+    private void readObject(ObjectInputStream objectInputStream) throws IOException, ClassNotFoundException {
         this.tag1 = this.readTagInfo(objectInputStream);
         boolean bl = objectInputStream.readBoolean();
         this.tag2 = bl ? this.readTagInfo(objectInputStream) : null;
     }
 
-    private TagInformation readTagInfo(ObjectInputStream objectInputStream) {
+    private TagInformation readTagInfo(ObjectInputStream objectInputStream) throws IOException {
         TagInformation tagInformation = new TagInformation();
         tagInformation.ambiguousTag = objectInputStream.readBoolean();
         tagInformation.buttonPressed = objectInputStream.readBoolean();

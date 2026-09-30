@@ -3,31 +3,10 @@
  */
 package de.audi.tghu.navi.hmi.evohighscale;
 
+import de.audi.atip.hmi.model.ListCell;
 import de.audi.atip.hmi.model.menu.focus.FocusAdvice;
 import de.audi.atip.hmi.view.HMIView;
 import de.audi.atip.hmi.view.Screen;
-import de.audi.tghu.navi.hmi.evohighscale.NaviScreenBag3$1;
-import de.audi.tghu.navi.hmi.evohighscale.NaviScreenBag3$10;
-import de.audi.tghu.navi.hmi.evohighscale.NaviScreenBag3$11;
-import de.audi.tghu.navi.hmi.evohighscale.NaviScreenBag3$12;
-import de.audi.tghu.navi.hmi.evohighscale.NaviScreenBag3$13;
-import de.audi.tghu.navi.hmi.evohighscale.NaviScreenBag3$14;
-import de.audi.tghu.navi.hmi.evohighscale.NaviScreenBag3$15;
-import de.audi.tghu.navi.hmi.evohighscale.NaviScreenBag3$16;
-import de.audi.tghu.navi.hmi.evohighscale.NaviScreenBag3$17;
-import de.audi.tghu.navi.hmi.evohighscale.NaviScreenBag3$18;
-import de.audi.tghu.navi.hmi.evohighscale.NaviScreenBag3$19;
-import de.audi.tghu.navi.hmi.evohighscale.NaviScreenBag3$2;
-import de.audi.tghu.navi.hmi.evohighscale.NaviScreenBag3$20;
-import de.audi.tghu.navi.hmi.evohighscale.NaviScreenBag3$21;
-import de.audi.tghu.navi.hmi.evohighscale.NaviScreenBag3$22;
-import de.audi.tghu.navi.hmi.evohighscale.NaviScreenBag3$3;
-import de.audi.tghu.navi.hmi.evohighscale.NaviScreenBag3$4;
-import de.audi.tghu.navi.hmi.evohighscale.NaviScreenBag3$5;
-import de.audi.tghu.navi.hmi.evohighscale.NaviScreenBag3$6;
-import de.audi.tghu.navi.hmi.evohighscale.NaviScreenBag3$7;
-import de.audi.tghu.navi.hmi.evohighscale.NaviScreenBag3$8;
-import de.audi.tghu.navi.hmi.evohighscale.NaviScreenBag3$9;
 import de.audi.tghu.navi.hmi.evohighscale.NaviScreenFactory;
 import de.esolutions.hmi.widgets.audi.base.AbstractWidget;
 import de.esolutions.hmi.widgets.audi.base.widgets.AbstractWidgetController;
@@ -44,8 +23,12 @@ import de.esolutions.hmi.widgets.audi.evo.high.widgets.ContainerRendererHigh;
 import de.esolutions.hmi.widgets.audi.evo.high.widgets.FocusCursorRendererHigh;
 import de.esolutions.hmi.widgets.audi.evo.high.widgets.GlassplateContainerRendererHigh;
 import de.esolutions.hmi.widgets.audi.evo.high.widgets.GlassplateRendererHigh;
+import de.esolutions.hmi.widgets.audi.evo.high.widgets.HighlightingLabelRendererHigh;
+import de.esolutions.hmi.widgets.audi.evo.high.widgets.IconLabelController;
+import de.esolutions.hmi.widgets.audi.evo.high.widgets.IconLabelRendererHigh;
 import de.esolutions.hmi.widgets.audi.evo.high.widgets.IconRendererHigh;
 import de.esolutions.hmi.widgets.audi.evo.high.widgets.LabelRendererHigh;
+import de.esolutions.hmi.widgets.audi.evo.high.widgets.MenuItemRendererHigh;
 import de.esolutions.hmi.widgets.audi.evo.high.widgets.MultiLineLabelRendererHigh;
 import de.esolutions.hmi.widgets.audi.evo.high.widgets.PartialPopupGlassplateRendererHigh;
 import de.esolutions.hmi.widgets.audi.evo.high.widgets.PartialPopupRendererHigh;
@@ -82,10 +65,12 @@ import de.esolutions.hmi.widgets.audi.evo.widgets.menu.DefaultTiledListModelAcce
 import de.esolutions.hmi.widgets.audi.evo.widgets.menu.InfoLineRendererHigh;
 import de.esolutions.hmi.widgets.audi.evo.widgets.menu.ListController;
 import de.esolutions.hmi.widgets.audi.evo.widgets.menu.MenuController;
+import de.esolutions.hmi.widgets.audi.evo.widgets.menu.MenuItemColumnsConstraints;
 import de.esolutions.hmi.widgets.audi.evo.widgets.menu.MenuItemController;
 import de.esolutions.hmi.widgets.audi.evo.widgets.menu.MenuSDSNumbersController;
 import de.esolutions.hmi.widgets.audi.evo.widgets.menu.MultiLineMenuItemController;
 import de.esolutions.hmi.widgets.audi.evo.widgets.menu.SeparatingLineController;
+import de.esolutions.hmi.widgets.audi.evo.widgets.menu.list.ListItemFactory;
 
 public class NaviScreenBag3 {
     public static Screen dESTADDRESSPROVINCEMETROKR(NaviScreenFactory naviScreenFactory, int n) {
@@ -123,9 +108,9 @@ public class NaviScreenBag3 {
         touchController.setRenderer(touchRendererHigh);
         touchController.setBitmaps(new int[]{483, 484, 857});
         touchRendererHigh.setFonts(naviScreenFactory.getFonts(4, n));
-        touchController.setModelID(1294009856);
-        touchController.setInfoTextIDs(new int[]{254084608, 875103744});
-        touchController.setInitialTextID(270861824);
+        touchController.setModelID(401741);
+        touchController.setInfoTextIDs(new int[]{402703, 403764});
+        touchController.setInitialTextID(402704);
         touchController.setColorIndices(new int[]{2, 5, 4, 3});
         touchController.setCursorOffsetBottom(1);
         touchController.setCursorOffsetTop(-1);
@@ -136,24 +121,24 @@ public class NaviScreenBag3 {
         touchController.setTouchControllerScreenLevel(2);
         touchController.setTouchpadMode(17);
         touchController.setSpeller(spellerController);
-        touchController.add(modelStubController, 16);
-        touchController.add(modelStubController2, 8);
+        touchController.add(modelStubController, 0x10000000);
+        touchController.add(modelStubController2, 0x8000000);
         MenuItemController menuItemController = new MenuItemController();
         CompositeRendererHigh compositeRendererHigh = new CompositeRendererHigh(menuItemController);
         menuItemController.setRenderer(compositeRendererHigh);
-        menuItemController.setModelID(220333568);
-        menuItemController.setEvent(-1608907264);
-        menuItemController.setLabelId(1328023040);
-        menuItemController.setReplacementModelIds(new int[]{-31324672});
+        menuItemController.setModelID(401933);
+        menuItemController.setEvent(400032);
+        menuItemController.setLabelId(403535);
+        menuItemController.setReplacementModelIds(new int[]{402174});
         menuItemController.setGlassplateInsetsBottom(6);
         menuItemController.setGlassplateInsetsTop(7);
-        menuItemController.setInternalID(1394476544);
+        menuItemController.setInternalID(400979);
         menuItemController.setSdsItemSelectedAction(1);
         menuItemController.setType(2);
         menuItemController.setWidgetID(6);
         ListController listController = new ListController();
-        listController.setModelID(1361118720);
-        listController.setEvent(-1608907264);
+        listController.setModelID(401745);
+        listController.setEvent(400032);
         listController.setBounds(0, 0, 0, 0);
         listController.setColorIndices(new int[]{1, 0, 4, 2});
         listController.setGlassplateInsetsBottom(new int[0]);
@@ -163,14 +148,91 @@ public class NaviScreenBag3 {
         listController.setNoFocusAreasTop(new int[0]);
         listController.setPropertyColumn(4);
         listController.setDataAccess(new DefaultTiledListModelAccess());
-        listController.setItemFactory(new NaviScreenBag3$1());
+        listController.setItemFactory(new ListItemFactory(){
+
+            public AbstractWidgetController createListItem(int n, ListCell[] listCellArray) {
+                switch (n) {
+                    case 0: {
+                        MenuItemController menuItemController = new MenuItemController();
+                        menuItemController.setType(16);
+                        menuItemController.setRenderer(new MenuItemRendererHigh(menuItemController));
+                        GridLayout gridLayout = new GridLayout();
+                        MenuItemColumnsConstraints menuItemColumnsConstraints = new MenuItemColumnsConstraints(2);
+                        menuItemColumnsConstraints.gaps = new int[]{0, 15, 0};
+                        menuItemColumnsConstraints.shrink = new float[]{0.0f, 1.0f};
+                        menuItemColumnsConstraints.hidemode = new int[]{2, 0};
+                        gridLayout.setColumnConstraints(menuItemColumnsConstraints);
+                        AxisConstraints axisConstraints = new AxisConstraints(1);
+                        axisConstraints.alignment = new int[]{5};
+                        gridLayout.setRowConstraints(axisConstraints);
+                        AbstractWidgetController abstractWidgetController = this.createCell(0);
+                        GridLayoutHints gridLayoutHints = new GridLayoutHints(0, 0);
+                        AbstractWidgetController abstractWidgetController2 = this.createCell(1);
+                        GridLayoutHints gridLayoutHints2 = new GridLayoutHints(1, 0);
+                        gridLayout.setCellConstraints(new GridLayoutHints[]{gridLayoutHints, gridLayoutHints2}, new Object[]{abstractWidgetController, abstractWidgetController2});
+                        menuItemController.setLayoutChoices(new GridLayout[]{gridLayout});
+                        menuItemController.add(abstractWidgetController2);
+                        menuItemController.add(abstractWidgetController);
+                        return menuItemController;
+                    }
+                }
+                return null;
+            }
+
+            public AbstractWidgetController createListItemNoData() {
+                MenuItemController menuItemController = new MenuItemController();
+                menuItemController.setType(16);
+                menuItemController.setRenderer(new CompositeRendererHigh(menuItemController));
+                GridLayout gridLayout = new GridLayout();
+                MenuItemColumnsConstraints menuItemColumnsConstraints = new MenuItemColumnsConstraints(1);
+                gridLayout.setColumnConstraints(menuItemColumnsConstraints);
+                AxisConstraints axisConstraints = new AxisConstraints(1);
+                gridLayout.setRowConstraints(axisConstraints);
+                AbstractWidgetController abstractWidgetController = this.createCell(2);
+                GridLayoutHints gridLayoutHints = new GridLayoutHints(0, 0);
+                gridLayout.setCellConstraints(new GridLayoutHints[]{gridLayoutHints}, new Object[]{abstractWidgetController});
+                menuItemController.setLayoutChoices(new GridLayout[]{gridLayout});
+                menuItemController.add(abstractWidgetController);
+                return menuItemController;
+            }
+
+            public AbstractWidgetController createCell(int n) {
+                switch (n) {
+                    case 0: {
+                        IconController iconController = new IconController();
+                        IconRendererHigh iconRendererHigh = new IconRendererHigh(iconController);
+                        iconController.setRenderer(iconRendererHigh);
+                        iconController.setBitmaps(new int[]{127, 400330});
+                        iconController.setModelColumn(3);
+                        iconController.setPreferredHeight(1);
+                        iconRendererHigh.setAlignment(1, 5);
+                        return iconController;
+                    }
+                    case 1: {
+                        LabelController labelController = new LabelController();
+                        HighlightingLabelRendererHigh highlightingLabelRendererHigh = new HighlightingLabelRendererHigh(labelController);
+                        labelController.setRenderer(highlightingLabelRendererHigh);
+                        labelController.setModelColumn(0);
+                        return labelController;
+                    }
+                    case 2: {
+                        LabelController labelController = new LabelController();
+                        HighlightingLabelRendererHigh highlightingLabelRendererHigh = new HighlightingLabelRendererHigh(labelController);
+                        labelController.setRenderer(highlightingLabelRendererHigh);
+                        labelController.setTextIds(new int[]{403690});
+                        return labelController;
+                    }
+                }
+                return null;
+            }
+        });
         MenuController menuController = new MenuController();
         MenuRendererHigh menuRendererHigh = new MenuRendererHigh(menuController);
         menuController.setRenderer(menuRendererHigh);
         menuController.createInfolineWidgets(new InfoLineRendererHigh());
         menuController.getInfoline().getInfolineRenderer().setFonts(naviScreenFactory.getFonts(2, n));
-        menuController.setModelID(-1088289280);
-        menuController.setDefaultDisabledInfolineTextId(-265812480);
+        menuController.setModelID(402111);
+        menuController.setDefaultDisabledInfolineTextId(403696);
         menuController.getInfolineTimer().setIdleTime(800);
         menuController.getInfoline().setColorIndices(new int[]{2, 0, 4, 3});
         menuController.getLayout().setBackgroundInsetsVert(7);
@@ -192,10 +254,10 @@ public class NaviScreenBag3 {
         ContainerRendererHigh containerRendererHigh = new ContainerRendererHigh(containerController);
         containerController.setRenderer(containerRendererHigh);
         containerController.setBounds(0, 0, 0, 0);
-        containerController.setEntertainmentMenuTransformation(16449, 16449, -1883081409, -1883081409, 63);
-        containerController.setOpacitySet(1.0f, -842216386);
-        containerController.setOptionMenuTransformation(32960, 57408, -1701242561, -1701242561, 63);
-        containerController.setSelectionMenuTransformation(40771, 57408, -512093121, -1701242561, 32830);
+        containerController.setEntertainmentMenuTransformation(12.0f, 12.0f, 0.96f, 0.96f, 0.5f);
+        containerController.setOpacitySet(1.0f, 0.4f);
+        containerController.setOptionMenuTransformation(-4.0f, 7.0f, 0.6f, 0.6f, 0.5f);
+        containerController.setSelectionMenuTransformation(318.0f, 7.0f, 0.58f, 0.6f, 0.25f);
         containerController.add(menuController);
         AbstractWidgetController abstractWidgetController2 = naviScreenFactory.getRefWidget(n, 2, naviScreenFactory);
         IconController iconController = new IconController();
@@ -207,19 +269,19 @@ public class NaviScreenBag3 {
         LabelRendererHigh labelRendererHigh = new LabelRendererHigh(labelController);
         labelController.setRenderer(labelRendererHigh);
         labelRendererHigh.setFonts(naviScreenFactory.getFonts(3, n));
-        labelController.setTextIds(new int[]{287639040});
+        labelController.setTextIds(new int[]{402705});
         labelController.setBounds(0, 0, 0, 30);
         labelController.setColorIndices(new int[]{1, 2, 4, 0});
         LabelController labelController2 = new LabelController();
         LabelRendererHigh labelRendererHigh2 = new LabelRendererHigh(labelController2);
         labelController2.setRenderer(labelRendererHigh2);
-        labelController2.setTextIds(new int[]{-1809316352});
+        labelController2.setTextIds(new int[]{403604});
         labelController2.setBounds(0, 0, 0, 30);
         labelController2.setCoordinateSets(new int[]{1, 0, 0, 0, 30, 0, 0, 0, 30});
         LabelController labelController3 = new LabelController();
         LabelRendererHigh labelRendererHigh3 = new LabelRendererHigh(labelController3);
         labelController3.setRenderer(labelRendererHigh3);
-        labelController3.setTextIds(new int[]{-1859648000});
+        labelController3.setTextIds(new int[]{403601});
         labelController3.setBounds(0, 0, 0, 30);
         labelController3.setCoordinateSets(new int[]{1, 0, 0, 0, 30, 0, 0, 0, 30});
         TitleBarWidget titleBarWidget = new TitleBarWidget();
@@ -238,32 +300,32 @@ public class NaviScreenBag3 {
         ContainerRendererHigh containerRendererHigh2 = new ContainerRendererHigh(containerController2);
         containerController2.setRenderer(containerRendererHigh2);
         containerController2.setBounds(0, 0, 800, 0);
-        containerController2.setEntertainmentMenuTransformation(16449, 16449, -1883081409, -1883081409, 0.0f);
-        containerController2.setOpacitySet(1.0f, -842216386);
-        containerController2.setOptionMenuTransformation(32960, 57408, -1701242561, -1701242561, 0.0f);
-        containerController2.setSelectionMenuTransformation(8438595, 57408, -1701242561, -1701242561, 0.0f);
+        containerController2.setEntertainmentMenuTransformation(12.0f, 12.0f, 0.96f, 0.96f, 0.0f);
+        containerController2.setOpacitySet(1.0f, 0.4f);
+        containerController2.setOptionMenuTransformation(-4.0f, 7.0f, 0.6f, 0.6f, 0.0f);
+        containerController2.setSelectionMenuTransformation(391.0f, 7.0f, 0.6f, 0.6f, 0.0f);
         containerController2.add(titleBarWidget);
         StatusBarStubController statusBarStubController = new StatusBarStubController();
         statusBarStubController.setModelID(138);
         statusBarStubController.setBounds(0, 0, 100, 100);
-        ScreenWidgetEVO screenWidgetEVO = new ScreenWidgetEVO(-2112158208);
+        ScreenWidgetEVO screenWidgetEVO = new ScreenWidgetEVO(400258);
         screenWidgetEVO.setScreenFactory(naviScreenFactory);
         ScreenRendererHigh screenRendererHigh = new ScreenRendererHigh(screenWidgetEVO);
         screenWidgetEVO.setRenderer(screenRendererHigh);
         screenRendererHigh.setFonts(naviScreenFactory.getFonts(0, n));
         screenWidgetEVO.setColorIndices(new int[]{1, 2, 4, 0});
-        screenWidgetEVO.setColorPalettes(new int[][]{{-1, 255, -1, -1, -1701143809, -1431655681, -1246382593, -1701143809, -1}, {-1, 255, 419495935, 1751100415, -1701143809, -1431655681, -1246382593, -1701143809, 1228585215}, {-1, 255, -19456, 1838260991, -1701143809, -1431655681, -1246382593, -1701143809, 1838260991}, {-1, 255, -1433657601, -1567134209, -1701143809, -1431655681, -1246382593, -1701143809, -1567134209}, {-1, 255, 11166975, 1973122047, -1701143809, -1431655681, -1246382593, -1701143809, 1973122047}});
+        screenWidgetEVO.setColorPalettes(new int[][]{{-1, -16777216, -1, -1, -6645094, -5592406, -4868683, -6645094, -1}, {-1, -16777216, -65511, -5546136, -6645094, -5592406, -4868683, -6645094, -4703671}, {-1, -16777216, -19456, -6123155, -6645094, -5592406, -4868683, -6645094, -6123155}, {-1, -16777216, -14775126, -9594974, -6645094, -5592406, -4868683, -6645094, -9594974}, {-1, -16777216, -10180096, -9200779, -6645094, -5592406, -4868683, -6645094, -9200779}});
         screenWidgetEVO.setSmallStageType(0);
         screenWidgetEVO.add(abstractWidgetController);
         screenWidgetEVO.add(containerController, 1);
         screenWidgetEVO.add(abstractWidgetController2, 7);
         screenWidgetEVO.add(containerController2, 2);
         screenWidgetEVO.add(statusBarStubController);
-        screenWidgetEVO.setViews(new int[]{138, 162, 5602, 5606, 1294009856, 1361118720, 220333568, -1088289280, 1663370752}, new HMIView[][]{{statusBarStubController}, {naviScreenFactory.refWidgets[n][7]}, {modelStubController}, {modelStubController2}, {touchController}, {listController}, {menuItemController}, {menuController}, {naviScreenFactory.refWidgets[n][9]}});
-        screenWidgetEVO.setModelIDs(new int[]{1361118720, 220333568});
-        screenWidgetEVO.setEventIDs(new int[]{-1608907264, -1608907264});
-        screenWidgetEVO.setConditionWidgets(new int[]{93, 162, 522, 556, 5624, 958137856, 1780221440, -1591867904, 136316416, 220333568}, new AbstractWidget[][]{{naviScreenFactory.refWidgets[n][8]}, {naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9]}, {naviScreenFactory.refWidgets[n][3], naviScreenFactory.refWidgets[n][4]}, {naviScreenFactory.refWidgets[n][5], naviScreenFactory.refWidgets[n][6], naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9], naviScreenFactory.refWidgets[n][10], naviScreenFactory.refWidgets[n][11], naviScreenFactory.refWidgets[n][12]}, {naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9]}, {naviScreenFactory.refWidgets[n][6]}, {naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9]}, {naviScreenFactory.refWidgets[n][5], naviScreenFactory.refWidgets[n][6], naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9], naviScreenFactory.refWidgets[n][10], naviScreenFactory.refWidgets[n][11], naviScreenFactory.refWidgets[n][12]}, {labelController2, labelController3}, {menuItemController}});
-        screenWidgetEVO.setReplacementWidgets(new int[]{-31324672}, new HMIView[][]{{menuItemController}});
+        screenWidgetEVO.setViews(new int[]{138, 162, 5602, 5606, 401741, 401745, 401933, 402111, 402787}, new HMIView[][]{{statusBarStubController}, {naviScreenFactory.refWidgets[n][7]}, {modelStubController}, {modelStubController2}, {touchController}, {listController}, {menuItemController}, {menuController}, {naviScreenFactory.refWidgets[n][9]}});
+        screenWidgetEVO.setModelIDs(new int[]{401745, 401933});
+        screenWidgetEVO.setEventIDs(new int[]{400032, 400032});
+        screenWidgetEVO.setConditionWidgets(new int[]{93, 162, 522, 556, 5624, 400441, 400490, 401057, 401416, 401933}, new AbstractWidget[][]{{naviScreenFactory.refWidgets[n][8]}, {naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9]}, {naviScreenFactory.refWidgets[n][3], naviScreenFactory.refWidgets[n][4]}, {naviScreenFactory.refWidgets[n][5], naviScreenFactory.refWidgets[n][6], naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9], naviScreenFactory.refWidgets[n][10], naviScreenFactory.refWidgets[n][11], naviScreenFactory.refWidgets[n][12]}, {naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9]}, {naviScreenFactory.refWidgets[n][6]}, {naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9]}, {naviScreenFactory.refWidgets[n][5], naviScreenFactory.refWidgets[n][6], naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9], naviScreenFactory.refWidgets[n][10], naviScreenFactory.refWidgets[n][11], naviScreenFactory.refWidgets[n][12]}, {labelController2, labelController3}, {menuItemController}});
+        screenWidgetEVO.setReplacementWidgets(new int[]{402174}, new HMIView[][]{{menuItemController}});
         return screenWidgetEVO;
     }
 
@@ -301,9 +363,9 @@ public class NaviScreenBag3 {
         touchController.setRenderer(touchRendererHigh);
         touchController.setBitmaps(new int[]{483, 484, 857});
         touchRendererHigh.setFonts(naviScreenFactory.getFonts(4, n));
-        touchController.setModelID(1327564288);
-        touchController.setInfoTextIDs(new int[]{304416256, 891880960});
-        touchController.setInitialTextID(321193472);
+        touchController.setModelID(401743);
+        touchController.setInfoTextIDs(new int[]{402706, 403765});
+        touchController.setInitialTextID(402707);
         touchController.setColorIndices(new int[]{2, 5, 4, 3});
         touchController.setCursorOffsetBottom(1);
         touchController.setCursorOffsetTop(-1);
@@ -314,11 +376,11 @@ public class NaviScreenBag3 {
         touchController.setTouchControllerScreenLevel(2);
         touchController.setTouchpadMode(19);
         touchController.setSpeller(spellerController);
-        touchController.add(modelStubController, 16);
-        touchController.add(modelStubController2, 8);
+        touchController.add(modelStubController, 0x10000000);
+        touchController.add(modelStubController2, 0x8000000);
         ListController listController = new ListController();
-        listController.setModelID(1310787072);
-        listController.setEvent(-1608907264);
+        listController.setModelID(401742);
+        listController.setEvent(400032);
         listController.setBounds(0, 0, 0, 0);
         listController.setColorIndices(new int[]{1, 0, 4, 2});
         listController.setGlassplateInsetsBottom(new int[0]);
@@ -328,14 +390,74 @@ public class NaviScreenBag3 {
         listController.setNoFocusAreasTop(new int[0]);
         listController.setPropertyColumn(4);
         listController.setDataAccess(new DefaultTiledListModelAccess());
-        listController.setItemFactory(new NaviScreenBag3$2());
+        listController.setItemFactory(new ListItemFactory(){
+
+            public AbstractWidgetController createListItem(int n, ListCell[] listCellArray) {
+                switch (n) {
+                    case 0: {
+                        MenuItemController menuItemController = new MenuItemController();
+                        menuItemController.setType(16);
+                        menuItemController.setRenderer(new MenuItemRendererHigh(menuItemController));
+                        GridLayout gridLayout = new GridLayout();
+                        MenuItemColumnsConstraints menuItemColumnsConstraints = new MenuItemColumnsConstraints(1);
+                        gridLayout.setColumnConstraints(menuItemColumnsConstraints);
+                        AxisConstraints axisConstraints = new AxisConstraints(1);
+                        gridLayout.setRowConstraints(axisConstraints);
+                        AbstractWidgetController abstractWidgetController = this.createCell(0);
+                        GridLayoutHints gridLayoutHints = new GridLayoutHints(0, 0);
+                        gridLayout.setCellConstraints(new GridLayoutHints[]{gridLayoutHints}, new Object[]{abstractWidgetController});
+                        menuItemController.setLayoutChoices(new GridLayout[]{gridLayout});
+                        menuItemController.add(abstractWidgetController);
+                        return menuItemController;
+                    }
+                }
+                return null;
+            }
+
+            public AbstractWidgetController createListItemNoData() {
+                MenuItemController menuItemController = new MenuItemController();
+                menuItemController.setType(16);
+                menuItemController.setRenderer(new CompositeRendererHigh(menuItemController));
+                GridLayout gridLayout = new GridLayout();
+                MenuItemColumnsConstraints menuItemColumnsConstraints = new MenuItemColumnsConstraints(1);
+                gridLayout.setColumnConstraints(menuItemColumnsConstraints);
+                AxisConstraints axisConstraints = new AxisConstraints(1);
+                gridLayout.setRowConstraints(axisConstraints);
+                AbstractWidgetController abstractWidgetController = this.createCell(1);
+                GridLayoutHints gridLayoutHints = new GridLayoutHints(0, 0);
+                gridLayout.setCellConstraints(new GridLayoutHints[]{gridLayoutHints}, new Object[]{abstractWidgetController});
+                menuItemController.setLayoutChoices(new GridLayout[]{gridLayout});
+                menuItemController.add(abstractWidgetController);
+                return menuItemController;
+            }
+
+            public AbstractWidgetController createCell(int n) {
+                switch (n) {
+                    case 0: {
+                        LabelController labelController = new LabelController();
+                        HighlightingLabelRendererHigh highlightingLabelRendererHigh = new HighlightingLabelRendererHigh(labelController);
+                        labelController.setRenderer(highlightingLabelRendererHigh);
+                        labelController.setModelColumn(0);
+                        return labelController;
+                    }
+                    case 1: {
+                        LabelController labelController = new LabelController();
+                        HighlightingLabelRendererHigh highlightingLabelRendererHigh = new HighlightingLabelRendererHigh(labelController);
+                        labelController.setRenderer(highlightingLabelRendererHigh);
+                        labelController.setTextIds(new int[]{403719});
+                        return labelController;
+                    }
+                }
+                return null;
+            }
+        });
         MenuController menuController = new MenuController();
         MenuRendererHigh menuRendererHigh = new MenuRendererHigh(menuController);
         menuController.setRenderer(menuRendererHigh);
         menuController.createInfolineWidgets(new InfoLineRendererHigh());
         menuController.getInfoline().getInfolineRenderer().setFonts(naviScreenFactory.getFonts(2, n));
-        menuController.setModelID(-1054734848);
-        menuController.setDefaultDisabledInfolineTextId(-1339554304);
+        menuController.setModelID(402113);
+        menuController.setDefaultDisabledInfolineTextId(403632);
         menuController.getInfolineTimer().setIdleTime(800);
         menuController.getInfoline().setColorIndices(new int[]{2, 0, 4, 3});
         menuController.getLayout().setBackgroundInsetsVert(7);
@@ -356,10 +478,10 @@ public class NaviScreenBag3 {
         ContainerRendererHigh containerRendererHigh = new ContainerRendererHigh(containerController);
         containerController.setRenderer(containerRendererHigh);
         containerController.setBounds(0, 0, 0, 0);
-        containerController.setEntertainmentMenuTransformation(16449, 16449, -1883081409, -1883081409, 63);
-        containerController.setOpacitySet(1.0f, -842216386);
-        containerController.setOptionMenuTransformation(32960, 57408, -1701242561, -1701242561, 63);
-        containerController.setSelectionMenuTransformation(40771, 57408, -512093121, -1701242561, 32830);
+        containerController.setEntertainmentMenuTransformation(12.0f, 12.0f, 0.96f, 0.96f, 0.5f);
+        containerController.setOpacitySet(1.0f, 0.4f);
+        containerController.setOptionMenuTransformation(-4.0f, 7.0f, 0.6f, 0.6f, 0.5f);
+        containerController.setSelectionMenuTransformation(318.0f, 7.0f, 0.58f, 0.6f, 0.25f);
         containerController.add(menuController);
         AbstractWidgetController abstractWidgetController2 = naviScreenFactory.getRefWidget(n, 2, naviScreenFactory);
         IconController iconController = new IconController();
@@ -371,19 +493,19 @@ public class NaviScreenBag3 {
         LabelRendererHigh labelRendererHigh = new LabelRendererHigh(labelController);
         labelController.setRenderer(labelRendererHigh);
         labelRendererHigh.setFonts(naviScreenFactory.getFonts(3, n));
-        labelController.setTextIds(new int[]{337970688});
+        labelController.setTextIds(new int[]{402708});
         labelController.setBounds(0, 0, 0, 30);
         labelController.setColorIndices(new int[]{1, 2, 4, 0});
         LabelController labelController2 = new LabelController();
         LabelRendererHigh labelRendererHigh2 = new LabelRendererHigh(labelController2);
         labelController2.setRenderer(labelRendererHigh2);
-        labelController2.setTextIds(new int[]{-1792539136});
+        labelController2.setTextIds(new int[]{403605});
         labelController2.setBounds(0, 0, 0, 30);
         labelController2.setCoordinateSets(new int[]{1, 0, 0, 0, 30, 0, 0, 0, 30});
         LabelController labelController3 = new LabelController();
         LabelRendererHigh labelRendererHigh3 = new LabelRendererHigh(labelController3);
         labelController3.setRenderer(labelRendererHigh3);
-        labelController3.setTextIds(new int[]{-1759050240});
+        labelController3.setTextIds(new int[]{403351});
         labelController3.setBounds(0, 0, 0, 30);
         labelController3.setCoordinateSets(new int[]{1, 0, 0, 0, 30, 0, 0, 0, 30});
         TitleBarWidget titleBarWidget = new TitleBarWidget();
@@ -402,31 +524,31 @@ public class NaviScreenBag3 {
         ContainerRendererHigh containerRendererHigh2 = new ContainerRendererHigh(containerController2);
         containerController2.setRenderer(containerRendererHigh2);
         containerController2.setBounds(0, 0, 800, 0);
-        containerController2.setEntertainmentMenuTransformation(16449, 16449, -1883081409, -1883081409, 0.0f);
-        containerController2.setOpacitySet(1.0f, -842216386);
-        containerController2.setOptionMenuTransformation(32960, 57408, -1701242561, -1701242561, 0.0f);
-        containerController2.setSelectionMenuTransformation(8438595, 57408, -1701242561, -1701242561, 0.0f);
+        containerController2.setEntertainmentMenuTransformation(12.0f, 12.0f, 0.96f, 0.96f, 0.0f);
+        containerController2.setOpacitySet(1.0f, 0.4f);
+        containerController2.setOptionMenuTransformation(-4.0f, 7.0f, 0.6f, 0.6f, 0.0f);
+        containerController2.setSelectionMenuTransformation(391.0f, 7.0f, 0.6f, 0.6f, 0.0f);
         containerController2.add(titleBarWidget);
         StatusBarStubController statusBarStubController = new StatusBarStubController();
         statusBarStubController.setModelID(138);
         statusBarStubController.setBounds(0, 0, 100, 100);
-        ScreenWidgetEVO screenWidgetEVO = new ScreenWidgetEVO(-2095380992);
+        ScreenWidgetEVO screenWidgetEVO = new ScreenWidgetEVO(400259);
         screenWidgetEVO.setScreenFactory(naviScreenFactory);
         ScreenRendererHigh screenRendererHigh = new ScreenRendererHigh(screenWidgetEVO);
         screenWidgetEVO.setRenderer(screenRendererHigh);
         screenRendererHigh.setFonts(naviScreenFactory.getFonts(0, n));
         screenWidgetEVO.setColorIndices(new int[]{1, 2, 4, 0});
-        screenWidgetEVO.setColorPalettes(new int[][]{{-1, 255, -1, -1, -1701143809, -1431655681, -1246382593, -1701143809, -1}, {-1, 255, 419495935, 1751100415, -1701143809, -1431655681, -1246382593, -1701143809, 1228585215}, {-1, 255, -19456, 1838260991, -1701143809, -1431655681, -1246382593, -1701143809, 1838260991}, {-1, 255, -1433657601, -1567134209, -1701143809, -1431655681, -1246382593, -1701143809, -1567134209}, {-1, 255, 11166975, 1973122047, -1701143809, -1431655681, -1246382593, -1701143809, 1973122047}});
+        screenWidgetEVO.setColorPalettes(new int[][]{{-1, -16777216, -1, -1, -6645094, -5592406, -4868683, -6645094, -1}, {-1, -16777216, -65511, -5546136, -6645094, -5592406, -4868683, -6645094, -4703671}, {-1, -16777216, -19456, -6123155, -6645094, -5592406, -4868683, -6645094, -6123155}, {-1, -16777216, -14775126, -9594974, -6645094, -5592406, -4868683, -6645094, -9594974}, {-1, -16777216, -10180096, -9200779, -6645094, -5592406, -4868683, -6645094, -9200779}});
         screenWidgetEVO.setSmallStageType(0);
         screenWidgetEVO.add(abstractWidgetController);
         screenWidgetEVO.add(containerController, 1);
         screenWidgetEVO.add(abstractWidgetController2, 7);
         screenWidgetEVO.add(containerController2, 2);
         screenWidgetEVO.add(statusBarStubController);
-        screenWidgetEVO.setViews(new int[]{138, 162, 5602, 5606, 1310787072, 1327564288, -1054734848, 1663370752}, new HMIView[][]{{statusBarStubController}, {naviScreenFactory.refWidgets[n][7]}, {modelStubController}, {modelStubController2}, {listController}, {touchController}, {menuController}, {naviScreenFactory.refWidgets[n][9]}});
-        screenWidgetEVO.setModelIDs(new int[]{1310787072});
-        screenWidgetEVO.setEventIDs(new int[]{-1608907264});
-        screenWidgetEVO.setConditionWidgets(new int[]{93, 162, 522, 556, 5624, 958137856, 1780221440, -1591867904, 136316416}, new AbstractWidget[][]{{naviScreenFactory.refWidgets[n][8]}, {naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9]}, {naviScreenFactory.refWidgets[n][3], naviScreenFactory.refWidgets[n][4]}, {naviScreenFactory.refWidgets[n][5], naviScreenFactory.refWidgets[n][6], naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9], naviScreenFactory.refWidgets[n][10], naviScreenFactory.refWidgets[n][11], naviScreenFactory.refWidgets[n][12]}, {naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9]}, {naviScreenFactory.refWidgets[n][6]}, {naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9]}, {naviScreenFactory.refWidgets[n][5], naviScreenFactory.refWidgets[n][6], naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9], naviScreenFactory.refWidgets[n][10], naviScreenFactory.refWidgets[n][11], naviScreenFactory.refWidgets[n][12]}, {labelController2, labelController3}});
+        screenWidgetEVO.setViews(new int[]{138, 162, 5602, 5606, 401742, 401743, 402113, 402787}, new HMIView[][]{{statusBarStubController}, {naviScreenFactory.refWidgets[n][7]}, {modelStubController}, {modelStubController2}, {listController}, {touchController}, {menuController}, {naviScreenFactory.refWidgets[n][9]}});
+        screenWidgetEVO.setModelIDs(new int[]{401742});
+        screenWidgetEVO.setEventIDs(new int[]{400032});
+        screenWidgetEVO.setConditionWidgets(new int[]{93, 162, 522, 556, 5624, 400441, 400490, 401057, 401416}, new AbstractWidget[][]{{naviScreenFactory.refWidgets[n][8]}, {naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9]}, {naviScreenFactory.refWidgets[n][3], naviScreenFactory.refWidgets[n][4]}, {naviScreenFactory.refWidgets[n][5], naviScreenFactory.refWidgets[n][6], naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9], naviScreenFactory.refWidgets[n][10], naviScreenFactory.refWidgets[n][11], naviScreenFactory.refWidgets[n][12]}, {naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9]}, {naviScreenFactory.refWidgets[n][6]}, {naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9]}, {naviScreenFactory.refWidgets[n][5], naviScreenFactory.refWidgets[n][6], naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9], naviScreenFactory.refWidgets[n][10], naviScreenFactory.refWidgets[n][11], naviScreenFactory.refWidgets[n][12]}, {labelController2, labelController3}});
         return screenWidgetEVO;
     }
 
@@ -464,9 +586,9 @@ public class NaviScreenBag3 {
         touchController.setRenderer(touchRendererHigh);
         touchController.setBitmaps(new int[]{483, 484, 857});
         touchRendererHigh.setFonts(naviScreenFactory.getFonts(4, n));
-        touchController.setModelID(1344341504);
-        touchController.setInfoTextIDs(new int[]{354747904, 908658176});
-        touchController.setInitialTextID(371525120);
+        touchController.setModelID(401744);
+        touchController.setInfoTextIDs(new int[]{402709, 403766});
+        touchController.setInitialTextID(402710);
         touchController.setColorIndices(new int[]{2, 5, 4, 3});
         touchController.setCursorOffsetBottom(1);
         touchController.setCursorOffsetTop(-1);
@@ -477,23 +599,23 @@ public class NaviScreenBag3 {
         touchController.setTouchControllerScreenLevel(2);
         touchController.setTouchpadMode(18);
         touchController.setSpeller(spellerController);
-        touchController.add(modelStubController, 16);
-        touchController.add(modelStubController2, 8);
+        touchController.add(modelStubController, 0x10000000);
+        touchController.add(modelStubController2, 0x8000000);
         MenuItemController menuItemController = new MenuItemController();
         CompositeRendererHigh compositeRendererHigh = new CompositeRendererHigh(menuItemController);
         menuItemController.setRenderer(compositeRendererHigh);
-        menuItemController.setModelID(589432320);
-        menuItemController.setEvent(-1608907264);
-        menuItemController.setLabelId(254215680);
+        menuItemController.setModelID(401955);
+        menuItemController.setEvent(400032);
+        menuItemController.setLabelId(403215);
         menuItemController.setGlassplateInsetsBottom(6);
         menuItemController.setGlassplateInsetsTop(7);
-        menuItemController.setInternalID(-132315648);
+        menuItemController.setInternalID(400888);
         menuItemController.setSdsItemSelectedAction(1);
         menuItemController.setType(2);
         menuItemController.setWidgetID(6);
         ListController listController = new ListController();
-        listController.setModelID(1377895936);
-        listController.setEvent(-1608907264);
+        listController.setModelID(401746);
+        listController.setEvent(400032);
         listController.setBounds(0, 0, 0, 0);
         listController.setColorIndices(new int[]{1, 0, 4, 2});
         listController.setGlassplateInsetsBottom(new int[0]);
@@ -503,14 +625,74 @@ public class NaviScreenBag3 {
         listController.setNoFocusAreasTop(new int[0]);
         listController.setPropertyColumn(4);
         listController.setDataAccess(new DefaultTiledListModelAccess());
-        listController.setItemFactory(new NaviScreenBag3$3());
+        listController.setItemFactory(new ListItemFactory(){
+
+            public AbstractWidgetController createListItem(int n, ListCell[] listCellArray) {
+                switch (n) {
+                    case 0: {
+                        MenuItemController menuItemController = new MenuItemController();
+                        menuItemController.setType(16);
+                        menuItemController.setRenderer(new MenuItemRendererHigh(menuItemController));
+                        GridLayout gridLayout = new GridLayout();
+                        MenuItemColumnsConstraints menuItemColumnsConstraints = new MenuItemColumnsConstraints(1);
+                        gridLayout.setColumnConstraints(menuItemColumnsConstraints);
+                        AxisConstraints axisConstraints = new AxisConstraints(1);
+                        gridLayout.setRowConstraints(axisConstraints);
+                        AbstractWidgetController abstractWidgetController = this.createCell(0);
+                        GridLayoutHints gridLayoutHints = new GridLayoutHints(0, 0);
+                        gridLayout.setCellConstraints(new GridLayoutHints[]{gridLayoutHints}, new Object[]{abstractWidgetController});
+                        menuItemController.setLayoutChoices(new GridLayout[]{gridLayout});
+                        menuItemController.add(abstractWidgetController);
+                        return menuItemController;
+                    }
+                }
+                return null;
+            }
+
+            public AbstractWidgetController createListItemNoData() {
+                MenuItemController menuItemController = new MenuItemController();
+                menuItemController.setType(16);
+                menuItemController.setRenderer(new CompositeRendererHigh(menuItemController));
+                GridLayout gridLayout = new GridLayout();
+                MenuItemColumnsConstraints menuItemColumnsConstraints = new MenuItemColumnsConstraints(1);
+                gridLayout.setColumnConstraints(menuItemColumnsConstraints);
+                AxisConstraints axisConstraints = new AxisConstraints(1);
+                gridLayout.setRowConstraints(axisConstraints);
+                AbstractWidgetController abstractWidgetController = this.createCell(1);
+                GridLayoutHints gridLayoutHints = new GridLayoutHints(0, 0);
+                gridLayout.setCellConstraints(new GridLayoutHints[]{gridLayoutHints}, new Object[]{abstractWidgetController});
+                menuItemController.setLayoutChoices(new GridLayout[]{gridLayout});
+                menuItemController.add(abstractWidgetController);
+                return menuItemController;
+            }
+
+            public AbstractWidgetController createCell(int n) {
+                switch (n) {
+                    case 0: {
+                        LabelController labelController = new LabelController();
+                        HighlightingLabelRendererHigh highlightingLabelRendererHigh = new HighlightingLabelRendererHigh(labelController);
+                        labelController.setRenderer(highlightingLabelRendererHigh);
+                        labelController.setModelColumn(0);
+                        return labelController;
+                    }
+                    case 1: {
+                        LabelController labelController = new LabelController();
+                        HighlightingLabelRendererHigh highlightingLabelRendererHigh = new HighlightingLabelRendererHigh(labelController);
+                        labelController.setRenderer(highlightingLabelRendererHigh);
+                        labelController.setTextIds(new int[]{403599});
+                        return labelController;
+                    }
+                }
+                return null;
+            }
+        });
         MenuController menuController = new MenuController();
         MenuRendererHigh menuRendererHigh = new MenuRendererHigh(menuController);
         menuController.setRenderer(menuRendererHigh);
         menuController.createInfolineWidgets(new InfoLineRendererHigh());
         menuController.getInfoline().getInfolineRenderer().setFonts(naviScreenFactory.getFonts(2, n));
-        menuController.setModelID(-1071512064);
-        menuController.setDefaultDisabledInfolineTextId(-215480832);
+        menuController.setModelID(402112);
+        menuController.setDefaultDisabledInfolineTextId(403699);
         menuController.getInfolineTimer().setIdleTime(800);
         menuController.getInfoline().setColorIndices(new int[]{2, 0, 4, 3});
         menuController.getLayout().setBackgroundInsetsVert(7);
@@ -532,10 +714,10 @@ public class NaviScreenBag3 {
         ContainerRendererHigh containerRendererHigh = new ContainerRendererHigh(containerController);
         containerController.setRenderer(containerRendererHigh);
         containerController.setBounds(0, 0, 0, 0);
-        containerController.setEntertainmentMenuTransformation(16449, 16449, -1883081409, -1883081409, 63);
-        containerController.setOpacitySet(1.0f, -842216386);
-        containerController.setOptionMenuTransformation(32960, 57408, -1701242561, -1701242561, 63);
-        containerController.setSelectionMenuTransformation(40771, 57408, -512093121, -1701242561, 32830);
+        containerController.setEntertainmentMenuTransformation(12.0f, 12.0f, 0.96f, 0.96f, 0.5f);
+        containerController.setOpacitySet(1.0f, 0.4f);
+        containerController.setOptionMenuTransformation(-4.0f, 7.0f, 0.6f, 0.6f, 0.5f);
+        containerController.setSelectionMenuTransformation(318.0f, 7.0f, 0.58f, 0.6f, 0.25f);
         containerController.add(menuController);
         AbstractWidgetController abstractWidgetController2 = naviScreenFactory.getRefWidget(n, 2, naviScreenFactory);
         IconController iconController = new IconController();
@@ -547,13 +729,13 @@ public class NaviScreenBag3 {
         LabelRendererHigh labelRendererHigh = new LabelRendererHigh(labelController);
         labelController.setRenderer(labelRendererHigh);
         labelRendererHigh.setFonts(naviScreenFactory.getFonts(3, n));
-        labelController.setTextIds(new int[]{388302336});
+        labelController.setTextIds(new int[]{402711});
         labelController.setBounds(0, 0, 0, 30);
         labelController.setColorIndices(new int[]{1, 2, 4, 0});
         LabelController labelController2 = new LabelController();
         LabelRendererHigh labelRendererHigh2 = new LabelRendererHigh(labelController2);
         labelController2.setRenderer(labelRendererHigh2);
-        labelController2.setTextIds(new int[]{-1758984704});
+        labelController2.setTextIds(new int[]{403607});
         labelController2.setBounds(0, 0, 0, 30);
         labelController2.setCoordinateSets(new int[]{1, 0, 0, 0, 30, 0, 0, 0, 30});
         TitleBarWidget titleBarWidget = new TitleBarWidget();
@@ -571,31 +753,31 @@ public class NaviScreenBag3 {
         ContainerRendererHigh containerRendererHigh2 = new ContainerRendererHigh(containerController2);
         containerController2.setRenderer(containerRendererHigh2);
         containerController2.setBounds(0, 0, 800, 0);
-        containerController2.setEntertainmentMenuTransformation(16449, 16449, -1883081409, -1883081409, 0.0f);
-        containerController2.setOpacitySet(1.0f, -842216386);
-        containerController2.setOptionMenuTransformation(32960, 57408, -1701242561, -1701242561, 0.0f);
-        containerController2.setSelectionMenuTransformation(8438595, 57408, -1701242561, -1701242561, 0.0f);
+        containerController2.setEntertainmentMenuTransformation(12.0f, 12.0f, 0.96f, 0.96f, 0.0f);
+        containerController2.setOpacitySet(1.0f, 0.4f);
+        containerController2.setOptionMenuTransformation(-4.0f, 7.0f, 0.6f, 0.6f, 0.0f);
+        containerController2.setSelectionMenuTransformation(391.0f, 7.0f, 0.6f, 0.6f, 0.0f);
         containerController2.add(titleBarWidget);
         StatusBarStubController statusBarStubController = new StatusBarStubController();
         statusBarStubController.setModelID(138);
         statusBarStubController.setBounds(0, 0, 100, 100);
-        ScreenWidgetEVO screenWidgetEVO = new ScreenWidgetEVO(-2078603776);
+        ScreenWidgetEVO screenWidgetEVO = new ScreenWidgetEVO(400260);
         screenWidgetEVO.setScreenFactory(naviScreenFactory);
         ScreenRendererHigh screenRendererHigh = new ScreenRendererHigh(screenWidgetEVO);
         screenWidgetEVO.setRenderer(screenRendererHigh);
         screenRendererHigh.setFonts(naviScreenFactory.getFonts(0, n));
         screenWidgetEVO.setColorIndices(new int[]{1, 2, 4, 0});
-        screenWidgetEVO.setColorPalettes(new int[][]{{-1, 255, -1, -1, -1701143809, -1431655681, -1246382593, -1701143809, -1}, {-1, 255, 419495935, 1751100415, -1701143809, -1431655681, -1246382593, -1701143809, 1228585215}, {-1, 255, -19456, 1838260991, -1701143809, -1431655681, -1246382593, -1701143809, 1838260991}, {-1, 255, -1433657601, -1567134209, -1701143809, -1431655681, -1246382593, -1701143809, -1567134209}, {-1, 255, 11166975, 1973122047, -1701143809, -1431655681, -1246382593, -1701143809, 1973122047}});
+        screenWidgetEVO.setColorPalettes(new int[][]{{-1, -16777216, -1, -1, -6645094, -5592406, -4868683, -6645094, -1}, {-1, -16777216, -65511, -5546136, -6645094, -5592406, -4868683, -6645094, -4703671}, {-1, -16777216, -19456, -6123155, -6645094, -5592406, -4868683, -6645094, -6123155}, {-1, -16777216, -14775126, -9594974, -6645094, -5592406, -4868683, -6645094, -9594974}, {-1, -16777216, -10180096, -9200779, -6645094, -5592406, -4868683, -6645094, -9200779}});
         screenWidgetEVO.setSmallStageType(0);
         screenWidgetEVO.add(abstractWidgetController);
         screenWidgetEVO.add(containerController, 1);
         screenWidgetEVO.add(abstractWidgetController2, 7);
         screenWidgetEVO.add(containerController2, 2);
         screenWidgetEVO.add(statusBarStubController);
-        screenWidgetEVO.setViews(new int[]{138, 162, 5602, 5606, 1344341504, 1377895936, 589432320, -1071512064, 1663370752}, new HMIView[][]{{statusBarStubController}, {naviScreenFactory.refWidgets[n][7]}, {modelStubController}, {modelStubController2}, {touchController}, {listController}, {menuItemController}, {menuController}, {naviScreenFactory.refWidgets[n][9]}});
-        screenWidgetEVO.setModelIDs(new int[]{1377895936, 589432320});
-        screenWidgetEVO.setEventIDs(new int[]{-1608907264, -1608907264});
-        screenWidgetEVO.setConditionWidgets(new int[]{93, 162, 522, 556, 5624, 958137856, 1780221440, -1591867904, 0x22220600}, new AbstractWidget[][]{{naviScreenFactory.refWidgets[n][8]}, {naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9]}, {naviScreenFactory.refWidgets[n][3], naviScreenFactory.refWidgets[n][4]}, {naviScreenFactory.refWidgets[n][5], naviScreenFactory.refWidgets[n][6], naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9], naviScreenFactory.refWidgets[n][10], naviScreenFactory.refWidgets[n][11], naviScreenFactory.refWidgets[n][12]}, {naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9]}, {naviScreenFactory.refWidgets[n][6]}, {naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9]}, {naviScreenFactory.refWidgets[n][5], naviScreenFactory.refWidgets[n][6], naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9], naviScreenFactory.refWidgets[n][10], naviScreenFactory.refWidgets[n][11], naviScreenFactory.refWidgets[n][12]}, {menuItemController}});
+        screenWidgetEVO.setViews(new int[]{138, 162, 5602, 5606, 401744, 401746, 401955, 402112, 402787}, new HMIView[][]{{statusBarStubController}, {naviScreenFactory.refWidgets[n][7]}, {modelStubController}, {modelStubController2}, {touchController}, {listController}, {menuItemController}, {menuController}, {naviScreenFactory.refWidgets[n][9]}});
+        screenWidgetEVO.setModelIDs(new int[]{401746, 401955});
+        screenWidgetEVO.setEventIDs(new int[]{400032, 400032});
+        screenWidgetEVO.setConditionWidgets(new int[]{93, 162, 522, 556, 5624, 400441, 400490, 401057, 401954}, new AbstractWidget[][]{{naviScreenFactory.refWidgets[n][8]}, {naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9]}, {naviScreenFactory.refWidgets[n][3], naviScreenFactory.refWidgets[n][4]}, {naviScreenFactory.refWidgets[n][5], naviScreenFactory.refWidgets[n][6], naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9], naviScreenFactory.refWidgets[n][10], naviScreenFactory.refWidgets[n][11], naviScreenFactory.refWidgets[n][12]}, {naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9]}, {naviScreenFactory.refWidgets[n][6]}, {naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9]}, {naviScreenFactory.refWidgets[n][5], naviScreenFactory.refWidgets[n][6], naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9], naviScreenFactory.refWidgets[n][10], naviScreenFactory.refWidgets[n][11], naviScreenFactory.refWidgets[n][12]}, {menuItemController}});
         return screenWidgetEVO;
     }
 
@@ -634,9 +816,9 @@ public class NaviScreenBag3 {
         touchController.setRenderer(touchRendererHigh);
         touchController.setBitmaps(new int[]{483, 484, 857});
         touchRendererHigh.setFonts(naviScreenFactory.getFonts(4, n));
-        touchController.setModelID(2099316224);
-        touchController.setInfoTextIDs(new int[]{1696925184, 925435392});
-        touchController.setInitialTextID(1713702400);
+        touchController.setModelID(401789);
+        touchController.setInfoTextIDs(new int[]{402789, 403767});
+        touchController.setInitialTextID(402790);
         touchController.setColorIndices(new int[]{2, 5, 4, 3});
         touchController.setCursorOffsetBottom(1);
         touchController.setCursorOffsetTop(-1);
@@ -647,11 +829,11 @@ public class NaviScreenBag3 {
         touchController.setTouchControllerScreenLevel(2);
         touchController.setTouchpadMode(23);
         touchController.setSpeller(spellerController);
-        touchController.add(modelStubController, 16);
-        touchController.add(modelStubController2, 8);
+        touchController.add(modelStubController, 0x10000000);
+        touchController.add(modelStubController2, 0x8000000);
         ListController listController = new ListController();
-        listController.setModelID(2065761792);
-        listController.setEvent(-1910897152);
+        listController.setModelID(401787);
+        listController.setEvent(400014);
         listController.setBounds(0, 0, 0, 0);
         listController.setColorIndices(new int[]{1, 0, 4, 2});
         listController.setGlassplateInsetsBottom(new int[0]);
@@ -662,7 +844,47 @@ public class NaviScreenBag3 {
         listController.setPropertyColumn(4);
         listController.setSdsItemSelectedAction(2);
         listController.setDataAccess(new DefaultTiledListModelAccess());
-        listController.setItemFactory(new NaviScreenBag3$4());
+        listController.setItemFactory(new ListItemFactory(){
+
+            public AbstractWidgetController createListItem(int n, ListCell[] listCellArray) {
+                switch (n) {
+                    case 0: {
+                        MenuItemController menuItemController = new MenuItemController();
+                        menuItemController.setType(16);
+                        menuItemController.setRenderer(new MenuItemRendererHigh(menuItemController));
+                        GridLayout gridLayout = new GridLayout();
+                        MenuItemColumnsConstraints menuItemColumnsConstraints = new MenuItemColumnsConstraints(1);
+                        gridLayout.setColumnConstraints(menuItemColumnsConstraints);
+                        AxisConstraints axisConstraints = new AxisConstraints(1);
+                        gridLayout.setRowConstraints(axisConstraints);
+                        AbstractWidgetController abstractWidgetController = this.createCell(0);
+                        GridLayoutHints gridLayoutHints = new GridLayoutHints(0, 0);
+                        gridLayout.setCellConstraints(new GridLayoutHints[]{gridLayoutHints}, new Object[]{abstractWidgetController});
+                        menuItemController.setLayoutChoices(new GridLayout[]{gridLayout});
+                        menuItemController.add(abstractWidgetController);
+                        return menuItemController;
+                    }
+                }
+                return null;
+            }
+
+            public AbstractWidgetController createListItemNoData() {
+                return null;
+            }
+
+            public AbstractWidgetController createCell(int n) {
+                switch (n) {
+                    case 0: {
+                        LabelController labelController = new LabelController();
+                        HighlightingLabelRendererHigh highlightingLabelRendererHigh = new HighlightingLabelRendererHigh(labelController);
+                        labelController.setRenderer(highlightingLabelRendererHigh);
+                        labelController.setModelColumn(0);
+                        return labelController;
+                    }
+                }
+                return null;
+            }
+        });
         MenuSDSNumbersController menuSDSNumbersController = new MenuSDSNumbersController();
         MenuSDSNumbersRendererHigh menuSDSNumbersRendererHigh = new MenuSDSNumbersRendererHigh(menuSDSNumbersController);
         menuSDSNumbersController.setRenderer(menuSDSNumbersRendererHigh);
@@ -673,8 +895,8 @@ public class NaviScreenBag3 {
         menuController.setRenderer(menuRendererHigh);
         menuController.createInfolineWidgets(new InfoLineRendererHigh());
         menuController.getInfoline().getInfolineRenderer().setFonts(naviScreenFactory.getFonts(2, n));
-        menuController.setModelID(186779136);
-        menuController.setDefaultDisabledInfolineTextId(-1138358784);
+        menuController.setModelID(401931);
+        menuController.setDefaultDisabledInfolineTextId(403132);
         menuController.getInfolineTimer().setIdleTime(800);
         menuController.getInfoline().setColorIndices(new int[]{2, 0, 4, 3});
         menuController.getLayout().setBackgroundInsetsVert(7);
@@ -697,10 +919,10 @@ public class NaviScreenBag3 {
         ContainerRendererHigh containerRendererHigh = new ContainerRendererHigh(containerController);
         containerController.setRenderer(containerRendererHigh);
         containerController.setBounds(0, 0, 0, 0);
-        containerController.setEntertainmentMenuTransformation(16449, 16449, -1883081409, -1883081409, 63);
-        containerController.setOpacitySet(1.0f, -842216386);
-        containerController.setOptionMenuTransformation(32960, 57408, -1701242561, -1701242561, 63);
-        containerController.setSelectionMenuTransformation(40771, 57408, -512093121, -1701242561, 32830);
+        containerController.setEntertainmentMenuTransformation(12.0f, 12.0f, 0.96f, 0.96f, 0.5f);
+        containerController.setOpacitySet(1.0f, 0.4f);
+        containerController.setOptionMenuTransformation(-4.0f, 7.0f, 0.6f, 0.6f, 0.5f);
+        containerController.setSelectionMenuTransformation(318.0f, 7.0f, 0.58f, 0.6f, 0.25f);
         containerController.add(menuController);
         AbstractWidgetController abstractWidgetController2 = naviScreenFactory.getRefWidget(n, 2, naviScreenFactory);
         IconController iconController = new IconController();
@@ -712,13 +934,13 @@ public class NaviScreenBag3 {
         LabelRendererHigh labelRendererHigh = new LabelRendererHigh(labelController);
         labelController.setRenderer(labelRendererHigh);
         labelRendererHigh.setFonts(naviScreenFactory.getFonts(3, n));
-        labelController.setTextIds(new int[]{1730479616});
+        labelController.setTextIds(new int[]{402791});
         labelController.setBounds(0, 0, 0, 30);
         labelController.setColorIndices(new int[]{1, 2, 4, 0});
         LabelController labelController2 = new LabelController();
         LabelRendererHigh labelRendererHigh2 = new LabelRendererHigh(labelController2);
         labelController2.setRenderer(labelRendererHigh2);
-        labelController2.setTextIds(new int[]{1747256832});
+        labelController2.setTextIds(new int[]{402792});
         labelController2.setBounds(0, 0, 0, 30);
         labelController2.setCoordinateSets(new int[]{1, 0, 0, 0, 30, 0, 0, 0, 30});
         TitleBarWidget titleBarWidget = new TitleBarWidget();
@@ -736,21 +958,21 @@ public class NaviScreenBag3 {
         ContainerRendererHigh containerRendererHigh2 = new ContainerRendererHigh(containerController2);
         containerController2.setRenderer(containerRendererHigh2);
         containerController2.setBounds(0, 0, 800, 0);
-        containerController2.setEntertainmentMenuTransformation(16449, 16449, -1883081409, -1883081409, 0.0f);
-        containerController2.setOpacitySet(1.0f, -842216386);
-        containerController2.setOptionMenuTransformation(32960, 57408, -1701242561, -1701242561, 0.0f);
-        containerController2.setSelectionMenuTransformation(8438595, 57408, -1701242561, -1701242561, 0.0f);
+        containerController2.setEntertainmentMenuTransformation(12.0f, 12.0f, 0.96f, 0.96f, 0.0f);
+        containerController2.setOpacitySet(1.0f, 0.4f);
+        containerController2.setOptionMenuTransformation(-4.0f, 7.0f, 0.6f, 0.6f, 0.0f);
+        containerController2.setSelectionMenuTransformation(391.0f, 7.0f, 0.6f, 0.6f, 0.0f);
         containerController2.add(titleBarWidget);
         StatusBarStubController statusBarStubController = new StatusBarStubController();
         statusBarStubController.setModelID(138);
         statusBarStubController.setBounds(0, 0, 100, 100);
-        ScreenWidgetEVO screenWidgetEVO = new ScreenWidgetEVO(-1894054400);
+        ScreenWidgetEVO screenWidgetEVO = new ScreenWidgetEVO(400271);
         screenWidgetEVO.setScreenFactory(naviScreenFactory);
         ScreenRendererHigh screenRendererHigh = new ScreenRendererHigh(screenWidgetEVO);
         screenWidgetEVO.setRenderer(screenRendererHigh);
         screenRendererHigh.setFonts(naviScreenFactory.getFonts(0, n));
         screenWidgetEVO.setColorIndices(new int[]{1, 2, 4, 0});
-        screenWidgetEVO.setColorPalettes(new int[][]{{-1, 255, -1, -1, -1701143809, -1431655681, -1246382593, -1701143809, -1}, {-1, 255, 419495935, 1751100415, -1701143809, -1431655681, -1246382593, -1701143809, 1228585215}, {-1, 255, -19456, 1838260991, -1701143809, -1431655681, -1246382593, -1701143809, 1838260991}, {-1, 255, -1433657601, -1567134209, -1701143809, -1431655681, -1246382593, -1701143809, -1567134209}, {-1, 255, 11166975, 1973122047, -1701143809, -1431655681, -1246382593, -1701143809, 1973122047}});
+        screenWidgetEVO.setColorPalettes(new int[][]{{-1, -16777216, -1, -1, -6645094, -5592406, -4868683, -6645094, -1}, {-1, -16777216, -65511, -5546136, -6645094, -5592406, -4868683, -6645094, -4703671}, {-1, -16777216, -19456, -6123155, -6645094, -5592406, -4868683, -6645094, -6123155}, {-1, -16777216, -14775126, -9594974, -6645094, -5592406, -4868683, -6645094, -9594974}, {-1, -16777216, -10180096, -9200779, -6645094, -5592406, -4868683, -6645094, -9200779}});
         screenWidgetEVO.setLargeViewSizePreferred(true);
         screenWidgetEVO.setOpenSelectionDrawerByHkReturn(true);
         screenWidgetEVO.setSmallStageType(0);
@@ -759,10 +981,10 @@ public class NaviScreenBag3 {
         screenWidgetEVO.add(abstractWidgetController2, 7);
         screenWidgetEVO.add(containerController2, 2);
         screenWidgetEVO.add(statusBarStubController);
-        screenWidgetEVO.setViews(new int[]{138, 162, 5602, 5606, 2065761792, 2099316224, 186779136, 1663370752}, new HMIView[][]{{statusBarStubController}, {naviScreenFactory.refWidgets[n][7]}, {modelStubController}, {modelStubController2}, {listController}, {touchController}, {menuController}, {naviScreenFactory.refWidgets[n][9]}});
-        screenWidgetEVO.setModelIDs(new int[]{2065761792});
-        screenWidgetEVO.setEventIDs(new int[]{-1910897152});
-        screenWidgetEVO.setConditionWidgets(new int[]{93, 162, 310, 522, 556, 5624, 958137856, 1780221440, -1591867904, 1579091456}, new AbstractWidget[][]{{naviScreenFactory.refWidgets[n][8]}, {naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9]}, {menuController}, {naviScreenFactory.refWidgets[n][3], naviScreenFactory.refWidgets[n][4]}, {naviScreenFactory.refWidgets[n][5], naviScreenFactory.refWidgets[n][6], naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9], naviScreenFactory.refWidgets[n][10], naviScreenFactory.refWidgets[n][11], naviScreenFactory.refWidgets[n][12]}, {naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9]}, {naviScreenFactory.refWidgets[n][6]}, {naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9]}, {naviScreenFactory.refWidgets[n][5], naviScreenFactory.refWidgets[n][6], naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9], naviScreenFactory.refWidgets[n][10], naviScreenFactory.refWidgets[n][11], naviScreenFactory.refWidgets[n][12]}, {screenWidgetEVO, labelController2}});
+        screenWidgetEVO.setViews(new int[]{138, 162, 5602, 5606, 401787, 401789, 401931, 402787}, new HMIView[][]{{statusBarStubController}, {naviScreenFactory.refWidgets[n][7]}, {modelStubController}, {modelStubController2}, {listController}, {touchController}, {menuController}, {naviScreenFactory.refWidgets[n][9]}});
+        screenWidgetEVO.setModelIDs(new int[]{401787});
+        screenWidgetEVO.setEventIDs(new int[]{400014});
+        screenWidgetEVO.setConditionWidgets(new int[]{93, 162, 310, 522, 556, 5624, 400441, 400490, 401057, 401246}, new AbstractWidget[][]{{naviScreenFactory.refWidgets[n][8]}, {naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9]}, {menuController}, {naviScreenFactory.refWidgets[n][3], naviScreenFactory.refWidgets[n][4]}, {naviScreenFactory.refWidgets[n][5], naviScreenFactory.refWidgets[n][6], naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9], naviScreenFactory.refWidgets[n][10], naviScreenFactory.refWidgets[n][11], naviScreenFactory.refWidgets[n][12]}, {naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9]}, {naviScreenFactory.refWidgets[n][6]}, {naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9]}, {naviScreenFactory.refWidgets[n][5], naviScreenFactory.refWidgets[n][6], naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9], naviScreenFactory.refWidgets[n][10], naviScreenFactory.refWidgets[n][11], naviScreenFactory.refWidgets[n][12]}, {screenWidgetEVO, labelController2}});
         return screenWidgetEVO;
     }
 
@@ -801,9 +1023,9 @@ public class NaviScreenBag3 {
         touchController.setRenderer(touchRendererHigh);
         touchController.setBitmaps(new int[]{483, 484, 857});
         touchRendererHigh.setFonts(naviScreenFactory.getFonts(4, n));
-        touchController.setModelID(-1809578496);
-        touchController.setInfoTextIDs(new int[]{1881474560, 942212608});
-        touchController.setInitialTextID(1898251776);
+        touchController.setModelID(402580);
+        touchController.setInfoTextIDs(new int[]{402800, 403768});
+        touchController.setInitialTextID(402801);
         touchController.setColorIndices(new int[]{2, 5, 4, 3});
         touchController.setCursorOffsetBottom(1);
         touchController.setCursorOffsetTop(-1);
@@ -814,54 +1036,54 @@ public class NaviScreenBag3 {
         touchController.setTouchControllerScreenLevel(2);
         touchController.setTouchpadMode(22);
         touchController.setSpeller(spellerController);
-        touchController.add(modelStubController, 16);
-        touchController.add(modelStubController2, 8);
+        touchController.add(modelStubController, 0x10000000);
+        touchController.add(modelStubController2, 0x8000000);
         FocusedPropertyConfig focusedPropertyConfig = new FocusedPropertyConfig();
-        focusedPropertyConfig.setModelID(1545733632);
+        focusedPropertyConfig.setModelID(402012);
         focusedPropertyConfig.setBounds(0, 0, 100, 100);
         focusedPropertyConfig.setWidgetID(3);
         MenuItemController menuItemController = new MenuItemController();
         CompositeRendererHigh compositeRendererHigh = new CompositeRendererHigh(menuItemController);
         menuItemController.setRenderer(compositeRendererHigh);
-        menuItemController.setModelID(-2094987776);
-        menuItemController.setEvent(-1910897152);
-        menuItemController.setLabelId(-1960507904);
-        menuItemController.setReplacementModelIds(new int[]{-216267264});
+        menuItemController.setModelID(401795);
+        menuItemController.setEvent(400014);
+        menuItemController.setLabelId(402827);
+        menuItemController.setReplacementModelIds(new int[]{400627});
         menuItemController.setGlassplateInsetsBottom(6);
         menuItemController.setGlassplateInsetsTop(7);
-        menuItemController.setInternalID(-1709373952);
+        menuItemController.setInternalID(400794);
         menuItemController.setType(2);
         menuItemController.add(focusedPropertyConfig);
         FocusedPropertyConfig focusedPropertyConfig2 = new FocusedPropertyConfig();
-        focusedPropertyConfig2.setModelID(1545733632);
+        focusedPropertyConfig2.setModelID(402012);
         focusedPropertyConfig2.setBounds(0, 0, 100, 100);
         focusedPropertyConfig2.setWidgetID(3);
         MenuItemController menuItemController2 = new MenuItemController();
         CompositeRendererHigh compositeRendererHigh2 = new CompositeRendererHigh(menuItemController2);
         menuItemController2.setRenderer(compositeRendererHigh2);
-        menuItemController2.setModelID(-1205729792);
-        menuItemController2.setEvent(-1910897152);
-        menuItemController2.setLabelId(203949568);
-        menuItemController2.setReplacementModelIds(new int[]{-216267264});
+        menuItemController2.setModelID(402104);
+        menuItemController2.setEvent(400014);
+        menuItemController2.setLabelId(403468);
+        menuItemController2.setReplacementModelIds(new int[]{400627});
         menuItemController2.setGlassplateInsetsBottom(6);
         menuItemController2.setGlassplateInsetsTop(7);
-        menuItemController2.setInternalID(1058932224);
+        menuItemController2.setInternalID(400959);
         menuItemController2.setType(2);
         menuItemController2.add(focusedPropertyConfig2);
         FocusedPropertyConfig focusedPropertyConfig3 = new FocusedPropertyConfig();
-        focusedPropertyConfig3.setModelID(1545733632);
+        focusedPropertyConfig3.setModelID(402012);
         focusedPropertyConfig3.setBounds(0, 0, 100, 100);
         focusedPropertyConfig3.setWidgetID(3);
         MenuItemController menuItemController3 = new MenuItemController();
         CompositeRendererHigh compositeRendererHigh3 = new CompositeRendererHigh(menuItemController3);
         menuItemController3.setRenderer(compositeRendererHigh3);
-        menuItemController3.setModelID(-1188952576);
-        menuItemController3.setEvent(-1910897152);
-        menuItemController3.setLabelId(220726784);
-        menuItemController3.setReplacementModelIds(new int[]{-216267264});
+        menuItemController3.setModelID(402105);
+        menuItemController3.setEvent(400014);
+        menuItemController3.setLabelId(403469);
+        menuItemController3.setReplacementModelIds(new int[]{400627});
         menuItemController3.setGlassplateInsetsBottom(6);
         menuItemController3.setGlassplateInsetsTop(7);
-        menuItemController3.setInternalID(1075709440);
+        menuItemController3.setInternalID(400960);
         menuItemController3.setType(2);
         menuItemController3.add(focusedPropertyConfig3);
         MenuController menuController = new MenuController();
@@ -869,8 +1091,8 @@ public class NaviScreenBag3 {
         menuController.setRenderer(menuRendererHigh);
         menuController.createInfolineWidgets(new InfoLineRendererHigh());
         menuController.getInfoline().getInfolineRenderer().setFonts(naviScreenFactory.getFonts(2, n));
-        menuController.setModelID(203556352);
-        menuController.setDefaultDisabledInfolineTextId(-349698560);
+        menuController.setModelID(401932);
+        menuController.setDefaultDisabledInfolineTextId(403691);
         menuController.getInfolineTimer().setIdleTime(800);
         menuController.getInfoline().setColorIndices(new int[]{2, 0, 4, 3});
         menuController.getLayout().setBackgroundInsetsVert(7);
@@ -893,10 +1115,10 @@ public class NaviScreenBag3 {
         ContainerRendererHigh containerRendererHigh = new ContainerRendererHigh(containerController);
         containerController.setRenderer(containerRendererHigh);
         containerController.setBounds(0, 0, 0, 0);
-        containerController.setEntertainmentMenuTransformation(16449, 16449, -1883081409, -1883081409, 63);
-        containerController.setOpacitySet(1.0f, -842216386);
-        containerController.setOptionMenuTransformation(32960, 57408, -1701242561, -1701242561, 63);
-        containerController.setSelectionMenuTransformation(40771, 57408, -512093121, -1701242561, 32830);
+        containerController.setEntertainmentMenuTransformation(12.0f, 12.0f, 0.96f, 0.96f, 0.5f);
+        containerController.setOpacitySet(1.0f, 0.4f);
+        containerController.setOptionMenuTransformation(-4.0f, 7.0f, 0.6f, 0.6f, 0.5f);
+        containerController.setSelectionMenuTransformation(318.0f, 7.0f, 0.58f, 0.6f, 0.25f);
         containerController.add(menuController);
         AbstractWidgetController abstractWidgetController2 = naviScreenFactory.getRefWidget(n, 2, naviScreenFactory);
         IconController iconController = new IconController();
@@ -908,13 +1130,13 @@ public class NaviScreenBag3 {
         LabelRendererHigh labelRendererHigh = new LabelRendererHigh(labelController);
         labelController.setRenderer(labelRendererHigh);
         labelRendererHigh.setFonts(naviScreenFactory.getFonts(3, n));
-        labelController.setTextIds(new int[]{1915028992});
+        labelController.setTextIds(new int[]{402802});
         labelController.setBounds(0, 0, 0, 30);
         labelController.setColorIndices(new int[]{1, 2, 4, 0});
         LabelController labelController2 = new LabelController();
         LabelRendererHigh labelRendererHigh2 = new LabelRendererHigh(labelController2);
         labelController2.setRenderer(labelRendererHigh2);
-        labelController2.setTextIds(new int[]{-1742207488});
+        labelController2.setTextIds(new int[]{403608});
         labelController2.setBounds(0, 0, 0, 30);
         labelController2.setCoordinateSets(new int[]{1, 0, 0, 0, 30, 0, 0, 0, 30});
         TitleBarWidget titleBarWidget = new TitleBarWidget();
@@ -932,21 +1154,21 @@ public class NaviScreenBag3 {
         ContainerRendererHigh containerRendererHigh2 = new ContainerRendererHigh(containerController2);
         containerController2.setRenderer(containerRendererHigh2);
         containerController2.setBounds(0, 0, 800, 0);
-        containerController2.setEntertainmentMenuTransformation(16449, 16449, -1883081409, -1883081409, 0.0f);
-        containerController2.setOpacitySet(1.0f, -842216386);
-        containerController2.setOptionMenuTransformation(32960, 57408, -1701242561, -1701242561, 0.0f);
-        containerController2.setSelectionMenuTransformation(8438595, 57408, -1701242561, -1701242561, 0.0f);
+        containerController2.setEntertainmentMenuTransformation(12.0f, 12.0f, 0.96f, 0.96f, 0.0f);
+        containerController2.setOpacitySet(1.0f, 0.4f);
+        containerController2.setOptionMenuTransformation(-4.0f, 7.0f, 0.6f, 0.6f, 0.0f);
+        containerController2.setSelectionMenuTransformation(391.0f, 7.0f, 0.6f, 0.6f, 0.0f);
         containerController2.add(titleBarWidget);
         StatusBarStubController statusBarStubController = new StatusBarStubController();
         statusBarStubController.setModelID(138);
         statusBarStubController.setBounds(0, 0, 100, 100);
-        ScreenWidgetEVO screenWidgetEVO = new ScreenWidgetEVO(-1877277184);
+        ScreenWidgetEVO screenWidgetEVO = new ScreenWidgetEVO(400272);
         screenWidgetEVO.setScreenFactory(naviScreenFactory);
         ScreenRendererHigh screenRendererHigh = new ScreenRendererHigh(screenWidgetEVO);
         screenWidgetEVO.setRenderer(screenRendererHigh);
         screenRendererHigh.setFonts(naviScreenFactory.getFonts(0, n));
         screenWidgetEVO.setColorIndices(new int[]{1, 2, 4, 0});
-        screenWidgetEVO.setColorPalettes(new int[][]{{-1, 255, -1, -1, -1701143809, -1431655681, -1246382593, -1701143809, -1}, {-1, 255, 419495935, 1751100415, -1701143809, -1431655681, -1246382593, -1701143809, 1228585215}, {-1, 255, -19456, 1838260991, -1701143809, -1431655681, -1246382593, -1701143809, 1838260991}, {-1, 255, -1433657601, -1567134209, -1701143809, -1431655681, -1246382593, -1701143809, -1567134209}, {-1, 255, 11166975, 1973122047, -1701143809, -1431655681, -1246382593, -1701143809, 1973122047}});
+        screenWidgetEVO.setColorPalettes(new int[][]{{-1, -16777216, -1, -1, -6645094, -5592406, -4868683, -6645094, -1}, {-1, -16777216, -65511, -5546136, -6645094, -5592406, -4868683, -6645094, -4703671}, {-1, -16777216, -19456, -6123155, -6645094, -5592406, -4868683, -6645094, -6123155}, {-1, -16777216, -14775126, -9594974, -6645094, -5592406, -4868683, -6645094, -9594974}, {-1, -16777216, -10180096, -9200779, -6645094, -5592406, -4868683, -6645094, -9200779}});
         screenWidgetEVO.setLargeViewSizePreferred(true);
         screenWidgetEVO.setOpenSelectionDrawerByHkReturn(true);
         screenWidgetEVO.setSmallStageType(0);
@@ -955,11 +1177,11 @@ public class NaviScreenBag3 {
         screenWidgetEVO.add(abstractWidgetController2, 7);
         screenWidgetEVO.add(containerController2, 2);
         screenWidgetEVO.add(statusBarStubController);
-        screenWidgetEVO.setViews(new int[]{138, 162, 5602, 5606, -2094987776, 203556352, 1545733632, -1205729792, -1188952576, -1809578496, 1663370752}, new HMIView[][]{{statusBarStubController}, {naviScreenFactory.refWidgets[n][7]}, {modelStubController}, {modelStubController2}, {menuItemController}, {menuController}, {focusedPropertyConfig, focusedPropertyConfig2, focusedPropertyConfig3}, {menuItemController2}, {menuItemController3}, {touchController}, {naviScreenFactory.refWidgets[n][9]}});
-        screenWidgetEVO.setModelIDs(new int[]{-2094987776, -1205729792, -1188952576});
-        screenWidgetEVO.setEventIDs(new int[]{-1910897152, -1910897152, -1910897152});
-        screenWidgetEVO.setConditionWidgets(new int[]{93, 162, 522, 556, 5624, 958137856, 1780221440, -1591867904, 1579091456, -1809578496}, new AbstractWidget[][]{{naviScreenFactory.refWidgets[n][8]}, {naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9]}, {naviScreenFactory.refWidgets[n][3], naviScreenFactory.refWidgets[n][4]}, {naviScreenFactory.refWidgets[n][5], naviScreenFactory.refWidgets[n][6], naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9], naviScreenFactory.refWidgets[n][10], naviScreenFactory.refWidgets[n][11], naviScreenFactory.refWidgets[n][12]}, {naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9]}, {naviScreenFactory.refWidgets[n][6]}, {naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9]}, {naviScreenFactory.refWidgets[n][5], naviScreenFactory.refWidgets[n][6], naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9], naviScreenFactory.refWidgets[n][10], naviScreenFactory.refWidgets[n][11], naviScreenFactory.refWidgets[n][12]}, {screenWidgetEVO, menuItemController, menuItemController2, menuItemController3, labelController2}, {menuItemController, menuItemController2, menuItemController3}});
-        screenWidgetEVO.setReplacementWidgets(new int[]{-216267264}, new HMIView[][]{{menuItemController, menuItemController2, menuItemController3}});
+        screenWidgetEVO.setViews(new int[]{138, 162, 5602, 5606, 401795, 401932, 402012, 402104, 402105, 402580, 402787}, new HMIView[][]{{statusBarStubController}, {naviScreenFactory.refWidgets[n][7]}, {modelStubController}, {modelStubController2}, {menuItemController}, {menuController}, {focusedPropertyConfig, focusedPropertyConfig2, focusedPropertyConfig3}, {menuItemController2}, {menuItemController3}, {touchController}, {naviScreenFactory.refWidgets[n][9]}});
+        screenWidgetEVO.setModelIDs(new int[]{401795, 402104, 402105});
+        screenWidgetEVO.setEventIDs(new int[]{400014, 400014, 400014});
+        screenWidgetEVO.setConditionWidgets(new int[]{93, 162, 522, 556, 5624, 400441, 400490, 401057, 401246, 402580}, new AbstractWidget[][]{{naviScreenFactory.refWidgets[n][8]}, {naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9]}, {naviScreenFactory.refWidgets[n][3], naviScreenFactory.refWidgets[n][4]}, {naviScreenFactory.refWidgets[n][5], naviScreenFactory.refWidgets[n][6], naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9], naviScreenFactory.refWidgets[n][10], naviScreenFactory.refWidgets[n][11], naviScreenFactory.refWidgets[n][12]}, {naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9]}, {naviScreenFactory.refWidgets[n][6]}, {naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9]}, {naviScreenFactory.refWidgets[n][5], naviScreenFactory.refWidgets[n][6], naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9], naviScreenFactory.refWidgets[n][10], naviScreenFactory.refWidgets[n][11], naviScreenFactory.refWidgets[n][12]}, {screenWidgetEVO, menuItemController, menuItemController2, menuItemController3, labelController2}, {menuItemController, menuItemController2, menuItemController3}});
+        screenWidgetEVO.setReplacementWidgets(new int[]{400627}, new HMIView[][]{{menuItemController, menuItemController2, menuItemController3}});
         return screenWidgetEVO;
     }
 
@@ -981,87 +1203,87 @@ public class NaviScreenBag3 {
         focusCursorController.setWaitAnimOffsetX(600);
         focusCursorController.setWaitAnimOffsetY(15);
         DirectWritingController directWritingController = new DirectWritingController();
-        directWritingController.setModelID(471926272);
-        directWritingController.setEvent(-300218880);
+        directWritingController.setModelID(401692);
+        directWritingController.setEvent(400366);
         directWritingController.setBounds(0, 0, 100, 100);
         MenuItemController menuItemController = new MenuItemController();
         CompositeRendererHigh compositeRendererHigh = new CompositeRendererHigh(menuItemController);
         menuItemController.setRenderer(compositeRendererHigh);
         menuItemController.setBitmaps(new int[]{127});
-        menuItemController.setModelID(455149056);
-        menuItemController.setEvent(-300218880);
-        menuItemController.setLabelId(-1440479744);
+        menuItemController.setModelID(401691);
+        menuItemController.setEvent(400366);
+        menuItemController.setLabelId(402602);
         menuItemController.setColorIndices(new int[]{2, 0, 4, 0});
         menuItemController.setGlassplateInsetsBottom(6);
         menuItemController.setGlassplateInsetsTop(7);
-        menuItemController.setInternalID(-1692596736);
+        menuItemController.setInternalID(400795);
         menuItemController.setType(768);
         menuItemController.setWidgetID(1);
         menuItemController.add(directWritingController);
         DirectWritingController directWritingController2 = new DirectWritingController();
-        directWritingController2.setModelID(-853670400);
-        directWritingController2.setEvent(-1776679424);
+        directWritingController2.setModelID(401101);
+        directWritingController2.setEvent(400022);
         directWritingController2.setBounds(0, 0, 100, 100);
         MenuItemController menuItemController2 = new MenuItemController();
         CompositeRendererHigh compositeRendererHigh2 = new CompositeRendererHigh(menuItemController2);
         menuItemController2.setRenderer(compositeRendererHigh2);
         menuItemController2.setBitmaps(new int[]{127});
-        menuItemController2.setModelID(236914176);
-        menuItemController2.setEvent(-1776679424);
-        menuItemController2.setLabelId(975570432);
+        menuItemController2.setModelID(401166);
+        menuItemController2.setEvent(400022);
+        menuItemController2.setLabelId(403002);
         menuItemController2.setColorIndices(new int[]{2, 0, 4, 0});
         menuItemController2.setGlassplateInsetsBottom(6);
         menuItemController2.setGlassplateInsetsTop(7);
-        menuItemController2.setInternalID(-1675819520);
+        menuItemController2.setInternalID(400796);
         menuItemController2.setType(768);
         menuItemController2.setWidgetID(2);
         menuItemController2.add(directWritingController2);
         DirectWritingController directWritingController3 = new DirectWritingController();
-        directWritingController3.setModelID(841025024);
-        directWritingController3.setEvent(-1759902208);
+        directWritingController3.setModelID(401714);
+        directWritingController3.setEvent(400023);
         directWritingController3.setBounds(0, 0, 100, 100);
         MenuItemController menuItemController3 = new MenuItemController();
         CompositeRendererHigh compositeRendererHigh3 = new CompositeRendererHigh(menuItemController3);
         menuItemController3.setRenderer(compositeRendererHigh3);
         menuItemController3.setBitmaps(new int[]{127});
-        menuItemController3.setModelID(-1893464576);
-        menuItemController3.setEvent(-182778368);
-        menuItemController3.setLabelId(-1390148096);
+        menuItemController3.setModelID(402575);
+        menuItemController3.setEvent(400373);
+        menuItemController3.setLabelId(402605);
         menuItemController3.setColorIndices(new int[]{2, 0, 4, 0});
         menuItemController3.setGlassplateInsetsBottom(6);
         menuItemController3.setGlassplateInsetsTop(7);
-        menuItemController3.setInternalID(-1659042304);
+        menuItemController3.setInternalID(400797);
         menuItemController3.setType(768);
         menuItemController3.setWidgetID(4);
         menuItemController3.add(directWritingController3);
         DirectWritingController directWritingController4 = new DirectWritingController();
-        directWritingController4.setModelID(757138944);
-        directWritingController4.setEvent(-149223936);
+        directWritingController4.setModelID(401709);
+        directWritingController4.setEvent(400375);
         directWritingController4.setBounds(0, 0, 100, 100);
         MenuItemController menuItemController4 = new MenuItemController();
         CompositeRendererHigh compositeRendererHigh4 = new CompositeRendererHigh(menuItemController4);
         menuItemController4.setRenderer(compositeRendererHigh4);
         menuItemController4.setBitmaps(new int[]{127});
-        menuItemController4.setModelID(539035136);
-        menuItemController4.setEvent(-149223936);
-        menuItemController4.setLabelId(992347648);
+        menuItemController4.setModelID(401696);
+        menuItemController4.setEvent(400375);
+        menuItemController4.setLabelId(403003);
         menuItemController4.setColorIndices(new int[]{2, 0, 4, 0});
         menuItemController4.setGlassplateInsetsBottom(6);
         menuItemController4.setGlassplateInsetsTop(7);
-        menuItemController4.setInternalID(-1642265088);
+        menuItemController4.setInternalID(400798);
         menuItemController4.setType(768);
         menuItemController4.setWidgetID(5);
         menuItemController4.add(directWritingController4);
         MenuItemController menuItemController5 = new MenuItemController();
         CompositeRendererHigh compositeRendererHigh5 = new CompositeRendererHigh(menuItemController5);
         menuItemController5.setRenderer(compositeRendererHigh5);
-        menuItemController5.setModelID(-1625225728);
-        menuItemController5.setEvent(756811264);
-        menuItemController5.setLabelId(-1943730688);
+        menuItemController5.setModelID(401823);
+        menuItemController5.setEvent(400429);
+        menuItemController5.setLabelId(402828);
         menuItemController5.setGlassplateInsetsBottom(6);
         menuItemController5.setGlassplateInsetsTop(7);
-        menuItemController5.setInternalID(-1625487872);
-        menuItemController5.setSdsCommand(-1256585728);
+        menuItemController5.setInternalID(400799);
+        menuItemController5.setSdsCommand(400053);
         menuItemController5.setSdsItemSelectedAction(2);
         menuItemController5.setType(2);
         menuItemController5.setWidgetID(6);
@@ -1070,8 +1292,8 @@ public class NaviScreenBag3 {
         menuController.setRenderer(menuRendererHigh);
         menuController.createInfolineWidgets(new InfoLineRendererHigh());
         menuController.getInfoline().getInfolineRenderer().setFonts(naviScreenFactory.getFonts(2, n));
-        menuController.setModelID(-518126080);
-        menuController.setDefaultDisabledInfolineTextId(-332921344);
+        menuController.setModelID(401121);
+        menuController.setDefaultDisabledInfolineTextId(403692);
         menuController.getInfolineTimer().setIdleTime(800);
         menuController.getInfoline().setColorIndices(new int[]{2, 0, 4, 3});
         menuController.getLayout().setBackgroundInsetsVert(7);
@@ -1095,10 +1317,10 @@ public class NaviScreenBag3 {
         ContainerRendererHigh containerRendererHigh = new ContainerRendererHigh(containerController);
         containerController.setRenderer(containerRendererHigh);
         containerController.setBounds(0, 0, 0, 0);
-        containerController.setEntertainmentMenuTransformation(16449, 16449, -1883081409, -1883081409, 63);
-        containerController.setOpacitySet(1.0f, -842216386);
-        containerController.setOptionMenuTransformation(32960, 57408, -1701242561, -1701242561, 63);
-        containerController.setSelectionMenuTransformation(40771, 57408, -512093121, -1701242561, 32830);
+        containerController.setEntertainmentMenuTransformation(12.0f, 12.0f, 0.96f, 0.96f, 0.5f);
+        containerController.setOpacitySet(1.0f, 0.4f);
+        containerController.setOptionMenuTransformation(-4.0f, 7.0f, 0.6f, 0.6f, 0.5f);
+        containerController.setSelectionMenuTransformation(318.0f, 7.0f, 0.58f, 0.6f, 0.25f);
         containerController.add(menuController);
         AbstractWidgetController abstractWidgetController2 = naviScreenFactory.getRefWidget(n, 2, naviScreenFactory);
         IconController iconController = new IconController();
@@ -1110,13 +1332,13 @@ public class NaviScreenBag3 {
         LabelRendererHigh labelRendererHigh = new LabelRendererHigh(labelController);
         labelController.setRenderer(labelRendererHigh);
         labelRendererHigh.setFonts(naviScreenFactory.getFonts(3, n));
-        labelController.setTextIds(new int[]{-1926953472});
+        labelController.setTextIds(new int[]{402829});
         labelController.setBounds(0, 0, 0, 30);
         labelController.setColorIndices(new int[]{1, 2, 4, 0});
         LabelController labelController2 = new LabelController();
         LabelRendererHigh labelRendererHigh2 = new LabelRendererHigh(labelController2);
         labelController2.setRenderer(labelRendererHigh2);
-        labelController2.setTextIds(new int[]{-1910176256});
+        labelController2.setTextIds(new int[]{402830});
         labelController2.setBounds(0, 0, 0, 30);
         labelController2.setCoordinateSets(new int[]{1, 0, 0, 0, 30, 0, 0, 0, 30});
         TitleBarWidget titleBarWidget = new TitleBarWidget();
@@ -1140,22 +1362,22 @@ public class NaviScreenBag3 {
         ContainerRendererHigh containerRendererHigh2 = new ContainerRendererHigh(containerController2);
         containerController2.setRenderer(containerRendererHigh2);
         containerController2.setBounds(0, 0, 800, 0);
-        containerController2.setEntertainmentMenuTransformation(16449, 16449, -1883081409, -1883081409, 0.0f);
-        containerController2.setOpacitySet(1.0f, -842216386);
-        containerController2.setOptionMenuTransformation(32960, 57408, -1701242561, -1701242561, 0.0f);
-        containerController2.setSelectionMenuTransformation(8438595, 57408, -1701242561, -1701242561, 0.0f);
+        containerController2.setEntertainmentMenuTransformation(12.0f, 12.0f, 0.96f, 0.96f, 0.0f);
+        containerController2.setOpacitySet(1.0f, 0.4f);
+        containerController2.setOptionMenuTransformation(-4.0f, 7.0f, 0.6f, 0.6f, 0.0f);
+        containerController2.setSelectionMenuTransformation(391.0f, 7.0f, 0.6f, 0.6f, 0.0f);
         containerController2.add(titleBarWidget);
         containerController2.add(waitAnimController);
         StatusBarStubController statusBarStubController = new StatusBarStubController();
         statusBarStubController.setModelID(138);
         statusBarStubController.setBounds(0, 0, 100, 100);
-        ScreenWidgetEVO screenWidgetEVO = new ScreenWidgetEVO(-1826945536);
+        ScreenWidgetEVO screenWidgetEVO = new ScreenWidgetEVO(400275);
         screenWidgetEVO.setScreenFactory(naviScreenFactory);
         ScreenRendererHigh screenRendererHigh = new ScreenRendererHigh(screenWidgetEVO);
         screenWidgetEVO.setRenderer(screenRendererHigh);
         screenRendererHigh.setFonts(naviScreenFactory.getFonts(0, n));
         screenWidgetEVO.setColorIndices(new int[]{1, 2, 4, 0});
-        screenWidgetEVO.setColorPalettes(new int[][]{{-1, 255, -1, -1, -1701143809, -1431655681, -1246382593, -1701143809, -1}, {-1, 255, 419495935, 1751100415, -1701143809, -1431655681, -1246382593, -1701143809, 1228585215}, {-1, 255, -19456, 1838260991, -1701143809, -1431655681, -1246382593, -1701143809, 1838260991}, {-1, 255, -1433657601, -1567134209, -1701143809, -1431655681, -1246382593, -1701143809, -1567134209}, {-1, 255, 11166975, 1973122047, -1701143809, -1431655681, -1246382593, -1701143809, 1973122047}});
+        screenWidgetEVO.setColorPalettes(new int[][]{{-1, -16777216, -1, -1, -6645094, -5592406, -4868683, -6645094, -1}, {-1, -16777216, -65511, -5546136, -6645094, -5592406, -4868683, -6645094, -4703671}, {-1, -16777216, -19456, -6123155, -6645094, -5592406, -4868683, -6645094, -6123155}, {-1, -16777216, -14775126, -9594974, -6645094, -5592406, -4868683, -6645094, -9594974}, {-1, -16777216, -10180096, -9200779, -6645094, -5592406, -4868683, -6645094, -9200779}});
         screenWidgetEVO.setHmiAppsToNotifyForVisibility(new int[]{14});
         screenWidgetEVO.setSmallStageType(0);
         screenWidgetEVO.add(abstractWidgetController);
@@ -1163,10 +1385,10 @@ public class NaviScreenBag3 {
         screenWidgetEVO.add(abstractWidgetController2, 7);
         screenWidgetEVO.add(containerController2, 2);
         screenWidgetEVO.add(statusBarStubController);
-        screenWidgetEVO.setViews(new int[]{138, 162, 4007, -853670400, -518126080, 236914176, 455149056, 471926272, 539035136, 757138944, 841025024, -1625225728, -1893464576, 1663370752}, new HMIView[][]{{statusBarStubController}, {naviScreenFactory.refWidgets[n][7]}, {waitAnimController}, {directWritingController2}, {menuController}, {menuItemController2}, {menuItemController}, {directWritingController}, {menuItemController4}, {directWritingController4}, {directWritingController3}, {menuItemController5}, {menuItemController3}, {naviScreenFactory.refWidgets[n][9]}});
-        screenWidgetEVO.setModelIDs(new int[]{-853670400, 236914176, 455149056, 471926272, 539035136, 757138944, 841025024, -1625225728, -1893464576});
-        screenWidgetEVO.setEventIDs(new int[]{-1776679424, -1776679424, -300218880, -300218880, -149223936, -149223936, -1759902208, 756811264, -182778368});
-        screenWidgetEVO.setConditionWidgets(new int[]{93, 162, 310, 522, 556, 5583, 5602, 5624, 823854592, 874186240, 958137856, 1780221440, -1591867904, 488703488, 505480704, 807470592, -199162368}, new AbstractWidget[][]{{naviScreenFactory.refWidgets[n][8]}, {naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9]}, {menuController}, {naviScreenFactory.refWidgets[n][3], naviScreenFactory.refWidgets[n][4]}, {naviScreenFactory.refWidgets[n][5], naviScreenFactory.refWidgets[n][6], naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9], naviScreenFactory.refWidgets[n][10], naviScreenFactory.refWidgets[n][11], naviScreenFactory.refWidgets[n][12]}, {directWritingController, directWritingController2, directWritingController3, directWritingController4}, {directWritingController, directWritingController2, directWritingController3, directWritingController4}, {naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9]}, {menuItemController2}, {menuItemController5}, {naviScreenFactory.refWidgets[n][6]}, {naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9]}, {naviScreenFactory.refWidgets[n][5], naviScreenFactory.refWidgets[n][6], naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9], naviScreenFactory.refWidgets[n][10], naviScreenFactory.refWidgets[n][11], naviScreenFactory.refWidgets[n][12]}, {menuItemController}, {menuItemController3}, {menuItemController4}, {menuItemController3, menuItemController4}});
+        screenWidgetEVO.setViews(new int[]{138, 162, 4007, 401101, 401121, 401166, 401691, 401692, 401696, 401709, 401714, 401823, 402575, 402787}, new HMIView[][]{{statusBarStubController}, {naviScreenFactory.refWidgets[n][7]}, {waitAnimController}, {directWritingController2}, {menuController}, {menuItemController2}, {menuItemController}, {directWritingController}, {menuItemController4}, {directWritingController4}, {directWritingController3}, {menuItemController5}, {menuItemController3}, {naviScreenFactory.refWidgets[n][9]}});
+        screenWidgetEVO.setModelIDs(new int[]{401101, 401166, 401691, 401692, 401696, 401709, 401714, 401823, 402575});
+        screenWidgetEVO.setEventIDs(new int[]{400022, 400022, 400366, 400366, 400375, 400375, 400023, 400429, 400373});
+        screenWidgetEVO.setConditionWidgets(new int[]{93, 162, 310, 522, 556, 5583, 5602, 5624, 400177, 400180, 400441, 400490, 401057, 401693, 401694, 401712, 401908}, new AbstractWidget[][]{{naviScreenFactory.refWidgets[n][8]}, {naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9]}, {menuController}, {naviScreenFactory.refWidgets[n][3], naviScreenFactory.refWidgets[n][4]}, {naviScreenFactory.refWidgets[n][5], naviScreenFactory.refWidgets[n][6], naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9], naviScreenFactory.refWidgets[n][10], naviScreenFactory.refWidgets[n][11], naviScreenFactory.refWidgets[n][12]}, {directWritingController, directWritingController2, directWritingController3, directWritingController4}, {directWritingController, directWritingController2, directWritingController3, directWritingController4}, {naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9]}, {menuItemController2}, {menuItemController5}, {naviScreenFactory.refWidgets[n][6]}, {naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9]}, {naviScreenFactory.refWidgets[n][5], naviScreenFactory.refWidgets[n][6], naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9], naviScreenFactory.refWidgets[n][10], naviScreenFactory.refWidgets[n][11], naviScreenFactory.refWidgets[n][12]}, {menuItemController}, {menuItemController3}, {menuItemController4}, {menuItemController3, menuItemController4}});
         return screenWidgetEVO;
     }
 
@@ -1188,69 +1410,69 @@ public class NaviScreenBag3 {
         focusCursorController.setWaitAnimOffsetX(600);
         focusCursorController.setWaitAnimOffsetY(15);
         DirectWritingController directWritingController = new DirectWritingController();
-        directWritingController.setModelID(1210123776);
-        directWritingController.setEvent(-300218880);
+        directWritingController.setModelID(401736);
+        directWritingController.setEvent(400366);
         directWritingController.setBounds(0, 0, 100, 100);
         MenuItemController menuItemController = new MenuItemController();
         CompositeRendererHigh compositeRendererHigh = new CompositeRendererHigh(menuItemController);
         menuItemController.setRenderer(compositeRendererHigh);
         menuItemController.setBitmaps(new int[]{127});
-        menuItemController.setModelID(1193346560);
-        menuItemController.setEvent(102499840);
-        menuItemController.setLabelId(-165411328);
+        menuItemController.setModelID(401735);
+        menuItemController.setEvent(400390);
+        menuItemController.setLabelId(402678);
         menuItemController.setColorIndices(new int[]{2, 0, 4, 0});
         menuItemController.setGlassplateInsetsBottom(6);
         menuItemController.setGlassplateInsetsTop(7);
-        menuItemController.setInternalID(-1608710656);
+        menuItemController.setInternalID(400800);
         menuItemController.setType(768);
         menuItemController.setWidgetID(1);
         menuItemController.add(directWritingController);
         DirectWritingController directWritingController2 = new DirectWritingController();
-        directWritingController2.setModelID(1176569344);
-        directWritingController2.setEvent(-1776679424);
+        directWritingController2.setModelID(401734);
+        directWritingController2.setEvent(400022);
         directWritingController2.setBounds(0, 0, 100, 100);
         MenuItemController menuItemController2 = new MenuItemController();
         CompositeRendererHigh compositeRendererHigh2 = new CompositeRendererHigh(menuItemController2);
         menuItemController2.setRenderer(compositeRendererHigh2);
         menuItemController2.setBitmaps(new int[]{127});
-        menuItemController2.setModelID(1159792128);
-        menuItemController2.setEvent(119277056);
-        menuItemController2.setLabelId(-148634112);
+        menuItemController2.setModelID(401733);
+        menuItemController2.setEvent(400391);
+        menuItemController2.setLabelId(402679);
         menuItemController2.setColorIndices(new int[]{2, 0, 4, 0});
         menuItemController2.setGlassplateInsetsBottom(6);
         menuItemController2.setGlassplateInsetsTop(7);
-        menuItemController2.setInternalID(-1591933440);
+        menuItemController2.setInternalID(400801);
         menuItemController2.setType(768);
         menuItemController2.setWidgetID(2);
         menuItemController2.add(directWritingController2);
         DirectWritingController directWritingController3 = new DirectWritingController();
-        directWritingController3.setModelID(1226900992);
-        directWritingController3.setEvent(-1759902208);
+        directWritingController3.setModelID(401737);
+        directWritingController3.setEvent(400023);
         directWritingController3.setBounds(0, 0, 100, 100);
         MenuItemController menuItemController3 = new MenuItemController();
         CompositeRendererHigh compositeRendererHigh3 = new CompositeRendererHigh(menuItemController3);
         menuItemController3.setRenderer(compositeRendererHigh3);
         menuItemController3.setBitmaps(new int[]{127});
-        menuItemController3.setModelID(1243678208);
-        menuItemController3.setEvent(152831488);
-        menuItemController3.setLabelId(2032600576);
+        menuItemController3.setModelID(401738);
+        menuItemController3.setEvent(400393);
+        menuItemController3.setLabelId(403321);
         menuItemController3.setColorIndices(new int[]{2, 0, 4, 0});
         menuItemController3.setGlassplateInsetsBottom(6);
         menuItemController3.setGlassplateInsetsTop(7);
-        menuItemController3.setInternalID(-1575156224);
+        menuItemController3.setInternalID(400802);
         menuItemController3.setType(768);
         menuItemController3.setWidgetID(4);
         menuItemController3.add(directWritingController3);
         MenuItemController menuItemController4 = new MenuItemController();
         CompositeRendererHigh compositeRendererHigh4 = new CompositeRendererHigh(menuItemController4);
         menuItemController4.setRenderer(compositeRendererHigh4);
-        menuItemController4.setModelID(-1625225728);
-        menuItemController4.setEvent(756811264);
-        menuItemController4.setLabelId(-1943730688);
+        menuItemController4.setModelID(401823);
+        menuItemController4.setEvent(400429);
+        menuItemController4.setLabelId(402828);
         menuItemController4.setGlassplateInsetsBottom(6);
         menuItemController4.setGlassplateInsetsTop(7);
-        menuItemController4.setInternalID(-1558379008);
-        menuItemController4.setSdsCommand(-1256585728);
+        menuItemController4.setInternalID(400803);
+        menuItemController4.setSdsCommand(400053);
         menuItemController4.setSdsItemSelectedAction(2);
         menuItemController4.setType(2);
         menuItemController4.setWidgetID(6);
@@ -1259,8 +1481,8 @@ public class NaviScreenBag3 {
         menuController.setRenderer(menuRendererHigh);
         menuController.createInfolineWidgets(new InfoLineRendererHigh());
         menuController.getInfoline().getInfolineRenderer().setFonts(naviScreenFactory.getFonts(2, n));
-        menuController.setModelID(-518126080);
-        menuController.setDefaultDisabledInfolineTextId(1881540096);
+        menuController.setModelID(401121);
+        menuController.setDefaultDisabledInfolineTextId(403056);
         menuController.getInfolineTimer().setIdleTime(800);
         menuController.getInfoline().setColorIndices(new int[]{2, 0, 4, 3});
         menuController.getLayout().setBackgroundInsetsVert(7);
@@ -1280,17 +1502,17 @@ public class NaviScreenBag3 {
         menuController.add(menuItemController3);
         menuController.add(menuItemController4);
         FocusedPropertyConfig focusedPropertyConfig = new FocusedPropertyConfig();
-        focusedPropertyConfig.setModelID(1847592448);
+        focusedPropertyConfig.setModelID(401518);
         focusedPropertyConfig.setBounds(0, 0, 100, 100);
         focusedPropertyConfig.setWidgetID(1);
         ContainerController containerController = new ContainerController();
         ContainerRendererHigh containerRendererHigh = new ContainerRendererHigh(containerController);
         containerController.setRenderer(containerRendererHigh);
         containerController.setBounds(0, 0, 0, 0);
-        containerController.setEntertainmentMenuTransformation(16449, 16449, -1883081409, -1883081409, 63);
-        containerController.setOpacitySet(1.0f, -842216386);
-        containerController.setOptionMenuTransformation(32960, 57408, -1701242561, -1701242561, 63);
-        containerController.setSelectionMenuTransformation(40771, 57408, -512093121, -1701242561, 32830);
+        containerController.setEntertainmentMenuTransformation(12.0f, 12.0f, 0.96f, 0.96f, 0.5f);
+        containerController.setOpacitySet(1.0f, 0.4f);
+        containerController.setOptionMenuTransformation(-4.0f, 7.0f, 0.6f, 0.6f, 0.5f);
+        containerController.setSelectionMenuTransformation(318.0f, 7.0f, 0.58f, 0.6f, 0.25f);
         containerController.add(menuController);
         containerController.add(focusedPropertyConfig);
         AbstractWidgetController abstractWidgetController2 = naviScreenFactory.getRefWidget(n, 2, naviScreenFactory);
@@ -1303,13 +1525,13 @@ public class NaviScreenBag3 {
         LabelRendererHigh labelRendererHigh = new LabelRendererHigh(labelController);
         labelController.setRenderer(labelRendererHigh);
         labelRendererHigh.setFonts(naviScreenFactory.getFonts(3, n));
-        labelController.setTextIds(new int[]{-1725495808});
+        labelController.setTextIds(new int[]{403353});
         labelController.setBounds(0, 0, 0, 30);
         labelController.setColorIndices(new int[]{1, 2, 4, 0});
         LabelController labelController2 = new LabelController();
         LabelRendererHigh labelRendererHigh2 = new LabelRendererHigh(labelController2);
         labelController2.setRenderer(labelRendererHigh2);
-        labelController2.setTextIds(new int[]{-1708718592});
+        labelController2.setTextIds(new int[]{403354});
         labelController2.setBounds(0, 0, 0, 30);
         labelController2.setCoordinateSets(new int[]{1, 0, 0, 0, 30, 0, 0, 0, 30});
         TitleBarWidget titleBarWidget = new TitleBarWidget();
@@ -1333,22 +1555,22 @@ public class NaviScreenBag3 {
         ContainerRendererHigh containerRendererHigh2 = new ContainerRendererHigh(containerController2);
         containerController2.setRenderer(containerRendererHigh2);
         containerController2.setBounds(0, 0, 800, 0);
-        containerController2.setEntertainmentMenuTransformation(16449, 16449, -1883081409, -1883081409, 0.0f);
-        containerController2.setOpacitySet(1.0f, -842216386);
-        containerController2.setOptionMenuTransformation(32960, 57408, -1701242561, -1701242561, 0.0f);
-        containerController2.setSelectionMenuTransformation(8438595, 57408, -1701242561, -1701242561, 0.0f);
+        containerController2.setEntertainmentMenuTransformation(12.0f, 12.0f, 0.96f, 0.96f, 0.0f);
+        containerController2.setOpacitySet(1.0f, 0.4f);
+        containerController2.setOptionMenuTransformation(-4.0f, 7.0f, 0.6f, 0.6f, 0.0f);
+        containerController2.setSelectionMenuTransformation(391.0f, 7.0f, 0.6f, 0.6f, 0.0f);
         containerController2.add(titleBarWidget);
         containerController2.add(waitAnimController);
         StatusBarStubController statusBarStubController = new StatusBarStubController();
         statusBarStubController.setModelID(138);
         statusBarStubController.setBounds(0, 0, 100, 100);
-        ScreenWidgetEVO screenWidgetEVO = new ScreenWidgetEVO(-1810168320);
+        ScreenWidgetEVO screenWidgetEVO = new ScreenWidgetEVO(400276);
         screenWidgetEVO.setScreenFactory(naviScreenFactory);
         ScreenRendererHigh screenRendererHigh = new ScreenRendererHigh(screenWidgetEVO);
         screenWidgetEVO.setRenderer(screenRendererHigh);
         screenRendererHigh.setFonts(naviScreenFactory.getFonts(0, n));
         screenWidgetEVO.setColorIndices(new int[]{1, 2, 4, 0});
-        screenWidgetEVO.setColorPalettes(new int[][]{{-1, 255, -1, -1, -1701143809, -1431655681, -1246382593, -1701143809, -1}, {-1, 255, 419495935, 1751100415, -1701143809, -1431655681, -1246382593, -1701143809, 1228585215}, {-1, 255, -19456, 1838260991, -1701143809, -1431655681, -1246382593, -1701143809, 1838260991}, {-1, 255, -1433657601, -1567134209, -1701143809, -1431655681, -1246382593, -1701143809, -1567134209}, {-1, 255, 11166975, 1973122047, -1701143809, -1431655681, -1246382593, -1701143809, 1973122047}});
+        screenWidgetEVO.setColorPalettes(new int[][]{{-1, -16777216, -1, -1, -6645094, -5592406, -4868683, -6645094, -1}, {-1, -16777216, -65511, -5546136, -6645094, -5592406, -4868683, -6645094, -4703671}, {-1, -16777216, -19456, -6123155, -6645094, -5592406, -4868683, -6645094, -6123155}, {-1, -16777216, -14775126, -9594974, -6645094, -5592406, -4868683, -6645094, -9594974}, {-1, -16777216, -10180096, -9200779, -6645094, -5592406, -4868683, -6645094, -9200779}});
         screenWidgetEVO.setHmiAppsToNotifyForVisibility(new int[]{14});
         screenWidgetEVO.setSmallStageType(0);
         screenWidgetEVO.add(abstractWidgetController);
@@ -1356,10 +1578,10 @@ public class NaviScreenBag3 {
         screenWidgetEVO.add(abstractWidgetController2, 7);
         screenWidgetEVO.add(containerController2, 2);
         screenWidgetEVO.add(statusBarStubController);
-        screenWidgetEVO.setViews(new int[]{138, 162, 4007, -518126080, 1847592448, 1159792128, 1176569344, 1193346560, 1210123776, 1226900992, 1243678208, -1625225728, 1663370752}, new HMIView[][]{{statusBarStubController}, {naviScreenFactory.refWidgets[n][7]}, {waitAnimController}, {menuController}, {focusedPropertyConfig}, {menuItemController2}, {directWritingController2}, {menuItemController}, {directWritingController}, {directWritingController3}, {menuItemController3}, {menuItemController4}, {naviScreenFactory.refWidgets[n][9]}});
-        screenWidgetEVO.setModelIDs(new int[]{1159792128, 1176569344, 1193346560, 1210123776, 1226900992, 1243678208, -1625225728});
-        screenWidgetEVO.setEventIDs(new int[]{119277056, -1776679424, 102499840, -300218880, -1759902208, 152831488, 756811264});
-        screenWidgetEVO.setConditionWidgets(new int[]{93, 162, 310, 522, 556, 5583, 5602, 5624, 874186240, 958137856, 1780221440, -1591867904, 1109460480, 1126237696, 1143014912}, new AbstractWidget[][]{{naviScreenFactory.refWidgets[n][8]}, {naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9]}, {menuController}, {naviScreenFactory.refWidgets[n][3], naviScreenFactory.refWidgets[n][4]}, {naviScreenFactory.refWidgets[n][5], naviScreenFactory.refWidgets[n][6], naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9], naviScreenFactory.refWidgets[n][10], naviScreenFactory.refWidgets[n][11], naviScreenFactory.refWidgets[n][12]}, {directWritingController, directWritingController2, directWritingController3}, {directWritingController, directWritingController2, directWritingController3}, {naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9]}, {menuItemController4}, {naviScreenFactory.refWidgets[n][6]}, {naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9]}, {naviScreenFactory.refWidgets[n][5], naviScreenFactory.refWidgets[n][6], naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9], naviScreenFactory.refWidgets[n][10], naviScreenFactory.refWidgets[n][11], naviScreenFactory.refWidgets[n][12]}, {menuItemController2}, {menuItemController}, {menuItemController3}});
+        screenWidgetEVO.setViews(new int[]{138, 162, 4007, 401121, 401518, 401733, 401734, 401735, 401736, 401737, 401738, 401823, 402787}, new HMIView[][]{{statusBarStubController}, {naviScreenFactory.refWidgets[n][7]}, {waitAnimController}, {menuController}, {focusedPropertyConfig}, {menuItemController2}, {directWritingController2}, {menuItemController}, {directWritingController}, {directWritingController3}, {menuItemController3}, {menuItemController4}, {naviScreenFactory.refWidgets[n][9]}});
+        screenWidgetEVO.setModelIDs(new int[]{401733, 401734, 401735, 401736, 401737, 401738, 401823});
+        screenWidgetEVO.setEventIDs(new int[]{400391, 400022, 400390, 400366, 400023, 400393, 400429});
+        screenWidgetEVO.setConditionWidgets(new int[]{93, 162, 310, 522, 556, 5583, 5602, 5624, 400180, 400441, 400490, 401057, 401730, 401731, 401732}, new AbstractWidget[][]{{naviScreenFactory.refWidgets[n][8]}, {naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9]}, {menuController}, {naviScreenFactory.refWidgets[n][3], naviScreenFactory.refWidgets[n][4]}, {naviScreenFactory.refWidgets[n][5], naviScreenFactory.refWidgets[n][6], naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9], naviScreenFactory.refWidgets[n][10], naviScreenFactory.refWidgets[n][11], naviScreenFactory.refWidgets[n][12]}, {directWritingController, directWritingController2, directWritingController3}, {directWritingController, directWritingController2, directWritingController3}, {naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9]}, {menuItemController4}, {naviScreenFactory.refWidgets[n][6]}, {naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9]}, {naviScreenFactory.refWidgets[n][5], naviScreenFactory.refWidgets[n][6], naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9], naviScreenFactory.refWidgets[n][10], naviScreenFactory.refWidgets[n][11], naviScreenFactory.refWidgets[n][12]}, {menuItemController2}, {menuItemController}, {menuItemController3}});
         return screenWidgetEVO;
     }
 
@@ -1381,51 +1603,51 @@ public class NaviScreenBag3 {
         focusCursorController.setWaitAnimOffsetX(600);
         focusCursorController.setWaitAnimOffsetY(15);
         DirectWritingController directWritingController = new DirectWritingController();
-        directWritingController.setModelID(-853670400);
-        directWritingController.setEvent(-1776679424);
+        directWritingController.setModelID(401101);
+        directWritingController.setEvent(400022);
         directWritingController.setBounds(0, 0, 100, 100);
         MenuItemController menuItemController = new MenuItemController();
         CompositeRendererHigh compositeRendererHigh = new CompositeRendererHigh(menuItemController);
         menuItemController.setRenderer(compositeRendererHigh);
         menuItemController.setBitmaps(new int[]{127});
-        menuItemController.setModelID(236914176);
-        menuItemController.setEvent(-1776679424);
-        menuItemController.setLabelId(2049312256);
+        menuItemController.setModelID(401166);
+        menuItemController.setEvent(400022);
+        menuItemController.setLabelId(403066);
         menuItemController.setColorIndices(new int[]{2, 0, 4, 0});
         menuItemController.setGlassplateInsetsBottom(6);
         menuItemController.setGlassplateInsetsTop(7);
-        menuItemController.setInternalID(-1172503040);
+        menuItemController.setInternalID(400826);
         menuItemController.setType(768);
         menuItemController.setWidgetID(1);
         menuItemController.add(directWritingController);
         DirectWritingController directWritingController2 = new DirectWritingController();
-        directWritingController2.setModelID(-803338752);
-        directWritingController2.setEvent(-1759902208);
+        directWritingController2.setModelID(401104);
+        directWritingController2.setEvent(400023);
         directWritingController2.setBounds(0, 0, 100, 100);
         MenuItemController menuItemController2 = new MenuItemController();
         CompositeRendererHigh compositeRendererHigh2 = new CompositeRendererHigh(menuItemController2);
         menuItemController2.setRenderer(compositeRendererHigh2);
         menuItemController2.setBitmaps(new int[]{127});
-        menuItemController2.setModelID(-367196672);
-        menuItemController2.setEvent(-1759902208);
-        menuItemController2.setLabelId(2066089472);
+        menuItemController2.setModelID(400874);
+        menuItemController2.setEvent(400023);
+        menuItemController2.setLabelId(403067);
         menuItemController2.setColorIndices(new int[]{2, 0, 4, 0});
         menuItemController2.setGlassplateInsetsBottom(6);
         menuItemController2.setGlassplateInsetsTop(7);
-        menuItemController2.setInternalID(-1155725824);
+        menuItemController2.setInternalID(400827);
         menuItemController2.setType(768);
         menuItemController2.setWidgetID(3);
         menuItemController2.add(directWritingController2);
         MenuItemController menuItemController3 = new MenuItemController();
         CompositeRendererHigh compositeRendererHigh3 = new CompositeRendererHigh(menuItemController3);
         menuItemController3.setRenderer(compositeRendererHigh3);
-        menuItemController3.setModelID(1528956416);
-        menuItemController3.setEvent(756811264);
-        menuItemController3.setLabelId(-349829632);
+        menuItemController3.setModelID(402011);
+        menuItemController3.setEvent(400429);
+        menuItemController3.setLabelId(403179);
         menuItemController3.setGlassplateInsetsBottom(6);
         menuItemController3.setGlassplateInsetsTop(7);
-        menuItemController3.setInternalID(-1189280256);
-        menuItemController3.setSdsCommand(-1256585728);
+        menuItemController3.setInternalID(400825);
+        menuItemController3.setSdsCommand(400053);
         menuItemController3.setSdsItemSelectedAction(2);
         menuItemController3.setType(2);
         menuItemController3.setWidgetID(6);
@@ -1434,8 +1656,8 @@ public class NaviScreenBag3 {
         menuController.setRenderer(menuRendererHigh);
         menuController.createInfolineWidgets(new InfoLineRendererHigh());
         menuController.getInfoline().getInfolineRenderer().setFonts(naviScreenFactory.getFonts(2, n));
-        menuController.setModelID(-518126080);
-        menuController.setDefaultDisabledInfolineTextId(-366606848);
+        menuController.setModelID(401121);
+        menuController.setDefaultDisabledInfolineTextId(403178);
         menuController.getInfolineTimer().setIdleTime(800);
         menuController.getInfoline().setColorIndices(new int[]{2, 0, 4, 3});
         menuController.getLayout().setBackgroundInsetsVert(7);
@@ -1454,17 +1676,17 @@ public class NaviScreenBag3 {
         menuController.add(menuItemController2);
         menuController.add(menuItemController3);
         FocusedPropertyConfig focusedPropertyConfig = new FocusedPropertyConfig();
-        focusedPropertyConfig.setModelID(1847592448);
+        focusedPropertyConfig.setModelID(401518);
         focusedPropertyConfig.setBounds(0, 0, 100, 100);
         focusedPropertyConfig.setWidgetID(1);
         ContainerController containerController = new ContainerController();
         ContainerRendererHigh containerRendererHigh = new ContainerRendererHigh(containerController);
         containerController.setRenderer(containerRendererHigh);
         containerController.setBounds(0, 0, 0, 0);
-        containerController.setEntertainmentMenuTransformation(16449, 16449, -1883081409, -1883081409, 63);
-        containerController.setOpacitySet(1.0f, -842216386);
-        containerController.setOptionMenuTransformation(32960, 57408, -1701242561, -1701242561, 63);
-        containerController.setSelectionMenuTransformation(40771, 57408, -512093121, -1701242561, 32830);
+        containerController.setEntertainmentMenuTransformation(12.0f, 12.0f, 0.96f, 0.96f, 0.5f);
+        containerController.setOpacitySet(1.0f, 0.4f);
+        containerController.setOptionMenuTransformation(-4.0f, 7.0f, 0.6f, 0.6f, 0.5f);
+        containerController.setSelectionMenuTransformation(318.0f, 7.0f, 0.58f, 0.6f, 0.25f);
         containerController.add(menuController);
         containerController.add(focusedPropertyConfig);
         AbstractWidgetController abstractWidgetController2 = naviScreenFactory.getRefWidget(n, 2, naviScreenFactory);
@@ -1477,13 +1699,13 @@ public class NaviScreenBag3 {
         LabelRendererHigh labelRendererHigh = new LabelRendererHigh(labelController);
         labelController.setRenderer(labelRendererHigh);
         labelRendererHigh.setFonts(naviScreenFactory.getFonts(3, n));
-        labelController.setTextIds(new int[]{-333052416});
+        labelController.setTextIds(new int[]{403180});
         labelController.setBounds(0, 0, 0, 30);
         labelController.setColorIndices(new int[]{1, 2, 4, 0});
         LabelController labelController2 = new LabelController();
         LabelRendererHigh labelRendererHigh2 = new LabelRendererHigh(labelController2);
         labelController2.setRenderer(labelRendererHigh2);
-        labelController2.setTextIds(new int[]{-316275200});
+        labelController2.setTextIds(new int[]{403181});
         labelController2.setBounds(0, 0, 0, 30);
         labelController2.setCoordinateSets(new int[]{1, 0, 0, 0, 30, 0, 0, 0, 30});
         TitleBarWidget titleBarWidget = new TitleBarWidget();
@@ -1507,22 +1729,22 @@ public class NaviScreenBag3 {
         ContainerRendererHigh containerRendererHigh2 = new ContainerRendererHigh(containerController2);
         containerController2.setRenderer(containerRendererHigh2);
         containerController2.setBounds(0, 0, 800, 0);
-        containerController2.setEntertainmentMenuTransformation(16449, 16449, -1883081409, -1883081409, 0.0f);
-        containerController2.setOpacitySet(1.0f, -842216386);
-        containerController2.setOptionMenuTransformation(32960, 57408, -1701242561, -1701242561, 0.0f);
-        containerController2.setSelectionMenuTransformation(8438595, 57408, -1701242561, -1701242561, 0.0f);
+        containerController2.setEntertainmentMenuTransformation(12.0f, 12.0f, 0.96f, 0.96f, 0.0f);
+        containerController2.setOpacitySet(1.0f, 0.4f);
+        containerController2.setOptionMenuTransformation(-4.0f, 7.0f, 0.6f, 0.6f, 0.0f);
+        containerController2.setSelectionMenuTransformation(391.0f, 7.0f, 0.6f, 0.6f, 0.0f);
         containerController2.add(titleBarWidget);
         containerController2.add(waitAnimController);
         StatusBarStubController statusBarStubController = new StatusBarStubController();
         statusBarStubController.setModelID(138);
         statusBarStubController.setBounds(0, 0, 100, 100);
-        ScreenWidgetEVO screenWidgetEVO = new ScreenWidgetEVO(-686094848);
+        ScreenWidgetEVO screenWidgetEVO = new ScreenWidgetEVO(400343);
         screenWidgetEVO.setScreenFactory(naviScreenFactory);
         ScreenRendererHigh screenRendererHigh = new ScreenRendererHigh(screenWidgetEVO);
         screenWidgetEVO.setRenderer(screenRendererHigh);
         screenRendererHigh.setFonts(naviScreenFactory.getFonts(0, n));
         screenWidgetEVO.setColorIndices(new int[]{1, 2, 4, 0});
-        screenWidgetEVO.setColorPalettes(new int[][]{{-1, 255, -1, -1, -1701143809, -1431655681, -1246382593, -1701143809, -1}, {-1, 255, 419495935, 1751100415, -1701143809, -1431655681, -1246382593, -1701143809, 1228585215}, {-1, 255, -19456, 1838260991, -1701143809, -1431655681, -1246382593, -1701143809, 1838260991}, {-1, 255, -1433657601, -1567134209, -1701143809, -1431655681, -1246382593, -1701143809, -1567134209}, {-1, 255, 11166975, 1973122047, -1701143809, -1431655681, -1246382593, -1701143809, 1973122047}});
+        screenWidgetEVO.setColorPalettes(new int[][]{{-1, -16777216, -1, -1, -6645094, -5592406, -4868683, -6645094, -1}, {-1, -16777216, -65511, -5546136, -6645094, -5592406, -4868683, -6645094, -4703671}, {-1, -16777216, -19456, -6123155, -6645094, -5592406, -4868683, -6645094, -6123155}, {-1, -16777216, -14775126, -9594974, -6645094, -5592406, -4868683, -6645094, -9594974}, {-1, -16777216, -10180096, -9200779, -6645094, -5592406, -4868683, -6645094, -9200779}});
         screenWidgetEVO.setHmiAppsToNotifyForVisibility(new int[]{14});
         screenWidgetEVO.setSmallStageType(0);
         screenWidgetEVO.add(abstractWidgetController);
@@ -1530,10 +1752,10 @@ public class NaviScreenBag3 {
         screenWidgetEVO.add(abstractWidgetController2, 7);
         screenWidgetEVO.add(containerController2, 2);
         screenWidgetEVO.add(statusBarStubController);
-        screenWidgetEVO.setViews(new int[]{138, 162, 4007, -367196672, -853670400, -803338752, -518126080, 236914176, 1847592448, 1528956416, 1663370752}, new HMIView[][]{{statusBarStubController}, {naviScreenFactory.refWidgets[n][7]}, {waitAnimController}, {menuItemController2}, {directWritingController}, {directWritingController2}, {menuController}, {menuItemController}, {focusedPropertyConfig}, {menuItemController3}, {naviScreenFactory.refWidgets[n][9]}});
-        screenWidgetEVO.setModelIDs(new int[]{-367196672, -853670400, -803338752, 236914176, 1528956416});
-        screenWidgetEVO.setEventIDs(new int[]{-1759902208, -1776679424, -1759902208, -1776679424, 756811264});
-        screenWidgetEVO.setConditionWidgets(new int[]{93, 162, 310, 522, 556, 5583, 5602, 5624, 790300160, 823854592, 874186240, 958137856, 1780221440, -1591867904}, new AbstractWidget[][]{{naviScreenFactory.refWidgets[n][8]}, {naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9]}, {menuController}, {naviScreenFactory.refWidgets[n][3], naviScreenFactory.refWidgets[n][4]}, {naviScreenFactory.refWidgets[n][5], naviScreenFactory.refWidgets[n][6], naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9], naviScreenFactory.refWidgets[n][10], naviScreenFactory.refWidgets[n][11], naviScreenFactory.refWidgets[n][12]}, {directWritingController, directWritingController2}, {directWritingController, directWritingController2}, {naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9]}, {menuItemController2}, {menuItemController}, {menuItemController3}, {naviScreenFactory.refWidgets[n][6]}, {naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9]}, {naviScreenFactory.refWidgets[n][5], naviScreenFactory.refWidgets[n][6], naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9], naviScreenFactory.refWidgets[n][10], naviScreenFactory.refWidgets[n][11], naviScreenFactory.refWidgets[n][12]}});
+        screenWidgetEVO.setViews(new int[]{138, 162, 4007, 400874, 401101, 401104, 401121, 401166, 401518, 402011, 402787}, new HMIView[][]{{statusBarStubController}, {naviScreenFactory.refWidgets[n][7]}, {waitAnimController}, {menuItemController2}, {directWritingController}, {directWritingController2}, {menuController}, {menuItemController}, {focusedPropertyConfig}, {menuItemController3}, {naviScreenFactory.refWidgets[n][9]}});
+        screenWidgetEVO.setModelIDs(new int[]{400874, 401101, 401104, 401166, 402011});
+        screenWidgetEVO.setEventIDs(new int[]{400023, 400022, 400023, 400022, 400429});
+        screenWidgetEVO.setConditionWidgets(new int[]{93, 162, 310, 522, 556, 5583, 5602, 5624, 400175, 400177, 400180, 400441, 400490, 401057}, new AbstractWidget[][]{{naviScreenFactory.refWidgets[n][8]}, {naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9]}, {menuController}, {naviScreenFactory.refWidgets[n][3], naviScreenFactory.refWidgets[n][4]}, {naviScreenFactory.refWidgets[n][5], naviScreenFactory.refWidgets[n][6], naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9], naviScreenFactory.refWidgets[n][10], naviScreenFactory.refWidgets[n][11], naviScreenFactory.refWidgets[n][12]}, {directWritingController, directWritingController2}, {directWritingController, directWritingController2}, {naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9]}, {menuItemController2}, {menuItemController}, {menuItemController3}, {naviScreenFactory.refWidgets[n][6]}, {naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9]}, {naviScreenFactory.refWidgets[n][5], naviScreenFactory.refWidgets[n][6], naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9], naviScreenFactory.refWidgets[n][10], naviScreenFactory.refWidgets[n][11], naviScreenFactory.refWidgets[n][12]}});
         return screenWidgetEVO;
     }
 
@@ -1571,9 +1793,9 @@ public class NaviScreenBag3 {
         touchController.setRenderer(touchRendererHigh);
         touchController.setBitmaps(new int[]{483, 484, 857});
         touchRendererHigh.setFonts(naviScreenFactory.getFonts(4, n));
-        touchController.setModelID(488769024);
-        touchController.setInfoTextIDs(new int[]{-718928384, 958989824});
-        touchController.setInitialTextID(-702151168);
+        touchController.setModelID(401949);
+        touchController.setInfoTextIDs(new int[]{403157, 403769});
+        touchController.setInitialTextID(403158);
         touchController.setColorIndices(new int[]{2, 5, 4, 3});
         touchController.setCursorOffsetBottom(1);
         touchController.setCursorOffsetTop(-1);
@@ -1584,23 +1806,23 @@ public class NaviScreenBag3 {
         touchController.setTouchControllerScreenLevel(2);
         touchController.setTouchpadMode(18);
         touchController.setSpeller(spellerController);
-        touchController.add(modelStubController, 16);
-        touchController.add(modelStubController2, 8);
+        touchController.add(modelStubController, 0x10000000);
+        touchController.add(modelStubController2, 0x8000000);
         MenuItemController menuItemController = new MenuItemController();
         CompositeRendererHigh compositeRendererHigh = new CompositeRendererHigh(menuItemController);
         menuItemController.setRenderer(compositeRendererHigh);
-        menuItemController.setModelID(589432320);
-        menuItemController.setEvent(-1608907264);
-        menuItemController.setLabelId(254215680);
+        menuItemController.setModelID(401955);
+        menuItemController.setEvent(400032);
+        menuItemController.setLabelId(403215);
         menuItemController.setGlassplateInsetsBottom(6);
         menuItemController.setGlassplateInsetsTop(7);
-        menuItemController.setInternalID(-115538432);
+        menuItemController.setInternalID(400889);
         menuItemController.setSdsItemSelectedAction(1);
         menuItemController.setType(2);
         menuItemController.setWidgetID(6);
         ListController listController = new ListController();
-        listController.setModelID(471991808);
-        listController.setEvent(-1608907264);
+        listController.setModelID(401948);
+        listController.setEvent(400032);
         listController.setBounds(0, 0, 0, 0);
         listController.setColorIndices(new int[]{1, 0, 4, 2});
         listController.setGlassplateInsetsBottom(new int[0]);
@@ -1610,14 +1832,91 @@ public class NaviScreenBag3 {
         listController.setNoFocusAreasTop(new int[0]);
         listController.setPropertyColumn(4);
         listController.setDataAccess(new DefaultTiledListModelAccess());
-        listController.setItemFactory(new NaviScreenBag3$5());
+        listController.setItemFactory(new ListItemFactory(){
+
+            public AbstractWidgetController createListItem(int n, ListCell[] listCellArray) {
+                switch (n) {
+                    case 0: {
+                        MenuItemController menuItemController = new MenuItemController();
+                        menuItemController.setType(16);
+                        menuItemController.setRenderer(new MenuItemRendererHigh(menuItemController));
+                        GridLayout gridLayout = new GridLayout();
+                        MenuItemColumnsConstraints menuItemColumnsConstraints = new MenuItemColumnsConstraints(2);
+                        menuItemColumnsConstraints.gaps = new int[]{0, 15, 0};
+                        menuItemColumnsConstraints.shrink = new float[]{0.0f, 1.0f};
+                        menuItemColumnsConstraints.hidemode = new int[]{2, 0};
+                        gridLayout.setColumnConstraints(menuItemColumnsConstraints);
+                        AxisConstraints axisConstraints = new AxisConstraints(1);
+                        axisConstraints.alignment = new int[]{5};
+                        gridLayout.setRowConstraints(axisConstraints);
+                        AbstractWidgetController abstractWidgetController = this.createCell(0);
+                        GridLayoutHints gridLayoutHints = new GridLayoutHints(0, 0);
+                        AbstractWidgetController abstractWidgetController2 = this.createCell(1);
+                        GridLayoutHints gridLayoutHints2 = new GridLayoutHints(1, 0);
+                        gridLayout.setCellConstraints(new GridLayoutHints[]{gridLayoutHints, gridLayoutHints2}, new Object[]{abstractWidgetController, abstractWidgetController2});
+                        menuItemController.setLayoutChoices(new GridLayout[]{gridLayout});
+                        menuItemController.add(abstractWidgetController2);
+                        menuItemController.add(abstractWidgetController);
+                        return menuItemController;
+                    }
+                }
+                return null;
+            }
+
+            public AbstractWidgetController createListItemNoData() {
+                MenuItemController menuItemController = new MenuItemController();
+                menuItemController.setType(16);
+                menuItemController.setRenderer(new CompositeRendererHigh(menuItemController));
+                GridLayout gridLayout = new GridLayout();
+                MenuItemColumnsConstraints menuItemColumnsConstraints = new MenuItemColumnsConstraints(1);
+                gridLayout.setColumnConstraints(menuItemColumnsConstraints);
+                AxisConstraints axisConstraints = new AxisConstraints(1);
+                gridLayout.setRowConstraints(axisConstraints);
+                AbstractWidgetController abstractWidgetController = this.createCell(2);
+                GridLayoutHints gridLayoutHints = new GridLayoutHints(0, 0);
+                gridLayout.setCellConstraints(new GridLayoutHints[]{gridLayoutHints}, new Object[]{abstractWidgetController});
+                menuItemController.setLayoutChoices(new GridLayout[]{gridLayout});
+                menuItemController.add(abstractWidgetController);
+                return menuItemController;
+            }
+
+            public AbstractWidgetController createCell(int n) {
+                switch (n) {
+                    case 0: {
+                        IconController iconController = new IconController();
+                        IconRendererHigh iconRendererHigh = new IconRendererHigh(iconController);
+                        iconController.setRenderer(iconRendererHigh);
+                        iconController.setBitmaps(new int[]{127, 400330});
+                        iconController.setModelColumn(3);
+                        iconController.setPreferredHeight(1);
+                        iconRendererHigh.setAlignment(1, 5);
+                        return iconController;
+                    }
+                    case 1: {
+                        LabelController labelController = new LabelController();
+                        HighlightingLabelRendererHigh highlightingLabelRendererHigh = new HighlightingLabelRendererHigh(labelController);
+                        labelController.setRenderer(highlightingLabelRendererHigh);
+                        labelController.setModelColumn(0);
+                        return labelController;
+                    }
+                    case 2: {
+                        LabelController labelController = new LabelController();
+                        HighlightingLabelRendererHigh highlightingLabelRendererHigh = new HighlightingLabelRendererHigh(labelController);
+                        labelController.setRenderer(highlightingLabelRendererHigh);
+                        labelController.setTextIds(new int[]{403719});
+                        return labelController;
+                    }
+                }
+                return null;
+            }
+        });
         MenuController menuController = new MenuController();
         MenuRendererHigh menuRendererHigh = new MenuRendererHigh(menuController);
         menuController.setRenderer(menuRendererHigh);
         menuController.createInfolineWidgets(new InfoLineRendererHigh());
         menuController.getInfoline().getInfolineRenderer().setFonts(naviScreenFactory.getFonts(2, n));
-        menuController.setModelID(455214592);
-        menuController.setDefaultDisabledInfolineTextId(-635042304);
+        menuController.setModelID(401947);
+        menuController.setDefaultDisabledInfolineTextId(403162);
         menuController.getInfolineTimer().setIdleTime(800);
         menuController.getInfoline().setColorIndices(new int[]{2, 0, 4, 3});
         menuController.getLayout().setBackgroundInsetsVert(7);
@@ -1639,10 +1938,10 @@ public class NaviScreenBag3 {
         ContainerRendererHigh containerRendererHigh = new ContainerRendererHigh(containerController);
         containerController.setRenderer(containerRendererHigh);
         containerController.setBounds(0, 0, 0, 0);
-        containerController.setEntertainmentMenuTransformation(16449, 16449, -1883081409, -1883081409, 63);
-        containerController.setOpacitySet(1.0f, -842216386);
-        containerController.setOptionMenuTransformation(32960, 57408, -1701242561, -1701242561, 63);
-        containerController.setSelectionMenuTransformation(40771, 57408, -512093121, -1701242561, 32830);
+        containerController.setEntertainmentMenuTransformation(12.0f, 12.0f, 0.96f, 0.96f, 0.5f);
+        containerController.setOpacitySet(1.0f, 0.4f);
+        containerController.setOptionMenuTransformation(-4.0f, 7.0f, 0.6f, 0.6f, 0.5f);
+        containerController.setSelectionMenuTransformation(318.0f, 7.0f, 0.58f, 0.6f, 0.25f);
         containerController.add(menuController);
         AbstractWidgetController abstractWidgetController2 = naviScreenFactory.getRefWidget(n, 2, naviScreenFactory);
         IconController iconController = new IconController();
@@ -1654,19 +1953,19 @@ public class NaviScreenBag3 {
         LabelRendererHigh labelRendererHigh = new LabelRendererHigh(labelController);
         labelController.setRenderer(labelRendererHigh);
         labelRendererHigh.setFonts(naviScreenFactory.getFonts(3, n));
-        labelController.setTextIds(new int[]{-685373952});
+        labelController.setTextIds(new int[]{403159});
         labelController.setBounds(0, 0, 0, 30);
         labelController.setColorIndices(new int[]{1, 2, 4, 0});
         LabelController labelController2 = new LabelController();
         LabelRendererHigh labelRendererHigh2 = new LabelRendererHigh(labelController2);
         labelController2.setRenderer(labelRendererHigh2);
-        labelController2.setTextIds(new int[]{-668596736});
+        labelController2.setTextIds(new int[]{403160});
         labelController2.setBounds(0, 0, 0, 30);
         labelController2.setCoordinateSets(new int[]{1, 0, 0, 0, 30, 0, 0, 0, 30});
         LabelController labelController3 = new LabelController();
         LabelRendererHigh labelRendererHigh3 = new LabelRendererHigh(labelController3);
         labelController3.setRenderer(labelRendererHigh3);
-        labelController3.setTextIds(new int[]{1411909120});
+        labelController3.setTextIds(new int[]{403540});
         labelController3.setBounds(0, 0, 0, 30);
         labelController3.setCoordinateSets(new int[]{1, 0, 0, 0, 30, 0, 0, 0, 30});
         TitleBarWidget titleBarWidget = new TitleBarWidget();
@@ -1685,31 +1984,31 @@ public class NaviScreenBag3 {
         ContainerRendererHigh containerRendererHigh2 = new ContainerRendererHigh(containerController2);
         containerController2.setRenderer(containerRendererHigh2);
         containerController2.setBounds(0, 0, 800, 0);
-        containerController2.setEntertainmentMenuTransformation(16449, 16449, -1883081409, -1883081409, 0.0f);
-        containerController2.setOpacitySet(1.0f, -842216386);
-        containerController2.setOptionMenuTransformation(32960, 57408, -1701242561, -1701242561, 0.0f);
-        containerController2.setSelectionMenuTransformation(8438595, 57408, -1701242561, -1701242561, 0.0f);
+        containerController2.setEntertainmentMenuTransformation(12.0f, 12.0f, 0.96f, 0.96f, 0.0f);
+        containerController2.setOpacitySet(1.0f, 0.4f);
+        containerController2.setOptionMenuTransformation(-4.0f, 7.0f, 0.6f, 0.6f, 0.0f);
+        containerController2.setSelectionMenuTransformation(391.0f, 7.0f, 0.6f, 0.6f, 0.0f);
         containerController2.add(titleBarWidget);
         StatusBarStubController statusBarStubController = new StatusBarStubController();
         statusBarStubController.setModelID(138);
         statusBarStubController.setBounds(0, 0, 100, 100);
-        ScreenWidgetEVO screenWidgetEVO = new ScreenWidgetEVO(-585431552);
+        ScreenWidgetEVO screenWidgetEVO = new ScreenWidgetEVO(400349);
         screenWidgetEVO.setScreenFactory(naviScreenFactory);
         ScreenRendererHigh screenRendererHigh = new ScreenRendererHigh(screenWidgetEVO);
         screenWidgetEVO.setRenderer(screenRendererHigh);
         screenRendererHigh.setFonts(naviScreenFactory.getFonts(0, n));
         screenWidgetEVO.setColorIndices(new int[]{1, 2, 4, 0});
-        screenWidgetEVO.setColorPalettes(new int[][]{{-1, 255, -1, -1, -1701143809, -1431655681, -1246382593, -1701143809, -1}, {-1, 255, 419495935, 1751100415, -1701143809, -1431655681, -1246382593, -1701143809, 1228585215}, {-1, 255, -19456, 1838260991, -1701143809, -1431655681, -1246382593, -1701143809, 1838260991}, {-1, 255, -1433657601, -1567134209, -1701143809, -1431655681, -1246382593, -1701143809, -1567134209}, {-1, 255, 11166975, 1973122047, -1701143809, -1431655681, -1246382593, -1701143809, 1973122047}});
+        screenWidgetEVO.setColorPalettes(new int[][]{{-1, -16777216, -1, -1, -6645094, -5592406, -4868683, -6645094, -1}, {-1, -16777216, -65511, -5546136, -6645094, -5592406, -4868683, -6645094, -4703671}, {-1, -16777216, -19456, -6123155, -6645094, -5592406, -4868683, -6645094, -6123155}, {-1, -16777216, -14775126, -9594974, -6645094, -5592406, -4868683, -6645094, -9594974}, {-1, -16777216, -10180096, -9200779, -6645094, -5592406, -4868683, -6645094, -9200779}});
         screenWidgetEVO.setSmallStageType(0);
         screenWidgetEVO.add(abstractWidgetController);
         screenWidgetEVO.add(containerController, 1);
         screenWidgetEVO.add(abstractWidgetController2, 7);
         screenWidgetEVO.add(containerController2, 2);
         screenWidgetEVO.add(statusBarStubController);
-        screenWidgetEVO.setViews(new int[]{138, 162, 5602, 5606, 455214592, 471991808, 488769024, 589432320, 1663370752}, new HMIView[][]{{statusBarStubController}, {naviScreenFactory.refWidgets[n][7]}, {modelStubController}, {modelStubController2}, {menuController}, {listController}, {touchController}, {menuItemController}, {naviScreenFactory.refWidgets[n][9]}});
-        screenWidgetEVO.setModelIDs(new int[]{471991808, 589432320});
-        screenWidgetEVO.setEventIDs(new int[]{-1608907264, -1608907264});
-        screenWidgetEVO.setConditionWidgets(new int[]{93, 162, 522, 556, 5624, 958137856, 1780221440, -1591867904, 136316416, 0x22220600}, new AbstractWidget[][]{{naviScreenFactory.refWidgets[n][8]}, {naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9]}, {naviScreenFactory.refWidgets[n][3], naviScreenFactory.refWidgets[n][4]}, {naviScreenFactory.refWidgets[n][5], naviScreenFactory.refWidgets[n][6], naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9], naviScreenFactory.refWidgets[n][10], naviScreenFactory.refWidgets[n][11], naviScreenFactory.refWidgets[n][12]}, {naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9]}, {naviScreenFactory.refWidgets[n][6]}, {naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9]}, {naviScreenFactory.refWidgets[n][5], naviScreenFactory.refWidgets[n][6], naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9], naviScreenFactory.refWidgets[n][10], naviScreenFactory.refWidgets[n][11], naviScreenFactory.refWidgets[n][12]}, {labelController2, labelController3}, {menuItemController}});
+        screenWidgetEVO.setViews(new int[]{138, 162, 5602, 5606, 401947, 401948, 401949, 401955, 402787}, new HMIView[][]{{statusBarStubController}, {naviScreenFactory.refWidgets[n][7]}, {modelStubController}, {modelStubController2}, {menuController}, {listController}, {touchController}, {menuItemController}, {naviScreenFactory.refWidgets[n][9]}});
+        screenWidgetEVO.setModelIDs(new int[]{401948, 401955});
+        screenWidgetEVO.setEventIDs(new int[]{400032, 400032});
+        screenWidgetEVO.setConditionWidgets(new int[]{93, 162, 522, 556, 5624, 400441, 400490, 401057, 401416, 401954}, new AbstractWidget[][]{{naviScreenFactory.refWidgets[n][8]}, {naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9]}, {naviScreenFactory.refWidgets[n][3], naviScreenFactory.refWidgets[n][4]}, {naviScreenFactory.refWidgets[n][5], naviScreenFactory.refWidgets[n][6], naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9], naviScreenFactory.refWidgets[n][10], naviScreenFactory.refWidgets[n][11], naviScreenFactory.refWidgets[n][12]}, {naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9]}, {naviScreenFactory.refWidgets[n][6]}, {naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9]}, {naviScreenFactory.refWidgets[n][5], naviScreenFactory.refWidgets[n][6], naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9], naviScreenFactory.refWidgets[n][10], naviScreenFactory.refWidgets[n][11], naviScreenFactory.refWidgets[n][12]}, {labelController2, labelController3}, {menuItemController}});
         return screenWidgetEVO;
     }
 
@@ -1731,41 +2030,41 @@ public class NaviScreenBag3 {
         focusCursorController.setWaitAnimOffsetX(600);
         focusCursorController.setWaitAnimOffsetY(15);
         DirectWritingController directWritingController = new DirectWritingController();
-        directWritingController.setModelID(-836893184);
-        directWritingController.setEvent(-1743124992);
+        directWritingController.setModelID(401102);
+        directWritingController.setEvent(400024);
         directWritingController.setBounds(0, 0, 100, 100);
         directWritingController.setTouchMode(20);
         MenuItemController menuItemController = new MenuItemController();
         CompositeRendererHigh compositeRendererHigh = new CompositeRendererHigh(menuItemController);
         menuItemController.setRenderer(compositeRendererHigh);
         menuItemController.setBitmaps(new int[]{127});
-        menuItemController.setModelID(572458496);
-        menuItemController.setEvent(-1743124992);
-        menuItemController.setLabelId(-1893399040);
-        menuItemController.setInfolineTextIdsDisabled(new int[]{-668465664});
+        menuItemController.setModelID(401186);
+        menuItemController.setEvent(400024);
+        menuItemController.setLabelId(402831);
+        menuItemController.setInfolineTextIdsDisabled(new int[]{403672});
         menuItemController.setColorIndices(new int[]{2, 0, 4, 0});
         menuItemController.setGlassplateInsetsBottom(6);
         menuItemController.setGlassplateInsetsTop(7);
-        menuItemController.setInternalID(-2078472704);
+        menuItemController.setInternalID(400772);
         menuItemController.setType(768);
         menuItemController.setWidgetID(3);
         menuItemController.add(directWritingController);
         DirectWritingController directWritingController2 = new DirectWritingController();
-        directWritingController2.setModelID(-803338752);
-        directWritingController2.setEvent(-1759902208);
+        directWritingController2.setModelID(401104);
+        directWritingController2.setEvent(400023);
         directWritingController2.setBounds(0, 0, 100, 100);
         MenuItemController menuItemController2 = new MenuItemController();
         CompositeRendererHigh compositeRendererHigh2 = new CompositeRendererHigh(menuItemController2);
         menuItemController2.setRenderer(compositeRendererHigh2);
         menuItemController2.setBitmaps(new int[]{127});
-        menuItemController2.setModelID(-367196672);
-        menuItemController2.setEvent(-1759902208);
-        menuItemController2.setLabelId(-1876621824);
-        menuItemController2.setInfolineTextIdsDisabled(new int[]{153683456});
+        menuItemController2.setModelID(400874);
+        menuItemController2.setEvent(400023);
+        menuItemController2.setLabelId(402832);
+        menuItemController2.setInfolineTextIdsDisabled(new int[]{403721});
         menuItemController2.setColorIndices(new int[]{2, 0, 4, 0});
         menuItemController2.setGlassplateInsetsBottom(6);
         menuItemController2.setGlassplateInsetsTop(7);
-        menuItemController2.setInternalID(-2095249920);
+        menuItemController2.setInternalID(400771);
         menuItemController2.setType(768);
         menuItemController2.setWidgetID(2);
         menuItemController2.add(directWritingController2);
@@ -1773,76 +2072,76 @@ public class NaviScreenBag3 {
         CompositeRendererHigh compositeRendererHigh3 = new CompositeRendererHigh(menuItemController3);
         menuItemController3.setRenderer(compositeRendererHigh3);
         menuItemController3.setBitmaps(new int[]{127});
-        menuItemController3.setModelID(354354688);
-        menuItemController3.setEvent(-1759902208);
-        menuItemController3.setLabelId(-1859844608);
+        menuItemController3.setModelID(401173);
+        menuItemController3.setEvent(400023);
+        menuItemController3.setLabelId(402833);
         menuItemController3.setColorIndices(new int[]{2, 0, 4, 0});
         menuItemController3.setEnabled(false);
         menuItemController3.setGlassplateInsetsBottom(6);
         menuItemController3.setGlassplateInsetsTop(7);
-        menuItemController3.setInternalID(-1726151168);
+        menuItemController3.setInternalID(400793);
         menuItemController3.setType(768);
         menuItemController3.setWidgetID(2);
         DirectWritingController directWritingController3 = new DirectWritingController();
-        directWritingController3.setModelID(-853670400);
-        directWritingController3.setEvent(-1776679424);
+        directWritingController3.setModelID(401101);
+        directWritingController3.setEvent(400022);
         directWritingController3.setBounds(0, 0, 100, 100);
         MenuItemController menuItemController4 = new MenuItemController();
         CompositeRendererHigh compositeRendererHigh4 = new CompositeRendererHigh(menuItemController4);
         menuItemController4.setRenderer(compositeRendererHigh4);
         menuItemController4.setBitmaps(new int[]{127});
-        menuItemController4.setModelID(236914176);
-        menuItemController4.setEvent(-1776679424);
-        menuItemController4.setLabelId(-1843067392);
-        menuItemController4.setInfolineTextIdsDisabled(new int[]{170460672});
+        menuItemController4.setModelID(401166);
+        menuItemController4.setEvent(400022);
+        menuItemController4.setLabelId(402834);
+        menuItemController4.setInfolineTextIdsDisabled(new int[]{403722});
         menuItemController4.setColorIndices(new int[]{2, 0, 4, 0});
         menuItemController4.setGlassplateInsetsBottom(6);
         menuItemController4.setGlassplateInsetsTop(7);
-        menuItemController4.setInternalID(-2112027136);
+        menuItemController4.setInternalID(400770);
         menuItemController4.setType(768);
         menuItemController4.setWidgetID(1);
         menuItemController4.add(directWritingController3);
         DirectWritingController directWritingController4 = new DirectWritingController();
-        directWritingController4.setModelID(-870447616);
-        directWritingController4.setEvent(-1793456640);
+        directWritingController4.setModelID(401100);
+        directWritingController4.setEvent(400021);
         directWritingController4.setBounds(0, 0, 100, 100);
         MenuItemController menuItemController5 = new MenuItemController();
         CompositeRendererHigh compositeRendererHigh5 = new CompositeRendererHigh(menuItemController5);
         menuItemController5.setRenderer(compositeRendererHigh5);
         menuItemController5.setBitmaps(new int[]{127});
-        menuItemController5.setModelID(-1843132928);
-        menuItemController5.setEvent(-1793456640);
-        menuItemController5.setLabelId(-1826290176);
-        menuItemController5.setInfolineTextIdsDisabled(new int[]{170460672});
+        menuItemController5.setModelID(402578);
+        menuItemController5.setEvent(400021);
+        menuItemController5.setLabelId(402835);
+        menuItemController5.setInfolineTextIdsDisabled(new int[]{403722});
         menuItemController5.setColorIndices(new int[]{2, 0, 4, 0});
         menuItemController5.setGlassplateInsetsBottom(6);
         menuItemController5.setGlassplateInsetsTop(7);
-        menuItemController5.setInternalID(-2128804352);
+        menuItemController5.setInternalID(400769);
         menuItemController5.setType(768);
         menuItemController5.setWidgetID(0);
         menuItemController5.add(directWritingController4);
         MenuItemController menuItemController6 = new MenuItemController();
         CompositeRendererHigh compositeRendererHigh6 = new CompositeRendererHigh(menuItemController6);
         menuItemController6.setRenderer(compositeRendererHigh6);
-        menuItemController6.setModelID(505153024);
-        menuItemController6.setEvent(-1910897152);
-        menuItemController6.setLabelId(-1809512960);
+        menuItemController6.setModelID(400414);
+        menuItemController6.setEvent(400014);
+        menuItemController6.setLabelId(402836);
         menuItemController6.setGlassplateInsetsBottom(6);
         menuItemController6.setGlassplateInsetsTop(7);
-        menuItemController6.setInternalID(-2044918272);
-        menuItemController6.setSdsCommand(-1256585728);
+        menuItemController6.setInternalID(400774);
+        menuItemController6.setSdsCommand(400053);
         menuItemController6.setSdsItemSelectedAction(2);
         menuItemController6.setType(2);
         menuItemController6.setWidgetID(5);
         MenuItemController menuItemController7 = new MenuItemController();
         CompositeRendererHigh compositeRendererHigh7 = new CompositeRendererHigh(menuItemController7);
         menuItemController7.setRenderer(compositeRendererHigh7);
-        menuItemController7.setModelID(1428030976);
-        menuItemController7.setEvent(-1910897152);
-        menuItemController7.setLabelId(169674240);
+        menuItemController7.setModelID(400981);
+        menuItemController7.setEvent(400014);
+        menuItemController7.setLabelId(400650);
         menuItemController7.setGlassplateInsetsBottom(6);
         menuItemController7.setGlassplateInsetsTop(7);
-        menuItemController7.setInternalID(-2028141056);
+        menuItemController7.setInternalID(400775);
         menuItemController7.setSdsItemSelectedAction(1);
         menuItemController7.setType(2);
         menuItemController7.setVisible(false);
@@ -1850,12 +2149,12 @@ public class NaviScreenBag3 {
         MenuItemController menuItemController8 = new MenuItemController();
         CompositeRendererHigh compositeRendererHigh8 = new CompositeRendererHigh(menuItemController8);
         menuItemController8.setRenderer(compositeRendererHigh8);
-        menuItemController8.setModelID(2032010752);
-        menuItemController8.setEvent(-1910897152);
-        menuItemController8.setLabelId(908396032);
+        menuItemController8.setModelID(401017);
+        menuItemController8.setEvent(400014);
+        menuItemController8.setLabelId(402742);
         menuItemController8.setGlassplateInsetsBottom(6);
         menuItemController8.setGlassplateInsetsTop(7);
-        menuItemController8.setInternalID(-2011363840);
+        menuItemController8.setInternalID(400776);
         menuItemController8.setSdsItemSelectedAction(1);
         menuItemController8.setType(2);
         menuItemController8.setVisible(false);
@@ -1865,8 +2164,8 @@ public class NaviScreenBag3 {
         menuController.setRenderer(menuRendererHigh);
         menuController.createInfolineWidgets(new InfoLineRendererHigh());
         menuController.getInfoline().getInfolineRenderer().setFonts(naviScreenFactory.getFonts(2, n));
-        menuController.setModelID(-518126080);
-        menuController.setDefaultDisabledInfolineTextId(891684352);
+        menuController.setModelID(401121);
+        menuController.setDefaultDisabledInfolineTextId(402997);
         menuController.getInfolineTimer().setIdleTime(800);
         menuController.getInfoline().setColorIndices(new int[]{2, 0, 4, 3});
         menuController.getLayout().setBackgroundInsetsVert(7);
@@ -1890,17 +2189,17 @@ public class NaviScreenBag3 {
         menuController.add(menuItemController7);
         menuController.add(menuItemController8);
         FocusedPropertyConfig focusedPropertyConfig = new FocusedPropertyConfig();
-        focusedPropertyConfig.setModelID(1847592448);
+        focusedPropertyConfig.setModelID(401518);
         focusedPropertyConfig.setBounds(0, 0, 100, 100);
         focusedPropertyConfig.setWidgetID(1);
         ContainerController containerController = new ContainerController();
         ContainerRendererHigh containerRendererHigh = new ContainerRendererHigh(containerController);
         containerController.setRenderer(containerRendererHigh);
         containerController.setBounds(0, 0, 0, 0);
-        containerController.setEntertainmentMenuTransformation(16449, 16449, -1883081409, -1883081409, 63);
-        containerController.setOpacitySet(1.0f, -842216386);
-        containerController.setOptionMenuTransformation(32960, 57408, -1701242561, -1701242561, 63);
-        containerController.setSelectionMenuTransformation(40771, 57408, -512093121, -1701242561, 32830);
+        containerController.setEntertainmentMenuTransformation(12.0f, 12.0f, 0.96f, 0.96f, 0.5f);
+        containerController.setOpacitySet(1.0f, 0.4f);
+        containerController.setOptionMenuTransformation(-4.0f, 7.0f, 0.6f, 0.6f, 0.5f);
+        containerController.setSelectionMenuTransformation(318.0f, 7.0f, 0.58f, 0.6f, 0.25f);
         containerController.add(menuController);
         containerController.add(focusedPropertyConfig);
         AbstractWidgetController abstractWidgetController2 = naviScreenFactory.getRefWidget(n, 2, naviScreenFactory);
@@ -1913,7 +2212,7 @@ public class NaviScreenBag3 {
         LabelRendererHigh labelRendererHigh = new LabelRendererHigh(labelController);
         labelController.setRenderer(labelRendererHigh);
         labelRendererHigh.setFonts(naviScreenFactory.getFonts(3, n));
-        labelController.setTextIds(new int[]{-1792735744});
+        labelController.setTextIds(new int[]{402837});
         labelController.setBounds(0, 0, 0, 30);
         labelController.setColorIndices(new int[]{1, 2, 4, 0});
         TitleBarWidget titleBarWidget = new TitleBarWidget();
@@ -1941,14 +2240,14 @@ public class NaviScreenBag3 {
         LabelRendererHigh labelRendererHigh2 = new LabelRendererHigh(labelController2);
         labelController2.setRenderer(labelRendererHigh2);
         labelRendererHigh2.setFonts(naviScreenFactory.getFonts(3, n));
-        labelController2.setTextIds(new int[]{941950464});
+        labelController2.setTextIds(new int[]{402744});
         labelController2.setBounds(0, 0, 0, 30);
         labelController2.setColorIndices(new int[]{1, 2, 4, 0});
         LabelController labelController3 = new LabelController();
         LabelRendererHigh labelRendererHigh3 = new LabelRendererHigh(labelController3);
         labelController3.setRenderer(labelRendererHigh3);
-        labelController3.setModelID(622921216);
-        labelController3.setTextIds(new int[]{-1323104768, -1071380992, -1054603776, 992282112, 1009059328, 1025836544, -987494912});
+        labelController3.setModelID(401701);
+        labelController3.setTextIds(new int[]{402353, 402624, 402625, 402747, 402748, 402749, 402629});
         labelController3.setBounds(0, 0, 0, 30);
         labelController3.setCoordinateSets(new int[]{1, 0, 0, 0, 30, 0, 0, 0, 30});
         TitleBarWidget titleBarWidget2 = new TitleBarWidget();
@@ -1967,23 +2266,23 @@ public class NaviScreenBag3 {
         ContainerRendererHigh containerRendererHigh2 = new ContainerRendererHigh(containerController2);
         containerController2.setRenderer(containerRendererHigh2);
         containerController2.setBounds(0, 0, 800, 0);
-        containerController2.setEntertainmentMenuTransformation(16449, 16449, -1883081409, -1883081409, 0.0f);
-        containerController2.setOpacitySet(1.0f, -842216386);
-        containerController2.setOptionMenuTransformation(32960, 57408, -1701242561, -1701242561, 0.0f);
-        containerController2.setSelectionMenuTransformation(8438595, 57408, -1701242561, -1701242561, 0.0f);
+        containerController2.setEntertainmentMenuTransformation(12.0f, 12.0f, 0.96f, 0.96f, 0.0f);
+        containerController2.setOpacitySet(1.0f, 0.4f);
+        containerController2.setOptionMenuTransformation(-4.0f, 7.0f, 0.6f, 0.6f, 0.0f);
+        containerController2.setSelectionMenuTransformation(391.0f, 7.0f, 0.6f, 0.6f, 0.0f);
         containerController2.add(titleBarWidget);
         containerController2.add(waitAnimController);
         containerController2.add(titleBarWidget2);
         StatusBarStubController statusBarStubController = new StatusBarStubController();
         statusBarStubController.setModelID(138);
         statusBarStubController.setBounds(0, 0, 100, 100);
-        ScreenWidgetEVO screenWidgetEVO = new ScreenWidgetEVO(-2061826560);
+        ScreenWidgetEVO screenWidgetEVO = new ScreenWidgetEVO(400261);
         screenWidgetEVO.setScreenFactory(naviScreenFactory);
         ScreenRendererHigh screenRendererHigh = new ScreenRendererHigh(screenWidgetEVO);
         screenWidgetEVO.setRenderer(screenRendererHigh);
         screenRendererHigh.setFonts(naviScreenFactory.getFonts(0, n));
         screenWidgetEVO.setColorIndices(new int[]{1, 2, 4, 0});
-        screenWidgetEVO.setColorPalettes(new int[][]{{-1, 255, -1, -1, -1701143809, -1431655681, -1246382593, -1701143809, -1}, {-1, 255, 419495935, 1751100415, -1701143809, -1431655681, -1246382593, -1701143809, 1228585215}, {-1, 255, -19456, 1838260991, -1701143809, -1431655681, -1246382593, -1701143809, 1838260991}, {-1, 255, -1433657601, -1567134209, -1701143809, -1431655681, -1246382593, -1701143809, -1567134209}, {-1, 255, 11166975, 1973122047, -1701143809, -1431655681, -1246382593, -1701143809, 1973122047}});
+        screenWidgetEVO.setColorPalettes(new int[][]{{-1, -16777216, -1, -1, -6645094, -5592406, -4868683, -6645094, -1}, {-1, -16777216, -65511, -5546136, -6645094, -5592406, -4868683, -6645094, -4703671}, {-1, -16777216, -19456, -6123155, -6645094, -5592406, -4868683, -6645094, -6123155}, {-1, -16777216, -14775126, -9594974, -6645094, -5592406, -4868683, -6645094, -9594974}, {-1, -16777216, -10180096, -9200779, -6645094, -5592406, -4868683, -6645094, -9200779}});
         screenWidgetEVO.setHmiAppsToNotifyForVisibility(new int[]{14});
         screenWidgetEVO.setOpenSelectionDrawerByHkReturn(true);
         screenWidgetEVO.setSmallStageType(0);
@@ -1992,10 +2291,10 @@ public class NaviScreenBag3 {
         screenWidgetEVO.add(abstractWidgetController2, 7);
         screenWidgetEVO.add(containerController2, 2);
         screenWidgetEVO.add(statusBarStubController);
-        screenWidgetEVO.setViews(new int[]{138, 162, 4007, 505153024, -367196672, 1428030976, 2032010752, -870447616, -853670400, -836893184, -803338752, -518126080, 236914176, 354354688, 572458496, 1847592448, 622921216, -1843132928, 1663370752}, new HMIView[][]{{statusBarStubController}, {naviScreenFactory.refWidgets[n][7]}, {waitAnimController}, {menuItemController6}, {menuItemController2}, {menuItemController7}, {menuItemController8}, {directWritingController4}, {directWritingController3}, {directWritingController}, {directWritingController2}, {menuController}, {menuItemController4}, {menuItemController3}, {menuItemController}, {focusedPropertyConfig}, {labelController3}, {menuItemController5}, {naviScreenFactory.refWidgets[n][9]}});
-        screenWidgetEVO.setModelIDs(new int[]{505153024, -367196672, 1428030976, 2032010752, -870447616, -853670400, -836893184, -803338752, 236914176, 354354688, 572458496, -1843132928});
-        screenWidgetEVO.setEventIDs(new int[]{-1910897152, -1759902208, -1910897152, -1910897152, -1793456640, -1776679424, -1743124992, -1759902208, -1776679424, -1759902208, -1743124992, -1793456640});
-        screenWidgetEVO.setConditionWidgets(new int[]{93, 162, 310, 442, 522, 556, 4594, 5583, 5602, 5624, 874186240, 958137856, 1780221440, 824051200, -1591867904, 1579091456, 622921216}, new AbstractWidget[][]{{naviScreenFactory.refWidgets[n][8]}, {naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9]}, {menuController}, {menuItemController, menuItemController2, menuItemController4, menuItemController5}, {naviScreenFactory.refWidgets[n][3], naviScreenFactory.refWidgets[n][4]}, {naviScreenFactory.refWidgets[n][5], naviScreenFactory.refWidgets[n][6], naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9], naviScreenFactory.refWidgets[n][10], naviScreenFactory.refWidgets[n][11], naviScreenFactory.refWidgets[n][12]}, {menuItemController, menuItemController2, menuItemController4, menuItemController5}, {menuItemController, directWritingController, menuItemController2, directWritingController2, menuItemController4, directWritingController3, menuItemController5, directWritingController4}, {menuItemController, directWritingController, menuItemController2, directWritingController2, menuItemController4, directWritingController3, menuItemController5, directWritingController4}, {naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9]}, {menuItemController6, menuItemController7, menuItemController8}, {naviScreenFactory.refWidgets[n][6]}, {naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9]}, {menuItemController3}, {naviScreenFactory.refWidgets[n][5], naviScreenFactory.refWidgets[n][6], naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9], naviScreenFactory.refWidgets[n][10], naviScreenFactory.refWidgets[n][11], naviScreenFactory.refWidgets[n][12]}, {menuItemController6, menuItemController7, menuItemController8}, {screenWidgetEVO, titleBarWidget, titleBarWidget2}});
+        screenWidgetEVO.setViews(new int[]{138, 162, 4007, 400414, 400874, 400981, 401017, 401100, 401101, 401102, 401104, 401121, 401166, 401173, 401186, 401518, 401701, 402578, 402787}, new HMIView[][]{{statusBarStubController}, {naviScreenFactory.refWidgets[n][7]}, {waitAnimController}, {menuItemController6}, {menuItemController2}, {menuItemController7}, {menuItemController8}, {directWritingController4}, {directWritingController3}, {directWritingController}, {directWritingController2}, {menuController}, {menuItemController4}, {menuItemController3}, {menuItemController}, {focusedPropertyConfig}, {labelController3}, {menuItemController5}, {naviScreenFactory.refWidgets[n][9]}});
+        screenWidgetEVO.setModelIDs(new int[]{400414, 400874, 400981, 401017, 401100, 401101, 401102, 401104, 401166, 401173, 401186, 402578});
+        screenWidgetEVO.setEventIDs(new int[]{400014, 400023, 400014, 400014, 400021, 400022, 400024, 400023, 400022, 400023, 400024, 400021});
+        screenWidgetEVO.setConditionWidgets(new int[]{93, 162, 310, 442, 522, 556, 4594, 5583, 5602, 5624, 400180, 400441, 400490, 400945, 401057, 401246, 401701}, new AbstractWidget[][]{{naviScreenFactory.refWidgets[n][8]}, {naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9]}, {menuController}, {menuItemController, menuItemController2, menuItemController4, menuItemController5}, {naviScreenFactory.refWidgets[n][3], naviScreenFactory.refWidgets[n][4]}, {naviScreenFactory.refWidgets[n][5], naviScreenFactory.refWidgets[n][6], naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9], naviScreenFactory.refWidgets[n][10], naviScreenFactory.refWidgets[n][11], naviScreenFactory.refWidgets[n][12]}, {menuItemController, menuItemController2, menuItemController4, menuItemController5}, {menuItemController, directWritingController, menuItemController2, directWritingController2, menuItemController4, directWritingController3, menuItemController5, directWritingController4}, {menuItemController, directWritingController, menuItemController2, directWritingController2, menuItemController4, directWritingController3, menuItemController5, directWritingController4}, {naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9]}, {menuItemController6, menuItemController7, menuItemController8}, {naviScreenFactory.refWidgets[n][6]}, {naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9]}, {menuItemController3}, {naviScreenFactory.refWidgets[n][5], naviScreenFactory.refWidgets[n][6], naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9], naviScreenFactory.refWidgets[n][10], naviScreenFactory.refWidgets[n][11], naviScreenFactory.refWidgets[n][12]}, {menuItemController6, menuItemController7, menuItemController8}, {screenWidgetEVO, titleBarWidget, titleBarWidget2}});
         return screenWidgetEVO;
     }
 
@@ -2037,9 +2336,9 @@ public class NaviScreenBag3 {
         touchController.setRenderer(touchRendererHigh);
         touchController.setBitmaps(new int[]{483, 484, 857});
         touchRendererHigh.setFonts(naviScreenFactory.getFonts(4, n));
-        touchController.setModelID(925173248);
-        touchController.setInfoTextIDs(new int[]{1059390976, -1205336576});
-        touchController.setInitialTextID(354551296);
+        touchController.setModelID(402743);
+        touchController.setInfoTextIDs(new int[]{402751, 403640});
+        touchController.setInitialTextID(401941);
         touchController.setColorIndices(new int[]{2, 5, 4, 3});
         touchController.setCursorOffsetBottom(1);
         touchController.setCursorOffsetTop(-1);
@@ -2050,11 +2349,11 @@ public class NaviScreenBag3 {
         touchController.setTouchControllerScreenLevel(2);
         touchController.setTouchpadMode(18);
         touchController.setSpeller(spellerController);
-        touchController.add(modelStubController, 16);
-        touchController.add(modelStubController2, 8);
+        touchController.add(modelStubController, 0x10000000);
+        touchController.add(modelStubController2, 0x8000000);
         ListController listController = new ListController();
-        listController.setModelID(908396032);
-        listController.setEvent(672925184);
+        listController.setModelID(402742);
+        listController.setEvent(400424);
         listController.setBounds(0, 0, 0, 0);
         listController.setColorIndices(new int[]{1, 0, 4, 2});
         listController.setGlassplateInsetsBottom(new int[0]);
@@ -2064,14 +2363,92 @@ public class NaviScreenBag3 {
         listController.setNoFocusAreasTop(new int[0]);
         listController.setPropertyColumn(4);
         listController.setDataAccess(new DefaultTiledListModelAccess());
-        listController.setItemFactory(new NaviScreenBag3$6());
+        listController.setItemFactory(new ListItemFactory(){
+
+            public AbstractWidgetController createListItem(int n, ListCell[] listCellArray) {
+                switch (n) {
+                    case 0: {
+                        MenuItemController menuItemController = new MenuItemController();
+                        menuItemController.setType(16);
+                        menuItemController.setRenderer(new MenuItemRendererHigh(menuItemController));
+                        GridLayout gridLayout = new GridLayout();
+                        MenuItemColumnsConstraints menuItemColumnsConstraints = new MenuItemColumnsConstraints(2);
+                        menuItemColumnsConstraints.gaps = new int[]{0, 15, 0};
+                        menuItemColumnsConstraints.grow = new float[]{0.0f, 1.0f};
+                        gridLayout.setColumnConstraints(menuItemColumnsConstraints);
+                        AxisConstraints axisConstraints = new AxisConstraints(1);
+                        axisConstraints.hidemode = new int[]{2};
+                        gridLayout.setRowConstraints(axisConstraints);
+                        AbstractWidgetController abstractWidgetController = this.createCell(0);
+                        GridLayoutHints gridLayoutHints = new GridLayoutHints(0, 0);
+                        gridLayoutHints.hidemode = 2;
+                        AbstractWidgetController abstractWidgetController2 = this.createCell(1);
+                        GridLayoutHints gridLayoutHints2 = new GridLayoutHints(1, 0);
+                        gridLayoutHints2.hidemode = 0;
+                        gridLayout.setCellConstraints(new GridLayoutHints[]{gridLayoutHints, gridLayoutHints2}, new Object[]{abstractWidgetController, abstractWidgetController2});
+                        menuItemController.setLayoutChoices(new GridLayout[]{gridLayout});
+                        menuItemController.add(abstractWidgetController2);
+                        menuItemController.add(abstractWidgetController);
+                        return menuItemController;
+                    }
+                }
+                return null;
+            }
+
+            public AbstractWidgetController createListItemNoData() {
+                MenuItemController menuItemController = new MenuItemController();
+                menuItemController.setType(16);
+                menuItemController.setRenderer(new CompositeRendererHigh(menuItemController));
+                GridLayout gridLayout = new GridLayout();
+                MenuItemColumnsConstraints menuItemColumnsConstraints = new MenuItemColumnsConstraints(1);
+                gridLayout.setColumnConstraints(menuItemColumnsConstraints);
+                AxisConstraints axisConstraints = new AxisConstraints(1);
+                gridLayout.setRowConstraints(axisConstraints);
+                AbstractWidgetController abstractWidgetController = this.createCell(2);
+                GridLayoutHints gridLayoutHints = new GridLayoutHints(0, 0);
+                gridLayout.setCellConstraints(new GridLayoutHints[]{gridLayoutHints}, new Object[]{abstractWidgetController});
+                menuItemController.setLayoutChoices(new GridLayout[]{gridLayout});
+                menuItemController.add(abstractWidgetController);
+                return menuItemController;
+            }
+
+            public AbstractWidgetController createCell(int n) {
+                switch (n) {
+                    case 0: {
+                        IconController iconController = new IconController();
+                        IconRendererHigh iconRendererHigh = new IconRendererHigh(iconController);
+                        iconController.setRenderer(iconRendererHigh);
+                        iconController.setBitmaps(new int[]{127, 400330});
+                        iconController.setModelColumn(3);
+                        iconController.setPreferredHeight(1);
+                        iconRendererHigh.setAlignment(1, 5);
+                        return iconController;
+                    }
+                    case 1: {
+                        LabelController labelController = new LabelController();
+                        HighlightingLabelRendererHigh highlightingLabelRendererHigh = new HighlightingLabelRendererHigh(labelController);
+                        labelController.setRenderer(highlightingLabelRendererHigh);
+                        labelController.setModelColumn(0);
+                        return labelController;
+                    }
+                    case 2: {
+                        LabelController labelController = new LabelController();
+                        HighlightingLabelRendererHigh highlightingLabelRendererHigh = new HighlightingLabelRendererHigh(labelController);
+                        labelController.setRenderer(highlightingLabelRendererHigh);
+                        labelController.setTextIds(new int[]{402623});
+                        return labelController;
+                    }
+                }
+                return null;
+            }
+        });
         MenuController menuController = new MenuController();
         MenuRendererHigh menuRendererHigh = new MenuRendererHigh(menuController);
         menuController.setRenderer(menuRendererHigh);
         menuController.createInfolineWidgets(new InfoLineRendererHigh());
         menuController.getInfoline().getInfolineRenderer().setFonts(naviScreenFactory.getFonts(2, n));
-        menuController.setModelID(-1675753984);
-        menuController.setDefaultDisabledInfolineTextId(-1624963584);
+        menuController.setModelID(401052);
+        menuController.setDefaultDisabledInfolineTextId(402847);
         menuController.getInfolineTimer().setIdleTime(800);
         menuController.getInfoline().setColorIndices(new int[]{2, 0, 4, 3});
         menuController.getLayout().setBackgroundInsetsVert(7);
@@ -2093,10 +2470,10 @@ public class NaviScreenBag3 {
         ContainerRendererHigh containerRendererHigh = new ContainerRendererHigh(containerController);
         containerController.setRenderer(containerRendererHigh);
         containerController.setBounds(0, 0, 0, 0);
-        containerController.setEntertainmentMenuTransformation(16449, 16449, -1883081409, -1883081409, 63);
-        containerController.setOpacitySet(1.0f, -842216386);
-        containerController.setOptionMenuTransformation(32960, 57408, -1701242561, -1701242561, 63);
-        containerController.setSelectionMenuTransformation(40771, 57408, -512093121, -1701242561, 32830);
+        containerController.setEntertainmentMenuTransformation(12.0f, 12.0f, 0.96f, 0.96f, 0.5f);
+        containerController.setOpacitySet(1.0f, 0.4f);
+        containerController.setOptionMenuTransformation(-4.0f, 7.0f, 0.6f, 0.6f, 0.5f);
+        containerController.setSelectionMenuTransformation(318.0f, 7.0f, 0.58f, 0.6f, 0.25f);
         containerController.add(menuController);
         AbstractWidgetController abstractWidgetController2 = naviScreenFactory.getRefWidget(n, 2, naviScreenFactory);
         IconController iconController = new IconController();
@@ -2108,20 +2485,20 @@ public class NaviScreenBag3 {
         LabelRendererHigh labelRendererHigh = new LabelRendererHigh(labelController);
         labelController.setRenderer(labelRendererHigh);
         labelRendererHigh.setFonts(naviScreenFactory.getFonts(3, n));
-        labelController.setTextIds(new int[]{-1775958528});
+        labelController.setTextIds(new int[]{402838});
         labelController.setBounds(0, 0, 0, 30);
         labelController.setColorIndices(new int[]{1, 2, 4, 0});
         LabelController labelController2 = new LabelController();
         LabelRendererHigh labelRendererHigh2 = new LabelRendererHigh(labelController2);
         labelController2.setRenderer(labelRendererHigh2);
         labelRendererHigh2.setFonts(naviScreenFactory.getFonts(3, n));
-        labelController2.setTextIds(new int[]{-1373108736});
+        labelController2.setTextIds(new int[]{403630});
         labelController2.setBounds(0, 0, 0, 30);
         labelController2.setColorIndices(new int[]{1, 2, 4, 0});
         LabelController labelController3 = new LabelController();
         LabelRendererHigh labelRendererHigh3 = new LabelRendererHigh(labelController3);
         labelController3.setRenderer(labelRendererHigh3);
-        labelController3.setTextIds(new int[]{-1759181312});
+        labelController3.setTextIds(new int[]{402839});
         labelController3.setBounds(0, 0, 0, 30);
         labelController3.setCoordinateSets(new int[]{1, 0, 0, 0, 30, 0, 0, 0, 30});
         TitleBarWidget titleBarWidget = new TitleBarWidget();
@@ -2140,31 +2517,31 @@ public class NaviScreenBag3 {
         ContainerRendererHigh containerRendererHigh2 = new ContainerRendererHigh(containerController2);
         containerController2.setRenderer(containerRendererHigh2);
         containerController2.setBounds(0, 0, 800, 0);
-        containerController2.setEntertainmentMenuTransformation(16449, 16449, -1883081409, -1883081409, 0.0f);
-        containerController2.setOpacitySet(1.0f, -842216386);
-        containerController2.setOptionMenuTransformation(32960, 57408, -1701242561, -1701242561, 0.0f);
-        containerController2.setSelectionMenuTransformation(8438595, 57408, -1701242561, -1701242561, 0.0f);
+        containerController2.setEntertainmentMenuTransformation(12.0f, 12.0f, 0.96f, 0.96f, 0.0f);
+        containerController2.setOpacitySet(1.0f, 0.4f);
+        containerController2.setOptionMenuTransformation(-4.0f, 7.0f, 0.6f, 0.6f, 0.0f);
+        containerController2.setSelectionMenuTransformation(391.0f, 7.0f, 0.6f, 0.6f, 0.0f);
         containerController2.add(titleBarWidget);
         StatusBarStubController statusBarStubController = new StatusBarStubController();
         statusBarStubController.setModelID(138);
         statusBarStubController.setBounds(0, 0, 100, 100);
-        ScreenWidgetEVO screenWidgetEVO = new ScreenWidgetEVO(-2045049344);
+        ScreenWidgetEVO screenWidgetEVO = new ScreenWidgetEVO(400262);
         screenWidgetEVO.setScreenFactory(naviScreenFactory);
         ScreenRendererHigh screenRendererHigh = new ScreenRendererHigh(screenWidgetEVO);
         screenWidgetEVO.setRenderer(screenRendererHigh);
         screenRendererHigh.setFonts(naviScreenFactory.getFonts(0, n));
         screenWidgetEVO.setColorIndices(new int[]{1, 2, 4, 0});
-        screenWidgetEVO.setColorPalettes(new int[][]{{-1, 255, -1, -1, -1701143809, -1431655681, -1246382593, -1701143809, -1}, {-1, 255, 419495935, 1751100415, -1701143809, -1431655681, -1246382593, -1701143809, 1228585215}, {-1, 255, -19456, 1838260991, -1701143809, -1431655681, -1246382593, -1701143809, 1838260991}, {-1, 255, -1433657601, -1567134209, -1701143809, -1431655681, -1246382593, -1701143809, -1567134209}, {-1, 255, 11166975, 1973122047, -1701143809, -1431655681, -1246382593, -1701143809, 1973122047}});
+        screenWidgetEVO.setColorPalettes(new int[][]{{-1, -16777216, -1, -1, -6645094, -5592406, -4868683, -6645094, -1}, {-1, -16777216, -65511, -5546136, -6645094, -5592406, -4868683, -6645094, -4703671}, {-1, -16777216, -19456, -6123155, -6645094, -5592406, -4868683, -6645094, -6123155}, {-1, -16777216, -14775126, -9594974, -6645094, -5592406, -4868683, -6645094, -9594974}, {-1, -16777216, -10180096, -9200779, -6645094, -5592406, -4868683, -6645094, -9200779}});
         screenWidgetEVO.setSmallStageType(0);
         screenWidgetEVO.add(abstractWidgetController);
         screenWidgetEVO.add(containerController, 1);
         screenWidgetEVO.add(abstractWidgetController2, 7);
         screenWidgetEVO.add(containerController2, 2);
         screenWidgetEVO.add(statusBarStubController);
-        screenWidgetEVO.setViews(new int[]{138, 162, 5602, 5606, -1675753984, 908396032, 925173248, 1663370752}, new HMIView[][]{{statusBarStubController}, {naviScreenFactory.refWidgets[n][7]}, {modelStubController}, {modelStubController2}, {menuController}, {listController}, {touchController}, {naviScreenFactory.refWidgets[n][9]}});
-        screenWidgetEVO.setModelIDs(new int[]{908396032});
-        screenWidgetEVO.setEventIDs(new int[]{672925184});
-        screenWidgetEVO.setConditionWidgets(new int[]{93, 162, 522, 556, 5624, 958137856, 1780221440, -1591867904, 1260652032}, new AbstractWidget[][]{{naviScreenFactory.refWidgets[n][8]}, {naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9]}, {naviScreenFactory.refWidgets[n][3], naviScreenFactory.refWidgets[n][4]}, {scrollbarController, scrollbarController2, naviScreenFactory.refWidgets[n][5], naviScreenFactory.refWidgets[n][6], naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9], naviScreenFactory.refWidgets[n][10], naviScreenFactory.refWidgets[n][11], naviScreenFactory.refWidgets[n][12]}, {naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9]}, {naviScreenFactory.refWidgets[n][6]}, {naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9]}, {scrollbarController, scrollbarController2, naviScreenFactory.refWidgets[n][5], naviScreenFactory.refWidgets[n][6], naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9], naviScreenFactory.refWidgets[n][10], naviScreenFactory.refWidgets[n][11], naviScreenFactory.refWidgets[n][12]}, {labelController, labelController2}});
+        screenWidgetEVO.setViews(new int[]{138, 162, 5602, 5606, 401052, 402742, 402743, 402787}, new HMIView[][]{{statusBarStubController}, {naviScreenFactory.refWidgets[n][7]}, {modelStubController}, {modelStubController2}, {menuController}, {listController}, {touchController}, {naviScreenFactory.refWidgets[n][9]}});
+        screenWidgetEVO.setModelIDs(new int[]{402742});
+        screenWidgetEVO.setEventIDs(new int[]{400424});
+        screenWidgetEVO.setConditionWidgets(new int[]{93, 162, 522, 556, 5624, 400441, 400490, 401057, 402507}, new AbstractWidget[][]{{naviScreenFactory.refWidgets[n][8]}, {naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9]}, {naviScreenFactory.refWidgets[n][3], naviScreenFactory.refWidgets[n][4]}, {scrollbarController, scrollbarController2, naviScreenFactory.refWidgets[n][5], naviScreenFactory.refWidgets[n][6], naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9], naviScreenFactory.refWidgets[n][10], naviScreenFactory.refWidgets[n][11], naviScreenFactory.refWidgets[n][12]}, {naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9]}, {naviScreenFactory.refWidgets[n][6]}, {naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9]}, {scrollbarController, scrollbarController2, naviScreenFactory.refWidgets[n][5], naviScreenFactory.refWidgets[n][6], naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9], naviScreenFactory.refWidgets[n][10], naviScreenFactory.refWidgets[n][11], naviScreenFactory.refWidgets[n][12]}, {labelController, labelController2}});
         return screenWidgetEVO;
     }
 
@@ -2202,9 +2579,9 @@ public class NaviScreenBag3 {
         touchController.setRenderer(touchRendererHigh);
         touchController.setBitmaps(new int[]{483, 484, 857});
         touchRendererHigh.setFonts(naviScreenFactory.getFonts(4, n));
-        touchController.setModelID(-2027682304);
-        touchController.setInfoTextIDs(new int[]{1109722624, -1188559360});
-        touchController.setInitialTextID(1126499840);
+        touchController.setModelID(402567);
+        touchController.setInfoTextIDs(new int[]{402754, 403641});
+        touchController.setInitialTextID(402755);
         touchController.setColorIndices(new int[]{2, 5, 4, 3});
         touchController.setCursorOffsetBottom(1);
         touchController.setCursorOffsetTop(-1);
@@ -2215,11 +2592,11 @@ public class NaviScreenBag3 {
         touchController.setTouchControllerScreenLevel(2);
         touchController.setTouchpadMode(17);
         touchController.setSpeller(spellerController);
-        touchController.add(modelStubController, 16);
-        touchController.add(modelStubController2, 8);
+        touchController.add(modelStubController, 0x10000000);
+        touchController.add(modelStubController2, 0x8000000);
         ListController listController = new ListController();
-        listController.setModelID(-1809971712);
-        listController.setEvent(639370752);
+        listController.setModelID(401044);
+        listController.setEvent(400422);
         listController.setBounds(0, 0, 0, 0);
         listController.setColorIndices(new int[]{1, 0, 4, 2});
         listController.setGlassplateInsetsBottom(new int[0]);
@@ -2229,14 +2606,76 @@ public class NaviScreenBag3 {
         listController.setNoFocusAreasTop(new int[0]);
         listController.setPropertyColumn(4);
         listController.setDataAccess(new DefaultTiledListModelAccess());
-        listController.setItemFactory(new NaviScreenBag3$7());
+        listController.setItemFactory(new ListItemFactory(){
+
+            public AbstractWidgetController createListItem(int n, ListCell[] listCellArray) {
+                switch (n) {
+                    case 0: {
+                        MenuItemController menuItemController = new MenuItemController();
+                        menuItemController.setType(16);
+                        menuItemController.setRenderer(new MenuItemRendererHigh(menuItemController));
+                        GridLayout gridLayout = new GridLayout();
+                        MenuItemColumnsConstraints menuItemColumnsConstraints = new MenuItemColumnsConstraints(1);
+                        menuItemColumnsConstraints.grow = new float[]{1.0f};
+                        gridLayout.setColumnConstraints(menuItemColumnsConstraints);
+                        AxisConstraints axisConstraints = new AxisConstraints(1);
+                        gridLayout.setRowConstraints(axisConstraints);
+                        AbstractWidgetController abstractWidgetController = this.createCell(0);
+                        GridLayoutHints gridLayoutHints = new GridLayoutHints(0, 0);
+                        gridLayoutHints.hidemode = 0;
+                        gridLayout.setCellConstraints(new GridLayoutHints[]{gridLayoutHints}, new Object[]{abstractWidgetController});
+                        menuItemController.setLayoutChoices(new GridLayout[]{gridLayout});
+                        menuItemController.add(abstractWidgetController);
+                        return menuItemController;
+                    }
+                }
+                return null;
+            }
+
+            public AbstractWidgetController createListItemNoData() {
+                MenuItemController menuItemController = new MenuItemController();
+                menuItemController.setType(16);
+                menuItemController.setRenderer(new CompositeRendererHigh(menuItemController));
+                GridLayout gridLayout = new GridLayout();
+                MenuItemColumnsConstraints menuItemColumnsConstraints = new MenuItemColumnsConstraints(1);
+                gridLayout.setColumnConstraints(menuItemColumnsConstraints);
+                AxisConstraints axisConstraints = new AxisConstraints(1);
+                gridLayout.setRowConstraints(axisConstraints);
+                AbstractWidgetController abstractWidgetController = this.createCell(1);
+                GridLayoutHints gridLayoutHints = new GridLayoutHints(0, 0);
+                gridLayout.setCellConstraints(new GridLayoutHints[]{gridLayoutHints}, new Object[]{abstractWidgetController});
+                menuItemController.setLayoutChoices(new GridLayout[]{gridLayout});
+                menuItemController.add(abstractWidgetController);
+                return menuItemController;
+            }
+
+            public AbstractWidgetController createCell(int n) {
+                switch (n) {
+                    case 0: {
+                        LabelController labelController = new LabelController();
+                        HighlightingLabelRendererHigh highlightingLabelRendererHigh = new HighlightingLabelRendererHigh(labelController);
+                        labelController.setRenderer(highlightingLabelRendererHigh);
+                        labelController.setModelColumn(0);
+                        return labelController;
+                    }
+                    case 1: {
+                        LabelController labelController = new LabelController();
+                        HighlightingLabelRendererHigh highlightingLabelRendererHigh = new HighlightingLabelRendererHigh(labelController);
+                        labelController.setRenderer(highlightingLabelRendererHigh);
+                        labelController.setTextIds(new int[]{402623});
+                        return labelController;
+                    }
+                }
+                return null;
+            }
+        });
         MenuController menuController = new MenuController();
         MenuRendererHigh menuRendererHigh = new MenuRendererHigh(menuController);
         menuController.setRenderer(menuRendererHigh);
         menuController.createInfolineWidgets(new InfoLineRendererHigh());
         menuController.getInfoline().getInfolineRenderer().setFonts(naviScreenFactory.getFonts(2, n));
-        menuController.setModelID(-1692531200);
-        menuController.setDefaultDisabledInfolineTextId(891684352);
+        menuController.setModelID(401051);
+        menuController.setDefaultDisabledInfolineTextId(402997);
         menuController.getInfolineTimer().setIdleTime(800);
         menuController.getInfoline().setColorIndices(new int[]{2, 0, 4, 3});
         menuController.getLayout().setBackgroundInsetsVert(7);
@@ -2256,10 +2695,10 @@ public class NaviScreenBag3 {
         ContainerRendererHigh containerRendererHigh = new ContainerRendererHigh(containerController);
         containerController.setRenderer(containerRendererHigh);
         containerController.setBounds(0, 0, 0, 0);
-        containerController.setEntertainmentMenuTransformation(16449, 16449, -1883081409, -1883081409, 63);
-        containerController.setOpacitySet(1.0f, -842216386);
-        containerController.setOptionMenuTransformation(32960, 57408, -1701242561, -1701242561, 63);
-        containerController.setSelectionMenuTransformation(40771, 57408, -512093121, -1701242561, 32830);
+        containerController.setEntertainmentMenuTransformation(12.0f, 12.0f, 0.96f, 0.96f, 0.5f);
+        containerController.setOpacitySet(1.0f, 0.4f);
+        containerController.setOptionMenuTransformation(-4.0f, 7.0f, 0.6f, 0.6f, 0.5f);
+        containerController.setSelectionMenuTransformation(318.0f, 7.0f, 0.58f, 0.6f, 0.25f);
         containerController.add(menuController);
         IconController iconController = new IconController();
         IconRendererHigh iconRendererHigh = new IconRendererHigh(iconController);
@@ -2270,13 +2709,13 @@ public class NaviScreenBag3 {
         LabelRendererHigh labelRendererHigh = new LabelRendererHigh(labelController);
         labelController.setRenderer(labelRendererHigh);
         labelRendererHigh.setFonts(naviScreenFactory.getFonts(3, n));
-        labelController.setTextIds(new int[]{-1659042304});
+        labelController.setTextIds(new int[]{400797});
         labelController.setBounds(0, 0, 0, 30);
         labelController.setColorIndices(new int[]{1, 2, 4, 0});
         LabelController labelController2 = new LabelController();
         LabelRendererHigh labelRendererHigh2 = new LabelRendererHigh(labelController2);
         labelController2.setRenderer(labelRendererHigh2);
-        labelController2.setTextIds(new int[]{-2061171200});
+        labelController2.setTextIds(new int[]{402821});
         labelController2.setBounds(0, 0, 0, 30);
         labelController2.setCoordinateSets(new int[]{1, 0, 0, 0, 30, 0, 0, 0, 30});
         TitleBarWidget titleBarWidget = new TitleBarWidget();
@@ -2294,29 +2733,29 @@ public class NaviScreenBag3 {
         ContainerRendererHigh containerRendererHigh2 = new ContainerRendererHigh(containerController2);
         containerController2.setRenderer(containerRendererHigh2);
         containerController2.setBounds(0, 0, 800, 0);
-        containerController2.setEntertainmentMenuTransformation(16449, 16449, -1883081409, -1883081409, 0.0f);
-        containerController2.setOpacitySet(1.0f, -842216386);
-        containerController2.setOptionMenuTransformation(32960, 57408, -1701242561, -1701242561, 0.0f);
-        containerController2.setSelectionMenuTransformation(8438595, 57408, -1701242561, -1701242561, 0.0f);
+        containerController2.setEntertainmentMenuTransformation(12.0f, 12.0f, 0.96f, 0.96f, 0.0f);
+        containerController2.setOpacitySet(1.0f, 0.4f);
+        containerController2.setOptionMenuTransformation(-4.0f, 7.0f, 0.6f, 0.6f, 0.0f);
+        containerController2.setSelectionMenuTransformation(391.0f, 7.0f, 0.6f, 0.6f, 0.0f);
         containerController2.add(titleBarWidget);
         StatusBarStubController statusBarStubController = new StatusBarStubController();
         statusBarStubController.setModelID(138);
         statusBarStubController.setBounds(0, 0, 100, 100);
-        ScreenWidgetEVO screenWidgetEVO = new ScreenWidgetEVO(-2011494912);
+        ScreenWidgetEVO screenWidgetEVO = new ScreenWidgetEVO(400264);
         screenWidgetEVO.setScreenFactory(naviScreenFactory);
         ScreenRendererHigh screenRendererHigh = new ScreenRendererHigh(screenWidgetEVO);
         screenWidgetEVO.setRenderer(screenRendererHigh);
         screenRendererHigh.setFonts(naviScreenFactory.getFonts(0, n));
         screenWidgetEVO.setColorIndices(new int[]{1, 2, 4, 0});
-        screenWidgetEVO.setColorPalettes(new int[][]{{-1, 255, -1, -1, -1701143809, -1431655681, -1246382593, -1701143809, -1}, {-1, 255, 419495935, 1751100415, -1701143809, -1431655681, -1246382593, -1701143809, 1228585215}, {-1, 255, -19456, 1838260991, -1701143809, -1431655681, -1246382593, -1701143809, 1838260991}, {-1, 255, -1433657601, -1567134209, -1701143809, -1431655681, -1246382593, -1701143809, -1567134209}, {-1, 255, 11166975, 1973122047, -1701143809, -1431655681, -1246382593, -1701143809, 1973122047}});
+        screenWidgetEVO.setColorPalettes(new int[][]{{-1, -16777216, -1, -1, -6645094, -5592406, -4868683, -6645094, -1}, {-1, -16777216, -65511, -5546136, -6645094, -5592406, -4868683, -6645094, -4703671}, {-1, -16777216, -19456, -6123155, -6645094, -5592406, -4868683, -6645094, -6123155}, {-1, -16777216, -14775126, -9594974, -6645094, -5592406, -4868683, -6645094, -9594974}, {-1, -16777216, -10180096, -9200779, -6645094, -5592406, -4868683, -6645094, -9200779}});
         screenWidgetEVO.setSmallStageType(0);
         screenWidgetEVO.add(abstractWidgetController);
         screenWidgetEVO.add(containerController, 1);
         screenWidgetEVO.add(containerController2, 2);
         screenWidgetEVO.add(statusBarStubController);
-        screenWidgetEVO.setViews(new int[]{138, 5602, 5606, -1809971712, -1692531200, -2027682304}, new HMIView[][]{{statusBarStubController}, {modelStubController}, {modelStubController2}, {listController}, {menuController}, {touchController}});
-        screenWidgetEVO.setModelIDs(new int[]{-1809971712});
-        screenWidgetEVO.setEventIDs(new int[]{639370752});
+        screenWidgetEVO.setViews(new int[]{138, 5602, 5606, 401044, 401051, 402567}, new HMIView[][]{{statusBarStubController}, {modelStubController}, {modelStubController2}, {listController}, {menuController}, {touchController}});
+        screenWidgetEVO.setModelIDs(new int[]{401044});
+        screenWidgetEVO.setEventIDs(new int[]{400422});
         return screenWidgetEVO;
     }
 
@@ -2355,9 +2794,9 @@ public class NaviScreenBag3 {
         touchController.setRenderer(touchRendererHigh);
         touchController.setBitmaps(new int[]{483, 484, 857});
         touchRendererHigh.setFonts(naviScreenFactory.getFonts(4, n));
-        touchController.setModelID(203163136);
-        touchController.setInfoTextIDs(new int[]{1059390976, -1155004928});
-        touchController.setInitialTextID(388105728);
+        touchController.setModelID(400396);
+        touchController.setInfoTextIDs(new int[]{402751, 403643});
+        touchController.setInitialTextID(401943);
         touchController.setColorIndices(new int[]{2, 5, 4, 3});
         touchController.setCursorOffsetBottom(1);
         touchController.setCursorOffsetTop(-1);
@@ -2367,11 +2806,11 @@ public class NaviScreenBag3 {
         touchController.setSmartDeleteCaseSensitive(false);
         touchController.setTouchControllerScreenLevel(2);
         touchController.setSpeller(spellerController);
-        touchController.add(modelStubController, 16);
-        touchController.add(modelStubController2, 8);
+        touchController.add(modelStubController, 0x10000000);
+        touchController.add(modelStubController2, 0x8000000);
         ListController listController = new ListController();
-        listController.setModelID(-1759640064);
-        listController.setEvent(605816320);
+        listController.setModelID(401047);
+        listController.setEvent(400420);
         listController.setBounds(0, 0, 0, 0);
         listController.setColorIndices(new int[]{1, 0, 4, 2});
         listController.setGlassplateInsetsBottom(new int[0]);
@@ -2381,14 +2820,74 @@ public class NaviScreenBag3 {
         listController.setNoFocusAreasTop(new int[0]);
         listController.setPropertyColumn(4);
         listController.setDataAccess(new DefaultTiledListModelAccess());
-        listController.setItemFactory(new NaviScreenBag3$8());
+        listController.setItemFactory(new ListItemFactory(){
+
+            public AbstractWidgetController createListItem(int n, ListCell[] listCellArray) {
+                switch (n) {
+                    case 0: {
+                        MenuItemController menuItemController = new MenuItemController();
+                        menuItemController.setType(16);
+                        menuItemController.setRenderer(new MenuItemRendererHigh(menuItemController));
+                        GridLayout gridLayout = new GridLayout();
+                        MenuItemColumnsConstraints menuItemColumnsConstraints = new MenuItemColumnsConstraints(1);
+                        gridLayout.setColumnConstraints(menuItemColumnsConstraints);
+                        AxisConstraints axisConstraints = new AxisConstraints(1);
+                        gridLayout.setRowConstraints(axisConstraints);
+                        AbstractWidgetController abstractWidgetController = this.createCell(0);
+                        GridLayoutHints gridLayoutHints = new GridLayoutHints(0, 0);
+                        gridLayout.setCellConstraints(new GridLayoutHints[]{gridLayoutHints}, new Object[]{abstractWidgetController});
+                        menuItemController.setLayoutChoices(new GridLayout[]{gridLayout});
+                        menuItemController.add(abstractWidgetController);
+                        return menuItemController;
+                    }
+                }
+                return null;
+            }
+
+            public AbstractWidgetController createListItemNoData() {
+                MenuItemController menuItemController = new MenuItemController();
+                menuItemController.setType(16);
+                menuItemController.setRenderer(new CompositeRendererHigh(menuItemController));
+                GridLayout gridLayout = new GridLayout();
+                MenuItemColumnsConstraints menuItemColumnsConstraints = new MenuItemColumnsConstraints(1);
+                gridLayout.setColumnConstraints(menuItemColumnsConstraints);
+                AxisConstraints axisConstraints = new AxisConstraints(1);
+                gridLayout.setRowConstraints(axisConstraints);
+                AbstractWidgetController abstractWidgetController = this.createCell(1);
+                GridLayoutHints gridLayoutHints = new GridLayoutHints(0, 0);
+                gridLayout.setCellConstraints(new GridLayoutHints[]{gridLayoutHints}, new Object[]{abstractWidgetController});
+                menuItemController.setLayoutChoices(new GridLayout[]{gridLayout});
+                menuItemController.add(abstractWidgetController);
+                return menuItemController;
+            }
+
+            public AbstractWidgetController createCell(int n) {
+                switch (n) {
+                    case 0: {
+                        LabelController labelController = new LabelController();
+                        HighlightingLabelRendererHigh highlightingLabelRendererHigh = new HighlightingLabelRendererHigh(labelController);
+                        labelController.setRenderer(highlightingLabelRendererHigh);
+                        labelController.setModelColumn(0);
+                        return labelController;
+                    }
+                    case 1: {
+                        LabelController labelController = new LabelController();
+                        HighlightingLabelRendererHigh highlightingLabelRendererHigh = new HighlightingLabelRendererHigh(labelController);
+                        labelController.setRenderer(highlightingLabelRendererHigh);
+                        labelController.setTextIds(new int[]{402623});
+                        return labelController;
+                    }
+                }
+                return null;
+            }
+        });
         MenuController menuController = new MenuController();
         MenuRendererHigh menuRendererHigh = new MenuRendererHigh(menuController);
         menuController.setRenderer(menuRendererHigh);
         menuController.createInfolineWidgets(new InfoLineRendererHigh());
         menuController.getInfoline().getInfolineRenderer().setFonts(naviScreenFactory.getFonts(2, n));
-        menuController.setModelID(-1658976768);
-        menuController.setDefaultDisabledInfolineTextId(-1624963584);
+        menuController.setModelID(401053);
+        menuController.setDefaultDisabledInfolineTextId(402847);
         menuController.getInfolineTimer().setIdleTime(800);
         menuController.getInfoline().setColorIndices(new int[]{2, 0, 4, 3});
         menuController.getLayout().setBackgroundInsetsVert(7);
@@ -2409,10 +2908,10 @@ public class NaviScreenBag3 {
         ContainerRendererHigh containerRendererHigh = new ContainerRendererHigh(containerController);
         containerController.setRenderer(containerRendererHigh);
         containerController.setBounds(0, 0, 0, 0);
-        containerController.setEntertainmentMenuTransformation(16449, 16449, -1883081409, -1883081409, 63);
-        containerController.setOpacitySet(1.0f, -842216386);
-        containerController.setOptionMenuTransformation(32960, 57408, -1701242561, -1701242561, 63);
-        containerController.setSelectionMenuTransformation(40771, 57408, -512093121, -1701242561, 32830);
+        containerController.setEntertainmentMenuTransformation(12.0f, 12.0f, 0.96f, 0.96f, 0.5f);
+        containerController.setOpacitySet(1.0f, 0.4f);
+        containerController.setOptionMenuTransformation(-4.0f, 7.0f, 0.6f, 0.6f, 0.5f);
+        containerController.setSelectionMenuTransformation(318.0f, 7.0f, 0.58f, 0.6f, 0.25f);
         containerController.add(menuController);
         AbstractWidgetController abstractWidgetController2 = naviScreenFactory.getRefWidget(n, 2, naviScreenFactory);
         IconController iconController = new IconController();
@@ -2424,13 +2923,13 @@ public class NaviScreenBag3 {
         LabelRendererHigh labelRendererHigh = new LabelRendererHigh(labelController);
         labelController.setRenderer(labelRendererHigh);
         labelRendererHigh.setFonts(naviScreenFactory.getFonts(3, n));
-        labelController.setTextIds(new int[]{-1742404096});
+        labelController.setTextIds(new int[]{402840});
         labelController.setBounds(0, 0, 0, 30);
         labelController.setColorIndices(new int[]{1, 2, 4, 0});
         LabelController labelController2 = new LabelController();
         LabelRendererHigh labelRendererHigh2 = new LabelRendererHigh(labelController2);
         labelController2.setRenderer(labelRendererHigh2);
-        labelController2.setTextIds(new int[]{-1322777088});
+        labelController2.setTextIds(new int[]{403633});
         labelController2.setBounds(0, 0, 0, 30);
         labelController2.setCoordinateSets(new int[]{1, 0, 0, 0, 30, 0, 0, 0, 30});
         TitleBarWidget titleBarWidget = new TitleBarWidget();
@@ -2448,10 +2947,10 @@ public class NaviScreenBag3 {
         ContainerRendererHigh containerRendererHigh2 = new ContainerRendererHigh(containerController2);
         containerController2.setRenderer(containerRendererHigh2);
         containerController2.setBounds(0, 0, 800, 0);
-        containerController2.setEntertainmentMenuTransformation(16449, 16449, -1883081409, -1883081409, 0.0f);
-        containerController2.setOpacitySet(1.0f, -842216386);
-        containerController2.setOptionMenuTransformation(32960, 57408, -1701242561, -1701242561, 0.0f);
-        containerController2.setSelectionMenuTransformation(8438595, 57408, -1701242561, -1701242561, 0.0f);
+        containerController2.setEntertainmentMenuTransformation(12.0f, 12.0f, 0.96f, 0.96f, 0.0f);
+        containerController2.setOpacitySet(1.0f, 0.4f);
+        containerController2.setOptionMenuTransformation(-4.0f, 7.0f, 0.6f, 0.6f, 0.0f);
+        containerController2.setSelectionMenuTransformation(391.0f, 7.0f, 0.6f, 0.6f, 0.0f);
         containerController2.add(titleBarWidget);
         StatusBarStubController statusBarStubController = new StatusBarStubController();
         statusBarStubController.setModelID(138);
@@ -2464,7 +2963,7 @@ public class NaviScreenBag3 {
         LabelController labelController3 = new LabelController();
         MultiLineLabelRendererHigh multiLineLabelRendererHigh = new MultiLineLabelRendererHigh(labelController3);
         labelController3.setRenderer(multiLineLabelRendererHigh);
-        labelController3.setTextIds(new int[]{1243940352});
+        labelController3.setTextIds(new int[]{402762});
         labelController3.setBounds(0, 0, 0, 109);
         multiLineLabelRendererHigh.setAlignment(2, 4);
         FocusCursorController focusCursorController2 = new FocusCursorController();
@@ -2478,41 +2977,41 @@ public class NaviScreenBag3 {
         MenuItemController menuItemController = new MenuItemController();
         CompositeRendererHigh compositeRendererHigh = new CompositeRendererHigh(menuItemController);
         menuItemController.setRenderer(compositeRendererHigh);
-        menuItemController.setModelID(-1155791360);
-        menuItemController.setEvent(-1827011072);
-        menuItemController.setLabelId(-937425408);
+        menuItemController.setModelID(400571);
+        menuItemController.setEvent(400019);
+        menuItemController.setLabelId(401608);
         menuItemController.setGlassplateInsetsBottom(6);
         menuItemController.setGlassplateInsetsTop(7);
-        menuItemController.setInternalID(-1994586624);
+        menuItemController.setInternalID(400777);
         menuItemController.setType(2);
         MenuItemController menuItemController2 = new MenuItemController();
         CompositeRendererHigh compositeRendererHigh2 = new CompositeRendererHigh(menuItemController2);
         menuItemController2.setRenderer(compositeRendererHigh2);
-        menuItemController2.setModelID(219940352);
-        menuItemController2.setEvent(-1810233856);
-        menuItemController2.setLabelId(1260717568);
-        menuItemController2.setReplacementModelIds(new int[]{236848640});
+        menuItemController2.setModelID(400397);
+        menuItemController2.setEvent(400020);
+        menuItemController2.setLabelId(402763);
+        menuItemController2.setReplacementModelIds(new int[]{400910});
         menuItemController2.setGlassplateInsetsBottom(6);
         menuItemController2.setGlassplateInsetsTop(7);
-        menuItemController2.setInternalID(-1977809408);
+        menuItemController2.setInternalID(400778);
         menuItemController2.setType(2);
         MenuItemController menuItemController3 = new MenuItemController();
         CompositeRendererHigh compositeRendererHigh3 = new CompositeRendererHigh(menuItemController3);
         menuItemController3.setRenderer(compositeRendererHigh3);
-        menuItemController3.setModelID(219940352);
-        menuItemController3.setEvent(-1810233856);
-        menuItemController3.setLabelId(136381952);
-        menuItemController3.setReplacementModelIds(new int[]{236848640});
+        menuItemController3.setModelID(400397);
+        menuItemController3.setEvent(400020);
+        menuItemController3.setLabelId(401672);
+        menuItemController3.setReplacementModelIds(new int[]{400910});
         menuItemController3.setGlassplateInsetsBottom(6);
         menuItemController3.setGlassplateInsetsTop(7);
-        menuItemController3.setInternalID(-1961032192);
+        menuItemController3.setInternalID(400779);
         menuItemController3.setType(2);
         MenuController menuController2 = new MenuController();
         MenuRendererHigh menuRendererHigh2 = new MenuRendererHigh(menuController2);
         menuController2.setRenderer(menuRendererHigh2);
         menuController2.createInfolineWidgets(new InfoLineRendererHigh());
         menuController2.getInfoline().getInfolineRenderer().setFonts(naviScreenFactory.getFonts(2, n));
-        menuController2.setDefaultDisabledInfolineTextId(-1608186368);
+        menuController2.setDefaultDisabledInfolineTextId(402848);
         menuController2.getInfolineTimer().setIdleTime(800);
         menuController2.getInfoline().setColorIndices(new int[]{2, 0, 4, 3});
         menuController2.getLayout().setBackgroundInsetsVert(7);
@@ -2549,20 +3048,20 @@ public class NaviScreenBag3 {
         partialPopupController.setContentInset(10);
         partialPopupController.setDynamicSize(true);
         partialPopupController.setGreyOutBackground(true);
-        partialPopupController.setID(-2028272128);
+        partialPopupController.setID(400263);
         partialPopupController.setPriority(1200);
         partialPopupController.setStyle(1);
         partialPopupController.setZpmPriority(250);
         partialPopupController.setZpmSlot(12);
         partialPopupController.setBackgroundController(partialPopupGlassplateController);
         partialPopupController.add(instructionTextContoller);
-        ScreenWidgetEVO screenWidgetEVO = new ScreenWidgetEVO(-1994717696);
+        ScreenWidgetEVO screenWidgetEVO = new ScreenWidgetEVO(400265);
         screenWidgetEVO.setScreenFactory(naviScreenFactory);
         ScreenRendererHigh screenRendererHigh = new ScreenRendererHigh(screenWidgetEVO);
         screenWidgetEVO.setRenderer(screenRendererHigh);
         screenRendererHigh.setFonts(naviScreenFactory.getFonts(0, n));
         screenWidgetEVO.setColorIndices(new int[]{1, 2, 4, 0});
-        screenWidgetEVO.setColorPalettes(new int[][]{{-1, 255, -1, -1, -1701143809, -1431655681, -1246382593, -1701143809, -1}, {-1, 255, 419495935, 1751100415, -1701143809, -1431655681, -1246382593, -1701143809, 1228585215}, {-1, 255, -19456, 1838260991, -1701143809, -1431655681, -1246382593, -1701143809, 1838260991}, {-1, 255, -1433657601, -1567134209, -1701143809, -1431655681, -1246382593, -1701143809, -1567134209}, {-1, 255, 11166975, 1973122047, -1701143809, -1431655681, -1246382593, -1701143809, 1973122047}});
+        screenWidgetEVO.setColorPalettes(new int[][]{{-1, -16777216, -1, -1, -6645094, -5592406, -4868683, -6645094, -1}, {-1, -16777216, -65511, -5546136, -6645094, -5592406, -4868683, -6645094, -4703671}, {-1, -16777216, -19456, -6123155, -6645094, -5592406, -4868683, -6645094, -6123155}, {-1, -16777216, -14775126, -9594974, -6645094, -5592406, -4868683, -6645094, -9594974}, {-1, -16777216, -10180096, -9200779, -6645094, -5592406, -4868683, -6645094, -9200779}});
         screenWidgetEVO.setSmallStageType(0);
         screenWidgetEVO.add(abstractWidgetController);
         screenWidgetEVO.add(containerController, 1);
@@ -2570,11 +3069,11 @@ public class NaviScreenBag3 {
         screenWidgetEVO.add(containerController2, 2);
         screenWidgetEVO.add(statusBarStubController);
         screenWidgetEVO.add(partialPopupController);
-        screenWidgetEVO.setViews(new int[]{138, 162, 5602, 5606, 203163136, 219940352, -1155791360, -1759640064, -1658976768, 1663370752}, new HMIView[][]{{statusBarStubController}, {naviScreenFactory.refWidgets[n][7]}, {modelStubController}, {modelStubController2}, {touchController}, {menuItemController2, menuItemController3}, {menuItemController}, {listController}, {menuController}, {naviScreenFactory.refWidgets[n][9]}});
-        screenWidgetEVO.setModelIDs(new int[]{219940352, -1155791360, -1759640064});
-        screenWidgetEVO.setEventIDs(new int[]{-1810233856, -1827011072, 605816320});
-        screenWidgetEVO.setConditionWidgets(new int[]{93, 162, 522, 556, 5624, 958137856, 1780221440, -1759640064, -1591867904, 1579091456}, new AbstractWidget[][]{{naviScreenFactory.refWidgets[n][8]}, {naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9]}, {touchController, naviScreenFactory.refWidgets[n][3], naviScreenFactory.refWidgets[n][4]}, {naviScreenFactory.refWidgets[n][5], naviScreenFactory.refWidgets[n][6], naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9], naviScreenFactory.refWidgets[n][10], naviScreenFactory.refWidgets[n][11], naviScreenFactory.refWidgets[n][12]}, {naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9]}, {naviScreenFactory.refWidgets[n][6]}, {naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9]}, {touchController}, {naviScreenFactory.refWidgets[n][5], naviScreenFactory.refWidgets[n][6], naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9], naviScreenFactory.refWidgets[n][10], naviScreenFactory.refWidgets[n][11], naviScreenFactory.refWidgets[n][12]}, {menuItemController2, menuItemController3}});
-        screenWidgetEVO.setReplacementWidgets(new int[]{236848640}, new HMIView[][]{{menuItemController2, menuItemController3}});
+        screenWidgetEVO.setViews(new int[]{138, 162, 5602, 5606, 400396, 400397, 400571, 401047, 401053, 402787}, new HMIView[][]{{statusBarStubController}, {naviScreenFactory.refWidgets[n][7]}, {modelStubController}, {modelStubController2}, {touchController}, {menuItemController2, menuItemController3}, {menuItemController}, {listController}, {menuController}, {naviScreenFactory.refWidgets[n][9]}});
+        screenWidgetEVO.setModelIDs(new int[]{400397, 400571, 401047});
+        screenWidgetEVO.setEventIDs(new int[]{400020, 400019, 400420});
+        screenWidgetEVO.setConditionWidgets(new int[]{93, 162, 522, 556, 5624, 400441, 400490, 401047, 401057, 401246}, new AbstractWidget[][]{{naviScreenFactory.refWidgets[n][8]}, {naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9]}, {touchController, naviScreenFactory.refWidgets[n][3], naviScreenFactory.refWidgets[n][4]}, {naviScreenFactory.refWidgets[n][5], naviScreenFactory.refWidgets[n][6], naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9], naviScreenFactory.refWidgets[n][10], naviScreenFactory.refWidgets[n][11], naviScreenFactory.refWidgets[n][12]}, {naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9]}, {naviScreenFactory.refWidgets[n][6]}, {naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9]}, {touchController}, {naviScreenFactory.refWidgets[n][5], naviScreenFactory.refWidgets[n][6], naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9], naviScreenFactory.refWidgets[n][10], naviScreenFactory.refWidgets[n][11], naviScreenFactory.refWidgets[n][12]}, {menuItemController2, menuItemController3}});
+        screenWidgetEVO.setReplacementWidgets(new int[]{400910}, new HMIView[][]{{menuItemController2, menuItemController3}});
         return screenWidgetEVO;
     }
 
@@ -2616,9 +3115,9 @@ public class NaviScreenBag3 {
         touchController.setRenderer(touchRendererHigh);
         touchController.setBitmaps(new int[]{483, 484, 857});
         touchRendererHigh.setFonts(naviScreenFactory.getFonts(4, n));
-        touchController.setModelID(-1910241792);
-        touchController.setInfoTextIDs(new int[]{1059390976, -1138227712});
-        touchController.setInitialTextID(1327826432);
+        touchController.setModelID(402574);
+        touchController.setInfoTextIDs(new int[]{402751, 403644});
+        touchController.setInitialTextID(402767);
         touchController.setColorIndices(new int[]{2, 5, 4, 3});
         touchController.setCursorOffsetBottom(1);
         touchController.setCursorOffsetTop(-1);
@@ -2629,11 +3128,11 @@ public class NaviScreenBag3 {
         touchController.setTouchControllerScreenLevel(2);
         touchController.setTouchpadMode(19);
         touchController.setSpeller(spellerController);
-        touchController.add(modelStubController, 16);
-        touchController.add(modelStubController2, 8);
+        touchController.add(modelStubController, 0x10000000);
+        touchController.add(modelStubController2, 0x8000000);
         ListController listController = new ListController();
-        listController.setModelID(-1608251904);
-        listController.setEvent(656147968);
+        listController.setModelID(402592);
+        listController.setEvent(400423);
         listController.setBounds(0, 0, 0, 0);
         listController.setColorIndices(new int[]{1, 0, 4, 2});
         listController.setGlassplateInsetsBottom(new int[0]);
@@ -2643,14 +3142,89 @@ public class NaviScreenBag3 {
         listController.setNoFocusAreasTop(new int[0]);
         listController.setPropertyColumn(4);
         listController.setDataAccess(new DefaultTiledListModelAccess());
-        listController.setItemFactory(new NaviScreenBag3$9());
+        listController.setItemFactory(new ListItemFactory(){
+
+            public AbstractWidgetController createListItem(int n, ListCell[] listCellArray) {
+                switch (n) {
+                    case 0: {
+                        MenuItemController menuItemController = new MenuItemController();
+                        menuItemController.setType(16);
+                        menuItemController.setRenderer(new MenuItemRendererHigh(menuItemController));
+                        GridLayout gridLayout = new GridLayout();
+                        MenuItemColumnsConstraints menuItemColumnsConstraints = new MenuItemColumnsConstraints(2);
+                        menuItemColumnsConstraints.gaps = new int[]{0, 15, 0};
+                        menuItemColumnsConstraints.hidemode = new int[]{2, 0};
+                        gridLayout.setColumnConstraints(menuItemColumnsConstraints);
+                        AxisConstraints axisConstraints = new AxisConstraints(1);
+                        gridLayout.setRowConstraints(axisConstraints);
+                        AbstractWidgetController abstractWidgetController = this.createCell(0);
+                        GridLayoutHints gridLayoutHints = new GridLayoutHints(0, 0);
+                        AbstractWidgetController abstractWidgetController2 = this.createCell(1);
+                        GridLayoutHints gridLayoutHints2 = new GridLayoutHints(1, 0);
+                        gridLayout.setCellConstraints(new GridLayoutHints[]{gridLayoutHints, gridLayoutHints2}, new Object[]{abstractWidgetController, abstractWidgetController2});
+                        menuItemController.setLayoutChoices(new GridLayout[]{gridLayout});
+                        menuItemController.add(abstractWidgetController2);
+                        menuItemController.add(abstractWidgetController);
+                        return menuItemController;
+                    }
+                }
+                return null;
+            }
+
+            public AbstractWidgetController createListItemNoData() {
+                MenuItemController menuItemController = new MenuItemController();
+                menuItemController.setType(16);
+                menuItemController.setRenderer(new CompositeRendererHigh(menuItemController));
+                GridLayout gridLayout = new GridLayout();
+                MenuItemColumnsConstraints menuItemColumnsConstraints = new MenuItemColumnsConstraints(1);
+                gridLayout.setColumnConstraints(menuItemColumnsConstraints);
+                AxisConstraints axisConstraints = new AxisConstraints(1);
+                gridLayout.setRowConstraints(axisConstraints);
+                AbstractWidgetController abstractWidgetController = this.createCell(2);
+                GridLayoutHints gridLayoutHints = new GridLayoutHints(0, 0);
+                gridLayout.setCellConstraints(new GridLayoutHints[]{gridLayoutHints}, new Object[]{abstractWidgetController});
+                menuItemController.setLayoutChoices(new GridLayout[]{gridLayout});
+                menuItemController.add(abstractWidgetController);
+                return menuItemController;
+            }
+
+            public AbstractWidgetController createCell(int n) {
+                switch (n) {
+                    case 0: {
+                        IconController iconController = new IconController();
+                        IconRendererHigh iconRendererHigh = new IconRendererHigh(iconController);
+                        iconController.setRenderer(iconRendererHigh);
+                        iconController.setBitmaps(new int[]{127, 400330});
+                        iconController.setModelColumn(3);
+                        iconController.setPreferredHeight(1);
+                        iconRendererHigh.setAlignment(1, 5);
+                        return iconController;
+                    }
+                    case 1: {
+                        LabelController labelController = new LabelController();
+                        HighlightingLabelRendererHigh highlightingLabelRendererHigh = new HighlightingLabelRendererHigh(labelController);
+                        labelController.setRenderer(highlightingLabelRendererHigh);
+                        labelController.setModelColumn(0);
+                        return labelController;
+                    }
+                    case 2: {
+                        LabelController labelController = new LabelController();
+                        HighlightingLabelRendererHigh highlightingLabelRendererHigh = new HighlightingLabelRendererHigh(labelController);
+                        labelController.setRenderer(highlightingLabelRendererHigh);
+                        labelController.setTextIds(new int[]{402623});
+                        return labelController;
+                    }
+                }
+                return null;
+            }
+        });
         MenuController menuController = new MenuController();
         MenuRendererHigh menuRendererHigh = new MenuRendererHigh(menuController);
         menuController.setRenderer(menuRendererHigh);
         menuController.createInfolineWidgets(new InfoLineRendererHigh());
         menuController.getInfoline().getInfolineRenderer().setFonts(naviScreenFactory.getFonts(2, n));
-        menuController.setModelID(-1625422336);
-        menuController.setDefaultDisabledInfolineTextId(1579550208);
+        menuController.setModelID(401055);
+        menuController.setDefaultDisabledInfolineTextId(403038);
         menuController.getInfolineTimer().setIdleTime(800);
         menuController.getInfoline().setColorIndices(new int[]{2, 0, 4, 3});
         menuController.getLayout().setBackgroundInsetsVert(7);
@@ -2672,10 +3246,10 @@ public class NaviScreenBag3 {
         ContainerRendererHigh containerRendererHigh = new ContainerRendererHigh(containerController);
         containerController.setRenderer(containerRendererHigh);
         containerController.setBounds(0, 0, 0, 0);
-        containerController.setEntertainmentMenuTransformation(16449, 16449, -1883081409, -1883081409, 63);
-        containerController.setOpacitySet(1.0f, -842216386);
-        containerController.setOptionMenuTransformation(32960, 57408, -1701242561, -1701242561, 63);
-        containerController.setSelectionMenuTransformation(40771, 57408, -512093121, -1701242561, 32830);
+        containerController.setEntertainmentMenuTransformation(12.0f, 12.0f, 0.96f, 0.96f, 0.5f);
+        containerController.setOpacitySet(1.0f, 0.4f);
+        containerController.setOptionMenuTransformation(-4.0f, 7.0f, 0.6f, 0.6f, 0.5f);
+        containerController.setSelectionMenuTransformation(318.0f, 7.0f, 0.58f, 0.6f, 0.25f);
         containerController.add(menuController);
         AbstractWidgetController abstractWidgetController2 = naviScreenFactory.getRefWidget(n, 2, naviScreenFactory);
         IconController iconController = new IconController();
@@ -2687,13 +3261,13 @@ public class NaviScreenBag3 {
         LabelRendererHigh labelRendererHigh = new LabelRendererHigh(labelController);
         labelController.setRenderer(labelRendererHigh);
         labelRendererHigh.setFonts(naviScreenFactory.getFonts(3, n));
-        labelController.setTextIds(new int[]{2082866688});
+        labelController.setTextIds(new int[]{403068});
         labelController.setBounds(0, 0, 0, 30);
         labelController.setColorIndices(new int[]{1, 2, 4, 0});
         LabelController labelController2 = new LabelController();
         LabelRendererHigh labelRendererHigh2 = new LabelRendererHigh(labelController2);
         labelController2.setRenderer(labelRendererHigh2);
-        labelController2.setTextIds(new int[]{-1322777088});
+        labelController2.setTextIds(new int[]{403633});
         labelController2.setBounds(0, 0, 0, 30);
         labelController2.setCoordinateSets(new int[]{1, 0, 0, 0, 30, 0, 0, 0, 30});
         TitleBarWidget titleBarWidget = new TitleBarWidget();
@@ -2711,31 +3285,31 @@ public class NaviScreenBag3 {
         ContainerRendererHigh containerRendererHigh2 = new ContainerRendererHigh(containerController2);
         containerController2.setRenderer(containerRendererHigh2);
         containerController2.setBounds(0, 0, 800, 0);
-        containerController2.setEntertainmentMenuTransformation(16449, 16449, -1883081409, -1883081409, 0.0f);
-        containerController2.setOpacitySet(1.0f, -842216386);
-        containerController2.setOptionMenuTransformation(32960, 57408, -1701242561, -1701242561, 0.0f);
-        containerController2.setSelectionMenuTransformation(8438595, 57408, -1701242561, -1701242561, 0.0f);
+        containerController2.setEntertainmentMenuTransformation(12.0f, 12.0f, 0.96f, 0.96f, 0.0f);
+        containerController2.setOpacitySet(1.0f, 0.4f);
+        containerController2.setOptionMenuTransformation(-4.0f, 7.0f, 0.6f, 0.6f, 0.0f);
+        containerController2.setSelectionMenuTransformation(391.0f, 7.0f, 0.6f, 0.6f, 0.0f);
         containerController2.add(titleBarWidget);
         StatusBarStubController statusBarStubController = new StatusBarStubController();
         statusBarStubController.setModelID(138);
         statusBarStubController.setBounds(0, 0, 100, 100);
-        ScreenWidgetEVO screenWidgetEVO = new ScreenWidgetEVO(-1977940480);
+        ScreenWidgetEVO screenWidgetEVO = new ScreenWidgetEVO(400266);
         screenWidgetEVO.setScreenFactory(naviScreenFactory);
         ScreenRendererHigh screenRendererHigh = new ScreenRendererHigh(screenWidgetEVO);
         screenWidgetEVO.setRenderer(screenRendererHigh);
         screenRendererHigh.setFonts(naviScreenFactory.getFonts(0, n));
         screenWidgetEVO.setColorIndices(new int[]{1, 2, 4, 0});
-        screenWidgetEVO.setColorPalettes(new int[][]{{-1, 255, -1, -1, -1701143809, -1431655681, -1246382593, -1701143809, -1}, {-1, 255, 419495935, 1751100415, -1701143809, -1431655681, -1246382593, -1701143809, 1228585215}, {-1, 255, -19456, 1838260991, -1701143809, -1431655681, -1246382593, -1701143809, 1838260991}, {-1, 255, -1433657601, -1567134209, -1701143809, -1431655681, -1246382593, -1701143809, -1567134209}, {-1, 255, 11166975, 1973122047, -1701143809, -1431655681, -1246382593, -1701143809, 1973122047}});
+        screenWidgetEVO.setColorPalettes(new int[][]{{-1, -16777216, -1, -1, -6645094, -5592406, -4868683, -6645094, -1}, {-1, -16777216, -65511, -5546136, -6645094, -5592406, -4868683, -6645094, -4703671}, {-1, -16777216, -19456, -6123155, -6645094, -5592406, -4868683, -6645094, -6123155}, {-1, -16777216, -14775126, -9594974, -6645094, -5592406, -4868683, -6645094, -9594974}, {-1, -16777216, -10180096, -9200779, -6645094, -5592406, -4868683, -6645094, -9200779}});
         screenWidgetEVO.setSmallStageType(0);
         screenWidgetEVO.add(abstractWidgetController);
         screenWidgetEVO.add(containerController, 1);
         screenWidgetEVO.add(abstractWidgetController2, 7);
         screenWidgetEVO.add(containerController2, 2);
         screenWidgetEVO.add(statusBarStubController);
-        screenWidgetEVO.setViews(new int[]{138, 162, 5602, 5606, -1625422336, -1910241792, -1608251904, 1663370752}, new HMIView[][]{{statusBarStubController}, {naviScreenFactory.refWidgets[n][7]}, {modelStubController}, {modelStubController2}, {menuController}, {touchController}, {listController}, {naviScreenFactory.refWidgets[n][9]}});
-        screenWidgetEVO.setModelIDs(new int[]{-1608251904});
-        screenWidgetEVO.setEventIDs(new int[]{656147968});
-        screenWidgetEVO.setConditionWidgets(new int[]{93, 162, 522, 556, 5624, 958137856, 1780221440, -1591867904}, new AbstractWidget[][]{{naviScreenFactory.refWidgets[n][8]}, {naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9]}, {naviScreenFactory.refWidgets[n][3], naviScreenFactory.refWidgets[n][4]}, {scrollbarController, scrollbarController2, naviScreenFactory.refWidgets[n][5], naviScreenFactory.refWidgets[n][6], naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9], naviScreenFactory.refWidgets[n][10], naviScreenFactory.refWidgets[n][11], naviScreenFactory.refWidgets[n][12]}, {naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9]}, {naviScreenFactory.refWidgets[n][6]}, {naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9]}, {scrollbarController, scrollbarController2, naviScreenFactory.refWidgets[n][5], naviScreenFactory.refWidgets[n][6], naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9], naviScreenFactory.refWidgets[n][10], naviScreenFactory.refWidgets[n][11], naviScreenFactory.refWidgets[n][12]}});
+        screenWidgetEVO.setViews(new int[]{138, 162, 5602, 5606, 401055, 402574, 402592, 402787}, new HMIView[][]{{statusBarStubController}, {naviScreenFactory.refWidgets[n][7]}, {modelStubController}, {modelStubController2}, {menuController}, {touchController}, {listController}, {naviScreenFactory.refWidgets[n][9]}});
+        screenWidgetEVO.setModelIDs(new int[]{402592});
+        screenWidgetEVO.setEventIDs(new int[]{400423});
+        screenWidgetEVO.setConditionWidgets(new int[]{93, 162, 522, 556, 5624, 400441, 400490, 401057}, new AbstractWidget[][]{{naviScreenFactory.refWidgets[n][8]}, {naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9]}, {naviScreenFactory.refWidgets[n][3], naviScreenFactory.refWidgets[n][4]}, {scrollbarController, scrollbarController2, naviScreenFactory.refWidgets[n][5], naviScreenFactory.refWidgets[n][6], naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9], naviScreenFactory.refWidgets[n][10], naviScreenFactory.refWidgets[n][11], naviScreenFactory.refWidgets[n][12]}, {naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9]}, {naviScreenFactory.refWidgets[n][6]}, {naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9]}, {scrollbarController, scrollbarController2, naviScreenFactory.refWidgets[n][5], naviScreenFactory.refWidgets[n][6], naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9], naviScreenFactory.refWidgets[n][10], naviScreenFactory.refWidgets[n][11], naviScreenFactory.refWidgets[n][12]}});
         return screenWidgetEVO;
     }
 
@@ -2757,8 +3331,8 @@ public class NaviScreenBag3 {
         focusCursorController.setWaitAnimOffsetX(600);
         focusCursorController.setWaitAnimOffsetY(15);
         ListController listController = new ListController();
-        listController.setModelID(-484375040);
-        listController.setEvent(605816320);
+        listController.setModelID(401891);
+        listController.setEvent(400420);
         listController.setBounds(0, 0, 0, 0);
         listController.setColorIndices(new int[]{1, 0, 4, 2});
         listController.setFocusableColumn(1);
@@ -2768,41 +3342,83 @@ public class NaviScreenBag3 {
         listController.setNoFocusAreasBottom(new int[0]);
         listController.setNoFocusAreasTop(new int[0]);
         listController.setDataAccess(new BaseListModelAccess());
-        listController.setItemFactory(new NaviScreenBag3$10());
+        listController.setItemFactory(new ListItemFactory(){
+
+            public AbstractWidgetController createListItem(int n, ListCell[] listCellArray) {
+                switch (n) {
+                    case 0: {
+                        MenuItemController menuItemController = new MenuItemController();
+                        menuItemController.setType(16);
+                        menuItemController.setRenderer(new MenuItemRendererHigh(menuItemController));
+                        GridLayout gridLayout = new GridLayout();
+                        MenuItemColumnsConstraints menuItemColumnsConstraints = new MenuItemColumnsConstraints(1);
+                        menuItemColumnsConstraints.grow = new float[]{1.0f};
+                        gridLayout.setColumnConstraints(menuItemColumnsConstraints);
+                        AxisConstraints axisConstraints = new AxisConstraints(1);
+                        gridLayout.setRowConstraints(axisConstraints);
+                        AbstractWidgetController abstractWidgetController = this.createCell(0);
+                        GridLayoutHints gridLayoutHints = new GridLayoutHints(0, 0);
+                        gridLayoutHints.hidemode = 0;
+                        gridLayout.setCellConstraints(new GridLayoutHints[]{gridLayoutHints}, new Object[]{abstractWidgetController});
+                        menuItemController.setLayoutChoices(new GridLayout[]{gridLayout});
+                        menuItemController.add(abstractWidgetController);
+                        return menuItemController;
+                    }
+                }
+                return null;
+            }
+
+            public AbstractWidgetController createListItemNoData() {
+                return null;
+            }
+
+            public AbstractWidgetController createCell(int n) {
+                switch (n) {
+                    case 0: {
+                        LabelController labelController = new LabelController();
+                        LabelRendererHigh labelRendererHigh = new LabelRendererHigh(labelController);
+                        labelController.setRenderer(labelRendererHigh);
+                        labelController.setModelColumn(0);
+                        return labelController;
+                    }
+                }
+                return null;
+            }
+        });
         MenuItemController menuItemController = new MenuItemController();
         CompositeRendererHigh compositeRendererHigh = new CompositeRendererHigh(menuItemController);
         menuItemController.setRenderer(compositeRendererHigh);
-        menuItemController.setModelID(505153024);
-        menuItemController.setEvent(-1910897152);
-        menuItemController.setLabelId(1260979712);
+        menuItemController.setModelID(400414);
+        menuItemController.setEvent(400014);
+        menuItemController.setLabelId(403787);
         menuItemController.setGlassplateInsetsBottom(6);
         menuItemController.setGlassplateInsetsTop(7);
-        menuItemController.setInternalID(-1860368896);
-        menuItemController.setSdsCommand(-1256585728);
+        menuItemController.setInternalID(400785);
+        menuItemController.setSdsCommand(400053);
         menuItemController.setSdsItemSelectedAction(2);
         menuItemController.setType(2);
         menuItemController.setWidgetID(5);
         MenuItemController menuItemController2 = new MenuItemController();
         CompositeRendererHigh compositeRendererHigh2 = new CompositeRendererHigh(menuItemController2);
         menuItemController2.setRenderer(compositeRendererHigh2);
-        menuItemController2.setModelID(1428030976);
-        menuItemController2.setEvent(-1910897152);
-        menuItemController2.setLabelId(371656192);
+        menuItemController2.setModelID(400981);
+        menuItemController2.setEvent(400014);
+        menuItemController2.setLabelId(403222);
         menuItemController2.setGlassplateInsetsBottom(6);
         menuItemController2.setGlassplateInsetsTop(7);
-        menuItemController2.setInternalID(1967616);
+        menuItemController2.setInternalID(400896);
         menuItemController2.setSdsItemSelectedAction(1);
         menuItemController2.setType(2);
         menuItemController2.setWidgetID(5);
         MenuItemController menuItemController3 = new MenuItemController();
         CompositeRendererHigh compositeRendererHigh3 = new CompositeRendererHigh(menuItemController3);
         menuItemController3.setRenderer(compositeRendererHigh3);
-        menuItemController3.setModelID(2032010752);
-        menuItemController3.setEvent(-1910897152);
-        menuItemController3.setLabelId(388433408);
+        menuItemController3.setModelID(401017);
+        menuItemController3.setEvent(400014);
+        menuItemController3.setLabelId(403223);
         menuItemController3.setGlassplateInsetsBottom(6);
         menuItemController3.setGlassplateInsetsTop(7);
-        menuItemController3.setInternalID(18744832);
+        menuItemController3.setInternalID(400897);
         menuItemController3.setSdsItemSelectedAction(1);
         menuItemController3.setType(2);
         menuItemController3.setWidgetID(5);
@@ -2810,36 +3426,36 @@ public class NaviScreenBag3 {
         CompositeRendererHigh compositeRendererHigh4 = new CompositeRendererHigh(menuItemController4);
         menuItemController4.setRenderer(compositeRendererHigh4);
         menuItemController4.setBitmaps(new int[]{39, 39, 39, 39});
-        menuItemController4.setModelID(-299825664);
-        menuItemController4.setEvent(-1759902208);
-        menuItemController4.setLabelId(-1725626880);
+        menuItemController4.setModelID(401902);
+        menuItemController4.setEvent(400023);
+        menuItemController4.setLabelId(402841);
         menuItemController4.setGlassplateInsetsBottom(6);
         menuItemController4.setGlassplateInsetsTop(7);
-        menuItemController4.setInternalID(-1910700544);
+        menuItemController4.setInternalID(400782);
         menuItemController4.setType(4);
         menuItemController4.setWidgetID(10);
         MenuItemController menuItemController5 = new MenuItemController();
         CompositeRendererHigh compositeRendererHigh5 = new CompositeRendererHigh(menuItemController5);
         menuItemController5.setRenderer(compositeRendererHigh5);
         menuItemController5.setBitmaps(new int[]{39, 39, 39, 39});
-        menuItemController5.setModelID(-333380096);
-        menuItemController5.setEvent(-1743124992);
-        menuItemController5.setLabelId(-1708849664);
+        menuItemController5.setModelID(401900);
+        menuItemController5.setEvent(400024);
+        menuItemController5.setLabelId(402842);
         menuItemController5.setGlassplateInsetsBottom(6);
         menuItemController5.setGlassplateInsetsTop(7);
-        menuItemController5.setInternalID(-1759705600);
+        menuItemController5.setInternalID(400791);
         menuItemController5.setType(4);
         menuItemController5.setWidgetID(11);
         MenuItemController menuItemController6 = new MenuItemController();
         CompositeRendererHigh compositeRendererHigh6 = new CompositeRendererHigh(menuItemController6);
         menuItemController6.setRenderer(compositeRendererHigh6);
         menuItemController6.setBitmaps(new int[]{39, 39, 39, 39});
-        menuItemController6.setModelID(-316602880);
-        menuItemController6.setEvent(-1726347776);
-        menuItemController6.setLabelId(-1692072448);
+        menuItemController6.setModelID(401901);
+        menuItemController6.setEvent(400025);
+        menuItemController6.setLabelId(402843);
         menuItemController6.setGlassplateInsetsBottom(6);
         menuItemController6.setGlassplateInsetsTop(7);
-        menuItemController6.setInternalID(-1742928384);
+        menuItemController6.setInternalID(400792);
         menuItemController6.setType(4);
         menuItemController6.setWidgetID(12);
         MenuController menuController = new MenuController();
@@ -2847,8 +3463,8 @@ public class NaviScreenBag3 {
         menuController.setRenderer(menuRendererHigh);
         menuController.createInfolineWidgets(new InfoLineRendererHigh());
         menuController.getInfoline().getInfolineRenderer().setFonts(naviScreenFactory.getFonts(2, n));
-        menuController.setModelID(-518126080);
-        menuController.setDefaultDisabledInfolineTextId(1579550208);
+        menuController.setModelID(401121);
+        menuController.setDefaultDisabledInfolineTextId(403038);
         menuController.getInfolineTimer().setIdleTime(800);
         menuController.getInfoline().setColorIndices(new int[]{2, 0, 4, 3});
         menuController.getInitialization().setInitialFocusWidgetIDs(new int[]{5, 10, 11, 12});
@@ -2875,10 +3491,10 @@ public class NaviScreenBag3 {
         ContainerRendererHigh containerRendererHigh = new ContainerRendererHigh(containerController);
         containerController.setRenderer(containerRendererHigh);
         containerController.setBounds(0, 0, 0, 0);
-        containerController.setEntertainmentMenuTransformation(16449, 16449, -1883081409, -1883081409, 63);
-        containerController.setOpacitySet(1.0f, -842216386);
-        containerController.setOptionMenuTransformation(32960, 57408, -1701242561, -1701242561, 63);
-        containerController.setSelectionMenuTransformation(40771, 57408, -512093121, -1701242561, 32830);
+        containerController.setEntertainmentMenuTransformation(12.0f, 12.0f, 0.96f, 0.96f, 0.5f);
+        containerController.setOpacitySet(1.0f, 0.4f);
+        containerController.setOptionMenuTransformation(-4.0f, 7.0f, 0.6f, 0.6f, 0.5f);
+        containerController.setSelectionMenuTransformation(318.0f, 7.0f, 0.58f, 0.6f, 0.25f);
         containerController.add(menuController);
         AbstractWidgetController abstractWidgetController2 = naviScreenFactory.getRefWidget(n, 2, naviScreenFactory);
         IconController iconController = new IconController();
@@ -2890,14 +3506,14 @@ public class NaviScreenBag3 {
         LabelRendererHigh labelRendererHigh = new LabelRendererHigh(labelController);
         labelController.setRenderer(labelRendererHigh);
         labelRendererHigh.setFonts(naviScreenFactory.getFonts(3, n));
-        labelController.setTextIds(new int[]{-1675295232});
+        labelController.setTextIds(new int[]{402844});
         labelController.setBounds(0, 0, 0, 30);
         labelController.setColorIndices(new int[]{1, 2, 4, 0});
         LabelController labelController2 = new LabelController();
         LabelRendererHigh labelRendererHigh2 = new LabelRendererHigh(labelController2);
         labelController2.setRenderer(labelRendererHigh2);
-        labelController2.setModelID(622921216);
-        labelController2.setTextIds(new int[]{-1322777088});
+        labelController2.setModelID(401701);
+        labelController2.setTextIds(new int[]{403633});
         labelController2.setBounds(0, 0, 0, 30);
         labelController2.setCoordinateSets(new int[]{1, 0, 0, 0, 30, 0, 0, 0, 30});
         TitleBarWidget titleBarWidget = new TitleBarWidget();
@@ -2915,21 +3531,21 @@ public class NaviScreenBag3 {
         ContainerRendererHigh containerRendererHigh2 = new ContainerRendererHigh(containerController2);
         containerController2.setRenderer(containerRendererHigh2);
         containerController2.setBounds(0, 0, 800, 0);
-        containerController2.setEntertainmentMenuTransformation(16449, 16449, -1883081409, -1883081409, 0.0f);
-        containerController2.setOpacitySet(1.0f, -842216386);
-        containerController2.setOptionMenuTransformation(32960, 57408, -1701242561, -1701242561, 0.0f);
-        containerController2.setSelectionMenuTransformation(8438595, 57408, -1701242561, -1701242561, 0.0f);
+        containerController2.setEntertainmentMenuTransformation(12.0f, 12.0f, 0.96f, 0.96f, 0.0f);
+        containerController2.setOpacitySet(1.0f, 0.4f);
+        containerController2.setOptionMenuTransformation(-4.0f, 7.0f, 0.6f, 0.6f, 0.0f);
+        containerController2.setSelectionMenuTransformation(391.0f, 7.0f, 0.6f, 0.6f, 0.0f);
         containerController2.add(titleBarWidget);
         StatusBarStubController statusBarStubController = new StatusBarStubController();
         statusBarStubController.setModelID(138);
         statusBarStubController.setBounds(0, 0, 100, 100);
-        ScreenWidgetEVO screenWidgetEVO = new ScreenWidgetEVO(-1961163264);
+        ScreenWidgetEVO screenWidgetEVO = new ScreenWidgetEVO(400267);
         screenWidgetEVO.setScreenFactory(naviScreenFactory);
         ScreenRendererHigh screenRendererHigh = new ScreenRendererHigh(screenWidgetEVO);
         screenWidgetEVO.setRenderer(screenRendererHigh);
         screenRendererHigh.setFonts(naviScreenFactory.getFonts(0, n));
         screenWidgetEVO.setColorIndices(new int[]{1, 2, 4, 0});
-        screenWidgetEVO.setColorPalettes(new int[][]{{-1, 255, -1, -1, -1701143809, -1431655681, -1246382593, -1701143809, -1}, {-1, 255, 419495935, 1751100415, -1701143809, -1431655681, -1246382593, -1701143809, 1228585215}, {-1, 255, -19456, 1838260991, -1701143809, -1431655681, -1246382593, -1701143809, 1838260991}, {-1, 255, -1433657601, -1567134209, -1701143809, -1431655681, -1246382593, -1701143809, -1567134209}, {-1, 255, 11166975, 1973122047, -1701143809, -1431655681, -1246382593, -1701143809, 1973122047}});
+        screenWidgetEVO.setColorPalettes(new int[][]{{-1, -16777216, -1, -1, -6645094, -5592406, -4868683, -6645094, -1}, {-1, -16777216, -65511, -5546136, -6645094, -5592406, -4868683, -6645094, -4703671}, {-1, -16777216, -19456, -6123155, -6645094, -5592406, -4868683, -6645094, -6123155}, {-1, -16777216, -14775126, -9594974, -6645094, -5592406, -4868683, -6645094, -9594974}, {-1, -16777216, -10180096, -9200779, -6645094, -5592406, -4868683, -6645094, -9200779}});
         screenWidgetEVO.setHmiAppsToNotifyForVisibility(new int[]{14});
         screenWidgetEVO.setSmallStageType(0);
         screenWidgetEVO.add(abstractWidgetController);
@@ -2937,10 +3553,10 @@ public class NaviScreenBag3 {
         screenWidgetEVO.add(abstractWidgetController2, 7);
         screenWidgetEVO.add(containerController2, 2);
         screenWidgetEVO.add(statusBarStubController);
-        screenWidgetEVO.setViews(new int[]{138, 162, 505153024, 1428030976, 2032010752, -518126080, 622921216, -484375040, -333380096, -316602880, -299825664, 1663370752}, new HMIView[][]{{statusBarStubController}, {naviScreenFactory.refWidgets[n][7]}, {menuItemController}, {menuItemController2}, {menuItemController3}, {menuController}, {labelController2}, {listController}, {menuItemController5}, {menuItemController6}, {menuItemController4}, {naviScreenFactory.refWidgets[n][9]}});
-        screenWidgetEVO.setModelIDs(new int[]{505153024, 1428030976, 2032010752, -484375040, -333380096, -316602880, -299825664});
-        screenWidgetEVO.setEventIDs(new int[]{-1910897152, -1910897152, -1910897152, 605816320, -1743124992, -1726347776, -1759902208});
-        screenWidgetEVO.setConditionWidgets(new int[]{93, 162, 310, 522, 556, 5624, 656082432, 723191296, 790300160, 958137856, 1780221440, -1591867904, 1579091456}, new AbstractWidget[][]{{naviScreenFactory.refWidgets[n][8]}, {naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9]}, {menuController}, {naviScreenFactory.refWidgets[n][3], naviScreenFactory.refWidgets[n][4]}, {naviScreenFactory.refWidgets[n][5], naviScreenFactory.refWidgets[n][6], naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9], naviScreenFactory.refWidgets[n][10], naviScreenFactory.refWidgets[n][11], naviScreenFactory.refWidgets[n][12]}, {naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9]}, {menuItemController6}, {menuItemController5}, {menuItemController4}, {naviScreenFactory.refWidgets[n][6]}, {naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9]}, {naviScreenFactory.refWidgets[n][5], naviScreenFactory.refWidgets[n][6], naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9], naviScreenFactory.refWidgets[n][10], naviScreenFactory.refWidgets[n][11], naviScreenFactory.refWidgets[n][12]}, {menuItemController, menuItemController2, menuItemController3}});
+        screenWidgetEVO.setViews(new int[]{138, 162, 400414, 400981, 401017, 401121, 401701, 401891, 401900, 401901, 401902, 402787}, new HMIView[][]{{statusBarStubController}, {naviScreenFactory.refWidgets[n][7]}, {menuItemController}, {menuItemController2}, {menuItemController3}, {menuController}, {labelController2}, {listController}, {menuItemController5}, {menuItemController6}, {menuItemController4}, {naviScreenFactory.refWidgets[n][9]}});
+        screenWidgetEVO.setModelIDs(new int[]{400414, 400981, 401017, 401891, 401900, 401901, 401902});
+        screenWidgetEVO.setEventIDs(new int[]{400014, 400014, 400014, 400420, 400024, 400025, 400023});
+        screenWidgetEVO.setConditionWidgets(new int[]{93, 162, 310, 522, 556, 5624, 400167, 400171, 400175, 400441, 400490, 401057, 401246}, new AbstractWidget[][]{{naviScreenFactory.refWidgets[n][8]}, {naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9]}, {menuController}, {naviScreenFactory.refWidgets[n][3], naviScreenFactory.refWidgets[n][4]}, {naviScreenFactory.refWidgets[n][5], naviScreenFactory.refWidgets[n][6], naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9], naviScreenFactory.refWidgets[n][10], naviScreenFactory.refWidgets[n][11], naviScreenFactory.refWidgets[n][12]}, {naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9]}, {menuItemController6}, {menuItemController5}, {menuItemController4}, {naviScreenFactory.refWidgets[n][6]}, {naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9]}, {naviScreenFactory.refWidgets[n][5], naviScreenFactory.refWidgets[n][6], naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9], naviScreenFactory.refWidgets[n][10], naviScreenFactory.refWidgets[n][11], naviScreenFactory.refWidgets[n][12]}, {menuItemController, menuItemController2, menuItemController3}});
         return screenWidgetEVO;
     }
 
@@ -2978,9 +3594,9 @@ public class NaviScreenBag3 {
         touchController.setRenderer(touchRendererHigh);
         touchController.setBitmaps(new int[]{483, 484, 857});
         touchRendererHigh.setFonts(naviScreenFactory.getFonts(4, n));
-        touchController.setModelID(-1692137984);
-        touchController.setInfoTextIDs(new int[]{1445266944, -1171782144});
-        touchController.setInitialTextID(1462044160);
+        touchController.setModelID(402587);
+        touchController.setInfoTextIDs(new int[]{402774, 403642});
+        touchController.setInitialTextID(402775);
         touchController.setColorIndices(new int[]{2, 5, 4, 3});
         touchController.setCursorOffsetBottom(1);
         touchController.setCursorOffsetTop(-1);
@@ -2991,11 +3607,11 @@ public class NaviScreenBag3 {
         touchController.setTouchControllerScreenLevel(2);
         touchController.setTouchpadMode(19);
         touchController.setSpeller(spellerController);
-        touchController.add(modelStubController, 16);
-        touchController.add(modelStubController2, 8);
+        touchController.add(modelStubController, 0x10000000);
+        touchController.add(modelStubController2, 0x8000000);
         ListController listController = new ListController();
-        listController.setModelID(-1742862848);
-        listController.setEvent(740034048);
+        listController.setModelID(401048);
+        listController.setEvent(400428);
         listController.setBounds(0, 0, 0, 0);
         listController.setColorIndices(new int[]{1, 0, 4, 2});
         listController.setGlassplateInsetsBottom(new int[0]);
@@ -3005,14 +3621,76 @@ public class NaviScreenBag3 {
         listController.setNoFocusAreasTop(new int[0]);
         listController.setPropertyColumn(4);
         listController.setDataAccess(new DefaultTiledListModelAccess());
-        listController.setItemFactory(new NaviScreenBag3$11());
+        listController.setItemFactory(new ListItemFactory(){
+
+            public AbstractWidgetController createListItem(int n, ListCell[] listCellArray) {
+                switch (n) {
+                    case 0: {
+                        MenuItemController menuItemController = new MenuItemController();
+                        menuItemController.setType(16);
+                        menuItemController.setRenderer(new MenuItemRendererHigh(menuItemController));
+                        GridLayout gridLayout = new GridLayout();
+                        MenuItemColumnsConstraints menuItemColumnsConstraints = new MenuItemColumnsConstraints(1);
+                        menuItemColumnsConstraints.grow = new float[]{1.0f};
+                        gridLayout.setColumnConstraints(menuItemColumnsConstraints);
+                        AxisConstraints axisConstraints = new AxisConstraints(1);
+                        gridLayout.setRowConstraints(axisConstraints);
+                        AbstractWidgetController abstractWidgetController = this.createCell(0);
+                        GridLayoutHints gridLayoutHints = new GridLayoutHints(0, 0);
+                        gridLayoutHints.hidemode = 0;
+                        gridLayout.setCellConstraints(new GridLayoutHints[]{gridLayoutHints}, new Object[]{abstractWidgetController});
+                        menuItemController.setLayoutChoices(new GridLayout[]{gridLayout});
+                        menuItemController.add(abstractWidgetController);
+                        return menuItemController;
+                    }
+                }
+                return null;
+            }
+
+            public AbstractWidgetController createListItemNoData() {
+                MenuItemController menuItemController = new MenuItemController();
+                menuItemController.setType(16);
+                menuItemController.setRenderer(new CompositeRendererHigh(menuItemController));
+                GridLayout gridLayout = new GridLayout();
+                MenuItemColumnsConstraints menuItemColumnsConstraints = new MenuItemColumnsConstraints(1);
+                gridLayout.setColumnConstraints(menuItemColumnsConstraints);
+                AxisConstraints axisConstraints = new AxisConstraints(1);
+                gridLayout.setRowConstraints(axisConstraints);
+                AbstractWidgetController abstractWidgetController = this.createCell(1);
+                GridLayoutHints gridLayoutHints = new GridLayoutHints(0, 0);
+                gridLayout.setCellConstraints(new GridLayoutHints[]{gridLayoutHints}, new Object[]{abstractWidgetController});
+                menuItemController.setLayoutChoices(new GridLayout[]{gridLayout});
+                menuItemController.add(abstractWidgetController);
+                return menuItemController;
+            }
+
+            public AbstractWidgetController createCell(int n) {
+                switch (n) {
+                    case 0: {
+                        LabelController labelController = new LabelController();
+                        HighlightingLabelRendererHigh highlightingLabelRendererHigh = new HighlightingLabelRendererHigh(labelController);
+                        labelController.setRenderer(highlightingLabelRendererHigh);
+                        labelController.setModelColumn(0);
+                        return labelController;
+                    }
+                    case 1: {
+                        LabelController labelController = new LabelController();
+                        HighlightingLabelRendererHigh highlightingLabelRendererHigh = new HighlightingLabelRendererHigh(labelController);
+                        labelController.setRenderer(highlightingLabelRendererHigh);
+                        labelController.setTextIds(new int[]{402623});
+                        return labelController;
+                    }
+                }
+                return null;
+            }
+        });
         MenuController menuController = new MenuController();
         MenuRendererHigh menuRendererHigh = new MenuRendererHigh(menuController);
         menuController.setRenderer(menuRendererHigh);
         menuController.createInfolineWidgets(new InfoLineRendererHigh());
         menuController.getInfoline().getInfolineRenderer().setFonts(naviScreenFactory.getFonts(2, n));
-        menuController.setModelID(-1642199552);
-        menuController.setDefaultDisabledInfolineTextId(891684352);
+        menuController.setModelID(401054);
+        menuController.setDefaultDisabledInfolineTextId(402997);
         menuController.getInfolineTimer().setIdleTime(800);
         menuController.getInfoline().setColorIndices(new int[]{2, 0, 4, 3});
         menuController.getLayout().setBackgroundInsetsVert(7);
@@ -3033,10 +3711,10 @@ public class NaviScreenBag3 {
         ContainerRendererHigh containerRendererHigh = new ContainerRendererHigh(containerController);
         containerController.setRenderer(containerRendererHigh);
         containerController.setBounds(0, 0, 0, 0);
-        containerController.setEntertainmentMenuTransformation(16449, 16449, -1883081409, -1883081409, 63);
-        containerController.setOpacitySet(1.0f, -842216386);
-        containerController.setOptionMenuTransformation(32960, 57408, -1701242561, -1701242561, 63);
-        containerController.setSelectionMenuTransformation(40771, 57408, -512093121, -1701242561, 32830);
+        containerController.setEntertainmentMenuTransformation(12.0f, 12.0f, 0.96f, 0.96f, 0.5f);
+        containerController.setOpacitySet(1.0f, 0.4f);
+        containerController.setOptionMenuTransformation(-4.0f, 7.0f, 0.6f, 0.6f, 0.5f);
+        containerController.setSelectionMenuTransformation(318.0f, 7.0f, 0.58f, 0.6f, 0.25f);
         containerController.add(menuController);
         AbstractWidgetController abstractWidgetController2 = naviScreenFactory.getRefWidget(n, 2, naviScreenFactory);
         IconController iconController = new IconController();
@@ -3048,13 +3726,13 @@ public class NaviScreenBag3 {
         LabelRendererHigh labelRendererHigh = new LabelRendererHigh(labelController);
         labelController.setRenderer(labelRendererHigh);
         labelRendererHigh.setFonts(naviScreenFactory.getFonts(3, n));
-        labelController.setTextIds(new int[]{1478821376});
+        labelController.setTextIds(new int[]{402776});
         labelController.setBounds(0, 0, 0, 30);
         labelController.setColorIndices(new int[]{1, 2, 4, 0});
         LabelController labelController2 = new LabelController();
         LabelRendererHigh labelRendererHigh2 = new LabelRendererHigh(labelController2);
         labelController2.setRenderer(labelRendererHigh2);
-        labelController2.setTextIds(new int[]{1495598592});
+        labelController2.setTextIds(new int[]{402777});
         labelController2.setBounds(0, 0, 0, 30);
         labelController2.setCoordinateSets(new int[]{1, 0, 0, 0, 30, 0, 0, 0, 30});
         TitleBarWidget titleBarWidget = new TitleBarWidget();
@@ -3072,31 +3750,31 @@ public class NaviScreenBag3 {
         ContainerRendererHigh containerRendererHigh2 = new ContainerRendererHigh(containerController2);
         containerController2.setRenderer(containerRendererHigh2);
         containerController2.setBounds(0, 0, 800, 0);
-        containerController2.setEntertainmentMenuTransformation(16449, 16449, -1883081409, -1883081409, 0.0f);
-        containerController2.setOpacitySet(1.0f, -842216386);
-        containerController2.setOptionMenuTransformation(32960, 57408, -1701242561, -1701242561, 0.0f);
-        containerController2.setSelectionMenuTransformation(8438595, 57408, -1701242561, -1701242561, 0.0f);
+        containerController2.setEntertainmentMenuTransformation(12.0f, 12.0f, 0.96f, 0.96f, 0.0f);
+        containerController2.setOpacitySet(1.0f, 0.4f);
+        containerController2.setOptionMenuTransformation(-4.0f, 7.0f, 0.6f, 0.6f, 0.0f);
+        containerController2.setSelectionMenuTransformation(391.0f, 7.0f, 0.6f, 0.6f, 0.0f);
         containerController2.add(titleBarWidget);
         StatusBarStubController statusBarStubController = new StatusBarStubController();
         statusBarStubController.setModelID(138);
         statusBarStubController.setBounds(0, 0, 100, 100);
-        ScreenWidgetEVO screenWidgetEVO = new ScreenWidgetEVO(-1944386048);
+        ScreenWidgetEVO screenWidgetEVO = new ScreenWidgetEVO(400268);
         screenWidgetEVO.setScreenFactory(naviScreenFactory);
         ScreenRendererHigh screenRendererHigh = new ScreenRendererHigh(screenWidgetEVO);
         screenWidgetEVO.setRenderer(screenRendererHigh);
         screenRendererHigh.setFonts(naviScreenFactory.getFonts(0, n));
         screenWidgetEVO.setColorIndices(new int[]{1, 2, 4, 0});
-        screenWidgetEVO.setColorPalettes(new int[][]{{-1, 255, -1, -1, -1701143809, -1431655681, -1246382593, -1701143809, -1}, {-1, 255, 419495935, 1751100415, -1701143809, -1431655681, -1246382593, -1701143809, 1228585215}, {-1, 255, -19456, 1838260991, -1701143809, -1431655681, -1246382593, -1701143809, 1838260991}, {-1, 255, -1433657601, -1567134209, -1701143809, -1431655681, -1246382593, -1701143809, -1567134209}, {-1, 255, 11166975, 1973122047, -1701143809, -1431655681, -1246382593, -1701143809, 1973122047}});
+        screenWidgetEVO.setColorPalettes(new int[][]{{-1, -16777216, -1, -1, -6645094, -5592406, -4868683, -6645094, -1}, {-1, -16777216, -65511, -5546136, -6645094, -5592406, -4868683, -6645094, -4703671}, {-1, -16777216, -19456, -6123155, -6645094, -5592406, -4868683, -6645094, -6123155}, {-1, -16777216, -14775126, -9594974, -6645094, -5592406, -4868683, -6645094, -9594974}, {-1, -16777216, -10180096, -9200779, -6645094, -5592406, -4868683, -6645094, -9200779}});
         screenWidgetEVO.setSmallStageType(0);
         screenWidgetEVO.add(abstractWidgetController);
         screenWidgetEVO.add(containerController, 1);
         screenWidgetEVO.add(abstractWidgetController2, 7);
         screenWidgetEVO.add(containerController2, 2);
         screenWidgetEVO.add(statusBarStubController);
-        screenWidgetEVO.setViews(new int[]{138, 162, 5602, 5606, -1742862848, -1642199552, -1692137984, 1663370752}, new HMIView[][]{{statusBarStubController}, {naviScreenFactory.refWidgets[n][7]}, {modelStubController}, {modelStubController2}, {listController}, {menuController}, {touchController}, {naviScreenFactory.refWidgets[n][9]}});
-        screenWidgetEVO.setModelIDs(new int[]{-1742862848});
-        screenWidgetEVO.setEventIDs(new int[]{740034048});
-        screenWidgetEVO.setConditionWidgets(new int[]{93, 162, 522, 556, 5624, 958137856, 1780221440, -1591867904}, new AbstractWidget[][]{{naviScreenFactory.refWidgets[n][8]}, {naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9]}, {naviScreenFactory.refWidgets[n][3], naviScreenFactory.refWidgets[n][4]}, {naviScreenFactory.refWidgets[n][5], naviScreenFactory.refWidgets[n][6], naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9], naviScreenFactory.refWidgets[n][10], naviScreenFactory.refWidgets[n][11], naviScreenFactory.refWidgets[n][12]}, {naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9]}, {naviScreenFactory.refWidgets[n][6]}, {naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9]}, {naviScreenFactory.refWidgets[n][5], naviScreenFactory.refWidgets[n][6], naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9], naviScreenFactory.refWidgets[n][10], naviScreenFactory.refWidgets[n][11], naviScreenFactory.refWidgets[n][12]}});
+        screenWidgetEVO.setViews(new int[]{138, 162, 5602, 5606, 401048, 401054, 402587, 402787}, new HMIView[][]{{statusBarStubController}, {naviScreenFactory.refWidgets[n][7]}, {modelStubController}, {modelStubController2}, {listController}, {menuController}, {touchController}, {naviScreenFactory.refWidgets[n][9]}});
+        screenWidgetEVO.setModelIDs(new int[]{401048});
+        screenWidgetEVO.setEventIDs(new int[]{400428});
+        screenWidgetEVO.setConditionWidgets(new int[]{93, 162, 522, 556, 5624, 400441, 400490, 401057}, new AbstractWidget[][]{{naviScreenFactory.refWidgets[n][8]}, {naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9]}, {naviScreenFactory.refWidgets[n][3], naviScreenFactory.refWidgets[n][4]}, {naviScreenFactory.refWidgets[n][5], naviScreenFactory.refWidgets[n][6], naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9], naviScreenFactory.refWidgets[n][10], naviScreenFactory.refWidgets[n][11], naviScreenFactory.refWidgets[n][12]}, {naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9]}, {naviScreenFactory.refWidgets[n][6]}, {naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9]}, {naviScreenFactory.refWidgets[n][5], naviScreenFactory.refWidgets[n][6], naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9], naviScreenFactory.refWidgets[n][10], naviScreenFactory.refWidgets[n][11], naviScreenFactory.refWidgets[n][12]}});
         return screenWidgetEVO;
     }
 
@@ -3118,8 +3796,8 @@ public class NaviScreenBag3 {
         focusCursorController.setWaitAnimOffsetX(600);
         focusCursorController.setWaitAnimOffsetY(15);
         ListController listController = new ListController();
-        listController.setModelID(-1323432448);
-        listController.setEvent(689702400);
+        listController.setModelID(401073);
+        listController.setEvent(400425);
         listController.setBounds(0, 0, 0, 0);
         listController.setColorIndices(new int[]{1, 0, 4, 2});
         listController.setGlassplateInsetsBottom(new int[0]);
@@ -3129,14 +3807,76 @@ public class NaviScreenBag3 {
         listController.setNoFocusAreasTop(new int[0]);
         listController.setPropertyColumn(4);
         listController.setDataAccess(new DefaultTiledListModelAccess());
-        listController.setItemFactory(new NaviScreenBag3$12());
+        listController.setItemFactory(new ListItemFactory(){
+
+            public AbstractWidgetController createListItem(int n, ListCell[] listCellArray) {
+                switch (n) {
+                    case 0: {
+                        MenuItemController menuItemController = new MenuItemController();
+                        menuItemController.setType(16);
+                        menuItemController.setRenderer(new MenuItemRendererHigh(menuItemController));
+                        GridLayout gridLayout = new GridLayout();
+                        MenuItemColumnsConstraints menuItemColumnsConstraints = new MenuItemColumnsConstraints(1);
+                        menuItemColumnsConstraints.grow = new float[]{1.0f};
+                        gridLayout.setColumnConstraints(menuItemColumnsConstraints);
+                        AxisConstraints axisConstraints = new AxisConstraints(1);
+                        gridLayout.setRowConstraints(axisConstraints);
+                        AbstractWidgetController abstractWidgetController = this.createCell(0);
+                        GridLayoutHints gridLayoutHints = new GridLayoutHints(0, 0);
+                        gridLayoutHints.hidemode = 0;
+                        gridLayout.setCellConstraints(new GridLayoutHints[]{gridLayoutHints}, new Object[]{abstractWidgetController});
+                        menuItemController.setLayoutChoices(new GridLayout[]{gridLayout});
+                        menuItemController.add(abstractWidgetController);
+                        return menuItemController;
+                    }
+                }
+                return null;
+            }
+
+            public AbstractWidgetController createListItemNoData() {
+                MenuItemController menuItemController = new MenuItemController();
+                menuItemController.setType(16);
+                menuItemController.setRenderer(new CompositeRendererHigh(menuItemController));
+                GridLayout gridLayout = new GridLayout();
+                MenuItemColumnsConstraints menuItemColumnsConstraints = new MenuItemColumnsConstraints(1);
+                gridLayout.setColumnConstraints(menuItemColumnsConstraints);
+                AxisConstraints axisConstraints = new AxisConstraints(1);
+                gridLayout.setRowConstraints(axisConstraints);
+                AbstractWidgetController abstractWidgetController = this.createCell(1);
+                GridLayoutHints gridLayoutHints = new GridLayoutHints(0, 0);
+                gridLayout.setCellConstraints(new GridLayoutHints[]{gridLayoutHints}, new Object[]{abstractWidgetController});
+                menuItemController.setLayoutChoices(new GridLayout[]{gridLayout});
+                menuItemController.add(abstractWidgetController);
+                return menuItemController;
+            }
+
+            public AbstractWidgetController createCell(int n) {
+                switch (n) {
+                    case 0: {
+                        LabelController labelController = new LabelController();
+                        HighlightingLabelRendererHigh highlightingLabelRendererHigh = new HighlightingLabelRendererHigh(labelController);
+                        labelController.setRenderer(highlightingLabelRendererHigh);
+                        labelController.setModelColumn(0);
+                        return labelController;
+                    }
+                    case 1: {
+                        LabelController labelController = new LabelController();
+                        HighlightingLabelRendererHigh highlightingLabelRendererHigh = new HighlightingLabelRendererHigh(labelController);
+                        labelController.setRenderer(highlightingLabelRendererHigh);
+                        labelController.setTextIds(new int[]{402623});
+                        return labelController;
+                    }
+                }
+                return null;
+            }
+        });
         MenuController menuController = new MenuController();
         MenuRendererHigh menuRendererHigh = new MenuRendererHigh(menuController);
         menuController.setRenderer(menuRendererHigh);
         menuController.createInfolineWidgets(new InfoLineRendererHigh());
         menuController.getInfoline().getInfolineRenderer().setFonts(naviScreenFactory.getFonts(2, n));
-        menuController.setModelID(-1306655232);
-        menuController.setDefaultDisabledInfolineTextId(-1624963584);
+        menuController.setModelID(401074);
+        menuController.setDefaultDisabledInfolineTextId(402847);
         menuController.getInfolineTimer().setIdleTime(800);
         menuController.getInfoline().setColorIndices(new int[]{2, 0, 4, 3});
         menuController.getLayout().setBackgroundInsetsVert(7);
@@ -3156,10 +3896,10 @@ public class NaviScreenBag3 {
         ContainerRendererHigh containerRendererHigh = new ContainerRendererHigh(containerController);
         containerController.setRenderer(containerRendererHigh);
         containerController.setBounds(0, 0, 0, 0);
-        containerController.setEntertainmentMenuTransformation(16449, 16449, -1883081409, -1883081409, 63);
-        containerController.setOpacitySet(1.0f, -842216386);
-        containerController.setOptionMenuTransformation(32960, 57408, -1701242561, -1701242561, 63);
-        containerController.setSelectionMenuTransformation(40771, 57408, -512093121, -1701242561, 32830);
+        containerController.setEntertainmentMenuTransformation(12.0f, 12.0f, 0.96f, 0.96f, 0.5f);
+        containerController.setOpacitySet(1.0f, 0.4f);
+        containerController.setOptionMenuTransformation(-4.0f, 7.0f, 0.6f, 0.6f, 0.5f);
+        containerController.setSelectionMenuTransformation(318.0f, 7.0f, 0.58f, 0.6f, 0.25f);
         containerController.add(menuController);
         AbstractWidgetController abstractWidgetController2 = naviScreenFactory.getRefWidget(n, 2, naviScreenFactory);
         IconController iconController = new IconController();
@@ -3171,13 +3911,13 @@ public class NaviScreenBag3 {
         LabelRendererHigh labelRendererHigh = new LabelRendererHigh(labelController);
         labelController.setRenderer(labelRendererHigh);
         labelRendererHigh.setFonts(naviScreenFactory.getFonts(3, n));
-        labelController.setTextIds(new int[]{-1591409152});
+        labelController.setTextIds(new int[]{402849});
         labelController.setBounds(0, 0, 0, 30);
         labelController.setColorIndices(new int[]{1, 2, 4, 0});
         LabelController labelController2 = new LabelController();
         LabelRendererHigh labelRendererHigh2 = new LabelRendererHigh(labelController2);
         labelController2.setRenderer(labelRendererHigh2);
-        labelController2.setTextIds(new int[]{120063488});
+        labelController2.setTextIds(new int[]{403463});
         labelController2.setBounds(0, 0, 0, 30);
         labelController2.setCoordinateSets(new int[]{1, 0, 0, 0, 30, 0, 0, 0, 30});
         TitleBarWidget titleBarWidget = new TitleBarWidget();
@@ -3195,31 +3935,31 @@ public class NaviScreenBag3 {
         ContainerRendererHigh containerRendererHigh2 = new ContainerRendererHigh(containerController2);
         containerController2.setRenderer(containerRendererHigh2);
         containerController2.setBounds(0, 0, 800, 0);
-        containerController2.setEntertainmentMenuTransformation(16449, 16449, -1883081409, -1883081409, 0.0f);
-        containerController2.setOpacitySet(1.0f, -842216386);
-        containerController2.setOptionMenuTransformation(32960, 57408, -1701242561, -1701242561, 0.0f);
-        containerController2.setSelectionMenuTransformation(8438595, 57408, -1701242561, -1701242561, 0.0f);
+        containerController2.setEntertainmentMenuTransformation(12.0f, 12.0f, 0.96f, 0.96f, 0.0f);
+        containerController2.setOpacitySet(1.0f, 0.4f);
+        containerController2.setOptionMenuTransformation(-4.0f, 7.0f, 0.6f, 0.6f, 0.0f);
+        containerController2.setSelectionMenuTransformation(391.0f, 7.0f, 0.6f, 0.6f, 0.0f);
         containerController2.add(titleBarWidget);
         StatusBarStubController statusBarStubController = new StatusBarStubController();
         statusBarStubController.setModelID(138);
         statusBarStubController.setBounds(0, 0, 100, 100);
-        ScreenWidgetEVO screenWidgetEVO = new ScreenWidgetEVO(-1910831616);
+        ScreenWidgetEVO screenWidgetEVO = new ScreenWidgetEVO(400270);
         screenWidgetEVO.setScreenFactory(naviScreenFactory);
         ScreenRendererHigh screenRendererHigh = new ScreenRendererHigh(screenWidgetEVO);
         screenWidgetEVO.setRenderer(screenRendererHigh);
         screenRendererHigh.setFonts(naviScreenFactory.getFonts(0, n));
         screenWidgetEVO.setColorIndices(new int[]{1, 2, 4, 0});
-        screenWidgetEVO.setColorPalettes(new int[][]{{-1, 255, -1, -1, -1701143809, -1431655681, -1246382593, -1701143809, -1}, {-1, 255, 419495935, 1751100415, -1701143809, -1431655681, -1246382593, -1701143809, 1228585215}, {-1, 255, -19456, 1838260991, -1701143809, -1431655681, -1246382593, -1701143809, 1838260991}, {-1, 255, -1433657601, -1567134209, -1701143809, -1431655681, -1246382593, -1701143809, -1567134209}, {-1, 255, 11166975, 1973122047, -1701143809, -1431655681, -1246382593, -1701143809, 1973122047}});
+        screenWidgetEVO.setColorPalettes(new int[][]{{-1, -16777216, -1, -1, -6645094, -5592406, -4868683, -6645094, -1}, {-1, -16777216, -65511, -5546136, -6645094, -5592406, -4868683, -6645094, -4703671}, {-1, -16777216, -19456, -6123155, -6645094, -5592406, -4868683, -6645094, -6123155}, {-1, -16777216, -14775126, -9594974, -6645094, -5592406, -4868683, -6645094, -9594974}, {-1, -16777216, -10180096, -9200779, -6645094, -5592406, -4868683, -6645094, -9200779}});
         screenWidgetEVO.setSmallStageType(0);
         screenWidgetEVO.add(abstractWidgetController);
         screenWidgetEVO.add(containerController, 1);
         screenWidgetEVO.add(abstractWidgetController2, 7);
         screenWidgetEVO.add(containerController2, 2);
         screenWidgetEVO.add(statusBarStubController);
-        screenWidgetEVO.setViews(new int[]{138, 162, -1323432448, -1306655232, 1663370752}, new HMIView[][]{{statusBarStubController}, {naviScreenFactory.refWidgets[n][7]}, {listController}, {menuController}, {naviScreenFactory.refWidgets[n][9]}});
-        screenWidgetEVO.setModelIDs(new int[]{-1323432448});
-        screenWidgetEVO.setEventIDs(new int[]{689702400});
-        screenWidgetEVO.setConditionWidgets(new int[]{93, 162, 522, 556, 5624, 958137856, 1780221440, -1591867904}, new AbstractWidget[][]{{naviScreenFactory.refWidgets[n][8]}, {naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9]}, {naviScreenFactory.refWidgets[n][3], naviScreenFactory.refWidgets[n][4]}, {naviScreenFactory.refWidgets[n][5], naviScreenFactory.refWidgets[n][6], naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9], naviScreenFactory.refWidgets[n][10], naviScreenFactory.refWidgets[n][11], naviScreenFactory.refWidgets[n][12]}, {naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9]}, {naviScreenFactory.refWidgets[n][6]}, {naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9]}, {naviScreenFactory.refWidgets[n][5], naviScreenFactory.refWidgets[n][6], naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9], naviScreenFactory.refWidgets[n][10], naviScreenFactory.refWidgets[n][11], naviScreenFactory.refWidgets[n][12]}});
+        screenWidgetEVO.setViews(new int[]{138, 162, 401073, 401074, 402787}, new HMIView[][]{{statusBarStubController}, {naviScreenFactory.refWidgets[n][7]}, {listController}, {menuController}, {naviScreenFactory.refWidgets[n][9]}});
+        screenWidgetEVO.setModelIDs(new int[]{401073});
+        screenWidgetEVO.setEventIDs(new int[]{400425});
+        screenWidgetEVO.setConditionWidgets(new int[]{93, 162, 522, 556, 5624, 400441, 400490, 401057}, new AbstractWidget[][]{{naviScreenFactory.refWidgets[n][8]}, {naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9]}, {naviScreenFactory.refWidgets[n][3], naviScreenFactory.refWidgets[n][4]}, {naviScreenFactory.refWidgets[n][5], naviScreenFactory.refWidgets[n][6], naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9], naviScreenFactory.refWidgets[n][10], naviScreenFactory.refWidgets[n][11], naviScreenFactory.refWidgets[n][12]}, {naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9]}, {naviScreenFactory.refWidgets[n][6]}, {naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9]}, {naviScreenFactory.refWidgets[n][5], naviScreenFactory.refWidgets[n][6], naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9], naviScreenFactory.refWidgets[n][10], naviScreenFactory.refWidgets[n][11], naviScreenFactory.refWidgets[n][12]}});
         return screenWidgetEVO;
     }
 
@@ -3231,7 +3971,7 @@ public class NaviScreenBag3 {
         LabelController labelController = new LabelController();
         MultiLineLabelRendererHigh multiLineLabelRendererHigh = new MultiLineLabelRendererHigh(labelController);
         labelController.setRenderer(multiLineLabelRendererHigh);
-        labelController.setTextIds(new int[]{1562707456});
+        labelController.setTextIds(new int[]{402781});
         labelController.setBounds(0, 0, 0, 185);
         multiLineLabelRendererHigh.setAlignment(2, 4);
         FocusCursorController focusCursorController = new FocusCursorController();
@@ -3245,26 +3985,26 @@ public class NaviScreenBag3 {
         MenuItemController menuItemController = new MenuItemController();
         CompositeRendererHigh compositeRendererHigh = new CompositeRendererHigh(menuItemController);
         menuItemController.setRenderer(compositeRendererHigh);
-        menuItemController.setModelID(-1155791360);
-        menuItemController.setEvent(706479616);
-        menuItemController.setLabelId(-937425408);
+        menuItemController.setModelID(400571);
+        menuItemController.setEvent(400426);
+        menuItemController.setLabelId(401608);
         menuItemController.setGlassplateInsetsBottom(6);
         menuItemController.setGlassplateInsetsTop(7);
-        menuItemController.setInternalID(-1810037248);
-        menuItemController.setSdsCommand(790300160);
+        menuItemController.setInternalID(400788);
+        menuItemController.setSdsCommand(400175);
         menuItemController.setSdsItemSelectedAction(2);
         menuItemController.setType(2);
         MenuItemController menuItemController2 = new MenuItemController();
         CompositeRendererHigh compositeRendererHigh2 = new CompositeRendererHigh(menuItemController2);
         menuItemController2.setRenderer(compositeRendererHigh2);
-        menuItemController2.setModelID(219940352);
-        menuItemController2.setEvent(723256832);
-        menuItemController2.setLabelId(1260717568);
-        menuItemController2.setReplacementModelIds(new int[]{236848640});
+        menuItemController2.setModelID(400397);
+        menuItemController2.setEvent(400427);
+        menuItemController2.setLabelId(402763);
+        menuItemController2.setReplacementModelIds(new int[]{400910});
         menuItemController2.setGlassplateInsetsBottom(6);
         menuItemController2.setGlassplateInsetsTop(7);
-        menuItemController2.setInternalID(-1793260032);
-        menuItemController2.setSdsCommand(823854592);
+        menuItemController2.setInternalID(400789);
+        menuItemController2.setSdsCommand(400177);
         menuItemController2.setSdsItemSelectedAction(2);
         menuItemController2.setType(2);
         MenuController menuController = new MenuController();
@@ -3272,7 +4012,7 @@ public class NaviScreenBag3 {
         menuController.setRenderer(menuRendererHigh);
         menuController.createInfolineWidgets(new InfoLineRendererHigh());
         menuController.getInfoline().getInfolineRenderer().setFonts(naviScreenFactory.getFonts(2, n));
-        menuController.setDefaultDisabledInfolineTextId(-1608186368);
+        menuController.setDefaultDisabledInfolineTextId(402848);
         menuController.getInfolineTimer().setIdleTime(800);
         menuController.getInfoline().setColorIndices(new int[]{2, 0, 4, 3});
         menuController.getLayout().setBackgroundInsetsVert(7);
@@ -3293,15 +4033,15 @@ public class NaviScreenBag3 {
         instructionTextContoller.setColorIndices(new int[]{1, 0, 4, 0});
         instructionTextContoller.addHintText(labelController);
         instructionTextContoller.setOptions(menuController);
-        PartialPopupController partialPopupController = new PartialPopupController(-1927608832);
+        PartialPopupController partialPopupController = new PartialPopupController(400269);
         partialPopupController.setScreenFactory(naviScreenFactory);
         PartialPopupRendererHigh partialPopupRendererHigh = new PartialPopupRendererHigh(partialPopupController);
         partialPopupController.setRenderer(partialPopupRendererHigh);
         partialPopupRendererHigh.setFonts(naviScreenFactory.getFonts(0, n));
-        partialPopupController.setHKReturnEvent(-484702720);
+        partialPopupController.setHKReturnEvent(400611);
         partialPopupController.setBounds(400, 400, 634, 179);
         partialPopupController.setColorIndices(new int[]{1, 2, 4, 0});
-        partialPopupController.setColorPalettes(new int[][]{{-1, 255, -1, -1, -1701143809, -1431655681, -1246382593, -1701143809, -1}, {-1, 255, 419495935, 1751100415, -1701143809, -1431655681, -1246382593, -1701143809, 1228585215}, {-1, 255, -19456, 1838260991, -1701143809, -1431655681, -1246382593, -1701143809, 1838260991}, {-1, 255, -1433657601, -1567134209, -1701143809, -1431655681, -1246382593, -1701143809, -1567134209}, {-1, 255, 11166975, 1973122047, -1701143809, -1431655681, -1246382593, -1701143809, 1973122047}});
+        partialPopupController.setColorPalettes(new int[][]{{-1, -16777216, -1, -1, -6645094, -5592406, -4868683, -6645094, -1}, {-1, -16777216, -65511, -5546136, -6645094, -5592406, -4868683, -6645094, -4703671}, {-1, -16777216, -19456, -6123155, -6645094, -5592406, -4868683, -6645094, -6123155}, {-1, -16777216, -14775126, -9594974, -6645094, -5592406, -4868683, -6645094, -9594974}, {-1, -16777216, -10180096, -9200779, -6645094, -5592406, -4868683, -6645094, -9200779}});
         partialPopupController.setConsumeDDSPress(6);
         partialPopupController.setConsumeHKReturn(3);
         partialPopupController.setConsumeJoystickEast(2);
@@ -3314,7 +4054,7 @@ public class NaviScreenBag3 {
         partialPopupController.setContentInset(10);
         partialPopupController.setDynamicSize(true);
         partialPopupController.setGreyOutBackground(true);
-        partialPopupController.setID(-1927608832);
+        partialPopupController.setID(400269);
         partialPopupController.setSmallStageType(3);
         partialPopupController.setStyle(1);
         partialPopupController.setType(7);
@@ -3322,11 +4062,11 @@ public class NaviScreenBag3 {
         partialPopupController.setZpmSlot(12);
         partialPopupController.setBackgroundController(partialPopupGlassplateController);
         partialPopupController.add(instructionTextContoller);
-        partialPopupController.setViews(new int[]{219940352, -1155791360}, new HMIView[][]{{menuItemController2}, {menuItemController}});
-        partialPopupController.setModelIDs(new int[]{219940352, -1155791360});
-        partialPopupController.setEventIDs(new int[]{723256832, 706479616});
-        partialPopupController.setConditionWidgets(new int[]{-2027878912}, new AbstractWidget[][]{{menuItemController2}});
-        partialPopupController.setReplacementWidgets(new int[]{236848640}, new HMIView[][]{{menuItemController2}});
+        partialPopupController.setViews(new int[]{400397, 400571}, new HMIView[][]{{menuItemController2}, {menuItemController}});
+        partialPopupController.setModelIDs(new int[]{400397, 400571});
+        partialPopupController.setEventIDs(new int[]{400427, 400426});
+        partialPopupController.setConditionWidgets(new int[]{401799}, new AbstractWidget[][]{{menuItemController2}});
+        partialPopupController.setReplacementWidgets(new int[]{400910}, new HMIView[][]{{menuItemController2}});
         return partialPopupController;
     }
 
@@ -3350,19 +4090,19 @@ public class NaviScreenBag3 {
         MultiLineMenuItemController multiLineMenuItemController = new MultiLineMenuItemController();
         CompositeRendererHigh compositeRendererHigh = new CompositeRendererHigh(multiLineMenuItemController);
         multiLineMenuItemController.setRenderer(compositeRendererHigh);
-        multiLineMenuItemController.setModelID(-1843329536);
+        multiLineMenuItemController.setModelID(401810);
         multiLineMenuItemController.setAutoWrap(0);
         multiLineMenuItemController.setFocusable(false);
         multiLineMenuItemController.setGlassplateInsetsBottom(6);
         multiLineMenuItemController.setGlassplateInsetsTop(7);
-        multiLineMenuItemController.setInternalID(1109067264);
+        multiLineMenuItemController.setInternalID(400194);
         multiLineMenuItemController.setType(32);
         MenuController menuController = new MenuController();
         MenuRendererHigh menuRendererHigh = new MenuRendererHigh(menuController);
         menuController.setRenderer(menuRendererHigh);
         menuController.createInfolineWidgets(new InfoLineRendererHigh());
         menuController.getInfoline().getInfolineRenderer().setFonts(naviScreenFactory.getFonts(2, n));
-        menuController.setDefaultDisabledInfolineTextId(1579550208);
+        menuController.setDefaultDisabledInfolineTextId(403038);
         menuController.getInfolineTimer().setIdleTime(800);
         menuController.getInfoline().setColorIndices(new int[]{2, 0, 4, 3});
         menuController.getLayout().setBackgroundInsetsVert(7);
@@ -3381,10 +4121,10 @@ public class NaviScreenBag3 {
         ContainerRendererHigh containerRendererHigh = new ContainerRendererHigh(containerController);
         containerController.setRenderer(containerRendererHigh);
         containerController.setBounds(0, 0, 0, 0);
-        containerController.setEntertainmentMenuTransformation(16449, 16449, -1883081409, -1883081409, 63);
-        containerController.setOpacitySet(1.0f, -842216386);
-        containerController.setOptionMenuTransformation(32960, 57408, -1701242561, -1701242561, 63);
-        containerController.setSelectionMenuTransformation(40771, 57408, -512093121, -1701242561, 32830);
+        containerController.setEntertainmentMenuTransformation(12.0f, 12.0f, 0.96f, 0.96f, 0.5f);
+        containerController.setOpacitySet(1.0f, 0.4f);
+        containerController.setOptionMenuTransformation(-4.0f, 7.0f, 0.6f, 0.6f, 0.5f);
+        containerController.setSelectionMenuTransformation(318.0f, 7.0f, 0.58f, 0.6f, 0.25f);
         containerController.add(menuController);
         IconController iconController = new IconController();
         IconRendererHigh iconRendererHigh = new IconRendererHigh(iconController);
@@ -3395,15 +4135,15 @@ public class NaviScreenBag3 {
         LabelRendererHigh labelRendererHigh = new LabelRendererHigh(labelController);
         labelController.setRenderer(labelRendererHigh);
         labelRendererHigh.setFonts(naviScreenFactory.getFonts(3, n));
-        labelController.setTextIds(new int[]{1830749696});
-        labelController.setReplacementModelIds(new int[]{-1826552320});
+        labelController.setTextIds(new int[]{401261});
+        labelController.setReplacementModelIds(new int[]{401811});
         labelController.setBounds(0, 0, 0, 30);
         labelController.setColorIndices(new int[]{1, 2, 4, 0});
         LabelController labelController2 = new LabelController();
         LabelRendererHigh labelRendererHigh2 = new LabelRendererHigh(labelController2);
         labelController2.setRenderer(labelRendererHigh2);
-        labelController2.setModelID(-1826552320);
-        labelController2.setReplacementModelIds(new int[]{1008600576});
+        labelController2.setModelID(401811);
+        labelController2.setReplacementModelIds(new int[]{400956});
         labelController2.setBounds(0, 0, 0, 30);
         labelController2.setCoordinateSets(new int[]{1, 0, 0, 0, 30, 0, 0, 0, 30});
         TitleBarWidget titleBarWidget = new TitleBarWidget();
@@ -3421,29 +4161,29 @@ public class NaviScreenBag3 {
         ContainerRendererHigh containerRendererHigh2 = new ContainerRendererHigh(containerController2);
         containerController2.setRenderer(containerRendererHigh2);
         containerController2.setBounds(0, 0, 800, 0);
-        containerController2.setEntertainmentMenuTransformation(16449, 16449, -1883081409, -1883081409, 0.0f);
-        containerController2.setOpacitySet(1.0f, -842216386);
-        containerController2.setOptionMenuTransformation(32960, 57408, -1701242561, -1701242561, 0.0f);
-        containerController2.setSelectionMenuTransformation(8438595, 57408, -1701242561, -1701242561, 0.0f);
+        containerController2.setEntertainmentMenuTransformation(12.0f, 12.0f, 0.96f, 0.96f, 0.0f);
+        containerController2.setOpacitySet(1.0f, 0.4f);
+        containerController2.setOptionMenuTransformation(-4.0f, 7.0f, 0.6f, 0.6f, 0.0f);
+        containerController2.setSelectionMenuTransformation(391.0f, 7.0f, 0.6f, 0.6f, 0.0f);
         containerController2.add(titleBarWidget);
         StatusBarStubController statusBarStubController = new StatusBarStubController();
         statusBarStubController.setModelID(138);
         statusBarStubController.setBounds(0, 0, 100, 100);
         statusBarStubController.setProviderLogoState(1);
-        ScreenWidgetEVO screenWidgetEVO = new ScreenWidgetEVO(-317061632);
+        ScreenWidgetEVO screenWidgetEVO = new ScreenWidgetEVO(400109);
         screenWidgetEVO.setScreenFactory(naviScreenFactory);
         ScreenRendererHigh screenRendererHigh = new ScreenRendererHigh(screenWidgetEVO);
         screenWidgetEVO.setRenderer(screenRendererHigh);
         screenRendererHigh.setFonts(naviScreenFactory.getFonts(0, n));
         screenWidgetEVO.setColorIndices(new int[]{1, 2, 4, 0});
-        screenWidgetEVO.setColorPalettes(new int[][]{{-1, 255, -1, -1, -1701143809, -1431655681, -1246382593, -1701143809, -1}, {-1, 255, 419495935, 1751100415, -1701143809, -1431655681, -1246382593, -1701143809, 1228585215}, {-1, 255, -19456, 1838260991, -1701143809, -1431655681, -1246382593, -1701143809, 1838260991}, {-1, 255, -1433657601, -1567134209, -1701143809, -1431655681, -1246382593, -1701143809, -1567134209}, {-1, 255, 11166975, 1973122047, -1701143809, -1431655681, -1246382593, -1701143809, 1973122047}});
+        screenWidgetEVO.setColorPalettes(new int[][]{{-1, -16777216, -1, -1, -6645094, -5592406, -4868683, -6645094, -1}, {-1, -16777216, -65511, -5546136, -6645094, -5592406, -4868683, -6645094, -4703671}, {-1, -16777216, -19456, -6123155, -6645094, -5592406, -4868683, -6645094, -6123155}, {-1, -16777216, -14775126, -9594974, -6645094, -5592406, -4868683, -6645094, -9594974}, {-1, -16777216, -10180096, -9200779, -6645094, -5592406, -4868683, -6645094, -9200779}});
         screenWidgetEVO.setSmallStageType(0);
         screenWidgetEVO.add(abstractWidgetController);
         screenWidgetEVO.add(containerController, 1);
         screenWidgetEVO.add(containerController2, 2);
         screenWidgetEVO.add(statusBarStubController);
-        screenWidgetEVO.setViews(new int[]{138, -1843329536, -1826552320}, new HMIView[][]{{statusBarStubController}, {multiLineMenuItemController}, {labelController2}});
-        screenWidgetEVO.setReplacementWidgets(new int[]{1008600576, -1826552320}, new HMIView[][]{{labelController2}, {labelController}});
+        screenWidgetEVO.setViews(new int[]{138, 401810, 401811}, new HMIView[][]{{statusBarStubController}, {multiLineMenuItemController}, {labelController2}});
+        screenWidgetEVO.setReplacementWidgets(new int[]{400956, 401811}, new HMIView[][]{{labelController2}, {labelController}});
         return screenWidgetEVO;
     }
 
@@ -3475,7 +4215,7 @@ public class NaviScreenBag3 {
         LabelController labelController2 = new LabelController();
         MultiLineLabelRendererHigh multiLineLabelRendererHigh2 = new MultiLineLabelRendererHigh(labelController2);
         labelController2.setRenderer(multiLineLabelRendererHigh2);
-        labelController2.setModelID(-1826552320);
+        labelController2.setModelID(401811);
         labelController2.setBounds(0, 0, 0, 0);
         LayoutContainerController layoutContainerController = new LayoutContainerController();
         CompositeRendererHigh compositeRendererHigh = new CompositeRendererHigh(layoutContainerController);
@@ -3523,8 +4263,8 @@ public class NaviScreenBag3 {
         focusCursorController.setBounds(0, 0, 100, 100);
         focusCursorController.setColorIndices(new int[]{1, 2, 4, 0});
         ListController listController = new ListController();
-        listController.setModelID(-1927215616);
-        listController.setEvent(-1910897152);
+        listController.setModelID(401805);
+        listController.setEvent(400014);
         listController.setBounds(0, 0, 0, 0);
         listController.setGlassplateInsetsBottom(new int[0]);
         listController.setGlassplateInsetsTop(new int[0]);
@@ -3532,20 +4272,88 @@ public class NaviScreenBag3 {
         listController.setNoFocusAreasBottom(new int[0]);
         listController.setNoFocusAreasTop(new int[0]);
         listController.setWidgetID(0);
-        listController.setItemFactory(new NaviScreenBag3$13());
+        listController.setItemFactory(new ListItemFactory(){
+
+            public AbstractWidgetController createListItem(int n, ListCell[] listCellArray) {
+                switch (n) {
+                    case 0: {
+                        MenuItemController menuItemController = new MenuItemController();
+                        menuItemController.setType(16);
+                        menuItemController.setRenderer(new MenuItemRendererHigh(menuItemController));
+                        GridLayout gridLayout = new GridLayout();
+                        MenuItemColumnsConstraints menuItemColumnsConstraints = new MenuItemColumnsConstraints(2);
+                        menuItemColumnsConstraints.gaps = new int[]{0, 15, 0};
+                        menuItemColumnsConstraints.shrink = new float[]{0.0f, 1.0f};
+                        menuItemColumnsConstraints.hidemode = new int[]{1, 0};
+                        gridLayout.setColumnConstraints(menuItemColumnsConstraints);
+                        AxisConstraints axisConstraints = new AxisConstraints(2);
+                        axisConstraints.alignment = new int[]{5, 9};
+                        axisConstraints.shrink = new float[]{0.0f, 1.0f};
+                        gridLayout.setRowConstraints(axisConstraints);
+                        AbstractWidgetController abstractWidgetController = this.createCell(0);
+                        GridLayoutHints gridLayoutHints = new GridLayoutHints(0, 0);
+                        gridLayoutHints.alignmentVert = 5;
+                        AbstractWidgetController abstractWidgetController2 = this.createCell(1);
+                        GridLayoutHints gridLayoutHints2 = new GridLayoutHints(1, 0);
+                        AbstractWidgetController abstractWidgetController3 = this.createCell(2);
+                        GridLayoutHints gridLayoutHints3 = new GridLayoutHints(1, 1);
+                        gridLayout.setCellConstraints(new GridLayoutHints[]{gridLayoutHints, gridLayoutHints2, gridLayoutHints3}, new Object[]{abstractWidgetController, abstractWidgetController2, abstractWidgetController3});
+                        menuItemController.setLayoutChoices(new GridLayout[]{gridLayout});
+                        menuItemController.add(abstractWidgetController2);
+                        menuItemController.add(abstractWidgetController3);
+                        menuItemController.add(abstractWidgetController);
+                        return menuItemController;
+                    }
+                }
+                return null;
+            }
+
+            public AbstractWidgetController createListItemNoData() {
+                return null;
+            }
+
+            public AbstractWidgetController createCell(int n) {
+                switch (n) {
+                    case 0: {
+                        IconController iconController = new IconController();
+                        IconRendererHigh iconRendererHigh = new IconRendererHigh(iconController);
+                        iconController.setRenderer(iconRendererHigh);
+                        iconController.setBitmaps(new int[]{400184});
+                        iconController.setPreferredHeight(1);
+                        iconRendererHigh.setAlignment(1, 5);
+                        return iconController;
+                    }
+                    case 1: {
+                        LabelController labelController = new LabelController();
+                        HighlightingLabelRendererHigh highlightingLabelRendererHigh = new HighlightingLabelRendererHigh(labelController);
+                        labelController.setRenderer(highlightingLabelRendererHigh);
+                        labelController.setModelColumn(0);
+                        return labelController;
+                    }
+                    case 2: {
+                        LabelController labelController = new LabelController();
+                        HighlightingLabelRendererHigh highlightingLabelRendererHigh = new HighlightingLabelRendererHigh(labelController);
+                        labelController.setRenderer(highlightingLabelRendererHigh);
+                        labelController.setModelColumn(1);
+                        return labelController;
+                    }
+                }
+                return null;
+            }
+        });
         SeparatingLineController separatingLineController = new SeparatingLineController();
         IconRendererHigh iconRendererHigh2 = new IconRendererHigh(separatingLineController);
         separatingLineController.setRenderer(iconRendererHigh2);
-        separatingLineController.setBitmaps(new int[]{-753203712});
+        separatingLineController.setBitmaps(new int[]{400339});
         separatingLineController.setBounds(0, 0, 100, 100);
         separatingLineController.setColorIndices(new int[]{1, 2, 2, 4});
         separatingLineController.setPredecessor(0);
         separatingLineController.setProcessStateChange(2);
         separatingLineController.setSuccessor(1);
-        iconRendererHigh2.setScaleFactor(1552892479, 1.0f);
+        iconRendererHigh2.setScaleFactor(0.76f, 1.0f);
         ListController listController2 = new ListController();
-        listController2.setModelID(-1910438400);
-        listController2.setEvent(-1910897152);
+        listController2.setModelID(401806);
+        listController2.setEvent(400014);
         listController2.setBounds(0, 0, 0, 0);
         listController2.setGlassplateInsetsBottom(new int[0]);
         listController2.setGlassplateInsetsTop(new int[0]);
@@ -3553,20 +4361,87 @@ public class NaviScreenBag3 {
         listController2.setNoFocusAreasBottom(new int[0]);
         listController2.setNoFocusAreasTop(new int[0]);
         listController2.setWidgetID(1);
-        listController2.setItemFactory(new NaviScreenBag3$14());
+        listController2.setItemFactory(new ListItemFactory(){
+
+            public AbstractWidgetController createListItem(int n, ListCell[] listCellArray) {
+                switch (n) {
+                    case 0: {
+                        MenuItemController menuItemController = new MenuItemController();
+                        menuItemController.setType(16);
+                        menuItemController.setRenderer(new MenuItemRendererHigh(menuItemController));
+                        GridLayout gridLayout = new GridLayout();
+                        MenuItemColumnsConstraints menuItemColumnsConstraints = new MenuItemColumnsConstraints(2);
+                        menuItemColumnsConstraints.gaps = new int[]{0, 15, 0};
+                        menuItemColumnsConstraints.shrink = new float[]{0.0f, 1.0f};
+                        gridLayout.setColumnConstraints(menuItemColumnsConstraints);
+                        AxisConstraints axisConstraints = new AxisConstraints(2);
+                        axisConstraints.alignment = new int[]{5, 9};
+                        axisConstraints.shrink = new float[]{0.0f, 1.0f};
+                        gridLayout.setRowConstraints(axisConstraints);
+                        AbstractWidgetController abstractWidgetController = this.createCell(0);
+                        GridLayoutHints gridLayoutHints = new GridLayoutHints(0, 0);
+                        gridLayoutHints.alignmentVert = 5;
+                        AbstractWidgetController abstractWidgetController2 = this.createCell(1);
+                        GridLayoutHints gridLayoutHints2 = new GridLayoutHints(1, 0);
+                        AbstractWidgetController abstractWidgetController3 = this.createCell(2);
+                        GridLayoutHints gridLayoutHints3 = new GridLayoutHints(1, 1);
+                        gridLayout.setCellConstraints(new GridLayoutHints[]{gridLayoutHints, gridLayoutHints2, gridLayoutHints3}, new Object[]{abstractWidgetController, abstractWidgetController2, abstractWidgetController3});
+                        menuItemController.setLayoutChoices(new GridLayout[]{gridLayout});
+                        menuItemController.add(abstractWidgetController2);
+                        menuItemController.add(abstractWidgetController3);
+                        menuItemController.add(abstractWidgetController);
+                        return menuItemController;
+                    }
+                }
+                return null;
+            }
+
+            public AbstractWidgetController createListItemNoData() {
+                return null;
+            }
+
+            public AbstractWidgetController createCell(int n) {
+                switch (n) {
+                    case 0: {
+                        IconController iconController = new IconController();
+                        IconRendererHigh iconRendererHigh = new IconRendererHigh(iconController);
+                        iconController.setRenderer(iconRendererHigh);
+                        iconController.setBitmaps(new int[]{400183});
+                        iconController.setPreferredHeight(1);
+                        iconRendererHigh.setAlignment(1, 5);
+                        return iconController;
+                    }
+                    case 1: {
+                        LabelController labelController = new LabelController();
+                        HighlightingLabelRendererHigh highlightingLabelRendererHigh = new HighlightingLabelRendererHigh(labelController);
+                        labelController.setRenderer(highlightingLabelRendererHigh);
+                        labelController.setModelColumn(0);
+                        return labelController;
+                    }
+                    case 2: {
+                        LabelController labelController = new LabelController();
+                        HighlightingLabelRendererHigh highlightingLabelRendererHigh = new HighlightingLabelRendererHigh(labelController);
+                        labelController.setRenderer(highlightingLabelRendererHigh);
+                        labelController.setModelColumn(1);
+                        return labelController;
+                    }
+                }
+                return null;
+            }
+        });
         SeparatingLineController separatingLineController2 = new SeparatingLineController();
         IconRendererHigh iconRendererHigh3 = new IconRendererHigh(separatingLineController2);
         separatingLineController2.setRenderer(iconRendererHigh3);
-        separatingLineController2.setBitmaps(new int[]{-753203712});
+        separatingLineController2.setBitmaps(new int[]{400339});
         separatingLineController2.setBounds(0, 0, 100, 100);
         separatingLineController2.setColorIndices(new int[]{1, 2, 2, 4});
         separatingLineController2.setPredecessor(1);
         separatingLineController2.setProcessStateChange(2);
         separatingLineController2.setSuccessor(2);
-        iconRendererHigh3.setScaleFactor(1552892479, 1.0f);
+        iconRendererHigh3.setScaleFactor(0.76f, 1.0f);
         ListController listController3 = new ListController();
-        listController3.setModelID(-1860106752);
-        listController3.setEvent(1629160960);
+        listController3.setModelID(401809);
+        listController3.setEvent(400225);
         listController3.setBounds(0, 0, 0, 0);
         listController3.setGlassplateInsetsBottom(new int[0]);
         listController3.setGlassplateInsetsTop(new int[0]);
@@ -3574,25 +4449,82 @@ public class NaviScreenBag3 {
         listController3.setNoFocusAreasBottom(new int[0]);
         listController3.setNoFocusAreasTop(new int[0]);
         listController3.setWidgetID(2);
-        listController3.setItemFactory(new NaviScreenBag3$15());
+        listController3.setItemFactory(new ListItemFactory(){
+
+            public AbstractWidgetController createListItem(int n, ListCell[] listCellArray) {
+                switch (n) {
+                    case 0: {
+                        MenuItemController menuItemController = new MenuItemController();
+                        menuItemController.setType(16);
+                        menuItemController.setRenderer(new MenuItemRendererHigh(menuItemController));
+                        GridLayout gridLayout = new GridLayout();
+                        MenuItemColumnsConstraints menuItemColumnsConstraints = new MenuItemColumnsConstraints(2);
+                        menuItemColumnsConstraints.gaps = new int[]{0, 15, 0};
+                        menuItemColumnsConstraints.shrink = new float[]{0.0f, 1.0f};
+                        gridLayout.setColumnConstraints(menuItemColumnsConstraints);
+                        AxisConstraints axisConstraints = new AxisConstraints(1);
+                        axisConstraints.alignment = new int[]{5};
+                        axisConstraints.shrink = new float[]{0.0f};
+                        gridLayout.setRowConstraints(axisConstraints);
+                        AbstractWidgetController abstractWidgetController = this.createCell(0);
+                        GridLayoutHints gridLayoutHints = new GridLayoutHints(0, 0);
+                        gridLayoutHints.alignmentVert = 5;
+                        AbstractWidgetController abstractWidgetController2 = this.createCell(1);
+                        GridLayoutHints gridLayoutHints2 = new GridLayoutHints(1, 0);
+                        gridLayout.setCellConstraints(new GridLayoutHints[]{gridLayoutHints, gridLayoutHints2}, new Object[]{abstractWidgetController, abstractWidgetController2});
+                        menuItemController.setLayoutChoices(new GridLayout[]{gridLayout});
+                        menuItemController.add(abstractWidgetController2);
+                        menuItemController.add(abstractWidgetController);
+                        return menuItemController;
+                    }
+                }
+                return null;
+            }
+
+            public AbstractWidgetController createListItemNoData() {
+                return null;
+            }
+
+            public AbstractWidgetController createCell(int n) {
+                switch (n) {
+                    case 0: {
+                        IconController iconController = new IconController();
+                        IconRendererHigh iconRendererHigh = new IconRendererHigh(iconController);
+                        iconController.setRenderer(iconRendererHigh);
+                        iconController.setBitmaps(new int[]{55});
+                        iconController.setPreferredHeight(1);
+                        iconRendererHigh.setAlignment(1, 5);
+                        return iconController;
+                    }
+                    case 1: {
+                        LabelController labelController = new LabelController();
+                        HighlightingLabelRendererHigh highlightingLabelRendererHigh = new HighlightingLabelRendererHigh(labelController);
+                        labelController.setRenderer(highlightingLabelRendererHigh);
+                        labelController.setModelColumn(1);
+                        return labelController;
+                    }
+                }
+                return null;
+            }
+        });
         MenuDecoratorProxyController menuDecoratorProxyController = new MenuDecoratorProxyController();
         menuDecoratorProxyController.setBounds(0, 0, 100, 100);
         MenuItemController menuItemController = new MenuItemController();
         CompositeRendererHigh compositeRendererHigh2 = new CompositeRendererHigh(menuItemController);
         menuItemController.setRenderer(compositeRendererHigh2);
         menuItemController.setBitmaps(new int[]{39, 39, 39, 39});
-        menuItemController.setEvent(1159398912);
-        menuItemController.setLabelId(1495205376);
+        menuItemController.setEvent(400197);
+        menuItemController.setLabelId(401241);
         menuItemController.setGlassplateInsetsBottom(6);
         menuItemController.setGlassplateInsetsTop(7);
-        menuItemController.setInternalID(-1004730880);
+        menuItemController.setInternalID(400836);
         menuItemController.setType(4);
         MenuController menuController = new MenuController();
         MenuRendererHigh menuRendererHigh = new MenuRendererHigh(menuController);
         menuController.setRenderer(menuRendererHigh);
         menuController.createInfolineWidgets(new InfoLineRendererHigh());
         menuController.getInfoline().getInfolineRenderer().setFonts(naviScreenFactory.getFonts(2, n));
-        menuController.setDefaultDisabledInfolineTextId(1579550208);
+        menuController.setDefaultDisabledInfolineTextId(403038);
         menuController.getInfolineTimer().setIdleTime(800);
         menuController.getInfoline().setColorIndices(new int[]{2, 0, 4, 3});
         menuController.getLayout().setBackgroundInsetsVert(7);
@@ -3617,10 +4549,10 @@ public class NaviScreenBag3 {
         GlassplateContainerRendererHigh glassplateContainerRendererHigh = new GlassplateContainerRendererHigh(containerController);
         containerController.setRenderer(glassplateContainerRendererHigh);
         containerController.setBounds(0, 0, 100, 100);
-        containerController.setEntertainmentMenuTransformation(16449, 16449, -1883081409, -1883081409, 63);
-        containerController.setOpacitySet(1.0f, -842216386);
-        containerController.setOptionMenuTransformation(32960, 57408, -1701242561, -1701242561, 63);
-        containerController.setSelectionMenuTransformation(40771, 57408, -512093121, -1701242561, 32830);
+        containerController.setEntertainmentMenuTransformation(12.0f, 12.0f, 0.96f, 0.96f, 0.5f);
+        containerController.setOpacitySet(1.0f, 0.4f);
+        containerController.setOptionMenuTransformation(-4.0f, 7.0f, 0.6f, 0.6f, 0.5f);
+        containerController.setSelectionMenuTransformation(318.0f, 7.0f, 0.58f, 0.6f, 0.25f);
         containerController.add(glassplateController);
         containerController.add(layoutContainerController);
         containerController.add(menuController);
@@ -3634,16 +4566,16 @@ public class NaviScreenBag3 {
         LabelRendererHigh labelRendererHigh = new LabelRendererHigh(labelController3);
         labelController3.setRenderer(labelRendererHigh);
         labelRendererHigh.setFonts(naviScreenFactory.getFonts(3, n));
-        labelController3.setModelID(-1826552320);
-        labelController3.setTextIds(new int[]{1025508864});
-        labelController3.setReplacementModelIds(new int[]{-1826552320});
+        labelController3.setModelID(401811);
+        labelController3.setTextIds(new int[]{401469});
+        labelController3.setReplacementModelIds(new int[]{401811});
         labelController3.setBounds(0, 0, 0, 30);
         labelController3.setColorIndices(new int[]{1, 2, 4, 0});
         LabelController labelController4 = new LabelController();
         LabelRendererHigh labelRendererHigh2 = new LabelRendererHigh(labelController4);
         labelController4.setRenderer(labelRendererHigh2);
-        labelController4.setTextIds(new int[]{-1860368896});
-        labelController4.setReplacementModelIds(new int[]{1008600576});
+        labelController4.setTextIds(new int[]{400785});
+        labelController4.setReplacementModelIds(new int[]{400956});
         labelController4.setBounds(0, 0, 0, 30);
         labelController4.setCoordinateSets(new int[]{1, 0, 0, 0, 30, 0, 0, 0, 30});
         TitleBarWidget titleBarWidget = new TitleBarWidget();
@@ -3661,33 +4593,33 @@ public class NaviScreenBag3 {
         ContainerRendererHigh containerRendererHigh = new ContainerRendererHigh(containerController2);
         containerController2.setRenderer(containerRendererHigh);
         containerController2.setBounds(0, 0, 800, 0);
-        containerController2.setEntertainmentMenuTransformation(16449, 16449, -1883081409, -1883081409, 0.0f);
-        containerController2.setOpacitySet(1.0f, -842216386);
-        containerController2.setOptionMenuTransformation(32960, 57408, -1701242561, -1701242561, 0.0f);
-        containerController2.setSelectionMenuTransformation(8438595, 57408, -1701242561, -1701242561, 0.0f);
+        containerController2.setEntertainmentMenuTransformation(12.0f, 12.0f, 0.96f, 0.96f, 0.0f);
+        containerController2.setOpacitySet(1.0f, 0.4f);
+        containerController2.setOptionMenuTransformation(-4.0f, 7.0f, 0.6f, 0.6f, 0.0f);
+        containerController2.setSelectionMenuTransformation(391.0f, 7.0f, 0.6f, 0.6f, 0.0f);
         containerController2.add(titleBarWidget);
         StatusBarStubController statusBarStubController = new StatusBarStubController();
         statusBarStubController.setModelID(138);
         statusBarStubController.setBounds(0, 0, 100, 100);
         statusBarStubController.setProviderLogoState(1);
-        ScreenWidgetEVO screenWidgetEVO = new ScreenWidgetEVO(-602274304);
+        ScreenWidgetEVO screenWidgetEVO = new ScreenWidgetEVO(400092);
         screenWidgetEVO.setScreenFactory(naviScreenFactory);
         ScreenRendererHigh screenRendererHigh = new ScreenRendererHigh(screenWidgetEVO);
         screenWidgetEVO.setRenderer(screenRendererHigh);
         screenRendererHigh.setFonts(naviScreenFactory.getFonts(0, n));
         screenWidgetEVO.setColorIndices(new int[]{1, 2, 4, 0});
-        screenWidgetEVO.setColorPalettes(new int[][]{{-1, 255, -1, -1, -1701143809, -1431655681, -1246382593, -1701143809, -1}, {-1, 255, 419495935, 1751100415, -1701143809, -1431655681, -1246382593, -1701143809, 1228585215}, {-1, 255, -19456, 1838260991, -1701143809, -1431655681, -1246382593, -1701143809, 1838260991}, {-1, 255, -1433657601, -1567134209, -1701143809, -1431655681, -1246382593, -1701143809, -1567134209}, {-1, 255, 11166975, 1973122047, -1701143809, -1431655681, -1246382593, -1701143809, 1973122047}});
+        screenWidgetEVO.setColorPalettes(new int[][]{{-1, -16777216, -1, -1, -6645094, -5592406, -4868683, -6645094, -1}, {-1, -16777216, -65511, -5546136, -6645094, -5592406, -4868683, -6645094, -4703671}, {-1, -16777216, -19456, -6123155, -6645094, -5592406, -4868683, -6645094, -6123155}, {-1, -16777216, -14775126, -9594974, -6645094, -5592406, -4868683, -6645094, -9594974}, {-1, -16777216, -10180096, -9200779, -6645094, -5592406, -4868683, -6645094, -9200779}});
         screenWidgetEVO.setSmallStageType(0);
         screenWidgetEVO.add(abstractWidgetController);
         screenWidgetEVO.add(containerController, 1);
         screenWidgetEVO.add(abstractWidgetController2, 7);
         screenWidgetEVO.add(containerController2, 2);
         screenWidgetEVO.add(statusBarStubController);
-        screenWidgetEVO.setViews(new int[]{138, 162, -1927215616, -1910438400, -1860106752, -1826552320, 1663370752}, new HMIView[][]{{statusBarStubController}, {naviScreenFactory.refWidgets[n][7]}, {listController}, {listController2}, {listController3}, {labelController2, labelController3}, {naviScreenFactory.refWidgets[n][9]}});
-        screenWidgetEVO.setModelIDs(new int[]{-1927215616, -1910438400, -1860106752});
-        screenWidgetEVO.setEventIDs(new int[]{-1910897152, -1910897152, 1629160960});
-        screenWidgetEVO.setConditionWidgets(new int[]{93, 162, 186, 310, 522, 556, 5624, 958137856, 1780221440, -1591867904, -1927215616, -1910438400, -1893661184, -1876883968, -1860106752, -702478848}, new AbstractWidget[][]{{naviScreenFactory.refWidgets[n][8]}, {naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9]}, {listController3}, {menuController}, {naviScreenFactory.refWidgets[n][3], naviScreenFactory.refWidgets[n][4]}, {naviScreenFactory.refWidgets[n][5], naviScreenFactory.refWidgets[n][6], naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9], naviScreenFactory.refWidgets[n][10], naviScreenFactory.refWidgets[n][11], naviScreenFactory.refWidgets[n][12]}, {naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9]}, {naviScreenFactory.refWidgets[n][6]}, {naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9]}, {naviScreenFactory.refWidgets[n][5], naviScreenFactory.refWidgets[n][6], naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9], naviScreenFactory.refWidgets[n][10], naviScreenFactory.refWidgets[n][11], naviScreenFactory.refWidgets[n][12]}, {separatingLineController}, {separatingLineController2}, {listController}, {listController2}, {listController3}, {menuItemController}});
-        screenWidgetEVO.setReplacementWidgets(new int[]{1008600576, -1826552320}, new HMIView[][]{{labelController4}, {labelController3}});
+        screenWidgetEVO.setViews(new int[]{138, 162, 401805, 401806, 401809, 401811, 402787}, new HMIView[][]{{statusBarStubController}, {naviScreenFactory.refWidgets[n][7]}, {listController}, {listController2}, {listController3}, {labelController2, labelController3}, {naviScreenFactory.refWidgets[n][9]}});
+        screenWidgetEVO.setModelIDs(new int[]{401805, 401806, 401809});
+        screenWidgetEVO.setEventIDs(new int[]{400014, 400014, 400225});
+        screenWidgetEVO.setConditionWidgets(new int[]{93, 162, 186, 310, 522, 556, 5624, 400441, 400490, 401057, 401805, 401806, 401807, 401808, 401809, 401878}, new AbstractWidget[][]{{naviScreenFactory.refWidgets[n][8]}, {naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9]}, {listController3}, {menuController}, {naviScreenFactory.refWidgets[n][3], naviScreenFactory.refWidgets[n][4]}, {naviScreenFactory.refWidgets[n][5], naviScreenFactory.refWidgets[n][6], naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9], naviScreenFactory.refWidgets[n][10], naviScreenFactory.refWidgets[n][11], naviScreenFactory.refWidgets[n][12]}, {naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9]}, {naviScreenFactory.refWidgets[n][6]}, {naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9]}, {naviScreenFactory.refWidgets[n][5], naviScreenFactory.refWidgets[n][6], naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9], naviScreenFactory.refWidgets[n][10], naviScreenFactory.refWidgets[n][11], naviScreenFactory.refWidgets[n][12]}, {separatingLineController}, {separatingLineController2}, {listController}, {listController2}, {listController3}, {menuItemController}});
+        screenWidgetEVO.setReplacementWidgets(new int[]{400956, 401811}, new HMIView[][]{{labelController4}, {labelController3}});
         return screenWidgetEVO;
     }
 
@@ -3725,9 +4657,9 @@ public class NaviScreenBag3 {
         touchController.setRenderer(touchRendererHigh);
         touchController.setBitmaps(new int[]{483, 484, 857});
         touchRendererHigh.setFonts(naviScreenFactory.getFonts(4, n));
-        touchController.setModelID(-551483904);
-        touchController.setInfoTextIDs(new int[]{2132936192, 1093207552});
-        touchController.setInitialTextID(471991808);
+        touchController.setModelID(401887);
+        touchController.setInfoTextIDs(new int[]{402047, 403777});
+        touchController.setInitialTextID(401948);
         touchController.setColorIndices(new int[]{2, 5, 4, 3});
         touchController.setCursorOffsetBottom(1);
         touchController.setCursorOffsetTop(-1);
@@ -3738,11 +4670,11 @@ public class NaviScreenBag3 {
         touchController.setTouchControllerScreenLevel(2);
         touchController.setTouchpadMode(51);
         touchController.setSpeller(spellerController);
-        touchController.add(modelStubController, 16);
-        touchController.add(modelStubController2, 8);
+        touchController.add(modelStubController, 0x10000000);
+        touchController.add(modelStubController2, 0x8000000);
         ListController listController = new ListController();
-        listController.setModelID(1696663040);
-        listController.setEvent(337315328);
+        listController.setModelID(401765);
+        listController.setEvent(400148);
         listController.setBounds(0, 0, 0, 0);
         listController.setColorIndices(new int[]{1, 0, 4, 2});
         listController.setGlassplateInsetsBottom(new int[0]);
@@ -3752,7 +4684,47 @@ public class NaviScreenBag3 {
         listController.setNoFocusAreasTop(new int[0]);
         listController.setPropertyColumn(2);
         listController.setDataAccess(new BaseListModelAccess());
-        listController.setItemFactory(new NaviScreenBag3$16());
+        listController.setItemFactory(new ListItemFactory(){
+
+            public AbstractWidgetController createListItem(int n, ListCell[] listCellArray) {
+                switch (n) {
+                    case 0: {
+                        MenuItemController menuItemController = new MenuItemController();
+                        menuItemController.setType(16);
+                        menuItemController.setRenderer(new MenuItemRendererHigh(menuItemController));
+                        GridLayout gridLayout = new GridLayout();
+                        MenuItemColumnsConstraints menuItemColumnsConstraints = new MenuItemColumnsConstraints(1);
+                        gridLayout.setColumnConstraints(menuItemColumnsConstraints);
+                        AxisConstraints axisConstraints = new AxisConstraints(1);
+                        gridLayout.setRowConstraints(axisConstraints);
+                        AbstractWidgetController abstractWidgetController = this.createCell(0);
+                        GridLayoutHints gridLayoutHints = new GridLayoutHints(0, 0);
+                        gridLayout.setCellConstraints(new GridLayoutHints[]{gridLayoutHints}, new Object[]{abstractWidgetController});
+                        menuItemController.setLayoutChoices(new GridLayout[]{gridLayout});
+                        menuItemController.add(abstractWidgetController);
+                        return menuItemController;
+                    }
+                }
+                return null;
+            }
+
+            public AbstractWidgetController createListItemNoData() {
+                return null;
+            }
+
+            public AbstractWidgetController createCell(int n) {
+                switch (n) {
+                    case 0: {
+                        LabelController labelController = new LabelController();
+                        HighlightingLabelRendererHigh highlightingLabelRendererHigh = new HighlightingLabelRendererHigh(labelController);
+                        labelController.setRenderer(highlightingLabelRendererHigh);
+                        labelController.setModelColumn(1);
+                        return labelController;
+                    }
+                }
+                return null;
+            }
+        });
         MenuSDSNumbersController menuSDSNumbersController = new MenuSDSNumbersController();
         MenuSDSNumbersRendererHigh menuSDSNumbersRendererHigh = new MenuSDSNumbersRendererHigh(menuSDSNumbersController);
         menuSDSNumbersController.setRenderer(menuSDSNumbersRendererHigh);
@@ -3763,8 +4735,8 @@ public class NaviScreenBag3 {
         menuController.setRenderer(menuRendererHigh);
         menuController.createInfolineWidgets(new InfoLineRendererHigh());
         menuController.getInfoline().getInfolineRenderer().setFonts(naviScreenFactory.getFonts(2, n));
-        menuController.setModelID(-1306458624);
-        menuController.setDefaultDisabledInfolineTextId(1579550208);
+        menuController.setModelID(401842);
+        menuController.setDefaultDisabledInfolineTextId(403038);
         menuController.getInfolineTimer().setIdleTime(800);
         menuController.getInfoline().setColorIndices(new int[]{2, 0, 4, 3});
         menuController.getLayout().setBackgroundInsetsVert(7);
@@ -3785,10 +4757,10 @@ public class NaviScreenBag3 {
         ContainerRendererHigh containerRendererHigh = new ContainerRendererHigh(containerController);
         containerController.setRenderer(containerRendererHigh);
         containerController.setBounds(0, 0, 100, 100);
-        containerController.setEntertainmentMenuTransformation(16449, 16449, -1883081409, -1883081409, 63);
-        containerController.setOpacitySet(1.0f, -842216386);
-        containerController.setOptionMenuTransformation(32960, 57408, -1701242561, -1701242561, 63);
-        containerController.setSelectionMenuTransformation(40771, 57408, -512093121, -1701242561, 32830);
+        containerController.setEntertainmentMenuTransformation(12.0f, 12.0f, 0.96f, 0.96f, 0.5f);
+        containerController.setOpacitySet(1.0f, 0.4f);
+        containerController.setOptionMenuTransformation(-4.0f, 7.0f, 0.6f, 0.6f, 0.5f);
+        containerController.setSelectionMenuTransformation(318.0f, 7.0f, 0.58f, 0.6f, 0.25f);
         containerController.add(menuController);
         IconController iconController = new IconController();
         IconRendererHigh iconRendererHigh = new IconRendererHigh(iconController);
@@ -3799,19 +4771,19 @@ public class NaviScreenBag3 {
         LabelRendererHigh labelRendererHigh = new LabelRendererHigh(labelController);
         labelController.setRenderer(labelRendererHigh);
         labelRendererHigh.setFonts(naviScreenFactory.getFonts(3, n));
-        labelController.setTextIds(new int[]{-1826814464});
+        labelController.setTextIds(new int[]{400787});
         labelController.setBounds(0, 0, 0, 30);
         labelController.setColorIndices(new int[]{1, 2, 4, 0});
         LabelController labelController2 = new LabelController();
         LabelRendererHigh labelRendererHigh2 = new LabelRendererHigh(labelController2);
         labelController2.setRenderer(labelRendererHigh2);
-        labelController2.setTextIds(new int[]{-131987968});
+        labelController2.setTextIds(new int[]{402168});
         labelController2.setBounds(0, 0, 0, 30);
         labelController2.setCoordinateSets(new int[]{1, 0, 0, 0, 30, 0, 0, 0, 30});
         LabelController labelController3 = new LabelController();
         LabelRendererHigh labelRendererHigh3 = new LabelRendererHigh(labelController3);
         labelController3.setRenderer(labelRendererHigh3);
-        labelController3.setTextIds(new int[]{1344603648});
+        labelController3.setTextIds(new int[]{402768});
         labelController3.setBounds(0, 0, 0, 30);
         labelController3.setCoordinateSets(new int[]{1, 0, 0, 0, 30, 0, 0, 0, 30});
         TitleBarWidget titleBarWidget = new TitleBarWidget();
@@ -3830,10 +4802,10 @@ public class NaviScreenBag3 {
         ContainerRendererHigh containerRendererHigh2 = new ContainerRendererHigh(containerController2);
         containerController2.setRenderer(containerRendererHigh2);
         containerController2.setBounds(0, 0, 800, 0);
-        containerController2.setEntertainmentMenuTransformation(16449, 16449, -1883081409, -1883081409, 0.0f);
-        containerController2.setOpacitySet(1.0f, -842216386);
-        containerController2.setOptionMenuTransformation(32960, 57408, -1701242561, -1701242561, 0.0f);
-        containerController2.setSelectionMenuTransformation(8438595, 57408, -1701242561, -1701242561, 0.0f);
+        containerController2.setEntertainmentMenuTransformation(12.0f, 12.0f, 0.96f, 0.96f, 0.0f);
+        containerController2.setOpacitySet(1.0f, 0.4f);
+        containerController2.setOptionMenuTransformation(-4.0f, 7.0f, 0.6f, 0.6f, 0.0f);
+        containerController2.setSelectionMenuTransformation(391.0f, 7.0f, 0.6f, 0.6f, 0.0f);
         containerController2.add(titleBarWidget);
         StatusBarStubController statusBarStubController = new StatusBarStubController();
         statusBarStubController.setModelID(138);
@@ -3855,11 +4827,11 @@ public class NaviScreenBag3 {
         MenuItemController menuItemController = new MenuItemController();
         CompositeRendererHigh compositeRendererHigh = new CompositeRendererHigh(menuItemController);
         menuItemController.setRenderer(compositeRendererHigh);
-        menuItemController.setEvent(1847264768);
-        menuItemController.setLabelId(1881867776);
+        menuItemController.setEvent(400238);
+        menuItemController.setLabelId(404336);
         menuItemController.setGlassplateInsetsBottom(6);
         menuItemController.setGlassplateInsetsTop(7);
-        menuItemController.setInternalID(1797129728);
+        menuItemController.setInternalID(401003);
         menuItemController.setKeyHandler(3);
         menuItemController.setType(2);
         MenuController menuController2 = new MenuController();
@@ -3867,7 +4839,7 @@ public class NaviScreenBag3 {
         menuController2.setRenderer(menuRendererHigh2);
         menuController2.createInfolineWidgets(new InfoLineRendererHigh());
         menuController2.getInfoline().getInfolineRenderer().setFonts(naviScreenFactory.getFonts(2, n));
-        menuController2.setDefaultDisabledInfolineTextId(1865090560);
+        menuController2.setDefaultDisabledInfolineTextId(404335);
         menuController2.getInfolineTimer().setIdleTime(800);
         menuController2.getInfoline().setColorIndices(new int[]{2, 0, 4, 3});
         menuController2.getLayout().setBackgroundInsetsVert(7);
@@ -3882,7 +4854,7 @@ public class NaviScreenBag3 {
         LabelController labelController4 = new LabelController();
         MultiLineLabelRendererHigh multiLineLabelRendererHigh = new MultiLineLabelRendererHigh(labelController4);
         labelController4.setRenderer(multiLineLabelRendererHigh);
-        labelController4.setTextIds(new int[]{1831536128});
+        labelController4.setTextIds(new int[]{404333});
         labelController4.setBounds(0, 0, 0, 109);
         multiLineLabelRendererHigh.setAlignment(2, 4);
         InstructionTextContoller instructionTextContoller = new InstructionTextContoller();
@@ -3908,7 +4880,7 @@ public class NaviScreenBag3 {
         partialPopupController.setContentInset(10);
         partialPopupController.setDynamicSize(true);
         partialPopupController.setGreyOutBackground(true);
-        partialPopupController.setID(-1357117952);
+        partialPopupController.setID(400559);
         partialPopupController.setLayer(1);
         partialPopupController.setPriority(1200);
         partialPopupController.setStyle(1);
@@ -3932,11 +4904,11 @@ public class NaviScreenBag3 {
         MenuItemController menuItemController2 = new MenuItemController();
         CompositeRendererHigh compositeRendererHigh3 = new CompositeRendererHigh(menuItemController2);
         menuItemController2.setRenderer(compositeRendererHigh3);
-        menuItemController2.setEvent(1847264768);
-        menuItemController2.setLabelId(-299891200);
+        menuItemController2.setEvent(400238);
+        menuItemController2.setLabelId(401646);
         menuItemController2.setGlassplateInsetsBottom(6);
         menuItemController2.setGlassplateInsetsTop(7);
-        menuItemController2.setInternalID(-1743124992);
+        menuItemController2.setInternalID(400024);
         menuItemController2.setKeyHandler(3);
         menuItemController2.setType(2);
         MenuController menuController3 = new MenuController();
@@ -3944,7 +4916,7 @@ public class NaviScreenBag3 {
         menuController3.setRenderer(menuRendererHigh3);
         menuController3.createInfolineWidgets(new InfoLineRendererHigh());
         menuController3.getInfoline().getInfolineRenderer().setFonts(naviScreenFactory.getFonts(2, n));
-        menuController3.setDefaultDisabledInfolineTextId(-1608186368);
+        menuController3.setDefaultDisabledInfolineTextId(402848);
         menuController3.getInfolineTimer().setIdleTime(800);
         menuController3.getInfoline().setColorIndices(new int[]{2, 0, 4, 3});
         menuController3.getLayout().setBackgroundInsetsVert(7);
@@ -3959,7 +4931,7 @@ public class NaviScreenBag3 {
         LabelController labelController5 = new LabelController();
         MultiLineLabelRendererHigh multiLineLabelRendererHigh2 = new MultiLineLabelRendererHigh(labelController5);
         labelController5.setRenderer(multiLineLabelRendererHigh2);
-        labelController5.setTextIds(new int[]{-283113984});
+        labelController5.setTextIds(new int[]{401647});
         labelController5.setBounds(0, 0, 0, 109);
         multiLineLabelRendererHigh2.setAlignment(2, 4);
         InstructionTextContoller instructionTextContoller2 = new InstructionTextContoller();
@@ -3985,7 +4957,7 @@ public class NaviScreenBag3 {
         partialPopupController2.setContentInset(10);
         partialPopupController2.setDynamicSize(true);
         partialPopupController2.setGreyOutBackground(true);
-        partialPopupController2.setID(-98957824);
+        partialPopupController2.setID(400122);
         partialPopupController2.setLayer(1);
         partialPopupController2.setPriority(1200);
         partialPopupController2.setStyle(1);
@@ -4009,12 +4981,12 @@ public class NaviScreenBag3 {
         MenuItemController menuItemController3 = new MenuItemController();
         CompositeRendererHigh compositeRendererHigh5 = new CompositeRendererHigh(menuItemController3);
         menuItemController3.setRenderer(compositeRendererHigh5);
-        menuItemController3.setModelID(-48553216);
-        menuItemController3.setEvent(253429248);
-        menuItemController3.setLabelId(1042155008);
+        menuItemController3.setModelID(2300925);
+        menuItemController3.setEvent(400143);
+        menuItemController3.setLabelId(400958);
         menuItemController3.setGlassplateInsetsBottom(6);
         menuItemController3.setGlassplateInsetsTop(7);
-        menuItemController3.setInternalID(-1726347776);
+        menuItemController3.setInternalID(400025);
         menuItemController3.setKeyHandler(0);
         menuItemController3.setType(2);
         MenuController menuController4 = new MenuController();
@@ -4022,7 +4994,7 @@ public class NaviScreenBag3 {
         menuController4.setRenderer(menuRendererHigh4);
         menuController4.createInfolineWidgets(new InfoLineRendererHigh());
         menuController4.getInfoline().getInfolineRenderer().setFonts(naviScreenFactory.getFonts(2, n));
-        menuController4.setDefaultDisabledInfolineTextId(-1608186368);
+        menuController4.setDefaultDisabledInfolineTextId(402848);
         menuController4.getInfolineTimer().setIdleTime(800);
         menuController4.getInfoline().setColorIndices(new int[]{2, 0, 4, 3});
         menuController4.getLayout().setBackgroundInsetsVert(7);
@@ -4037,7 +5009,7 @@ public class NaviScreenBag3 {
         LabelController labelController6 = new LabelController();
         MultiLineLabelRendererHigh multiLineLabelRendererHigh3 = new MultiLineLabelRendererHigh(labelController6);
         labelController6.setRenderer(multiLineLabelRendererHigh3);
-        labelController6.setTextIds(new int[]{2032076288});
+        labelController6.setTextIds(new int[]{401273});
         labelController6.setBounds(0, 0, 0, 109);
         multiLineLabelRendererHigh3.setAlignment(2, 4);
         InstructionTextContoller instructionTextContoller3 = new InstructionTextContoller();
@@ -4063,7 +5035,7 @@ public class NaviScreenBag3 {
         partialPopupController3.setContentInset(10);
         partialPopupController3.setDynamicSize(true);
         partialPopupController3.setGreyOutBackground(true);
-        partialPopupController3.setID(-82180608);
+        partialPopupController3.setID(400123);
         partialPopupController3.setLayer(1);
         partialPopupController3.setPriority(1200);
         partialPopupController3.setStyle(1);
@@ -4072,13 +5044,13 @@ public class NaviScreenBag3 {
         partialPopupController3.setBackgroundController(partialPopupGlassplateController3);
         partialPopupController3.add(instructionTextContoller3);
         AbstractWidgetController abstractWidgetController2 = naviScreenFactory.getRefWidget(n, 13, naviScreenFactory);
-        ScreenWidgetEVO screenWidgetEVO = new ScreenWidgetEVO(-635828736);
+        ScreenWidgetEVO screenWidgetEVO = new ScreenWidgetEVO(400090);
         screenWidgetEVO.setScreenFactory(naviScreenFactory);
         ScreenRendererHigh screenRendererHigh = new ScreenRendererHigh(screenWidgetEVO);
         screenWidgetEVO.setRenderer(screenRendererHigh);
         screenRendererHigh.setFonts(naviScreenFactory.getFonts(0, n));
         screenWidgetEVO.setColorIndices(new int[]{1, 2, 4, 0});
-        screenWidgetEVO.setColorPalettes(new int[][]{{-1, 255, -1, -1, -1701143809, -1431655681, -1246382593, -1701143809, -1}, {-1, 255, 419495935, 1751100415, -1701143809, -1431655681, -1246382593, -1701143809, 1228585215}, {-1, 255, -19456, 1838260991, -1701143809, -1431655681, -1246382593, -1701143809, 1838260991}, {-1, 255, -1433657601, -1567134209, -1701143809, -1431655681, -1246382593, -1701143809, -1567134209}, {-1, 255, 11166975, 1973122047, -1701143809, -1431655681, -1246382593, -1701143809, 1973122047}});
+        screenWidgetEVO.setColorPalettes(new int[][]{{-1, -16777216, -1, -1, -6645094, -5592406, -4868683, -6645094, -1}, {-1, -16777216, -65511, -5546136, -6645094, -5592406, -4868683, -6645094, -4703671}, {-1, -16777216, -19456, -6123155, -6645094, -5592406, -4868683, -6645094, -6123155}, {-1, -16777216, -14775126, -9594974, -6645094, -5592406, -4868683, -6645094, -9594974}, {-1, -16777216, -10180096, -9200779, -6645094, -5592406, -4868683, -6645094, -9200779}});
         screenWidgetEVO.setHmiAppsToNotifyForVisibility(new int[]{14});
         screenWidgetEVO.setSmallStageType(3);
         screenWidgetEVO.add(abstractWidgetController);
@@ -4089,14 +5061,14 @@ public class NaviScreenBag3 {
         screenWidgetEVO.add(partialPopupController2);
         screenWidgetEVO.add(partialPopupController3);
         screenWidgetEVO.add(abstractWidgetController2, 15);
-        screenWidgetEVO.setViews(new int[]{138, 5602, 5606, 1696663040, -1306458624, -551483904, -48553216}, new HMIView[][]{{statusBarStubController, naviScreenFactory.refWidgets[n][14]}, {modelStubController}, {modelStubController2}, {listController}, {menuController}, {touchController}, {menuItemController3}});
-        screenWidgetEVO.setModelIDs(new int[]{1696663040, -48553216});
-        screenWidgetEVO.setEventIDs(new int[]{337315328, 253429248});
-        screenWidgetEVO.setConditionWidgets(new int[]{1579091456, -316923136}, new AbstractWidget[][]{{labelController2, labelController3}, {screenWidgetEVO}});
+        screenWidgetEVO.setViews(new int[]{138, 5602, 5606, 401765, 401842, 401887, 2300925}, new HMIView[][]{{statusBarStubController, naviScreenFactory.refWidgets[n][14]}, {modelStubController}, {modelStubController2}, {listController}, {menuController}, {touchController}, {menuItemController3}});
+        screenWidgetEVO.setModelIDs(new int[]{401765, 2300925});
+        screenWidgetEVO.setEventIDs(new int[]{400148, 400143});
+        screenWidgetEVO.setConditionWidgets(new int[]{401246, 2301165}, new AbstractWidget[][]{{labelController2, labelController3}, {screenWidgetEVO}});
         return screenWidgetEVO;
     }
 
-    public static Screen dESTONLINESEARCH(NaviScreenFactory naviScreenFactory, int n) {
+    public static Screen dESTONLINESEARCH(final NaviScreenFactory naviScreenFactory, final int n) {
         GlassplateController glassplateController = new GlassplateController();
         GlassplateRendererHigh glassplateRendererHigh = new GlassplateRendererHigh(glassplateController);
         glassplateController.setRenderer(glassplateRendererHigh);
@@ -4123,9 +5095,9 @@ public class NaviScreenBag3 {
         spellerRendererEuropeHigh.setFonts(naviScreenFactory.getFonts(5, n));
         spellerController.setColorIndices(new int[]{2, 0, 4, 0});
         LabelController labelController = new LabelController();
-        labelController.setModelID(1243612672);
-        labelController.setTextIds(new int[]{-1054734848, -1037957632, -1021180416, -1004403200});
-        labelController.setReplacementModelIds(new int[]{-233044480});
+        labelController.setModelID(401482);
+        labelController.setTextIds(new int[]{402113, 402114, 402115, 402116});
+        labelController.setReplacementModelIds(new int[]{400626});
         labelController.setBounds(0, 0, 100, 30);
         ModelStubController modelStubController = new ModelStubController();
         modelStubController.setModelID(5603);
@@ -4138,8 +5110,8 @@ public class NaviScreenBag3 {
         touchController.setRenderer(touchRendererHigh);
         touchController.setBitmaps(new int[]{483, 484, 857});
         touchRendererHigh.setFonts(naviScreenFactory.getFonts(4, n));
-        touchController.setModelID(-266598912);
-        touchController.setInfoTextIDs(new int[]{707331584});
+        touchController.setModelID(400624);
+        touchController.setInfoTextIDs(new int[]{403754});
         touchController.setColorIndices(new int[]{2, 5, 4, 3});
         touchController.setCursorOffsetBottom(1);
         touchController.setCursorOffsetTop(-1);
@@ -4152,24 +5124,24 @@ public class NaviScreenBag3 {
         touchController.setWidgetID(1);
         touchController.setSpeller(spellerController);
         touchController.setInitialTextLabel(labelController);
-        touchController.add(modelStubController, 16);
-        touchController.add(modelStubController2, 8);
+        touchController.add(modelStubController, 0x10000000);
+        touchController.add(modelStubController2, 0x8000000);
         MenuItemController menuItemController = new MenuItemController();
         CompositeRendererHigh compositeRendererHigh = new CompositeRendererHigh(menuItemController);
         menuItemController.setRenderer(compositeRendererHigh);
-        menuItemController.setModelID(-182712832);
-        menuItemController.setLabelId(2015102464);
-        menuItemController.setReplacementModelIds(new int[]{-165935616});
+        menuItemController.setModelID(400629);
+        menuItemController.setLabelId(400504);
+        menuItemController.setReplacementModelIds(new int[]{400630});
         menuItemController.setGlassplateInsetsBottom(6);
         menuItemController.setGlassplateInsetsTop(7);
-        menuItemController.setInternalID(-1709570560);
-        menuItemController.setSdsCommand(1729824256);
+        menuItemController.setInternalID(400026);
+        menuItemController.setSdsCommand(400231);
         menuItemController.setSdsItemSelectedAction(2);
         menuItemController.setType(2);
         menuItemController.setWidgetID(2);
         ListController listController = new ListController();
-        listController.setModelID(-417593856);
-        listController.setEvent(119211520);
+        listController.setModelID(400615);
+        listController.setEvent(400135);
         listController.setBounds(0, 0, 0, 0);
         listController.setColorIndices(new int[]{1, 0, 4, 2});
         listController.setGlassplateInsetsBottom(new int[0]);
@@ -4178,21 +5150,64 @@ public class NaviScreenBag3 {
         listController.setNoFocusAreasTop(new int[0]);
         listController.setSdsItemSelectedAction(2);
         listController.setWidgetID(3);
-        listController.setItemFactory(new NaviScreenBag3$17());
+        listController.setItemFactory(new ListItemFactory(){
+
+            public AbstractWidgetController createListItem(int n, ListCell[] listCellArray) {
+                switch (n) {
+                    case 0: {
+                        MenuItemController menuItemController = new MenuItemController();
+                        menuItemController.setType(16);
+                        menuItemController.setRenderer(new MenuItemRendererHigh(menuItemController));
+                        GridLayout gridLayout = new GridLayout();
+                        MenuItemColumnsConstraints menuItemColumnsConstraints = new MenuItemColumnsConstraints(1);
+                        menuItemColumnsConstraints.alignment = new int[]{1};
+                        gridLayout.setColumnConstraints(menuItemColumnsConstraints);
+                        AxisConstraints axisConstraints = new AxisConstraints(1);
+                        axisConstraints.gaps = new int[]{0, 0};
+                        gridLayout.setRowConstraints(axisConstraints);
+                        AbstractWidgetController abstractWidgetController = this.createCell(0);
+                        GridLayoutHints gridLayoutHints = new GridLayoutHints(0, 0);
+                        gridLayoutHints.hidemode = 0;
+                        gridLayout.setCellConstraints(new GridLayoutHints[]{gridLayoutHints}, new Object[]{abstractWidgetController});
+                        menuItemController.setLayoutChoices(new GridLayout[]{gridLayout});
+                        menuItemController.add(abstractWidgetController);
+                        return menuItemController;
+                    }
+                }
+                return null;
+            }
+
+            public AbstractWidgetController createListItemNoData() {
+                return null;
+            }
+
+            public AbstractWidgetController createCell(int n) {
+                switch (n) {
+                    case 0: {
+                        LabelController labelController = new LabelController();
+                        HighlightingLabelRendererHigh highlightingLabelRendererHigh = new HighlightingLabelRendererHigh(labelController);
+                        labelController.setRenderer(highlightingLabelRendererHigh);
+                        labelController.setModelColumn(0);
+                        return labelController;
+                    }
+                }
+                return null;
+            }
+        });
         MenuItemController menuItemController2 = new MenuItemController();
         CompositeRendererHigh compositeRendererHigh2 = new CompositeRendererHigh(menuItemController2);
         menuItemController2.setRenderer(compositeRendererHigh2);
-        menuItemController2.setModelID(-283376128);
-        menuItemController2.setLabelId(1025312256);
+        menuItemController2.setModelID(400623);
+        menuItemController2.setLabelId(400701);
         menuItemController2.setGlassplateInsetsBottom(6);
         menuItemController2.setGlassplateInsetsTop(7);
-        menuItemController2.setInternalID(-1692793344);
+        menuItemController2.setInternalID(400027);
         menuItemController2.setSdsItemSelectedAction(1);
         menuItemController2.setType(2);
         menuItemController2.setWidgetID(4);
         ListController listController2 = new ListController();
-        listController2.setModelID(-367262208);
-        listController2.setEvent(-1910897152);
+        listController2.setModelID(400618);
+        listController2.setEvent(400014);
         listController2.setBounds(0, 0, 0, 0);
         listController2.setColorIndices(new int[]{1, 0, 4, 2});
         listController2.setGlassplateInsetsBottom(new int[0]);
@@ -4203,15 +5218,164 @@ public class NaviScreenBag3 {
         listController2.setRecordSetColumn(12);
         listController2.setSdsItemSelectedAction(2);
         listController2.setWidgetID(5);
-        listController2.setItemFactory(new NaviScreenBag3$18(naviScreenFactory, n));
+        listController2.setItemFactory(new ListItemFactory(){
+
+            public AbstractWidgetController createListItem(int n2, ListCell[] listCellArray) {
+                switch (n2) {
+                    case 0: {
+                        MenuItemController menuItemController = new MenuItemController();
+                        menuItemController.setType(16);
+                        menuItemController.setRenderer(new MenuItemRendererHigh(menuItemController));
+                        GridLayout gridLayout = new GridLayout();
+                        MenuItemColumnsConstraints menuItemColumnsConstraints = new MenuItemColumnsConstraints(3);
+                        menuItemColumnsConstraints.alignment = new int[]{8, 2, 8};
+                        menuItemColumnsConstraints.gaps = new int[]{0, 15, 12, 0};
+                        menuItemColumnsConstraints.grow = new float[]{0.0f, 0.0f, 1.0f};
+                        menuItemColumnsConstraints.shrink = new float[]{0.0f, 0.0f, 1.0f};
+                        menuItemColumnsConstraints.hidemode = new int[]{0, 1, 1};
+                        gridLayout.setColumnConstraints(menuItemColumnsConstraints);
+                        AxisConstraints axisConstraints = new AxisConstraints(2);
+                        axisConstraints.alignment = new int[]{5, 5};
+                        gridLayout.setRowConstraints(axisConstraints);
+                        AbstractWidgetController abstractWidgetController = this.createCell(0);
+                        GridLayoutHints gridLayoutHints = new GridLayoutHints(0, 0);
+                        gridLayoutHints.columnSpan = 3;
+                        AbstractWidgetController abstractWidgetController2 = this.createCell(1);
+                        GridLayoutHints gridLayoutHints2 = new GridLayoutHints(0, 1);
+                        AbstractWidgetController abstractWidgetController3 = this.createCell(2);
+                        GridLayoutHints gridLayoutHints3 = new GridLayoutHints(1, 1);
+                        gridLayoutHints3.alignmentHoriz = 2;
+                        gridLayoutHints3.alignmentVert = 5;
+                        AbstractWidgetController abstractWidgetController4 = this.createCell(3);
+                        GridLayoutHints gridLayoutHints4 = new GridLayoutHints(2, 1);
+                        gridLayout.setCellConstraints(new GridLayoutHints[]{gridLayoutHints, gridLayoutHints2, gridLayoutHints3, gridLayoutHints4}, new Object[]{abstractWidgetController, abstractWidgetController2, abstractWidgetController3, abstractWidgetController4});
+                        menuItemController.setLayoutChoices(new GridLayout[]{gridLayout});
+                        menuItemController.add(abstractWidgetController);
+                        menuItemController.add(abstractWidgetController2);
+                        menuItemController.add(abstractWidgetController3);
+                        menuItemController.add(abstractWidgetController4);
+                        return menuItemController;
+                    }
+                    case 1: {
+                        MenuItemController menuItemController = new MenuItemController();
+                        menuItemController.setType(16);
+                        menuItemController.setRenderer(new MenuItemRendererHigh(menuItemController));
+                        GridLayout gridLayout = new GridLayout();
+                        MenuItemColumnsConstraints menuItemColumnsConstraints = new MenuItemColumnsConstraints(4);
+                        menuItemColumnsConstraints.gaps = new int[]{0, 10, 12, 12, 0};
+                        menuItemColumnsConstraints.grow = new float[]{0.0f, 1.0f, 0.0f, 0.0f};
+                        menuItemColumnsConstraints.min = new int[]{50, -1, -1, -1};
+                        menuItemColumnsConstraints.shrink = new float[]{0.0f, 1.0f, 0.0f, 0.0f};
+                        menuItemColumnsConstraints.hidemode = new int[]{1, 1, 0, 1};
+                        gridLayout.setColumnConstraints(menuItemColumnsConstraints);
+                        AxisConstraints axisConstraints = new AxisConstraints(3);
+                        axisConstraints.alignment = new int[]{5, 5, 9};
+                        gridLayout.setRowConstraints(axisConstraints);
+                        AbstractWidgetController abstractWidgetController = this.createCell(4);
+                        GridLayoutHints gridLayoutHints = new GridLayoutHints(0, 0);
+                        gridLayoutHints.alignmentVert = 5;
+                        gridLayoutHints.hidemode = 0;
+                        AbstractWidgetController abstractWidgetController5 = this.createCell(0);
+                        GridLayoutHints gridLayoutHints5 = new GridLayoutHints(1, 0);
+                        gridLayoutHints5.columnSpan = 3;
+                        AbstractWidgetController abstractWidgetController6 = this.createCell(5);
+                        GridLayoutHints gridLayoutHints6 = new GridLayoutHints(1, 1);
+                        AbstractWidgetController abstractWidgetController7 = this.createCell(1);
+                        GridLayoutHints gridLayoutHints7 = new GridLayoutHints(2, 1);
+                        gridLayoutHints7.alignmentHoriz = 2;
+                        gridLayoutHints7.alignmentVert = 5;
+                        AbstractWidgetController abstractWidgetController8 = this.createCell(2);
+                        GridLayoutHints gridLayoutHints8 = new GridLayoutHints(3, 1);
+                        gridLayoutHints8.alignmentHoriz = 3;
+                        AbstractWidgetController abstractWidgetController9 = this.createCell(3);
+                        GridLayoutHints gridLayoutHints9 = new GridLayoutHints(1, 2);
+                        gridLayoutHints9.columnSpan = 3;
+                        gridLayout.setCellConstraints(new GridLayoutHints[]{gridLayoutHints, gridLayoutHints5, gridLayoutHints6, gridLayoutHints7, gridLayoutHints8, gridLayoutHints9}, new Object[]{abstractWidgetController, abstractWidgetController5, abstractWidgetController6, abstractWidgetController7, abstractWidgetController8, abstractWidgetController9});
+                        menuItemController.setLayoutChoices(new GridLayout[]{gridLayout});
+                        menuItemController.add(abstractWidgetController5);
+                        menuItemController.add(abstractWidgetController6);
+                        menuItemController.add(abstractWidgetController7);
+                        menuItemController.add(abstractWidgetController8);
+                        menuItemController.add(abstractWidgetController9);
+                        menuItemController.add(abstractWidgetController);
+                        return menuItemController;
+                    }
+                }
+                return null;
+            }
+
+            public AbstractWidgetController createListItemNoData() {
+                return null;
+            }
+
+            public AbstractWidgetController createCell(int n2) {
+                switch (n2) {
+                    case 0: {
+                        LabelController labelController = new LabelController();
+                        HighlightingLabelRendererHigh highlightingLabelRendererHigh = new HighlightingLabelRendererHigh(labelController);
+                        labelController.setRenderer(highlightingLabelRendererHigh);
+                        labelController.setModelColumn(0);
+                        return labelController;
+                    }
+                    case 1: {
+                        IconController iconController = new IconController();
+                        IconRendererHigh iconRendererHigh = new IconRendererHigh(iconController);
+                        iconController.setRenderer(iconRendererHigh);
+                        iconController.setBitmaps(new int[]{400263, 400264, 400265, 400266, 400267, 400268, 400269, 400270, 400271, 400272, 400273, 400274, 400275, 400276, 400277, 400278});
+                        iconController.setColorIndices(new int[]{1, 0, 4, 0});
+                        iconController.setModelColumn(1);
+                        iconController.setPreferredHeight(1);
+                        iconController.setProcessStateChange(2);
+                        iconRendererHigh.setAlignment(2, 5);
+                        return iconController;
+                    }
+                    case 2: {
+                        LabelController labelController = new LabelController();
+                        HighlightingLabelRendererHigh highlightingLabelRendererHigh = new HighlightingLabelRendererHigh(labelController);
+                        labelController.setRenderer(highlightingLabelRendererHigh);
+                        highlightingLabelRendererHigh.setFonts(naviScreenFactory.getFonts(2, n));
+                        labelController.setColorIndices(new int[]{1, 6, 6, 0});
+                        labelController.setMetricsFormat(1);
+                        labelController.setModelColumn(5);
+                        return labelController;
+                    }
+                    case 3: {
+                        LabelController labelController = new LabelController();
+                        HighlightingLabelRendererHigh highlightingLabelRendererHigh = new HighlightingLabelRendererHigh(labelController);
+                        labelController.setRenderer(highlightingLabelRendererHigh);
+                        highlightingLabelRendererHigh.setFonts(naviScreenFactory.getFonts(2, n));
+                        labelController.setColorIndices(new int[]{1, 6, 6, 0});
+                        labelController.setModelColumn(10);
+                        return labelController;
+                    }
+                    case 4: {
+                        IconLabelController iconLabelController = new IconLabelController();
+                        IconLabelRendererHigh iconLabelRendererHigh = new IconLabelRendererHigh(iconLabelController);
+                        iconLabelController.setRenderer(iconLabelRendererHigh);
+                        iconLabelController.setBounds(0, 0, 100, 100);
+                        iconLabelController.setModelColumn(4);
+                        iconLabelController.setPreferredHeight(1);
+                        return iconLabelController;
+                    }
+                    case 5: {
+                        LabelController labelController = new LabelController();
+                        HighlightingLabelRendererHigh highlightingLabelRendererHigh = new HighlightingLabelRendererHigh(labelController);
+                        labelController.setRenderer(highlightingLabelRendererHigh);
+                        labelController.setModelColumn(9);
+                        return labelController;
+                    }
+                }
+                return null;
+            }
+        });
         MenuItemController menuItemController3 = new MenuItemController();
         CompositeRendererHigh compositeRendererHigh3 = new CompositeRendererHigh(menuItemController3);
         menuItemController3.setRenderer(compositeRendererHigh3);
-        menuItemController3.setModelID(-300153344);
-        menuItemController3.setLabelId(1042089472);
+        menuItemController3.setModelID(400622);
+        menuItemController3.setLabelId(400702);
         menuItemController3.setGlassplateInsetsBottom(6);
         menuItemController3.setGlassplateInsetsTop(7);
-        menuItemController3.setInternalID(-1676016128);
+        menuItemController3.setInternalID(400028);
         menuItemController3.setSdsItemSelectedAction(1);
         menuItemController3.setType(2);
         MenuSDSNumbersController menuSDSNumbersController = new MenuSDSNumbersController();
@@ -4224,7 +5388,7 @@ public class NaviScreenBag3 {
         menuController.setRenderer(menuRendererHigh);
         menuController.createInfolineWidgets(new InfoLineRendererHigh());
         menuController.getInfoline().getInfolineRenderer().setFonts(naviScreenFactory.getFonts(2, n));
-        menuController.setDefaultDisabledInfolineTextId(891684352);
+        menuController.setDefaultDisabledInfolineTextId(402997);
         menuController.getInfolineTimer().setIdleTime(800);
         menuController.getInfoline().setColorIndices(new int[]{2, 0, 4, 3});
         menuController.getInitialization().setInitialFocusAdvice(FocusAdvice.VIEWPORT_LAST_POSITION);
@@ -4253,10 +5417,10 @@ public class NaviScreenBag3 {
         ContainerRendererHigh containerRendererHigh = new ContainerRendererHigh(containerController);
         containerController.setRenderer(containerRendererHigh);
         containerController.setBounds(0, 0, 100, 100);
-        containerController.setEntertainmentMenuTransformation(16449, 16449, -1883081409, -1883081409, 63);
-        containerController.setOpacitySet(1.0f, -842216386);
-        containerController.setOptionMenuTransformation(32960, 57408, -1701242561, -1701242561, 63);
-        containerController.setSelectionMenuTransformation(40771, 57408, -512093121, -1701242561, 32830);
+        containerController.setEntertainmentMenuTransformation(12.0f, 12.0f, 0.96f, 0.96f, 0.5f);
+        containerController.setOpacitySet(1.0f, 0.4f);
+        containerController.setOptionMenuTransformation(-4.0f, 7.0f, 0.6f, 0.6f, 0.5f);
+        containerController.setSelectionMenuTransformation(318.0f, 7.0f, 0.58f, 0.6f, 0.25f);
         containerController.add(menuController);
         AbstractWidgetController abstractWidgetController = naviScreenFactory.getRefWidget(n, 2, naviScreenFactory);
         AbstractWidgetController abstractWidgetController2 = naviScreenFactory.getRefWidget(n, 0, naviScreenFactory);
@@ -4269,29 +5433,29 @@ public class NaviScreenBag3 {
         LabelRendererHigh labelRendererHigh = new LabelRendererHigh(labelController2);
         labelController2.setRenderer(labelRendererHigh);
         labelRendererHigh.setFonts(naviScreenFactory.getFonts(3, n));
-        labelController2.setTextIds(new int[]{-786233856});
+        labelController2.setTextIds(new int[]{402385});
         labelController2.setBounds(0, 0, 0, 30);
         labelController2.setColorIndices(new int[]{1, 2, 4, 0});
         LabelController labelController3 = new LabelController();
         LabelRendererHigh labelRendererHigh2 = new LabelRendererHigh(labelController3);
         labelController3.setRenderer(labelRendererHigh2);
         labelRendererHigh2.setFonts(naviScreenFactory.getFonts(3, n));
-        labelController3.setTextIds(new int[]{-769456640});
+        labelController3.setTextIds(new int[]{402386});
         labelController3.setBounds(0, 0, 0, 30);
         labelController3.setColorIndices(new int[]{1, 2, 4, 0});
         LabelController labelController4 = new LabelController();
         LabelRendererHigh labelRendererHigh3 = new LabelRendererHigh(labelController4);
         labelController4.setRenderer(labelRendererHigh3);
         labelRendererHigh3.setFonts(naviScreenFactory.getFonts(3, n));
-        labelController4.setTextIds(new int[]{-752679424});
-        labelController4.setReplacementModelIds(new int[]{-233044480});
+        labelController4.setTextIds(new int[]{402387});
+        labelController4.setReplacementModelIds(new int[]{400626});
         labelController4.setBounds(0, 0, 0, 30);
         labelController4.setColorIndices(new int[]{1, 2, 4, 0});
         LabelController labelController5 = new LabelController();
         LabelRendererHigh labelRendererHigh4 = new LabelRendererHigh(labelController5);
         labelController5.setRenderer(labelRendererHigh4);
         labelRendererHigh4.setFonts(naviScreenFactory.getFonts(3, n));
-        labelController5.setTextIds(new int[]{-735902208});
+        labelController5.setTextIds(new int[]{402388});
         labelController5.setBounds(0, 0, 0, 30);
         labelController5.setColorIndices(new int[]{1, 2, 4, 0});
         TitleBarWidget titleBarWidget = new TitleBarWidget();
@@ -4316,29 +5480,29 @@ public class NaviScreenBag3 {
         LabelRendererHigh labelRendererHigh5 = new LabelRendererHigh(labelController6);
         labelController6.setRenderer(labelRendererHigh5);
         labelRendererHigh5.setFonts(naviScreenFactory.getFonts(3, n));
-        labelController6.setTextIds(new int[]{-2145450496});
+        labelController6.setTextIds(new int[]{401280});
         labelController6.setBounds(0, 0, 0, 30);
         labelController6.setColorIndices(new int[]{1, 2, 4, 0});
         LabelController labelController7 = new LabelController();
         LabelRendererHigh labelRendererHigh6 = new LabelRendererHigh(labelController7);
         labelController7.setRenderer(labelRendererHigh6);
         labelRendererHigh6.setFonts(naviScreenFactory.getFonts(3, n));
-        labelController7.setTextIds(new int[]{-2128673280});
+        labelController7.setTextIds(new int[]{401281});
         labelController7.setBounds(0, 0, 0, 30);
         labelController7.setColorIndices(new int[]{1, 2, 4, 0});
         LabelController labelController8 = new LabelController();
         LabelRendererHigh labelRendererHigh7 = new LabelRendererHigh(labelController8);
         labelController8.setRenderer(labelRendererHigh7);
         labelRendererHigh7.setFonts(naviScreenFactory.getFonts(3, n));
-        labelController8.setTextIds(new int[]{-2111896064});
-        labelController8.setReplacementModelIds(new int[]{-233044480});
+        labelController8.setTextIds(new int[]{401282});
+        labelController8.setReplacementModelIds(new int[]{400626});
         labelController8.setBounds(0, 0, 0, 30);
         labelController8.setColorIndices(new int[]{1, 2, 4, 0});
         LabelController labelController9 = new LabelController();
         LabelRendererHigh labelRendererHigh8 = new LabelRendererHigh(labelController9);
         labelController9.setRenderer(labelRendererHigh8);
         labelRendererHigh8.setFonts(naviScreenFactory.getFonts(3, n));
-        labelController9.setTextIds(new int[]{-2095118848});
+        labelController9.setTextIds(new int[]{401283});
         labelController9.setBounds(0, 0, 0, 30);
         labelController9.setColorIndices(new int[]{1, 2, 4, 0});
         LabelController labelController10 = new LabelController();
@@ -4349,7 +5513,7 @@ public class NaviScreenBag3 {
         LabelController labelController11 = new LabelController();
         LabelRendererHigh labelRendererHigh10 = new LabelRendererHigh(labelController11);
         labelController11.setRenderer(labelRendererHigh10);
-        labelController11.setTextIds(new int[]{421856768});
+        labelController11.setTextIds(new int[]{402713});
         labelController11.setBounds(0, 0, 0, 30);
         labelController11.setCoordinateSets(new int[]{1, 0, 0, 0, 30, 0, 0, 0, 30});
         TitleBarWidget titleBarWidget2 = new TitleBarWidget();
@@ -4383,10 +5547,10 @@ public class NaviScreenBag3 {
         ContainerRendererHigh containerRendererHigh2 = new ContainerRendererHigh(containerController2);
         containerController2.setRenderer(containerRendererHigh2);
         containerController2.setBounds(0, 0, 800, 0);
-        containerController2.setEntertainmentMenuTransformation(16449, 16449, -1883081409, -1883081409, 0.0f);
-        containerController2.setOpacitySet(1.0f, -842216386);
-        containerController2.setOptionMenuTransformation(32960, 57408, -1701242561, -1701242561, 0.0f);
-        containerController2.setSelectionMenuTransformation(8438595, 57408, -1701242561, -1701242561, 0.0f);
+        containerController2.setEntertainmentMenuTransformation(12.0f, 12.0f, 0.96f, 0.96f, 0.0f);
+        containerController2.setOpacitySet(1.0f, 0.4f);
+        containerController2.setOptionMenuTransformation(-4.0f, 7.0f, 0.6f, 0.6f, 0.0f);
+        containerController2.setSelectionMenuTransformation(391.0f, 7.0f, 0.6f, 0.6f, 0.0f);
         containerController2.add(titleBarWidget);
         containerController2.add(titleBarWidget2);
         containerController2.add(waitAnimController);
@@ -4407,19 +5571,19 @@ public class NaviScreenBag3 {
         MenuItemController menuItemController4 = new MenuItemController();
         CompositeRendererHigh compositeRendererHigh4 = new CompositeRendererHigh(menuItemController4);
         menuItemController4.setRenderer(compositeRendererHigh4);
-        menuItemController4.setModelID(-149158400);
-        menuItemController4.setEvent(219874816);
-        menuItemController4.setLabelId(1042155008);
+        menuItemController4.setModelID(400631);
+        menuItemController4.setEvent(400141);
+        menuItemController4.setLabelId(400958);
         menuItemController4.setGlassplateInsetsBottom(6);
         menuItemController4.setGlassplateInsetsTop(7);
-        menuItemController4.setInternalID(-1659238912);
+        menuItemController4.setInternalID(400029);
         menuItemController4.setType(2);
         MenuController menuController2 = new MenuController();
         MenuRendererHigh menuRendererHigh2 = new MenuRendererHigh(menuController2);
         menuController2.setRenderer(menuRendererHigh2);
         menuController2.createInfolineWidgets(new InfoLineRendererHigh());
         menuController2.getInfoline().getInfolineRenderer().setFonts(naviScreenFactory.getFonts(2, n));
-        menuController2.setDefaultDisabledInfolineTextId(908461568);
+        menuController2.setDefaultDisabledInfolineTextId(402998);
         menuController2.getInfolineTimer().setIdleTime(800);
         menuController2.getInfoline().setColorIndices(new int[]{2, 0, 4, 3});
         menuController2.getLayout().setBackgroundInsetsVert(7);
@@ -4434,12 +5598,12 @@ public class NaviScreenBag3 {
         LabelController labelController12 = new LabelController();
         MultiLineLabelRendererHigh multiLineLabelRendererHigh = new MultiLineLabelRendererHigh(labelController12);
         labelController12.setRenderer(multiLineLabelRendererHigh);
-        labelController12.setTextIds(new int[]{1058866688});
+        labelController12.setTextIds(new int[]{400703});
         labelController12.setBounds(0, 0, 0, 109);
         multiLineLabelRendererHigh.setAlignment(2, 4);
         VirtualButton virtualButton = new VirtualButton();
-        virtualButton.setModelID(-149158400);
-        virtualButton.setEvent(219874816);
+        virtualButton.setModelID(400631);
+        virtualButton.setEvent(400141);
         virtualButton.setBounds(0, 0, 100, 100);
         virtualButton.setEventConfiguration(2);
         virtualButton.setRotationalDirectionClockwise(false);
@@ -4454,8 +5618,8 @@ public class NaviScreenBag3 {
         PartialPopupController partialPopupController = new PartialPopupController();
         PartialPopupRendererHigh partialPopupRendererHigh = new PartialPopupRendererHigh(partialPopupController);
         partialPopupController.setRenderer(partialPopupRendererHigh);
-        partialPopupController.setEvent(219874816);
-        partialPopupController.setHKReturnEvent(219874816);
+        partialPopupController.setEvent(400141);
+        partialPopupController.setHKReturnEvent(400141);
         partialPopupController.setAutoHideTime(-1);
         partialPopupController.setBounds(400, 400, 634, 170);
         partialPopupController.setConsumeDDSPress(4);
@@ -4470,7 +5634,7 @@ public class NaviScreenBag3 {
         partialPopupController.setContentInset(10);
         partialPopupController.setDynamicSize(true);
         partialPopupController.setGreyOutBackground(true);
-        partialPopupController.setID(-166066688);
+        partialPopupController.setID(400118);
         partialPopupController.setLayer(1);
         partialPopupController.setPriority(1200);
         partialPopupController.setSlot(10);
@@ -4487,8 +5651,8 @@ public class NaviScreenBag3 {
         LabelController labelController13 = new LabelController();
         MultiLineLabelRendererHigh multiLineLabelRendererHigh2 = new MultiLineLabelRendererHigh(labelController13);
         labelController13.setRenderer(multiLineLabelRendererHigh2);
-        labelController13.setTextIds(new int[]{1092421120});
-        labelController13.setReplacementModelIds(new int[]{-249821696});
+        labelController13.setTextIds(new int[]{400705});
+        labelController13.setReplacementModelIds(new int[]{400625});
         labelController13.setBounds(0, 0, 0, 109);
         multiLineLabelRendererHigh2.setAlignment(2, 4);
         FocusCursorController focusCursorController3 = new FocusCursorController();
@@ -4502,29 +5666,29 @@ public class NaviScreenBag3 {
         MenuItemController menuItemController5 = new MenuItemController();
         CompositeRendererHigh compositeRendererHigh6 = new CompositeRendererHigh(menuItemController5);
         menuItemController5.setRenderer(compositeRendererHigh6);
-        menuItemController5.setModelID(-1725954560);
-        menuItemController5.setEvent(236652032);
-        menuItemController5.setLabelId(1109198336);
+        menuItemController5.setModelID(401561);
+        menuItemController5.setEvent(400142);
+        menuItemController5.setLabelId(400706);
         menuItemController5.setGlassplateInsetsBottom(6);
         menuItemController5.setGlassplateInsetsTop(7);
-        menuItemController5.setInternalID(-1642461696);
+        menuItemController5.setInternalID(400030);
         menuItemController5.setType(2);
         MenuItemController menuItemController6 = new MenuItemController();
         CompositeRendererHigh compositeRendererHigh7 = new CompositeRendererHigh(menuItemController6);
         menuItemController6.setRenderer(compositeRendererHigh7);
-        menuItemController6.setModelID(-1742731776);
-        menuItemController6.setEvent(270206464);
-        menuItemController6.setLabelId(1042155008);
+        menuItemController6.setModelID(401560);
+        menuItemController6.setEvent(400144);
+        menuItemController6.setLabelId(400958);
         menuItemController6.setGlassplateInsetsBottom(6);
         menuItemController6.setGlassplateInsetsTop(7);
-        menuItemController6.setInternalID(-1625684480);
+        menuItemController6.setInternalID(400031);
         menuItemController6.setType(2);
         MenuController menuController3 = new MenuController();
         MenuRendererHigh menuRendererHigh3 = new MenuRendererHigh(menuController3);
         menuController3.setRenderer(menuRendererHigh3);
         menuController3.createInfolineWidgets(new InfoLineRendererHigh());
         menuController3.getInfoline().getInfolineRenderer().setFonts(naviScreenFactory.getFonts(2, n));
-        menuController3.setDefaultDisabledInfolineTextId(908461568);
+        menuController3.setDefaultDisabledInfolineTextId(402998);
         menuController3.getInfolineTimer().setIdleTime(800);
         menuController3.getInfoline().setColorIndices(new int[]{2, 0, 4, 3});
         menuController3.getLayout().setBackgroundInsetsVert(7);
@@ -4547,7 +5711,7 @@ public class NaviScreenBag3 {
         PartialPopupController partialPopupController2 = new PartialPopupController();
         PartialPopupRendererHigh partialPopupRendererHigh2 = new PartialPopupRendererHigh(partialPopupController2);
         partialPopupController2.setRenderer(partialPopupRendererHigh2);
-        partialPopupController2.setEvent(270206464);
+        partialPopupController2.setEvent(400144);
         partialPopupController2.setBounds(400, 400, 634, 263);
         partialPopupController2.setConsumeDDSPress(6);
         partialPopupController2.setConsumeHKReturn(1);
@@ -4561,7 +5725,7 @@ public class NaviScreenBag3 {
         partialPopupController2.setContentInset(10);
         partialPopupController2.setDynamicSize(true);
         partialPopupController2.setGreyOutBackground(true);
-        partialPopupController2.setID(-149289472);
+        partialPopupController2.setID(400119);
         partialPopupController2.setLayer(1);
         partialPopupController2.setPriority(1200);
         partialPopupController2.setStyle(1);
@@ -4577,8 +5741,8 @@ public class NaviScreenBag3 {
         LabelController labelController14 = new LabelController();
         MultiLineLabelRendererHigh multiLineLabelRendererHigh3 = new MultiLineLabelRendererHigh(labelController14);
         labelController14.setRenderer(multiLineLabelRendererHigh3);
-        labelController14.setTextIds(new int[]{-350222848});
-        labelController14.setReplacementModelIds(new int[]{-249821696, -165935616});
+        labelController14.setTextIds(new int[]{401643});
+        labelController14.setReplacementModelIds(new int[]{400625, 400630});
         labelController14.setBounds(0, 0, 0, 300);
         multiLineLabelRendererHigh3.setAlignment(2, 4);
         FocusCursorController focusCursorController4 = new FocusCursorController();
@@ -4592,29 +5756,29 @@ public class NaviScreenBag3 {
         MenuItemController menuItemController7 = new MenuItemController();
         CompositeRendererHigh compositeRendererHigh9 = new CompositeRendererHigh(menuItemController7);
         menuItemController7.setRenderer(compositeRendererHigh9);
-        menuItemController7.setModelID(-1524693504);
-        menuItemController7.setEvent(1830487552);
-        menuItemController7.setLabelId(-333445632);
+        menuItemController7.setModelID(401317);
+        menuItemController7.setEvent(400237);
+        menuItemController7.setLabelId(401644);
         menuItemController7.setGlassplateInsetsBottom(6);
         menuItemController7.setGlassplateInsetsTop(7);
-        menuItemController7.setInternalID(-1608907264);
+        menuItemController7.setInternalID(400032);
         menuItemController7.setType(2);
         MenuItemController menuItemController8 = new MenuItemController();
         CompositeRendererHigh compositeRendererHigh10 = new CompositeRendererHigh(menuItemController8);
         menuItemController8.setRenderer(compositeRendererHigh10);
-        menuItemController8.setModelID(-1742731776);
-        menuItemController8.setEvent(270206464);
-        menuItemController8.setLabelId(1042155008);
+        menuItemController8.setModelID(401560);
+        menuItemController8.setEvent(400144);
+        menuItemController8.setLabelId(400958);
         menuItemController8.setGlassplateInsetsBottom(6);
         menuItemController8.setGlassplateInsetsTop(7);
-        menuItemController8.setInternalID(-1592130048);
+        menuItemController8.setInternalID(400033);
         menuItemController8.setType(2);
         MenuController menuController4 = new MenuController();
         MenuRendererHigh menuRendererHigh4 = new MenuRendererHigh(menuController4);
         menuController4.setRenderer(menuRendererHigh4);
         menuController4.createInfolineWidgets(new InfoLineRendererHigh());
         menuController4.getInfoline().getInfolineRenderer().setFonts(naviScreenFactory.getFonts(2, n));
-        menuController4.setDefaultDisabledInfolineTextId(908461568);
+        menuController4.setDefaultDisabledInfolineTextId(402998);
         menuController4.getInfolineTimer().setIdleTime(800);
         menuController4.getInfoline().setColorIndices(new int[]{2, 0, 4, 3});
         menuController4.getLayout().setBackgroundInsetsVert(7);
@@ -4637,7 +5801,7 @@ public class NaviScreenBag3 {
         PartialPopupController partialPopupController3 = new PartialPopupController();
         PartialPopupRendererHigh partialPopupRendererHigh3 = new PartialPopupRendererHigh(partialPopupController3);
         partialPopupController3.setRenderer(partialPopupRendererHigh3);
-        partialPopupController3.setEvent(270206464);
+        partialPopupController3.setEvent(400144);
         partialPopupController3.setBounds(400, 400, 634, 263);
         partialPopupController3.setConsumeDDSPress(6);
         partialPopupController3.setConsumeHKReturn(3);
@@ -4651,7 +5815,7 @@ public class NaviScreenBag3 {
         partialPopupController3.setContentInset(10);
         partialPopupController3.setDynamicSize(true);
         partialPopupController3.setGreyOutBackground(true);
-        partialPopupController3.setID(505087488);
+        partialPopupController3.setID(400158);
         partialPopupController3.setLayer(1);
         partialPopupController3.setPriority(1200);
         partialPopupController3.setStyle(1);
@@ -4667,7 +5831,7 @@ public class NaviScreenBag3 {
         LabelController labelController15 = new LabelController();
         MultiLineLabelRendererHigh multiLineLabelRendererHigh4 = new MultiLineLabelRendererHigh(labelController15);
         labelController15.setRenderer(multiLineLabelRendererHigh4);
-        labelController15.setTextIds(new int[]{1428293120});
+        labelController15.setTextIds(new int[]{402005});
         labelController15.setBounds(0, 0, 0, 109);
         multiLineLabelRendererHigh4.setAlignment(2, 4);
         FocusCursorController focusCursorController5 = new FocusCursorController();
@@ -4681,29 +5845,29 @@ public class NaviScreenBag3 {
         MenuItemController menuItemController9 = new MenuItemController();
         CompositeRendererHigh compositeRendererHigh12 = new CompositeRendererHigh(menuItemController9);
         menuItemController9.setRenderer(compositeRendererHigh12);
-        menuItemController9.setModelID(958400000);
-        menuItemController9.setEvent(-1759836672);
-        menuItemController9.setLabelId(1445070336);
+        menuItemController9.setModelID(401465);
+        menuItemController9.setEvent(400279);
+        menuItemController9.setLabelId(402006);
         menuItemController9.setGlassplateInsetsBottom(6);
         menuItemController9.setGlassplateInsetsTop(7);
-        menuItemController9.setInternalID(1495008768);
+        menuItemController9.setInternalID(400473);
         menuItemController9.setType(2);
         MenuItemController menuItemController10 = new MenuItemController();
         CompositeRendererHigh compositeRendererHigh13 = new CompositeRendererHigh(menuItemController10);
         menuItemController10.setRenderer(compositeRendererHigh13);
-        menuItemController10.setModelID(-1910503936);
-        menuItemController10.setEvent(-1776613888);
-        menuItemController10.setLabelId(1042155008);
+        menuItemController10.setModelID(401550);
+        menuItemController10.setEvent(400278);
+        menuItemController10.setLabelId(400958);
         menuItemController10.setGlassplateInsetsBottom(6);
         menuItemController10.setGlassplateInsetsTop(7);
-        menuItemController10.setInternalID(1511785984);
+        menuItemController10.setInternalID(400474);
         menuItemController10.setType(2);
         MenuController menuController5 = new MenuController();
         MenuRendererHigh menuRendererHigh5 = new MenuRendererHigh(menuController5);
         menuController5.setRenderer(menuRendererHigh5);
         menuController5.createInfolineWidgets(new InfoLineRendererHigh());
         menuController5.getInfoline().getInfolineRenderer().setFonts(naviScreenFactory.getFonts(2, n));
-        menuController5.setDefaultDisabledInfolineTextId(908461568);
+        menuController5.setDefaultDisabledInfolineTextId(402998);
         menuController5.getInfolineTimer().setIdleTime(800);
         menuController5.getInfoline().setColorIndices(new int[]{2, 0, 4, 3});
         menuController5.getLayout().setBackgroundInsetsVert(7);
@@ -4726,7 +5890,7 @@ public class NaviScreenBag3 {
         PartialPopupController partialPopupController4 = new PartialPopupController();
         PartialPopupRendererHigh partialPopupRendererHigh4 = new PartialPopupRendererHigh(partialPopupController4);
         partialPopupController4.setRenderer(partialPopupRendererHigh4);
-        partialPopupController4.setHKReturnEvent(-1776613888);
+        partialPopupController4.setHKReturnEvent(400278);
         partialPopupController4.setBounds(400, 400, 634, 170);
         partialPopupController4.setConsumeDDSPress(6);
         partialPopupController4.setConsumeHKReturn(3);
@@ -4740,7 +5904,7 @@ public class NaviScreenBag3 {
         partialPopupController4.setContentInset(10);
         partialPopupController4.setDynamicSize(true);
         partialPopupController4.setGreyOutBackground(true);
-        partialPopupController4.setID(1008403968);
+        partialPopupController4.setID(400188);
         partialPopupController4.setLayer(1);
         partialPopupController4.setPriority(1200);
         partialPopupController4.setStyle(1);
@@ -4753,13 +5917,13 @@ public class NaviScreenBag3 {
         statusBarStubController.setBounds(0, 0, 100, 100);
         statusBarStubController.setProviderLogoState(1);
         AbstractWidgetController abstractWidgetController3 = naviScreenFactory.getRefWidget(n, 13, naviScreenFactory);
-        ScreenWidgetEVO screenWidgetEVO = new ScreenWidgetEVO(-1323694592);
+        ScreenWidgetEVO screenWidgetEVO = new ScreenWidgetEVO(400049);
         screenWidgetEVO.setScreenFactory(naviScreenFactory);
         ScreenRendererHigh screenRendererHigh = new ScreenRendererHigh(screenWidgetEVO);
         screenWidgetEVO.setRenderer(screenRendererHigh);
         screenRendererHigh.setFonts(naviScreenFactory.getFonts(0, n));
         screenWidgetEVO.setColorIndices(new int[]{1, 2, 4, 0});
-        screenWidgetEVO.setColorPalettes(new int[][]{{-1, 255, -1, -1, -1701143809, -1431655681, -1246382593, -1701143809, -1}, {-1, 255, 419495935, 1751100415, -1701143809, -1431655681, -1246382593, -1701143809, 1228585215}, {-1, 255, -19456, 1838260991, -1701143809, -1431655681, -1246382593, -1701143809, 1838260991}, {-1, 255, -1433657601, -1567134209, -1701143809, -1431655681, -1246382593, -1701143809, -1567134209}, {-1, 255, 11166975, 1973122047, -1701143809, -1431655681, -1246382593, -1701143809, 1973122047}});
+        screenWidgetEVO.setColorPalettes(new int[][]{{-1, -16777216, -1, -1, -6645094, -5592406, -4868683, -6645094, -1}, {-1, -16777216, -65511, -5546136, -6645094, -5592406, -4868683, -6645094, -4703671}, {-1, -16777216, -19456, -6123155, -6645094, -5592406, -4868683, -6645094, -6123155}, {-1, -16777216, -14775126, -9594974, -6645094, -5592406, -4868683, -6645094, -9594974}, {-1, -16777216, -10180096, -9200779, -6645094, -5592406, -4868683, -6645094, -9200779}});
         screenWidgetEVO.setHmiAppsToNotifyForVisibility(new int[]{14});
         screenWidgetEVO.setOpenSelectionDrawerByHkReturn(true);
         screenWidgetEVO.setSmallStageType(3);
@@ -4773,11 +5937,11 @@ public class NaviScreenBag3 {
         screenWidgetEVO.add(partialPopupController4);
         screenWidgetEVO.add(statusBarStubController);
         screenWidgetEVO.add(abstractWidgetController3, 15);
-        screenWidgetEVO.setViews(new int[]{138, 162, 4007, 5603, 5606, -417593856, -367262208, -300153344, -283376128, -266598912, -182712832, -149158400, -1524693504, 958400000, 1243612672, -1910503936, -1742731776, -1725954560, 1663370752}, new HMIView[][]{{statusBarStubController, naviScreenFactory.refWidgets[n][14]}, {naviScreenFactory.refWidgets[n][7]}, {waitAnimController2}, {modelStubController}, {modelStubController2}, {listController}, {listController2}, {menuItemController3}, {menuItemController2}, {touchController}, {menuItemController}, {menuItemController4, virtualButton}, {menuItemController7}, {menuItemController9}, {labelController}, {menuItemController10}, {menuItemController6, menuItemController8}, {menuItemController5}, {naviScreenFactory.refWidgets[n][9]}});
-        screenWidgetEVO.setModelIDs(new int[]{-417593856, -367262208, -149158400, -1524693504, 958400000, -1910503936, -1742731776, -1725954560});
-        screenWidgetEVO.setEventIDs(new int[]{119211520, -1910897152, 219874816, 1830487552, -1759836672, -1776613888, 270206464, 236652032});
-        screenWidgetEVO.setConditionWidgets(new int[]{93, 162, 310, 442, 475, 522, 556, 4007, 5624, 958137856, 1780221440, -367262208, -300153344, -283376128, -233044480, -199490048, -165935616, -1591867904, 1579091456}, new AbstractWidget[][]{{naviScreenFactory.refWidgets[n][8]}, {naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9]}, {menuController}, {scrollbarController, scrollbarController2}, {menuController}, {naviScreenFactory.refWidgets[n][3], naviScreenFactory.refWidgets[n][4]}, {naviScreenFactory.refWidgets[n][5], naviScreenFactory.refWidgets[n][6], naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9], naviScreenFactory.refWidgets[n][10], naviScreenFactory.refWidgets[n][11], naviScreenFactory.refWidgets[n][12]}, {waitAnimController2}, {naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9]}, {naviScreenFactory.refWidgets[n][6]}, {naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9]}, {menuItemController, waitAnimController, waitAnimController2}, {menuItemController3}, {menuItemController2}, {labelController2, labelController3, labelController4, labelController5, labelController6, labelController7, labelController8, labelController9}, {menuController, listController, menuItemController2, listController2, menuItemController3}, {menuItemController}, {naviScreenFactory.refWidgets[n][5], naviScreenFactory.refWidgets[n][6], naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9], naviScreenFactory.refWidgets[n][10], naviScreenFactory.refWidgets[n][11], naviScreenFactory.refWidgets[n][12]}, {screenWidgetEVO, titleBarWidget, labelController2, labelController3, labelController4, labelController5, titleBarWidget2, labelController6, labelController7, labelController8, labelController9, labelController10, labelController11}});
-        screenWidgetEVO.setReplacementWidgets(new int[]{-249821696, -233044480, -165935616}, new HMIView[][]{{labelController13, labelController14}, {labelController, labelController4, labelController8}, {menuItemController, labelController14}});
+        screenWidgetEVO.setViews(new int[]{138, 162, 4007, 5603, 5606, 400615, 400618, 400622, 400623, 400624, 400629, 400631, 401317, 401465, 401482, 401550, 401560, 401561, 402787}, new HMIView[][]{{statusBarStubController, naviScreenFactory.refWidgets[n][14]}, {naviScreenFactory.refWidgets[n][7]}, {waitAnimController2}, {modelStubController}, {modelStubController2}, {listController}, {listController2}, {menuItemController3}, {menuItemController2}, {touchController}, {menuItemController}, {menuItemController4, virtualButton}, {menuItemController7}, {menuItemController9}, {labelController}, {menuItemController10}, {menuItemController6, menuItemController8}, {menuItemController5}, {naviScreenFactory.refWidgets[n][9]}});
+        screenWidgetEVO.setModelIDs(new int[]{400615, 400618, 400631, 401317, 401465, 401550, 401560, 401561});
+        screenWidgetEVO.setEventIDs(new int[]{400135, 400014, 400141, 400237, 400279, 400278, 400144, 400142});
+        screenWidgetEVO.setConditionWidgets(new int[]{93, 162, 310, 442, 475, 522, 556, 4007, 5624, 400441, 400490, 400618, 400622, 400623, 400626, 400628, 400630, 401057, 401246}, new AbstractWidget[][]{{naviScreenFactory.refWidgets[n][8]}, {naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9]}, {menuController}, {scrollbarController, scrollbarController2}, {menuController}, {naviScreenFactory.refWidgets[n][3], naviScreenFactory.refWidgets[n][4]}, {naviScreenFactory.refWidgets[n][5], naviScreenFactory.refWidgets[n][6], naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9], naviScreenFactory.refWidgets[n][10], naviScreenFactory.refWidgets[n][11], naviScreenFactory.refWidgets[n][12]}, {waitAnimController2}, {naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9]}, {naviScreenFactory.refWidgets[n][6]}, {naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9]}, {menuItemController, waitAnimController, waitAnimController2}, {menuItemController3}, {menuItemController2}, {labelController2, labelController3, labelController4, labelController5, labelController6, labelController7, labelController8, labelController9}, {menuController, listController, menuItemController2, listController2, menuItemController3}, {menuItemController}, {naviScreenFactory.refWidgets[n][5], naviScreenFactory.refWidgets[n][6], naviScreenFactory.refWidgets[n][7], naviScreenFactory.refWidgets[n][8], naviScreenFactory.refWidgets[n][9], naviScreenFactory.refWidgets[n][10], naviScreenFactory.refWidgets[n][11], naviScreenFactory.refWidgets[n][12]}, {screenWidgetEVO, titleBarWidget, labelController2, labelController3, labelController4, labelController5, titleBarWidget2, labelController6, labelController7, labelController8, labelController9, labelController10, labelController11}});
+        screenWidgetEVO.setReplacementWidgets(new int[]{400625, 400626, 400630}, new HMIView[][]{{labelController13, labelController14}, {labelController, labelController4, labelController8}, {menuItemController, labelController14}});
         return screenWidgetEVO;
     }
 
@@ -4800,56 +5964,113 @@ public class NaviScreenBag3 {
         MenuItemController menuItemController = new MenuItemController();
         CompositeRendererHigh compositeRendererHigh = new CompositeRendererHigh(menuItemController);
         menuItemController.setRenderer(compositeRendererHigh);
-        menuItemController.setModelID(-1826552320);
+        menuItemController.setModelID(401811);
         menuItemController.setGlassplateInsetsBottom(6);
         menuItemController.setGlassplateInsetsTop(7);
-        menuItemController.setInternalID(-987953664);
+        menuItemController.setInternalID(400837);
         ListController listController = new ListController();
-        listController.setModelID(-1927215616);
-        listController.setEvent(-1910897152);
+        listController.setModelID(401805);
+        listController.setEvent(400014);
         listController.setBounds(0, 0, 0, 0);
         listController.setGlassplateInsetsBottom(new int[0]);
         listController.setGlassplateInsetsTop(new int[0]);
         listController.setIdColumn(0);
         listController.setNoFocusAreasBottom(new int[0]);
         listController.setNoFocusAreasTop(new int[0]);
-        listController.setItemFactory(new NaviScreenBag3$19());
+        listController.setItemFactory(new ListItemFactory(){
+
+            public AbstractWidgetController createListItem(int n, ListCell[] listCellArray) {
+                switch (n) {
+                    default: 
+                }
+                return null;
+            }
+
+            public AbstractWidgetController createListItemNoData() {
+                return null;
+            }
+
+            public AbstractWidgetController createCell(int n) {
+                switch (n) {
+                    default: 
+                }
+                return null;
+            }
+        });
         ListController listController2 = new ListController();
-        listController2.setModelID(-1910438400);
-        listController2.setEvent(-1910897152);
+        listController2.setModelID(401806);
+        listController2.setEvent(400014);
         listController2.setBounds(0, 0, 0, 0);
         listController2.setGlassplateInsetsBottom(new int[0]);
         listController2.setGlassplateInsetsTop(new int[0]);
         listController2.setIdColumn(0);
         listController2.setNoFocusAreasBottom(new int[0]);
         listController2.setNoFocusAreasTop(new int[0]);
-        listController2.setItemFactory(new NaviScreenBag3$20());
+        listController2.setItemFactory(new ListItemFactory(){
+
+            public AbstractWidgetController createListItem(int n, ListCell[] listCellArray) {
+                switch (n) {
+                    default: 
+                }
+                return null;
+            }
+
+            public AbstractWidgetController createListItemNoData() {
+                return null;
+            }
+
+            public AbstractWidgetController createCell(int n) {
+                switch (n) {
+                    default: 
+                }
+                return null;
+            }
+        });
         ListController listController3 = new ListController();
-        listController3.setModelID(-1860106752);
-        listController3.setEvent(1629160960);
+        listController3.setModelID(401809);
+        listController3.setEvent(400225);
         listController3.setBounds(0, 0, 0, 0);
         listController3.setGlassplateInsetsBottom(new int[0]);
         listController3.setGlassplateInsetsTop(new int[0]);
         listController3.setIdColumn(0);
         listController3.setNoFocusAreasBottom(new int[0]);
         listController3.setNoFocusAreasTop(new int[0]);
-        listController3.setItemFactory(new NaviScreenBag3$21());
+        listController3.setItemFactory(new ListItemFactory(){
+
+            public AbstractWidgetController createListItem(int n, ListCell[] listCellArray) {
+                switch (n) {
+                    default: 
+                }
+                return null;
+            }
+
+            public AbstractWidgetController createListItemNoData() {
+                return null;
+            }
+
+            public AbstractWidgetController createCell(int n) {
+                switch (n) {
+                    default: 
+                }
+                return null;
+            }
+        });
         MenuItemController menuItemController2 = new MenuItemController();
         CompositeRendererHigh compositeRendererHigh2 = new CompositeRendererHigh(menuItemController2);
         menuItemController2.setRenderer(compositeRendererHigh2);
         menuItemController2.setBitmaps(new int[]{39, 39, 39, 39});
-        menuItemController2.setEvent(1159398912);
-        menuItemController2.setLabelId(-970586624);
+        menuItemController2.setEvent(400197);
+        menuItemController2.setLabelId(403142);
         menuItemController2.setGlassplateInsetsBottom(6);
         menuItemController2.setGlassplateInsetsTop(7);
-        menuItemController2.setInternalID(-971176448);
+        menuItemController2.setInternalID(400838);
         menuItemController2.setType(4);
         MenuController menuController = new MenuController();
         MenuRendererHigh menuRendererHigh = new MenuRendererHigh(menuController);
         menuController.setRenderer(menuRendererHigh);
         menuController.createInfolineWidgets(new InfoLineRendererHigh());
         menuController.getInfoline().getInfolineRenderer().setFonts(naviScreenFactory.getFonts(2, n));
-        menuController.setDefaultDisabledInfolineTextId(-987363840);
+        menuController.setDefaultDisabledInfolineTextId(403141);
         menuController.getInfolineTimer().setIdleTime(800);
         menuController.getInfoline().setColorIndices(new int[]{2, 0, 4, 3});
         menuController.getLayout().setBackgroundInsetsVert(7);
@@ -4872,25 +6093,25 @@ public class NaviScreenBag3 {
         ContainerRendererHigh containerRendererHigh = new ContainerRendererHigh(containerController);
         containerController.setRenderer(containerRendererHigh);
         containerController.setBounds(0, 0, 0, 0);
-        containerController.setEntertainmentMenuTransformation(16449, 16449, -1883081409, -1883081409, 63);
-        containerController.setOpacitySet(1.0f, -842216386);
-        containerController.setOptionMenuTransformation(32960, 57408, -1701242561, -1701242561, 63);
-        containerController.setSelectionMenuTransformation(40771, 57408, -512093121, -1701242561, 32830);
+        containerController.setEntertainmentMenuTransformation(12.0f, 12.0f, 0.96f, 0.96f, 0.5f);
+        containerController.setOpacitySet(1.0f, 0.4f);
+        containerController.setOptionMenuTransformation(-4.0f, 7.0f, 0.6f, 0.6f, 0.5f);
+        containerController.setSelectionMenuTransformation(318.0f, 7.0f, 0.58f, 0.6f, 0.25f);
         containerController.add(menuController);
-        ScreenWidgetEVO screenWidgetEVO = new ScreenWidgetEVO(-602208768);
+        ScreenWidgetEVO screenWidgetEVO = new ScreenWidgetEVO(400348);
         screenWidgetEVO.setScreenFactory(naviScreenFactory);
         ScreenRendererHigh screenRendererHigh = new ScreenRendererHigh(screenWidgetEVO);
         screenWidgetEVO.setRenderer(screenRendererHigh);
         screenRendererHigh.setFonts(naviScreenFactory.getFonts(0, n));
         screenWidgetEVO.setColorIndices(new int[]{1, 2, 4, 0});
-        screenWidgetEVO.setColorPalettes(new int[][]{{-1, 255, -1, -1, -1701143809, -1431655681, -1246382593, -1701143809, -1}, {-1, 255, 419495935, 1751100415, -1701143809, -1431655681, -1246382593, -1701143809, 1228585215}, {-1, 255, -19456, 1838260991, -1701143809, -1431655681, -1246382593, -1701143809, 1838260991}, {-1, 255, -1433657601, -1567134209, -1701143809, -1431655681, -1246382593, -1701143809, -1567134209}, {-1, 255, 11166975, 1973122047, -1701143809, -1431655681, -1246382593, -1701143809, 1973122047}});
+        screenWidgetEVO.setColorPalettes(new int[][]{{-1, -16777216, -1, -1, -6645094, -5592406, -4868683, -6645094, -1}, {-1, -16777216, -65511, -5546136, -6645094, -5592406, -4868683, -6645094, -4703671}, {-1, -16777216, -19456, -6123155, -6645094, -5592406, -4868683, -6645094, -6123155}, {-1, -16777216, -14775126, -9594974, -6645094, -5592406, -4868683, -6645094, -9594974}, {-1, -16777216, -10180096, -9200779, -6645094, -5592406, -4868683, -6645094, -9200779}});
         screenWidgetEVO.setHmiAppsToNotifyForVisibility(new int[]{14});
         screenWidgetEVO.setSmallStageType(3);
         screenWidgetEVO.add(containerController, 1);
-        screenWidgetEVO.setViews(new int[]{-1927215616, -1910438400, -1860106752, -1826552320}, new HMIView[][]{{listController}, {listController2}, {listController3}, {menuItemController}});
-        screenWidgetEVO.setModelIDs(new int[]{-1927215616, -1910438400, -1860106752});
-        screenWidgetEVO.setEventIDs(new int[]{-1910897152, -1910897152, 1629160960});
-        screenWidgetEVO.setConditionWidgets(new int[]{186, -1893661184, -1876883968, -1860106752, -702478848}, new AbstractWidget[][]{{listController3}, {listController}, {listController2}, {listController3}, {menuItemController2}});
+        screenWidgetEVO.setViews(new int[]{401805, 401806, 401809, 401811}, new HMIView[][]{{listController}, {listController2}, {listController3}, {menuItemController}});
+        screenWidgetEVO.setModelIDs(new int[]{401805, 401806, 401809});
+        screenWidgetEVO.setEventIDs(new int[]{400014, 400014, 400225});
+        screenWidgetEVO.setConditionWidgets(new int[]{186, 401807, 401808, 401809, 401878}, new AbstractWidget[][]{{listController3}, {listController}, {listController2}, {listController3}, {menuItemController2}});
         return screenWidgetEVO;
     }
 
@@ -4928,9 +6149,9 @@ public class NaviScreenBag3 {
         touchController.setRenderer(touchRendererHigh);
         touchController.setBitmaps(new int[]{483, 484, 857});
         touchRendererHigh.setFonts(naviScreenFactory.getFonts(4, n));
-        touchController.setModelID(1679623680);
-        touchController.setInfoTextIDs(new int[]{488769024, 975767040});
-        touchController.setInitialTextID(505546240);
+        touchController.setModelID(400740);
+        touchController.setInfoTextIDs(new int[]{401949, 403770});
+        touchController.setInitialTextID(401950);
         touchController.setColorIndices(new int[]{2, 5, 4, 3});
         touchController.setCursorOffsetBottom(1);
         touchController.setCursorOffsetTop(-1);
@@ -4940,11 +6161,11 @@ public class NaviScreenBag3 {
         touchController.setSmartDeleteCaseSensitive(false);
         touchController.setTouchpadMode(17);
         touchController.setSpeller(spellerController);
-        touchController.add(modelStubController, 16);
-        touchController.add(modelStubController2, 8);
+        touchController.add(modelStubController, 0x10000000);
+        touchController.add(modelStubController2, 0x8000000);
         ListController listController = new ListController();
-        listController.setModelID(-1004665344);
-        listController.setEvent(1109067264);
+        listController.setModelID(401092);
+        listController.setEvent(400194);
         listController.setBounds(0, 0, 0, 0);
         listController.setColorIndices(new int[]{1, 0, 4, 2});
         listController.setGlassplateInsetsBottom(new int[0]);
@@ -4953,14 +6174,75 @@ public class NaviScreenBag3 {
         listController.setNoFocusAreasBottom(new int[0]);
         listController.setNoFocusAreasTop(new int[0]);
         listController.setDataAccess(new DefaultTiledListModelAccess());
-        listController.setItemFactory(new NaviScreenBag3$22());
+        listController.setItemFactory(new ListItemFactory(){
+
+            public AbstractWidgetController createListItem(int n, ListCell[] listCellArray) {
+                switch (n) {
+                    case 0: {
+                        MenuItemController menuItemController = new MenuItemController();
+                        menuItemController.setType(16);
+                        menuItemController.setRenderer(new MenuItemRendererHigh(menuItemController));
+                        GridLayout gridLayout = new GridLayout();
+                        MenuItemColumnsConstraints menuItemColumnsConstraints = new MenuItemColumnsConstraints(1);
+                        gridLayout.setColumnConstraints(menuItemColumnsConstraints);
+                        AxisConstraints axisConstraints = new AxisConstraints(1);
+                        gridLayout.setRowConstraints(axisConstraints);
+                        AbstractWidgetController abstractWidgetController = this.createCell(0);
+                        GridLayoutHints gridLayoutHints = new GridLayoutHints(0, 0);
+                        gridLayout.setCellConstraints(new GridLayoutHints[]{gridLayoutHints}, new Object[]{abstractWidgetController});
+                        menuItemController.setLayoutChoices(new GridLayout[]{gridLayout});
+                        menuItemController.add(abstractWidgetController);
+                        return menuItemController;
+                    }
+                }
+                return null;
+            }
+
+            public AbstractWidgetController createListItemNoData() {
+                MenuItemController menuItemController = new MenuItemController();
+                menuItemController.setType(16);
+                menuItemController.setRenderer(new CompositeRendererHigh(menuItemController));
+                GridLayout gridLayout = new GridLayout();
+                MenuItemColumnsConstraints menuItemColumnsConstraints = new MenuItemColumnsConstraints(1);
+                gridLayout.setColumnConstraints(menuItemColumnsConstraints);
+                AxisConstraints axisConstraints = new AxisConstraints(1);
+                gridLayout.setRowConstraints(axisConstraints);
+                AbstractWidgetController abstractWidgetController = this.createCell(1);
+                GridLayoutHints gridLayoutHints = new GridLayoutHints(0, 0);
+                gridLayout.setCellConstraints(new GridLayoutHints[]{gridLayoutHints}, new Object[]{abstractWidgetController});
+                menuItemController.setLayoutChoices(new GridLayout[]{gridLayout});
+                menuItemController.add(abstractWidgetController);
+                return menuItemController;
+            }
+
+            public AbstractWidgetController createCell(int n) {
+                switch (n) {
+                    case 0: {
+                        LabelController labelController = new LabelController();
+                        HighlightingLabelRendererHigh highlightingLabelRendererHigh = new HighlightingLabelRendererHigh(labelController);
+                        labelController.setRenderer(highlightingLabelRendererHigh);
+                        labelController.setModelColumn(0);
+                        return labelController;
+                    }
+                    case 1: {
+                        LabelController labelController = new LabelController();
+                        HighlightingLabelRendererHigh highlightingLabelRendererHigh = new HighlightingLabelRendererHigh(labelController);
+                        labelController.setRenderer(highlightingLabelRendererHigh);
+                        labelController.setTextIds(new int[]{403209});
+                        labelController.setModelColumn(0);
+                        return labelController;
+                    }
+                }
+                return null;
+            }
+        });
         MenuController menuController = new MenuController();
         MenuRendererHigh menuRendererHigh = new MenuRendererHigh(menuController);
         menuController.setRenderer(menuRendererHigh);
         menuController.createInfolineWidgets(new InfoLineRendererHigh());
         menuController.getInfoline().getInfolineRenderer().setFonts(naviScreenFactory.getFonts(2, n));
-        menuController.setModelID(-987888128);
-        menuController.setDefaultDisabledInfolineTextId(-1624963584);
+        menuController.setModelID(401093);
+        menuController.setDefaultDisabledInfolineTextId(402847);
         menuController.getInfolineTimer().setIdleTime(800);
         menuController.getInfoline().setColorIndices(new int[]{2, 0, 4, 3});
         menuController.getLayout().setBackgroundInsetsVert(7);
@@ -4986,10 +6268,10 @@ public class NaviScreenBag3 {
         ContainerRendererHigh containerRendererHigh = new ContainerRendererHigh(containerController);
         containerController.setRenderer(containerRendererHigh);
         containerController.setBounds(0, 0, 0, 0);
-        containerController.setEntertainmentMenuTransformation(16449, 16449, -1883081409, -1883081409, 63);
-        containerController.setOpacitySet(1.0f, -842216386);
-        containerController.setOptionMenuTransformation(32960, 57408, -1701242561, -1701242561, 63);
-        containerController.setSelectionMenuTransformation(40771, 57408, -512093121, -1701242561, 32830);
+        containerController.setEntertainmentMenuTransformation(12.0f, 12.0f, 0.96f, 0.96f, 0.5f);
+        containerController.setOpacitySet(1.0f, 0.4f);
+        containerController.setOptionMenuTransformation(-4.0f, 7.0f, 0.6f, 0.6f, 0.5f);
+        containerController.setSelectionMenuTransformation(318.0f, 7.0f, 0.58f, 0.6f, 0.25f);
         containerController.add(menuController);
         containerController.add(iconController);
         IconController iconController2 = new IconController();
@@ -5001,13 +6283,13 @@ public class NaviScreenBag3 {
         LabelRendererHigh labelRendererHigh = new LabelRendererHigh(labelController);
         labelController.setRenderer(labelRendererHigh);
         labelRendererHigh.setFonts(naviScreenFactory.getFonts(3, n));
-        labelController.setTextIds(new int[]{1545537024});
+        labelController.setTextIds(new int[]{401244});
         labelController.setBounds(0, 0, 0, 30);
         labelController.setColorIndices(new int[]{1, 2, 4, 0});
         LabelController labelController2 = new LabelController();
         LabelRendererHigh labelRendererHigh2 = new LabelRendererHigh(labelController2);
         labelController2.setRenderer(labelRendererHigh2);
-        labelController2.setTextIds(new int[]{1813972480});
+        labelController2.setTextIds(new int[]{401260});
         labelController2.setBounds(0, 0, 0, 30);
         labelController2.setCoordinateSets(new int[]{1, 0, 0, 0, 30, 0, 0, 0, 30});
         TitleBarWidget titleBarWidget = new TitleBarWidget();
@@ -5025,31 +6307,31 @@ public class NaviScreenBag3 {
         ContainerRendererHigh containerRendererHigh2 = new ContainerRendererHigh(containerController2);
         containerController2.setRenderer(containerRendererHigh2);
         containerController2.setBounds(0, 0, 800, 0);
-        containerController2.setEntertainmentMenuTransformation(16449, 16449, -1883081409, -1883081409, 0.0f);
-        containerController2.setOpacitySet(1.0f, -842216386);
-        containerController2.setOptionMenuTransformation(32960, 57408, -1701242561, -1701242561, 0.0f);
-        containerController2.setSelectionMenuTransformation(8438595, 57408, -1701242561, -1701242561, 0.0f);
+        containerController2.setEntertainmentMenuTransformation(12.0f, 12.0f, 0.96f, 0.96f, 0.0f);
+        containerController2.setOpacitySet(1.0f, 0.4f);
+        containerController2.setOptionMenuTransformation(-4.0f, 7.0f, 0.6f, 0.6f, 0.0f);
+        containerController2.setSelectionMenuTransformation(391.0f, 7.0f, 0.6f, 0.6f, 0.0f);
         containerController2.add(titleBarWidget);
         StatusBarStubController statusBarStubController = new StatusBarStubController();
         statusBarStubController.setModelID(138);
         statusBarStubController.setBounds(0, 0, 100, 100);
         AbstractWidgetController abstractWidgetController2 = naviScreenFactory.getRefWidget(n, 13, naviScreenFactory);
-        ScreenWidgetEVO screenWidgetEVO = new ScreenWidgetEVO(-333838848);
+        ScreenWidgetEVO screenWidgetEVO = new ScreenWidgetEVO(400108);
         screenWidgetEVO.setScreenFactory(naviScreenFactory);
         ScreenRendererHigh screenRendererHigh = new ScreenRendererHigh(screenWidgetEVO);
         screenWidgetEVO.setRenderer(screenRendererHigh);
         screenRendererHigh.setFonts(naviScreenFactory.getFonts(0, n));
         screenWidgetEVO.setColorIndices(new int[]{1, 2, 4, 0});
-        screenWidgetEVO.setColorPalettes(new int[][]{{-1, 255, -1, -1, -1701143809, -1431655681, -1246382593, -1701143809, -1}, {-1, 255, 419495935, 1751100415, -1701143809, -1431655681, -1246382593, -1701143809, 1228585215}, {-1, 255, -19456, 1838260991, -1701143809, -1431655681, -1246382593, -1701143809, 1838260991}, {-1, 255, -1433657601, -1567134209, -1701143809, -1431655681, -1246382593, -1701143809, -1567134209}, {-1, 255, 11166975, 1973122047, -1701143809, -1431655681, -1246382593, -1701143809, 1973122047}});
+        screenWidgetEVO.setColorPalettes(new int[][]{{-1, -16777216, -1, -1, -6645094, -5592406, -4868683, -6645094, -1}, {-1, -16777216, -65511, -5546136, -6645094, -5592406, -4868683, -6645094, -4703671}, {-1, -16777216, -19456, -6123155, -6645094, -5592406, -4868683, -6645094, -6123155}, {-1, -16777216, -14775126, -9594974, -6645094, -5592406, -4868683, -6645094, -9594974}, {-1, -16777216, -10180096, -9200779, -6645094, -5592406, -4868683, -6645094, -9200779}});
         screenWidgetEVO.setSmallStageType(3);
         screenWidgetEVO.add(abstractWidgetController);
         screenWidgetEVO.add(containerController, 1);
         screenWidgetEVO.add(containerController2, 2);
         screenWidgetEVO.add(statusBarStubController);
         screenWidgetEVO.add(abstractWidgetController2, 15);
-        screenWidgetEVO.setViews(new int[]{138, 5602, 5606, 1679623680, -1004665344, -987888128}, new HMIView[][]{{statusBarStubController, naviScreenFactory.refWidgets[n][14]}, {modelStubController}, {modelStubController2}, {touchController}, {listController}, {menuController}});
-        screenWidgetEVO.setModelIDs(new int[]{-1004665344});
-        screenWidgetEVO.setEventIDs(new int[]{1109067264});
+        screenWidgetEVO.setViews(new int[]{138, 5602, 5606, 400740, 401092, 401093}, new HMIView[][]{{statusBarStubController, naviScreenFactory.refWidgets[n][14]}, {modelStubController}, {modelStubController2}, {touchController}, {listController}, {menuController}});
+        screenWidgetEVO.setModelIDs(new int[]{401092});
+        screenWidgetEVO.setEventIDs(new int[]{400194});
         return screenWidgetEVO;
     }
 }

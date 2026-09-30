@@ -40,7 +40,6 @@ implements ServiceTrackerCustomizer {
         return this.swapHandler;
     }
 
-    @Override
     protected void startInternal(BundleContext bundleContext) {
         this.log = this.framework.getLogChannel("Fw.SWaP.Activator");
         this.swapHandler = new SWaPHandlerImpl(this.framework);
@@ -54,7 +53,6 @@ implements ServiceTrackerCustomizer {
         this.framework.startDSIService((class$org$dsi$ifc$swap$DSISWaP == null ? (class$org$dsi$ifc$swap$DSISWaP = SWaPHandlerActivator.class$("org.dsi.ifc.swap.DSISWaP")) : class$org$dsi$ifc$swap$DSISWaP).getName(), 0);
     }
 
-    @Override
     public void stop(BundleContext bundleContext) {
         if (this.sRegSWaP != null) {
             this.sRegSWaP.unregister();
@@ -68,14 +66,13 @@ implements ServiceTrackerCustomizer {
         super.stop(bundleContext);
     }
 
-    @Override
     public Object addingService(ServiceReference serviceReference) {
         Object object = this.bundleContext.getService(serviceReference);
         if (object instanceof DSISWaP) {
-            this.log.log(1078071040, "Setting DSI Service=%1", object);
+            this.log.log(1000000, "Setting DSI Service=%1", object);
             this.swapHandler.setDSI((DSISWaP)object);
         } else if (object instanceof SWaPEventListener) {
-            this.log.log(1078071040, "Adding Service=%1", object);
+            this.log.log(1000000, "Adding Service=%1", object);
             this.swapHandler.addListener((SWaPEventListener)object);
         } else {
             this.log.log(10000, "track unwanted service=%1", object);
@@ -85,14 +82,12 @@ implements ServiceTrackerCustomizer {
         return object;
     }
 
-    @Override
     public void modifiedService(ServiceReference serviceReference, Object object) {
     }
 
-    @Override
     public void removedService(ServiceReference serviceReference, Object object) {
         if (object instanceof SWaPEventListener) {
-            this.log.log(1078071040, "Removing Service=%1", object);
+            this.log.log(1000000, "Removing Service=%1", object);
             this.swapHandler.removeListener((SWaPEventListener)object);
         }
         this.bundleContext.ungetService(serviceReference);

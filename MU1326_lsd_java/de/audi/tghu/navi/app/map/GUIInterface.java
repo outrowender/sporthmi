@@ -26,360 +26,245 @@ extends GUIEventListener,
 RouteSelectionConstants,
 MapLayoutModelColumnConstants,
 IMapTooltip {
-    public static final int SBRS_MAX_COLUMNS;
-    public static final int SBRS_MODE_NORMAL;
-    public static final int SBRS_MODE_ECO;
-    public static final int SBRS_MODE_BYPASS;
-    public static final int SIDEBAR_CLOSED;
-    public static final int SIDEBAR_ROUTE_SELECTION_NORMAL;
-    public static final int SIDEBAR_ROUTE_SELECTION_ECO;
-    public static final int SIDEBAR_ROUTE_SELECTION_BYPASS;
-    public static final int SIDEBAR_DESTINATION_INDEX_STOPOVER;
-    public static final int SIDEBAR_DESTINATION_INDEX_FINALDEST;
+    public static final int SBRS_MAX_COLUMNS = 13;
+    public static final int SBRS_MODE_NORMAL = 0;
+    public static final int SBRS_MODE_ECO = 1;
+    public static final int SBRS_MODE_BYPASS = 2;
+    public static final int SIDEBAR_CLOSED = 0;
+    public static final int SIDEBAR_ROUTE_SELECTION_NORMAL = 1;
+    public static final int SIDEBAR_ROUTE_SELECTION_ECO = 2;
+    public static final int SIDEBAR_ROUTE_SELECTION_BYPASS = 3;
+    public static final int SIDEBAR_DESTINATION_INDEX_STOPOVER = 1;
+    public static final int SIDEBAR_DESTINATION_INDEX_FINALDEST = 0;
 
-    default public void fireModelEvent(int n) {
-    }
+    public void fireModelEvent(int var1);
 
-    default public void controlMixedListNoUpdate(int n) {
-    }
+    public void controlMixedListNoUpdate(int var1);
 
-    default public void controlMixedList(int n, int n2) {
-    }
+    public void controlMixedList(int var1, int var2);
 
-    default public int getSidebarState() {
-    }
+    public int getSidebarState();
 
-    default public void closeSidebarWithoutAnimation() {
-    }
+    public void closeSidebarWithoutAnimation();
 
-    default public void openOrCloseSidebar(int n) {
-    }
+    public void openOrCloseSidebar(int var1);
 
-    default public void setPressed(int n, boolean bl) {
-    }
+    public void setPressed(int var1, boolean var2);
 
-    default public void setCursorForPOIMap(int n) {
-    }
+    public void setCursorForPOIMap(int var1);
 
-    default public void switchToRouteSelectionSidebar(int n) {
-    }
+    public void switchToRouteSelectionSidebar(int var1);
 
-    default public void switchToNormalSidebar() {
-    }
+    public void switchToNormalSidebar();
 
-    default public void showToolTip(String string, int n, int n2, int n3, Rect rect, String string2, boolean bl, boolean bl2, ResourceLocator resourceLocator, int n4) {
-    }
+    public void showToolTip(String var1, int var2, int var3, int var4, Rect var5, String var6, boolean var7, boolean var8, ResourceLocator var9, int var10);
 
-    default public MapItemSelectionAction checkToShowToolTipForTMC(MapItemSelectionInfo mapItemSelectionInfo) {
-    }
+    public MapItemSelectionAction checkToShowToolTipForTMC(MapItemSelectionInfo var1);
 
-    default public MapItemSelectionAction checkToShowToolTipForTmc(TmcMessage tmcMessage) {
-    }
+    public MapItemSelectionAction checkToShowToolTipForTmc(TmcMessage var1);
 
-    default public MapItemSelectionAction checkToShowToolTipForNavi(NavLocation navLocation, GuiTooltipInformationContainer guiTooltipInformationContainer) {
-    }
+    public MapItemSelectionAction checkToShowToolTipForNavi(NavLocation var1, GuiTooltipInformationContainer var2);
 
-    default public MapItemSelectionAction checkToShowToolTipForOffroadTour(GuiTooltipInformationContainer guiTooltipInformationContainer) {
-    }
+    public MapItemSelectionAction checkToShowToolTipForOffroadTour(GuiTooltipInformationContainer var1);
 
-    default public MapItemSelectionAction checkToShowToolTipForPoiOnline(NavLocation navLocation, boolean bl, boolean bl2, boolean bl3, String string) {
-    }
+    public MapItemSelectionAction checkToShowToolTipForPoiOnline(NavLocation var1, boolean var2, boolean var3, boolean var4, String var5);
 
-    default public MapItemSelectionAction hideToolTip() {
-    }
+    public MapItemSelectionAction hideToolTip();
 
-    default public void hideOnlyToolTip() {
-    }
+    public void hideOnlyToolTip();
 
-    default public void refreshMapRepresentation() {
-    }
+    public void refreshMapRepresentation();
 
-    default public void drawAlternativeRoutesSelectionUI(CalculatedRouteListElement[] calculatedRouteListElementArray) {
-    }
+    public void drawAlternativeRoutesSelectionUI(CalculatedRouteListElement[] var1);
 
-    default public void updateChoiceValue(int n, int n2) {
-    }
+    public void updateChoiceValue(int var1, int var2);
 
-    default public void enableScrollInfo(boolean bl) {
-    }
+    public void enableScrollInfo(boolean var1);
 
-    default public void setMagnificationLimits(int n, int n2, int n3) {
-    }
+    public void setMagnificationLimits(int var1, int var2, int var3);
 
-    default public boolean setPinchZoomLimits(int n, int n2) {
-    }
+    public boolean setPinchZoomLimits(int var1, int var2);
 
-    default public void setMagnification(int n) {
-    }
+    public void setMagnification(int var1);
 
-    default public int getMagnificationValue(int n) {
-    }
+    public int getMagnificationValue(int var1);
 
-    default public int getMagnificationMaximum(int n) {
-    }
+    public int getMagnificationMaximum(int var1);
 
-    default public int getMagnificationMinimum(int n) {
-    }
+    public int getMagnificationMinimum(int var1);
 
-    default public void setPinchZoomValue(int n) {
-    }
+    public void setPinchZoomValue(int var1);
 
-    default public void openOrCloseZoomBar(boolean bl) {
-    }
+    public void openOrCloseZoomBar(boolean var1);
 
-    default public boolean isZoomBarOpen() {
-    }
+    public boolean isZoomBarOpen();
 
-    default public void setRotation(int n) {
-    }
+    public void setRotation(int var1);
 
-    default public void enableOrientation(boolean bl) {
-    }
+    public void enableOrientation(boolean var1);
 
-    default public void setDestinationIndex(int n) {
-    }
+    public void setDestinationIndex(int var1);
 
-    default public void setDestDistanceNoUpdate(boolean bl, long l) {
-    }
+    public void setDestDistanceNoUpdate(boolean var1, long var2);
 
-    default public void clearDestDistance() {
-    }
+    public void clearDestDistance();
 
-    default public boolean setETA(long l, int n, boolean bl) {
-    }
+    public boolean setETA(long var1, int var3, boolean var4);
 
-    default public boolean setRTT(long l, boolean bl) {
-    }
+    public boolean setRTT(long var1, boolean var3);
 
-    default public void updateModelGroup() {
-    }
+    public void updateModelGroup();
 
-    default public void setHeight(int n) {
-    }
+    public void setHeight(int var1);
 
-    default public void refreshMapType(int n) {
-    }
+    public void refreshMapType(int var1);
 
-    default public void setSideBarRotaryIcon(int n) {
-    }
+    public void setSideBarRotaryIcon(int var1);
 
-    default public int getSideBarRotaryIconState() {
-    }
+    public int getSideBarRotaryIconState();
 
-    default public void leaveBlockInRouteScreen(boolean bl) {
-    }
+    public void leaveBlockInRouteScreen(boolean var1);
 
-    default public void setSidebarBlockChoice(int n) {
-    }
+    public void setSidebarBlockChoice(int var1);
 
-    default public void setTopBarVisible(boolean bl) {
-    }
+    public void setTopBarVisible(boolean var1);
 
-    default public void setScrollAlongRouteDirection(int n) {
-    }
+    public void setScrollAlongRouteDirection(int var1);
 
-    default public void setScrollAlongRouteDistance(String string) {
-    }
+    public void setScrollAlongRouteDistance(String var1);
 
-    default public void setScrollAlongRouteDirectionAndDistanceVisible(boolean bl) {
-    }
+    public void setScrollAlongRouteDirectionAndDistanceVisible(boolean var1);
 
-    default public int getScreenWidth() {
-    }
+    public int getScreenWidth();
 
-    default public int getScreenHeight() {
-    }
+    public int getScreenHeight();
 
-    default public int getMapWidth() {
-    }
+    public int getMapWidth();
 
-    default public int getMapHeight() {
-    }
+    public int getMapHeight();
 
-    default public int getScreenWidthMapInMap() {
-    }
+    public int getScreenWidthMapInMap();
 
-    default public int getScreenHeightMapInMap() {
-    }
+    public int getScreenHeightMapInMap();
 
-    default public int getScreenWidthPreviewMap() {
-    }
+    public int getScreenWidthPreviewMap();
 
-    default public int getScreenHeightPreviewMap() {
-    }
+    public int getScreenHeightPreviewMap();
 
-    default public Rect getScreenSize() {
-    }
+    public Rect getScreenSize();
 
-    default public Rect getMapSize() {
-    }
+    public Rect getMapSize();
 
-    default public int getVisibleOffsetXPreviewMap() {
-    }
+    public int getVisibleOffsetXPreviewMap();
 
-    default public int getVisibleOffsetYPreviewMap() {
-    }
+    public int getVisibleOffsetYPreviewMap();
 
-    default public int getVisibleWidthPreviewMap() {
-    }
+    public int getVisibleWidthPreviewMap();
 
-    default public int getVisibleHeightPreviewMap() {
-    }
+    public int getVisibleHeightPreviewMap();
 
-    default public int getOffsetCrosshairHeight() {
-    }
+    public int getOffsetCrosshairHeight();
 
-    default public int getStatusBarHeight() {
-    }
+    public int getStatusBarHeight();
 
-    default public int getSideBarWidthOpen() {
-    }
+    public int getSideBarWidthOpen();
 
-    default public int getSideBarWidth() {
-    }
+    public int getSideBarWidth();
 
-    default public int getSideBarWidthAR() {
-    }
+    public int getSideBarWidthAR();
 
-    default public int getMixedListOffset() {
-    }
+    public int getMixedListOffset();
 
-    default public void setCenterCarButtonVisibility(int n) {
-    }
+    public void setCenterCarButtonVisibility(int var1);
 
-    default public void setOnlineLogoVisible(boolean bl) {
-    }
+    public void setOnlineLogoVisible(boolean var1);
 
-    default public void setOptMenuType(int n) {
-    }
+    public void setOptMenuType(int var1);
 
-    default public void setScrollOnRoutePressed(boolean bl) {
-    }
+    public void setScrollOnRoutePressed(boolean var1);
 
-    default public void setMapScrollSidebarPressed(int n, boolean bl) {
-    }
+    public void setMapScrollSidebarPressed(int var1, boolean var2);
 
-    default public boolean getScrollOnRoutePressed() {
-    }
+    public boolean getScrollOnRoutePressed();
 
-    default public boolean getMapScrollSidebarPressed(int n) {
-    }
+    public boolean getMapScrollSidebarPressed(int var1);
 
-    default public boolean isDemoMode() {
-    }
+    public boolean isDemoMode();
 
-    default public int getCrosshairColorMode() {
-    }
+    public int getCrosshairColorMode();
 
-    default public void setMapFollowUpPicNavImage(ResourceLocator resourceLocator) {
-    }
+    public void setMapFollowUpPicNavImage(ResourceLocator var1);
 
-    default public void setGEGreyOutOption(boolean bl) {
-    }
+    public void setGEGreyOutOption(boolean var1);
 
-    default public void fireHKBackEvent() {
-    }
+    public void fireHKBackEvent();
 
-    default public void showPreviewMap(boolean bl) {
-    }
+    public void showPreviewMap(boolean var1);
 
-    default public void switchMapScreen(int n) {
-    }
+    public void switchMapScreen(int var1);
 
-    default public int getOffsetOfCarPosition() {
-    }
+    public int getOffsetOfCarPosition();
 
-    default public void hidePopupBetterRouteAvailable() {
-    }
+    public void hidePopupBetterRouteAvailable();
 
-    default public void updateSetupModels(int n, int n2, int n3, int n4, int n5, int n6) {
-    }
+    public void updateSetupModels(int var1, int var2, int var3, int var4, int var5, int var6);
 
-    default public void setGoogleSettingVisible(boolean bl) {
-    }
+    public void setGoogleSettingVisible(boolean var1);
 
-    default public int getTopLineHeight() {
-    }
+    public int getTopLineHeight();
 
-    default public void startRouteCalculation() {
-    }
+    public void startRouteCalculation();
 
-    default public int getScreenSmallLeftOffset() {
-    }
+    public int getScreenSmallLeftOffset();
 
-    default public int getScreenSmallRightOffset() {
-    }
+    public int getScreenSmallRightOffset();
 
-    default public void setRouteCriteriaIcons(int n, boolean bl, boolean bl2, boolean bl3, boolean bl4, boolean bl5, boolean bl6, boolean bl7, boolean bl8, boolean bl9) {
-    }
+    public void setRouteCriteriaIcons(int var1, boolean var2, boolean var3, boolean var4, boolean var5, boolean var6, boolean var7, boolean var8, boolean var9, boolean var10);
 
-    default public boolean updateTollInfoJP(CalculatedRouteListElement calculatedRouteListElement) {
-    }
+    public boolean updateTollInfoJP(CalculatedRouteListElement var1);
 
-    default public int getRouteCriteriaBoxLeftOffset() {
-    }
+    public int getRouteCriteriaBoxLeftOffset();
 
-    default public void setFocusedProperty(int n) {
-    }
+    public void setFocusedProperty(int var1);
 
-    default public int getScreenLayoutAt(int n) {
-    }
+    public int getScreenLayoutAt(int var1);
 
-    default public MapItemSelectionAction checkToShowToolTipForAddressStreet(MapItemSelectionInfo mapItemSelectionInfo, Point point) {
-    }
+    public MapItemSelectionAction checkToShowToolTipForAddressStreet(MapItemSelectionInfo var1, Point var2);
 
-    default public MapItemSelectionAction checkToShowToolTipForPoi(MapItemSelectionInfo mapItemSelectionInfo, Point point, boolean bl) {
-    }
+    public MapItemSelectionAction checkToShowToolTipForPoi(MapItemSelectionInfo var1, Point var2, boolean var3);
 
-    default public MapItemSelectionAction checkToShowToolTipForTmc(MapItemSelectionInfo mapItemSelectionInfo, Point point) {
-    }
+    public MapItemSelectionAction checkToShowToolTipForTmc(MapItemSelectionInfo var1, Point var2);
 
-    default public MapItemSelectionAction checkToShowToolTipForNaviWithoutPin(NavLocation navLocation, String string, GuiTooltipInformationContainer guiTooltipInformationContainer, boolean bl) {
-    }
+    public MapItemSelectionAction checkToShowToolTipForNaviWithoutPin(NavLocation var1, String var2, GuiTooltipInformationContainer var3, boolean var4);
 
-    default public void resetMapModels() {
-    }
+    public void resetMapModels();
 
-    default public AbstractLayoutProvider getLayout() {
-    }
+    public AbstractLayoutProvider getLayout();
 
-    default public void setGridMaskVisible(boolean bl) {
-    }
+    public void setGridMaskVisible(boolean var1);
 
-    default public IMapPartialPopupHandler getPartialPopupHandler() {
-    }
+    public IMapPartialPopupHandler getPartialPopupHandler();
 
-    default public void hideCrosshairs() {
-    }
+    public void hideCrosshairs();
 
-    default public void showCrosshairs(int n, int n2) {
-    }
+    public void showCrosshairs(int var1, int var2);
 
-    default public void updateCarPosition() {
-    }
+    public void updateCarPosition();
 
-    default public void setTrafficNoticeMapActive(boolean bl) {
-    }
+    public void setTrafficNoticeMapActive(boolean var1);
 
-    default public int getSBRSListModel() {
-    }
+    public int getSBRSListModel();
 
-    default public ListModelApp getRouteInfoBox() {
-    }
+    public ListModelApp getRouteInfoBox();
 
-    default public void updateStateIndicator(PropertyEnum propertyEnum, int n) {
-    }
+    public void updateStateIndicator(PropertyEnum var1, int var2);
 
-    default public IMapPartialPopupHandler getMapPartialPopupHandler() {
-    }
+    public IMapPartialPopupHandler getMapPartialPopupHandler();
 
-    default public void newPoiPreviewMapSelectionMade(boolean bl) {
-    }
+    public void newPoiPreviewMapSelectionMade(boolean var1);
 
-    default public void cleanup() {
-    }
+    public void cleanup();
 
-    default public boolean isUpdateMagnificationModelGroupNeccessary(float f2) {
-    }
+    public boolean isUpdateMagnificationModelGroupNeccessary(float var1);
 }
 

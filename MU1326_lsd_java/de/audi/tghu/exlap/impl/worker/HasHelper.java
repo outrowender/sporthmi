@@ -386,7 +386,7 @@ public class HasHelper {
                 return this.registerEncodedVehicleType(n2);
             }
         }
-        this.log.log(-1601830656, "[HasHelper#subscribe] unknown property %1", (long)n);
+        this.log.log(100000, "[HasHelper#subscribe] unknown property %1", (long)n);
         return false;
     }
 
@@ -545,7 +545,7 @@ public class HasHelper {
                 break;
             }
             default: {
-                this.log.log(-2137614336, "[HasHelper#unsubscribe] unknown property %1", (long)n);
+                this.log.log(10000000, "[HasHelper#unsubscribe] unknown property %1", (long)n);
             }
         }
     }
@@ -553,10 +553,10 @@ public class HasHelper {
     private boolean registerCurrentTrackInfo(int n) {
         IExlapWorker iExlapWorker = (IExlapWorker)this.workers.get((class$de$audi$tghu$exlap$impl$worker$ExlapCurrentTrackInfoWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapCurrentTrackInfoWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapCurrentTrackInfoWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapCurrentTrackInfoWorker).getName());
         if (iExlapWorker == null) {
-            this.log.log(14808325, "[HasHelper#registerCurrentTrackInfo] worker/service not available");
+            this.log.log(100000000, "[HasHelper#registerCurrentTrackInfo] worker/service not available");
             return false;
         }
-        this.log.log(-2137614336, "[HasHelper#registerCurrentTrackInfo] registering worker");
+        this.log.log(10000000, "[HasHelper#registerCurrentTrackInfo] registering worker");
         iExlapWorker.enable(n);
         return true;
     }
@@ -564,17 +564,17 @@ public class HasHelper {
     private void unregisterCurrentTrackInfo() {
         IExlapWorker iExlapWorker = (IExlapWorker)this.workers.get((class$de$audi$tghu$exlap$impl$worker$ExlapCurrentTrackInfoWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapCurrentTrackInfoWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapCurrentTrackInfoWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapCurrentTrackInfoWorker).getName());
         if (iExlapWorker != null) {
-            this.log.log(-2137614336, "[HasHelper#registerCurrentTrackInfo] unregistering worker");
+            this.log.log(10000000, "[HasHelper#registerCurrentTrackInfo] unregistering worker");
             iExlapWorker.disable();
         }
     }
 
     private boolean createCurrentTrackInfoWorker(ExlapService exlapService, ExlapDispatcher exlapDispatcher, DSIHAS dSIHAS) {
         if (this.workers.containsKey((class$de$audi$tghu$exlap$impl$worker$ExlapCurrentTrackInfoWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapCurrentTrackInfoWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapCurrentTrackInfoWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapCurrentTrackInfoWorker).getName())) {
-            this.log.log(14808325, "[HasHelper#registerCurrentTrackInfo] worker already registered");
+            this.log.log(100000000, "[HasHelper#registerCurrentTrackInfo] worker already registered");
             return true;
         }
-        this.log.log(-2137614336, "[HasHelper#registerCurrentTrackInfo] registering worker");
+        this.log.log(10000000, "[HasHelper#registerCurrentTrackInfo] registering worker");
         ExlapCurrentTrackInfoWorker exlapCurrentTrackInfoWorker = new ExlapCurrentTrackInfoWorker(this.framework, exlapDispatcher, dSIHAS);
         exlapCurrentTrackInfoWorker.init(exlapService);
         this.workers.put((class$de$audi$tghu$exlap$impl$worker$ExlapCurrentTrackInfoWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapCurrentTrackInfoWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapCurrentTrackInfoWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapCurrentTrackInfoWorker).getName(), exlapCurrentTrackInfoWorker);
@@ -584,7 +584,7 @@ public class HasHelper {
     private void stopCurrentTrackInfoWorker() {
         IExlapWorker iExlapWorker = (IExlapWorker)this.workers.remove((class$de$audi$tghu$exlap$impl$worker$ExlapCurrentTrackInfoWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapCurrentTrackInfoWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapCurrentTrackInfoWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapCurrentTrackInfoWorker).getName());
         if (iExlapWorker != null) {
-            this.log.log(-2137614336, "[HasHelper#registerCurrentTrackInfo] unregistering worker");
+            this.log.log(10000000, "[HasHelper#registerCurrentTrackInfo] unregistering worker");
             iExlapWorker.stop();
         }
     }
@@ -592,10 +592,10 @@ public class HasHelper {
     private boolean registerMediaPlayInfo(int n) {
         IExlapWorker iExlapWorker = (IExlapWorker)this.workers.get((class$de$audi$tghu$exlap$impl$worker$ExlapMediaPlayInfoWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapMediaPlayInfoWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapMediaPlayInfoWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapMediaPlayInfoWorker).getName());
         if (iExlapWorker == null) {
-            this.log.log(14808325, "[HasHelper#registerMediaPlayInfo] worker/service not available");
+            this.log.log(100000000, "[HasHelper#registerMediaPlayInfo] worker/service not available");
             return false;
         }
-        this.log.log(-2137614336, "[HasHelper#registerMediaPlayInfo] registering worker");
+        this.log.log(10000000, "[HasHelper#registerMediaPlayInfo] registering worker");
         iExlapWorker.enable(n);
         return true;
     }
@@ -603,17 +603,17 @@ public class HasHelper {
     private void unregisterMediaPlayInfo() {
         IExlapWorker iExlapWorker = (IExlapWorker)this.workers.get((class$de$audi$tghu$exlap$impl$worker$ExlapMediaPlayInfoWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapMediaPlayInfoWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapMediaPlayInfoWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapMediaPlayInfoWorker).getName());
         if (iExlapWorker != null) {
-            this.log.log(-2137614336, "[HasHelper#registerMediaPlayInfo] unregistering worker");
+            this.log.log(10000000, "[HasHelper#registerMediaPlayInfo] unregistering worker");
             iExlapWorker.disable();
         }
     }
 
     private boolean createMediaPlayInfoWorker(ExlapService exlapService, ExlapDispatcher exlapDispatcher, DSIHAS dSIHAS) {
         if (this.workers.containsKey((class$de$audi$tghu$exlap$impl$worker$ExlapMediaPlayInfoWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapMediaPlayInfoWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapMediaPlayInfoWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapMediaPlayInfoWorker).getName())) {
-            this.log.log(14808325, "[HasHelper#registerMediaPlayInfo] worker already registered");
+            this.log.log(100000000, "[HasHelper#registerMediaPlayInfo] worker already registered");
             return true;
         }
-        this.log.log(-2137614336, "[HasHelper#registerMediaPlayInfo] registering worker");
+        this.log.log(10000000, "[HasHelper#registerMediaPlayInfo] registering worker");
         ExlapMediaPlayInfoWorker exlapMediaPlayInfoWorker = new ExlapMediaPlayInfoWorker(this.framework, exlapDispatcher, dSIHAS);
         exlapMediaPlayInfoWorker.init(exlapService);
         this.workers.put((class$de$audi$tghu$exlap$impl$worker$ExlapMediaPlayInfoWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapMediaPlayInfoWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapMediaPlayInfoWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapMediaPlayInfoWorker).getName(), exlapMediaPlayInfoWorker);
@@ -623,7 +623,7 @@ public class HasHelper {
     private void stopMediaPlayInfoWorker() {
         IExlapWorker iExlapWorker = (IExlapWorker)this.workers.remove((class$de$audi$tghu$exlap$impl$worker$ExlapMediaPlayInfoWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapMediaPlayInfoWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapMediaPlayInfoWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapMediaPlayInfoWorker).getName());
         if (iExlapWorker != null) {
-            this.log.log(-2137614336, "[HasHelper#registerMediaPlayInfo] unregistering worker");
+            this.log.log(10000000, "[HasHelper#registerMediaPlayInfo] unregistering worker");
             iExlapWorker.stop();
         }
     }
@@ -631,10 +631,10 @@ public class HasHelper {
     private boolean registerMediaPlayMode(int n) {
         IExlapWorker iExlapWorker = (IExlapWorker)this.workers.get((class$de$audi$tghu$exlap$impl$worker$ExlapMediaPlayModeWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapMediaPlayModeWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapMediaPlayModeWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapMediaPlayModeWorker).getName());
         if (iExlapWorker == null) {
-            this.log.log(14808325, "[HasHelper#registerMediaPlayMode] worker/service not available");
+            this.log.log(100000000, "[HasHelper#registerMediaPlayMode] worker/service not available");
             return false;
         }
-        this.log.log(-2137614336, "[HasHelper#registerMediaPlayMode] registering worker");
+        this.log.log(10000000, "[HasHelper#registerMediaPlayMode] registering worker");
         iExlapWorker.enable(n);
         return true;
     }
@@ -642,17 +642,17 @@ public class HasHelper {
     private void unregisterMediaPlayMode() {
         IExlapWorker iExlapWorker = (IExlapWorker)this.workers.get((class$de$audi$tghu$exlap$impl$worker$ExlapMediaPlayModeWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapMediaPlayModeWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapMediaPlayModeWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapMediaPlayModeWorker).getName());
         if (iExlapWorker != null) {
-            this.log.log(-2137614336, "[HasHelper#registerMediaPlayMode] unregistering worker");
+            this.log.log(10000000, "[HasHelper#registerMediaPlayMode] unregistering worker");
             iExlapWorker.disable();
         }
     }
 
     private boolean createMediaPlayModeWorker(ExlapService exlapService, ExlapDispatcher exlapDispatcher, DSIHAS dSIHAS) {
         if (this.workers.containsKey((class$de$audi$tghu$exlap$impl$worker$ExlapMediaPlayModeWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapMediaPlayModeWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapMediaPlayModeWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapMediaPlayModeWorker).getName())) {
-            this.log.log(14808325, "[HasHelper#registerMediaPlayMode] worker already registered");
+            this.log.log(100000000, "[HasHelper#registerMediaPlayMode] worker already registered");
             return true;
         }
-        this.log.log(-2137614336, "[HasHelper#registerMediaPlayMode] registering worker");
+        this.log.log(10000000, "[HasHelper#registerMediaPlayMode] registering worker");
         ExlapMediaPlayModeWorker exlapMediaPlayModeWorker = new ExlapMediaPlayModeWorker(this.framework, exlapDispatcher, dSIHAS);
         exlapMediaPlayModeWorker.init(exlapService);
         this.workers.put((class$de$audi$tghu$exlap$impl$worker$ExlapMediaPlayModeWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapMediaPlayModeWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapMediaPlayModeWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapMediaPlayModeWorker).getName(), exlapMediaPlayModeWorker);
@@ -662,7 +662,7 @@ public class HasHelper {
     private void stopMediaPlayModeWorker() {
         IExlapWorker iExlapWorker = (IExlapWorker)this.workers.remove((class$de$audi$tghu$exlap$impl$worker$ExlapMediaPlayModeWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapMediaPlayModeWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapMediaPlayModeWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapMediaPlayModeWorker).getName());
         if (iExlapWorker != null) {
-            this.log.log(-2137614336, "[HasHelper#registerMediaPlayMode] unregistering worker");
+            this.log.log(10000000, "[HasHelper#registerMediaPlayMode] unregistering worker");
             iExlapWorker.stop();
         }
     }
@@ -670,10 +670,10 @@ public class HasHelper {
     private boolean registerAvailableMediaSources(int n) {
         IExlapWorker iExlapWorker = (IExlapWorker)this.workers.get((class$de$audi$tghu$exlap$impl$worker$ExlapAvailableMediaSourcesWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapAvailableMediaSourcesWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapAvailableMediaSourcesWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapAvailableMediaSourcesWorker).getName());
         if (iExlapWorker == null) {
-            this.log.log(14808325, "[HasHelper#registerAvailableMediaSources] worker/service not available");
+            this.log.log(100000000, "[HasHelper#registerAvailableMediaSources] worker/service not available");
             return false;
         }
-        this.log.log(-2137614336, "[HasHelper#registerAvailableMediaSources] registering worker");
+        this.log.log(10000000, "[HasHelper#registerAvailableMediaSources] registering worker");
         iExlapWorker.enable(n);
         return true;
     }
@@ -681,17 +681,17 @@ public class HasHelper {
     private void unregisterAvailableMediaSources() {
         IExlapWorker iExlapWorker = (IExlapWorker)this.workers.get((class$de$audi$tghu$exlap$impl$worker$ExlapAvailableMediaSourcesWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapAvailableMediaSourcesWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapAvailableMediaSourcesWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapAvailableMediaSourcesWorker).getName());
         if (iExlapWorker != null) {
-            this.log.log(-2137614336, "[HasHelper#registerAvailableMediaSources] unregistering worker");
+            this.log.log(10000000, "[HasHelper#registerAvailableMediaSources] unregistering worker");
             iExlapWorker.disable();
         }
     }
 
     private boolean createAvailableMediaSourcesWorker(ExlapService exlapService, ExlapDispatcher exlapDispatcher, DSIHAS dSIHAS) {
         if (this.workers.containsKey((class$de$audi$tghu$exlap$impl$worker$ExlapAvailableMediaSourcesWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapAvailableMediaSourcesWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapAvailableMediaSourcesWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapAvailableMediaSourcesWorker).getName())) {
-            this.log.log(14808325, "[HasHelper#registerAvailableMediaSources] worker already registered");
+            this.log.log(100000000, "[HasHelper#registerAvailableMediaSources] worker already registered");
             return true;
         }
-        this.log.log(-2137614336, "[HasHelper#registerAvailableMediaSources] registering worker");
+        this.log.log(10000000, "[HasHelper#registerAvailableMediaSources] registering worker");
         ExlapAvailableMediaSourcesWorker exlapAvailableMediaSourcesWorker = new ExlapAvailableMediaSourcesWorker(this.framework, exlapDispatcher, dSIHAS);
         exlapAvailableMediaSourcesWorker.init(exlapService);
         this.workers.put((class$de$audi$tghu$exlap$impl$worker$ExlapAvailableMediaSourcesWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapAvailableMediaSourcesWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapAvailableMediaSourcesWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapAvailableMediaSourcesWorker).getName(), exlapAvailableMediaSourcesWorker);
@@ -701,7 +701,7 @@ public class HasHelper {
     private void stopAvailableMediaSourcesWorker() {
         IExlapWorker iExlapWorker = (IExlapWorker)this.workers.remove((class$de$audi$tghu$exlap$impl$worker$ExlapAvailableMediaSourcesWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapAvailableMediaSourcesWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapAvailableMediaSourcesWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapAvailableMediaSourcesWorker).getName());
         if (iExlapWorker != null) {
-            this.log.log(-2137614336, "[HasHelper#registerAvailableMediaSources] unregistering worker");
+            this.log.log(10000000, "[HasHelper#registerAvailableMediaSources] unregistering worker");
             iExlapWorker.stop();
         }
     }
@@ -709,10 +709,10 @@ public class HasHelper {
     private boolean registerMediaBrowserList(int n) {
         IExlapWorker iExlapWorker = (IExlapWorker)this.workers.get((class$de$audi$tghu$exlap$impl$worker$ExlapMediaBrowserListWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapMediaBrowserListWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapMediaBrowserListWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapMediaBrowserListWorker).getName());
         if (iExlapWorker == null) {
-            this.log.log(14808325, "[HasHelper#registerMediaBrowserList] worker/service not available");
+            this.log.log(100000000, "[HasHelper#registerMediaBrowserList] worker/service not available");
             return false;
         }
-        this.log.log(-2137614336, "[HasHelper#registerMediaBrowserList] registering worker");
+        this.log.log(10000000, "[HasHelper#registerMediaBrowserList] registering worker");
         iExlapWorker.enable(n);
         return true;
     }
@@ -720,17 +720,17 @@ public class HasHelper {
     private void unregisterMediaBrowserList() {
         IExlapWorker iExlapWorker = (IExlapWorker)this.workers.get((class$de$audi$tghu$exlap$impl$worker$ExlapMediaBrowserListWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapMediaBrowserListWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapMediaBrowserListWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapMediaBrowserListWorker).getName());
         if (iExlapWorker != null) {
-            this.log.log(-2137614336, "[HasHelper#registerMediaBrowserList] unregistering worker");
+            this.log.log(10000000, "[HasHelper#registerMediaBrowserList] unregistering worker");
             iExlapWorker.disable();
         }
     }
 
     private boolean createMediaBrowserListWorker(ExlapService exlapService, ExlapDispatcher exlapDispatcher, DSIHAS dSIHAS) {
         if (this.workers.containsKey((class$de$audi$tghu$exlap$impl$worker$ExlapMediaBrowserListWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapMediaBrowserListWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapMediaBrowserListWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapMediaBrowserListWorker).getName())) {
-            this.log.log(14808325, "[HasHelper#registerMediaBrowserList] worker already registered");
+            this.log.log(100000000, "[HasHelper#registerMediaBrowserList] worker already registered");
             return true;
         }
-        this.log.log(-2137614336, "[HasHelper#registerMediaBrowserList] registering worker");
+        this.log.log(10000000, "[HasHelper#registerMediaBrowserList] registering worker");
         ExlapMediaBrowserListWorker exlapMediaBrowserListWorker = new ExlapMediaBrowserListWorker(this.framework, exlapDispatcher, dSIHAS);
         exlapMediaBrowserListWorker.init(exlapService);
         this.workers.put((class$de$audi$tghu$exlap$impl$worker$ExlapMediaBrowserListWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapMediaBrowserListWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapMediaBrowserListWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapMediaBrowserListWorker).getName(), exlapMediaBrowserListWorker);
@@ -740,7 +740,7 @@ public class HasHelper {
     private void stopMediaBrowserListWorker() {
         IExlapWorker iExlapWorker = (IExlapWorker)this.workers.remove((class$de$audi$tghu$exlap$impl$worker$ExlapMediaBrowserListWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapMediaBrowserListWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapMediaBrowserListWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapMediaBrowserListWorker).getName());
         if (iExlapWorker != null) {
-            this.log.log(-2137614336, "[HasHelper#registerMediaBrowserList] unregistering worker");
+            this.log.log(10000000, "[HasHelper#registerMediaBrowserList] unregistering worker");
             iExlapWorker.stop();
         }
     }
@@ -748,10 +748,10 @@ public class HasHelper {
     private boolean registerMediaBrowserFollowMode(int n) {
         IExlapWorker iExlapWorker = (IExlapWorker)this.workers.get((class$de$audi$tghu$exlap$impl$worker$ExlapMediaBrowserFollowModeWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapMediaBrowserFollowModeWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapMediaBrowserFollowModeWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapMediaBrowserFollowModeWorker).getName());
         if (iExlapWorker == null) {
-            this.log.log(14808325, "[HasHelper#registerMediaBrowserFollowMode] worker/service not available");
+            this.log.log(100000000, "[HasHelper#registerMediaBrowserFollowMode] worker/service not available");
             return false;
         }
-        this.log.log(-2137614336, "[HasHelper#registerMediaBrowserFollowMode] registering worker");
+        this.log.log(10000000, "[HasHelper#registerMediaBrowserFollowMode] registering worker");
         iExlapWorker.enable(n);
         return true;
     }
@@ -759,17 +759,17 @@ public class HasHelper {
     private void unregisterMediaBrowserFollowMode() {
         IExlapWorker iExlapWorker = (IExlapWorker)this.workers.get((class$de$audi$tghu$exlap$impl$worker$ExlapMediaBrowserFollowModeWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapMediaBrowserFollowModeWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapMediaBrowserFollowModeWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapMediaBrowserFollowModeWorker).getName());
         if (iExlapWorker != null) {
-            this.log.log(-2137614336, "[HasHelper#registerMediaBrowserFollowMode] unregistering worker");
+            this.log.log(10000000, "[HasHelper#registerMediaBrowserFollowMode] unregistering worker");
             iExlapWorker.disable();
         }
     }
 
     private boolean createMediaBrowserFollowModeWorker(ExlapService exlapService, ExlapDispatcher exlapDispatcher, DSIHAS dSIHAS) {
         if (this.workers.containsKey((class$de$audi$tghu$exlap$impl$worker$ExlapMediaBrowserFollowModeWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapMediaBrowserFollowModeWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapMediaBrowserFollowModeWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapMediaBrowserFollowModeWorker).getName())) {
-            this.log.log(14808325, "[HasHelper#registerMediaBrowserFollowMode] worker already registered");
+            this.log.log(100000000, "[HasHelper#registerMediaBrowserFollowMode] worker already registered");
             return true;
         }
-        this.log.log(-2137614336, "[HasHelper#registerMediaBrowserFollowMode] registering worker");
+        this.log.log(10000000, "[HasHelper#registerMediaBrowserFollowMode] registering worker");
         ExlapMediaBrowserFollowModeWorker exlapMediaBrowserFollowModeWorker = new ExlapMediaBrowserFollowModeWorker(this.framework, exlapDispatcher, dSIHAS);
         exlapMediaBrowserFollowModeWorker.init(exlapService);
         this.workers.put((class$de$audi$tghu$exlap$impl$worker$ExlapMediaBrowserFollowModeWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapMediaBrowserFollowModeWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapMediaBrowserFollowModeWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapMediaBrowserFollowModeWorker).getName(), exlapMediaBrowserFollowModeWorker);
@@ -779,7 +779,7 @@ public class HasHelper {
     private void stopMediaBrowserFollowModeWorker() {
         IExlapWorker iExlapWorker = (IExlapWorker)this.workers.remove((class$de$audi$tghu$exlap$impl$worker$ExlapMediaBrowserFollowModeWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapMediaBrowserFollowModeWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapMediaBrowserFollowModeWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapMediaBrowserFollowModeWorker).getName());
         if (iExlapWorker != null) {
-            this.log.log(-2137614336, "[HasHelper#registerMediaBrowserFollowMode] unregistering worker");
+            this.log.log(10000000, "[HasHelper#registerMediaBrowserFollowMode] unregistering worker");
             iExlapWorker.stop();
         }
     }
@@ -787,10 +787,10 @@ public class HasHelper {
     private boolean registerMediaBrowserFolder(int n) {
         IExlapWorker iExlapWorker = (IExlapWorker)this.workers.get((class$de$audi$tghu$exlap$impl$worker$ExlapMediaBrowserFolderWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapMediaBrowserFolderWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapMediaBrowserFolderWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapMediaBrowserFolderWorker).getName());
         if (iExlapWorker == null) {
-            this.log.log(14808325, "[HasHelper#registerMediaBrowserFolder] worker/service not available");
+            this.log.log(100000000, "[HasHelper#registerMediaBrowserFolder] worker/service not available");
             return false;
         }
-        this.log.log(-2137614336, "[HasHelper#registerMediaBrowserFolder] registering worker");
+        this.log.log(10000000, "[HasHelper#registerMediaBrowserFolder] registering worker");
         iExlapWorker.enable(n);
         return true;
     }
@@ -798,17 +798,17 @@ public class HasHelper {
     private void unregisterMediaBrowserFolder() {
         IExlapWorker iExlapWorker = (IExlapWorker)this.workers.get((class$de$audi$tghu$exlap$impl$worker$ExlapMediaBrowserFolderWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapMediaBrowserFolderWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapMediaBrowserFolderWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapMediaBrowserFolderWorker).getName());
         if (iExlapWorker != null) {
-            this.log.log(-2137614336, "[HasHelper#registerMediaBrowserFolder] unregistering worker");
+            this.log.log(10000000, "[HasHelper#registerMediaBrowserFolder] unregistering worker");
             iExlapWorker.disable();
         }
     }
 
     private boolean createMediaBrowserFolderWorker(ExlapService exlapService, ExlapDispatcher exlapDispatcher, DSIHAS dSIHAS) {
         if (this.workers.containsKey((class$de$audi$tghu$exlap$impl$worker$ExlapMediaBrowserFolderWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapMediaBrowserFolderWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapMediaBrowserFolderWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapMediaBrowserFolderWorker).getName())) {
-            this.log.log(14808325, "[HasHelper#registerMediaBrowserFolder] worker already registered");
+            this.log.log(100000000, "[HasHelper#registerMediaBrowserFolder] worker already registered");
             return true;
         }
-        this.log.log(-2137614336, "[HasHelper#registerMediaBrowserFolder] registering worker");
+        this.log.log(10000000, "[HasHelper#registerMediaBrowserFolder] registering worker");
         ExlapMediaBrowserFolderWorker exlapMediaBrowserFolderWorker = new ExlapMediaBrowserFolderWorker(this.framework, exlapDispatcher, dSIHAS);
         exlapMediaBrowserFolderWorker.init(exlapService);
         this.workers.put((class$de$audi$tghu$exlap$impl$worker$ExlapMediaBrowserFolderWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapMediaBrowserFolderWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapMediaBrowserFolderWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapMediaBrowserFolderWorker).getName(), exlapMediaBrowserFolderWorker);
@@ -818,7 +818,7 @@ public class HasHelper {
     private void stopMediaBrowserFolderWorker() {
         IExlapWorker iExlapWorker = (IExlapWorker)this.workers.remove((class$de$audi$tghu$exlap$impl$worker$ExlapMediaBrowserFolderWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapMediaBrowserFolderWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapMediaBrowserFolderWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapMediaBrowserFolderWorker).getName());
         if (iExlapWorker != null) {
-            this.log.log(-2137614336, "[HasHelper#registerMediaBrowserFolder] unregistering worker");
+            this.log.log(10000000, "[HasHelper#registerMediaBrowserFolder] unregistering worker");
             iExlapWorker.stop();
         }
     }
@@ -826,10 +826,10 @@ public class HasHelper {
     private boolean registerCurrentTrackPath(int n) {
         IExlapWorker iExlapWorker = (IExlapWorker)this.workers.get((class$de$audi$tghu$exlap$impl$worker$ExlapCurrentTrackPathWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapCurrentTrackPathWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapCurrentTrackPathWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapCurrentTrackPathWorker).getName());
         if (iExlapWorker == null) {
-            this.log.log(14808325, "[HasHelper#registerCurrentTrackPath] worker/service not available");
+            this.log.log(100000000, "[HasHelper#registerCurrentTrackPath] worker/service not available");
             return false;
         }
-        this.log.log(-2137614336, "[HasHelper#registerCurrentTrackPath] registering worker");
+        this.log.log(10000000, "[HasHelper#registerCurrentTrackPath] registering worker");
         iExlapWorker.enable(n);
         return true;
     }
@@ -837,17 +837,17 @@ public class HasHelper {
     private void unregisterCurrentTrackPath() {
         IExlapWorker iExlapWorker = (IExlapWorker)this.workers.get((class$de$audi$tghu$exlap$impl$worker$ExlapCurrentTrackPathWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapCurrentTrackPathWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapCurrentTrackPathWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapCurrentTrackPathWorker).getName());
         if (iExlapWorker != null) {
-            this.log.log(-2137614336, "[HasHelper#registerCurrentTrackPath] unregistering worker");
+            this.log.log(10000000, "[HasHelper#registerCurrentTrackPath] unregistering worker");
             iExlapWorker.disable();
         }
     }
 
     private boolean createCurrentTrackPathWorker(ExlapService exlapService, ExlapDispatcher exlapDispatcher, DSIHAS dSIHAS) {
         if (this.workers.containsKey((class$de$audi$tghu$exlap$impl$worker$ExlapCurrentTrackPathWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapCurrentTrackPathWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapCurrentTrackPathWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapCurrentTrackPathWorker).getName())) {
-            this.log.log(14808325, "[HasHelper#registerCurrentTrackPath] worker already registered");
+            this.log.log(100000000, "[HasHelper#registerCurrentTrackPath] worker already registered");
             return true;
         }
-        this.log.log(-2137614336, "[HasHelper#registerCurrentTrackPath] registering worker");
+        this.log.log(10000000, "[HasHelper#registerCurrentTrackPath] registering worker");
         ExlapCurrentTrackPathWorker exlapCurrentTrackPathWorker = new ExlapCurrentTrackPathWorker(this.framework, exlapDispatcher, dSIHAS);
         exlapCurrentTrackPathWorker.init(exlapService);
         this.workers.put((class$de$audi$tghu$exlap$impl$worker$ExlapCurrentTrackPathWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapCurrentTrackPathWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapCurrentTrackPathWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapCurrentTrackPathWorker).getName(), exlapCurrentTrackPathWorker);
@@ -857,7 +857,7 @@ public class HasHelper {
     private void stopCurrentTrackPathWorker() {
         IExlapWorker iExlapWorker = (IExlapWorker)this.workers.remove((class$de$audi$tghu$exlap$impl$worker$ExlapCurrentTrackPathWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapCurrentTrackPathWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapCurrentTrackPathWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapCurrentTrackPathWorker).getName());
         if (iExlapWorker != null) {
-            this.log.log(-2137614336, "[HasHelper#registerCurrentTrackPath] unregistering worker");
+            this.log.log(10000000, "[HasHelper#registerCurrentTrackPath] unregistering worker");
             iExlapWorker.stop();
         }
     }
@@ -865,10 +865,10 @@ public class HasHelper {
     private boolean registerAppConnectDevice(int n) {
         IExlapWorker iExlapWorker = (IExlapWorker)this.workers.get((class$de$audi$tghu$exlap$impl$worker$ExlapAppConnectDeviceWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapAppConnectDeviceWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapAppConnectDeviceWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapAppConnectDeviceWorker).getName());
         if (iExlapWorker == null) {
-            this.log.log(14808325, "[HasHelper#registerAppConnectDevice] worker/service not available");
+            this.log.log(100000000, "[HasHelper#registerAppConnectDevice] worker/service not available");
             return false;
         }
-        this.log.log(-2137614336, "[HasHelper#registerAppConnectDevice] registering worker");
+        this.log.log(10000000, "[HasHelper#registerAppConnectDevice] registering worker");
         iExlapWorker.enable(n);
         return true;
     }
@@ -876,17 +876,17 @@ public class HasHelper {
     private void unregisterAppConnectDevice() {
         IExlapWorker iExlapWorker = (IExlapWorker)this.workers.get((class$de$audi$tghu$exlap$impl$worker$ExlapAppConnectDeviceWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapAppConnectDeviceWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapAppConnectDeviceWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapAppConnectDeviceWorker).getName());
         if (iExlapWorker != null) {
-            this.log.log(-2137614336, "[HasHelper#registerAppConnectDevice] unregistering worker");
+            this.log.log(10000000, "[HasHelper#registerAppConnectDevice] unregistering worker");
             iExlapWorker.disable();
         }
     }
 
     private boolean createAppConnectDeviceWorker(ExlapService exlapService, ExlapDispatcher exlapDispatcher, DSIHAS dSIHAS) {
         if (this.workers.containsKey((class$de$audi$tghu$exlap$impl$worker$ExlapAppConnectDeviceWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapAppConnectDeviceWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapAppConnectDeviceWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapAppConnectDeviceWorker).getName())) {
-            this.log.log(14808325, "[HasHelper#registerAppConnectDevice] worker already registered");
+            this.log.log(100000000, "[HasHelper#registerAppConnectDevice] worker already registered");
             return true;
         }
-        this.log.log(-2137614336, "[HasHelper#registerAppConnectDevice] registering worker");
+        this.log.log(10000000, "[HasHelper#registerAppConnectDevice] registering worker");
         ExlapAppConnectDeviceWorker exlapAppConnectDeviceWorker = new ExlapAppConnectDeviceWorker(this.framework, exlapDispatcher, dSIHAS);
         exlapAppConnectDeviceWorker.init(exlapService);
         this.workers.put((class$de$audi$tghu$exlap$impl$worker$ExlapAppConnectDeviceWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapAppConnectDeviceWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapAppConnectDeviceWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapAppConnectDeviceWorker).getName(), exlapAppConnectDeviceWorker);
@@ -896,7 +896,7 @@ public class HasHelper {
     private void stopAppConnectDeviceWorker() {
         IExlapWorker iExlapWorker = (IExlapWorker)this.workers.remove((class$de$audi$tghu$exlap$impl$worker$ExlapAppConnectDeviceWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapAppConnectDeviceWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapAppConnectDeviceWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapAppConnectDeviceWorker).getName());
         if (iExlapWorker != null) {
-            this.log.log(-2137614336, "[HasHelper#registerAppConnectDevice] unregistering worker");
+            this.log.log(10000000, "[HasHelper#registerAppConnectDevice] unregistering worker");
             iExlapWorker.stop();
         }
     }
@@ -904,10 +904,10 @@ public class HasHelper {
     private boolean registerExlapRestrictionMode(int n) {
         IExlapWorker iExlapWorker = (IExlapWorker)this.workers.get((class$de$audi$tghu$exlap$impl$worker$ExlapExlapRestrictionModeWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapExlapRestrictionModeWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapExlapRestrictionModeWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapExlapRestrictionModeWorker).getName());
         if (iExlapWorker == null) {
-            this.log.log(14808325, "[HasHelper#registerExlapRestrictionMode] worker/service not available");
+            this.log.log(100000000, "[HasHelper#registerExlapRestrictionMode] worker/service not available");
             return false;
         }
-        this.log.log(-2137614336, "[HasHelper#registerExlapRestrictionMode] registering worker");
+        this.log.log(10000000, "[HasHelper#registerExlapRestrictionMode] registering worker");
         iExlapWorker.enable(n);
         return true;
     }
@@ -915,17 +915,17 @@ public class HasHelper {
     private void unregisterExlapRestrictionMode() {
         IExlapWorker iExlapWorker = (IExlapWorker)this.workers.get((class$de$audi$tghu$exlap$impl$worker$ExlapExlapRestrictionModeWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapExlapRestrictionModeWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapExlapRestrictionModeWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapExlapRestrictionModeWorker).getName());
         if (iExlapWorker != null) {
-            this.log.log(-2137614336, "[HasHelper#registerExlapRestrictionMode] unregistering worker");
+            this.log.log(10000000, "[HasHelper#registerExlapRestrictionMode] unregistering worker");
             iExlapWorker.disable();
         }
     }
 
     private boolean createExlapRestrictionModeWorker(ExlapService exlapService, ExlapDispatcher exlapDispatcher, DSIHAS dSIHAS) {
         if (this.workers.containsKey((class$de$audi$tghu$exlap$impl$worker$ExlapExlapRestrictionModeWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapExlapRestrictionModeWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapExlapRestrictionModeWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapExlapRestrictionModeWorker).getName())) {
-            this.log.log(14808325, "[HasHelper#registerExlapRestrictionMode] worker already registered");
+            this.log.log(100000000, "[HasHelper#registerExlapRestrictionMode] worker already registered");
             return true;
         }
-        this.log.log(-2137614336, "[HasHelper#registerExlapRestrictionMode] registering worker");
+        this.log.log(10000000, "[HasHelper#registerExlapRestrictionMode] registering worker");
         ExlapExlapRestrictionModeWorker exlapExlapRestrictionModeWorker = new ExlapExlapRestrictionModeWorker(this.framework, exlapDispatcher, dSIHAS);
         exlapExlapRestrictionModeWorker.init(exlapService);
         this.workers.put((class$de$audi$tghu$exlap$impl$worker$ExlapExlapRestrictionModeWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapExlapRestrictionModeWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapExlapRestrictionModeWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapExlapRestrictionModeWorker).getName(), exlapExlapRestrictionModeWorker);
@@ -935,7 +935,7 @@ public class HasHelper {
     private void stopExlapRestrictionModeWorker() {
         IExlapWorker iExlapWorker = (IExlapWorker)this.workers.remove((class$de$audi$tghu$exlap$impl$worker$ExlapExlapRestrictionModeWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapExlapRestrictionModeWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapExlapRestrictionModeWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapExlapRestrictionModeWorker).getName());
         if (iExlapWorker != null) {
-            this.log.log(-2137614336, "[HasHelper#registerExlapRestrictionMode] unregistering worker");
+            this.log.log(10000000, "[HasHelper#registerExlapRestrictionMode] unregistering worker");
             iExlapWorker.stop();
         }
     }
@@ -943,10 +943,10 @@ public class HasHelper {
     private boolean registerSoundVolume(int n) {
         IExlapWorker iExlapWorker = (IExlapWorker)this.workers.get((class$de$audi$tghu$exlap$impl$worker$ExlapSoundVolumeWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapSoundVolumeWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapSoundVolumeWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapSoundVolumeWorker).getName());
         if (iExlapWorker == null) {
-            this.log.log(14808325, "[HasHelper#registerSoundVolume] worker/service not available");
+            this.log.log(100000000, "[HasHelper#registerSoundVolume] worker/service not available");
             return false;
         }
-        this.log.log(-2137614336, "[HasHelper#registerSoundVolume] registering worker");
+        this.log.log(10000000, "[HasHelper#registerSoundVolume] registering worker");
         iExlapWorker.enable(n);
         return true;
     }
@@ -954,17 +954,17 @@ public class HasHelper {
     private void unregisterSoundVolume() {
         IExlapWorker iExlapWorker = (IExlapWorker)this.workers.get((class$de$audi$tghu$exlap$impl$worker$ExlapSoundVolumeWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapSoundVolumeWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapSoundVolumeWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapSoundVolumeWorker).getName());
         if (iExlapWorker != null) {
-            this.log.log(-2137614336, "[HasHelper#registerSoundVolume] unregistering worker");
+            this.log.log(10000000, "[HasHelper#registerSoundVolume] unregistering worker");
             iExlapWorker.disable();
         }
     }
 
     private boolean createSoundVolumeWorker(ExlapService exlapService, ExlapDispatcher exlapDispatcher, DSIHAS dSIHAS) {
         if (this.workers.containsKey((class$de$audi$tghu$exlap$impl$worker$ExlapSoundVolumeWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapSoundVolumeWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapSoundVolumeWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapSoundVolumeWorker).getName())) {
-            this.log.log(14808325, "[HasHelper#registerSoundVolume] worker already registered");
+            this.log.log(100000000, "[HasHelper#registerSoundVolume] worker already registered");
             return true;
         }
-        this.log.log(-2137614336, "[HasHelper#registerSoundVolume] registering worker");
+        this.log.log(10000000, "[HasHelper#registerSoundVolume] registering worker");
         ExlapSoundVolumeWorker exlapSoundVolumeWorker = new ExlapSoundVolumeWorker(this.framework, exlapDispatcher, dSIHAS);
         exlapSoundVolumeWorker.init(exlapService);
         this.workers.put((class$de$audi$tghu$exlap$impl$worker$ExlapSoundVolumeWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapSoundVolumeWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapSoundVolumeWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapSoundVolumeWorker).getName(), exlapSoundVolumeWorker);
@@ -974,7 +974,7 @@ public class HasHelper {
     private void stopSoundVolumeWorker() {
         IExlapWorker iExlapWorker = (IExlapWorker)this.workers.remove((class$de$audi$tghu$exlap$impl$worker$ExlapSoundVolumeWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapSoundVolumeWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapSoundVolumeWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapSoundVolumeWorker).getName());
         if (iExlapWorker != null) {
-            this.log.log(-2137614336, "[HasHelper#registerSoundVolume] unregistering worker");
+            this.log.log(10000000, "[HasHelper#registerSoundVolume] unregistering worker");
             iExlapWorker.stop();
         }
     }
@@ -982,10 +982,10 @@ public class HasHelper {
     private boolean registerSoundVolumeRanges(int n) {
         IExlapWorker iExlapWorker = (IExlapWorker)this.workers.get((class$de$audi$tghu$exlap$impl$worker$ExlapSoundVolumeRangesWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapSoundVolumeRangesWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapSoundVolumeRangesWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapSoundVolumeRangesWorker).getName());
         if (iExlapWorker == null) {
-            this.log.log(14808325, "[HasHelper#registerSoundVolumeRanges] worker/service not available");
+            this.log.log(100000000, "[HasHelper#registerSoundVolumeRanges] worker/service not available");
             return false;
         }
-        this.log.log(-2137614336, "[HasHelper#registerSoundVolumeRanges] registering worker");
+        this.log.log(10000000, "[HasHelper#registerSoundVolumeRanges] registering worker");
         iExlapWorker.enable(n);
         return true;
     }
@@ -993,17 +993,17 @@ public class HasHelper {
     private void unregisterSoundVolumeRanges() {
         IExlapWorker iExlapWorker = (IExlapWorker)this.workers.get((class$de$audi$tghu$exlap$impl$worker$ExlapSoundVolumeRangesWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapSoundVolumeRangesWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapSoundVolumeRangesWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapSoundVolumeRangesWorker).getName());
         if (iExlapWorker != null) {
-            this.log.log(-2137614336, "[HasHelper#registerSoundVolumeRanges] unregistering worker");
+            this.log.log(10000000, "[HasHelper#registerSoundVolumeRanges] unregistering worker");
             iExlapWorker.disable();
         }
     }
 
     private boolean createSoundVolumeRangesWorker(ExlapService exlapService, ExlapDispatcher exlapDispatcher, DSIHAS dSIHAS) {
         if (this.workers.containsKey((class$de$audi$tghu$exlap$impl$worker$ExlapSoundVolumeRangesWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapSoundVolumeRangesWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapSoundVolumeRangesWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapSoundVolumeRangesWorker).getName())) {
-            this.log.log(14808325, "[HasHelper#registerSoundVolumeRanges] worker already registered");
+            this.log.log(100000000, "[HasHelper#registerSoundVolumeRanges] worker already registered");
             return true;
         }
-        this.log.log(-2137614336, "[HasHelper#registerSoundVolumeRanges] registering worker");
+        this.log.log(10000000, "[HasHelper#registerSoundVolumeRanges] registering worker");
         ExlapSoundVolumeRangesWorker exlapSoundVolumeRangesWorker = new ExlapSoundVolumeRangesWorker(this.framework, exlapDispatcher, dSIHAS);
         exlapSoundVolumeRangesWorker.init(exlapService);
         this.workers.put((class$de$audi$tghu$exlap$impl$worker$ExlapSoundVolumeRangesWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapSoundVolumeRangesWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapSoundVolumeRangesWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapSoundVolumeRangesWorker).getName(), exlapSoundVolumeRangesWorker);
@@ -1013,7 +1013,7 @@ public class HasHelper {
     private void stopSoundVolumeRangesWorker() {
         IExlapWorker iExlapWorker = (IExlapWorker)this.workers.remove((class$de$audi$tghu$exlap$impl$worker$ExlapSoundVolumeRangesWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapSoundVolumeRangesWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapSoundVolumeRangesWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapSoundVolumeRangesWorker).getName());
         if (iExlapWorker != null) {
-            this.log.log(-2137614336, "[HasHelper#registerSoundVolumeRanges] unregistering worker");
+            this.log.log(10000000, "[HasHelper#registerSoundVolumeRanges] unregistering worker");
             iExlapWorker.stop();
         }
     }
@@ -1021,10 +1021,10 @@ public class HasHelper {
     private boolean registerBalanceFader(int n) {
         IExlapWorker iExlapWorker = (IExlapWorker)this.workers.get((class$de$audi$tghu$exlap$impl$worker$ExlapBalanceFaderWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapBalanceFaderWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapBalanceFaderWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapBalanceFaderWorker).getName());
         if (iExlapWorker == null) {
-            this.log.log(14808325, "[HasHelper#registerBalanceFader] worker/service not available");
+            this.log.log(100000000, "[HasHelper#registerBalanceFader] worker/service not available");
             return false;
         }
-        this.log.log(-2137614336, "[HasHelper#registerBalanceFader] registering worker");
+        this.log.log(10000000, "[HasHelper#registerBalanceFader] registering worker");
         iExlapWorker.enable(n);
         return true;
     }
@@ -1032,17 +1032,17 @@ public class HasHelper {
     private void unregisterBalanceFader() {
         IExlapWorker iExlapWorker = (IExlapWorker)this.workers.get((class$de$audi$tghu$exlap$impl$worker$ExlapBalanceFaderWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapBalanceFaderWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapBalanceFaderWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapBalanceFaderWorker).getName());
         if (iExlapWorker != null) {
-            this.log.log(-2137614336, "[HasHelper#registerBalanceFader] unregistering worker");
+            this.log.log(10000000, "[HasHelper#registerBalanceFader] unregistering worker");
             iExlapWorker.disable();
         }
     }
 
     private boolean createBalanceFaderWorker(ExlapService exlapService, ExlapDispatcher exlapDispatcher, DSIHAS dSIHAS) {
         if (this.workers.containsKey((class$de$audi$tghu$exlap$impl$worker$ExlapBalanceFaderWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapBalanceFaderWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapBalanceFaderWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapBalanceFaderWorker).getName())) {
-            this.log.log(14808325, "[HasHelper#registerBalanceFader] worker already registered");
+            this.log.log(100000000, "[HasHelper#registerBalanceFader] worker already registered");
             return true;
         }
-        this.log.log(-2137614336, "[HasHelper#registerBalanceFader] registering worker");
+        this.log.log(10000000, "[HasHelper#registerBalanceFader] registering worker");
         ExlapBalanceFaderWorker exlapBalanceFaderWorker = new ExlapBalanceFaderWorker(this.framework, exlapDispatcher, dSIHAS);
         exlapBalanceFaderWorker.init(exlapService);
         this.workers.put((class$de$audi$tghu$exlap$impl$worker$ExlapBalanceFaderWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapBalanceFaderWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapBalanceFaderWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapBalanceFaderWorker).getName(), exlapBalanceFaderWorker);
@@ -1052,7 +1052,7 @@ public class HasHelper {
     private void stopBalanceFaderWorker() {
         IExlapWorker iExlapWorker = (IExlapWorker)this.workers.remove((class$de$audi$tghu$exlap$impl$worker$ExlapBalanceFaderWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapBalanceFaderWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapBalanceFaderWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapBalanceFaderWorker).getName());
         if (iExlapWorker != null) {
-            this.log.log(-2137614336, "[HasHelper#registerBalanceFader] unregistering worker");
+            this.log.log(10000000, "[HasHelper#registerBalanceFader] unregistering worker");
             iExlapWorker.stop();
         }
     }
@@ -1060,10 +1060,10 @@ public class HasHelper {
     private boolean registerBalanceFaderRanges(int n) {
         IExlapWorker iExlapWorker = (IExlapWorker)this.workers.get((class$de$audi$tghu$exlap$impl$worker$ExlapBalanceFaderRangesWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapBalanceFaderRangesWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapBalanceFaderRangesWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapBalanceFaderRangesWorker).getName());
         if (iExlapWorker == null) {
-            this.log.log(14808325, "[HasHelper#registerBalanceFaderRanges] worker/service not available");
+            this.log.log(100000000, "[HasHelper#registerBalanceFaderRanges] worker/service not available");
             return false;
         }
-        this.log.log(-2137614336, "[HasHelper#registerBalanceFaderRanges] registering worker");
+        this.log.log(10000000, "[HasHelper#registerBalanceFaderRanges] registering worker");
         iExlapWorker.enable(n);
         return true;
     }
@@ -1071,17 +1071,17 @@ public class HasHelper {
     private void unregisterBalanceFaderRanges() {
         IExlapWorker iExlapWorker = (IExlapWorker)this.workers.get((class$de$audi$tghu$exlap$impl$worker$ExlapBalanceFaderRangesWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapBalanceFaderRangesWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapBalanceFaderRangesWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapBalanceFaderRangesWorker).getName());
         if (iExlapWorker != null) {
-            this.log.log(-2137614336, "[HasHelper#registerBalanceFaderRanges] unregistering worker");
+            this.log.log(10000000, "[HasHelper#registerBalanceFaderRanges] unregistering worker");
             iExlapWorker.disable();
         }
     }
 
     private boolean createBalanceFaderRangesWorker(ExlapService exlapService, ExlapDispatcher exlapDispatcher, DSIHAS dSIHAS) {
         if (this.workers.containsKey((class$de$audi$tghu$exlap$impl$worker$ExlapBalanceFaderRangesWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapBalanceFaderRangesWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapBalanceFaderRangesWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapBalanceFaderRangesWorker).getName())) {
-            this.log.log(14808325, "[HasHelper#registerBalanceFaderRanges] worker already registered");
+            this.log.log(100000000, "[HasHelper#registerBalanceFaderRanges] worker already registered");
             return true;
         }
-        this.log.log(-2137614336, "[HasHelper#registerBalanceFaderRanges] registering worker");
+        this.log.log(10000000, "[HasHelper#registerBalanceFaderRanges] registering worker");
         ExlapBalanceFaderRangesWorker exlapBalanceFaderRangesWorker = new ExlapBalanceFaderRangesWorker(this.framework, exlapDispatcher, dSIHAS);
         exlapBalanceFaderRangesWorker.init(exlapService);
         this.workers.put((class$de$audi$tghu$exlap$impl$worker$ExlapBalanceFaderRangesWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapBalanceFaderRangesWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapBalanceFaderRangesWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapBalanceFaderRangesWorker).getName(), exlapBalanceFaderRangesWorker);
@@ -1091,7 +1091,7 @@ public class HasHelper {
     private void stopBalanceFaderRangesWorker() {
         IExlapWorker iExlapWorker = (IExlapWorker)this.workers.remove((class$de$audi$tghu$exlap$impl$worker$ExlapBalanceFaderRangesWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapBalanceFaderRangesWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapBalanceFaderRangesWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapBalanceFaderRangesWorker).getName());
         if (iExlapWorker != null) {
-            this.log.log(-2137614336, "[HasHelper#registerBalanceFaderRanges] unregistering worker");
+            this.log.log(10000000, "[HasHelper#registerBalanceFaderRanges] unregistering worker");
             iExlapWorker.stop();
         }
     }
@@ -1099,10 +1099,10 @@ public class HasHelper {
     private boolean registerEntertainmentContext(int n) {
         IExlapWorker iExlapWorker = (IExlapWorker)this.workers.get((class$de$audi$tghu$exlap$impl$worker$ExlapEntertainmentContextWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapEntertainmentContextWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapEntertainmentContextWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapEntertainmentContextWorker).getName());
         if (iExlapWorker == null) {
-            this.log.log(14808325, "[HasHelper#registerEntertainmentContext] worker/service not available");
+            this.log.log(100000000, "[HasHelper#registerEntertainmentContext] worker/service not available");
             return false;
         }
-        this.log.log(-2137614336, "[HasHelper#registerEntertainmentContext] registering worker");
+        this.log.log(10000000, "[HasHelper#registerEntertainmentContext] registering worker");
         iExlapWorker.enable(n);
         return true;
     }
@@ -1110,17 +1110,17 @@ public class HasHelper {
     private void unregisterEntertainmentContext() {
         IExlapWorker iExlapWorker = (IExlapWorker)this.workers.get((class$de$audi$tghu$exlap$impl$worker$ExlapEntertainmentContextWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapEntertainmentContextWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapEntertainmentContextWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapEntertainmentContextWorker).getName());
         if (iExlapWorker != null) {
-            this.log.log(-2137614336, "[HasHelper#registerEntertainmentContext] unregistering worker");
+            this.log.log(10000000, "[HasHelper#registerEntertainmentContext] unregistering worker");
             iExlapWorker.disable();
         }
     }
 
     private boolean createEntertainmentContextWorker(ExlapService exlapService, ExlapDispatcher exlapDispatcher, DSIHAS dSIHAS) {
         if (this.workers.containsKey((class$de$audi$tghu$exlap$impl$worker$ExlapEntertainmentContextWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapEntertainmentContextWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapEntertainmentContextWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapEntertainmentContextWorker).getName())) {
-            this.log.log(14808325, "[HasHelper#registerEntertainmentContext] worker already registered");
+            this.log.log(100000000, "[HasHelper#registerEntertainmentContext] worker already registered");
             return true;
         }
-        this.log.log(-2137614336, "[HasHelper#registerEntertainmentContext] registering worker");
+        this.log.log(10000000, "[HasHelper#registerEntertainmentContext] registering worker");
         ExlapEntertainmentContextWorker exlapEntertainmentContextWorker = new ExlapEntertainmentContextWorker(this.framework, exlapDispatcher, dSIHAS);
         exlapEntertainmentContextWorker.init(exlapService);
         this.workers.put((class$de$audi$tghu$exlap$impl$worker$ExlapEntertainmentContextWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapEntertainmentContextWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapEntertainmentContextWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapEntertainmentContextWorker).getName(), exlapEntertainmentContextWorker);
@@ -1130,7 +1130,7 @@ public class HasHelper {
     private void stopEntertainmentContextWorker() {
         IExlapWorker iExlapWorker = (IExlapWorker)this.workers.remove((class$de$audi$tghu$exlap$impl$worker$ExlapEntertainmentContextWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapEntertainmentContextWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapEntertainmentContextWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapEntertainmentContextWorker).getName());
         if (iExlapWorker != null) {
-            this.log.log(-2137614336, "[HasHelper#registerEntertainmentContext] unregistering worker");
+            this.log.log(10000000, "[HasHelper#registerEntertainmentContext] unregistering worker");
             iExlapWorker.stop();
         }
     }
@@ -1138,10 +1138,10 @@ public class HasHelper {
     private boolean registerContextStates(int n) {
         IExlapWorker iExlapWorker = (IExlapWorker)this.workers.get((class$de$audi$tghu$exlap$impl$worker$ExlapContextStatesWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapContextStatesWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapContextStatesWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapContextStatesWorker).getName());
         if (iExlapWorker == null) {
-            this.log.log(14808325, "[HasHelper#registerContextStates] worker/service not available");
+            this.log.log(100000000, "[HasHelper#registerContextStates] worker/service not available");
             return false;
         }
-        this.log.log(-2137614336, "[HasHelper#registerContextStates] registering worker");
+        this.log.log(10000000, "[HasHelper#registerContextStates] registering worker");
         iExlapWorker.enable(n);
         return true;
     }
@@ -1149,17 +1149,17 @@ public class HasHelper {
     private void unregisterContextStates() {
         IExlapWorker iExlapWorker = (IExlapWorker)this.workers.get((class$de$audi$tghu$exlap$impl$worker$ExlapContextStatesWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapContextStatesWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapContextStatesWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapContextStatesWorker).getName());
         if (iExlapWorker != null) {
-            this.log.log(-2137614336, "[HasHelper#registerContextStates] unregistering worker");
+            this.log.log(10000000, "[HasHelper#registerContextStates] unregistering worker");
             iExlapWorker.disable();
         }
     }
 
     private boolean createContextStatesWorker(ExlapService exlapService, ExlapDispatcher exlapDispatcher, DSIHAS dSIHAS) {
         if (this.workers.containsKey((class$de$audi$tghu$exlap$impl$worker$ExlapContextStatesWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapContextStatesWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapContextStatesWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapContextStatesWorker).getName())) {
-            this.log.log(14808325, "[HasHelper#registerContextStates] worker already registered");
+            this.log.log(100000000, "[HasHelper#registerContextStates] worker already registered");
             return true;
         }
-        this.log.log(-2137614336, "[HasHelper#registerContextStates] registering worker");
+        this.log.log(10000000, "[HasHelper#registerContextStates] registering worker");
         ExlapContextStatesWorker exlapContextStatesWorker = new ExlapContextStatesWorker(this.framework, exlapDispatcher, dSIHAS);
         exlapContextStatesWorker.init(exlapService);
         this.workers.put((class$de$audi$tghu$exlap$impl$worker$ExlapContextStatesWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapContextStatesWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapContextStatesWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapContextStatesWorker).getName(), exlapContextStatesWorker);
@@ -1169,7 +1169,7 @@ public class HasHelper {
     private void stopContextStatesWorker() {
         IExlapWorker iExlapWorker = (IExlapWorker)this.workers.remove((class$de$audi$tghu$exlap$impl$worker$ExlapContextStatesWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapContextStatesWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapContextStatesWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapContextStatesWorker).getName());
         if (iExlapWorker != null) {
-            this.log.log(-2137614336, "[HasHelper#registerContextStates] unregistering worker");
+            this.log.log(10000000, "[HasHelper#registerContextStates] unregistering worker");
             iExlapWorker.stop();
         }
     }
@@ -1177,10 +1177,10 @@ public class HasHelper {
     private boolean registerAvailableRadioBands(int n) {
         IExlapWorker iExlapWorker = (IExlapWorker)this.workers.get((class$de$audi$tghu$exlap$impl$worker$ExlapAvailableRadioBandsWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapAvailableRadioBandsWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapAvailableRadioBandsWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapAvailableRadioBandsWorker).getName());
         if (iExlapWorker == null) {
-            this.log.log(14808325, "[HasHelper#registerAvailableRadioBands] worker/service not available");
+            this.log.log(100000000, "[HasHelper#registerAvailableRadioBands] worker/service not available");
             return false;
         }
-        this.log.log(-2137614336, "[HasHelper#registerAvailableRadioBands] registering worker");
+        this.log.log(10000000, "[HasHelper#registerAvailableRadioBands] registering worker");
         iExlapWorker.enable(n);
         return true;
     }
@@ -1188,17 +1188,17 @@ public class HasHelper {
     private void unregisterAvailableRadioBands() {
         IExlapWorker iExlapWorker = (IExlapWorker)this.workers.get((class$de$audi$tghu$exlap$impl$worker$ExlapAvailableRadioBandsWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapAvailableRadioBandsWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapAvailableRadioBandsWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapAvailableRadioBandsWorker).getName());
         if (iExlapWorker != null) {
-            this.log.log(-2137614336, "[HasHelper#registerAvailableRadioBands] unregistering worker");
+            this.log.log(10000000, "[HasHelper#registerAvailableRadioBands] unregistering worker");
             iExlapWorker.disable();
         }
     }
 
     private boolean createAvailableRadioBandsWorker(ExlapService exlapService, ExlapDispatcher exlapDispatcher, DSIHAS dSIHAS) {
         if (this.workers.containsKey((class$de$audi$tghu$exlap$impl$worker$ExlapAvailableRadioBandsWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapAvailableRadioBandsWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapAvailableRadioBandsWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapAvailableRadioBandsWorker).getName())) {
-            this.log.log(14808325, "[HasHelper#registerAvailableRadioBands] worker already registered");
+            this.log.log(100000000, "[HasHelper#registerAvailableRadioBands] worker already registered");
             return true;
         }
-        this.log.log(-2137614336, "[HasHelper#registerAvailableRadioBands] registering worker");
+        this.log.log(10000000, "[HasHelper#registerAvailableRadioBands] registering worker");
         ExlapAvailableRadioBandsWorker exlapAvailableRadioBandsWorker = new ExlapAvailableRadioBandsWorker(this.framework, exlapDispatcher, dSIHAS);
         exlapAvailableRadioBandsWorker.init(exlapService);
         this.workers.put((class$de$audi$tghu$exlap$impl$worker$ExlapAvailableRadioBandsWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapAvailableRadioBandsWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapAvailableRadioBandsWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapAvailableRadioBandsWorker).getName(), exlapAvailableRadioBandsWorker);
@@ -1208,7 +1208,7 @@ public class HasHelper {
     private void stopAvailableRadioBandsWorker() {
         IExlapWorker iExlapWorker = (IExlapWorker)this.workers.remove((class$de$audi$tghu$exlap$impl$worker$ExlapAvailableRadioBandsWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapAvailableRadioBandsWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapAvailableRadioBandsWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapAvailableRadioBandsWorker).getName());
         if (iExlapWorker != null) {
-            this.log.log(-2137614336, "[HasHelper#registerAvailableRadioBands] unregistering worker");
+            this.log.log(10000000, "[HasHelper#registerAvailableRadioBands] unregistering worker");
             iExlapWorker.stop();
         }
     }
@@ -1216,10 +1216,10 @@ public class HasHelper {
     private boolean registerAvailableAMStations(int n) {
         IExlapWorker iExlapWorker = (IExlapWorker)this.workers.get((class$de$audi$tghu$exlap$impl$worker$ExlapAvailableAMStationsWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapAvailableAMStationsWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapAvailableAMStationsWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapAvailableAMStationsWorker).getName());
         if (iExlapWorker == null) {
-            this.log.log(14808325, "[HasHelper#registerAvailableAMStations] worker/service not available");
+            this.log.log(100000000, "[HasHelper#registerAvailableAMStations] worker/service not available");
             return false;
         }
-        this.log.log(-2137614336, "[HasHelper#registerAvailableAMStations] registering worker");
+        this.log.log(10000000, "[HasHelper#registerAvailableAMStations] registering worker");
         iExlapWorker.enable(n);
         return true;
     }
@@ -1227,17 +1227,17 @@ public class HasHelper {
     private void unregisterAvailableAMStations() {
         IExlapWorker iExlapWorker = (IExlapWorker)this.workers.get((class$de$audi$tghu$exlap$impl$worker$ExlapAvailableAMStationsWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapAvailableAMStationsWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapAvailableAMStationsWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapAvailableAMStationsWorker).getName());
         if (iExlapWorker != null) {
-            this.log.log(-2137614336, "[HasHelper#registerAvailableAMStations] unregistering worker");
+            this.log.log(10000000, "[HasHelper#registerAvailableAMStations] unregistering worker");
             iExlapWorker.disable();
         }
     }
 
     private boolean createAvailableAMStationsWorker(ExlapService exlapService, ExlapDispatcher exlapDispatcher, DSIHAS dSIHAS) {
         if (this.workers.containsKey((class$de$audi$tghu$exlap$impl$worker$ExlapAvailableAMStationsWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapAvailableAMStationsWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapAvailableAMStationsWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapAvailableAMStationsWorker).getName())) {
-            this.log.log(14808325, "[HasHelper#registerAvailableAMStations] worker already registered");
+            this.log.log(100000000, "[HasHelper#registerAvailableAMStations] worker already registered");
             return true;
         }
-        this.log.log(-2137614336, "[HasHelper#registerAvailableAMStations] registering worker");
+        this.log.log(10000000, "[HasHelper#registerAvailableAMStations] registering worker");
         ExlapAvailableAMStationsWorker exlapAvailableAMStationsWorker = new ExlapAvailableAMStationsWorker(this.framework, exlapDispatcher, dSIHAS);
         exlapAvailableAMStationsWorker.init(exlapService);
         this.workers.put((class$de$audi$tghu$exlap$impl$worker$ExlapAvailableAMStationsWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapAvailableAMStationsWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapAvailableAMStationsWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapAvailableAMStationsWorker).getName(), exlapAvailableAMStationsWorker);
@@ -1247,7 +1247,7 @@ public class HasHelper {
     private void stopAvailableAMStationsWorker() {
         IExlapWorker iExlapWorker = (IExlapWorker)this.workers.remove((class$de$audi$tghu$exlap$impl$worker$ExlapAvailableAMStationsWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapAvailableAMStationsWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapAvailableAMStationsWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapAvailableAMStationsWorker).getName());
         if (iExlapWorker != null) {
-            this.log.log(-2137614336, "[HasHelper#registerAvailableAMStations] unregistering worker");
+            this.log.log(10000000, "[HasHelper#registerAvailableAMStations] unregistering worker");
             iExlapWorker.stop();
         }
     }
@@ -1255,10 +1255,10 @@ public class HasHelper {
     private boolean registerAvailableFMStations(int n) {
         IExlapWorker iExlapWorker = (IExlapWorker)this.workers.get((class$de$audi$tghu$exlap$impl$worker$ExlapAvailableFMStationsWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapAvailableFMStationsWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapAvailableFMStationsWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapAvailableFMStationsWorker).getName());
         if (iExlapWorker == null) {
-            this.log.log(14808325, "[HasHelper#registerAvailableFMStations] worker/service not available");
+            this.log.log(100000000, "[HasHelper#registerAvailableFMStations] worker/service not available");
             return false;
         }
-        this.log.log(-2137614336, "[HasHelper#registerAvailableFMStations] registering worker");
+        this.log.log(10000000, "[HasHelper#registerAvailableFMStations] registering worker");
         iExlapWorker.enable(n);
         return true;
     }
@@ -1266,17 +1266,17 @@ public class HasHelper {
     private void unregisterAvailableFMStations() {
         IExlapWorker iExlapWorker = (IExlapWorker)this.workers.get((class$de$audi$tghu$exlap$impl$worker$ExlapAvailableFMStationsWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapAvailableFMStationsWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapAvailableFMStationsWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapAvailableFMStationsWorker).getName());
         if (iExlapWorker != null) {
-            this.log.log(-2137614336, "[HasHelper#registerAvailableFMStations] unregistering worker");
+            this.log.log(10000000, "[HasHelper#registerAvailableFMStations] unregistering worker");
             iExlapWorker.disable();
         }
     }
 
     private boolean createAvailableFMStationsWorker(ExlapService exlapService, ExlapDispatcher exlapDispatcher, DSIHAS dSIHAS) {
         if (this.workers.containsKey((class$de$audi$tghu$exlap$impl$worker$ExlapAvailableFMStationsWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapAvailableFMStationsWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapAvailableFMStationsWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapAvailableFMStationsWorker).getName())) {
-            this.log.log(14808325, "[HasHelper#registerAvailableFMStations] worker already registered");
+            this.log.log(100000000, "[HasHelper#registerAvailableFMStations] worker already registered");
             return true;
         }
-        this.log.log(-2137614336, "[HasHelper#registerAvailableFMStations] registering worker");
+        this.log.log(10000000, "[HasHelper#registerAvailableFMStations] registering worker");
         ExlapAvailableFMStationsWorker exlapAvailableFMStationsWorker = new ExlapAvailableFMStationsWorker(this.framework, exlapDispatcher, dSIHAS);
         exlapAvailableFMStationsWorker.init(exlapService);
         this.workers.put((class$de$audi$tghu$exlap$impl$worker$ExlapAvailableFMStationsWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapAvailableFMStationsWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapAvailableFMStationsWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapAvailableFMStationsWorker).getName(), exlapAvailableFMStationsWorker);
@@ -1286,7 +1286,7 @@ public class HasHelper {
     private void stopAvailableFMStationsWorker() {
         IExlapWorker iExlapWorker = (IExlapWorker)this.workers.remove((class$de$audi$tghu$exlap$impl$worker$ExlapAvailableFMStationsWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapAvailableFMStationsWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapAvailableFMStationsWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapAvailableFMStationsWorker).getName());
         if (iExlapWorker != null) {
-            this.log.log(-2137614336, "[HasHelper#registerAvailableFMStations] unregistering worker");
+            this.log.log(10000000, "[HasHelper#registerAvailableFMStations] unregistering worker");
             iExlapWorker.stop();
         }
     }
@@ -1294,10 +1294,10 @@ public class HasHelper {
     private boolean registerAvailableDABEnsembles(int n) {
         IExlapWorker iExlapWorker = (IExlapWorker)this.workers.get((class$de$audi$tghu$exlap$impl$worker$ExlapAvailableDABEnsemblesWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapAvailableDABEnsemblesWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapAvailableDABEnsemblesWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapAvailableDABEnsemblesWorker).getName());
         if (iExlapWorker == null) {
-            this.log.log(14808325, "[HasHelper#registerAvailableDABEnsembles] worker/service not available");
+            this.log.log(100000000, "[HasHelper#registerAvailableDABEnsembles] worker/service not available");
             return false;
         }
-        this.log.log(-2137614336, "[HasHelper#registerAvailableDABEnsembles] registering worker");
+        this.log.log(10000000, "[HasHelper#registerAvailableDABEnsembles] registering worker");
         iExlapWorker.enable(n);
         return true;
     }
@@ -1305,17 +1305,17 @@ public class HasHelper {
     private void unregisterAvailableDABEnsembles() {
         IExlapWorker iExlapWorker = (IExlapWorker)this.workers.get((class$de$audi$tghu$exlap$impl$worker$ExlapAvailableDABEnsemblesWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapAvailableDABEnsemblesWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapAvailableDABEnsemblesWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapAvailableDABEnsemblesWorker).getName());
         if (iExlapWorker != null) {
-            this.log.log(-2137614336, "[HasHelper#registerAvailableDABEnsembles] unregistering worker");
+            this.log.log(10000000, "[HasHelper#registerAvailableDABEnsembles] unregistering worker");
             iExlapWorker.disable();
         }
     }
 
     private boolean createAvailableDABEnsemblesWorker(ExlapService exlapService, ExlapDispatcher exlapDispatcher, DSIHAS dSIHAS) {
         if (this.workers.containsKey((class$de$audi$tghu$exlap$impl$worker$ExlapAvailableDABEnsemblesWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapAvailableDABEnsemblesWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapAvailableDABEnsemblesWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapAvailableDABEnsemblesWorker).getName())) {
-            this.log.log(14808325, "[HasHelper#registerAvailableDABEnsembles] worker already registered");
+            this.log.log(100000000, "[HasHelper#registerAvailableDABEnsembles] worker already registered");
             return true;
         }
-        this.log.log(-2137614336, "[HasHelper#registerAvailableDABEnsembles] registering worker");
+        this.log.log(10000000, "[HasHelper#registerAvailableDABEnsembles] registering worker");
         ExlapAvailableDABEnsemblesWorker exlapAvailableDABEnsemblesWorker = new ExlapAvailableDABEnsemblesWorker(this.framework, exlapDispatcher, dSIHAS);
         exlapAvailableDABEnsemblesWorker.init(exlapService);
         this.workers.put((class$de$audi$tghu$exlap$impl$worker$ExlapAvailableDABEnsemblesWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapAvailableDABEnsemblesWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapAvailableDABEnsemblesWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapAvailableDABEnsemblesWorker).getName(), exlapAvailableDABEnsemblesWorker);
@@ -1325,7 +1325,7 @@ public class HasHelper {
     private void stopAvailableDABEnsemblesWorker() {
         IExlapWorker iExlapWorker = (IExlapWorker)this.workers.remove((class$de$audi$tghu$exlap$impl$worker$ExlapAvailableDABEnsemblesWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapAvailableDABEnsemblesWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapAvailableDABEnsemblesWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapAvailableDABEnsemblesWorker).getName());
         if (iExlapWorker != null) {
-            this.log.log(-2137614336, "[HasHelper#registerAvailableDABEnsembles] unregistering worker");
+            this.log.log(10000000, "[HasHelper#registerAvailableDABEnsembles] unregistering worker");
             iExlapWorker.stop();
         }
     }
@@ -1333,10 +1333,10 @@ public class HasHelper {
     private boolean registerAvailableDABServices(int n) {
         IExlapWorker iExlapWorker = (IExlapWorker)this.workers.get((class$de$audi$tghu$exlap$impl$worker$ExlapAvailableDABServicesWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapAvailableDABServicesWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapAvailableDABServicesWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapAvailableDABServicesWorker).getName());
         if (iExlapWorker == null) {
-            this.log.log(14808325, "[HasHelper#registerAvailableDABServices] worker/service not available");
+            this.log.log(100000000, "[HasHelper#registerAvailableDABServices] worker/service not available");
             return false;
         }
-        this.log.log(-2137614336, "[HasHelper#registerAvailableDABServices] registering worker");
+        this.log.log(10000000, "[HasHelper#registerAvailableDABServices] registering worker");
         iExlapWorker.enable(n);
         return true;
     }
@@ -1344,17 +1344,17 @@ public class HasHelper {
     private void unregisterAvailableDABServices() {
         IExlapWorker iExlapWorker = (IExlapWorker)this.workers.get((class$de$audi$tghu$exlap$impl$worker$ExlapAvailableDABServicesWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapAvailableDABServicesWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapAvailableDABServicesWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapAvailableDABServicesWorker).getName());
         if (iExlapWorker != null) {
-            this.log.log(-2137614336, "[HasHelper#registerAvailableDABServices] unregistering worker");
+            this.log.log(10000000, "[HasHelper#registerAvailableDABServices] unregistering worker");
             iExlapWorker.disable();
         }
     }
 
     private boolean createAvailableDABServicesWorker(ExlapService exlapService, ExlapDispatcher exlapDispatcher, DSIHAS dSIHAS) {
         if (this.workers.containsKey((class$de$audi$tghu$exlap$impl$worker$ExlapAvailableDABServicesWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapAvailableDABServicesWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapAvailableDABServicesWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapAvailableDABServicesWorker).getName())) {
-            this.log.log(14808325, "[HasHelper#registerAvailableDABServices] worker already registered");
+            this.log.log(100000000, "[HasHelper#registerAvailableDABServices] worker already registered");
             return true;
         }
-        this.log.log(-2137614336, "[HasHelper#registerAvailableDABServices] registering worker");
+        this.log.log(10000000, "[HasHelper#registerAvailableDABServices] registering worker");
         ExlapAvailableDABServicesWorker exlapAvailableDABServicesWorker = new ExlapAvailableDABServicesWorker(this.framework, exlapDispatcher, dSIHAS);
         exlapAvailableDABServicesWorker.init(exlapService);
         this.workers.put((class$de$audi$tghu$exlap$impl$worker$ExlapAvailableDABServicesWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapAvailableDABServicesWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapAvailableDABServicesWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapAvailableDABServicesWorker).getName(), exlapAvailableDABServicesWorker);
@@ -1364,7 +1364,7 @@ public class HasHelper {
     private void stopAvailableDABServicesWorker() {
         IExlapWorker iExlapWorker = (IExlapWorker)this.workers.remove((class$de$audi$tghu$exlap$impl$worker$ExlapAvailableDABServicesWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapAvailableDABServicesWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapAvailableDABServicesWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapAvailableDABServicesWorker).getName());
         if (iExlapWorker != null) {
-            this.log.log(-2137614336, "[HasHelper#registerAvailableDABServices] unregistering worker");
+            this.log.log(10000000, "[HasHelper#registerAvailableDABServices] unregistering worker");
             iExlapWorker.stop();
         }
     }
@@ -1372,10 +1372,10 @@ public class HasHelper {
     private boolean registerAvailableDABServiceComponents(int n) {
         IExlapWorker iExlapWorker = (IExlapWorker)this.workers.get((class$de$audi$tghu$exlap$impl$worker$ExlapAvailableDABServiceComponentsWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapAvailableDABServiceComponentsWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapAvailableDABServiceComponentsWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapAvailableDABServiceComponentsWorker).getName());
         if (iExlapWorker == null) {
-            this.log.log(14808325, "[HasHelper#registerAvailableDABServiceComponents] worker/service not available");
+            this.log.log(100000000, "[HasHelper#registerAvailableDABServiceComponents] worker/service not available");
             return false;
         }
-        this.log.log(-2137614336, "[HasHelper#registerAvailableDABServiceComponents] registering worker");
+        this.log.log(10000000, "[HasHelper#registerAvailableDABServiceComponents] registering worker");
         iExlapWorker.enable(n);
         return true;
     }
@@ -1383,17 +1383,17 @@ public class HasHelper {
     private void unregisterAvailableDABServiceComponents() {
         IExlapWorker iExlapWorker = (IExlapWorker)this.workers.get((class$de$audi$tghu$exlap$impl$worker$ExlapAvailableDABServiceComponentsWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapAvailableDABServiceComponentsWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapAvailableDABServiceComponentsWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapAvailableDABServiceComponentsWorker).getName());
         if (iExlapWorker != null) {
-            this.log.log(-2137614336, "[HasHelper#registerAvailableDABServiceComponents] unregistering worker");
+            this.log.log(10000000, "[HasHelper#registerAvailableDABServiceComponents] unregistering worker");
             iExlapWorker.disable();
         }
     }
 
     private boolean createAvailableDABServiceComponentsWorker(ExlapService exlapService, ExlapDispatcher exlapDispatcher, DSIHAS dSIHAS) {
         if (this.workers.containsKey((class$de$audi$tghu$exlap$impl$worker$ExlapAvailableDABServiceComponentsWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapAvailableDABServiceComponentsWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapAvailableDABServiceComponentsWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapAvailableDABServiceComponentsWorker).getName())) {
-            this.log.log(14808325, "[HasHelper#registerAvailableDABServiceComponents] worker already registered");
+            this.log.log(100000000, "[HasHelper#registerAvailableDABServiceComponents] worker already registered");
             return true;
         }
-        this.log.log(-2137614336, "[HasHelper#registerAvailableDABServiceComponents] registering worker");
+        this.log.log(10000000, "[HasHelper#registerAvailableDABServiceComponents] registering worker");
         ExlapAvailableDABServiceComponentsWorker exlapAvailableDABServiceComponentsWorker = new ExlapAvailableDABServiceComponentsWorker(this.framework, exlapDispatcher, dSIHAS);
         exlapAvailableDABServiceComponentsWorker.init(exlapService);
         this.workers.put((class$de$audi$tghu$exlap$impl$worker$ExlapAvailableDABServiceComponentsWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapAvailableDABServiceComponentsWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapAvailableDABServiceComponentsWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapAvailableDABServiceComponentsWorker).getName(), exlapAvailableDABServiceComponentsWorker);
@@ -1403,7 +1403,7 @@ public class HasHelper {
     private void stopAvailableDABServiceComponentsWorker() {
         IExlapWorker iExlapWorker = (IExlapWorker)this.workers.remove((class$de$audi$tghu$exlap$impl$worker$ExlapAvailableDABServiceComponentsWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapAvailableDABServiceComponentsWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapAvailableDABServiceComponentsWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapAvailableDABServiceComponentsWorker).getName());
         if (iExlapWorker != null) {
-            this.log.log(-2137614336, "[HasHelper#registerAvailableDABServiceComponents] unregistering worker");
+            this.log.log(10000000, "[HasHelper#registerAvailableDABServiceComponents] unregistering worker");
             iExlapWorker.stop();
         }
     }
@@ -1411,10 +1411,10 @@ public class HasHelper {
     private boolean registerRadioAMPresets(int n) {
         IExlapWorker iExlapWorker = (IExlapWorker)this.workers.get((class$de$audi$tghu$exlap$impl$worker$ExlapRadioAMPresetsWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapRadioAMPresetsWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapRadioAMPresetsWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapRadioAMPresetsWorker).getName());
         if (iExlapWorker == null) {
-            this.log.log(14808325, "[HasHelper#registerRadioAMPresets] worker/service not available");
+            this.log.log(100000000, "[HasHelper#registerRadioAMPresets] worker/service not available");
             return false;
         }
-        this.log.log(-2137614336, "[HasHelper#registerRadioAMPresets] registering worker");
+        this.log.log(10000000, "[HasHelper#registerRadioAMPresets] registering worker");
         iExlapWorker.enable(n);
         return true;
     }
@@ -1422,17 +1422,17 @@ public class HasHelper {
     private void unregisterRadioAMPresets() {
         IExlapWorker iExlapWorker = (IExlapWorker)this.workers.get((class$de$audi$tghu$exlap$impl$worker$ExlapRadioAMPresetsWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapRadioAMPresetsWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapRadioAMPresetsWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapRadioAMPresetsWorker).getName());
         if (iExlapWorker != null) {
-            this.log.log(-2137614336, "[HasHelper#registerRadioAMPresets] unregistering worker");
+            this.log.log(10000000, "[HasHelper#registerRadioAMPresets] unregistering worker");
             iExlapWorker.disable();
         }
     }
 
     private boolean createRadioAMPresetsWorker(ExlapService exlapService, ExlapDispatcher exlapDispatcher, DSIHAS dSIHAS) {
         if (this.workers.containsKey((class$de$audi$tghu$exlap$impl$worker$ExlapRadioAMPresetsWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapRadioAMPresetsWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapRadioAMPresetsWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapRadioAMPresetsWorker).getName())) {
-            this.log.log(14808325, "[HasHelper#registerRadioAMPresets] worker already registered");
+            this.log.log(100000000, "[HasHelper#registerRadioAMPresets] worker already registered");
             return true;
         }
-        this.log.log(-2137614336, "[HasHelper#registerRadioAMPresets] registering worker");
+        this.log.log(10000000, "[HasHelper#registerRadioAMPresets] registering worker");
         ExlapRadioAMPresetsWorker exlapRadioAMPresetsWorker = new ExlapRadioAMPresetsWorker(this.framework, exlapDispatcher, dSIHAS);
         exlapRadioAMPresetsWorker.init(exlapService);
         this.workers.put((class$de$audi$tghu$exlap$impl$worker$ExlapRadioAMPresetsWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapRadioAMPresetsWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapRadioAMPresetsWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapRadioAMPresetsWorker).getName(), exlapRadioAMPresetsWorker);
@@ -1442,7 +1442,7 @@ public class HasHelper {
     private void stopRadioAMPresetsWorker() {
         IExlapWorker iExlapWorker = (IExlapWorker)this.workers.remove((class$de$audi$tghu$exlap$impl$worker$ExlapRadioAMPresetsWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapRadioAMPresetsWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapRadioAMPresetsWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapRadioAMPresetsWorker).getName());
         if (iExlapWorker != null) {
-            this.log.log(-2137614336, "[HasHelper#registerRadioAMPresets] unregistering worker");
+            this.log.log(10000000, "[HasHelper#registerRadioAMPresets] unregistering worker");
             iExlapWorker.stop();
         }
     }
@@ -1450,10 +1450,10 @@ public class HasHelper {
     private boolean registerRadioFMPresets(int n) {
         IExlapWorker iExlapWorker = (IExlapWorker)this.workers.get((class$de$audi$tghu$exlap$impl$worker$ExlapRadioFMPresetsWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapRadioFMPresetsWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapRadioFMPresetsWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapRadioFMPresetsWorker).getName());
         if (iExlapWorker == null) {
-            this.log.log(14808325, "[HasHelper#registerRadioFMPresets] worker/service not available");
+            this.log.log(100000000, "[HasHelper#registerRadioFMPresets] worker/service not available");
             return false;
         }
-        this.log.log(-2137614336, "[HasHelper#registerRadioFMPresets] registering worker");
+        this.log.log(10000000, "[HasHelper#registerRadioFMPresets] registering worker");
         iExlapWorker.enable(n);
         return true;
     }
@@ -1461,17 +1461,17 @@ public class HasHelper {
     private void unregisterRadioFMPresets() {
         IExlapWorker iExlapWorker = (IExlapWorker)this.workers.get((class$de$audi$tghu$exlap$impl$worker$ExlapRadioFMPresetsWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapRadioFMPresetsWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapRadioFMPresetsWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapRadioFMPresetsWorker).getName());
         if (iExlapWorker != null) {
-            this.log.log(-2137614336, "[HasHelper#registerRadioFMPresets] unregistering worker");
+            this.log.log(10000000, "[HasHelper#registerRadioFMPresets] unregistering worker");
             iExlapWorker.disable();
         }
     }
 
     private boolean createRadioFMPresetsWorker(ExlapService exlapService, ExlapDispatcher exlapDispatcher, DSIHAS dSIHAS) {
         if (this.workers.containsKey((class$de$audi$tghu$exlap$impl$worker$ExlapRadioFMPresetsWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapRadioFMPresetsWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapRadioFMPresetsWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapRadioFMPresetsWorker).getName())) {
-            this.log.log(14808325, "[HasHelper#registerRadioFMPresets] worker already registered");
+            this.log.log(100000000, "[HasHelper#registerRadioFMPresets] worker already registered");
             return true;
         }
-        this.log.log(-2137614336, "[HasHelper#registerRadioFMPresets] registering worker");
+        this.log.log(10000000, "[HasHelper#registerRadioFMPresets] registering worker");
         ExlapRadioFMPresetsWorker exlapRadioFMPresetsWorker = new ExlapRadioFMPresetsWorker(this.framework, exlapDispatcher, dSIHAS);
         exlapRadioFMPresetsWorker.init(exlapService);
         this.workers.put((class$de$audi$tghu$exlap$impl$worker$ExlapRadioFMPresetsWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapRadioFMPresetsWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapRadioFMPresetsWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapRadioFMPresetsWorker).getName(), exlapRadioFMPresetsWorker);
@@ -1481,7 +1481,7 @@ public class HasHelper {
     private void stopRadioFMPresetsWorker() {
         IExlapWorker iExlapWorker = (IExlapWorker)this.workers.remove((class$de$audi$tghu$exlap$impl$worker$ExlapRadioFMPresetsWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapRadioFMPresetsWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapRadioFMPresetsWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapRadioFMPresetsWorker).getName());
         if (iExlapWorker != null) {
-            this.log.log(-2137614336, "[HasHelper#registerRadioFMPresets] unregistering worker");
+            this.log.log(10000000, "[HasHelper#registerRadioFMPresets] unregistering worker");
             iExlapWorker.stop();
         }
     }
@@ -1489,10 +1489,10 @@ public class HasHelper {
     private boolean registerRadioDABPresets(int n) {
         IExlapWorker iExlapWorker = (IExlapWorker)this.workers.get((class$de$audi$tghu$exlap$impl$worker$ExlapRadioDABPresetsWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapRadioDABPresetsWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapRadioDABPresetsWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapRadioDABPresetsWorker).getName());
         if (iExlapWorker == null) {
-            this.log.log(14808325, "[HasHelper#registerRadioDABPresets] worker/service not available");
+            this.log.log(100000000, "[HasHelper#registerRadioDABPresets] worker/service not available");
             return false;
         }
-        this.log.log(-2137614336, "[HasHelper#registerRadioDABPresets] registering worker");
+        this.log.log(10000000, "[HasHelper#registerRadioDABPresets] registering worker");
         iExlapWorker.enable(n);
         return true;
     }
@@ -1500,17 +1500,17 @@ public class HasHelper {
     private void unregisterRadioDABPresets() {
         IExlapWorker iExlapWorker = (IExlapWorker)this.workers.get((class$de$audi$tghu$exlap$impl$worker$ExlapRadioDABPresetsWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapRadioDABPresetsWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapRadioDABPresetsWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapRadioDABPresetsWorker).getName());
         if (iExlapWorker != null) {
-            this.log.log(-2137614336, "[HasHelper#registerRadioDABPresets] unregistering worker");
+            this.log.log(10000000, "[HasHelper#registerRadioDABPresets] unregistering worker");
             iExlapWorker.disable();
         }
     }
 
     private boolean createRadioDABPresetsWorker(ExlapService exlapService, ExlapDispatcher exlapDispatcher, DSIHAS dSIHAS) {
         if (this.workers.containsKey((class$de$audi$tghu$exlap$impl$worker$ExlapRadioDABPresetsWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapRadioDABPresetsWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapRadioDABPresetsWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapRadioDABPresetsWorker).getName())) {
-            this.log.log(14808325, "[HasHelper#registerRadioDABPresets] worker already registered");
+            this.log.log(100000000, "[HasHelper#registerRadioDABPresets] worker already registered");
             return true;
         }
-        this.log.log(-2137614336, "[HasHelper#registerRadioDABPresets] registering worker");
+        this.log.log(10000000, "[HasHelper#registerRadioDABPresets] registering worker");
         ExlapRadioDABPresetsWorker exlapRadioDABPresetsWorker = new ExlapRadioDABPresetsWorker(this.framework, exlapDispatcher, dSIHAS);
         exlapRadioDABPresetsWorker.init(exlapService);
         this.workers.put((class$de$audi$tghu$exlap$impl$worker$ExlapRadioDABPresetsWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapRadioDABPresetsWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapRadioDABPresetsWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapRadioDABPresetsWorker).getName(), exlapRadioDABPresetsWorker);
@@ -1520,7 +1520,7 @@ public class HasHelper {
     private void stopRadioDABPresetsWorker() {
         IExlapWorker iExlapWorker = (IExlapWorker)this.workers.remove((class$de$audi$tghu$exlap$impl$worker$ExlapRadioDABPresetsWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapRadioDABPresetsWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapRadioDABPresetsWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapRadioDABPresetsWorker).getName());
         if (iExlapWorker != null) {
-            this.log.log(-2137614336, "[HasHelper#registerRadioDABPresets] unregistering worker");
+            this.log.log(10000000, "[HasHelper#registerRadioDABPresets] unregistering worker");
             iExlapWorker.stop();
         }
     }
@@ -1528,10 +1528,10 @@ public class HasHelper {
     private boolean registerRadioTuner(int n) {
         IExlapWorker iExlapWorker = (IExlapWorker)this.workers.get((class$de$audi$tghu$exlap$impl$worker$ExlapRadioTunerWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapRadioTunerWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapRadioTunerWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapRadioTunerWorker).getName());
         if (iExlapWorker == null) {
-            this.log.log(14808325, "[HasHelper#registerRadioTuner] worker/service not available");
+            this.log.log(100000000, "[HasHelper#registerRadioTuner] worker/service not available");
             return false;
         }
-        this.log.log(-2137614336, "[HasHelper#registerRadioTuner] registering worker");
+        this.log.log(10000000, "[HasHelper#registerRadioTuner] registering worker");
         iExlapWorker.enable(n);
         return true;
     }
@@ -1539,17 +1539,17 @@ public class HasHelper {
     private void unregisterRadioTuner() {
         IExlapWorker iExlapWorker = (IExlapWorker)this.workers.get((class$de$audi$tghu$exlap$impl$worker$ExlapRadioTunerWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapRadioTunerWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapRadioTunerWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapRadioTunerWorker).getName());
         if (iExlapWorker != null) {
-            this.log.log(-2137614336, "[HasHelper#registerRadioTuner] unregistering worker");
+            this.log.log(10000000, "[HasHelper#registerRadioTuner] unregistering worker");
             iExlapWorker.disable();
         }
     }
 
     private boolean createRadioTunerWorker(ExlapService exlapService, ExlapDispatcher exlapDispatcher, DSIHAS dSIHAS) {
         if (this.workers.containsKey((class$de$audi$tghu$exlap$impl$worker$ExlapRadioTunerWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapRadioTunerWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapRadioTunerWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapRadioTunerWorker).getName())) {
-            this.log.log(14808325, "[HasHelper#registerRadioTuner] worker already registered");
+            this.log.log(100000000, "[HasHelper#registerRadioTuner] worker already registered");
             return true;
         }
-        this.log.log(-2137614336, "[HasHelper#registerRadioTuner] registering worker");
+        this.log.log(10000000, "[HasHelper#registerRadioTuner] registering worker");
         ExlapRadioTunerWorker exlapRadioTunerWorker = new ExlapRadioTunerWorker(this.framework, exlapDispatcher, dSIHAS);
         exlapRadioTunerWorker.init(exlapService);
         this.workers.put((class$de$audi$tghu$exlap$impl$worker$ExlapRadioTunerWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapRadioTunerWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapRadioTunerWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapRadioTunerWorker).getName(), exlapRadioTunerWorker);
@@ -1559,7 +1559,7 @@ public class HasHelper {
     private void stopRadioTunerWorker() {
         IExlapWorker iExlapWorker = (IExlapWorker)this.workers.remove((class$de$audi$tghu$exlap$impl$worker$ExlapRadioTunerWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapRadioTunerWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapRadioTunerWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapRadioTunerWorker).getName());
         if (iExlapWorker != null) {
-            this.log.log(-2137614336, "[HasHelper#registerRadioTuner] unregistering worker");
+            this.log.log(10000000, "[HasHelper#registerRadioTuner] unregistering worker");
             iExlapWorker.stop();
         }
     }
@@ -1567,10 +1567,10 @@ public class HasHelper {
     private boolean registerRadioFrequencyRanges(int n) {
         IExlapWorker iExlapWorker = (IExlapWorker)this.workers.get((class$de$audi$tghu$exlap$impl$worker$ExlapRadioFrequencyRangesWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapRadioFrequencyRangesWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapRadioFrequencyRangesWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapRadioFrequencyRangesWorker).getName());
         if (iExlapWorker == null) {
-            this.log.log(14808325, "[HasHelper#registerRadioFrequencyRanges] worker/service not available");
+            this.log.log(100000000, "[HasHelper#registerRadioFrequencyRanges] worker/service not available");
             return false;
         }
-        this.log.log(-2137614336, "[HasHelper#registerRadioFrequencyRanges] registering worker");
+        this.log.log(10000000, "[HasHelper#registerRadioFrequencyRanges] registering worker");
         iExlapWorker.enable(n);
         return true;
     }
@@ -1578,17 +1578,17 @@ public class HasHelper {
     private void unregisterRadioFrequencyRanges() {
         IExlapWorker iExlapWorker = (IExlapWorker)this.workers.get((class$de$audi$tghu$exlap$impl$worker$ExlapRadioFrequencyRangesWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapRadioFrequencyRangesWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapRadioFrequencyRangesWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapRadioFrequencyRangesWorker).getName());
         if (iExlapWorker != null) {
-            this.log.log(-2137614336, "[HasHelper#registerRadioFrequencyRanges] unregistering worker");
+            this.log.log(10000000, "[HasHelper#registerRadioFrequencyRanges] unregistering worker");
             iExlapWorker.disable();
         }
     }
 
     private boolean createRadioFrequencyRangesWorker(ExlapService exlapService, ExlapDispatcher exlapDispatcher, DSIHAS dSIHAS) {
         if (this.workers.containsKey((class$de$audi$tghu$exlap$impl$worker$ExlapRadioFrequencyRangesWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapRadioFrequencyRangesWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapRadioFrequencyRangesWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapRadioFrequencyRangesWorker).getName())) {
-            this.log.log(14808325, "[HasHelper#registerRadioFrequencyRanges] worker already registered");
+            this.log.log(100000000, "[HasHelper#registerRadioFrequencyRanges] worker already registered");
             return true;
         }
-        this.log.log(-2137614336, "[HasHelper#registerRadioFrequencyRanges] registering worker");
+        this.log.log(10000000, "[HasHelper#registerRadioFrequencyRanges] registering worker");
         ExlapRadioFrequencyRangesWorker exlapRadioFrequencyRangesWorker = new ExlapRadioFrequencyRangesWorker(this.framework, exlapDispatcher, dSIHAS);
         exlapRadioFrequencyRangesWorker.init(exlapService);
         this.workers.put((class$de$audi$tghu$exlap$impl$worker$ExlapRadioFrequencyRangesWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapRadioFrequencyRangesWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapRadioFrequencyRangesWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapRadioFrequencyRangesWorker).getName(), exlapRadioFrequencyRangesWorker);
@@ -1598,7 +1598,7 @@ public class HasHelper {
     private void stopRadioFrequencyRangesWorker() {
         IExlapWorker iExlapWorker = (IExlapWorker)this.workers.remove((class$de$audi$tghu$exlap$impl$worker$ExlapRadioFrequencyRangesWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapRadioFrequencyRangesWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapRadioFrequencyRangesWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapRadioFrequencyRangesWorker).getName());
         if (iExlapWorker != null) {
-            this.log.log(-2137614336, "[HasHelper#registerRadioFrequencyRanges] unregistering worker");
+            this.log.log(10000000, "[HasHelper#registerRadioFrequencyRanges] unregistering worker");
             iExlapWorker.stop();
         }
     }
@@ -1606,10 +1606,10 @@ public class HasHelper {
     private boolean registerTrafficAnnouncement(int n) {
         IExlapWorker iExlapWorker = (IExlapWorker)this.workers.get((class$de$audi$tghu$exlap$impl$worker$ExlapTrafficAnnouncementWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapTrafficAnnouncementWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapTrafficAnnouncementWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapTrafficAnnouncementWorker).getName());
         if (iExlapWorker == null) {
-            this.log.log(14808325, "[HasHelper#registerTrafficAnnouncement] worker/service not available");
+            this.log.log(100000000, "[HasHelper#registerTrafficAnnouncement] worker/service not available");
             return false;
         }
-        this.log.log(-2137614336, "[HasHelper#registerTrafficAnnouncement] registering worker");
+        this.log.log(10000000, "[HasHelper#registerTrafficAnnouncement] registering worker");
         iExlapWorker.enable(n);
         return true;
     }
@@ -1617,17 +1617,17 @@ public class HasHelper {
     private void unregisterTrafficAnnouncement() {
         IExlapWorker iExlapWorker = (IExlapWorker)this.workers.get((class$de$audi$tghu$exlap$impl$worker$ExlapTrafficAnnouncementWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapTrafficAnnouncementWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapTrafficAnnouncementWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapTrafficAnnouncementWorker).getName());
         if (iExlapWorker != null) {
-            this.log.log(-2137614336, "[HasHelper#registerTrafficAnnouncement] unregistering worker");
+            this.log.log(10000000, "[HasHelper#registerTrafficAnnouncement] unregistering worker");
             iExlapWorker.disable();
         }
     }
 
     private boolean createTrafficAnnouncementWorker(ExlapService exlapService, ExlapDispatcher exlapDispatcher, DSIHAS dSIHAS) {
         if (this.workers.containsKey((class$de$audi$tghu$exlap$impl$worker$ExlapTrafficAnnouncementWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapTrafficAnnouncementWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapTrafficAnnouncementWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapTrafficAnnouncementWorker).getName())) {
-            this.log.log(14808325, "[HasHelper#registerTrafficAnnouncement] worker already registered");
+            this.log.log(100000000, "[HasHelper#registerTrafficAnnouncement] worker already registered");
             return true;
         }
-        this.log.log(-2137614336, "[HasHelper#registerTrafficAnnouncement] registering worker");
+        this.log.log(10000000, "[HasHelper#registerTrafficAnnouncement] registering worker");
         ExlapTrafficAnnouncementWorker exlapTrafficAnnouncementWorker = new ExlapTrafficAnnouncementWorker(this.framework, exlapDispatcher, dSIHAS);
         exlapTrafficAnnouncementWorker.init(exlapService);
         this.workers.put((class$de$audi$tghu$exlap$impl$worker$ExlapTrafficAnnouncementWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapTrafficAnnouncementWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapTrafficAnnouncementWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapTrafficAnnouncementWorker).getName(), exlapTrafficAnnouncementWorker);
@@ -1637,7 +1637,7 @@ public class HasHelper {
     private void stopTrafficAnnouncementWorker() {
         IExlapWorker iExlapWorker = (IExlapWorker)this.workers.remove((class$de$audi$tghu$exlap$impl$worker$ExlapTrafficAnnouncementWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapTrafficAnnouncementWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapTrafficAnnouncementWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapTrafficAnnouncementWorker).getName());
         if (iExlapWorker != null) {
-            this.log.log(-2137614336, "[HasHelper#registerTrafficAnnouncement] unregistering worker");
+            this.log.log(10000000, "[HasHelper#registerTrafficAnnouncement] unregistering worker");
             iExlapWorker.stop();
         }
     }
@@ -1645,10 +1645,10 @@ public class HasHelper {
     private boolean registerRadioText(int n) {
         IExlapWorker iExlapWorker = (IExlapWorker)this.workers.get((class$de$audi$tghu$exlap$impl$worker$ExlapRadioTextWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapRadioTextWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapRadioTextWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapRadioTextWorker).getName());
         if (iExlapWorker == null) {
-            this.log.log(14808325, "[HasHelper#registerRadioText] worker/service not available");
+            this.log.log(100000000, "[HasHelper#registerRadioText] worker/service not available");
             return false;
         }
-        this.log.log(-2137614336, "[HasHelper#registerRadioText] registering worker");
+        this.log.log(10000000, "[HasHelper#registerRadioText] registering worker");
         iExlapWorker.enable(n);
         return true;
     }
@@ -1656,17 +1656,17 @@ public class HasHelper {
     private void unregisterRadioText() {
         IExlapWorker iExlapWorker = (IExlapWorker)this.workers.get((class$de$audi$tghu$exlap$impl$worker$ExlapRadioTextWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapRadioTextWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapRadioTextWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapRadioTextWorker).getName());
         if (iExlapWorker != null) {
-            this.log.log(-2137614336, "[HasHelper#registerRadioText] unregistering worker");
+            this.log.log(10000000, "[HasHelper#registerRadioText] unregistering worker");
             iExlapWorker.disable();
         }
     }
 
     private boolean createRadioTextWorker(ExlapService exlapService, ExlapDispatcher exlapDispatcher, DSIHAS dSIHAS) {
         if (this.workers.containsKey((class$de$audi$tghu$exlap$impl$worker$ExlapRadioTextWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapRadioTextWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapRadioTextWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapRadioTextWorker).getName())) {
-            this.log.log(14808325, "[HasHelper#registerRadioText] worker already registered");
+            this.log.log(100000000, "[HasHelper#registerRadioText] worker already registered");
             return true;
         }
-        this.log.log(-2137614336, "[HasHelper#registerRadioText] registering worker");
+        this.log.log(10000000, "[HasHelper#registerRadioText] registering worker");
         ExlapRadioTextWorker exlapRadioTextWorker = new ExlapRadioTextWorker(this.framework, exlapDispatcher, dSIHAS);
         exlapRadioTextWorker.init(exlapService);
         this.workers.put((class$de$audi$tghu$exlap$impl$worker$ExlapRadioTextWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapRadioTextWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapRadioTextWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapRadioTextWorker).getName(), exlapRadioTextWorker);
@@ -1676,7 +1676,7 @@ public class HasHelper {
     private void stopRadioTextWorker() {
         IExlapWorker iExlapWorker = (IExlapWorker)this.workers.remove((class$de$audi$tghu$exlap$impl$worker$ExlapRadioTextWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapRadioTextWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapRadioTextWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapRadioTextWorker).getName());
         if (iExlapWorker != null) {
-            this.log.log(-2137614336, "[HasHelper#registerRadioText] unregistering worker");
+            this.log.log(10000000, "[HasHelper#registerRadioText] unregistering worker");
             iExlapWorker.stop();
         }
     }
@@ -1684,10 +1684,10 @@ public class HasHelper {
     private boolean registerLocation(int n) {
         IExlapWorker iExlapWorker = (IExlapWorker)this.workers.get((class$de$audi$tghu$exlap$impl$worker$ExlapLocationWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapLocationWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapLocationWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapLocationWorker).getName());
         if (iExlapWorker == null) {
-            this.log.log(14808325, "[HasHelper#registerLocation] worker/service not available");
+            this.log.log(100000000, "[HasHelper#registerLocation] worker/service not available");
             return false;
         }
-        this.log.log(-2137614336, "[HasHelper#registerLocation] registering worker");
+        this.log.log(10000000, "[HasHelper#registerLocation] registering worker");
         iExlapWorker.enable(n);
         return true;
     }
@@ -1695,17 +1695,17 @@ public class HasHelper {
     private void unregisterLocation() {
         IExlapWorker iExlapWorker = (IExlapWorker)this.workers.get((class$de$audi$tghu$exlap$impl$worker$ExlapLocationWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapLocationWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapLocationWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapLocationWorker).getName());
         if (iExlapWorker != null) {
-            this.log.log(-2137614336, "[HasHelper#registerLocation] unregistering worker");
+            this.log.log(10000000, "[HasHelper#registerLocation] unregistering worker");
             iExlapWorker.disable();
         }
     }
 
     private boolean createLocationWorker(ExlapService exlapService, ExlapDispatcher exlapDispatcher, DSIHAS dSIHAS) {
         if (this.workers.containsKey((class$de$audi$tghu$exlap$impl$worker$ExlapLocationWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapLocationWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapLocationWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapLocationWorker).getName())) {
-            this.log.log(14808325, "[HasHelper#registerLocation] worker already registered");
+            this.log.log(100000000, "[HasHelper#registerLocation] worker already registered");
             return true;
         }
-        this.log.log(-2137614336, "[HasHelper#registerLocation] registering worker");
+        this.log.log(10000000, "[HasHelper#registerLocation] registering worker");
         ExlapLocationWorker exlapLocationWorker = new ExlapLocationWorker(this.framework, exlapDispatcher, dSIHAS);
         exlapLocationWorker.init(exlapService);
         this.workers.put((class$de$audi$tghu$exlap$impl$worker$ExlapLocationWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapLocationWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapLocationWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapLocationWorker).getName(), exlapLocationWorker);
@@ -1715,7 +1715,7 @@ public class HasHelper {
     private void stopLocationWorker() {
         IExlapWorker iExlapWorker = (IExlapWorker)this.workers.remove((class$de$audi$tghu$exlap$impl$worker$ExlapLocationWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapLocationWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapLocationWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapLocationWorker).getName());
         if (iExlapWorker != null) {
-            this.log.log(-2137614336, "[HasHelper#registerLocation] unregistering worker");
+            this.log.log(10000000, "[HasHelper#registerLocation] unregistering worker");
             iExlapWorker.stop();
         }
     }
@@ -1723,10 +1723,10 @@ public class HasHelper {
     private boolean registerGuidanceState(int n) {
         IExlapWorker iExlapWorker = (IExlapWorker)this.workers.get((class$de$audi$tghu$exlap$impl$worker$ExlapGuidanceStateWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapGuidanceStateWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapGuidanceStateWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapGuidanceStateWorker).getName());
         if (iExlapWorker == null) {
-            this.log.log(14808325, "[HasHelper#registerGuidanceState] worker/service not available");
+            this.log.log(100000000, "[HasHelper#registerGuidanceState] worker/service not available");
             return false;
         }
-        this.log.log(-2137614336, "[HasHelper#registerGuidanceState] registering worker");
+        this.log.log(10000000, "[HasHelper#registerGuidanceState] registering worker");
         iExlapWorker.enable(n);
         return true;
     }
@@ -1734,17 +1734,17 @@ public class HasHelper {
     private void unregisterGuidanceState() {
         IExlapWorker iExlapWorker = (IExlapWorker)this.workers.get((class$de$audi$tghu$exlap$impl$worker$ExlapGuidanceStateWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapGuidanceStateWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapGuidanceStateWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapGuidanceStateWorker).getName());
         if (iExlapWorker != null) {
-            this.log.log(-2137614336, "[HasHelper#registerGuidanceState] unregistering worker");
+            this.log.log(10000000, "[HasHelper#registerGuidanceState] unregistering worker");
             iExlapWorker.disable();
         }
     }
 
     private boolean createGuidanceStateWorker(ExlapService exlapService, ExlapDispatcher exlapDispatcher, DSIHAS dSIHAS) {
         if (this.workers.containsKey((class$de$audi$tghu$exlap$impl$worker$ExlapGuidanceStateWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapGuidanceStateWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapGuidanceStateWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapGuidanceStateWorker).getName())) {
-            this.log.log(14808325, "[HasHelper#registerGuidanceState] worker already registered");
+            this.log.log(100000000, "[HasHelper#registerGuidanceState] worker already registered");
             return true;
         }
-        this.log.log(-2137614336, "[HasHelper#registerGuidanceState] registering worker");
+        this.log.log(10000000, "[HasHelper#registerGuidanceState] registering worker");
         ExlapGuidanceStateWorker exlapGuidanceStateWorker = new ExlapGuidanceStateWorker(this.framework, exlapDispatcher, dSIHAS);
         exlapGuidanceStateWorker.init(exlapService);
         this.workers.put((class$de$audi$tghu$exlap$impl$worker$ExlapGuidanceStateWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapGuidanceStateWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapGuidanceStateWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapGuidanceStateWorker).getName(), exlapGuidanceStateWorker);
@@ -1754,7 +1754,7 @@ public class HasHelper {
     private void stopGuidanceStateWorker() {
         IExlapWorker iExlapWorker = (IExlapWorker)this.workers.remove((class$de$audi$tghu$exlap$impl$worker$ExlapGuidanceStateWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapGuidanceStateWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapGuidanceStateWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapGuidanceStateWorker).getName());
         if (iExlapWorker != null) {
-            this.log.log(-2137614336, "[HasHelper#registerGuidanceState] unregistering worker");
+            this.log.log(10000000, "[HasHelper#registerGuidanceState] unregistering worker");
             iExlapWorker.stop();
         }
     }
@@ -1762,10 +1762,10 @@ public class HasHelper {
     private boolean registerGuidanceDestination(int n) {
         IExlapWorker iExlapWorker = (IExlapWorker)this.workers.get((class$de$audi$tghu$exlap$impl$worker$ExlapGuidanceDestinationWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapGuidanceDestinationWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapGuidanceDestinationWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapGuidanceDestinationWorker).getName());
         if (iExlapWorker == null) {
-            this.log.log(14808325, "[HasHelper#registerGuidanceDestination] worker/service not available");
+            this.log.log(100000000, "[HasHelper#registerGuidanceDestination] worker/service not available");
             return false;
         }
-        this.log.log(-2137614336, "[HasHelper#registerGuidanceDestination] registering worker");
+        this.log.log(10000000, "[HasHelper#registerGuidanceDestination] registering worker");
         iExlapWorker.enable(n);
         return true;
     }
@@ -1773,17 +1773,17 @@ public class HasHelper {
     private void unregisterGuidanceDestination() {
         IExlapWorker iExlapWorker = (IExlapWorker)this.workers.get((class$de$audi$tghu$exlap$impl$worker$ExlapGuidanceDestinationWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapGuidanceDestinationWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapGuidanceDestinationWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapGuidanceDestinationWorker).getName());
         if (iExlapWorker != null) {
-            this.log.log(-2137614336, "[HasHelper#registerGuidanceDestination] unregistering worker");
+            this.log.log(10000000, "[HasHelper#registerGuidanceDestination] unregistering worker");
             iExlapWorker.disable();
         }
     }
 
     private boolean createGuidanceDestinationWorker(ExlapService exlapService, ExlapDispatcher exlapDispatcher, DSIHAS dSIHAS) {
         if (this.workers.containsKey((class$de$audi$tghu$exlap$impl$worker$ExlapGuidanceDestinationWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapGuidanceDestinationWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapGuidanceDestinationWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapGuidanceDestinationWorker).getName())) {
-            this.log.log(14808325, "[HasHelper#registerGuidanceDestination] worker already registered");
+            this.log.log(100000000, "[HasHelper#registerGuidanceDestination] worker already registered");
             return true;
         }
-        this.log.log(-2137614336, "[HasHelper#registerGuidanceDestination] registering worker");
+        this.log.log(10000000, "[HasHelper#registerGuidanceDestination] registering worker");
         ExlapGuidanceDestinationWorker exlapGuidanceDestinationWorker = new ExlapGuidanceDestinationWorker(this.framework, exlapDispatcher, dSIHAS);
         exlapGuidanceDestinationWorker.init(exlapService);
         this.workers.put((class$de$audi$tghu$exlap$impl$worker$ExlapGuidanceDestinationWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapGuidanceDestinationWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapGuidanceDestinationWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapGuidanceDestinationWorker).getName(), exlapGuidanceDestinationWorker);
@@ -1793,7 +1793,7 @@ public class HasHelper {
     private void stopGuidanceDestinationWorker() {
         IExlapWorker iExlapWorker = (IExlapWorker)this.workers.remove((class$de$audi$tghu$exlap$impl$worker$ExlapGuidanceDestinationWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapGuidanceDestinationWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapGuidanceDestinationWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapGuidanceDestinationWorker).getName());
         if (iExlapWorker != null) {
-            this.log.log(-2137614336, "[HasHelper#registerGuidanceDestination] unregistering worker");
+            this.log.log(10000000, "[HasHelper#registerGuidanceDestination] unregistering worker");
             iExlapWorker.stop();
         }
     }
@@ -1801,10 +1801,10 @@ public class HasHelper {
     private boolean registerGuidanceRemaining(int n) {
         IExlapWorker iExlapWorker = (IExlapWorker)this.workers.get((class$de$audi$tghu$exlap$impl$worker$ExlapGuidanceRemainingWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapGuidanceRemainingWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapGuidanceRemainingWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapGuidanceRemainingWorker).getName());
         if (iExlapWorker == null) {
-            this.log.log(14808325, "[HasHelper#registerGuidanceRemaining] worker/service not available");
+            this.log.log(100000000, "[HasHelper#registerGuidanceRemaining] worker/service not available");
             return false;
         }
-        this.log.log(-2137614336, "[HasHelper#registerGuidanceRemaining] registering worker");
+        this.log.log(10000000, "[HasHelper#registerGuidanceRemaining] registering worker");
         iExlapWorker.enable(n);
         return true;
     }
@@ -1812,17 +1812,17 @@ public class HasHelper {
     private void unregisterGuidanceRemaining() {
         IExlapWorker iExlapWorker = (IExlapWorker)this.workers.get((class$de$audi$tghu$exlap$impl$worker$ExlapGuidanceRemainingWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapGuidanceRemainingWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapGuidanceRemainingWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapGuidanceRemainingWorker).getName());
         if (iExlapWorker != null) {
-            this.log.log(-2137614336, "[HasHelper#registerGuidanceRemaining] unregistering worker");
+            this.log.log(10000000, "[HasHelper#registerGuidanceRemaining] unregistering worker");
             iExlapWorker.disable();
         }
     }
 
     private boolean createGuidanceRemainingWorker(ExlapService exlapService, ExlapDispatcher exlapDispatcher, DSIHAS dSIHAS) {
         if (this.workers.containsKey((class$de$audi$tghu$exlap$impl$worker$ExlapGuidanceRemainingWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapGuidanceRemainingWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapGuidanceRemainingWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapGuidanceRemainingWorker).getName())) {
-            this.log.log(14808325, "[HasHelper#registerGuidanceRemaining] worker already registered");
+            this.log.log(100000000, "[HasHelper#registerGuidanceRemaining] worker already registered");
             return true;
         }
-        this.log.log(-2137614336, "[HasHelper#registerGuidanceRemaining] registering worker");
+        this.log.log(10000000, "[HasHelper#registerGuidanceRemaining] registering worker");
         ExlapGuidanceRemainingWorker exlapGuidanceRemainingWorker = new ExlapGuidanceRemainingWorker(this.framework, exlapDispatcher, dSIHAS);
         exlapGuidanceRemainingWorker.init(exlapService);
         this.workers.put((class$de$audi$tghu$exlap$impl$worker$ExlapGuidanceRemainingWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapGuidanceRemainingWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapGuidanceRemainingWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapGuidanceRemainingWorker).getName(), exlapGuidanceRemainingWorker);
@@ -1832,7 +1832,7 @@ public class HasHelper {
     private void stopGuidanceRemainingWorker() {
         IExlapWorker iExlapWorker = (IExlapWorker)this.workers.remove((class$de$audi$tghu$exlap$impl$worker$ExlapGuidanceRemainingWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapGuidanceRemainingWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapGuidanceRemainingWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapGuidanceRemainingWorker).getName());
         if (iExlapWorker != null) {
-            this.log.log(-2137614336, "[HasHelper#registerGuidanceRemaining] unregistering worker");
+            this.log.log(10000000, "[HasHelper#registerGuidanceRemaining] unregistering worker");
             iExlapWorker.stop();
         }
     }
@@ -1840,10 +1840,10 @@ public class HasHelper {
     private boolean registerLastDestinations(int n) {
         IExlapWorker iExlapWorker = (IExlapWorker)this.workers.get((class$de$audi$tghu$exlap$impl$worker$ExlapLastDestinationsWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapLastDestinationsWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapLastDestinationsWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapLastDestinationsWorker).getName());
         if (iExlapWorker == null) {
-            this.log.log(14808325, "[HasHelper#registerLastDestinations] worker/service not available");
+            this.log.log(100000000, "[HasHelper#registerLastDestinations] worker/service not available");
             return false;
         }
-        this.log.log(-2137614336, "[HasHelper#registerLastDestinations] registering worker");
+        this.log.log(10000000, "[HasHelper#registerLastDestinations] registering worker");
         iExlapWorker.enable(n);
         return true;
     }
@@ -1851,17 +1851,17 @@ public class HasHelper {
     private void unregisterLastDestinations() {
         IExlapWorker iExlapWorker = (IExlapWorker)this.workers.get((class$de$audi$tghu$exlap$impl$worker$ExlapLastDestinationsWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapLastDestinationsWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapLastDestinationsWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapLastDestinationsWorker).getName());
         if (iExlapWorker != null) {
-            this.log.log(-2137614336, "[HasHelper#registerLastDestinations] unregistering worker");
+            this.log.log(10000000, "[HasHelper#registerLastDestinations] unregistering worker");
             iExlapWorker.disable();
         }
     }
 
     private boolean createLastDestinationsWorker(ExlapService exlapService, ExlapDispatcher exlapDispatcher, DSIHAS dSIHAS) {
         if (this.workers.containsKey((class$de$audi$tghu$exlap$impl$worker$ExlapLastDestinationsWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapLastDestinationsWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapLastDestinationsWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapLastDestinationsWorker).getName())) {
-            this.log.log(14808325, "[HasHelper#registerLastDestinations] worker already registered");
+            this.log.log(100000000, "[HasHelper#registerLastDestinations] worker already registered");
             return true;
         }
-        this.log.log(-2137614336, "[HasHelper#registerLastDestinations] registering worker");
+        this.log.log(10000000, "[HasHelper#registerLastDestinations] registering worker");
         ExlapLastDestinationsWorker exlapLastDestinationsWorker = new ExlapLastDestinationsWorker(this.framework, exlapDispatcher, dSIHAS);
         exlapLastDestinationsWorker.init(exlapService);
         this.workers.put((class$de$audi$tghu$exlap$impl$worker$ExlapLastDestinationsWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapLastDestinationsWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapLastDestinationsWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapLastDestinationsWorker).getName(), exlapLastDestinationsWorker);
@@ -1871,7 +1871,7 @@ public class HasHelper {
     private void stopLastDestinationsWorker() {
         IExlapWorker iExlapWorker = (IExlapWorker)this.workers.remove((class$de$audi$tghu$exlap$impl$worker$ExlapLastDestinationsWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapLastDestinationsWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapLastDestinationsWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapLastDestinationsWorker).getName());
         if (iExlapWorker != null) {
-            this.log.log(-2137614336, "[HasHelper#registerLastDestinations] unregistering worker");
+            this.log.log(10000000, "[HasHelper#registerLastDestinations] unregistering worker");
             iExlapWorker.stop();
         }
     }
@@ -1879,10 +1879,10 @@ public class HasHelper {
     private boolean registerSkinInfo(int n) {
         IExlapWorker iExlapWorker = (IExlapWorker)this.workers.get((class$de$audi$tghu$exlap$impl$worker$ExlapSkinInfoWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapSkinInfoWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapSkinInfoWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapSkinInfoWorker).getName());
         if (iExlapWorker == null) {
-            this.log.log(14808325, "[HasHelper#registerSkinInfo] worker/service not available");
+            this.log.log(100000000, "[HasHelper#registerSkinInfo] worker/service not available");
             return false;
         }
-        this.log.log(-2137614336, "[HasHelper#registerSkinInfo] registering worker");
+        this.log.log(10000000, "[HasHelper#registerSkinInfo] registering worker");
         iExlapWorker.enable(n);
         return true;
     }
@@ -1890,17 +1890,17 @@ public class HasHelper {
     private void unregisterSkinInfo() {
         IExlapWorker iExlapWorker = (IExlapWorker)this.workers.get((class$de$audi$tghu$exlap$impl$worker$ExlapSkinInfoWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapSkinInfoWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapSkinInfoWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapSkinInfoWorker).getName());
         if (iExlapWorker != null) {
-            this.log.log(-2137614336, "[HasHelper#registerSkinInfo] unregistering worker");
+            this.log.log(10000000, "[HasHelper#registerSkinInfo] unregistering worker");
             iExlapWorker.disable();
         }
     }
 
     private boolean createSkinInfoWorker(ExlapService exlapService, ExlapDispatcher exlapDispatcher, DSIHAS dSIHAS) {
         if (this.workers.containsKey((class$de$audi$tghu$exlap$impl$worker$ExlapSkinInfoWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapSkinInfoWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapSkinInfoWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapSkinInfoWorker).getName())) {
-            this.log.log(14808325, "[HasHelper#registerSkinInfo] worker already registered");
+            this.log.log(100000000, "[HasHelper#registerSkinInfo] worker already registered");
             return true;
         }
-        this.log.log(-2137614336, "[HasHelper#registerSkinInfo] registering worker");
+        this.log.log(10000000, "[HasHelper#registerSkinInfo] registering worker");
         ExlapSkinInfoWorker exlapSkinInfoWorker = new ExlapSkinInfoWorker(this.framework, exlapDispatcher, dSIHAS);
         exlapSkinInfoWorker.init(exlapService);
         this.workers.put((class$de$audi$tghu$exlap$impl$worker$ExlapSkinInfoWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapSkinInfoWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapSkinInfoWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapSkinInfoWorker).getName(), exlapSkinInfoWorker);
@@ -1910,7 +1910,7 @@ public class HasHelper {
     private void stopSkinInfoWorker() {
         IExlapWorker iExlapWorker = (IExlapWorker)this.workers.remove((class$de$audi$tghu$exlap$impl$worker$ExlapSkinInfoWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapSkinInfoWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapSkinInfoWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapSkinInfoWorker).getName());
         if (iExlapWorker != null) {
-            this.log.log(-2137614336, "[HasHelper#registerSkinInfo] unregistering worker");
+            this.log.log(10000000, "[HasHelper#registerSkinInfo] unregistering worker");
             iExlapWorker.stop();
         }
     }
@@ -1918,10 +1918,10 @@ public class HasHelper {
     private boolean registerLanguageInfo(int n) {
         IExlapWorker iExlapWorker = (IExlapWorker)this.workers.get((class$de$audi$tghu$exlap$impl$worker$ExlapLanguageInfoWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapLanguageInfoWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapLanguageInfoWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapLanguageInfoWorker).getName());
         if (iExlapWorker == null) {
-            this.log.log(14808325, "[HasHelper#registerLanguageInfo] worker/service not available");
+            this.log.log(100000000, "[HasHelper#registerLanguageInfo] worker/service not available");
             return false;
         }
-        this.log.log(-2137614336, "[HasHelper#registerLanguageInfo] registering worker");
+        this.log.log(10000000, "[HasHelper#registerLanguageInfo] registering worker");
         iExlapWorker.enable(n);
         return true;
     }
@@ -1929,17 +1929,17 @@ public class HasHelper {
     private void unregisterLanguageInfo() {
         IExlapWorker iExlapWorker = (IExlapWorker)this.workers.get((class$de$audi$tghu$exlap$impl$worker$ExlapLanguageInfoWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapLanguageInfoWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapLanguageInfoWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapLanguageInfoWorker).getName());
         if (iExlapWorker != null) {
-            this.log.log(-2137614336, "[HasHelper#registerLanguageInfo] unregistering worker");
+            this.log.log(10000000, "[HasHelper#registerLanguageInfo] unregistering worker");
             iExlapWorker.disable();
         }
     }
 
     private boolean createLanguageInfoWorker(ExlapService exlapService, ExlapDispatcher exlapDispatcher, DSIHAS dSIHAS) {
         if (this.workers.containsKey((class$de$audi$tghu$exlap$impl$worker$ExlapLanguageInfoWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapLanguageInfoWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapLanguageInfoWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapLanguageInfoWorker).getName())) {
-            this.log.log(14808325, "[HasHelper#registerLanguageInfo] worker already registered");
+            this.log.log(100000000, "[HasHelper#registerLanguageInfo] worker already registered");
             return true;
         }
-        this.log.log(-2137614336, "[HasHelper#registerLanguageInfo] registering worker");
+        this.log.log(10000000, "[HasHelper#registerLanguageInfo] registering worker");
         ExlapLanguageInfoWorker exlapLanguageInfoWorker = new ExlapLanguageInfoWorker(this.framework, exlapDispatcher, dSIHAS);
         exlapLanguageInfoWorker.init(exlapService);
         this.workers.put((class$de$audi$tghu$exlap$impl$worker$ExlapLanguageInfoWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapLanguageInfoWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapLanguageInfoWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapLanguageInfoWorker).getName(), exlapLanguageInfoWorker);
@@ -1949,7 +1949,7 @@ public class HasHelper {
     private void stopLanguageInfoWorker() {
         IExlapWorker iExlapWorker = (IExlapWorker)this.workers.remove((class$de$audi$tghu$exlap$impl$worker$ExlapLanguageInfoWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapLanguageInfoWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapLanguageInfoWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapLanguageInfoWorker).getName());
         if (iExlapWorker != null) {
-            this.log.log(-2137614336, "[HasHelper#registerLanguageInfo] unregistering worker");
+            this.log.log(10000000, "[HasHelper#registerLanguageInfo] unregistering worker");
             iExlapWorker.stop();
         }
     }
@@ -1957,10 +1957,10 @@ public class HasHelper {
     private boolean registerUnitDistance(int n) {
         IExlapWorker iExlapWorker = (IExlapWorker)this.workers.get((class$de$audi$tghu$exlap$impl$worker$ExlapUnitDistanceWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapUnitDistanceWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapUnitDistanceWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapUnitDistanceWorker).getName());
         if (iExlapWorker == null) {
-            this.log.log(14808325, "[HasHelper#registerUnitDistance] worker/service not available");
+            this.log.log(100000000, "[HasHelper#registerUnitDistance] worker/service not available");
             return false;
         }
-        this.log.log(-2137614336, "[HasHelper#registerUnitDistance] registering worker");
+        this.log.log(10000000, "[HasHelper#registerUnitDistance] registering worker");
         iExlapWorker.enable(n);
         return true;
     }
@@ -1968,17 +1968,17 @@ public class HasHelper {
     private void unregisterUnitDistance() {
         IExlapWorker iExlapWorker = (IExlapWorker)this.workers.get((class$de$audi$tghu$exlap$impl$worker$ExlapUnitDistanceWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapUnitDistanceWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapUnitDistanceWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapUnitDistanceWorker).getName());
         if (iExlapWorker != null) {
-            this.log.log(-2137614336, "[HasHelper#registerUnitDistance] unregistering worker");
+            this.log.log(10000000, "[HasHelper#registerUnitDistance] unregistering worker");
             iExlapWorker.disable();
         }
     }
 
     private boolean createUnitDistanceWorker(ExlapService exlapService, ExlapDispatcher exlapDispatcher, DSIHAS dSIHAS) {
         if (this.workers.containsKey((class$de$audi$tghu$exlap$impl$worker$ExlapUnitDistanceWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapUnitDistanceWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapUnitDistanceWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapUnitDistanceWorker).getName())) {
-            this.log.log(14808325, "[HasHelper#registerUnitDistance] worker already registered");
+            this.log.log(100000000, "[HasHelper#registerUnitDistance] worker already registered");
             return true;
         }
-        this.log.log(-2137614336, "[HasHelper#registerUnitDistance] registering worker");
+        this.log.log(10000000, "[HasHelper#registerUnitDistance] registering worker");
         ExlapUnitDistanceWorker exlapUnitDistanceWorker = new ExlapUnitDistanceWorker(this.framework, exlapDispatcher, dSIHAS);
         exlapUnitDistanceWorker.init(exlapService);
         this.workers.put((class$de$audi$tghu$exlap$impl$worker$ExlapUnitDistanceWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapUnitDistanceWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapUnitDistanceWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapUnitDistanceWorker).getName(), exlapUnitDistanceWorker);
@@ -1988,7 +1988,7 @@ public class HasHelper {
     private void stopUnitDistanceWorker() {
         IExlapWorker iExlapWorker = (IExlapWorker)this.workers.remove((class$de$audi$tghu$exlap$impl$worker$ExlapUnitDistanceWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapUnitDistanceWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapUnitDistanceWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapUnitDistanceWorker).getName());
         if (iExlapWorker != null) {
-            this.log.log(-2137614336, "[HasHelper#registerUnitDistance] unregistering worker");
+            this.log.log(10000000, "[HasHelper#registerUnitDistance] unregistering worker");
             iExlapWorker.stop();
         }
     }
@@ -1996,10 +1996,10 @@ public class HasHelper {
     private boolean registerEncodedVehicleType(int n) {
         IExlapWorker iExlapWorker = (IExlapWorker)this.workers.get((class$de$audi$tghu$exlap$impl$worker$ExlapEncodedVehicleTypeWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapEncodedVehicleTypeWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapEncodedVehicleTypeWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapEncodedVehicleTypeWorker).getName());
         if (iExlapWorker == null) {
-            this.log.log(14808325, "[HasHelper#registerEncodedVehicleType] worker/service not available");
+            this.log.log(100000000, "[HasHelper#registerEncodedVehicleType] worker/service not available");
             return false;
         }
-        this.log.log(-2137614336, "[HasHelper#registerEncodedVehicleType] registering worker");
+        this.log.log(10000000, "[HasHelper#registerEncodedVehicleType] registering worker");
         iExlapWorker.enable(n);
         return true;
     }
@@ -2007,17 +2007,17 @@ public class HasHelper {
     private void unregisterEncodedVehicleType() {
         IExlapWorker iExlapWorker = (IExlapWorker)this.workers.get((class$de$audi$tghu$exlap$impl$worker$ExlapEncodedVehicleTypeWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapEncodedVehicleTypeWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapEncodedVehicleTypeWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapEncodedVehicleTypeWorker).getName());
         if (iExlapWorker != null) {
-            this.log.log(-2137614336, "[HasHelper#registerEncodedVehicleType] unregistering worker");
+            this.log.log(10000000, "[HasHelper#registerEncodedVehicleType] unregistering worker");
             iExlapWorker.disable();
         }
     }
 
     private boolean createEncodedVehicleTypeWorker(ExlapService exlapService, ExlapDispatcher exlapDispatcher, DSIHAS dSIHAS) {
         if (this.workers.containsKey((class$de$audi$tghu$exlap$impl$worker$ExlapEncodedVehicleTypeWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapEncodedVehicleTypeWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapEncodedVehicleTypeWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapEncodedVehicleTypeWorker).getName())) {
-            this.log.log(14808325, "[HasHelper#registerEncodedVehicleType] worker already registered");
+            this.log.log(100000000, "[HasHelper#registerEncodedVehicleType] worker already registered");
             return true;
         }
-        this.log.log(-2137614336, "[HasHelper#registerEncodedVehicleType] registering worker");
+        this.log.log(10000000, "[HasHelper#registerEncodedVehicleType] registering worker");
         ExlapEncodedVehicleTypeWorker exlapEncodedVehicleTypeWorker = new ExlapEncodedVehicleTypeWorker(this.framework, exlapDispatcher, dSIHAS);
         exlapEncodedVehicleTypeWorker.init(exlapService);
         this.workers.put((class$de$audi$tghu$exlap$impl$worker$ExlapEncodedVehicleTypeWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapEncodedVehicleTypeWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapEncodedVehicleTypeWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapEncodedVehicleTypeWorker).getName(), exlapEncodedVehicleTypeWorker);
@@ -2027,7 +2027,7 @@ public class HasHelper {
     private void stopEncodedVehicleTypeWorker() {
         IExlapWorker iExlapWorker = (IExlapWorker)this.workers.remove((class$de$audi$tghu$exlap$impl$worker$ExlapEncodedVehicleTypeWorker == null ? (class$de$audi$tghu$exlap$impl$worker$ExlapEncodedVehicleTypeWorker = HasHelper.class$("de.audi.tghu.exlap.impl.worker.ExlapEncodedVehicleTypeWorker")) : class$de$audi$tghu$exlap$impl$worker$ExlapEncodedVehicleTypeWorker).getName());
         if (iExlapWorker != null) {
-            this.log.log(-2137614336, "[HasHelper#registerEncodedVehicleType] unregistering worker");
+            this.log.log(10000000, "[HasHelper#registerEncodedVehicleType] unregistering worker");
             iExlapWorker.stop();
         }
     }
@@ -2078,198 +2078,198 @@ public class HasHelper {
                 return (class$de$audi$tghu$exlap$ifc$service$ExlapNavigationService == null ? (class$de$audi$tghu$exlap$ifc$service$ExlapNavigationService = HasHelper.class$("de.audi.tghu.exlap.ifc.service.ExlapNavigationService")) : class$de$audi$tghu$exlap$ifc$service$ExlapNavigationService).getName();
             }
         }
-        this.log.log(-1601830656, "[HasHelper#getClassForActionId] no class for action id: %1", (long)n);
+        this.log.log(100000, "[HasHelper#getClassForActionId] no class for action id: %1", (long)n);
         return null;
     }
 
     private Container createContainer(HASDataContainer hASDataContainer) {
         switch (hASDataContainer.containerId) {
             case 1: {
-                this.log.log(14808325, "[HasHelper#createContainer] creating container AddressContainer");
+                this.log.log(100000000, "[HasHelper#createContainer] creating container AddressContainer");
                 return new AddressContainer(hASDataContainer.dataElements);
             }
             case 5: {
-                this.log.log(14808325, "[HasHelper#createContainer] creating container SkinInfoContainer");
+                this.log.log(100000000, "[HasHelper#createContainer] creating container SkinInfoContainer");
                 return new SkinInfoContainer(hASDataContainer.dataElements);
             }
             case 6: {
-                this.log.log(14808325, "[HasHelper#createContainer] creating container LanguageInfoContainer");
+                this.log.log(100000000, "[HasHelper#createContainer] creating container LanguageInfoContainer");
                 return new LanguageInfoContainer(hASDataContainer.dataElements);
             }
             case 7: {
-                this.log.log(14808325, "[HasHelper#createContainer] creating container GuidanceStateContainer");
+                this.log.log(100000000, "[HasHelper#createContainer] creating container GuidanceStateContainer");
                 return new GuidanceStateContainer(hASDataContainer.dataElements);
             }
             case 14: {
-                this.log.log(14808325, "[HasHelper#createContainer] creating container UnitDistanceContainer");
+                this.log.log(100000000, "[HasHelper#createContainer] creating container UnitDistanceContainer");
                 return new UnitDistanceContainer(hASDataContainer.dataElements);
             }
             case 21: {
-                this.log.log(14808325, "[HasHelper#createContainer] creating container MediaBrowserEntryContainer");
+                this.log.log(100000000, "[HasHelper#createContainer] creating container MediaBrowserEntryContainer");
                 return new MediaBrowserEntryContainer(hASDataContainer.dataElements);
             }
             case 22: {
-                this.log.log(14808325, "[HasHelper#createContainer] creating container TrackInfoContainer");
+                this.log.log(100000000, "[HasHelper#createContainer] creating container TrackInfoContainer");
                 return new TrackInfoContainer(hASDataContainer.dataElements);
             }
             case 23: {
-                this.log.log(14808325, "[HasHelper#createContainer] creating container MediaPlayInfoContainer");
+                this.log.log(100000000, "[HasHelper#createContainer] creating container MediaPlayInfoContainer");
                 return new MediaPlayInfoContainer(hASDataContainer.dataElements);
             }
             case 24: {
-                this.log.log(14808325, "[HasHelper#createContainer] creating container MediaPlayModeContainer");
+                this.log.log(100000000, "[HasHelper#createContainer] creating container MediaPlayModeContainer");
                 return new MediaPlayModeContainer(hASDataContainer.dataElements);
             }
             case 25: {
-                this.log.log(14808325, "[HasHelper#createContainer] creating container GuidanceRemainingContainer");
+                this.log.log(100000000, "[HasHelper#createContainer] creating container GuidanceRemainingContainer");
                 return new GuidanceRemainingContainer(hASDataContainer.dataElements);
             }
             case 26: {
-                this.log.log(14808325, "[HasHelper#createContainer] creating container RadioStationInfoContainer");
+                this.log.log(100000000, "[HasHelper#createContainer] creating container RadioStationInfoContainer");
                 return new RadioStationInfoContainer(hASDataContainer.dataElements);
             }
             case 27: {
-                this.log.log(14808325, "[HasHelper#createContainer] creating container SoundVolumeContainer");
+                this.log.log(100000000, "[HasHelper#createContainer] creating container SoundVolumeContainer");
                 return new SoundVolumeContainer(hASDataContainer.dataElements);
             }
             case 28: {
-                this.log.log(14808325, "[HasHelper#createContainer] creating container SoundVolumeRangeContainer");
+                this.log.log(100000000, "[HasHelper#createContainer] creating container SoundVolumeRangeContainer");
                 return new SoundVolumeRangeContainer(hASDataContainer.dataElements);
             }
             case 29: {
-                this.log.log(14808325, "[HasHelper#createContainer] creating container SoundVolumeRangesContainer");
+                this.log.log(100000000, "[HasHelper#createContainer] creating container SoundVolumeRangesContainer");
                 return new SoundVolumeRangesContainer(hASDataContainer.dataElements);
             }
             case 30: {
-                this.log.log(14808325, "[HasHelper#createContainer] creating container RadioBandContainer");
+                this.log.log(100000000, "[HasHelper#createContainer] creating container RadioBandContainer");
                 return new RadioBandContainer(hASDataContainer.dataElements);
             }
             case 31: {
-                this.log.log(14808325, "[HasHelper#createContainer] creating container TrackPositionContainer");
+                this.log.log(100000000, "[HasHelper#createContainer] creating container TrackPositionContainer");
                 return new TrackPositionContainer(hASDataContainer.dataElements);
             }
             case 32: {
-                this.log.log(14808325, "[HasHelper#createContainer] creating container MediaSourceStateContainer");
+                this.log.log(100000000, "[HasHelper#createContainer] creating container MediaSourceStateContainer");
                 return new MediaSourceStateContainer(hASDataContainer.dataElements);
             }
             case 33: {
-                this.log.log(14808325, "[HasHelper#createContainer] creating container MediaSourcesContainer");
+                this.log.log(100000000, "[HasHelper#createContainer] creating container MediaSourcesContainer");
                 return new MediaSourcesContainer(hASDataContainer.dataElements);
             }
             case 34: {
-                this.log.log(14808325, "[HasHelper#createContainer] creating container MediaSourceContainer");
+                this.log.log(100000000, "[HasHelper#createContainer] creating container MediaSourceContainer");
                 return new MediaSourceContainer(hASDataContainer.dataElements);
             }
             case 35: {
-                this.log.log(14808325, "[HasHelper#createContainer] creating container RadioBandsContainer");
+                this.log.log(100000000, "[HasHelper#createContainer] creating container RadioBandsContainer");
                 return new RadioBandsContainer(hASDataContainer.dataElements);
             }
             case 36: {
-                this.log.log(14808325, "[HasHelper#createContainer] creating container LastDestinationContainer");
+                this.log.log(100000000, "[HasHelper#createContainer] creating container LastDestinationContainer");
                 return new LastDestinationContainer(hASDataContainer.dataElements);
             }
             case 37: {
-                this.log.log(14808325, "[HasHelper#createContainer] creating container LastDestinationsContainer");
+                this.log.log(100000000, "[HasHelper#createContainer] creating container LastDestinationsContainer");
                 return new LastDestinationsContainer(hASDataContainer.dataElements);
             }
             case 38: {
-                this.log.log(14808325, "[HasHelper#createContainer] creating container ExlapRestrictionModeContainer");
+                this.log.log(100000000, "[HasHelper#createContainer] creating container ExlapRestrictionModeContainer");
                 return new ExlapRestrictionModeContainer(hASDataContainer.dataElements);
             }
             case 39: {
-                this.log.log(14808325, "[HasHelper#createContainer] creating container RadioStationsContainer");
+                this.log.log(100000000, "[HasHelper#createContainer] creating container RadioStationsContainer");
                 return new RadioStationsContainer(hASDataContainer.dataElements);
             }
             case 40: {
-                this.log.log(14808325, "[HasHelper#createContainer] creating container RadioPresetContainer");
+                this.log.log(100000000, "[HasHelper#createContainer] creating container RadioPresetContainer");
                 return new RadioPresetContainer(hASDataContainer.dataElements);
             }
             case 41: {
-                this.log.log(14808325, "[HasHelper#createContainer] creating container RadioPresetsContainer");
+                this.log.log(100000000, "[HasHelper#createContainer] creating container RadioPresetsContainer");
                 return new RadioPresetsContainer(hASDataContainer.dataElements);
             }
             case 42: {
-                this.log.log(14808325, "[HasHelper#createContainer] creating container RadioFrequencyRangesContainer");
+                this.log.log(100000000, "[HasHelper#createContainer] creating container RadioFrequencyRangesContainer");
                 return new RadioFrequencyRangesContainer(hASDataContainer.dataElements);
             }
             case 43: {
-                this.log.log(14808325, "[HasHelper#createContainer] creating container RadioFrequencyContainer");
+                this.log.log(100000000, "[HasHelper#createContainer] creating container RadioFrequencyContainer");
                 return new RadioFrequencyContainer(hASDataContainer.dataElements);
             }
             case 45: {
-                this.log.log(14808325, "[HasHelper#createContainer] creating container RadioPresetIndexContainer");
+                this.log.log(100000000, "[HasHelper#createContainer] creating container RadioPresetIndexContainer");
                 return new RadioPresetIndexContainer(hASDataContainer.dataElements);
             }
             case 46: {
-                this.log.log(14808325, "[HasHelper#createContainer] creating container FollowModeContainer");
+                this.log.log(100000000, "[HasHelper#createContainer] creating container FollowModeContainer");
                 return new FollowModeContainer(hASDataContainer.dataElements);
             }
             case 48: {
-                this.log.log(14808325, "[HasHelper#createContainer] creating container BalanceFaderContainer");
+                this.log.log(100000000, "[HasHelper#createContainer] creating container BalanceFaderContainer");
                 return new BalanceFaderContainer(hASDataContainer.dataElements);
             }
             case 49: {
-                this.log.log(14808325, "[HasHelper#createContainer] creating container BalanceFaderRangesContainer");
+                this.log.log(100000000, "[HasHelper#createContainer] creating container BalanceFaderRangesContainer");
                 return new BalanceFaderRangesContainer(hASDataContainer.dataElements);
             }
             case 50: {
-                this.log.log(14808325, "[HasHelper#createContainer] creating container MediaBrowserPathContainer");
+                this.log.log(100000000, "[HasHelper#createContainer] creating container MediaBrowserPathContainer");
                 return new MediaBrowserPathContainer(hASDataContainer.dataElements);
             }
             case 51: {
-                this.log.log(14808325, "[HasHelper#createContainer] creating container TrafficAnnouncementContainer");
+                this.log.log(100000000, "[HasHelper#createContainer] creating container TrafficAnnouncementContainer");
                 return new TrafficAnnouncementContainer(hASDataContainer.dataElements);
             }
             case 52: {
-                this.log.log(14808325, "[HasHelper#createContainer] creating container RadioTextContainer");
+                this.log.log(100000000, "[HasHelper#createContainer] creating container RadioTextContainer");
                 return new RadioTextContainer(hASDataContainer.dataElements);
             }
             case 53: {
-                this.log.log(14808325, "[HasHelper#createContainer] creating container EncodedVehicleTypeContainer");
+                this.log.log(100000000, "[HasHelper#createContainer] creating container EncodedVehicleTypeContainer");
                 return new EncodedVehicleTypeContainer(hASDataContainer.dataElements);
             }
             case 59: {
-                this.log.log(14808325, "[HasHelper#createContainer] creating container ImportGPXDataContainer");
+                this.log.log(100000000, "[HasHelper#createContainer] creating container ImportGPXDataContainer");
                 return new ImportGPXDataContainer(hASDataContainer.dataElements);
             }
             case 60: {
-                this.log.log(14808325, "[HasHelper#createContainer] creating container ImportGPXResultContainer");
+                this.log.log(100000000, "[HasHelper#createContainer] creating container ImportGPXResultContainer");
                 return new ImportGPXResultContainer(hASDataContainer.dataElements);
             }
             case 64: {
-                this.log.log(14808325, "[HasHelper#createContainer] creating container AppConnectDeviceContainer");
+                this.log.log(100000000, "[HasHelper#createContainer] creating container AppConnectDeviceContainer");
                 return new AppConnectDeviceContainer(hASDataContainer.dataElements);
             }
             case 65: {
-                this.log.log(14808325, "[HasHelper#createContainer] creating container EntertainmentContextContainer");
+                this.log.log(100000000, "[HasHelper#createContainer] creating container EntertainmentContextContainer");
                 return new EntertainmentContextContainer(hASDataContainer.dataElements);
             }
             case 66: {
-                this.log.log(14808325, "[HasHelper#createContainer] creating container MediaCapabilitiesContainer");
+                this.log.log(100000000, "[HasHelper#createContainer] creating container MediaCapabilitiesContainer");
                 return new MediaCapabilitiesContainer(hASDataContainer.dataElements);
             }
             case 67: {
-                this.log.log(14808325, "[HasHelper#createContainer] creating container StartGuidanceResultContainer");
+                this.log.log(100000000, "[HasHelper#createContainer] creating container StartGuidanceResultContainer");
                 return new StartGuidanceResultContainer(hASDataContainer.dataElements);
             }
             case 0x1000000: {
-                this.log.log(14808325, "[HasHelper#createContainer] creating container ContextStateContainer");
+                this.log.log(100000000, "[HasHelper#createContainer] creating container ContextStateContainer");
                 return new ContextStateContainer(hASDataContainer.dataElements);
             }
             case 0x1000001: {
-                this.log.log(14808325, "[HasHelper#createContainer] creating container ContextStatesContainer");
+                this.log.log(100000000, "[HasHelper#createContainer] creating container ContextStatesContainer");
                 return new ContextStatesContainer(hASDataContainer.dataElements);
             }
             case 0x1000002: {
-                this.log.log(14808325, "[HasHelper#createContainer] creating container ListStateContainer");
+                this.log.log(100000000, "[HasHelper#createContainer] creating container ListStateContainer");
                 return new ListStateContainer(hASDataContainer.dataElements);
             }
             case 0x1000003: {
-                this.log.log(14808325, "[HasHelper#createContainer] creating container ListPageRequestContainer");
+                this.log.log(100000000, "[HasHelper#createContainer] creating container ListPageRequestContainer");
                 return new ListPageRequestContainer(hASDataContainer.dataElements);
             }
             case 0x1000004: {
-                this.log.log(14808325, "[HasHelper#createContainer] creating container ListPageDataContainer");
+                this.log.log(100000000, "[HasHelper#createContainer] creating container ListPageDataContainer");
                 return new ListPageDataContainer(hASDataContainer.dataElements);
             }
         }
@@ -2336,328 +2336,328 @@ public class HasHelper {
     public void callAction(int n, int n2, Container container, ExlapService exlapService) {
         switch (n2) {
             case 6: {
-                this.log.log(14808325, "[HasHelper#callAction] calling action id %1: setPlayMode", (long)n2);
+                this.log.log(100000000, "[HasHelper#callAction] calling action id %1: setPlayMode", (long)n2);
                 ((ExlapMediaService)exlapService).setPlayMode(n, (MediaPlayModeContainer)container);
                 return;
             }
             case 7: {
-                this.log.log(14808325, "[HasHelper#callAction] calling action id %1: nextTrack", (long)n2);
+                this.log.log(100000000, "[HasHelper#callAction] calling action id %1: nextTrack", (long)n2);
                 ((ExlapMediaService)exlapService).nextTrack(n);
                 return;
             }
             case 8: {
-                this.log.log(14808325, "[HasHelper#callAction] calling action id %1: previousTrack", (long)n2);
+                this.log.log(100000000, "[HasHelper#callAction] calling action id %1: previousTrack", (long)n2);
                 ((ExlapMediaService)exlapService).previousTrack(n);
                 return;
             }
             case 15: {
-                this.log.log(14808325, "[HasHelper#callAction] calling action id %1: playMedia", (long)n2);
+                this.log.log(100000000, "[HasHelper#callAction] calling action id %1: playMedia", (long)n2);
                 ((ExlapMediaService)exlapService).playMedia(n);
                 return;
             }
             case 16: {
-                this.log.log(14808325, "[HasHelper#callAction] calling action id %1: pauseMedia", (long)n2);
+                this.log.log(100000000, "[HasHelper#callAction] calling action id %1: pauseMedia", (long)n2);
                 ((ExlapMediaService)exlapService).pauseMedia(n);
                 return;
             }
             case 17: {
-                this.log.log(14808325, "[HasHelper#callAction] calling action id %1: setTrackPosition", (long)n2);
+                this.log.log(100000000, "[HasHelper#callAction] calling action id %1: setTrackPosition", (long)n2);
                 ((ExlapMediaService)exlapService).setTrackPosition(n, (TrackPositionContainer)container);
                 return;
             }
             case 18: {
-                this.log.log(14808325, "[HasHelper#callAction] calling action id %1: activateMediaSource", (long)n2);
+                this.log.log(100000000, "[HasHelper#callAction] calling action id %1: activateMediaSource", (long)n2);
                 ((ExlapMediaService)exlapService).activateMediaSource(n, (MediaSourceContainer)container);
                 return;
             }
             case 19: {
-                this.log.log(14808325, "[HasHelper#callAction] calling action id %1: selectMediaBrowserSource", (long)n2);
+                this.log.log(100000000, "[HasHelper#callAction] calling action id %1: selectMediaBrowserSource", (long)n2);
                 ((ExlapMediaService)exlapService).selectMediaBrowserSource(n, (MediaSourceContainer)container);
                 return;
             }
             case 29: {
-                this.log.log(14808325, "[HasHelper#callAction] calling action id %1: mediaBrowserList", (long)n2);
+                this.log.log(100000000, "[HasHelper#callAction] calling action id %1: mediaBrowserList", (long)n2);
                 ((ExlapMediaService)exlapService).mediaBrowserList(n, (ListPageRequestContainer)container);
                 return;
             }
             case 32: {
-                this.log.log(14808325, "[HasHelper#callAction] calling action id %1: enableMediaBrowserFollowMode", (long)n2);
+                this.log.log(100000000, "[HasHelper#callAction] calling action id %1: enableMediaBrowserFollowMode", (long)n2);
                 ((ExlapMediaService)exlapService).enableMediaBrowserFollowMode(n);
                 return;
             }
             case 33: {
-                this.log.log(14808325, "[HasHelper#callAction] calling action id %1: disableMediaBrowserFollowMode", (long)n2);
+                this.log.log(100000000, "[HasHelper#callAction] calling action id %1: disableMediaBrowserFollowMode", (long)n2);
                 ((ExlapMediaService)exlapService).disableMediaBrowserFollowMode(n);
                 return;
             }
             case 35: {
-                this.log.log(14808325, "[HasHelper#callAction] calling action id %1: changeMediaBrowserFolder", (long)n2);
+                this.log.log(100000000, "[HasHelper#callAction] calling action id %1: changeMediaBrowserFolder", (long)n2);
                 ((ExlapMediaService)exlapService).changeMediaBrowserFolder(n, (MediaBrowserPathContainer)container);
                 return;
             }
             case 36: {
-                this.log.log(14808325, "[HasHelper#callAction] calling action id %1: mediaBrowserPlay", (long)n2);
+                this.log.log(100000000, "[HasHelper#callAction] calling action id %1: mediaBrowserPlay", (long)n2);
                 ((ExlapMediaService)exlapService).mediaBrowserPlay(n, (MediaBrowserEntryContainer)container);
                 return;
             }
             case 39: {
-                this.log.log(14808325, "[HasHelper#callAction] calling action id %1: activateAppConnectAudio", (long)n2);
+                this.log.log(100000000, "[HasHelper#callAction] calling action id %1: activateAppConnectAudio", (long)n2);
                 ((ExlapMediaService)exlapService).activateAppConnectAudio(n);
                 return;
             }
             case 10: {
-                this.log.log(14808325, "[HasHelper#callAction] calling action id %1: increaseVolume", (long)n2);
+                this.log.log(100000000, "[HasHelper#callAction] calling action id %1: increaseVolume", (long)n2);
                 ((ExlapSoundService)exlapService).increaseVolume(n);
                 return;
             }
             case 11: {
-                this.log.log(14808325, "[HasHelper#callAction] calling action id %1: decreaseVolume", (long)n2);
+                this.log.log(100000000, "[HasHelper#callAction] calling action id %1: decreaseVolume", (long)n2);
                 ((ExlapSoundService)exlapService).decreaseVolume(n);
                 return;
             }
             case 12: {
-                this.log.log(14808325, "[HasHelper#callAction] calling action id %1: muteEntertainment", (long)n2);
+                this.log.log(100000000, "[HasHelper#callAction] calling action id %1: muteEntertainment", (long)n2);
                 ((ExlapSoundService)exlapService).muteEntertainment(n);
                 return;
             }
             case 13: {
-                this.log.log(14808325, "[HasHelper#callAction] calling action id %1: unmuteEntertainment", (long)n2);
+                this.log.log(100000000, "[HasHelper#callAction] calling action id %1: unmuteEntertainment", (long)n2);
                 ((ExlapSoundService)exlapService).unmuteEntertainment(n);
                 return;
             }
             case 34: {
-                this.log.log(14808325, "[HasHelper#callAction] calling action id %1: setBalanceFader", (long)n2);
+                this.log.log(100000000, "[HasHelper#callAction] calling action id %1: setBalanceFader", (long)n2);
                 ((ExlapSoundService)exlapService).setBalanceFader(n, (BalanceFaderContainer)container);
                 return;
             }
             case 14: {
-                this.log.log(14808325, "[HasHelper#callAction] calling action id %1: activateRadioBand", (long)n2);
+                this.log.log(100000000, "[HasHelper#callAction] calling action id %1: activateRadioBand", (long)n2);
                 ((ExlapRadioService)exlapService).activateRadioBand(n, (RadioBandContainer)container);
                 return;
             }
             case 21: {
-                this.log.log(14808325, "[HasHelper#callAction] calling action id %1: tuneStation", (long)n2);
+                this.log.log(100000000, "[HasHelper#callAction] calling action id %1: tuneStation", (long)n2);
                 ((ExlapRadioService)exlapService).tuneStation(n, (RadioStationInfoContainer)container);
                 return;
             }
             case 22: {
-                this.log.log(14808325, "[HasHelper#callAction] calling action id %1: tune", (long)n2);
+                this.log.log(100000000, "[HasHelper#callAction] calling action id %1: tune", (long)n2);
                 ((ExlapRadioService)exlapService).tune(n, (RadioFrequencyContainer)container);
                 return;
             }
             case 23: {
-                this.log.log(14808325, "[HasHelper#callAction] calling action id %1: nextRadioStation", (long)n2);
+                this.log.log(100000000, "[HasHelper#callAction] calling action id %1: nextRadioStation", (long)n2);
                 ((ExlapRadioService)exlapService).nextRadioStation(n);
                 return;
             }
             case 24: {
-                this.log.log(14808325, "[HasHelper#callAction] calling action id %1: previousRadioStation", (long)n2);
+                this.log.log(100000000, "[HasHelper#callAction] calling action id %1: previousRadioStation", (long)n2);
                 ((ExlapRadioService)exlapService).previousRadioStation(n);
                 return;
             }
             case 25: {
-                this.log.log(14808325, "[HasHelper#callAction] calling action id %1: seekForward", (long)n2);
+                this.log.log(100000000, "[HasHelper#callAction] calling action id %1: seekForward", (long)n2);
                 ((ExlapRadioService)exlapService).seekForward(n);
                 return;
             }
             case 26: {
-                this.log.log(14808325, "[HasHelper#callAction] calling action id %1: seekBackward", (long)n2);
+                this.log.log(100000000, "[HasHelper#callAction] calling action id %1: seekBackward", (long)n2);
                 ((ExlapRadioService)exlapService).seekBackward(n);
                 return;
             }
             case 27: {
-                this.log.log(14808325, "[HasHelper#callAction] calling action id %1: increaseRadioFrequency", (long)n2);
+                this.log.log(100000000, "[HasHelper#callAction] calling action id %1: increaseRadioFrequency", (long)n2);
                 ((ExlapRadioService)exlapService).increaseRadioFrequency(n);
                 return;
             }
             case 28: {
-                this.log.log(14808325, "[HasHelper#callAction] calling action id %1: decreaseRadioFrequency", (long)n2);
+                this.log.log(100000000, "[HasHelper#callAction] calling action id %1: decreaseRadioFrequency", (long)n2);
                 ((ExlapRadioService)exlapService).decreaseRadioFrequency(n);
                 return;
             }
             case 30: {
-                this.log.log(14808325, "[HasHelper#callAction] calling action id %1: storePreset", (long)n2);
+                this.log.log(100000000, "[HasHelper#callAction] calling action id %1: storePreset", (long)n2);
                 ((ExlapRadioService)exlapService).storePreset(n, (RadioPresetIndexContainer)container);
                 return;
             }
             case 31: {
-                this.log.log(14808325, "[HasHelper#callAction] calling action id %1: deletePreset", (long)n2);
+                this.log.log(100000000, "[HasHelper#callAction] calling action id %1: deletePreset", (long)n2);
                 ((ExlapRadioService)exlapService).deletePreset(n, (RadioPresetIndexContainer)container);
                 return;
             }
             case 2: {
-                this.log.log(14808325, "[HasHelper#callAction] calling action id %1: startGuidance", (long)n2);
+                this.log.log(100000000, "[HasHelper#callAction] calling action id %1: startGuidance", (long)n2);
                 ((ExlapNavigationService)exlapService).startGuidance(n, (AddressContainer)container);
                 return;
             }
             case 5: {
-                this.log.log(14808325, "[HasHelper#callAction] calling action id %1: resolveAddress", (long)n2);
+                this.log.log(100000000, "[HasHelper#callAction] calling action id %1: resolveAddress", (long)n2);
                 ((ExlapNavigationService)exlapService).resolveAddress(n, (AddressContainer)container);
                 return;
             }
             case 9: {
-                this.log.log(14808325, "[HasHelper#callAction] calling action id %1: stopGuidance", (long)n2);
+                this.log.log(100000000, "[HasHelper#callAction] calling action id %1: stopGuidance", (long)n2);
                 ((ExlapNavigationService)exlapService).stopGuidance(n);
                 return;
             }
             case 20: {
-                this.log.log(14808325, "[HasHelper#callAction] calling action id %1: resolveLastDestination", (long)n2);
+                this.log.log(100000000, "[HasHelper#callAction] calling action id %1: resolveLastDestination", (long)n2);
                 ((ExlapNavigationService)exlapService).resolveLastDestination(n, (LastDestinationContainer)container);
                 return;
             }
             case 38: {
-                this.log.log(14808325, "[HasHelper#callAction] calling action id %1: importGPX", (long)n2);
+                this.log.log(100000000, "[HasHelper#callAction] calling action id %1: importGPX", (long)n2);
                 ((ExlapNavigationService)exlapService).importGPX(n, (ImportGPXDataContainer)container);
                 return;
             }
         }
-        this.log.log(-1601830656, "[HasHelper#callAction] no action for id: %1", (long)n2);
+        this.log.log(100000, "[HasHelper#callAction] no action for id: %1", (long)n2);
     }
 
     public boolean isImmediateResult(int n) {
         switch (n) {
             case 6: {
-                this.log.log(14808325, "[HasHelper#isImmediateResult] action id %1: setPlayMode immediate", (long)n);
+                this.log.log(100000000, "[HasHelper#isImmediateResult] action id %1: setPlayMode immediate", (long)n);
                 return true;
             }
             case 7: {
-                this.log.log(14808325, "[HasHelper#isImmediateResult] action id %1: nextTrack immediate", (long)n);
+                this.log.log(100000000, "[HasHelper#isImmediateResult] action id %1: nextTrack immediate", (long)n);
                 return true;
             }
             case 8: {
-                this.log.log(14808325, "[HasHelper#isImmediateResult] action id %1: previousTrack immediate", (long)n);
+                this.log.log(100000000, "[HasHelper#isImmediateResult] action id %1: previousTrack immediate", (long)n);
                 return true;
             }
             case 15: {
-                this.log.log(14808325, "[HasHelper#isImmediateResult] action id %1: playMedia immediate", (long)n);
+                this.log.log(100000000, "[HasHelper#isImmediateResult] action id %1: playMedia immediate", (long)n);
                 return true;
             }
             case 16: {
-                this.log.log(14808325, "[HasHelper#isImmediateResult] action id %1: pauseMedia immediate", (long)n);
+                this.log.log(100000000, "[HasHelper#isImmediateResult] action id %1: pauseMedia immediate", (long)n);
                 return true;
             }
             case 17: {
-                this.log.log(14808325, "[HasHelper#isImmediateResult] action id %1: setTrackPosition immediate", (long)n);
+                this.log.log(100000000, "[HasHelper#isImmediateResult] action id %1: setTrackPosition immediate", (long)n);
                 return true;
             }
             case 18: {
-                this.log.log(14808325, "[HasHelper#isImmediateResult] action id %1: activateMediaSource immediate", (long)n);
+                this.log.log(100000000, "[HasHelper#isImmediateResult] action id %1: activateMediaSource immediate", (long)n);
                 return true;
             }
             case 19: {
-                this.log.log(14808325, "[HasHelper#isImmediateResult] action id %1: selectMediaBrowserSource immediate", (long)n);
+                this.log.log(100000000, "[HasHelper#isImmediateResult] action id %1: selectMediaBrowserSource immediate", (long)n);
                 return true;
             }
             case 29: {
-                this.log.log(14808325, "[HasHelper#isImmediateResult] action id %1: mediaBrowserList not immediate", (long)n);
+                this.log.log(100000000, "[HasHelper#isImmediateResult] action id %1: mediaBrowserList not immediate", (long)n);
                 return false;
             }
             case 32: {
-                this.log.log(14808325, "[HasHelper#isImmediateResult] action id %1: enableMediaBrowserFollowMode immediate", (long)n);
+                this.log.log(100000000, "[HasHelper#isImmediateResult] action id %1: enableMediaBrowserFollowMode immediate", (long)n);
                 return true;
             }
             case 33: {
-                this.log.log(14808325, "[HasHelper#isImmediateResult] action id %1: disableMediaBrowserFollowMode immediate", (long)n);
+                this.log.log(100000000, "[HasHelper#isImmediateResult] action id %1: disableMediaBrowserFollowMode immediate", (long)n);
                 return true;
             }
             case 35: {
-                this.log.log(14808325, "[HasHelper#isImmediateResult] action id %1: changeMediaBrowserFolder immediate", (long)n);
+                this.log.log(100000000, "[HasHelper#isImmediateResult] action id %1: changeMediaBrowserFolder immediate", (long)n);
                 return true;
             }
             case 36: {
-                this.log.log(14808325, "[HasHelper#isImmediateResult] action id %1: mediaBrowserPlay immediate", (long)n);
+                this.log.log(100000000, "[HasHelper#isImmediateResult] action id %1: mediaBrowserPlay immediate", (long)n);
                 return true;
             }
             case 39: {
-                this.log.log(14808325, "[HasHelper#isImmediateResult] action id %1: activateAppConnectAudio immediate", (long)n);
+                this.log.log(100000000, "[HasHelper#isImmediateResult] action id %1: activateAppConnectAudio immediate", (long)n);
                 return true;
             }
             case 10: {
-                this.log.log(14808325, "[HasHelper#isImmediateResult] action id %1: increaseVolume immediate", (long)n);
+                this.log.log(100000000, "[HasHelper#isImmediateResult] action id %1: increaseVolume immediate", (long)n);
                 return true;
             }
             case 11: {
-                this.log.log(14808325, "[HasHelper#isImmediateResult] action id %1: decreaseVolume immediate", (long)n);
+                this.log.log(100000000, "[HasHelper#isImmediateResult] action id %1: decreaseVolume immediate", (long)n);
                 return true;
             }
             case 12: {
-                this.log.log(14808325, "[HasHelper#isImmediateResult] action id %1: muteEntertainment immediate", (long)n);
+                this.log.log(100000000, "[HasHelper#isImmediateResult] action id %1: muteEntertainment immediate", (long)n);
                 return true;
             }
             case 13: {
-                this.log.log(14808325, "[HasHelper#isImmediateResult] action id %1: unmuteEntertainment immediate", (long)n);
+                this.log.log(100000000, "[HasHelper#isImmediateResult] action id %1: unmuteEntertainment immediate", (long)n);
                 return true;
             }
             case 34: {
-                this.log.log(14808325, "[HasHelper#isImmediateResult] action id %1: setBalanceFader immediate", (long)n);
+                this.log.log(100000000, "[HasHelper#isImmediateResult] action id %1: setBalanceFader immediate", (long)n);
                 return true;
             }
             case 14: {
-                this.log.log(14808325, "[HasHelper#isImmediateResult] action id %1: activateRadioBand immediate", (long)n);
+                this.log.log(100000000, "[HasHelper#isImmediateResult] action id %1: activateRadioBand immediate", (long)n);
                 return true;
             }
             case 21: {
-                this.log.log(14808325, "[HasHelper#isImmediateResult] action id %1: tuneStation immediate", (long)n);
+                this.log.log(100000000, "[HasHelper#isImmediateResult] action id %1: tuneStation immediate", (long)n);
                 return true;
             }
             case 22: {
-                this.log.log(14808325, "[HasHelper#isImmediateResult] action id %1: tune immediate", (long)n);
+                this.log.log(100000000, "[HasHelper#isImmediateResult] action id %1: tune immediate", (long)n);
                 return true;
             }
             case 23: {
-                this.log.log(14808325, "[HasHelper#isImmediateResult] action id %1: nextRadioStation immediate", (long)n);
+                this.log.log(100000000, "[HasHelper#isImmediateResult] action id %1: nextRadioStation immediate", (long)n);
                 return true;
             }
             case 24: {
-                this.log.log(14808325, "[HasHelper#isImmediateResult] action id %1: previousRadioStation immediate", (long)n);
+                this.log.log(100000000, "[HasHelper#isImmediateResult] action id %1: previousRadioStation immediate", (long)n);
                 return true;
             }
             case 25: {
-                this.log.log(14808325, "[HasHelper#isImmediateResult] action id %1: seekForward immediate", (long)n);
+                this.log.log(100000000, "[HasHelper#isImmediateResult] action id %1: seekForward immediate", (long)n);
                 return true;
             }
             case 26: {
-                this.log.log(14808325, "[HasHelper#isImmediateResult] action id %1: seekBackward immediate", (long)n);
+                this.log.log(100000000, "[HasHelper#isImmediateResult] action id %1: seekBackward immediate", (long)n);
                 return true;
             }
             case 27: {
-                this.log.log(14808325, "[HasHelper#isImmediateResult] action id %1: increaseRadioFrequency immediate", (long)n);
+                this.log.log(100000000, "[HasHelper#isImmediateResult] action id %1: increaseRadioFrequency immediate", (long)n);
                 return true;
             }
             case 28: {
-                this.log.log(14808325, "[HasHelper#isImmediateResult] action id %1: decreaseRadioFrequency immediate", (long)n);
+                this.log.log(100000000, "[HasHelper#isImmediateResult] action id %1: decreaseRadioFrequency immediate", (long)n);
                 return true;
             }
             case 30: {
-                this.log.log(14808325, "[HasHelper#isImmediateResult] action id %1: storePreset immediate", (long)n);
+                this.log.log(100000000, "[HasHelper#isImmediateResult] action id %1: storePreset immediate", (long)n);
                 return true;
             }
             case 31: {
-                this.log.log(14808325, "[HasHelper#isImmediateResult] action id %1: deletePreset immediate", (long)n);
+                this.log.log(100000000, "[HasHelper#isImmediateResult] action id %1: deletePreset immediate", (long)n);
                 return true;
             }
             case 2: {
-                this.log.log(14808325, "[HasHelper#isImmediateResult] action id %1: startGuidance not immediate", (long)n);
+                this.log.log(100000000, "[HasHelper#isImmediateResult] action id %1: startGuidance not immediate", (long)n);
                 return false;
             }
             case 5: {
-                this.log.log(14808325, "[HasHelper#isImmediateResult] action id %1: resolveAddress not immediate", (long)n);
+                this.log.log(100000000, "[HasHelper#isImmediateResult] action id %1: resolveAddress not immediate", (long)n);
                 return false;
             }
             case 9: {
-                this.log.log(14808325, "[HasHelper#isImmediateResult] action id %1: stopGuidance immediate", (long)n);
+                this.log.log(100000000, "[HasHelper#isImmediateResult] action id %1: stopGuidance immediate", (long)n);
                 return true;
             }
             case 20: {
-                this.log.log(14808325, "[HasHelper#isImmediateResult] action id %1: resolveLastDestination not immediate", (long)n);
+                this.log.log(100000000, "[HasHelper#isImmediateResult] action id %1: resolveLastDestination not immediate", (long)n);
                 return false;
             }
             case 38: {
-                this.log.log(14808325, "[HasHelper#isImmediateResult] action id %1: importGPX not immediate", (long)n);
+                this.log.log(100000000, "[HasHelper#isImmediateResult] action id %1: importGPX not immediate", (long)n);
                 return false;
             }
         }
-        this.log.log(-1601830656, "[HasHelper#callAction] no action for id: %1", (long)n);
+        this.log.log(100000, "[HasHelper#callAction] no action for id: %1", (long)n);
         return true;
     }
 
@@ -2686,7 +2686,7 @@ public class HasHelper {
     }
 
     public void unsubscribeAll() {
-        this.log.log(1078071040, "[HasHelper#unsubscribeAll] unsubscribing all workers");
+        this.log.log(1000000, "[HasHelper#unsubscribeAll] unsubscribing all workers");
         Iterator iterator = this.workers.values().iterator();
         while (iterator.hasNext()) {
             IExlapWorker iExlapWorker = (IExlapWorker)iterator.next();

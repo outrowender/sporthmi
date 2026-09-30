@@ -9,7 +9,6 @@ import de.audi.tghu.ecall.sm.EcallSMMActions;
 
 public class Activator
 extends AbstractSMMActivator {
-    @Override
     public void init() {
         this.smmList = new EcallSMM[8];
         if (this.framework.isFrontMU()) {

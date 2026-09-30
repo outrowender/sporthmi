@@ -4,7 +4,6 @@
 package de.audi.tghu.navi.app.map.impl;
 
 import de.audi.tghu.navi.app.map.impl.ContentListItem;
-import de.audi.tghu.navi.app.map.impl.ItemList$Filter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -70,13 +69,17 @@ public class ItemList {
         return contentListItemArray;
     }
 
-    public ContentListItem[] getItems(ItemList$Filter itemList$Filter) {
+    public ContentListItem[] getItems(Filter filter) {
         ItemList itemList = new ItemList();
         for (int i2 = 0; i2 < this.size(); ++i2) {
-            if (!itemList$Filter.match(this.getItem(i2))) continue;
+            if (!filter.match(this.getItem(i2))) continue;
             itemList.add(this.getItem(i2));
         }
         return itemList.toArray();
+    }
+
+    static interface Filter {
+        public boolean match(ContentListItem var1);
     }
 }
 

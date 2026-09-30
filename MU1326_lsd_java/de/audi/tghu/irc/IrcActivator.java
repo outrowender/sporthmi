@@ -27,7 +27,6 @@ implements ServiceTrackerCustomizer {
         return this.irc;
     }
 
-    @Override
     protected void startInternal(BundleContext bundleContext) {
         IrcActivator.bundleContext = bundleContext;
         this.irc = new InfotainmentrecorderImpl(this.framework);
@@ -36,7 +35,6 @@ implements ServiceTrackerCustomizer {
         this.framework.startDSIService((class$org$dsi$ifc$infotainmentrecorder$DSIInfotainmentRecorder == null ? (class$org$dsi$ifc$infotainmentrecorder$DSIInfotainmentRecorder = IrcActivator.class$("org.dsi.ifc.infotainmentrecorder.DSIInfotainmentRecorder")) : class$org$dsi$ifc$infotainmentrecorder$DSIInfotainmentRecorder).getName(), 0);
     }
 
-    @Override
     public void stop(BundleContext bundleContext) {
         if (this.dsiTracker != null) {
             this.dsiTracker.close();
@@ -45,7 +43,6 @@ implements ServiceTrackerCustomizer {
         super.stop(bundleContext);
     }
 
-    @Override
     public Object addingService(ServiceReference serviceReference) {
         Object object = bundleContext.getService(serviceReference);
         if (!(object instanceof DSIInfotainmentRecorder)) {
@@ -55,11 +52,9 @@ implements ServiceTrackerCustomizer {
         return serviceReference;
     }
 
-    @Override
     public void modifiedService(ServiceReference serviceReference, Object object) {
     }
 
-    @Override
     public void removedService(ServiceReference serviceReference, Object object) {
         this.irc.setDsi(null);
         bundleContext.ungetService(serviceReference);

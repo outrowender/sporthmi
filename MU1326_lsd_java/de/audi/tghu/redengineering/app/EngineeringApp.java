@@ -20,7 +20,6 @@ import de.audi.atip.timer.TimerListener;
 import de.audi.tghu.redengineering.app.AbstractEngineeringTextFactory;
 import de.audi.tghu.redengineering.app.AudioManagementHandler;
 import de.audi.tghu.redengineering.app.BundlesInfo;
-import de.audi.tghu.redengineering.app.EngineeringApp$ProcessExecuter;
 import de.audi.tghu.redengineering.app.EngineeringEnv;
 import de.audi.tghu.redengineering.app.FSCViewer;
 import de.audi.tghu.redengineering.app.LogAdapter;
@@ -28,10 +27,13 @@ import de.audi.tghu.redengineering.app.SystemInfo;
 import de.audi.tghu.swdl.ude.IEApplication;
 import de.esolutions.fw.util.commons.Buffer;
 import de.esolutions.fw.util.commons.Formatter;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import org.osgi.framework.BundleContext;
 
@@ -42,7 +44,7 @@ PowerEventListener,
 ButtonListener,
 TimerListener {
     private static final long UP_TIME_START = System.currentTimeMillis();
-    private static final int MODULE_ID;
+    private static final int MODULE_ID = 13;
     private final BundlesInfo bundlesInfo;
     private final SystemInfo systemInfo;
     private final FSCViewer fscViewer;
@@ -56,16 +58,16 @@ TimerListener {
     protected EngineeringApp(BundleContext bundleContext, EngineeringEnv engineeringEnv, AudioManagementHandler audioManagementHandler) {
         this.engineeringEnv = engineeringEnv;
         this.audioMgmtHandler = audioManagementHandler;
-        ListModelApp listModelApp = this.getHMIService().getListModel(567677696);
+        ListModelApp listModelApp = this.getHMIService().getListModel(1300001);
         this.bundlesInfo = new BundlesInfo(bundleContext, listModelApp);
         this.systemInfo = new SystemInfo(engineeringEnv, this);
         this.fscViewer = new FSCViewer(engineeringEnv);
         new LogAdapter(engineeringEnv);
-        this.getHMIService().getListModel(601232128).setMaxRows(100);
-        this.getHMIService().getListModel(601232128).setMaxColumns(3);
-        this.getHMIService().getButtonModel(550900480).setButtonListener(this);
-        this.getHMIService().getButtonModel(735449856).setButtonListener(this);
-        this.getHMIService().getButtonModel(987108096).setButtonListener(this);
+        this.getHMIService().getListModel(1300003).setMaxRows(100);
+        this.getHMIService().getListModel(1300003).setMaxColumns(3);
+        this.getHMIService().getButtonModel(1300000).setButtonListener(this);
+        this.getHMIService().getButtonModel(1300011).setButtonListener(this);
+        this.getHMIService().getButtonModel(1300026).setButtonListener(this);
     }
 
     private final EngineeringEnv getEngineeringEnv() {
@@ -88,18 +90,16 @@ TimerListener {
         return this.getEngineeringEnv().getTextFactory();
     }
 
-    @Override
     public void cancelTimer(Timer timer) {
     }
 
-    @Override
     public void fireTimer(Timer timer) {
         if (timer.equals(this.upTimeTimer)) {
             long l = System.currentTimeMillis() - UP_TIME_START;
-            long l2 = l / 0;
-            long l3 = l2 / 0;
+            long l2 = l / 1000L;
+            long l3 = l2 / 60L;
             int n = (int)l3 / 60;
-            l2 -= l3 * 0;
+            l2 -= l3 * 60L;
             l3 -= (long)(n * 60);
             Buffer buffer = new Buffer(20);
             if (n == 0) {
@@ -113,39 +113,37 @@ TimerListener {
             buffer.append(':');
             if (l3 == 0L) {
                 buffer.append("00");
-            } else if (l3 < 0) {
+            } else if (l3 < 10L) {
                 buffer.append('0');
                 buffer.append(l3);
             } else {
                 buffer.append(l3);
             }
             buffer.append(':');
-            if (l2 < 0) {
+            if (l2 < 10L) {
                 buffer.append('0');
                 buffer.append(l2);
             } else {
                 buffer.append(l2);
             }
             String string = buffer.toString();
-            this.getHMIService().getLabelModel(1691751168).setText(string);
-            this.getHMIService().getLabelModel(1356206848).setText(string);
+            this.getHMIService().getLabelModel(1300068).setText(string);
+            this.getHMIService().getLabelModel(1300048).setText(string);
         } else if (timer.equals(this.memPollTimer)) {
             this.getEngineeringEnv().getDebugLabel().setText(this.systemInfo.updateSystemMemory());
         }
     }
 
-    @Override
     public int getId() {
         return 13;
     }
 
-    @Override
     public ButtonModelApp getVirtualButton(int n) {
         return null;
     }
 
     public void hmiActivated(int n) {
-        this.getLogMain().log(1078071040, "Engineering HMI activated");
+        this.getLogMain().log(1000000, "Engineering HMI activated");
         hmiActive = true;
         this.bundlesInfo.getCurrentBundleInfo(true);
         this.systemInfo.fillSwAuthorizationList();
@@ -153,7 +151,7 @@ TimerListener {
     }
 
     public void hmiDeactivated(int n) {
-        this.getLogMain().log(1078071040, "Engineering HMI deactivated");
+        this.getLogMain().log(1000000, "Engineering HMI deactivated");
         hmiActive = false;
     }
 
@@ -165,15 +163,12 @@ TimerListener {
         return this.systemInfo;
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
         switch (n) {
             case 1300000: {
@@ -190,31 +185,24 @@ TimerListener {
         }
     }
 
-    @Override
     public void keyLongTyped(int n, int n2, int n3) {
     }
 
-    @Override
     public void popupHidden(int n, int n2) {
     }
 
-    @Override
     public void popupRemoved(int n, int n2) {
     }
 
-    @Override
     public void popupVisible(int n, int n2) {
     }
 
-    @Override
     public void screenFadedOut(int n, int n2) {
     }
 
-    @Override
     public void screenConnected(int n, int n2) {
     }
 
-    @Override
     public void processMsg(int n) {
         if (this.getEngineeringEnv().isRebootToDownload()) {
             return;
@@ -238,62 +226,62 @@ TimerListener {
             int n2 = 0;
             ListCell[] listCellArray = new ListCell[]{new TextListCell(this.getTextFactory().getTextConstantHMIVersion()), new TextListCell(object.getHMIVersion()), new IntegerListCell(n2++, 7)};
             listCellArray[0] = new TextListCell(new StringBuffer().append(this.getTextFactory().getTextConstantHMIVersion()).append(object.getHMIVersion()).toString());
-            this.getHMIService().getListModel(601232128).addRow(listCellArray);
+            this.getHMIService().getListModel(1300003).addRow(listCellArray);
             listCellArray = new ListCell[]{new TextListCell(this.getTextFactory().getTextConstantTextToolVersion()), new TextListCell(object.getTextToolVersion()), new IntegerListCell(n2++, 7)};
             listCellArray[0] = new TextListCell(new StringBuffer().append(this.getTextFactory().getTextConstantTextToolVersion()).append(object.getTextToolVersion()).toString());
-            this.getHMIService().getListModel(601232128).addRow(listCellArray);
+            this.getHMIService().getListModel(1300003).addRow(listCellArray);
             listCellArray = new ListCell[]{new TextListCell(this.getTextFactory().getTextConstantTextToolSDSVersion()), new TextListCell(object.getTextToolSDSVersion()), new IntegerListCell(n2++, 7)};
             listCellArray[0] = new TextListCell(new StringBuffer().append(this.getTextFactory().getTextConstantTextToolSDSVersion()).append(object.getTextToolSDSVersion()).toString());
-            this.getHMIService().getListModel(601232128).addRow(listCellArray);
+            this.getHMIService().getListModel(1300003).addRow(listCellArray);
             if (this.getTextFactory().getTextConstantOptionDrawerVersion() != null) {
                 listCellArray = new ListCell[]{new TextListCell(this.getTextFactory().getTextConstantOptionDrawerVersion()), new TextListCell(object.getOptionDrawerVersion()), new IntegerListCell(n2++, 7)};
                 listCellArray[0] = new TextListCell(new StringBuffer().append(this.getTextFactory().getTextConstantOptionDrawerVersion()).append(object.getOptionDrawerVersion()).toString());
-                this.getHMIService().getListModel(601232128).addRow(listCellArray);
+                this.getHMIService().getListModel(1300003).addRow(listCellArray);
             }
             listCellArray = new ListCell[]{new TextListCell(this.getTextFactory().getTextConstantDsiIfcVersion()), new TextListCell(object.getDsiIfcVersion()), new IntegerListCell(n2++, 7)};
             listCellArray[0] = new TextListCell(new StringBuffer().append(this.getTextFactory().getTextConstantDsiIfcVersion()).append(object.getDsiIfcVersion()).toString());
-            this.getHMIService().getListModel(601232128).addRow(listCellArray);
+            this.getHMIService().getListModel(1300003).addRow(listCellArray);
             listCellArray = new ListCell[]{new TextListCell(this.getTextFactory().getTextConstantFrameworkVersion()), new TextListCell(object.getFrameworkVersion()), new IntegerListCell(n2++, 7)};
             listCellArray[0] = new TextListCell(new StringBuffer().append(this.getTextFactory().getTextConstantFrameworkVersion()).append(object.getFrameworkVersion()).toString());
-            this.getHMIService().getListModel(601232128).addRow(listCellArray);
+            this.getHMIService().getListModel(1300003).addRow(listCellArray);
             listCellArray = new ListCell[]{new TextListCell(this.getTextFactory().getTextConstantKanziVersion()), new TextListCell(object.getKanziVersion()), new IntegerListCell(n2++, 7)};
             listCellArray[0] = new TextListCell(new StringBuffer().append(this.getTextFactory().getTextConstantKanziVersion()).append(object.getKanziVersion()).toString());
-            this.getHMIService().getListModel(601232128).addRow(listCellArray);
+            this.getHMIService().getListModel(1300003).addRow(listCellArray);
             this.hmiActivated(-2);
         }
     }
 
     public final void startUpTimeTimer() {
         if (this.upTimeTimer == null) {
-            this.upTimeTimer = new Timer("Uptime", 0, false, this);
+            this.upTimeTimer = new Timer("Uptime", 1000L, false, this);
         }
         this.upTimeTimer.restart();
     }
 
     public final void stopUpTimeTimer() {
         this.upTimeTimer.cancel();
-        this.getHMIService().getLabelModel(1691751168).setText("");
-        this.getHMIService().getLabelModel(1356206848).setText("");
+        this.getHMIService().getLabelModel(1300068).setText("");
+        this.getHMIService().getLabelModel(1300048).setText("");
     }
 
     public void enterREM(int n) {
         this.getEngineeringEnv().enterREM();
         if (!this.getEngineeringEnv().isRebootToDownload()) {
-            this.getLogMain().log(-2137614336, "[EngineeringApp] enterREM(): mute audio");
+            this.getLogMain().log(10000000, "[EngineeringApp] enterREM(): mute audio");
             this.getAudioManagementHandler().muteAudio("enterREM", n);
         }
     }
 
     public void leaveREM(int n) {
         if (!this.getEngineeringEnv().isRebootToDownload()) {
-            this.getLogMain().log(-2137614336, "[EngineeringApp] leaveREM(): unmute audio");
+            this.getLogMain().log(10000000, "[EngineeringApp] leaveREM(): unmute audio");
             this.getAudioManagementHandler().unmuteAudio("leaveREM", n);
         }
         this.getEngineeringEnv().leaveREM();
     }
 
     final void setRunMemPollTimer(boolean bl) {
-        this.getLogMain().log(-2137614336, "setRunMemPollTimer: %1", bl);
+        this.getLogMain().log(10000000, "setRunMemPollTimer: %1", bl);
         if (bl) {
             this.startMemPollTimer();
             this.getHMIService().getChoiceModel(1).setValue(1);
@@ -305,7 +293,7 @@ TimerListener {
 
     private final void startMemPollTimer() {
         if (this.memPollTimer == null) {
-            this.memPollTimer = new Timer("MemoryPollTimer", 0, false, this);
+            this.memPollTimer = new Timer("MemoryPollTimer", 5000L, false, this);
         }
         if (this.systemInfo != null) {
             this.getEngineeringEnv().getDebugLabel().setText(this.systemInfo.updateSystemMemory());
@@ -320,11 +308,9 @@ TimerListener {
         this.getEngineeringEnv().getDebugLabel().setText("");
     }
 
-    @Override
     public void screenHidden(int n, int n2) {
     }
 
-    @Override
     public void screenVisible(int n, int n2) {
     }
 
@@ -335,7 +321,7 @@ TimerListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    public void copyDirectory(File file, File file2) {
+    public void copyDirectory(File file, File file2) throws IOException {
         if (file.isDirectory()) {
             if (!file2.exists()) {
                 file2.mkdir();
@@ -365,7 +351,7 @@ TimerListener {
         File file = new File("/fs/sda0/lsd");
         File file2 = new File("/fs/sdb0/lsd");
         try {
-            new EngineeringApp$ProcessExecuter(this, "/mnt/app/eso/hmi/engdefs/scripts/activateDevelMode.sh").run();
+            new ProcessExecuter("/mnt/app/eso/hmi/engdefs/scripts/activateDevelMode.sh").run();
             if (file.exists() && file.isDirectory()) {
                 this.copyDirectory(file, new File("/eso/hmi/lsd"));
             } else if (file2.exists() && file2.isDirectory()) {
@@ -377,7 +363,6 @@ TimerListener {
         }
     }
 
-    @Override
     public void notifyPowerListenerOnEnterState(int n, int n2) {
         if (n == 0) {
             this.systemInfo.pwrStateOnReached();
@@ -389,15 +374,12 @@ TimerListener {
         }
     }
 
-    @Override
     public void notifyPowerListenerOnExitState(int n, int n2) {
     }
 
-    @Override
     public void notifyPowerTriggerAction(int n, int n2) {
     }
 
-    @Override
     public void updateClampState(boolean bl, boolean bl2, boolean bl3, boolean bl4) {
     }
 
@@ -409,8 +391,57 @@ TimerListener {
         this.udeApp = iEApplication;
     }
 
-    static /* synthetic */ HMIService access$000(EngineeringApp engineeringApp) {
-        return engineeringApp.getHMIService();
+    private class ProcessReader
+    implements Runnable {
+        private final Process process;
+        private final boolean error;
+
+        public ProcessReader(Process process, boolean bl) {
+            this.process = process;
+            this.error = bl;
+        }
+
+        public void run() {
+            InputStream inputStream = this.error ? this.process.getErrorStream() : this.process.getInputStream();
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+            try {
+                String string;
+                while ((string = bufferedReader.readLine()) != null) {
+                    System.out.println(string);
+                    Thread.sleep(1000L);
+                    EngineeringApp.this.getHMIService().getLabelModel(147).setText(string);
+                }
+            }
+            catch (IOException iOException) {
+                iOException.printStackTrace();
+            }
+            catch (InterruptedException interruptedException) {
+                interruptedException.printStackTrace();
+            }
+        }
+    }
+
+    private class ProcessExecuter
+    implements Runnable {
+        private final String command;
+
+        public ProcessExecuter(String string) {
+            this.command = string;
+        }
+
+        public void run() {
+            Runtime runtime = Runtime.getRuntime();
+            try {
+                Process process = runtime.exec(this.command);
+                Thread thread = new Thread(new ProcessReader(process, true));
+                thread.start();
+                Thread thread2 = new Thread(new ProcessReader(process, false));
+                thread2.start();
+            }
+            catch (IOException iOException) {
+                iOException.printStackTrace();
+            }
+        }
     }
 }
 

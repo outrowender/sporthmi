@@ -52,7 +52,6 @@ implements ServiceTrackerCustomizer {
         return this.engineeringEnv;
     }
 
-    @Override
     public void start(BundleContext bundleContext) {
         int n;
         String[] stringArray;
@@ -90,13 +89,12 @@ implements ServiceTrackerCustomizer {
         super.stop(this.getBundleContext());
     }
 
-    @Override
     public Object addingService(ServiceReference serviceReference) {
         Object object = this.getBundleContext().getService(serviceReference);
         Integer n = (Integer)serviceReference.getProperty("DEVICE_INSTANCE");
         if (object instanceof DSIAdbSetup) {
             if (n == 0) {
-                this.lc.log(-2137614336, "[IEActivator.addingService] DSIAdbSetup:%1", object);
+                this.lc.log(10000000, "[IEActivator.addingService] DSIAdbSetup:%1", object);
                 this.udeApp.addressbookHandler.addService(object);
                 this.udeApp.addClient(this.udeApp.addressbookHandler);
                 return object;
@@ -104,52 +102,51 @@ implements ServiceTrackerCustomizer {
             return null;
         }
         if (object instanceof DSISound) {
-            this.lc.log(-2137614336, "[IEActivator.addingService] DSISound:%1", object);
+            this.lc.log(10000000, "[IEActivator.addingService] DSISound:%1", object);
             this.udeApp.soundHandler.addService(object);
             this.udeApp.addClient(this.udeApp.soundHandler);
             return object;
         }
         if (object instanceof DSINavigation) {
-            this.lc.log(-2137614336, "[IEActivator.addingService] DSINavigation:%1", object);
+            this.lc.log(10000000, "[IEActivator.addingService] DSINavigation:%1", object);
             this.udeApp.naviHandler.addService(object);
             this.udeApp.addClient(this.udeApp.hmiNaviHandler);
             this.udeApp.addClient(this.udeApp.naviHandler);
             return object;
         }
         if (object instanceof DSISWaP) {
-            this.lc.log(-2137614336, "[IEActivator.addingService] DSISWaP:%1", object);
+            this.lc.log(10000000, "[IEActivator.addingService] DSISWaP:%1", object);
             this.udeApp.encHandler.registerDSI((DSISWaP)object);
             return object;
         }
         if (object instanceof DSIBrowser) {
             int n2 = n;
             if (n2 < this.udeApp.browserHandlers.length) {
-                this.lc.log(-2137614336, "[IEActivator.addingService] deviceInstance:%2 DSIBrowser:%1", object, (Object)n);
+                this.lc.log(10000000, "[IEActivator.addingService] deviceInstance:%2 DSIBrowser:%1", object, (Object)n);
                 this.udeApp.browserHandlers[n2].addService(object);
                 this.udeApp.addClient(this.udeApp.browserHandlers[n2]);
                 return object;
             }
-            this.lc.log(-2137614336, "[IEActivator.addingService] IGNORED deviceInstance:%2 DSIBrowser:%1", object, (Object)n);
+            this.lc.log(10000000, "[IEActivator.addingService] IGNORED deviceInstance:%2 DSIBrowser:%1", object, (Object)n);
             return null;
         }
         if (object instanceof DSIBrowserBookmark) {
             int n3 = n;
             if (n3 < this.udeApp.browserBookmarkHandlers.length) {
-                this.lc.log(-2137614336, "[IEActivator.addingService] deviceInstance:%2 DSIBrowserBookmark:%1", object, (Object)n);
+                this.lc.log(10000000, "[IEActivator.addingService] deviceInstance:%2 DSIBrowserBookmark:%1", object, (Object)n);
                 this.udeApp.browserBookmarkHandlers[n3].addService(object);
                 this.udeApp.addClient(this.udeApp.browserBookmarkHandlers[n3]);
                 return object;
             }
-            this.lc.log(-2137614336, "[IEActivator.addingService] IGNORED deviceInstance:%2 DSIBrowserBookmark:%1", object, (Object)n);
+            this.lc.log(10000000, "[IEActivator.addingService] IGNORED deviceInstance:%2 DSIBrowserBookmark:%1", object, (Object)n);
             return null;
         }
         return null;
     }
 
-    @Override
     public void removedService(ServiceReference serviceReference, Object object) {
         Integer n = (Integer)serviceReference.getProperty("DEVICE_INSTANCE");
-        this.lc.log(-2137614336, "[IEActivator.removedService] deviceInstance:%1 service:%2", (Object)n, object);
+        this.lc.log(10000000, "[IEActivator.removedService] deviceInstance:%1 service:%2", (Object)n, object);
         if (object instanceof DSISWaP) {
             this.udeApp.encHandler.removeDSI((DSISWaP)object);
         } else if (object instanceof DSISound) {
@@ -175,7 +172,6 @@ implements ServiceTrackerCustomizer {
         }
     }
 
-    @Override
     public void modifiedService(ServiceReference serviceReference, Object object) {
     }
 

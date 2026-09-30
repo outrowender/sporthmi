@@ -4,7 +4,6 @@
 package de.audi.tghu.navi.app;
 
 public interface IDBIncompleteModelAccess {
-    default public void onUpdateNavDbRegionsState(int n, String[] stringArray) {
-    }
+    public void onUpdateNavDbRegionsState(int var1, String[] var2);
 }
 

@@ -31,29 +31,25 @@ extends AbstractRemoteHMITask {
         this.logChannel = logChannel;
     }
 
-    @Override
     public void run() {
         this.indicateViewPropertiesImmediately(this.contextName, this.view);
     }
 
-    @Override
     public Long getDelayMillis() {
         return new Long(0L);
     }
 
-    @Override
     public boolean isCoalescable() {
         return true;
     }
 
-    @Override
     public boolean coalesceWith(RemoteHMITask remoteHMITask) {
         if (!(remoteHMITask instanceof IndicateViewPropertyTask)) {
             return false;
         }
         IndicateViewPropertyTask indicateViewPropertyTask = (IndicateViewPropertyTask)remoteHMITask;
         boolean bl = this.contextName == indicateViewPropertyTask.contextName && this.view.getViewID().equals(indicateViewPropertyTask.view.getViewID());
-        this.logChannel.log(1078071040, "IndicateViewPropertyTask#coalesceWith: Task will %1 be coalesced with other.", (Object)(bl ? "" : "not"));
+        this.logChannel.log(1000000, "IndicateViewPropertyTask#coalesceWith: Task will %1 be coalesced with other.", (Object)(bl ? "" : "not"));
         if (bl) {
             indicateViewPropertyTask.view.setProperties(this.view.getProperties());
         }
@@ -67,7 +63,7 @@ extends AbstractRemoteHMITask {
             return;
         }
         if (remoteHMIView == null) {
-            this.logChannel.log(-1601830656, "IndicateViewPropertyTask#indicateViewPropertiesImmediately: update sending view is null. No screen update.");
+            this.logChannel.log(100000, "IndicateViewPropertyTask#indicateViewPropertiesImmediately: update sending view is null. No screen update.");
             return;
         }
         String string2 = remoteHMIView.getViewID();
@@ -76,22 +72,22 @@ extends AbstractRemoteHMITask {
         int n2 = remoteHMIContext.getViewType();
         if (string2 != string3 || n != n2) {
             String string4 = "UpdateAppListTask#indicateViewPropertiesImmediately: An update for a different view was sent. The update will be ignored. Update sent from view (type/id)='%1'/%2, but current view='%3'/%4";
-            this.logChannel.log(-1601830656, string4, (Object)new Integer(n), (Object)string2, (Object)new Integer(n2), (Object)string3);
+            this.logChannel.log(100000, string4, (Object)new Integer(n), (Object)string2, (Object)new Integer(n2), (Object)string3);
             return;
         }
         HMIProperties hMIProperties = remoteHMIView.getProperties();
         remoteHMIContext.updateHMIProperties(hMIProperties);
         if (!this.contextManagerComponent.isContextActive(remoteHMIContext)) {
-            this.logChannel.log(-2137614336, "IndicateViewPropertyTask#indicateViewPropertiesImmediately: context %1 not active", (Object)string);
+            this.logChannel.log(10000000, "IndicateViewPropertyTask#indicateViewPropertiesImmediately: context %1 not active", (Object)string);
             return;
         }
         if (!this.remoteHMIService.ignoreRemoteHMIActive() && !this.contextManagerComponent.isRemoteHMIActive()) {
-            this.logChannel.log(-2137614336, "IndicateViewPropertyTask#indicateViewPropertiesImmediately: remoteHMI not active");
+            this.logChannel.log(10000000, "IndicateViewPropertyTask#indicateViewPropertiesImmediately: remoteHMI not active");
             return;
         }
         AbstractHMIViewListener abstractHMIViewListener = remoteHMIContext.getViewListener();
         if (abstractHMIViewListener == null) {
-            this.logChannel.log(-1601830656, "IndicateViewPropertyTask#indicateViewPropertiesImmediately: currentViewListener is NULL");
+            this.logChannel.log(100000, "IndicateViewPropertyTask#indicateViewPropertiesImmediately: currentViewListener is NULL");
             return;
         }
         try {
@@ -99,7 +95,7 @@ extends AbstractRemoteHMITask {
             this.remoteHMIService.flushModelGroup();
         }
         catch (Exception exception) {
-            this.logChannel.log(-1601830656, "IndicateViewPropertyTask#indicateViewPropertiesImmediately: Exception in updateViewProperties, %1", (Throwable)exception);
+            this.logChannel.log(100000, "IndicateViewPropertyTask#indicateViewPropertiesImmediately: Exception in updateViewProperties, %1", (Throwable)exception);
         }
     }
 }

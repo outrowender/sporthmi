@@ -35,36 +35,36 @@ public class ViaApp {
 
     final ViaListManager getViaListManager(int n) {
         if (this.managers[n] == null) {
-            DynamicListModelApp dynamicListModelApp = this.env.getDynamicListModel(n, -954399232);
-            ChoiceModelApp choiceModelApp = this.env.getChoiceModel(n, -937622016);
+            DynamicListModelApp dynamicListModelApp = this.env.getDynamicListModel(n, 400839);
+            ChoiceModelApp choiceModelApp = this.env.getChoiceModel(n, 400840);
             this.managers[n] = new ViaListManager(this.iconHandler, this.logChannel, dynamicListModelApp, choiceModelApp, n, this, this.commandListFactory);
         }
         return this.managers[n];
     }
 
     void requestInitialWindow(int n) {
-        this.logChannel.log(-2137614336, "ViaApp#requestInitialWindow()");
+        this.logChannel.log(10000000, "ViaApp#requestInitialWindow()");
         this.getViaListManager(n).requestInitialWindow();
     }
 
     void requestWindow(ListRow listRow, int n) {
-        this.logChannel.log(-2137614336, "ViaApp#requestWindow()");
+        this.logChannel.log(10000000, "ViaApp#requestWindow()");
         this.getViaListManager(n).requestWindow(listRow, false);
     }
 
     void itemFocused(ListRow listRow, int n, int n2) {
-        this.logChannel.log(-2137614336, "ViaApp#itemFocused()");
+        this.logChannel.log(10000000, "ViaApp#itemFocused()");
         this.getViaListManager(n2).itemFocused(listRow, n);
     }
 
     public void itemSelected(int n, ListRow listRow, int n2) {
-        this.logChannel.log(-2137614336, "ViaApp#itemSelected()");
+        this.logChannel.log(10000000, "ViaApp#itemSelected()");
         DynamicListModelApp dynamicListModelApp = this.env.getDynamicListModel(n);
         this.getViaListManager(n2).itemSelected(dynamicListModelApp, listRow, n2, false);
     }
 
     public void updateList() {
-        this.logChannel.log(-2137614336, "ViaApp#updateList()");
+        this.logChannel.log(10000000, "ViaApp#updateList()");
         if (this.env.getFramework().isFrontMU()) {
             this.getViaListManager(0).updateList();
         } else {
@@ -74,7 +74,7 @@ public class ViaApp {
     }
 
     void setCountryListAvailability(boolean bl) {
-        this.logChannel.log(-2137614336, "ViaApp#setCountryListAvailability( %1 )", bl);
+        this.logChannel.log(10000000, "ViaApp#setCountryListAvailability( %1 )", bl);
         if (this.env.getFramework().isFrontMU()) {
             this.getViaListManager(0).setCountryListAvailability(bl);
         } else {
@@ -84,7 +84,7 @@ public class ViaApp {
     }
 
     public void resetAll() {
-        this.logChannel.log(-2137614336, "ViaApp#resetAll()");
+        this.logChannel.log(10000000, "ViaApp#resetAll()");
         if (this.env.getFramework().isFrontMU()) {
             this.getViaListManager(0).resetAll();
         } else {

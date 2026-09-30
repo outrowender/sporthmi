@@ -10,7 +10,7 @@ import org.dsi.ifc.navigation.NavPhoneData;
 import org.dsi.ifc.navigation.TryMatchLocationData;
 
 public class TryMatchLocationDataHmiWrapper {
-    private static final int TML_DATA_FIELD_COUNT;
+    private static final int TML_DATA_FIELD_COUNT = 16;
     private final TryMatchLocationData tmlData;
     static /* synthetic */ Class class$org$dsi$ifc$navigation$TryMatchLocationData;
 
@@ -71,7 +71,7 @@ public class TryMatchLocationDataHmiWrapper {
         if (object == null) {
             return false;
         }
-        if (super.getClass() != object.getClass()) {
+        if (this.getClass() != object.getClass()) {
             return false;
         }
         TryMatchLocationDataHmiWrapper tryMatchLocationDataHmiWrapper = (TryMatchLocationDataHmiWrapper)object;

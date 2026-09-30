@@ -81,7 +81,7 @@ public class RadioTextPlusStorage {
             this.rtContent.add(n, RadioTextPlusStorage.replaceTextRTplus(string.trim()));
         }
         if (this.log.isDebug()) {
-            this.log.log(-2137614336, "[%3.RadioTextPlusStorage.storeContent] RT+: %1, %2 ", (Object)Utilities.toString(nArray), (Object)Utilities.toString(stringArray), (Object)this.tuner);
+            this.log.log(10000000, "[%3.RadioTextPlusStorage.storeContent] RT+: %1, %2 ", (Object)Utilities.toString(nArray), (Object)Utilities.toString(stringArray), (Object)this.tuner);
         }
     }
 

@@ -12,7 +12,6 @@ import de.audi.atip.search.AbstractGuiSearchHandler;
 import de.audi.atip.search.AbstractSearch;
 import de.audi.atip.search.util.AbstractSearchResultFormatter;
 import de.audi.atip.search.util.SearchResultListRow;
-import de.audi.tghu.navi.app.search.LastDestCacheSearchHandler$1;
 import de.audi.tghu.navi.app.search.LastDestSearch;
 import de.esolutions.fw.util.commons.job.DispatcherBase;
 
@@ -27,50 +26,44 @@ extends AbstractGuiSearchHandler {
     }
 
     public void activate() {
-        this.lc.log(1078071040, "LastDestGuiSearchHandler#activate() [%1]", (Object)super.getClass().getName());
+        this.lc.log(1000000, "LastDestGuiSearchHandler#activate() [%1]", (Object)this.getClass().getName());
         this.performQuery("");
     }
 
-    @Override
     public void searchEnded() {
         super.searchEnded();
-        this.lc.log(1078071040, "%1#searchEnded()", (Object)super.getClass().getName());
+        this.lc.log(1000000, "%1#searchEnded()", (Object)this.getClass().getName());
         ((LastDestSearch)this.appSearch).onSearchEnded();
-        this.dispatcher.execute(new LastDestCacheSearchHandler$1(this));
+        this.dispatcher.execute(new Runnable(){
+
+            public void run() {
+                ((LastDestSearch)LastDestCacheSearchHandler.this.appSearch).notifyObservers();
+            }
+        });
     }
 
-    @Override
     protected void performQuery(String string) {
-        this.lc.log(1078071040, "%1#performQuery()", (Object)super.getClass().getName());
+        this.lc.log(1000000, "%1#performQuery()", (Object)this.getClass().getName());
         ((LastDestSearch)this.appSearch).clearCache();
         super.performQuery(string);
     }
 
-    @Override
     public void refreshQuery() {
         this.performQuery("");
     }
 
-    @Override
     public void searchResultSelected(SearchResultListRow searchResultListRow, int n, int n2) {
     }
 
-    @Override
     public void childNodeSelected(EvoListRow evoListRow, int n, int n2) {
     }
 
-    @Override
     public void requestChildrenNodes(SearchResultListRow searchResultListRow, int n) {
     }
 
-    @Override
     public void release() {
         super.release();
         this.registryFormatter.clear();
-    }
-
-    static /* synthetic */ AbstractSearch access$000(LastDestCacheSearchHandler lastDestCacheSearchHandler) {
-        return lastDestCacheSearchHandler.appSearch;
     }
 }
 

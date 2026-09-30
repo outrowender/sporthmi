@@ -13,7 +13,6 @@ extends TimedJobQueue {
         super(iTimeSource);
     }
 
-    @Override
     public List getJobs() {
         return super.getJobs();
     }

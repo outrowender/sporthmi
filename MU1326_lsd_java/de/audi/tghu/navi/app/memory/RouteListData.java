@@ -26,7 +26,6 @@ implements Comparable {
         this.segmentId = navSegmentID;
     }
 
-    @Override
     public int compareTo(Object object) {
         if (object == null) {
             return 0;
@@ -34,7 +33,7 @@ implements Comparable {
         if (object == this) {
             return 0;
         }
-        if (super.getClass() != object.getClass()) {
+        if (this.getClass() != object.getClass()) {
             return 0;
         }
         return this.name.compareTo(((RouteListData)object).name);
@@ -54,7 +53,7 @@ implements Comparable {
         if (object == null) {
             return false;
         }
-        if (super.getClass() != object.getClass()) {
+        if (this.getClass() != object.getClass()) {
             return false;
         }
         RouteListData routeListData = (RouteListData)object;

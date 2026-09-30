@@ -4,6 +4,8 @@
 package de.audi.tghu.exlap.impl.service;
 
 import de.audi.tghu.exlap.ExlapAbstractService;
+import de.audi.tghu.exlap.ExlapListener;
+import de.audi.tghu.exlap.ListenerIterator;
 import de.audi.tghu.exlap.ifc.listener.ExlapSoundListener;
 import de.audi.tghu.exlap.ifc.service.ExlapSoundService;
 import de.audi.tghu.exlap.impl.container.BalanceFaderContainer;
@@ -11,39 +13,54 @@ import de.audi.tghu.exlap.impl.container.BalanceFaderRangesContainer;
 import de.audi.tghu.exlap.impl.container.EntertainmentContextContainer;
 import de.audi.tghu.exlap.impl.container.SoundVolumeContainer;
 import de.audi.tghu.exlap.impl.container.SoundVolumeRangesContainer;
-import de.audi.tghu.exlap.impl.service.ExlapAbstractSoundService$1;
-import de.audi.tghu.exlap.impl.service.ExlapAbstractSoundService$2;
-import de.audi.tghu.exlap.impl.service.ExlapAbstractSoundService$3;
-import de.audi.tghu.exlap.impl.service.ExlapAbstractSoundService$4;
-import de.audi.tghu.exlap.impl.service.ExlapAbstractSoundService$5;
 
 public abstract class ExlapAbstractSoundService
 extends ExlapAbstractService
 implements ExlapSoundService,
 ExlapSoundListener {
-    @Override
-    public void updateSoundVolume(SoundVolumeContainer soundVolumeContainer) {
-        this.iterateListener(25, new ExlapAbstractSoundService$1(this, soundVolumeContainer));
+    public void updateSoundVolume(final SoundVolumeContainer soundVolumeContainer) {
+        this.iterateListener(25, new ListenerIterator(){
+
+            public void processListener(ExlapListener exlapListener) {
+                ((ExlapSoundListener)exlapListener).updateSoundVolume(soundVolumeContainer);
+            }
+        });
     }
 
-    @Override
-    public void updateSoundVolumeRanges(SoundVolumeRangesContainer soundVolumeRangesContainer) {
-        this.iterateListener(26, new ExlapAbstractSoundService$2(this, soundVolumeRangesContainer));
+    public void updateSoundVolumeRanges(final SoundVolumeRangesContainer soundVolumeRangesContainer) {
+        this.iterateListener(26, new ListenerIterator(){
+
+            public void processListener(ExlapListener exlapListener) {
+                ((ExlapSoundListener)exlapListener).updateSoundVolumeRanges(soundVolumeRangesContainer);
+            }
+        });
     }
 
-    @Override
-    public void updateBalanceFader(BalanceFaderContainer balanceFaderContainer) {
-        this.iterateListener(45, new ExlapAbstractSoundService$3(this, balanceFaderContainer));
+    public void updateBalanceFader(final BalanceFaderContainer balanceFaderContainer) {
+        this.iterateListener(45, new ListenerIterator(){
+
+            public void processListener(ExlapListener exlapListener) {
+                ((ExlapSoundListener)exlapListener).updateBalanceFader(balanceFaderContainer);
+            }
+        });
     }
 
-    @Override
-    public void updateBalanceFaderRanges(BalanceFaderRangesContainer balanceFaderRangesContainer) {
-        this.iterateListener(46, new ExlapAbstractSoundService$4(this, balanceFaderRangesContainer));
+    public void updateBalanceFaderRanges(final BalanceFaderRangesContainer balanceFaderRangesContainer) {
+        this.iterateListener(46, new ListenerIterator(){
+
+            public void processListener(ExlapListener exlapListener) {
+                ((ExlapSoundListener)exlapListener).updateBalanceFaderRanges(balanceFaderRangesContainer);
+            }
+        });
     }
 
-    @Override
-    public void updateEntertainmentContext(EntertainmentContextContainer entertainmentContextContainer) {
-        this.iterateListener(58, new ExlapAbstractSoundService$5(this, entertainmentContextContainer));
+    public void updateEntertainmentContext(final EntertainmentContextContainer entertainmentContextContainer) {
+        this.iterateListener(58, new ListenerIterator(){
+
+            public void processListener(ExlapListener exlapListener) {
+                ((ExlapSoundListener)exlapListener).updateEntertainmentContext(entertainmentContextContainer);
+            }
+        });
     }
 }
 

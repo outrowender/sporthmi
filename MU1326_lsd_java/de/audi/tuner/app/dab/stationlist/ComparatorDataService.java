@@ -10,9 +10,8 @@ import org.dsi.ifc.radio.DataServiceInfo;
 public class ComparatorDataService
 implements Comparator,
 Serializable {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = 3289363369511483051L;
 
-    @Override
     public int compare(Object object, Object object2) {
         if (object == null) {
             return -1;

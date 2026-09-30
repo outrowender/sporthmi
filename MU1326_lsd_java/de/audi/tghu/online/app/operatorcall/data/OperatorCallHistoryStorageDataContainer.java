@@ -10,22 +10,23 @@ import de.audi.atip.storage.ValueMissingException;
 import de.audi.tghu.online.app.Online;
 import de.audi.tghu.online.app.operatorcall.data.AbstractHistoryCallData;
 import de.audi.tghu.online.app.operatorcall.data.OperatorCallHistoryStorage;
-import de.audi.tghu.online.app.operatorcall.data.OperatorCallHistoryStorageDataContainer$1;
 import de.audi.tghu.online.app.operatorcall.data.OperatorCallInformation;
 import de.audi.tghu.online.app.operatorcall.data.OperatorCallPoiStorageDataContainer;
 import de.audi.tghu.online.app.operatorcall.handler.TestHandler;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import org.dsi.ifc.online.OperatorCallResult;
 
 public class OperatorCallHistoryStorageDataContainer
 extends AbstractStorageDataContainer {
     static final int[] PERSISTENCE_KEY_MAP = new int[]{20, 21, 22, 23, 24, 25, 26, 27, 28, 29};
-    public static final int DEFAULT_MAX_NUMBER_OF_CALLS;
-    private static final int CALL_VERSION;
+    public static final int DEFAULT_MAX_NUMBER_OF_CALLS = 10;
+    private static final int CALL_VERSION = 1;
     private final LogChannel logChannel = Online.getInstance().getOperatorCallLogChannel();
     ArrayList historyCalls = new ArrayList();
     private OperatorCallPoiStorageDataContainer[] poiStorageDataContainers;
@@ -33,15 +34,15 @@ extends AbstractStorageDataContainer {
 
     public OperatorCallHistoryStorageDataContainer(IStorageAccess iStorageAccess) {
         super(iStorageAccess, 1, 1023, 19);
-        this.logChannel.log(1078071040, "OperatorCallHistoryStorageDataContainer#constructor called");
+        this.logChannel.log(1000000, "OperatorCallHistoryStorageDataContainer#constructor called");
         this.initializePoiStorageDataContainer();
-        this.logChannel.log(1078071040, "OperatorCallHistoryStorageDataContainer#constructor calling readAndDeserialize ...");
+        this.logChannel.log(1000000, "OperatorCallHistoryStorageDataContainer#constructor calling readAndDeserialize ...");
         this.readAndDeserialize();
-        this.logChannel.log(1078071040, "OperatorCallHistoryStorageDataContainer#constructor readAndDeserialize finished");
+        this.logChannel.log(1000000, "OperatorCallHistoryStorageDataContainer#constructor readAndDeserialize finished");
     }
 
     private void initializePoiStorageDataContainer() {
-        this.logChannel.log(1078071040, "OperatorCallHistoryStorageDataContainer#initializePoiStorageDataContainer called");
+        this.logChannel.log(1000000, "OperatorCallHistoryStorageDataContainer#initializePoiStorageDataContainer called");
         this.poiStorageDataContainers = new OperatorCallPoiStorageDataContainer[10];
         IStorageAccess iStorageAccess = this.getStorageAccess();
         for (int i2 = 0; i2 < this.poiStorageDataContainers.length; ++i2) {
@@ -67,31 +68,27 @@ extends AbstractStorageDataContainer {
         return PERSISTENCE_KEY_MAP[n];
     }
 
-    @Override
     protected void handleCRC32Error() {
         this.logChannel.log(10000, "OperatorCallHistoryStorageDataContainer#handleCRC32Error!");
     }
 
-    @Override
     protected void handleStorageReadError(Exception exception) {
         if (exception instanceof ValueMissingException) {
-            this.logChannel.log(-1601830656, "OperatorCallHistoryStorageDataContainer#handleStorageReadError -> ok, if operator calls were never persisted before ", (Throwable)exception);
+            this.logChannel.log(100000, "OperatorCallHistoryStorageDataContainer#handleStorageReadError -> ok, if operator calls were never persisted before ", (Throwable)exception);
         } else {
             this.logChannel.log(10000, "OperatorCallHistoryStorageDataContainer#handleStorageReadError", (Throwable)exception);
         }
     }
 
-    @Override
-    protected void convertContainer(int n, int n2, DataInputStream dataInputStream) {
-        this.logChannel.log(-2137614336, "OperatorCallHistoryStorageDataContainer#convertContainer!");
+    protected void convertContainer(int n, int n2, DataInputStream dataInputStream) throws IOException {
+        this.logChannel.log(10000000, "OperatorCallHistoryStorageDataContainer#convertContainer!");
     }
 
-    @Override
-    protected void deserialize(DataInputStream dataInputStream) {
+    protected void deserialize(DataInputStream dataInputStream) throws IOException {
         int n;
-        this.logChannel.log(1078071040, "OperatorCallHistoryStorageDataContainer#deserialize called");
+        this.logChannel.log(1000000, "OperatorCallHistoryStorageDataContainer#deserialize called");
         int n2 = dataInputStream.readInt();
-        this.logChannel.log(1078071040, "OperatorCallHistoryStorageDataContainer#deserialize: number of calls = %1", (long)n2);
+        this.logChannel.log(1000000, "OperatorCallHistoryStorageDataContainer#deserialize: number of calls = %1", (long)n2);
         this.historyCalls = new ArrayList();
         for (n = 0; n < n2; ++n) {
             OperatorCallHistoryStorage operatorCallHistoryStorage = this.deserializeHistoryCall(dataInputStream, n);
@@ -103,24 +100,24 @@ extends AbstractStorageDataContainer {
         this.setNextFreeUniqueId(n);
     }
 
-    private OperatorCallHistoryStorage deserializeHistoryCall(DataInputStream dataInputStream, int n) {
-        this.logChannel.log(14808325, "OperatorCallHistoryStorageDataContainer#deserializeHistoryCall called");
+    private OperatorCallHistoryStorage deserializeHistoryCall(DataInputStream dataInputStream, int n) throws IOException {
+        this.logChannel.log(100000000, "OperatorCallHistoryStorageDataContainer#deserializeHistoryCall called");
         boolean bl = true;
         String string = this.getNullForEmptyString(dataInputStream.readUTF());
         if (string == null || string.length() < 1) {
-            this.logChannel.log(-1601830656, "OperatorCallHistoryStorageDataContainer#deserializeHistoryCall: poi name is null or empty! Persistence must be corrupt. Ignoring this call.");
+            this.logChannel.log(100000, "OperatorCallHistoryStorageDataContainer#deserializeHistoryCall: poi name is null or empty! Persistence must be corrupt. Ignoring this call.");
             bl = false;
         }
         long l = dataInputStream.readLong();
         int n2 = dataInputStream.readInt();
         if (n2 < 0 || n2 > this.poiStorageDataContainers.length - 1) {
-            this.logChannel.log(-1601830656, "OperatorCallHistoryStorageDataContainer#deserializeHistoryCall: poiStorageIndex is invalid(%1)! Persistence must be corrupt. Ignoring this call.", (long)n2);
+            this.logChannel.log(100000, "OperatorCallHistoryStorageDataContainer#deserializeHistoryCall: poiStorageIndex is invalid(%1)! Persistence must be corrupt. Ignoring this call.", (long)n2);
             bl = false;
         }
         if (bl) {
             this.setPoiStorageIsUsed(n2, true);
             OperatorCallHistoryStorage operatorCallHistoryStorage = new OperatorCallHistoryStorage(n, string, l, n2, false);
-            this.logChannel.log(14808325, "OperatorCallHistoryStorageDataContainer#deserializeHistoryCall: name = %1, poiStorageIndex = %3", (Object)string, (long)n2);
+            this.logChannel.log(100000000, "OperatorCallHistoryStorageDataContainer#deserializeHistoryCall: name = %1, poiStorageIndex = %3", (Object)string, (long)n2);
             return operatorCallHistoryStorage;
         }
         return null;
@@ -133,9 +130,8 @@ extends AbstractStorageDataContainer {
         return string;
     }
 
-    @Override
-    protected void serialize(DataOutputStream dataOutputStream) {
-        this.logChannel.log(1078071040, "OperatorCallHistoryStorageDataContainer#serialize called");
+    protected void serialize(DataOutputStream dataOutputStream) throws IOException {
+        this.logChannel.log(1000000, "OperatorCallHistoryStorageDataContainer#serialize called");
         int n = this.historyCalls.size();
         dataOutputStream.writeInt(n);
         for (int i2 = 0; i2 < n; ++i2) {
@@ -154,7 +150,7 @@ extends AbstractStorageDataContainer {
     }
 
     public int addCall(AbstractHistoryCallData abstractHistoryCallData) {
-        this.logChannel.log(1078071040, "OperatorCallHistoryStorageDataContainer#addCall");
+        this.logChannel.log(1000000, "OperatorCallHistoryStorageDataContainer#addCall");
         int n = this.getNextFreePoiStorageDataContainerIndex();
         if (this.historyCalls.size() == 10) {
             this.historyCalls.remove(0);
@@ -186,14 +182,21 @@ extends AbstractStorageDataContainer {
     }
 
     public void removeCall(int n) {
-        this.logChannel.log(1078071040, "OperatorCallHistoryStorageDataContainer#removeCall removing the history call with uniqueId %1!", (long)n);
-        this.logChannel.log(-2137614336, "OperatorCallHistoryStorageDataContainer#removeCall uniqueId = %1!", (long)n);
+        this.logChannel.log(1000000, "OperatorCallHistoryStorageDataContainer#removeCall removing the history call with uniqueId %1!", (long)n);
+        this.logChannel.log(10000000, "OperatorCallHistoryStorageDataContainer#removeCall uniqueId = %1!", (long)n);
         int n2 = this.nextFreeUniqueId - 1;
-        this.logChannel.log(-2137614336, "OperatorCallHistoryStorageDataContainer#removeCall maxNumberOfOccupiedIds = %1!", (long)n2);
-        int n3 = Collections.binarySearch(this.historyCalls, new Integer(n), new OperatorCallHistoryStorageDataContainer$1(this));
-        this.logChannel.log(-2137614336, "OperatorCallHistoryStorageDataContainer#removeCall index = %1!", (long)n3);
+        this.logChannel.log(10000000, "OperatorCallHistoryStorageDataContainer#removeCall maxNumberOfOccupiedIds = %1!", (long)n2);
+        int n3 = Collections.binarySearch(this.historyCalls, new Integer(n), new Comparator(){
+
+            public int compare(Object object, Object object2) {
+                Integer n = (Integer)object;
+                OperatorCallHistoryStorage operatorCallHistoryStorage = (OperatorCallHistoryStorage)object2;
+                return n - operatorCallHistoryStorage.getUniqueId();
+            }
+        });
+        this.logChannel.log(10000000, "OperatorCallHistoryStorageDataContainer#removeCall index = %1!", (long)n3);
         if (n3 < 0 || n3 > this.historyCalls.size() - 1) {
-            this.logChannel.log(-1601830656, "OperatorCallHistoryStorageDataContainer#removeCall: uniqueId %1 doesn't exist any more. -> Nothing to remove in persistence", (long)n);
+            this.logChannel.log(100000, "OperatorCallHistoryStorageDataContainer#removeCall: uniqueId %1 doesn't exist any more. -> Nothing to remove in persistence", (long)n);
             return;
         }
         this.setPoiStorageDCToUnused(n3);
@@ -208,27 +211,27 @@ extends AbstractStorageDataContainer {
     }
 
     public void removeAllCalls() {
-        this.logChannel.log(1078071040, "OperatorCallHistoryStorageDataContainer#removeAllCalls called!");
+        this.logChannel.log(1000000, "OperatorCallHistoryStorageDataContainer#removeAllCalls called!");
         int n = this.historyCalls.size();
-        this.logChannel.log(-2137614336, "OperatorCallHistoryStorageDataContainer#removeAllCalls: number of calls: %1", (long)n);
+        this.logChannel.log(10000000, "OperatorCallHistoryStorageDataContainer#removeAllCalls: number of calls: %1", (long)n);
         for (int i2 = n - 1; i2 >= 0; --i2) {
-            this.logChannel.log(1078071040, "OperatorCallHistoryStorageDataContainer#removeAllCalls removing the %1. history call!", (long)(i2 + 1));
+            this.logChannel.log(1000000, "OperatorCallHistoryStorageDataContainer#removeAllCalls removing the %1. history call!", (long)(i2 + 1));
             this.setPoiStorageDCToUnused(i2);
             this.historyCalls.remove(i2);
         }
-        this.logChannel.log(-2137614336, "OperatorCallHistoryStorageDataContainer#removeAllCalls: all calls removed!");
+        this.logChannel.log(10000000, "OperatorCallHistoryStorageDataContainer#removeAllCalls: all calls removed!");
         this.serializeAndWrite();
         this.setNextFreeUniqueId(0);
     }
 
     public OperatorCallInformation[] getAllInformation() {
         int n;
-        this.logChannel.log(1078071040, "OperatorCallHistoryStorageDataContainer#getAllInformation called!");
+        this.logChannel.log(1000000, "OperatorCallHistoryStorageDataContainer#getAllInformation called!");
         if (TestHandler.isPersistenceSimulation()) {
-            OperatorCallInformation[] operatorCallInformationArray = new OperatorCallInformation[]{new OperatorCallInformation(0, "blub", new Date(0), TestHandler.getPOIsFromPersistence(2)), new OperatorCallInformation(1, "blub2", new Date(0), TestHandler.getPOIsFromPersistence(2)), new OperatorCallInformation(2, "blub3", new Date(0), TestHandler.getPOIsFromPersistence(2))};
+            OperatorCallInformation[] operatorCallInformationArray = new OperatorCallInformation[]{new OperatorCallInformation(0, "blub", new Date(121345L), TestHandler.getPOIsFromPersistence(2)), new OperatorCallInformation(1, "blub2", new Date(121345L), TestHandler.getPOIsFromPersistence(2)), new OperatorCallInformation(2, "blub3", new Date(121345L), TestHandler.getPOIsFromPersistence(2))};
             return operatorCallInformationArray;
         }
-        this.logChannel.log(-2137614336, "OperatorCallHistoryStorageDataContainer#getAllInformation: %1 historycalls were read from persistence", (long)this.historyCalls.size());
+        this.logChannel.log(10000000, "OperatorCallHistoryStorageDataContainer#getAllInformation: %1 historycalls were read from persistence", (long)this.historyCalls.size());
         int n2 = n = this.historyCalls.size();
         ArrayList arrayList = new ArrayList(n);
         for (int i2 = 0; i2 < n; ++i2) {
@@ -240,12 +243,12 @@ extends AbstractStorageDataContainer {
             OperatorCallResult[] operatorCallResultArray = operatorCallPoiStorageDataContainer.getOperatorCallResults();
             if (operatorCallResultArray == null || operatorCallResultArray.length < 1) {
                 --n2;
-                this.logChannel.log(-1601830656, "OperatorCallHistoryStorageDataContainer#getAllInformation: no POIs for this call. Ignoring call %1.", (Object)string);
+                this.logChannel.log(100000, "OperatorCallHistoryStorageDataContainer#getAllInformation: no POIs for this call. Ignoring call %1.", (Object)string);
                 continue;
             }
             OperatorCallInformation operatorCallInformation = new OperatorCallInformation(n3, string, date, operatorCallResultArray);
             arrayList.add(operatorCallInformation);
-            this.logChannel.log(14808325, "OperatorCallHistoryStorageDataContainer#getAllInformation: i=%1 \n %2", (Object)new Integer(i2), (Object)operatorCallInformation);
+            this.logChannel.log(100000000, "OperatorCallHistoryStorageDataContainer#getAllInformation: i=%1 \n %2", (Object)new Integer(i2), (Object)operatorCallInformation);
         }
         return (OperatorCallInformation[])arrayList.toArray(new OperatorCallInformation[n2]);
     }

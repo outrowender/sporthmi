@@ -21,23 +21,17 @@ MenuModelListener {
     protected AbstractModelManager modelManager;
     protected LogChannel logChannel;
 
-    public abstract int[] getSpellerModels() {
-    }
+    public abstract int[] getSpellerModels();
 
-    public abstract int[] getChoiceModels() {
-    }
+    public abstract int[] getChoiceModels();
 
-    public abstract int[] getButtonModels() {
-    }
+    public abstract int[] getButtonModels();
 
-    public abstract int[] getListModels() {
-    }
+    public abstract int[] getListModels();
 
-    public abstract int[] getTextFieldModel() {
-    }
+    public abstract int[] getTextFieldModel();
 
-    public abstract void setModelManager(AbstractModelManager abstractModelManager) {
-    }
+    public abstract void setModelManager(AbstractModelManager var1);
 
     public AbstractHMIListener(LogChannel logChannel) {
         this.logChannel = logChannel;
@@ -68,7 +62,7 @@ MenuModelListener {
     private String fillPasswordCharacters(int n) {
         String string = "";
         for (int i2 = 0; i2 < n; ++i2) {
-            string = new StringBuffer().append(string).append("*").toString();
+            string = string + "*";
         }
         return string;
     }
@@ -77,59 +71,45 @@ MenuModelListener {
         this.modelManager.updateSpellerText(n, string);
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
     }
 
-    @Override
     public void itemReleased(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
     }
 
-    @Override
     public void itemSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
     }
 
-    @Override
     public void itemLongSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
     }
 
-    @Override
     public void itemFocused(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyLongTyped(int n, int n2, int n3) {
     }
 
-    @Override
     public void itemSelected(int n, int n2, int n3, int n4) {
     }
 
-    @Override
     public void itemFocused(int n, int n2, int n3, int n4) {
     }
 
-    @Override
     public void textChanged(int n, String string, char c2, int n2) {
     }
 
-    @Override
     public void focusedCharacter(int n, char c2, int n2) {
     }
 
-    @Override
     public void commandPressed(int n, int n2, int n3) {
     }
 
-    @Override
     public void itemFocused(int n, int n2, long l, int n3) {
     }
 }

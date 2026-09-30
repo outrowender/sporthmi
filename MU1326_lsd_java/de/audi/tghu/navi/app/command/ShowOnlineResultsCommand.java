@@ -17,9 +17,8 @@ extends NavCommand {
         this.resultList = onlinePOIResultList;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "ShowOnlineResultsCommand#execute() - length: %1", (long)this.resultList.length());
+        this.logger.log(10000000, "ShowOnlineResultsCommand#execute() - length: %1", (long)this.resultList.length());
         this.navigation.getMapInterface().setOnlineResultFlags(this.resultList);
         if (this.resultList != null && this.resultList.length() == 1) {
             PoiOnlineSearchValuelistElement poiOnlineSearchValuelistElement = this.resultList.getPOIElementAt(0);

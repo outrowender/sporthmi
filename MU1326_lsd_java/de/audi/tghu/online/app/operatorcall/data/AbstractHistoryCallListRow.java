@@ -16,20 +16,19 @@ public abstract class AbstractHistoryCallListRow
 extends EvoListRow {
     protected static long idCount = 1L;
     protected static final LogChannel logChannel = Online.getInstance().getOperatorCallLogChannel();
-    protected static final int COLUMN_ID;
-    protected static final int COLUMN_NAME;
-    protected static final int COLUMN_DATE;
-    protected static final int COLUMN_TIME;
-    protected static final int COLUMN_NUMBER_OF_POIS;
-    protected static final int COLUMN_MULTIPLE_POIS;
-    protected static final int COLUMN_COUNT;
-    private static final int TYPE_SINGLE_POI;
-    private static final int TYPE_MULTIPLE_POI;
+    protected static final int COLUMN_ID = 0;
+    protected static final int COLUMN_NAME = 1;
+    protected static final int COLUMN_DATE = 2;
+    protected static final int COLUMN_TIME = 3;
+    protected static final int COLUMN_NUMBER_OF_POIS = 5;
+    protected static final int COLUMN_MULTIPLE_POIS = 6;
+    protected static final int COLUMN_COUNT = 7;
+    private static final int TYPE_SINGLE_POI = 0;
+    private static final int TYPE_MULTIPLE_POI = 1;
     protected Date dateTime;
     private int persistenceUniqueId = -1;
 
-    public abstract void createPropertyListCell(boolean bl) {
-    }
+    public abstract void createPropertyListCell(boolean var1);
 
     public AbstractHistoryCallListRow(IFrameworkAccess iFrameworkAccess, String string, Date date, boolean bl, int n) {
         super(idCount, 7);
@@ -39,7 +38,7 @@ extends EvoListRow {
             throw new NullPointerException("AbstractHistoryCallListRow: name is null! Wrong!");
         }
         if (string.equalsIgnoreCase("")) {
-            logChannel.log(-1601830656, "AbstractHistoryCallListRow: name is empty! Wrong!");
+            logChannel.log(100000, "AbstractHistoryCallListRow: name is empty! Wrong!");
         }
         this.fillCells(string, this.dateTime, bl, n);
     }
@@ -71,7 +70,7 @@ extends EvoListRow {
             string2 = this.getNumberOfPoisAsString(n);
             n2 = 1;
         }
-        logChannel.log(14808325, "HistoryCallListRow#fillCells: set number of pois to \"%1\"", (Object)string2);
+        logChannel.log(100000000, "HistoryCallListRow#fillCells: set number of pois to \"%1\"", (Object)string2);
         this.setText(5, string2);
         this.setInteger(6, n2);
         this.createPropertyListCell(bl);
@@ -97,7 +96,6 @@ extends EvoListRow {
         return this.getText(1);
     }
 
-    @Override
     public String toString() {
         Buffer buffer = new Buffer();
         buffer.append("\nPersistence unique Id = ");
@@ -136,12 +134,12 @@ extends EvoListRow {
     }
 
     public static void setNextFreeUniqueId(long l) {
-        logChannel.log(-2137614336, "AbstractHistoryCallListRow#setNextFreeUniqueId: starting with unique id = %1", l);
+        logChannel.log(10000000, "AbstractHistoryCallListRow#setNextFreeUniqueId: starting with unique id = %1", l);
         idCount = l;
     }
 
     public void setPersistenceUniqueId(int n) {
-        logChannel.log(-2137614336, "AbstractHistoryCallListRow#setPersistenceUniqueId: %1 -> %2", (long)this.persistenceUniqueId, (long)n);
+        logChannel.log(10000000, "AbstractHistoryCallListRow#setPersistenceUniqueId: %1 -> %2", (long)this.persistenceUniqueId, (long)n);
         this.persistenceUniqueId = n;
     }
 

@@ -29,9 +29,8 @@ implements INaviServiceListenerObserver {
         this.naviServiceListenerController = naviServiceListenerController;
     }
 
-    @Override
     public void listenerAdded(NaviServiceListener naviServiceListener) {
-        this.logChannel.log(1078071040, "NaviServiceListenerObserver#listenerAdded()");
+        this.logChannel.log(1000000, "NaviServiceListenerObserver#listenerAdded()");
         this.updateNaviOperableState(naviServiceListener);
         this.updateFavoriteDestinations(naviServiceListener);
         this.updateLastDestinationCountry(naviServiceListener);
@@ -40,21 +39,21 @@ implements INaviServiceListenerObserver {
 
     private void updateLastDestinationList(NaviServiceListener naviServiceListener) {
         if (this.logChannel.isDebug2()) {
-            this.logChannel.log(14808325, "NaviServiceListenerObserver#updateLastDestinationList()");
+            this.logChannel.log(100000000, "NaviServiceListenerObserver#updateLastDestinationList()");
         }
         if (this.lastDestHandler != null) {
             naviServiceListener.updateLastDestinations(this.lastDestHandler.getLastDestListForSDS());
         } else {
-            this.logChannel.log(1078071040, "NaviServiceListenerObserver#updateLastDestinationList() - LastDestHandler is null");
+            this.logChannel.log(1000000, "NaviServiceListenerObserver#updateLastDestinationList() - LastDestHandler is null");
         }
     }
 
     private void updateLastDestinationCountry(NaviServiceListener naviServiceListener) {
         if (this.logChannel.isDebug2()) {
-            this.logChannel.log(14808325, "NaviServiceListenerObserver#updateLastDestinationCountry()");
+            this.logChannel.log(100000000, "NaviServiceListenerObserver#updateLastDestinationCountry()");
         }
         if (!this.operationManager.isFullyOperable()) {
-            this.logChannel.log(-1601830656, "NaviServiceListenerObserver#updateLastDestinationCountry() navigation not fully operable, call will be ignored!");
+            this.logChannel.log(100000, "NaviServiceListenerObserver#updateLastDestinationCountry() navigation not fully operable, call will be ignored!");
             return;
         }
         this.addressInputForm.onNewNaviServiceListener();
@@ -62,14 +61,14 @@ implements INaviServiceListenerObserver {
 
     private void updateNaviOperableState(NaviServiceListener naviServiceListener) {
         if (this.logChannel.isDebug2()) {
-            this.logChannel.log(14808325, "NaviServiceListenerObserver#updateNaviOperableState()");
+            this.logChannel.log(100000000, "NaviServiceListenerObserver#updateNaviOperableState()");
         }
         this.operationManager.updateNaviOperableState(naviServiceListener);
     }
 
     private void updateFavoriteDestinations(NaviServiceListener naviServiceListener) {
         if (this.logChannel.isDebug2()) {
-            this.logChannel.log(14808325, "NaviServiceListenerObserver#updateFavoriteDestinations()");
+            this.logChannel.log(100000000, "NaviServiceListenerObserver#updateFavoriteDestinations()");
         }
         naviServiceListener.updateFavoriteDestinations(this.naviFavoriteHandler.getFavoriteSDSEntries());
     }

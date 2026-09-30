@@ -19,10 +19,8 @@ extends NavCommand {
         this.feedbackNaviServiceListener = naviServiceListener;
     }
 
-    public abstract void call() {
-    }
+    public abstract void call();
 
-    @Override
     public void execute() {
         if (this.feedbackNaviServiceListener != null) {
             this.call();

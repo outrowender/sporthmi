@@ -7,15 +7,12 @@ import de.audi.tghu.command.CommandList;
 import org.dsi.ifc.navigation.LIValueListElement;
 
 public interface IAddressInputSequence {
-    public static final String LOCATION_TO_TEST;
+    public static final String LOCATION_TO_TEST = "LocationToTest";
 
-    default public CommandList getStartCommandList() {
-    }
+    public CommandList getStartCommandList();
 
-    default public CommandList getSelectListElementCommandList(LIValueListElement lIValueListElement) {
-    }
+    public CommandList getSelectListElementCommandList(LIValueListElement var1);
 
-    default public CommandList getSelectElementByIdentifierCommandList(String string) {
-    }
+    public CommandList getSelectElementByIdentifierCommandList(String var1);
 }
 

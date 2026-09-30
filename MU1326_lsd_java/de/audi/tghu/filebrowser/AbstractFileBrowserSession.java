@@ -91,26 +91,26 @@ DSIFileBrowserListener {
     }
 
     final Path cdPath(Path path, String string) {
-        this.getLog().log(-2137614336, "cdPath(%1,\"%2\")", (Object)path, (Object)string);
+        this.getLog().log(10000000, "cdPath(%1,\"%2\")", (Object)path, (Object)string);
         Path path2 = path;
         String[] stringArray = path.getFolderNames();
         if (".".equals(string)) {
-            this.getLog().log(-2137614336, "cd(.) is a noop!");
+            this.getLog().log(10000000, "cd(.) is a noop!");
         } else if ("..".equals(string)) {
             if (stringArray.length > 0) {
                 String[] stringArray2 = new String[stringArray.length - 1];
                 System.arraycopy((Object)stringArray, 0, (Object)stringArray2, 0, stringArray.length - 1);
                 path2 = new Path(path.getMountPoint(), stringArray2);
-                this.getLog().log(-2137614336, "cd(..) to %1", (Object)path2);
+                this.getLog().log(10000000, "cd(..) to %1", (Object)path2);
             } else {
-                this.getLog().log(-2137614336, "cd(..) already at top level!");
+                this.getLog().log(10000000, "cd(..) already at top level!");
             }
         } else {
             String[] stringArray3 = new String[stringArray.length + 1];
             System.arraycopy((Object)stringArray, 0, (Object)stringArray3, 0, stringArray.length);
             stringArray3[stringArray.length] = string;
             path2 = new Path(path.getMountPoint(), stringArray3);
-            this.getLog().log(-2137614336, "cd( %1 ) to %2", (Object)string, (Object)path2);
+            this.getLog().log(10000000, "cd( %1 ) to %2", (Object)string, (Object)path2);
         }
         return path2;
     }
@@ -119,52 +119,44 @@ DSIFileBrowserListener {
         this.currentPath = path;
     }
 
-    @Override
     public final int getSession() {
         return this.session;
     }
 
-    @Override
     public void close() {
         this.manager.close(this.getSession());
     }
 
-    @Override
     public final Path pwd() {
         return this.currentPath;
     }
 
-    @Override
     public final IFileBrowser getSelection() {
         return this.manager.getSelection(this, true);
     }
 
-    @Override
     public final void setFileTypeFilter(int n) {
         DSIFileBrowser dSIFileBrowser = this.getDSI();
         if (dSIFileBrowser != null) {
             this.typeFilter = n;
-            this.getLogDSI().log(1078071040, "-> setFileTypeFilter(%2,%1)", (long)n, (long)this.getSession());
+            this.getLogDSI().log(1000000, "-> setFileTypeFilter(%2,%1)", (long)n, (long)this.getSession());
             dSIFileBrowser.setFileTypeFilter(this.getSession(), n);
         }
     }
 
-    @Override
     public final int getFileTypeFilter() {
         return this.typeFilter;
     }
 
-    @Override
     public final void setFileExtensionFilter(String[] stringArray) {
         DSIFileBrowser dSIFileBrowser = this.getDSI();
         if (dSIFileBrowser != null) {
             this.allowedExtensions = stringArray;
-            this.getLogDSI().log(1078071040, "-> setFileExtensionFilter(%2,%1)", (Object)stringArray, (long)this.getSession());
+            this.getLogDSI().log(1000000, "-> setFileExtensionFilter(%2,%1)", (Object)stringArray, (long)this.getSession());
             dSIFileBrowser.setFileExtensionFilter(this.getSession(), stringArray);
         }
     }
 
-    @Override
     public final String[] getFileExtensionFilter() {
         return this.allowedExtensions;
     }
@@ -172,7 +164,7 @@ DSIFileBrowserListener {
     public void startSpeller() {
         DSIFileBrowser dSIFileBrowser = this.getDSI();
         if (dSIFileBrowser != null) {
-            this.getLogDSI().log(1078071040, "-> startSpeller(%1)", (long)this.getSession());
+            this.getLogDSI().log(1000000, "-> startSpeller(%1)", (long)this.getSession());
             dSIFileBrowser.startSpeller(this.getSession(), 42);
         }
     }
@@ -180,7 +172,7 @@ DSIFileBrowserListener {
     public void stopSpeller() {
         DSIFileBrowser dSIFileBrowser = this.getDSI();
         if (dSIFileBrowser != null) {
-            this.getLogDSI().log(1078071040, "-> stopSpeller(%1)", (long)this.getSession());
+            this.getLogDSI().log(1000000, "-> stopSpeller(%1)", (long)this.getSession());
             dSIFileBrowser.stopSpeller(this.getSession());
         }
     }

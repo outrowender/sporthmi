@@ -4,10 +4,8 @@
 package de.audi.tghu.navi.app.addressinput.poi.personal;
 
 public interface IPersonalPoiHandler {
-    default public void deletePersonalPOIDataBases() {
-    }
+    public void deletePersonalPOIDataBases();
 
-    default public void deletePersonalPOIDataBases(String[] stringArray) {
-    }
+    public void deletePersonalPOIDataBases(String[] var1);
 }
 

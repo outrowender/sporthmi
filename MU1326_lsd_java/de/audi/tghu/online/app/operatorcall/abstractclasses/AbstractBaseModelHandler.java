@@ -32,35 +32,25 @@ ChoiceListener {
     private String modelName;
     private int modelId;
 
-    protected abstract int[] getButtonIdsToRegister() {
-    }
+    protected abstract int[] getButtonIdsToRegister();
 
-    protected abstract int[] getChoiceIdsToRegister() {
-    }
+    protected abstract int[] getChoiceIdsToRegister();
 
-    protected abstract int[] getMenuModelIdsToRegister() {
-    }
+    protected abstract int[] getMenuModelIdsToRegister();
 
-    protected abstract int[] getTiledListIdsToRegister() {
-    }
+    protected abstract int[] getTiledListIdsToRegister();
 
-    protected abstract void buttonKeyPressed(int n) {
-    }
+    protected abstract void buttonKeyPressed(int var1);
 
-    protected abstract void listItemSelected(EvoListRow evoListRow, int n, int n2) {
-    }
+    protected abstract void listItemSelected(EvoListRow var1, int var2, int var3);
 
-    protected abstract void listItemFocused(EvoListRow evoListRow, int n, int n2) {
-    }
+    protected abstract void listItemFocused(EvoListRow var1, int var2, int var3);
 
-    protected abstract void optionKeyPressed(int n, int n2, int n3) {
-    }
+    protected abstract void optionKeyPressed(int var1, int var2, int var3);
 
-    protected abstract void menuModelItemFocused(int n, long l, int n2) {
-    }
+    protected abstract void menuModelItemFocused(int var1, long var2, int var4);
 
-    protected abstract void choiceModelItemSelected(int n, int n2, int n3) {
-    }
+    protected abstract void choiceModelItemSelected(int var1, int var2, int var3);
 
     public AbstractBaseModelHandler(IHMIServiceApp iHMIServiceApp) {
         this.hmiService = iHMIServiceApp;
@@ -129,7 +119,7 @@ ChoiceListener {
     }
 
     protected void setChoiceValue(int n, String string, int n2) {
-        this.logChannel.log(14808325, "AbstractBaseModelHandler#setChoiceValue: %1 : %2 -> %3", (Object)string, (long)this.getChoiceValue(n), (long)n2);
+        this.logChannel.log(100000000, "AbstractBaseModelHandler#setChoiceValue: %1 : %2 -> %3", (Object)string, (long)this.getChoiceValue(n), (long)n2);
         this.getChoiceModel(n).setValue(n2);
     }
 
@@ -138,7 +128,7 @@ ChoiceListener {
     }
 
     public void setChoiceStatus(int n, String string, int n2) {
-        this.logChannel.log(14808325, "AbstractBaseModelHandler#setChoiceStatus: %1 : %2 -> %3", (Object)string, (long)this.getChoiceStatus(n), (long)n2);
+        this.logChannel.log(100000000, "AbstractBaseModelHandler#setChoiceStatus: %1 : %2 -> %3", (Object)string, (long)this.getChoiceStatus(n), (long)n2);
         this.getChoiceModel(n).setStatus(n2);
     }
 
@@ -157,7 +147,7 @@ ChoiceListener {
     }
 
     protected void setButtonStatus(int n, String string, int n2) {
-        this.logChannel.log(14808325, "AbstractBaseModelHandler#setButtonStatus: %1 : %2 -> %3", (Object)string, (long)this.getButtonStatus(n), (long)n2);
+        this.logChannel.log(100000000, "AbstractBaseModelHandler#setButtonStatus: %1 : %2 -> %3", (Object)string, (long)this.getButtonStatus(n), (long)n2);
         this.getButtonModel(n).setStatus(n2);
     }
 
@@ -193,61 +183,53 @@ ChoiceListener {
         return this.hmiService.getTiledListModel(n);
     }
 
-    @Override
     public void itemReleased(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
     }
 
-    @Override
     public void itemLongSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyLongTyped(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3, int n4, int n5) {
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3, int n4, int n5) {
     }
 
-    @Override
     public void customAction(int n, int n2, int n3, int n4, int n5) {
     }
 
     public void fireButtonEvent() {
         if (this.modelName != null && !"".equalsIgnoreCase(this.modelName)) {
-            this.logChannel.log(14808325, "AbstractBaseModelHandler#fireButtonEvent: %1 ", (Object)this.modelName);
+            this.logChannel.log(100000000, "AbstractBaseModelHandler#fireButtonEvent: %1 ", (Object)this.modelName);
         } else {
-            this.logChannel.log(14808325, "AbstractBaseModelHandler#fireButtonEvent! %1", (long)this.modelId);
+            this.logChannel.log(100000000, "AbstractBaseModelHandler#fireButtonEvent! %1", (long)this.modelId);
         }
         this.getButtonModel(this.modelId).fireEvent(this.terminal);
     }
 
     public void fireTiledListEvent() {
         if (this.modelName != null && !"".equalsIgnoreCase(this.modelName)) {
-            this.logChannel.log(14808325, "AbstractBaseModelHandler#fireTiledListEvent: %1 ", (Object)this.modelName);
+            this.logChannel.log(100000000, "AbstractBaseModelHandler#fireTiledListEvent: %1 ", (Object)this.modelName);
         } else {
-            this.logChannel.log(14808325, "AbstractBaseModelHandler#fireTiledListEvent!");
+            this.logChannel.log(100000000, "AbstractBaseModelHandler#fireTiledListEvent!");
         }
         this.getTiledListModel(this.modelId).fireEvent(this.terminal);
     }
 
     public void fireOptionEvent() {
         if (this.modelName != null && !"".equalsIgnoreCase(this.modelName)) {
-            this.logChannel.log(14808325, "AbstractBaseModelHandler#fireOptionEvent: %1 ", (Object)this.modelName);
+            this.logChannel.log(100000000, "AbstractBaseModelHandler#fireOptionEvent: %1 ", (Object)this.modelName);
         } else {
-            this.logChannel.log(14808325, "AbstractBaseModelHandler#fireOptionEvent!");
+            this.logChannel.log(100000000, "AbstractBaseModelHandler#fireOptionEvent!");
         }
         this.getOptionModel(this.modelId).fireEvent(this.terminal);
     }
@@ -266,30 +248,26 @@ ChoiceListener {
         this.terminal = n2;
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3) {
-        this.logChannel.log(-2137614336, "AbstractBaseModelHandler#keyPressed called");
+        this.logChannel.log(10000000, "AbstractBaseModelHandler#keyPressed called");
         this.saveModelData(n, n3);
         this.buttonKeyPressed(n);
     }
 
-    @Override
     public void itemSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
-        this.logChannel.log(-2137614336, "AbstractBaseModelHandler#itemSelected called");
+        this.logChannel.log(10000000, "AbstractBaseModelHandler#itemSelected called");
         this.saveModelData(n, n4);
         this.listItemSelected(evoListRow, n, n2);
     }
 
-    @Override
     public void itemFocused(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
-        this.logChannel.log(-2137614336, "AbstractBaseModelHandler#itemFocused (for list models) called");
+        this.logChannel.log(10000000, "AbstractBaseModelHandler#itemFocused (for list models) called");
         this.saveModelData(n, n4);
         this.listItemFocused(evoListRow, n, n2);
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3, int n4, int n5) {
-        this.logChannel.log(-2137614336, "AbstractBaseModelHandler#keyPressed (optionModel = %1) called", (long)n);
+        this.logChannel.log(10000000, "AbstractBaseModelHandler#keyPressed (optionModel = %1) called", (long)n);
         this.saveModelData(n, n5);
         this.optionKeyPressed(n, n2, n3);
     }
@@ -298,36 +276,30 @@ ChoiceListener {
         this.modelName = string;
     }
 
-    public abstract void showPopup(int n) {
-    }
+    public abstract void showPopup(int var1);
 
     public void enablePopups() {
         this.hmiService.enablePopups();
     }
 
-    @Override
     public void itemFocused(int n, int n2, long l, int n3) {
-        this.logChannel.log(-2137614336, "AbstractBaseModelHandler#itemFocused (for menu models) called with uniqueListRowID = %1", l);
+        this.logChannel.log(10000000, "AbstractBaseModelHandler#itemFocused (for menu models) called with uniqueListRowID = %1", l);
         this.saveModelData(n2, n3);
         this.menuModelItemFocused(n2, l, n);
     }
 
-    @Override
     public void itemSelected(int n, int n2, int n3, int n4) {
-        this.logChannel.log(-2137614336, "AbstractBaseModelHandler#itemSelected called with modelId = %1", (long)n);
+        this.logChannel.log(10000000, "AbstractBaseModelHandler#itemSelected called with modelId = %1", (long)n);
         this.saveModelData(n, n4);
         this.choiceModelItemSelected(n, n2, n3);
     }
 
-    @Override
     public void itemFocused(int n, int n2, int n3, int n4) {
     }
 
-    @Override
     public void requestItems(int n, int n2, int n3, int n4, int n5) {
     }
 
-    @Override
     public void unrequestItems(int n, int n2, int n3, int n4) {
     }
 }

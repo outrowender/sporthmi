@@ -14,10 +14,9 @@ extends NavCommand {
         this.routeOptions = routeOptions;
     }
 
-    @Override
     public void execute() {
         if (this.routeOptions != null) {
-            this.logger.log(-2137614336, "RGSetRouteOptionsCommand#execute() - calling rgSetRouteOptions( %1 )", (Object)this.routeOptions);
+            this.logger.log(10000000, "RGSetRouteOptionsCommand#execute() - calling rgSetRouteOptions( %1 )", (Object)this.routeOptions);
             this.getDSINavigation().rgSetRouteOptions(this.routeOptions);
             this.getCommandList().commandFinished();
         } else {

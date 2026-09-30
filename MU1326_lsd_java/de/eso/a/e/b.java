@@ -10,7 +10,7 @@ public class b {
 
     public b(String string) {
         if (!string.startsWith(".")) {
-            string = new StringBuffer().append(".").append(string).toString();
+            string = "." + string;
         }
         this.a = string;
     }
@@ -18,13 +18,13 @@ public class b {
     public File a(File file, String string) {
         String string2 = this.a(string);
         int n = 2;
-        File file2 = new File(file, new StringBuffer().append(string2).append(this.a).toString());
+        File file2 = new File(file, string2 + this.a);
         while (file2.exists()) {
             if (n > 100) {
-                de.eso.a.d.b.d(new StringBuffer().append("Tried to find a unique filename, but failed. Returning null instead. Filename was: ").append(string2).toString());
+                de.eso.a.d.b.d("Tried to find a unique filename, but failed. Returning null instead. Filename was: " + string2);
                 return null;
             }
-            String string3 = new StringBuffer().append(string2).append("-").append(n).append(this.a).toString();
+            String string3 = string2 + "-" + n + this.a;
             file2 = new File(file, string3);
             ++n;
         }

@@ -4,13 +4,10 @@
 package de.audi.tghu.navi.app.addressinput.tpegpoi;
 
 public interface ITpegPOIService {
-    default public void startTpegPOI() {
-    }
+    public void startTpegPOI();
 
-    default public void destTpegPOIHKReturn(int n, int n2) {
-    }
+    public void destTpegPOIHKReturn(int var1, int var2);
 
-    default public void checkIfTpegPOIAvailable() {
-    }
+    public void checkIfTpegPOIAvailable();
 }
 

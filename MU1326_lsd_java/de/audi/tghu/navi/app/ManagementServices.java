@@ -39,15 +39,14 @@ implements MsgListener {
     }
 
     public void sendMessage(int n) {
-        this.logChannel.log(-2137614336, "ManagementServices#sendMessage( %1 )", (long)n);
+        this.logChannel.log(10000000, "ManagementServices#sendMessage( %1 )", (long)n);
         this.messageDistributor.sendMessage(n);
     }
 
-    @Override
     public void processMsg(int n) {
-        this.logChannel.log(-2137614336, "ManagementServices#processMessage( %1 ) ", (long)n);
+        this.logChannel.log(10000000, "ManagementServices#processMessage( %1 ) ", (long)n);
         if (!this.navigation.getOperationManager().isFullyOperable()) {
-            this.logChannel.log(-1601830656, "ManagementServices#processMessage() - Navigation is not fully operable -> ignore message!");
+            this.logChannel.log(100000, "ManagementServices#processMessage() - Navigation is not fully operable -> ignore message!");
             return;
         }
         switch (n) {
@@ -100,7 +99,7 @@ implements MsgListener {
     }
 
     private void refreshMetricsSystem() {
-        this.logChannel.log(-2137614336, "ManagementServices#refreshMetricsSystem() ");
+        this.logChannel.log(10000000, "ManagementServices#refreshMetricsSystem() ");
         OperationManager operationManager = this.navigation.getOperationManager();
         if (operationManager.isFullyOperable()) {
             int n = Util.getCurrentMetricsSystem(false);
@@ -110,12 +109,12 @@ implements MsgListener {
                 commandList.execute("ManagementServices.refreshMetricsSystem");
             }
         } else {
-            this.logChannel.log(-1601830656, "ManagementServices#refreshMetricsSystem() - cannot refresh metrics system, navigation not ready!");
+            this.logChannel.log(100000, "ManagementServices#refreshMetricsSystem() - cannot refresh metrics system, navigation not ready!");
         }
         if (operationManager.isMapReady()) {
             this.navigation.getMapInterface().refreshMetricSystem();
         } else {
-            this.logChannel.log(-1601830656, "ManagementServices#refreshMetricsSystem() - cannot refresh metrics system, map not ready!");
+            this.logChannel.log(100000, "ManagementServices#refreshMetricsSystem() - cannot refresh metrics system, map not ready!");
         }
     }
 

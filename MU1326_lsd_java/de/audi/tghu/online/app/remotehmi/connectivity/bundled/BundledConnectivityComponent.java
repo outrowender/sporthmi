@@ -28,7 +28,6 @@ implements ButtonListener {
         this.popupHandler = abstractBundledConnectivityHandler;
     }
 
-    @Override
     public void init(LogChannel logChannel, RemoteHMIService remoteHMIService) {
         super.init(Online.getInstance().getBundledConnectivityLogChannel(), remoteHMIService);
         this.hmiService = remoteHMIService.getFrameworkAccess().getHMIService();
@@ -47,7 +46,6 @@ implements ButtonListener {
         }
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3) {
         this.handlePopupButtons(n);
         this.popupHandler.hideCurrentPopup();
@@ -60,10 +58,10 @@ implements ButtonListener {
         } else if (n == this.popupConfig.getShowDashboardButtonModelId()) {
             n2 = 1;
         } else {
-            this.logChannel.log(-1601830656, "BundledConnectivityComponent#keyPressed component %1 doesn't process events on model with ID %2", (Object)super.getClass().getName(), (long)n);
+            this.logChannel.log(100000, "BundledConnectivityComponent#keyPressed component %1 doesn't process events on model with ID %2", (Object)this.getClass().getName(), (long)n);
         }
         if (n2 != 0) {
-            RemoteHMIAction remoteHMIAction = this.remoteHmiService.getAction(1245640453);
+            RemoteHMIAction remoteHMIAction = this.remoteHmiService.getAction(100089418);
             IRemoteHMIBundledConnectivityPayload iRemoteHMIBundledConnectivityPayload = this.popupHandler.getLastPayload();
             iRemoteHMIBundledConnectivityPayload.setAppServiceType(n2);
             HMIProperties hMIProperties = remoteHMIAction.getParameters();
@@ -72,15 +70,12 @@ implements ButtonListener {
         }
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyLongTyped(int n, int n2, int n3) {
     }
 }

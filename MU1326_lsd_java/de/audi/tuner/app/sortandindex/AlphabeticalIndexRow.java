@@ -7,9 +7,9 @@ import de.audi.atip.hmi.model.list.EvoListRow;
 
 public class AlphabeticalIndexRow
 extends EvoListRow {
-    private static final int COL_COUNT;
-    private static final int COL_CHARACTER;
-    private static final int COL_INDEX;
+    private static final int COL_COUNT = 2;
+    private static final int COL_CHARACTER = 0;
+    private static final int COL_INDEX = 1;
 
     public AlphabeticalIndexRow(int n, int n2) {
         super(n, 2);

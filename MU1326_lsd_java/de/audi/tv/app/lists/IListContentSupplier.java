@@ -8,16 +8,12 @@ import de.audi.atip.hmi.model.list.SelectedItem;
 import de.audi.tv.app.lists.AbstractTVStationRow;
 
 public interface IListContentSupplier {
-    default public SelectedItem getSelected() {
-    }
+    public SelectedItem getSelected();
 
-    default public AbstractTVStationRow getRowByIndex(int n) {
-    }
+    public AbstractTVStationRow getRowByIndex(int var1);
 
-    default public int getIndexForUniqueID(long l) {
-    }
+    public int getIndexForUniqueID(long var1);
 
-    default public BaseListModelApp getTmpList() {
-    }
+    public BaseListModelApp getTmpList();
 }
 

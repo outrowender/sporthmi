@@ -4,7 +4,6 @@
 package de.audi.tghu.online.app;
 
 public interface IOnlineLanguageChangeListener {
-    default public void languageChanged() {
-    }
+    public void languageChanged();
 }
 

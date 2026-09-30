@@ -6,7 +6,6 @@ package de.eso.widgets.preset;
 import de.esolutions.hmi.widgets.audi.evo.widgets.LayoutContainerController;
 
 public interface IPresetLayoutFactory {
-    default public LayoutContainerController getNotStorableContainer() {
-    }
+    public LayoutContainerController getNotStorableContainer();
 }
 

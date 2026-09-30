@@ -19,7 +19,6 @@ extends AbstractHMIActivator {
         super(10, "Tone", System.getProperty("variant.skin", "EvoHighScale"), new ToneModelBank());
     }
 
-    @Override
     protected synchronized AbstractScreenFactory getScreenFactory() {
         if (this.instance == null) {
             this.instance = new ToneScreenFactory(this.getFramework());
@@ -27,7 +26,6 @@ extends AbstractHMIActivator {
         return this.instance;
     }
 
-    @Override
     public HMIConditionBank getConditionBank() {
         if (this.conditionBank == null) {
             this.conditionBank = new ToneConditionBank((ToneScreenFactory)this.getScreenFactory());

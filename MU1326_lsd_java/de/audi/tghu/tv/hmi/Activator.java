@@ -19,7 +19,6 @@ extends AbstractHMIActivator {
         super(26, "TV", System.getProperty("variant.skin", "EvoHighScale"), new TVModelBank());
     }
 
-    @Override
     protected synchronized AbstractScreenFactory getScreenFactory() {
         if (this.instance == null) {
             this.instance = new TVScreenFactory(this.getFramework());
@@ -27,7 +26,6 @@ extends AbstractHMIActivator {
         return this.instance;
     }
 
-    @Override
     public HMIConditionBank getConditionBank() {
         if (this.conditionBank == null) {
             this.conditionBank = new TVConditionBank((TVScreenFactory)this.getScreenFactory());

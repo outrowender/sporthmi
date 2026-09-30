@@ -11,34 +11,24 @@ import org.dsi.ifc.sdars.TeamEntry;
 import org.dsi.ifc.sdars.TrafficWxEntry;
 
 public interface ISeekListener {
-    default public void updateSeekPossibility(SeekPossibility seekPossibility) {
-    }
+    public void updateSeekPossibility(SeekPossibility var1);
 
-    default public void updateSeekList(SeekEntry[] seekEntryArray) {
-    }
+    public void updateSeekList(SeekEntry[] var1);
 
-    default public void updateLeagueList(LeagueEntry[] leagueEntryArray) {
-    }
+    public void updateLeagueList(LeagueEntry[] var1);
 
-    default public void updateTrafficWeatherList(TrafficWxEntry[] trafficWxEntryArray) {
-    }
+    public void updateTrafficWeatherList(TrafficWxEntry[] var1);
 
-    default public void updateSeekAlert(SeekAlert seekAlert) {
-    }
+    public void updateSeekAlert(SeekAlert var1);
 
-    default public void setSeekCommandResult(int n) {
-    }
+    public void setSeekCommandResult(int var1);
 
-    default public void manageSeekResult(int n) {
-    }
+    public void manageSeekResult(int var1);
 
-    default public void teamsOfLeague(TeamEntry[] teamEntryArray) {
-    }
+    public void teamsOfLeague(TeamEntry[] var1);
 
-    default public void leagues(LeagueEntry[] leagueEntryArray) {
-    }
+    public void leagues(LeagueEntry[] var1);
 
-    default public void updateRegisteredTeams(TeamEntry[] teamEntryArray) {
-    }
+    public void updateRegisteredTeams(TeamEntry[] var1);
 }
 

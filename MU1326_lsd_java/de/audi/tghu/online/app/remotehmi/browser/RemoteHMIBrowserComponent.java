@@ -5,16 +5,21 @@ package de.audi.tghu.online.app.remotehmi.browser;
 
 import de.audi.atip.browser.IBrowserHandler;
 import de.audi.atip.log.LogChannel;
+import de.audi.tghu.online.app.remotehmi.AbstractCommandHandler;
 import de.audi.tghu.online.app.remotehmi.AbstractRemoteHMIComponent;
 import de.audi.tghu.online.app.remotehmi.RemoteHMIService;
-import de.audi.tghu.online.app.remotehmi.browser.RemoteHMIBrowserComponent$1;
 
 public class RemoteHMIBrowserComponent
 extends AbstractRemoteHMIComponent {
-    @Override
     public void init(LogChannel logChannel, RemoteHMIService remoteHMIService) {
         super.init(logChannel, remoteHMIService);
-        remoteHMIService.addCommandHandler(301, new RemoteHMIBrowserComponent$1(this, "browser-send-text"));
+        remoteHMIService.addCommandHandler(301, new AbstractCommandHandler("browser-send-text"){
+
+            public void indicateCommand(int n, Object object) {
+                String string = object.toString();
+                RemoteHMIBrowserComponent.this.sendMessageToBrowser(string);
+            }
+        });
     }
 
     public void setBrowserHandler(IBrowserHandler iBrowserHandler) {

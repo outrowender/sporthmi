@@ -28,7 +28,6 @@ implements IEClient {
         return this.ieTask;
     }
 
-    @Override
     protected void longRunningTaskAborted() {
         if (this.ieTask != null) {
             this.lc.log(10000, "[%1.longRunningTaskAborted]", (Object)this);
@@ -38,7 +37,6 @@ implements IEClient {
         }
     }
 
-    @Override
     public File getFile() {
         return new File(this.file);
     }

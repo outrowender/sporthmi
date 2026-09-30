@@ -17,7 +17,6 @@ implements IStationInfo {
         this.station = stationInfoExt;
     }
 
-    @Override
     public StationInfoExt getStation() {
         return this.station;
     }

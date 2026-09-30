@@ -11,6 +11,7 @@ import de.audi.atip.interapp.NaviService;
 import de.audi.atip.interapp.navigation.previewmap.IPreviewMap;
 import de.audi.atip.interapp.online.IOperatorCallNaviService;
 import de.audi.atip.interapp.online.IOperatorCallSDSService;
+import de.audi.atip.interapp.online.IOperatorCallSDSServiceListener;
 import de.audi.atip.interapp.online.OnlinePOICall;
 import de.audi.atip.interapp.terminalmode.ITerminalModeUpdateListener;
 import de.audi.atip.log.LogChannel;
@@ -20,7 +21,6 @@ import de.audi.tghu.command.CommandList;
 import de.audi.tghu.online.app.JokerKeyHandler;
 import de.audi.tghu.online.app.Online;
 import de.audi.tghu.online.app.OnlineEnv;
-import de.audi.tghu.online.app.operatorcall.AbstractOperatorCallMain$1;
 import de.audi.tghu.online.app.operatorcall.abstractclasses.AbstractCommand;
 import de.audi.tghu.online.app.operatorcall.abstractclasses.AbstractOperatorCall;
 import de.audi.tghu.online.app.operatorcall.commands.OperatorCallCommandList;
@@ -58,11 +58,10 @@ implements I18NTarget {
     protected OnlinePOICall onlineOperatorCallService;
     protected RemoteHMIService remoteHMIService;
 
-    protected abstract AbstractOperatorCallHandler createOperatorCallHandler(IFrameworkAccess iFrameworkAccess, RemoteHMIService remoteHMIService) {
-    }
+    protected abstract AbstractOperatorCallHandler createOperatorCallHandler(IFrameworkAccess var1, RemoteHMIService var2);
 
     public AbstractOperatorCallMain(IFrameworkAccess iFrameworkAccess, RemoteHMIService remoteHMIService, OnlineEnv onlineEnv, BundleContext bundleContext, boolean bl, boolean bl2) {
-        this.logChannel.log(1078071040, "=======================OperatorCall=======================");
+        this.logChannel.log(1000000, "=======================OperatorCall=======================");
         this.dsiHandler = new DSIHandler(this);
         this.naviHandler = new NavigationHandler(iFrameworkAccess.getHMIService().getChoiceModel(4415), this);
         this.telHandler = new TelephoneHandler();
@@ -77,7 +76,7 @@ implements I18NTarget {
     }
 
     public void setDSI(DSIOperatorCall dSIOperatorCall) {
-        this.logChannel.log(1078071040, "AbstractOperatorCallMain#setDSI called!");
+        this.logChannel.log(1000000, "AbstractOperatorCallMain#setDSI called!");
         this.dsiHandler.setDSI(dSIOperatorCall);
         this.enableDisableOperatorCall();
     }
@@ -99,13 +98,13 @@ implements I18NTarget {
     }
 
     public void setNaviService(NaviService naviService) {
-        this.logChannel.log(1078071040, "AbstractOperatorCallMain#setNaviService called!");
+        this.logChannel.log(1000000, "AbstractOperatorCallMain#setNaviService called!");
         this.naviHandler.setNaviService(naviService);
         this.enableDisableOperatorCall();
     }
 
     public void setTelService(ITelService iTelService) {
-        this.logChannel.log(1078071040, "AbstractOperatorCallMain#setTelService called!");
+        this.logChannel.log(1000000, "AbstractOperatorCallMain#setTelService called!");
         this.telHandler.setTelService(iTelService);
         this.enableDisableOperatorCall();
     }
@@ -124,7 +123,7 @@ implements I18NTarget {
     }
 
     public boolean isCallRunning() {
-        this.logChannel.log(1078071040, "AbstractOperatorCallMain#isCallRunning: entered");
+        this.logChannel.log(1000000, "AbstractOperatorCallMain#isCallRunning: entered");
         if (this.cmdListManager != null) {
             CommandList commandList = this.cmdListManager.getActiveCommandList();
             if (commandList != null) {
@@ -133,19 +132,19 @@ implements I18NTarget {
                 if (command != null) {
                     AbstractCommand abstractCommand = (AbstractCommand)command;
                     if ("DownloadNumber".equalsIgnoreCase(abstractCommand.getName()) || "Calling".equalsIgnoreCase(abstractCommand.getName())) {
-                        this.logChannel.log(-2137614336, "AbstractOperatorCallMain#isCallRunning: return true.");
+                        this.logChannel.log(10000000, "AbstractOperatorCallMain#isCallRunning: return true.");
                         return true;
                     }
                 } else {
-                    this.logChannel.log(-2137614336, "AbstractOperatorCallMain#isCallRunning: no active command available.");
+                    this.logChannel.log(10000000, "AbstractOperatorCallMain#isCallRunning: no active command available.");
                 }
             } else {
-                this.logChannel.log(-2137614336, "AbstractOperatorCallMain#isCallRunning: no active commandList available.");
+                this.logChannel.log(10000000, "AbstractOperatorCallMain#isCallRunning: no active commandList available.");
             }
         } else {
-            this.logChannel.log(-1601830656, "AbstractOperatorCallMain#isCallRunning: no cmdListManager available!");
+            this.logChannel.log(100000, "AbstractOperatorCallMain#isCallRunning: no cmdListManager available!");
         }
-        this.logChannel.log(-2137614336, "AbstractOperatorCallMain#isCallRunning: return false.");
+        this.logChannel.log(10000000, "AbstractOperatorCallMain#isCallRunning: return false.");
         return false;
     }
 
@@ -154,20 +153,20 @@ implements I18NTarget {
     }
 
     public void enterService(int n) {
-        this.logChannel.log(1078071040, "AbstractOperatorCallMain#enterService: serviceName = %1", (Object)this.operatorCallHandler.getServiceTypeName(n));
+        this.logChannel.log(1000000, "AbstractOperatorCallMain#enterService: serviceName = %1", (Object)this.operatorCallHandler.getServiceTypeName(n));
         this.operatorCallHandler.setCurrentServiceType(n);
         this.operatorCallHandler.setOption(false);
         this.naviHandler.setEnterMode(0);
     }
 
     public void enterServiceByOtherContext(int n) {
-        this.logChannel.log(1078071040, "AbstractOperatorCallMain#enterServiceByOtherContext: serviceName = %1", (Object)this.operatorCallHandler.getServiceTypeName(n));
+        this.logChannel.log(1000000, "AbstractOperatorCallMain#enterServiceByOtherContext: serviceName = %1", (Object)this.operatorCallHandler.getServiceTypeName(n));
         this.operatorCallHandler.setCurrentServiceType(n);
         this.operatorCallHandler.setOption(true);
     }
 
     public void leaveService(int n) {
-        this.logChannel.log(1078071040, "AbstractOperatorCallMain#leaveService(%1)", (Object)this.operatorCallHandler.getServiceTypeName(n));
+        this.logChannel.log(1000000, "AbstractOperatorCallMain#leaveService(%1)", (Object)this.operatorCallHandler.getServiceTypeName(n));
         this.operatorCallHandler.setWelcomeScreen(n, true);
         this.operatorCallHandler.leaveJokerKeyMode(n);
         this.operatorCallHandler.deleteCurrentServiceType();
@@ -179,11 +178,10 @@ implements I18NTarget {
     }
 
     public void setDownloadPoisRunning(boolean bl) {
-        this.logChannel.log(1078071040, "AbstractOperatorCallMain#setDownloadPoisRunning: isDownloadRunning = %1", bl);
+        this.logChannel.log(1000000, "AbstractOperatorCallMain#setDownloadPoisRunning: isDownloadRunning = %1", bl);
         this.operatorCallHandler.setDownloadPoisRunning(bl);
     }
 
-    @Override
     public void setLanguage(Language language) {
     }
 
@@ -192,8 +190,13 @@ implements I18NTarget {
     }
 
     public void testSDS(IOperatorCallSDSService iOperatorCallSDSService) {
-        this.logChannel.log(1078071040, "AbstractOperatorCallMain#testSDS!");
-        TestHandler.setSDSHandler(iOperatorCallSDSService, new AbstractOperatorCallMain$1(this));
+        this.logChannel.log(1000000, "AbstractOperatorCallMain#testSDS!");
+        TestHandler.setSDSHandler(iOperatorCallSDSService, new IOperatorCallSDSServiceListener(){
+
+            public void startCallcenterCallBySDSResult(int n) {
+                AbstractOperatorCallMain.this.logChannel.log(1000000, "AbstractOperatorCallMain#testSDS#startCallcenterCallBySDSResult: result = %1", (long)n);
+            }
+        });
     }
 
     public AbstractOperatorCall getOperatorCall(int n) {
@@ -209,7 +212,7 @@ implements I18NTarget {
     }
 
     public void startOperatorCallByJokerKey(int n, int n2, int n3, int n4) {
-        this.logChannel.log(1078071040, "AbstractOperatorCallMain#startOperatorCallByJokerKey with serviceType = %1 started!", (long)n);
+        this.logChannel.log(1000000, "AbstractOperatorCallMain#startOperatorCallByJokerKey with serviceType = %1 started!", (long)n);
         this.operatorCallHandler.startOperatorCallByJokerKey(n, n2, n3, n4);
     }
 
@@ -218,16 +221,16 @@ implements I18NTarget {
     }
 
     public void testNaviService(IOperatorCallNaviService iOperatorCallNaviService) {
-        this.logChannel.log(1078071040, "AbstractOperatorCallMain#testNaviService called");
+        this.logChannel.log(1000000, "AbstractOperatorCallMain#testNaviService called");
         if (iOperatorCallNaviService == null) {
-            this.logChannel.log(-1601830656, "AbstractOperatorCallMain#testNaviService: service is null!");
+            this.logChannel.log(100000, "AbstractOperatorCallMain#testNaviService: service is null!");
         } else {
-            this.logChannel.log(-2137614336, "AbstractOperatorCallMain#testNaviService: service is not null!");
+            this.logChannel.log(10000000, "AbstractOperatorCallMain#testNaviService: service is not null!");
         }
     }
 
     public void operatorCallCenterLeft() {
-        this.logChannel.log(1078071040, "AbstractOperatorCallMain#operatorCallCenterLeft called");
+        this.logChannel.log(1000000, "AbstractOperatorCallMain#operatorCallCenterLeft called");
         this.operatorCallHandler.operatorCallCenterLeft();
     }
 
@@ -262,17 +265,17 @@ implements I18NTarget {
     }
 
     public void operatorCallCallActiveShown(int n) {
-        this.logChannel.log(1078071040, "AbstractOperatorCallMain#operatorCallCallActiveShown called");
+        this.logChannel.log(1000000, "AbstractOperatorCallMain#operatorCallCallActiveShown called");
         this.operatorCallHandler.getOperatorCall(n).callActiveShown();
     }
 
     public void resultListEntered(int n) {
-        this.logChannel.log(1078071040, "AbstractOperatorCallMain#resultListEntered called");
+        this.logChannel.log(1000000, "AbstractOperatorCallMain#resultListEntered called");
         this.operatorCallHandler.getOperatorCall(n).setResultListLastVisited(true);
     }
 
     public void resultListLeft(int n) {
-        this.logChannel.log(1078071040, "AbstractOperatorCallMain#resultListLeft called");
+        this.logChannel.log(1000000, "AbstractOperatorCallMain#resultListLeft called");
         this.operatorCallHandler.getOperatorCall(n).setResultListLastVisited(false);
     }
 

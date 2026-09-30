@@ -12,9 +12,8 @@ extends DSISoundExt {
         super(logChannel);
     }
 
-    @Override
     public void setMicGainLevel(int n) {
-        this.lc.log(-2137614336, "[DSISoundExtHigh.setMicGainLevel] micGainLevel:%1", (long)n);
+        this.lc.log(10000000, "[DSISoundExtHigh.setMicGainLevel] micGainLevel:%1", (long)n);
         this.dsi.setMicGainLevel(n);
     }
 }

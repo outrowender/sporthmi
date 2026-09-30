@@ -7,28 +7,21 @@ import org.dsi.ifc.navigation.LIValueListElement;
 import org.dsi.ifc.search.Country;
 
 public interface ICountrySelectionView {
-    public static final String ALL_COUNTRIES_CODE;
-    public static final String USA_COUNTRY_CODE;
+    public static final String ALL_COUNTRIES_CODE = "XX";
+    public static final String USA_COUNTRY_CODE = "USA";
 
-    default public void updateCountriesList(Country[] countryArray) {
-    }
+    public void updateCountriesList(Country[] var1);
 
-    default public void updateCountriesList(LIValueListElement[] lIValueListElementArray) {
-    }
+    public void updateCountriesList(LIValueListElement[] var1);
 
-    default public String getSelectedRowCode() {
-    }
+    public String getSelectedRowCode();
 
-    default public int getSelectedCountryIconId() {
-    }
+    public int getSelectedCountryIconId();
 
-    default public String[] getAllCountryCodes() {
-    }
+    public String[] getAllCountryCodes();
 
-    default public void restoreDefaultSelection() {
-    }
+    public void restoreDefaultSelection();
 
-    default public void restorePersistedSelection(String string, int n) {
-    }
+    public void restorePersistedSelection(String var1, int var2);
 }
 

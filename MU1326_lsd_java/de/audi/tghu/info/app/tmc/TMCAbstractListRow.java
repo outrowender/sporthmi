@@ -23,17 +23,12 @@ extends EvoListRow {
         return this.message;
     }
 
-    @Override
-    public abstract EvoListRow copy() {
-    }
+    public abstract EvoListRow copy();
 
-    public abstract void updateRrdCarToEvent(int n) {
-    }
+    public abstract void updateRrdCarToEvent(int var1);
 
-    public abstract void updateDistanceAndDireciton(int n, int n2, int n3) {
-    }
+    public abstract void updateDistanceAndDireciton(int var1, int var2, int var3);
 
-    public abstract boolean isLayoutOnRoute() {
-    }
+    public abstract boolean isLayoutOnRoute();
 }
 

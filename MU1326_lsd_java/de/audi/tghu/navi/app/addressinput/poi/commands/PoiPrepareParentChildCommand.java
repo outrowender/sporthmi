@@ -14,9 +14,8 @@ extends NavCommand {
         this.modelAccess = iPoiScreenPrepareParentChild;
     }
 
-    @Override
     public void execute() {
-        this.modelAccess.prepareParentChild(this.dsiResponseContainer.selectionCriterionAvailable(0x6800000) ? 1 : 0);
+        this.modelAccess.prepareParentChild(this.dsiResponseContainer.selectionCriterionAvailable(32774) ? 1 : 0);
         this.getCommandList().commandFinished();
     }
 }

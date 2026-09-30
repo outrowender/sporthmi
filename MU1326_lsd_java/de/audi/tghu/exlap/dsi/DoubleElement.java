@@ -1,8 +1,5 @@
 /*
  * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  java.lang.Double
  */
 package de.audi.tghu.exlap.dsi;
 
@@ -18,7 +15,6 @@ extends HASDataElement {
         this(n, (double)d2);
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer(1400);
         stringBuffer.append("HASDataElement(elementId=");

@@ -18,6 +18,8 @@ import de.audi.atip.storage.IStorageAccess;
 import de.audi.tghu.command.CommandList;
 import de.audi.tghu.command.ICommandListFactory;
 import de.audi.tghu.navi.app.NavigationEnv;
+import de.audi.tghu.navi.app.PersistentState;
+import de.audi.tghu.navi.app.command.NavCommand;
 import de.audi.tghu.navi.app.command.RGStopGuidanceCommand;
 import de.audi.tghu.navi.app.command.RmMakeRoutePersistentCommand;
 import de.audi.tghu.navi.app.command.TrCreateWaypoint;
@@ -30,10 +32,6 @@ import de.audi.tghu.navi.app.command.storage.RmRouteDeleteCommand;
 import de.audi.tghu.navi.app.favorite.NaviFavoriteHandler;
 import de.audi.tghu.navi.app.memory.RouteListData;
 import de.audi.tghu.navi.app.memory.TourHandler;
-import de.audi.tghu.navi.app.memory.TourHandlerHmiListener$1;
-import de.audi.tghu.navi.app.memory.TourHandlerHmiListener$SetLoadedTour;
-import de.audi.tghu.navi.app.memory.TourHandlerHmiListener$StartGuidance;
-import de.audi.tghu.navi.app.memory.TourHandlerHmiListener$State;
 import de.audi.tghu.navi.app.memory.TourPlanEvoListRow;
 import de.audi.tghu.navi.app.routeguidance.IRouteManager;
 import de.audi.tghu.navi.app.routeguidance.IStartGuidanceToDestinationSequence;
@@ -42,6 +40,9 @@ import de.audi.tghu.navi.app.util.FunctionCounter;
 import de.audi.tghu.navi.app.util.Util;
 import de.audi.tghu.navi.app.util.addressformatting.AddressFormatter;
 import de.esolutions.fw.util.commons.Buffer;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 import java.util.Date;
 import org.dsi.ifc.global.NavLocation;
 import org.dsi.ifc.navigation.Route;
@@ -53,13 +54,13 @@ ListListener,
 SpellerListener,
 BaseListModelListener,
 ChoiceListener {
-    private static final String TOUR_NAME_DEFAULT;
-    private static final int MAX_COLUMNS;
-    private static final int COLUMN_ID;
-    private static final int COLUMN_SHORTCUT;
-    protected static final int OFFR_DISCLAIMER_PERSISTENCE_SHOW;
-    protected static final int OFFR_DISCLAIMER_PERSISTENCE_HIDE;
-    protected static final int OFFR_DISCLAIMER_PERSISTENCE_DEFAULT;
+    private static final String TOUR_NAME_DEFAULT = "Tour";
+    private static final int MAX_COLUMNS = 2;
+    private static final int COLUMN_ID = 1;
+    private static final int COLUMN_SHORTCUT = 0;
+    protected static final int OFFR_DISCLAIMER_PERSISTENCE_SHOW = 0;
+    protected static final int OFFR_DISCLAIMER_PERSISTENCE_HIDE = 1;
+    protected static final int OFFR_DISCLAIMER_PERSISTENCE_DEFAULT = 1;
     protected final NavigationEnv env;
     protected final FunctionCounter fc;
     protected final LogChannel logChannel;
@@ -87,41 +88,41 @@ ChoiceListener {
     }
 
     private void initTraceDirectionModels() {
-        this.env.getChoiceModel(170001920).setValue(1);
-        this.env.getChoiceModel(86115840).setValue(0);
+        this.env.getChoiceModel(401930).setValue(1);
+        this.env.getChoiceModel(401925).setValue(0);
     }
 
     private void setListener() {
-        this.env.getListModel(-1474558464).setMaxRows(50);
-        this.env.getListModel(-1474558464).setListListener(this);
-        this.env.getListModel(-1474558464).setMaxColumns(2);
-        this.env.getListModel(-1524890112).setMaxRows(50);
-        this.env.getListModel(-1524890112).setListListener(this);
-        this.env.getListModel(-1524890112).setMaxColumns(2);
-        this.env.getBaseListModel(-249494016).setListener(this);
-        this.env.getBaseListModel(1092748800).setListener(this);
-        this.env.getButtonModel(-266271232).setButtonListener(this);
-        this.env.getButtonModel(-1491335680).setButtonListener(this);
-        this.env.getButtonModel(1126303232).setButtonListener(this);
-        this.env.getButtonModel(-1457781248).setButtonListener(this);
-        this.env.getSpellerModel(-1424226816).setSpellerListener(this);
-        this.env.getSpellerModel(-1424226816).setMaxLength(40);
-        this.env.getButtonModel(-1508112896).setButtonListener(this);
-        this.env.getButtonModel(-215939584).setButtonListener(this);
-        this.env.getButtonModel(-31390208).setButtonListener(this);
-        this.env.getChoiceModel(-1122236928).setChoiceListener(this);
-        this.env.getChoiceModel(119670272).setChoiceListener(this);
-        this.env.getButtonModel(153224704).setButtonListener(this);
-        this.env.getButtonModel(136447488).setButtonListener(this);
-        this.env.getButtonModel(0x220600).setButtonListener(this);
-        this.env.getButtonModel(-14612992).setButtonListener(this);
-        this.env.getButtonModel(-48167424).setButtonListener(this);
-        this.env.getSpellerModel(0x6220600).setSpellerListener(this);
-        this.env.getChoiceModel(86115840).setChoiceListener(this);
-        this.env.getChoiceModel(170001920).setChoiceListener(this);
-        this.env.getButtonModel(-64944640).setButtonListener(this);
-        this.env.getButtonModel(69338624).setButtonListener(this);
-        this.env.getButtonModel(1679951360).setButtonListener(this);
+        this.env.getListModel(400552).setMaxRows(50);
+        this.env.getListModel(400552).setListListener(this);
+        this.env.getListModel(400552).setMaxColumns(2);
+        this.env.getListModel(400549).setMaxRows(50);
+        this.env.getListModel(400549).setListListener(this);
+        this.env.getListModel(400549).setMaxColumns(2);
+        this.env.getBaseListModel(401905).setListener(this);
+        this.env.getBaseListModel(401985).setListener(this);
+        this.env.getButtonModel(401904).setButtonListener(this);
+        this.env.getButtonModel(400551).setButtonListener(this);
+        this.env.getButtonModel(401987).setButtonListener(this);
+        this.env.getButtonModel(400553).setButtonListener(this);
+        this.env.getSpellerModel(400555).setSpellerListener(this);
+        this.env.getSpellerModel(400555).setMaxLength(40);
+        this.env.getButtonModel(400550).setButtonListener(this);
+        this.env.getButtonModel(401907).setButtonListener(this);
+        this.env.getButtonModel(401918).setButtonListener(this);
+        this.env.getChoiceModel(400573).setChoiceListener(this);
+        this.env.getChoiceModel(401927).setChoiceListener(this);
+        this.env.getButtonModel(401929).setButtonListener(this);
+        this.env.getButtonModel(401928).setButtonListener(this);
+        this.env.getButtonModel(401920).setButtonListener(this);
+        this.env.getButtonModel(401919).setButtonListener(this);
+        this.env.getButtonModel(401917).setButtonListener(this);
+        this.env.getSpellerModel(401926).setSpellerListener(this);
+        this.env.getChoiceModel(401925).setChoiceListener(this);
+        this.env.getChoiceModel(401930).setChoiceListener(this);
+        this.env.getButtonModel(401916).setButtonListener(this);
+        this.env.getButtonModel(401924).setButtonListener(this);
+        this.env.getButtonModel(402020).setButtonListener(this);
     }
 
     private long getTourID(int n, int n2) {
@@ -154,7 +155,7 @@ ChoiceListener {
     }
 
     protected String getTrailNameProposal() {
-        return new StringBuffer().append("Track ").append(this.getDateTime()).toString();
+        return "Track " + this.getDateTime();
     }
 
     private String getDateTime() {
@@ -165,20 +166,17 @@ ChoiceListener {
         dateMetric = new DateMetric(new Date(), 6);
         dateMetric.setDate(l);
         String string2 = dateMetric.format();
-        return new StringBuffer().append("<").append(string).append("> <").append(string2).append(">").toString();
+        return "<" + string + "> <" + string2 + ">";
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
-        this.logChannel.log(-2137614336, "TourHandler#keyTyped( model = %1, key = %2 )", (long)n, (long)n2);
+        this.logChannel.log(10000000, "TourHandler#keyTyped( model = %1, key = %2 )", (long)n, (long)n2);
         CommandList commandList = null;
         String string = null;
         switch (n) {
@@ -194,7 +192,7 @@ ChoiceListener {
             }
             case 400555: {
                 this.fc.incCounter(16);
-                string = this.env.getSpellerModel(-1424226816).getText();
+                string = this.env.getSpellerModel(400555).getText();
                 if (Util.isEmpty(string)) {
                     string = this.favSuggestion;
                 }
@@ -209,7 +207,7 @@ ChoiceListener {
                     commandList.add(this.getDisableOffroadIfPrevioulseRequestedCommandList());
                     commandList.execute("TourHandler#keyTyped.NAV_MEM_ROUTE_SAVE_SPELLER");
                 }
-                this.env.getSpellerModel(-1424226816).clear();
+                this.env.getSpellerModel(400555).clear();
                 this.env.fireModelEvent(n, n3);
                 break;
             }
@@ -237,7 +235,7 @@ ChoiceListener {
                     commandList = this.commandListFactory.createCommandList();
                     commandList.add(this.tourHandler.loadTour(1, -1, this.tourHandler.getTourBackupID()));
                     commandList.add(new RGStopGuidanceCommand());
-                    commandList.add(new TourHandlerHmiListener$SetLoadedTour(this));
+                    commandList.add(new SetLoadedTour());
                     commandList.execute("TourHandler#keyTyped.NAV_MEM_ROUTE_LOAD_TOUR_BACKUP_BUTTON");
                 } else {
                     this.logChannel.log(10000, "TourHandler#keyTyped() - no tour plan backup available!");
@@ -247,9 +245,9 @@ ChoiceListener {
             }
             case 401904: {
                 this.favSuggestion = this.createTourNameForSaving();
-                this.env.getSpellerModel(-1424226816).setCompletionText(this.favSuggestion);
-                this.env.getSpellerModel(-1424226816).setText("");
-                this.env.getSpellerModel(-1424226816).setControlButtonStates(1, 1);
+                this.env.getSpellerModel(400555).setCompletionText(this.favSuggestion);
+                this.env.getSpellerModel(400555).setText("");
+                this.env.getSpellerModel(400555).setControlButtonStates(1, 1);
                 this.env.fireModelEvent(n, n3);
                 break;
             }
@@ -257,8 +255,8 @@ ChoiceListener {
                 if (this.tourHandler.getNavSegmentId() == null) {
                     commandList = this.commandListFactory.createCommandList(0);
                     commandList.add(new RGStopGuidanceCommand());
-                    commandList.add(new TourHandlerHmiListener$SetLoadedTour(this));
-                    commandList.add(new TourHandlerHmiListener$StartGuidance(this));
+                    commandList.add(new SetLoadedTour());
+                    commandList.add(new StartGuidance());
                     commandList.execute("TourHandler#keyTyped.NAV_MEM_ROUTE_START_CURRENT_BUTTON");
                 }
                 this.env.fireModelEvent(n, n3);
@@ -268,7 +266,7 @@ ChoiceListener {
                 Object object;
                 int n4 = this.checkForTmpHideOffroadDisclaimerCheckbox();
                 if (n4 == 1) {
-                    object = this.env.getChoiceModel(119670272);
+                    object = this.env.getChoiceModel(401927);
                     object.setValue(n4 == 1 ? 1 : 0);
                     this.saveState();
                 }
@@ -281,16 +279,16 @@ ChoiceListener {
                 break;
             }
             case 400573: {
-                int n5 = this.env.getChoiceModel(-1122236928).getValue();
+                int n5 = this.env.getChoiceModel(400573).getValue();
                 Route route = null;
                 if (n5 != 0) {
-                    if (this.env.getChoiceModel(52561408).getValue() == 0) {
+                    if (this.env.getChoiceModel(401923).getValue() == 0) {
                         route = this.tourHandler.getEmptyRoute(0);
                     } else {
                         this.wantedToDeactivate = true;
                     }
                 } else {
-                    int n6 = this.env.getChoiceModel(119670272).getValue();
+                    int n6 = this.env.getChoiceModel(401927).getValue();
                     if (n6 != 0) {
                         route = this.tourHandler.getEmptyRoute(2);
                     }
@@ -305,7 +303,7 @@ ChoiceListener {
                 break;
             }
             case 401927: {
-                ChoiceModelApp choiceModelApp = this.env.getChoiceModel(119670272);
+                ChoiceModelApp choiceModelApp = this.env.getChoiceModel(401927);
                 choiceModelApp.setValue(choiceModelApp.getValue() == 0 ? 1 : 0);
                 this.saveState();
                 this.env.fireModelEvent(n, n3);
@@ -342,12 +340,12 @@ ChoiceListener {
                 break;
             }
             case 401917: {
-                this.env.getSpellerModel(0x6220600).setText(this.getTrailNameProposal());
+                this.env.getSpellerModel(401926).setText(this.getTrailNameProposal());
                 this.env.fireModelEvent(n, n3);
                 break;
             }
             case 401926: {
-                string = this.env.getSpellerModel(0x6220600).getText();
+                string = this.env.getSpellerModel(401926).getText();
                 if (n2 == 0) {
                     commandList = this.commandListFactory.createCommandList();
                     commandList.add(new TrStopTraceRecording());
@@ -355,31 +353,31 @@ ChoiceListener {
                     commandList.add(this.getDisableOffroadIfPrevioulseRequestedCommandList());
                     commandList.execute("TourHandler#keyTyped.NAV_OFFR_STORE_SPELLER");
                 }
-                this.env.getSpellerModel(0x6220600).clear();
+                this.env.getSpellerModel(401926).clear();
                 this.env.fireModelEvent(n, n3);
                 break;
             }
             case 401925: {
-                this.env.getChoiceModel(170001920).setValue(0);
-                this.env.getChoiceModel(86115840).setValue(1);
+                this.env.getChoiceModel(401930).setValue(0);
+                this.env.getChoiceModel(401925).setValue(1);
                 this.env.fireModelEvent(n, n3);
                 break;
             }
             case 401930: {
-                this.env.getChoiceModel(170001920).setValue(1);
-                this.env.getChoiceModel(86115840).setValue(0);
+                this.env.getChoiceModel(401930).setValue(1);
+                this.env.getChoiceModel(401925).setValue(0);
                 this.env.fireModelEvent(n, n3);
                 break;
             }
             case 401916: {
-                this.dsiNavRouteOptTrail = this.env.getChoiceModel(170001920).getValue() == 1 ? 2 : 3;
+                this.dsiNavRouteOptTrail = this.env.getChoiceModel(401930).getValue() == 1 ? 2 : 3;
                 this.saveOffRoadRouteOptionsState(this.dsiNavRouteOptTrail);
                 this.startGuidance();
                 this.env.fireModelEvent(n, n3);
                 break;
             }
             case 401924: {
-                this.dsiNavRouteOptTrail = this.env.getChoiceModel(170001920).getValue() == 1 ? 1 : 4;
+                this.dsiNavRouteOptTrail = this.env.getChoiceModel(401930).getValue() == 1 ? 1 : 4;
                 this.saveOffRoadRouteOptionsState(this.dsiNavRouteOptTrail);
                 this.startGuidance();
                 this.env.fireModelEvent(n, n3);
@@ -398,7 +396,7 @@ ChoiceListener {
     private String createTourNameForSaving() {
         StringBuffer stringBuffer = new StringBuffer();
         DateMetric dateMetric = new DateMetric(new Date(this.env.getFramework().getKombiTime()), 4);
-        stringBuffer.append(this.env.getTranslatedText(57, "Tour"));
+        stringBuffer.append(this.env.getTranslatedText(57, TOUR_NAME_DEFAULT));
         stringBuffer.append(" ");
         stringBuffer.append(dateMetric.getFormattedValue());
         return stringBuffer.toString();
@@ -408,7 +406,13 @@ ChoiceListener {
         CommandList commandList = this.commandListFactory.createCommandList();
         if (this.wantedToDeactivate) {
             Route route = this.tourHandler.getEmptyRoute(0);
-            commandList.add(new TourHandlerHmiListener$1(this, "reset wantedToDeactivate"));
+            commandList.add(new NavCommand("reset wantedToDeactivate"){
+
+                public void execute() {
+                    TourHandlerHmiListener.this.wantedToDeactivate = false;
+                    this.getCommandList().commandFinished();
+                }
+            });
             commandList.add(new RGStopGuidanceCommand());
             commandList.add(new RmMakeRoutePersistentCommand(route));
         }
@@ -422,21 +426,17 @@ ChoiceListener {
         commandList.execute("TourHandler#startGuidance");
     }
 
-    @Override
     public void keyLongTyped(int n, int n2, int n3) {
     }
 
-    @Override
     public void itemFocused(int n, int n2, int n3, int n4) {
     }
 
-    @Override
     public void itemReleased(int n, int n2, int n3, int n4) {
     }
 
-    @Override
     public void itemSelected(int n, int n2, int n3, int n4) {
-        this.logChannel.log(-2137614336, "TourHandler#itemSelected( %1, %2 )", (long)n, (long)n2);
+        this.logChannel.log(10000000, "TourHandler#itemSelected( %1, %2 )", (long)n, (long)n2);
         CommandList commandList = null;
         switch (n) {
             case 400552: {
@@ -445,7 +445,7 @@ ChoiceListener {
                 commandList.add(this.tourHandler.loadTour(1, n2, this.getTourID(n, n2)));
                 if (n3 == 0) {
                     commandList.add(new RGStopGuidanceCommand());
-                    commandList.add(new TourHandlerHmiListener$SetLoadedTour(this));
+                    commandList.add(new SetLoadedTour());
                 }
                 commandList.execute("TourHandler#itemSelected.NAV_MEM_ROUTE_LOAD_LIST");
                 this.env.fireModelEvent(n, n4);
@@ -464,40 +464,35 @@ ChoiceListener {
                 break;
             }
             default: {
-                this.logChannel.log(-1601830656, "TourHandler#itemSelected() - unknown model id: %1", (long)n);
+                this.logChannel.log(100000, "TourHandler#itemSelected() - unknown model id: %1", (long)n);
             }
         }
     }
 
-    @Override
     public void commandPressed(int n, int n2, int n3) {
     }
 
-    @Override
     public void textChanged(int n, String string, char c2, int n2) {
-        this.logChannel.log(-2137614336, "TourHandlerHmiListener#textChanged() text=%2", (Object)string);
+        this.logChannel.log(10000000, "TourHandlerHmiListener#textChanged() text=%2", (Object)string);
         if (Util.isEmpty(string)) {
             if (!Util.isEmpty(this.favSuggestion)) {
-                this.env.getSpellerModel(-1424226816).setCompletionText(this.favSuggestion);
+                this.env.getSpellerModel(400555).setCompletionText(this.favSuggestion);
             }
-        } else if (!Util.isEmpty(this.env.getSpellerModel(-1424226816).getCompletionText())) {
-            this.favSuggestion = this.env.getSpellerModel(-1424226816).getCompletionText();
-            this.env.getSpellerModel(-1424226816).setCompletionText("");
+        } else if (!Util.isEmpty(this.env.getSpellerModel(400555).getCompletionText())) {
+            this.favSuggestion = this.env.getSpellerModel(400555).getCompletionText();
+            this.env.getSpellerModel(400555).setCompletionText("");
         }
     }
 
-    @Override
     public void focusedCharacter(int n, char c2, int n2) {
     }
 
-    @Override
     public void itemReleased(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
     }
 
-    @Override
     public void itemSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
-        this.logChannel.log(-1601830656, "TourHandler#itemSelected(EvoListRow row, int model, int index, int col, int terminal)");
-        if (n == -249494016 || n == 1092748800) {
+        this.logChannel.log(100000, "TourHandler#itemSelected(EvoListRow row, int model, int index, int col, int terminal)");
+        if (n == 401905 || n == 401985) {
             TourPlanEvoListRow tourPlanEvoListRow = (TourPlanEvoListRow)evoListRow;
             RouteListData routeListData = tourPlanEvoListRow.getRoute();
             if (routeListData.segmentId == null) {
@@ -505,8 +500,8 @@ ChoiceListener {
                 commandList.add(this.tourHandler.loadTour(routeListData.memoryId, n2, routeListData.id));
                 if (n3 == 2) {
                     commandList.add(new RGStopGuidanceCommand());
-                    commandList.add(new TourHandlerHmiListener$SetLoadedTour(this));
-                    commandList.add(new TourHandlerHmiListener$StartGuidance(this));
+                    commandList.add(new SetLoadedTour());
+                    commandList.add(new StartGuidance());
                 }
                 commandList.execute("TourHandler#itemSelected.NAV_MEM_ROUTE_BASE_LIST");
             } else {
@@ -516,21 +511,19 @@ ChoiceListener {
         }
     }
 
-    @Override
     public void itemLongSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
         this.itemSelected(evoListRow, n, n2, 2, n4);
     }
 
-    @Override
     public void itemFocused(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
     }
 
     private void saveState() {
         IStorageAccess iStorageAccess = this.env.getFramework().getStorageMgr();
         if (iStorageAccess != null) {
-            TourHandlerHmiListener$State tourHandlerHmiListener$State = new TourHandlerHmiListener$State(iStorageAccess, this.logChannel);
-            tourHandlerHmiListener$State.setOffrDisclaimerPersistence(this.env.getChoiceModel(119670272).getValue());
-            tourHandlerHmiListener$State.serializeAndWrite();
+            State state = new State(iStorageAccess, this.logChannel);
+            state.setOffrDisclaimerPersistence(this.env.getChoiceModel(401927).getValue());
+            state.serializeAndWrite();
         } else {
             this.logChannel.log(10000, "TourHandlerHmiListener#saveState() - no storage manager available!!! ");
         }
@@ -544,22 +537,85 @@ ChoiceListener {
     private void loadState() {
         IStorageAccess iStorageAccess = this.env.getFramework().getStorageMgr();
         if (iStorageAccess != null) {
-            TourHandlerHmiListener$State tourHandlerHmiListener$State = new TourHandlerHmiListener$State(iStorageAccess, this.logChannel);
-            tourHandlerHmiListener$State.readAndDeserialize();
-            this.env.getChoiceModel(119670272).setValue(tourHandlerHmiListener$State.getOffrDisclaimerPersistence());
+            State state = new State(iStorageAccess, this.logChannel);
+            state.readAndDeserialize();
+            this.env.getChoiceModel(401927).setValue(state.getOffrDisclaimerPersistence());
         } else {
             this.logChannel.log(10000, "TourHandlerHmiListener#loadState() - no storage manager available!!! ");
         }
     }
 
     public void resetSettings() {
-        ChoiceModelApp choiceModelApp = this.env.getChoiceModel(119670272);
+        ChoiceModelApp choiceModelApp = this.env.getChoiceModel(401927);
         if (choiceModelApp == null) {
-            this.logChannel.log(-1601830656, "TourHandlerHmiListener#resetSettings() choiceModel is null");
+            this.logChannel.log(100000, "TourHandlerHmiListener#resetSettings() choiceModel is null");
             return;
         }
         choiceModelApp.setValue(1);
         this.saveState();
+    }
+
+    public static class State
+    extends PersistentState {
+        private static final int VERSION = 1;
+        private static final int KEY = 943;
+        private int offrDisclaimerPersistence;
+
+        public State(IStorageAccess iStorageAccess, LogChannel logChannel) {
+            super(iStorageAccess, 1, 1004, 943, logChannel);
+        }
+
+        protected void initWithDefaultValues() {
+            this.offrDisclaimerPersistence = 1;
+        }
+
+        protected void initFromOldKeys(IStorageAccess iStorageAccess) {
+        }
+
+        protected void serialize(DataOutputStream dataOutputStream) throws IOException {
+            dataOutputStream.writeInt(this.offrDisclaimerPersistence);
+        }
+
+        protected void deserialize(DataInputStream dataInputStream) throws IOException {
+            this.offrDisclaimerPersistence = dataInputStream.readInt();
+        }
+
+        protected void convertContainer(int n, int n2, DataInputStream dataInputStream) {
+            this.logChannel.log(10000000, "TourHandlerHmiListener.State#convertContainer( %1, %2 )", (long)n, (long)n2);
+            this.initWithDefaultValues();
+            try {
+                if (n > 0) {
+                    this.offrDisclaimerPersistence = dataInputStream.readInt();
+                }
+            }
+            catch (IOException iOException) {
+                this.logChannel.log(10000, "TourHandlerHmiListener.State#convertContainer - error on converting the persistent state format", (Throwable)iOException);
+            }
+        }
+
+        public int getOffrDisclaimerPersistence() {
+            return this.offrDisclaimerPersistence;
+        }
+
+        public void setOffrDisclaimerPersistence(int n) {
+            this.offrDisclaimerPersistence = n;
+        }
+    }
+
+    public final class SetLoadedTour
+    extends NavCommand {
+        public void execute() {
+            TourHandlerHmiListener.this.logChannel.log(10000000, "TourHandler.SetLoadedTour#execute()");
+            this.getCommandList().commandFinishedWithPostCommand(new RmMakeRoutePersistentCommand(TourHandlerHmiListener.this.tourHandler.getLoadedTour()));
+        }
+    }
+
+    public final class StartGuidance
+    extends NavCommand {
+        public void execute() {
+            TourHandlerHmiListener.this.logChannel.log(10000000, "TourHandler.StartGuidance#execute()");
+            this.getCommandList().commandFinishedWithPostSequence(this.navigation.getRouteManager().getStartGuidanceSequence());
+        }
     }
 }
 

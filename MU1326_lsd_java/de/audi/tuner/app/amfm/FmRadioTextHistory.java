@@ -8,20 +8,19 @@ import de.audi.tuner.app.RadioTextPlusStorage;
 import de.audi.tuner.app.TunerBasics;
 import de.audi.tuner.app.Utilities;
 import de.audi.tuner.app.amfm.AMFMStation;
-import de.audi.tuner.app.amfm.FmRadioTextHistory$DSIDownListener;
-import de.audi.tuner.app.amfm.FmRadioTextHistory$DsiUpListener;
 import de.audi.tuner.app.amfm.dsi.AMFMDsiDownInfo;
 import de.audi.tuner.app.amfm.dsi.AMFMDsiUpInfo;
 import de.audi.tuner.app.rthyperlinking.RadiotextHyperlinkProcessor;
+import org.dsi.ifc.radio.AMFMRadioText;
 
 class FmRadioTextHistory
 extends RadioTextHistory {
-    final AMFMDsiUpInfo dsiUpListener = new FmRadioTextHistory$DsiUpListener(this, null);
-    final AMFMDsiDownInfo dsiDownListener = new FmRadioTextHistory$DSIDownListener(this, null);
+    final AMFMDsiUpInfo dsiUpListener = new DsiUpListener();
+    final AMFMDsiDownInfo dsiDownListener = new DSIDownListener();
     private AMFMStation currentStation = new AMFMStation();
 
     FmRadioTextHistory(TunerBasics tunerBasics, RadiotextHyperlinkProcessor radiotextHyperlinkProcessor) {
-        super(tunerBasics, radiotextHyperlinkProcessor, -1551367936, -813170432, 646447360, "Fm", tunerBasics.getLogger().amfmDSI);
+        super(tunerBasics, radiotextHyperlinkProcessor, 100515, 100559, 100390, "Fm", tunerBasics.getLogger().amfmDSI);
     }
 
     private static boolean isRadioTextSupportedByNewStation(AMFMStation aMFMStation) {
@@ -31,41 +30,46 @@ extends RadioTextHistory {
         return aMFMStation.rds || aMFMStation.hd;
     }
 
-    static /* synthetic */ boolean access$200(AMFMStation aMFMStation) {
-        return FmRadioTextHistory.isRadioTextSupportedByNewStation(aMFMStation);
+    private class DsiUpListener
+    extends AMFMDsiUpInfo {
+        private DsiUpListener() {
+        }
+
+        public void updateRadioText(AMFMRadioText aMFMRadioText) {
+            FmRadioTextHistory.this.updateRadioText(aMFMRadioText.text);
+        }
+
+        public void updateRadioTextPlus(RadioTextPlusStorage radioTextPlusStorage) {
+            FmRadioTextHistory.this.updateRadiotextPlus(radioTextPlusStorage);
+        }
+
+        public void updateSelectedStation(AMFMStation aMFMStation) {
+            if (Utilities.isPiIgnore()) {
+                if (aMFMStation.frequency != ((FmRadioTextHistory)FmRadioTextHistory.this).currentStation.frequency || aMFMStation.serviceId != ((FmRadioTextHistory)FmRadioTextHistory.this).currentStation.serviceId || !aMFMStation.rds && !aMFMStation.hd) {
+                    FmRadioTextHistory.this.reset(FmRadioTextHistory.isRadioTextSupportedByNewStation(aMFMStation));
+                }
+            } else if (!aMFMStation.rds || aMFMStation.pi != ((FmRadioTextHistory)FmRadioTextHistory.this).currentStation.pi) {
+                FmRadioTextHistory.this.reset(FmRadioTextHistory.isRadioTextSupportedByNewStation(aMFMStation));
+            }
+            FmRadioTextHistory.this.currentStation = aMFMStation;
+        }
+
+        public void seekStationStatus(boolean bl) {
+            if (bl) {
+                FmRadioTextHistory.this.reset(false);
+            }
+        }
     }
 
-    static /* synthetic */ void access$300(FmRadioTextHistory fmRadioTextHistory, boolean bl) {
-        fmRadioTextHistory.reset(bl);
-    }
+    private class DSIDownListener
+    extends AMFMDsiDownInfo {
+        private DSIDownListener() {
+        }
 
-    static /* synthetic */ AMFMStation access$402(FmRadioTextHistory fmRadioTextHistory, AMFMStation aMFMStation) {
-        fmRadioTextHistory.currentStation = aMFMStation;
-        return fmRadioTextHistory.currentStation;
-    }
-
-    static /* synthetic */ void access$500(FmRadioTextHistory fmRadioTextHistory, String string) {
-        fmRadioTextHistory.updateRadioText(string);
-    }
-
-    static /* synthetic */ void access$600(FmRadioTextHistory fmRadioTextHistory, RadioTextPlusStorage radioTextPlusStorage) {
-        fmRadioTextHistory.updateRadiotextPlus(radioTextPlusStorage);
-    }
-
-    static /* synthetic */ AMFMStation access$400(FmRadioTextHistory fmRadioTextHistory) {
-        return fmRadioTextHistory.currentStation;
-    }
-
-    static /* synthetic */ void access$700(FmRadioTextHistory fmRadioTextHistory, boolean bl) {
-        fmRadioTextHistory.reset(bl);
-    }
-
-    static /* synthetic */ void access$800(FmRadioTextHistory fmRadioTextHistory, boolean bl) {
-        fmRadioTextHistory.reset(bl);
-    }
-
-    static /* synthetic */ void access$900(FmRadioTextHistory fmRadioTextHistory, boolean bl) {
-        fmRadioTextHistory.reset(bl);
+        public void preTuneAction(AMFMStation aMFMStation, boolean bl) {
+            FmRadioTextHistory.this.reset(FmRadioTextHistory.isRadioTextSupportedByNewStation(aMFMStation));
+            FmRadioTextHistory.this.currentStation = aMFMStation;
+        }
     }
 }
 

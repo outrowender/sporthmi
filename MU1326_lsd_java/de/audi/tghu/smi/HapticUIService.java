@@ -8,7 +8,6 @@ import de.audi.tghu.smi.AbstractHapticUIService;
 
 public class HapticUIService
 extends AbstractHapticUIService {
-    @Override
     protected void showScreen(int n, int[] nArray, boolean bl, boolean bl2, boolean bl3, int[] nArray2, AdditionalScreenData additionalScreenData) {
         this.stateMachine.errLog.startActivatingScreen(this.stateMachine.getActiveScreenState(), n);
         long[] lArray = this.stateMachine.getContexts();

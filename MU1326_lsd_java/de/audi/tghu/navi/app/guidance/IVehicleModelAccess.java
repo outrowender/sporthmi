@@ -6,25 +6,18 @@ package de.audi.tghu.navi.app.guidance;
 import org.dsi.ifc.global.NavLocation;
 
 public interface IVehicleModelAccess {
-    default public void updateStreet(String string) {
-    }
+    public void updateStreet(String var1);
 
-    default public void updateCountryNCity(String string, String string2, String string3) {
-    }
+    public void updateCountryNCity(String var1, String var2, String var3);
 
-    default public void updateZip(String string) {
-    }
+    public void updateZip(String var1);
 
-    default public void updateSatInfo(String string, String string2, int n, int n2, int n3, int n4) {
-    }
+    public void updateSatInfo(String var1, String var2, int var3, int var4, int var5, int var6);
 
-    default public void updateHeight(int n) {
-    }
+    public void updateHeight(int var1);
 
-    default public void buildRows() {
-    }
+    public void buildRows();
 
-    default public void updateRoadSign(NavLocation navLocation) {
-    }
+    public void updateRoadSign(NavLocation var1);
 }
 

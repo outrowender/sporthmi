@@ -18,9 +18,9 @@ implements IView {
 
     public MapOptionView(NavigationEnv navigationEnv) {
         this.logger = navigationEnv.getLogChannel("App.Map.GUI.Main");
-        this.mShowDetailsOfCrosshair = navigationEnv.getButtonModel(-1625291264);
-        this.mShowDetailsOfCrosshairForPOIStack = navigationEnv.getButtonModel(-1608514048);
-        this.mShowDetailsOfCrosshairForTMCEvent = navigationEnv.getButtonModel(1965229568);
+        this.mShowDetailsOfCrosshair = navigationEnv.getButtonModel(401567);
+        this.mShowDetailsOfCrosshairForPOIStack = navigationEnv.getButtonModel(401568);
+        this.mShowDetailsOfCrosshairForTMCEvent = navigationEnv.getButtonModel(402293);
     }
 
     private LogChannel getLogger() {
@@ -28,7 +28,7 @@ implements IView {
     }
 
     public void setShowDetailsOfCrosshairListener(ButtonListener buttonListener) {
-        this.getLogger().log(-2137614336, "MapOptionView#setShowDetailsOfCrosshairListener()");
+        this.getLogger().log(10000000, "MapOptionView#setShowDetailsOfCrosshairListener()");
         if (this.mShowDetailsOfCrosshair != null) {
             this.mShowDetailsOfCrosshair.setButtonListener(buttonListener);
         }

@@ -9,10 +9,10 @@ import de.audi.atip.statemachine.ap.TopLevelScreenActionProxy;
 
 public class TopLevelScreenActionProxyImpl
 implements TopLevelScreenActionProxy {
-    public static final int MODULDE_SYSTEM;
-    public static final int MODULDE_NAVI;
-    public static final int TOP_LEVEL_MODEL_ID_SYSTEM;
-    public static final int TOP_LEVEL_MODEL_ID_NAVIGATION;
+    public static final int MODULDE_SYSTEM = 0;
+    public static final int MODULDE_NAVI = 4;
+    public static final int TOP_LEVEL_MODEL_ID_SYSTEM = 3883;
+    public static final int TOP_LEVEL_MODEL_ID_NAVIGATION = 3882;
     private ChoiceModelApp[] systemTopLevelModel = new ChoiceModelApp[8];
     private ChoiceModelApp[] naviTopLevelModel = new ChoiceModelApp[8];
     private IFrameworkAccess frameworkAccess;
@@ -21,7 +21,6 @@ implements TopLevelScreenActionProxy {
         this.frameworkAccess = iFrameworkAccess;
     }
 
-    @Override
     public void setTopLevelScreen(int n, int n2, boolean bl) {
         if (this.systemTopLevelModel[n] == null || this.naviTopLevelModel[n] == null) {
             this.initModels(n);

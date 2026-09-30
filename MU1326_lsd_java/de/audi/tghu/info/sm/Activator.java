@@ -9,7 +9,6 @@ import de.audi.tghu.info.sm.InfoSMMActions;
 
 public class Activator
 extends AbstractSMMActivator {
-    @Override
     public void init() {
         this.smmList = new InfoSMM[8];
         if (this.framework.isFrontMU()) {

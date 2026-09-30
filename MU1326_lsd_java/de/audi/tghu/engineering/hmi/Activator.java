@@ -19,7 +19,6 @@ extends AbstractHMIActivator {
         super(13, "Engineering", System.getProperty("variant.skin", "EvoHighScale"), new EngineeringModelBank());
     }
 
-    @Override
     protected synchronized AbstractScreenFactory getScreenFactory() {
         if (this.instance == null) {
             this.instance = new EngineeringScreenFactory(this.getFramework());
@@ -27,7 +26,6 @@ extends AbstractHMIActivator {
         return this.instance;
     }
 
-    @Override
     public HMIConditionBank getConditionBank() {
         if (this.conditionBank == null) {
             this.conditionBank = new EngineeringConditionBank((EngineeringScreenFactory)this.getScreenFactory());

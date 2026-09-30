@@ -15,8 +15,8 @@ import de.audi.tghu.navi.app.addressinput.commands.AddCityToHistoryCommand;
 import de.audi.tghu.navi.app.addressinput.commands.LISPSelectListItemCommand;
 import de.audi.tghu.navi.app.addressinput.commands.ModelSelectListElementCommand;
 import de.audi.tghu.navi.app.addressinput.poi.searcharea.IPoiSearchAreaModelAccess;
-import de.audi.tghu.navi.app.addressinput.poi.searcharea.PoiCityZipInputSequence$1;
 import de.audi.tghu.navi.app.addressinput.poi.searcharea.PoiSearchArea;
+import de.audi.tghu.navi.app.command.NavCommand;
 import de.audi.tghu.navi.app.li.SpellerStack;
 import org.dsi.ifc.navigation.LIValueListElement;
 
@@ -40,92 +40,77 @@ implements IMatchspellerInputSequence {
         this.cityInputSequence = new CityZipInputSequence(iMatchspellerModelAccess, spellerStack, iCommandListFactory, cityHistory, iPreviewMap, iAddressInputForm);
     }
 
-    @Override
     public CommandList getSelectListElementCommandList(LIValueListElement lIValueListElement, boolean bl) {
         CommandList commandList = this.commandListFactory.createCommandList();
         commandList.add(new LISPSelectListItemCommand(lIValueListElement.getListIndex()));
-        commandList.add(new PoiCityZipInputSequence$1(this));
+        commandList.add(new NavCommand(){
+
+            public void execute() {
+                PoiCityZipInputSequence.this.searchArea.setSearchContext(4);
+                PoiCityZipInputSequence.this.searchArea.setLocation(this.dsiResponseContainer.getLiCurrentLD());
+                PoiCityZipInputSequence.this.searchMainModelAccess.onUpdateSearchArea(PoiCityZipInputSequence.this.searchArea);
+                this.getCommandList().commandFinished();
+            }
+        });
         commandList.add(new AddCityToHistoryCommand(this.cityHistory));
         commandList.add(new ModelSelectListElementCommand(this.modelAccess));
         commandList.add(this.restartPoiMainScreen);
         return commandList;
     }
 
-    @Override
     public void selectListElement(LIValueListElement lIValueListElement, boolean bl) {
         this.getSelectListElementCommandList(lIValueListElement, bl).execute("PoiCityZipInputSequence#selectListElement");
     }
 
-    @Override
     public void start(boolean bl) {
         this.cityInputSequence.start(bl);
     }
 
-    @Override
     public void requestNextResultListWindow(int n, int n2) {
         this.cityInputSequence.requestNextResultListWindow(n, n2);
     }
 
-    @Override
     public void requestPreviousResultListWindow(int n) {
         this.cityInputSequence.requestPreviousResultListWindow(n);
     }
 
-    @Override
     public void addCharacter(String string) {
         this.cityInputSequence.addCharacter(string);
     }
 
-    @Override
     public void undoCharacter() {
         this.cityInputSequence.undoCharacter();
     }
 
-    @Override
     public void deleteAllCharacters() {
         this.cityInputSequence.deleteAllCharacters();
     }
 
-    @Override
     public void restore() {
         this.cityInputSequence.restore();
     }
 
-    @Override
     public CommandList createRestoreCommandList() {
         return this.cityInputSequence.createRestoreCommandList();
     }
 
-    @Override
     public boolean hasActiveSubSequence() {
         return this.cityInputSequence.hasActiveSubSequence();
     }
 
-    @Override
     public void showLocationInPreviewMap(IPreviewMap iPreviewMap, LIValueListElement lIValueListElement) {
         this.cityInputSequence.showLocationInPreviewMap(iPreviewMap, lIValueListElement);
     }
 
-    @Override
     public void selectElementByIdentifier(String string) {
         this.cityInputSequence.selectElementByIdentifier(string);
     }
 
-    @Override
     public void unrequestItems(int n, int n2) {
         this.cityInputSequence.unrequestItems(n, n2);
     }
 
-    @Override
     public void addCharacter(String string, int n, boolean bl) {
-    }
-
-    static /* synthetic */ PoiSearchArea access$000(PoiCityZipInputSequence poiCityZipInputSequence) {
-        return poiCityZipInputSequence.searchArea;
-    }
-
-    static /* synthetic */ IPoiSearchAreaModelAccess access$100(PoiCityZipInputSequence poiCityZipInputSequence) {
-        return poiCityZipInputSequence.searchMainModelAccess;
     }
 }
 

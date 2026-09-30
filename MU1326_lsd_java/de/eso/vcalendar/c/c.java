@@ -45,14 +45,13 @@ extends a {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void a(int n) {
         if (this.E != null) {
             try {
                 this.E.flush();
                 this.E.close();
                 if (this.F != null) {
-                    de.eso.a.d.b.c(new StringBuffer().append("closed file ").append(this.F).toString());
+                    de.eso.a.d.b.c("closed file " + this.F);
                     this.r.a(this.F, n);
                 } else {
                     de.eso.a.d.b.d("binary file was null!");
@@ -78,15 +77,15 @@ extends a {
                     }
                     this.w = false;
                     this.v = 0L;
-                    this.F = File.createTempFile(new StringBuffer().append("vcalender_").append(this.o.getName()).append("_").append(this.x).toString(), string, G);
+                    this.F = File.createTempFile("vcalender_" + this.o.getName() + "_" + this.x, string, G);
                     this.E = new BufferedOutputStream(new FileOutputStream(this.F));
-                    de.eso.a.d.b.c(new StringBuffer().append("Writing binary content to :").append(this.F.getAbsolutePath()).toString());
+                    de.eso.a.d.b.c("Writing binary content to :" + this.F.getAbsolutePath());
                 } else {
-                    de.eso.a.d.b.d(new StringBuffer().append("can not create ").append(G.getAbsolutePath()).toString());
+                    de.eso.a.d.b.d("can not create " + G.getAbsolutePath());
                 }
             }
             catch (Exception exception) {
-                de.eso.a.d.b.d(new StringBuffer().append("Error opening temp file for binary rfc content: ").append(exception.getMessage()).toString());
+                de.eso.a.d.b.d("Error opening temp file for binary rfc content: " + exception.getMessage());
             }
         }
         if (this.E != null) {
@@ -94,7 +93,7 @@ extends a {
                 return;
             }
             if (this.v > de.eso.a.b.a.d()) {
-                de.eso.a.d.b.d(new StringBuffer().append("Writing to binary file exceeded quota of ").append(de.eso.a.b.a.d()).append(" bytes").toString());
+                de.eso.a.d.b.d("Writing to binary file exceeded quota of " + de.eso.a.b.a.d() + " bytes");
                 this.w = true;
             }
             try {
@@ -106,7 +105,6 @@ extends a {
         }
     }
 
-    @Override
     public void a(byte by) {
         this.z = true;
         if (this.t != null && this.s == null) {
@@ -116,7 +114,6 @@ extends a {
         }
     }
 
-    @Override
     public void b(String string) {
         if ("BEGIN".equalsIgnoreCase(string)) {
             this.A = true;

@@ -16,7 +16,6 @@ extends NavCommand {
         this.mapKey = string;
     }
 
-    @Override
     public void execute() {
         byte[] byArray = (byte[])this.getCommandList().get(this.mapKey);
         new LocalPersistNavLocationHelper(this.env, this.persistenceKey).savePersistentState(byArray);

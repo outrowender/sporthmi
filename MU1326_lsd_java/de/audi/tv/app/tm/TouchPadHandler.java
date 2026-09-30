@@ -4,22 +4,21 @@
 package de.audi.tv.app.tm;
 
 import de.audi.atip.statemachine.ap.TVActionProxy;
+import de.audi.tv.app.ap.TVActionProxyDefaultListenerEvo;
 import de.audi.tv.app.base.TVEnv;
 import de.audi.tv.app.base.TVEventDispatcher;
 import de.audi.tv.app.tm.ITouchpadHandler;
-import de.audi.tv.app.tm.TouchPadHandler$ActionProxyListener;
 import de.audi.tv.app.tm.UserInputModeHandler;
 
 public class TouchPadHandler
 extends UserInputModeHandler
 implements ITouchpadHandler {
-    public final TVActionProxy apListener = new TouchPadHandler$ActionProxyListener(this, null);
+    public final TVActionProxy apListener = new ActionProxyListener();
 
     public TouchPadHandler(TVEnv tVEnv, TVEventDispatcher tVEventDispatcher) {
         super(tVEnv, tVEventDispatcher);
     }
 
-    @Override
     public short jsWest() {
         if (this.getCurrentMode() == 0) {
             this.changeUserInputMode(1);
@@ -28,7 +27,6 @@ implements ITouchpadHandler {
         return 14;
     }
 
-    @Override
     public short jsEast() {
         if (this.getCurrentMode() == 0) {
             this.changeUserInputMode(1);
@@ -37,7 +35,6 @@ implements ITouchpadHandler {
         return 15;
     }
 
-    @Override
     public short jsNorth() {
         if (this.getCurrentMode() == 0) {
             this.changeUserInputMode(1);
@@ -46,7 +43,6 @@ implements ITouchpadHandler {
         return 12;
     }
 
-    @Override
     public short jsSouth() {
         if (this.getCurrentMode() == 0) {
             this.changeUserInputMode(1);
@@ -55,17 +51,14 @@ implements ITouchpadHandler {
         return 13;
     }
 
-    @Override
     public short touchScreenPressed() {
         return -1;
     }
 
-    @Override
     public short touchScreenReleased() {
         return -1;
     }
 
-    @Override
     public short keyPressed() {
         if (this.getCurrentMode() == 1) {
             return 6;
@@ -73,7 +66,6 @@ implements ITouchpadHandler {
         return -1;
     }
 
-    @Override
     public short keyReleased() {
         if (this.getCurrentMode() == 1) {
             return 6;
@@ -81,7 +73,6 @@ implements ITouchpadHandler {
         return -1;
     }
 
-    @Override
     public short increment() {
         if (this.getCurrentMode() == 1) {
             this.changeUserInputMode(0);
@@ -89,12 +80,41 @@ implements ITouchpadHandler {
         return -1;
     }
 
-    @Override
     public short decrement() {
         if (this.getCurrentMode() == 1) {
             this.changeUserInputMode(0);
         }
         return -1;
+    }
+
+    private class ActionProxyListener
+    extends TVActionProxyDefaultListenerEvo {
+        private ActionProxyListener() {
+        }
+
+        public void tvCasDisclaimerEntered(int n) {
+            TouchPadHandler.this.changeUserInputMode(0);
+        }
+
+        public void tvDataBroadcastEntered(int n) {
+            TouchPadHandler.this.changeUserInputMode(0);
+        }
+
+        public void tvEngineeringEntered(int n) {
+            TouchPadHandler.this.changeUserInputMode(0);
+        }
+
+        public void tvEPGEntered(int n) {
+            TouchPadHandler.this.changeUserInputMode(0);
+        }
+
+        public void tvTeletextEntered(int n) {
+            TouchPadHandler.this.changeUserInputMode(0);
+        }
+
+        public void tvVisualAudioEntered(int n) {
+            TouchPadHandler.this.changeUserInputMode(0);
+        }
     }
 }
 

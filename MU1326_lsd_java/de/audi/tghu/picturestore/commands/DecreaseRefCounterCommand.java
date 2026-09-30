@@ -21,7 +21,6 @@ extends AbstractPictureStoreCommand {
         this.contextID = n;
     }
 
-    @Override
     public void execute() {
         DSIPictureStore dSIPictureStore = this.psp.getDSIPictureStore();
         if (dSIPictureStore != null) {
@@ -30,7 +29,6 @@ extends AbstractPictureStoreCommand {
         this.commandList.commandFinished();
     }
 
-    @Override
     public void invalidData(int[] nArray, int n) {
     }
 }

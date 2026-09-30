@@ -6,10 +6,8 @@ package de.audi.tghu.navi.app.addressinput.poi.sds;
 import de.audi.atip.hmi.model.list.EvoListRow;
 
 public interface ISDSListRowBuilder {
-    default public EvoListRow buildEvoListRow(long l, String string, int n) {
-    }
+    public EvoListRow buildEvoListRow(long var1, String var3, int var4);
 
-    default public int getColumnCount() {
-    }
+    public int getColumnCount();
 }
 

@@ -20,7 +20,6 @@ extends ScreenChangeManager {
         super(iTerminalContext, iScreenManager, popupManager, bl, logChannel, logChannel2);
     }
 
-    @Override
     protected void preDisconnectScreen(Screen screen) {
         try {
             if (screen instanceof IScreenEvo) {
@@ -32,16 +31,14 @@ extends ScreenChangeManager {
         }
     }
 
-    @Override
     protected void afterConnect(Screen screen, boolean bl) {
         if (!bl && this.terminalContext.getHmiTerminal() instanceof HMITerminalEvo && ((HMITerminalEvo)this.terminalContext.getHmiTerminal()).getDrawerFocusManager() != null) {
-            this.logScreenChange.log(-2137614336, "ScreenChangeManagerEvo#afterConnect sending screen change finished to drawer focus manager");
+            this.logScreenChange.log(10000000, "ScreenChangeManagerEvo#afterConnect sending screen change finished to drawer focus manager");
             ((HMITerminalEvo)this.terminalContext.getHmiTerminal()).getDrawerFocusManager().screenFadedOut();
             ((HMITerminalEvo)this.terminalContext.getHmiTerminal()).getDrawerFocusManager().screenChangeFinished();
         }
     }
 
-    @Override
     public void notifyScreenFadedOut(Screen screen) {
         int[] nArray;
         if (screen instanceof IScreenEvo && (nArray = ((IScreenEvo)screen).getHmiAppsToNotifyForVisibility()) != null) {
@@ -51,7 +48,6 @@ extends ScreenChangeManager {
         }
     }
 
-    @Override
     public void notifyScreenConnected(Screen screen) {
         int[] nArray;
         if (screen instanceof IScreenEvo && (nArray = ((IScreenEvo)screen).getHmiAppsToNotifyForVisibility()) != null) {
@@ -61,14 +57,12 @@ extends ScreenChangeManager {
         }
     }
 
-    @Override
     protected void updateDrawers(Screen screen, IScreenData iScreenData) {
         if (screen instanceof IScreenEvo) {
             ((IScreenEvo)screen).updateDrawers(iScreenData);
         }
     }
 
-    @Override
     protected void changeToCurrentConnectedScreen(IScreenData iScreenData, boolean bl) {
         if (iScreenData != null) {
             ((HMITerminalEvo)this.terminalContext.getHmiTerminal()).getDrawerFocusManager().changeToCurrentConnectedScreen(iScreenData.isReinit());

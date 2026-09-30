@@ -32,7 +32,7 @@ class PopupStack {
     }
 
     public void add(StateMachineTerminal stateMachineTerminal, PopupStateMachine popupStateMachine) {
-        this.logger.smi.log(1078071040, "[PopupStack#add] called for terminal '%1', popup '%2'.", (long)stateMachineTerminal.getTerminalID(), (long)popupStateMachine.getID());
+        this.logger.smi.log(1000000, "[PopupStack#add] called for terminal '%1', popup '%2'.", (long)stateMachineTerminal.getTerminalID(), (long)popupStateMachine.getID());
         int n = popupStateMachine.getPriority();
         int n2 = this.stack.size();
         if (n2 == 0) {
@@ -84,7 +84,7 @@ class PopupStack {
 
     public PopupStateMachine remove(StateMachineTerminal stateMachineTerminal, int n) {
         int n2 = this.getPopupIdx(n);
-        this.logger.smi.log(1078071040, "[PopupStack#remove] called for terminal '%1', popup (PID# %2), index at popup-stack is '%3'.'.", (long)stateMachineTerminal.getTerminalID(), (long)n, (long)n2);
+        this.logger.smi.log(1000000, "[PopupStack#remove] called for terminal '%1', popup (PID# %2), index at popup-stack is '%3'.'.", (long)stateMachineTerminal.getTerminalID(), (long)n, (long)n2);
         if (n2 > -1) {
             PopupStateMachine popupStateMachine = (PopupStateMachine)this.stack.remove(n2);
             if ((stateMachineTerminal.getTerminalID() == 0 || stateMachineTerminal.getTerminalID() == 3 || stateMachineTerminal.getTerminalID() == 4 || stateMachineTerminal.getTerminalID() == 6) && n2 == 0) {

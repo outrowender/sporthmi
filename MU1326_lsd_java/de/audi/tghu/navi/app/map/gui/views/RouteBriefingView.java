@@ -16,7 +16,7 @@ implements IView {
     }
 
     public void setDDSEnterListener(ButtonListener buttonListener) {
-        this.env.getVirtualButtonModel(1897989632).setButtonListener(buttonListener);
+        this.env.getVirtualButtonModel(401777).setButtonListener(buttonListener);
     }
 }
 

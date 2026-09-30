@@ -11,10 +11,6 @@ import de.audi.atip.hmi.view.IVisualFeedback;
 import de.audi.atip.hmi.view.Screen;
 import de.audi.atip.log.LogChannel;
 import de.audi.tghu.fwhmi.FwHMI;
-import de.audi.tghu.fwhmi.evo.FwHMIEvo$1;
-import de.audi.tghu.fwhmi.evo.FwHMIEvo$2;
-import de.audi.tghu.fwhmi.evo.FwHMIEvo$3;
-import de.audi.tghu.fwhmi.evo.FwHMIEvo$4;
 import de.audi.tghu.fwhmi.evo.HMIRegistryEvo;
 import de.audi.tghu.hmi.evo.HMITerminalEvo;
 import de.audi.tghu.hmi.evo.IDrawerControllerEvo;
@@ -31,52 +27,44 @@ implements IHMIServiceEvo {
         super(iFrameworkAccess);
     }
 
-    @Override
     public Object getKanziResource(String string, Object object, int n, int n2, int n3) {
         return ((ITerminalContextEvo)this.getTerminalManager(n2)).getKanziResource(string, object, n, n3);
     }
 
-    @Override
     public IDrawerControllerEvo[] getSelectionDrawers(int n, int n2) {
         return ((ITerminalContextEvo)this.getTerminalManager(n)).getSelectionDrawers(n2);
     }
 
-    @Override
     public IDrawerControllerEvo[] getOptionDrawers(int n, int n2) {
         return ((ITerminalContextEvo)this.getTerminalManager(n)).getOptionDrawers(n2);
     }
 
-    @Override
     public IComponentConditionManager getComponentConditionManager() {
         return this.getHMIRegistry().getConditionsObserver();
     }
 
-    @Override
     public void switchToDisplayContext(int n, int n2, int n3, int n4) {
-        this.getLogHMI().log(-2137614336, "FwHMIEvo.switchToDisplayContextFake(): context == %1", (long)n);
+        this.getLogHMI().log(10000000, "FwHMIEvo.switchToDisplayContextFake(): context == %1", (long)n);
     }
 
-    @Override
     protected void createHMIRegistry() {
         if (null == this.hmiRegistry) {
             this.hmiRegistry = new HMIRegistryEvo(this.getFramework().getBundleCxt(), this);
         }
     }
 
-    @Override
     public void sMActionRequiresNoScreenChange(int n) {
         IDrawerFocusManagerEvo iDrawerFocusManagerEvo;
         if (n == 0 && (iDrawerFocusManagerEvo = ((HMITerminalEvo)this.getTerminalManager(0).getHmiTerminal()).getDrawerFocusManager()) != null && (iDrawerFocusManagerEvo.getDrawerState() == 4 && iDrawerFocusManagerEvo.isDrawerClosingRequested(4) || iDrawerFocusManagerEvo.getDrawerState() == 8 && iDrawerFocusManagerEvo.isDrawerClosingRequested(8))) {
-            this.getLogHMI().log(-2137614336, "FwHMIEvo#sMActionRequiresNoScreenChange smID=%1", (long)n);
+            this.getLogHMI().log(10000000, "FwHMIEvo#sMActionRequiresNoScreenChange smID=%1", (long)n);
             if (!this.getTerminalManager(0).getHmiTerminal().getIAnimationController().isScreenChangeAnimationRunning()) {
                 iDrawerFocusManagerEvo.requestDrawerState(16);
             } else {
-                this.getLogHMI().log(-2137614336, "FwHMIEvo#sMActionRequiresNoScreenChange not closing drawer because screen change animation running");
+                this.getLogHMI().log(10000000, "FwHMIEvo#sMActionRequiresNoScreenChange not closing drawer because screen change animation running");
             }
         }
     }
 
-    @Override
     public void showVisualFeedback(long l, String string, int n) {
         if (l <= 0L) {
             return;
@@ -99,11 +87,33 @@ implements IHMIServiceEvo {
     }
 
     private void flashScreen(long l, int n) {
-        IRootWindow iRootWindow = this.getRootWindow(n);
-        IVisualFeedback iVisualFeedback = ((HMITerminalEvo)this.getTerminalRegistry().getTerminal(n)).getVisualFeedback();
+        final IRootWindow iRootWindow = this.getRootWindow(n);
+        final IVisualFeedback iVisualFeedback = ((HMITerminalEvo)this.getTerminalRegistry().getTerminal(n)).getVisualFeedback();
         if (null != iRootWindow && null != iVisualFeedback) {
-            this.getEventDispatcher().postEvent(new RunnableEvent(false, new FwHMIEvo$1(this, iVisualFeedback, iRootWindow)));
-            this.getEventDispatcher().postEvent(new RunnableEvent(false, new FwHMIEvo$2(this, iVisualFeedback, iRootWindow)), l);
+            this.getEventDispatcher().postEvent(new RunnableEvent(false, new Runnable(){
+
+                public void run() {
+                    iVisualFeedback.showFullScreenFeedback();
+                    FwHMIEvo.this.getLogRepaintCause().log(10000000, "FwHMIEvo#flashScreen: repaint to show flash");
+                    iRootWindow.repaint();
+                }
+
+                public String toString() {
+                    return "ShowFullScreenFeedback";
+                }
+            }));
+            this.getEventDispatcher().postEvent(new RunnableEvent(false, new Runnable(){
+
+                public void run() {
+                    iVisualFeedback.hideFeedback();
+                    FwHMIEvo.this.getLogRepaintCause().log(10000000, "FwHMIEvo#flashScreen: repaint to hide flash");
+                    iRootWindow.repaint();
+                }
+
+                public String toString() {
+                    return "HideFullScreenFeedback";
+                }
+            }), l);
         }
     }
 
@@ -114,16 +124,37 @@ implements IHMIServiceEvo {
         return this.logRepaintCause;
     }
 
-    private void flashText(String string, long l, int n) {
-        IRootWindow iRootWindow = this.getRootWindow(n);
-        IVisualFeedback iVisualFeedback = ((HMITerminalEvo)this.getTerminalRegistry().getTerminal(n)).getVisualFeedback();
+    private void flashText(final String string, long l, int n) {
+        final IRootWindow iRootWindow = this.getRootWindow(n);
+        final IVisualFeedback iVisualFeedback = ((HMITerminalEvo)this.getTerminalRegistry().getTerminal(n)).getVisualFeedback();
         if (null != iRootWindow && null != iVisualFeedback) {
-            this.getEventDispatcher().postEvent(new RunnableEvent(false, new FwHMIEvo$3(this, iVisualFeedback, string, iRootWindow)));
-            this.getEventDispatcher().postEvent(new RunnableEvent(false, new FwHMIEvo$4(this, iVisualFeedback, iRootWindow)), l);
+            this.getEventDispatcher().postEvent(new RunnableEvent(false, new Runnable(){
+
+                public void run() {
+                    iVisualFeedback.showTextFeedback(string);
+                    FwHMIEvo.this.getLogRepaintCause().log(10000000, "FwHMIEvo#flashScreen: repaint to show flash text");
+                    iRootWindow.repaint();
+                }
+
+                public String toString() {
+                    return "ShowTextFeedback";
+                }
+            }));
+            this.getEventDispatcher().postEvent(new RunnableEvent(false, new Runnable(){
+
+                public void run() {
+                    iVisualFeedback.hideFeedback();
+                    FwHMIEvo.this.getLogRepaintCause().log(10000000, "FwHMIEvo#flashScreen: repaint to hide flash text");
+                    iRootWindow.repaint();
+                }
+
+                public String toString() {
+                    return "HideTextFeedback";
+                }
+            }), l);
         }
     }
 
-    @Override
     public Screen getPartialPopup(int n, int n2) {
         return ((ITerminalContextEvo)this.getTerminalManager(n)).getPartialPopup(n, n2);
     }

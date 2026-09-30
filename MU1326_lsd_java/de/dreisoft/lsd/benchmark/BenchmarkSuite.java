@@ -10,18 +10,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BenchmarkSuite {
-    public static final int CAT_UNDEFINED;
-    public static final int CAT_LSD_STARTUP;
-    public static final int CAT_SERVICE_REGISTRATION;
-    public static final int CAT_SERVICE_UNREGISTRATION;
-    public static final int CAT_FILTER_CREATION;
-    public static final int CAT_FILTER_EVALUATION;
-    public static final int CAT_TRACKER_CREATION;
-    public static final int CAT_TRACKER_OPENING;
-    public static final int CAT_TRACKER_SVC_ADDED;
-    public static final int CAT_SERVICE_COUNT;
-    public static final int CAT_TRACKER_COUNT;
-    public static final String[] CAT_NAME;
+    public static final int CAT_UNDEFINED = 0;
+    public static final int CAT_LSD_STARTUP = 1;
+    public static final int CAT_SERVICE_REGISTRATION = 2;
+    public static final int CAT_SERVICE_UNREGISTRATION = 3;
+    public static final int CAT_FILTER_CREATION = 4;
+    public static final int CAT_FILTER_EVALUATION = 5;
+    public static final int CAT_TRACKER_CREATION = 6;
+    public static final int CAT_TRACKER_OPENING = 7;
+    public static final int CAT_TRACKER_SVC_ADDED = 8;
+    public static final int CAT_SERVICE_COUNT = 9;
+    public static final int CAT_TRACKER_COUNT = 10;
+    public static final String[] CAT_NAME = new String[]{"undefined", "LSD startup", "service registration", "service unregistration", "filter creation", "filter evaluation", "tracker creation", "tracker opening", "service added", "service count", "tracker count"};
     protected final String name;
     private List tagList = new ArrayList(1024);
     private BenchmarkResult result;
@@ -127,7 +127,7 @@ public class BenchmarkSuite {
     public synchronized void printResults(PrintStream printStream) {
         printStream.println();
         printStream.println();
-        printStream.println(new StringBuffer().append("+++ ").append(this.name).append(" Benchmark Results +++").toString());
+        printStream.println("+++ " + this.name + " Benchmark Results +++");
         printStream.println();
         printStream.println("+++ Benchmark Tags +++");
         for (int i2 = 0; i2 < this.tagList.size(); ++i2) {
@@ -141,10 +141,6 @@ public class BenchmarkSuite {
             printStream.println();
             printStream.println();
         }
-    }
-
-    static {
-        CAT_NAME = new String[]{"undefined", "LSD startup", "service registration", "service unregistration", "filter creation", "filter evaluation", "tracker creation", "tracker opening", "service added", "service count", "tracker count"};
     }
 }
 

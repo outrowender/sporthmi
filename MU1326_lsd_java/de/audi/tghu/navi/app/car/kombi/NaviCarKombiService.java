@@ -22,35 +22,30 @@ ICarKombiService {
         iCarKombiEventsProvider.registerListener(this);
     }
 
-    @Override
     public void updateBCViewOptions(BCViewOptions bCViewOptions) {
-        this.logChannel.log(-2137614336, "NaviDSICarKombiListener#updateBCViewOptions( %1 )", (Object)bCViewOptions);
+        this.logChannel.log(10000000, "NaviDSICarKombiListener#updateBCViewOptions( %1 )", (Object)bCViewOptions);
         BCConfiguration bCConfiguration = bCViewOptions.getConfiguration();
         if (bCConfiguration == null) {
-            this.logChannel.log(1078071040, "NaviDSICarKombiListener#updateBCViewOptions() - configuration is null");
+            this.logChannel.log(1000000, "NaviDSICarKombiListener#updateBCViewOptions() - configuration is null");
             return;
         }
         this.engineTypePrimary = bCConfiguration.getPrimaryEngineType();
         this.engineTypeSecondary = bCConfiguration.getSecondaryEngineType();
     }
 
-    @Override
     public int getEngineTypePrimary() {
         return this.engineTypePrimary;
     }
 
-    @Override
     public int getEngineTypeSecondary() {
         return this.engineTypeSecondary;
     }
 
-    @Override
     public int getConventionalEngineType() {
         int n = this.isFuelTypeAlternative(this.getEngineTypeSecondary()) ? this.getEngineTypePrimary() : this.getEngineTypeSecondary();
         return n;
     }
 
-    @Override
     public int getAlternativeEngineType() {
         int n = this.isFuelTypeAlternative(this.getEngineTypePrimary()) ? this.getEngineTypePrimary() : this.getEngineTypeSecondary();
         return n;

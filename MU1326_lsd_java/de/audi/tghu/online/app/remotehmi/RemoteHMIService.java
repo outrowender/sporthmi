@@ -11,12 +11,10 @@ import de.audi.atip.i18n.I18NTarget;
 import de.audi.atip.i18n.Language;
 import de.audi.atip.interapp.IConnectivityRHMIStateListener;
 import de.audi.atip.interapp.NaviOnlineService;
-import de.audi.atip.interapp.NaviOnlineService$MapStateService;
 import de.audi.atip.interapp.OnlineHMIService;
 import de.audi.atip.interapp.OnlineService;
 import de.audi.atip.interapp.OnlineServiceListener;
 import de.audi.atip.interapp.PortalAuthenticationService;
-import de.audi.atip.interapp.PortalAuthenticationService$UpdateProfileInfoListener;
 import de.audi.atip.interapp.SDSService;
 import de.audi.atip.interapp.audio.VolumeOnOffPressListener;
 import de.audi.atip.interapp.media.IMediaDrawerContext;
@@ -40,19 +38,19 @@ import de.audi.atip.util.StringUtilities;
 import de.audi.remotehmi.HMIProperties;
 import de.audi.remotehmi.IOsrUserCacheInformation;
 import de.audi.remotehmi.IRemoteHMI;
+import de.audi.remotehmi.IRemoteHMIConnectedDevices;
 import de.audi.remotehmi.IRemoteHMIListener;
-import de.audi.remotehmi.IRemoteHMIListener$LogLevel;
 import de.audi.remotehmi.IRemoteHMISpeechCommandSDS;
 import de.audi.remotehmi.IRemoteHMISpeechContext;
-import de.audi.remotehmi.IRemoteHMISpeechContext$CommandDisplay;
 import de.audi.remotehmi.IRemoteHMISpeechHelpContext;
 import de.audi.remotehmi.IRemoteHMISpeechHelpIntroPrompt;
 import de.audi.remotehmi.IRemoteHMISpeechTopicContext;
 import de.audi.remotehmi.RemoteHMIAction;
 import de.audi.remotehmi.RemoteHMIView;
+import de.audi.remotehmi.ui.mib2.Commands;
 import de.audi.remotehmi.ui.mib2.grid.IGridFactory;
 import de.audi.remotehmi.ui.mib2.grid.IGridList;
-import de.audi.remotehmi.util.LogAppender$Factory;
+import de.audi.remotehmi.util.LogAppender;
 import de.audi.tghu.online.app.Online;
 import de.audi.tghu.online.app.operatorcall.AbstractOperatorCallMain;
 import de.audi.tghu.online.app.osr.IOnlineLanguageListener;
@@ -62,11 +60,14 @@ import de.audi.tghu.online.app.remotehmi.AbstractExternalServiceProvider;
 import de.audi.tghu.online.app.remotehmi.AbstractHMIViewListener;
 import de.audi.tghu.online.app.remotehmi.AbstractRemoteHMIComponent;
 import de.audi.tghu.online.app.remotehmi.AbstractRemoteHMILockingListener;
+import de.audi.tghu.online.app.remotehmi.AbstractRemoteHMITask;
 import de.audi.tghu.online.app.remotehmi.AbstractRemoteHMIViewTask;
+import de.audi.tghu.online.app.remotehmi.ArrayUtilities;
 import de.audi.tghu.online.app.remotehmi.CarCodingComponent;
 import de.audi.tghu.online.app.remotehmi.ContextManagerComponent;
 import de.audi.tghu.online.app.remotehmi.DiagnosisComponent;
 import de.audi.tghu.online.app.remotehmi.EntryPoint;
+import de.audi.tghu.online.app.remotehmi.GridResourceAvailableTask;
 import de.audi.tghu.online.app.remotehmi.IndicateViewPropertyTask;
 import de.audi.tghu.online.app.remotehmi.InitializationComponent;
 import de.audi.tghu.online.app.remotehmi.LockingModelGroup;
@@ -80,34 +81,7 @@ import de.audi.tghu.online.app.remotehmi.RemoteHMIComponentFactory;
 import de.audi.tghu.online.app.remotehmi.RemoteHMIConnectivityChangedService;
 import de.audi.tghu.online.app.remotehmi.RemoteHMIContext;
 import de.audi.tghu.online.app.remotehmi.RemoteHMIDSIAccess;
-import de.audi.tghu.online.app.remotehmi.RemoteHMIDSIAccess$IRemoteHMIDSIListener;
 import de.audi.tghu.online.app.remotehmi.RemoteHMIMediaHandler;
-import de.audi.tghu.online.app.remotehmi.RemoteHMIService$1;
-import de.audi.tghu.online.app.remotehmi.RemoteHMIService$10;
-import de.audi.tghu.online.app.remotehmi.RemoteHMIService$11;
-import de.audi.tghu.online.app.remotehmi.RemoteHMIService$12;
-import de.audi.tghu.online.app.remotehmi.RemoteHMIService$13;
-import de.audi.tghu.online.app.remotehmi.RemoteHMIService$14;
-import de.audi.tghu.online.app.remotehmi.RemoteHMIService$15;
-import de.audi.tghu.online.app.remotehmi.RemoteHMIService$16;
-import de.audi.tghu.online.app.remotehmi.RemoteHMIService$17;
-import de.audi.tghu.online.app.remotehmi.RemoteHMIService$18;
-import de.audi.tghu.online.app.remotehmi.RemoteHMIService$19;
-import de.audi.tghu.online.app.remotehmi.RemoteHMIService$2;
-import de.audi.tghu.online.app.remotehmi.RemoteHMIService$20;
-import de.audi.tghu.online.app.remotehmi.RemoteHMIService$21;
-import de.audi.tghu.online.app.remotehmi.RemoteHMIService$22;
-import de.audi.tghu.online.app.remotehmi.RemoteHMIService$23;
-import de.audi.tghu.online.app.remotehmi.RemoteHMIService$24;
-import de.audi.tghu.online.app.remotehmi.RemoteHMIService$25;
-import de.audi.tghu.online.app.remotehmi.RemoteHMIService$26;
-import de.audi.tghu.online.app.remotehmi.RemoteHMIService$3;
-import de.audi.tghu.online.app.remotehmi.RemoteHMIService$4;
-import de.audi.tghu.online.app.remotehmi.RemoteHMIService$5;
-import de.audi.tghu.online.app.remotehmi.RemoteHMIService$6;
-import de.audi.tghu.online.app.remotehmi.RemoteHMIService$7;
-import de.audi.tghu.online.app.remotehmi.RemoteHMIService$8;
-import de.audi.tghu.online.app.remotehmi.RemoteHMIService$9;
 import de.audi.tghu.online.app.remotehmi.RemoteHMITask;
 import de.audi.tghu.online.app.remotehmi.UpdatingIconComponent;
 import de.audi.tghu.online.app.remotehmi.browser.RemoteHMIBrowserComponent;
@@ -124,14 +98,15 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import org.dsi.ifc.online.OSRDevice;
 
 public abstract class RemoteHMIService
 implements IRemoteHMIListener,
 I18NTarget,
 MsgListener,
-RemoteHMIDSIAccess$IRemoteHMIDSIListener {
-    public static final int DISABLED;
-    public static final int ENABLED;
+RemoteHMIDSIAccess.IRemoteHMIDSIListener {
+    public static final int DISABLED = 0;
+    public static final int ENABLED = 1;
     protected LockingModelGroup hmiModelGroup;
     protected LogChannel logChannel;
     private LogChannel dispatcherLogChannel;
@@ -167,7 +142,7 @@ RemoteHMIDSIAccess$IRemoteHMIDSIListener {
     protected LicenseCollectionService licensingCollector;
     protected IConnectivityRHMIStateListener connectivityStateListener;
     private UpdatingIconComponent updatingIconComponent;
-    private NaviOnlineService$MapStateService mapStateService;
+    private NaviOnlineService.MapStateService mapStateService;
     private AbstractOperatorCallMain operatorCallController;
     private IOsrUserCacheInformation ioSrUserCacheInformation;
     private IRemoteHMIEsimLicenseListener remoteHMIESimLicenseListener;
@@ -189,10 +164,10 @@ RemoteHMIDSIAccess$IRemoteHMIDSIListener {
     }
 
     public void setPrivacyModeFeatureAvailable(boolean bl) {
-        this.logChannel.log(1078071040, "RemoteHMIService#setPrivacyModeFeatureAvailable: %1", bl);
+        this.logChannel.log(1000000, "RemoteHMIService#setPrivacyModeFeatureAvailable: %1", bl);
         this.privacyModeFeatureAvailable = bl;
         if (this.dsiAccess != null) {
-            this.logChannel.log(1078071040, "RemoteHMIService#setPrivacyModeFeatureAvailable: forward to RemoteHMI.");
+            this.logChannel.log(1000000, "RemoteHMIService#setPrivacyModeFeatureAvailable: forward to RemoteHMI.");
             this.invokeActionImmediately(this.getAction(1));
         }
     }
@@ -247,7 +222,7 @@ RemoteHMIDSIAccess$IRemoteHMIDSIListener {
         this.addComponent(this.infotainmentRecorderComponent);
         this.dsiAccess.addDSIListener(this.carCodingComponent);
         this.viewTypeModelGroup = new ModelGroup();
-        ChoiceModelApp choiceModelApp = this.hmiService.getChoiceModel(-1508367616);
+        ChoiceModelApp choiceModelApp = this.hmiService.getChoiceModel(2300070);
         choiceModelApp.setStatus(14000);
         this.viewTypeModelGroup.add(choiceModelApp);
         this.initializeViewListeners();
@@ -260,30 +235,190 @@ RemoteHMIDSIAccess$IRemoteHMIDSIListener {
     }
 
     protected void initializeCommandListeners() {
-        this.addCommandHandler(212570177, new RemoteHMIService$1(this, "provide-grid-factory"));
-        this.addCommandHandler(501, new RemoteHMIService$2(this, "invalidate-speech-help-context"));
-        this.addCommandHandler(850104385, new RemoteHMIService$3(this, "update-service-discovery-devices"));
-        this.addCommandHandler(346787905, new RemoteHMIService$4(this, "applist-loaded"));
-        this.addCommandHandler(514560065, new RemoteHMIService$5(this, "servicelist-updated"));
-        this.addCommandHandler(734957633, new RemoteHMIService$6(this, "status-mobile-applist-download"));
-        this.addCommandHandler(751734849, new RemoteHMIService$7(this, "received-subscribe-message-count"));
-        this.addCommandHandler(768512065, new RemoteHMIService$8(this, "parsed-mobile-apps"));
-        this.addCommandHandler(785289281, new RemoteHMIService$9(this, "last-backend-access"));
-        this.addCommandHandler(229347393, new RemoteHMIService$10(this, "grid-resource-available"));
+        this.addCommandHandler(1100000012, new AbstractCommandHandler("provide-grid-factory"){
+
+            public void indicateCommand(int n, Object object) {
+                RemoteHMIService.this.logChannel.log(1000000, "RemoteHMIService#ctor (ICommandHandler): received IGridFactory.");
+                RemoteHMIService.this.gridFactory = (IGridFactory)object;
+                RemoteHMIService.this.frameworkAccess.getErrorMgr().registerDumpInfoProvider(RemoteHMIService.this.gridFactory);
+            }
+        });
+        this.addCommandHandler(501, new AbstractCommandHandler("invalidate-speech-help-context"){
+
+            public void indicateCommand(int n, Object object) {
+                RemoteHMIService.this.logChannel.log(1000000, "RemoteHMIService#indicateCommand: state STATE_INVALIDATE_SPEECH_HELP_CONTEXT");
+                RemoteHMIService.this.invalidateSpeechHelpContext();
+            }
+        });
+        this.addCommandHandler(1100000050, new AbstractCommandHandler("update-service-discovery-devices"){
+
+            public void indicateCommand(int n, Object object) {
+                Object object2;
+                RemoteHMIService.this.logChannel.log(10000000, "RemoteHMIService#indicateCommand (STATE_UPDATE_SERVICE_DISCOVERY_DEVICES)");
+                String[] stringArray = new String[]{};
+                String[] stringArray2 = new String[]{};
+                boolean[] blArray = new boolean[]{};
+                if (object != null && !(object instanceof IRemoteHMIConnectedDevices)) {
+                    RemoteHMIService.this.logChannel.log(100000, "RemoteHMIService#indicateCommand (STATE_UPDATE_SERVICE_DISCOVERY_DEVICES): error in payload for updating connected devices");
+                    return;
+                }
+                if (object instanceof IRemoteHMIConnectedDevices) {
+                    object2 = (IRemoteHMIConnectedDevices)object;
+                    stringArray = object2.getConnectedDevices();
+                    stringArray2 = object2.getMACAddresses();
+                    blArray = object2.getActivationStates();
+                    if (stringArray == null || stringArray2 == null || blArray == null) {
+                        RemoteHMIService.this.logChannel.log(100000, "RemoteHMIService#indicateCommand (STATE_UPDATE_SERVICE_DISCOVERY_DEVICES): error in connected device info, not sending update");
+                        return;
+                    }
+                }
+                RemoteHMIService.this.getOnlineServiceProvider().updateDeviceAppInfo(stringArray);
+                if (RemoteHMIService.this.connectivityStateListener == null) {
+                    RemoteHMIService.this.logChannel.log(100000, "RemoteHMIService#indicateCommand (STATE_UPDATE_SERVICE_DISCOVERY_DEVICES): connectivityStateListener is null");
+                    return;
+                }
+                RemoteHMIService.this.logChannel.log(1000000, "RemoteHMIHandlerImpl#indicateCommand (STATE_UPDATE_SERVICE_DISCOVERY_DEVICES) sending update");
+                RemoteHMIService.this.connectivityStateListener.updateRHMIServerList(stringArray, stringArray2, blArray);
+                object2 = "";
+                for (int i2 = 0; i2 < blArray.length; ++i2) {
+                    if (!blArray[i2]) continue;
+                    object2 = ArrayUtilities.getSafeArrayValue(stringArray, i2);
+                    break;
+                }
+                RemoteHMIService.this.getDiagnosisComponent().update(object2, 4);
+            }
+        });
+        this.addCommandHandler(1100000020, new AbstractCommandHandler("applist-loaded"){
+
+            public void indicateCommand(int n, Object object) {
+                RemoteHMIService.this.logChannel.log(1000000, "RemoteHMIService#indicateCommand: state STATE_APPLIST_LOADED");
+                if (RemoteHMIService.this.licensingCollector != null) {
+                    RemoteHMIService.this.logChannel.log(1000000, "RemoteHMIService#indicateCommand: refreshing licenses after RemoteHMI services registration");
+                    RemoteHMIService.this.licensingCollector.refreshLicensesDependingOnServiceList();
+                } else {
+                    RemoteHMIService.this.logChannel.log(1000000, "RemoteHMIService#indicateCommand: license collector == null");
+                }
+            }
+        });
+        this.addCommandHandler(1100000030, new AbstractCommandHandler("servicelist-updated"){
+
+            public void indicateCommand(int n, Object object) {
+                RemoteHMIService.this.logChannel.log(1000000, "RemoteHMIService#indicateCommand: state STATE_SERVICELIST_UPDATE");
+                if (RemoteHMIService.this.licensingCollector != null) {
+                    RemoteHMIService.this.logChannel.log(1000000, "RemoteHMIService#indicateCommand: refreshing licenses after SL update");
+                    RemoteHMIService.this.licensingCollector.refreshLicensesDependingOnServiceList();
+                } else {
+                    RemoteHMIService.this.logChannel.log(1000000, "RemoteHMIService#indicateCommand: license collector == null");
+                }
+            }
+        });
+        this.addCommandHandler(1100009003, new AbstractCommandHandler("status-mobile-applist-download"){
+
+            public void indicateCommand(int n, Object object) {
+                RemoteHMIService.this.logChannel.log(1000000, "RemoteHMIService#indicateCommand: state STATE_LAST_MOBILE_APPLIST_DOWNLOAD");
+                if (RemoteHMIService.this.getDiagnosisComponent() != null) {
+                    RemoteHMIService.this.getDiagnosisComponent().update(object, 5);
+                }
+            }
+        });
+        this.addCommandHandler(1100009004, new AbstractCommandHandler("received-subscribe-message-count"){
+
+            public void indicateCommand(int n, Object object) {
+                RemoteHMIService.this.logChannel.log(1000000, "RemoteHMIService#indicateCommand: state STATE_RECEIVED_SUBSCRIBE_MESSAGES_COUNT");
+                if (RemoteHMIService.this.getDiagnosisComponent() != null) {
+                    RemoteHMIService.this.getDiagnosisComponent().update(object, 6);
+                }
+            }
+        });
+        this.addCommandHandler(1100009005, new AbstractCommandHandler("parsed-mobile-apps"){
+
+            public void indicateCommand(int n, Object object) {
+                RemoteHMIService.this.logChannel.log(1000000, "RemoteHMIService#indicateCommand: state STATE_LAST_PARSED_MOBILE_APPS");
+                if (RemoteHMIService.this.getDiagnosisComponent() != null) {
+                    RemoteHMIService.this.getDiagnosisComponent().update(object, 7);
+                }
+            }
+        });
+        this.addCommandHandler(1100009006, new AbstractCommandHandler("last-backend-access"){
+
+            public void indicateCommand(int n, Object object) {
+                RemoteHMIService.this.logChannel.log(1000000, "RemoteHMIService#indicateCommand: state STATE_LAST_BACKEND_ACCESS");
+                if (RemoteHMIService.this.getDiagnosisComponent() != null) {
+                    RemoteHMIService.this.getDiagnosisComponent().update(object, 8);
+                }
+            }
+        });
+        this.addCommandHandler(1100000013, new AbstractCommandHandler("grid-resource-available"){
+
+            /*
+             * WARNING - Removed try catching itself - possible behaviour change.
+             */
+            public void indicateCommand(int n, Object object) {
+                boolean bl;
+                boolean bl2;
+                boolean bl3;
+                Commands.StateGridResourceAvailablePayload stateGridResourceAvailablePayload = (Commands.StateGridResourceAvailablePayload)object;
+                String string = stateGridResourceAvailablePayload.getContextName();
+                RemoteHMIService.this.logChannel.log(1000000, "RemoteHMIService#indicateCommand: grid-resource-available: called with contextName '%1'", (Object)string);
+                RemoteHMIContext remoteHMIContext = RemoteHMIService.this.getContextManagerComponent().getContext(string);
+                if (remoteHMIContext == null) {
+                    RemoteHMIService.this.logChannel.log(1000000, "RemoteHMIService#indicateCommand: grid-resource-available: cancelled because context '%1' is not available anymore", (Object)string);
+                    return;
+                }
+                HMIProperties hMIProperties = stateGridResourceAvailablePayload.getProperties();
+                Object object2 = hMIProperties.get("gridList");
+                if (!(object2 instanceof IGridList)) {
+                    RemoteHMIService.this.logChannel.log(10000, "RemoteHMIService#indicateCommand: grid-resource-available: gridList is null for context '%1' and properties = %2.", (Object)string, (Object)hMIProperties);
+                    return;
+                }
+                IGridList iGridList = (IGridList)object2;
+                List list = stateGridResourceAvailablePayload.getLocalLocations();
+                List list2 = iGridList;
+                synchronized (list2) {
+                    int n2 = iGridList.updateAllCellImages(list);
+                    bl3 = n2 != 0;
+                    bl2 = iGridList.updateAllDecoratorImages(list);
+                }
+                list2 = HMIProperties.getResourceProperties();
+                Set set = hMIProperties.replaceStringValue(list2, list);
+                boolean bl4 = bl = !set.isEmpty();
+                if (!RemoteHMIService.this.getContextManagerComponent().isContextActive(remoteHMIContext)) {
+                    RemoteHMIService.this.logChannel.log(1000000, "RemoteHMIService#indicateCommand: grid-resource-available: not rendering because '%1' is not the active context", (Object)string);
+                    return;
+                }
+                if (!(bl3 || bl || bl2)) {
+                    String string2 = "RemoteHMIService#indicateCommand: grid-resource-available: not rendering because no image changes in context '%1'.";
+                    RemoteHMIService.this.logChannel.log(1000000, string2, (Object)string);
+                    return;
+                }
+                AbstractHMIViewListener abstractHMIViewListener = remoteHMIContext.getViewListener();
+                if (bl) {
+                    String string3 = "RemoteHMIService#indicateCommand: grid-resource-available: applying property changes in context '%1'.";
+                    RemoteHMIService.this.logChannel.log(1000000, string3, (Object)string);
+                    RemoteHMIService.this.applyPropertyChanges(abstractHMIViewListener, set, hMIProperties);
+                }
+                int n3 = bl3 ? 3 : 0;
+                RemoteHMIService.this.updateViews(RemoteHMIService.this.logChannel, string, iGridList, bl2, set, abstractHMIViewListener, n3);
+            }
+
+            public RemoteHMITask createTask(int n, Object object) {
+                Commands.StateGridResourceAvailablePayload stateGridResourceAvailablePayload = (Commands.StateGridResourceAvailablePayload)object;
+                return new GridResourceAvailableTask(this, stateGridResourceAvailablePayload.getContextName(), this.getFullName(), n, stateGridResourceAvailablePayload, RemoteHMIService.this.logChannel);
+            }
+        });
     }
 
-    protected abstract void initializeViewListeners() {
-    }
+    protected abstract void initializeViewListeners();
 
     public void setIRemoteHMI(IRemoteHMI iRemoteHMI) {
         if (iRemoteHMI == null) {
-            this.logChannel.log(1078071040, "RemoteHMIService#setIRemoteHMI: null");
+            this.logChannel.log(1000000, "RemoteHMIService#setIRemoteHMI: null");
             this.dsiAccess.setIRemoteHMI(null);
             this.initComponent.setInitialized(false);
             return;
         }
         this.dsiAccess.setIRemoteHMI(iRemoteHMI);
-        this.logChannel.log(1078071040, "RemoteHMIService#setIRemoteHMI: send initial action data");
+        this.logChannel.log(1000000, "RemoteHMIService#setIRemoteHMI: send initial action data");
         this.invokeActionImmediately(this.getAction(1));
         if (this.initialLanguage != null) {
             iRemoteHMI.setHMILanguage(this.initialLanguage);
@@ -292,10 +427,15 @@ RemoteHMIDSIAccess$IRemoteHMIDSIListener {
         }
     }
 
-    @Override
-    public final void indicateView(String string, RemoteHMIView remoteHMIView) {
-        this.logChannel.log(1078071040, "RemoteHMIService#indicateView: updating view for %1", (Object)string);
-        this.execute(new RemoteHMIService$11(this, "indicate-view", LogAppender$Factory.fromString(string), string, remoteHMIView));
+    public final void indicateView(final String string, final RemoteHMIView remoteHMIView) {
+        this.logChannel.log(1000000, "RemoteHMIService#indicateView: updating view for %1", (Object)string);
+        this.execute(new AbstractRemoteHMITask("indicate-view", LogAppender.Factory.fromString(string)){
+
+            public void run() {
+                RemoteHMIService.this.cancelViewDependentJobsForContext(string);
+                RemoteHMIService.this.loadView(string, remoteHMIView);
+            }
+        });
     }
 
     /*
@@ -312,32 +452,30 @@ RemoteHMIDSIAccess$IRemoteHMIDSIListener {
                 Object object = job.getPayload();
                 if (!(object instanceof AbstractRemoteHMIViewTask) || !(abstractRemoteHMIViewTask = (AbstractRemoteHMIViewTask)object).getContextName().equals(string)) continue;
                 job.cancel();
-                this.logChannel.log(1078071040, "RemoteHMIService#cancelViewDependentJobsForContext: cancelled previously scheduled view dependent task %1", (Object)abstractRemoteHMIViewTask);
+                this.logChannel.log(1000000, "RemoteHMIService#cancelViewDependentJobsForContext: cancelled previously scheduled view dependent task %1", (Object)abstractRemoteHMIViewTask);
             }
         }
     }
 
     public void loadView(String string, RemoteHMIView remoteHMIView) {
-        this.logChannel.log(-2137614336, "RemoteHMIService#loadView: Loading view for %1 with view type = %2.", (Object)string, (long)remoteHMIView.getViewType());
+        this.logChannel.log(10000000, "RemoteHMIService#loadView: Loading view for %1 with view type = %2.", (Object)string, (long)remoteHMIView.getViewType());
         this.loadView(string, remoteHMIView.getViewType(), remoteHMIView.getViewID(), remoteHMIView.getProperties());
     }
 
-    protected abstract void updateViews(LogChannel logChannel, String string, IGridList iGridList, boolean bl, Set set, AbstractHMIViewListener abstractHMIViewListener, int n) {
-    }
+    protected abstract void updateViews(LogChannel var1, String var2, IGridList var3, boolean var4, Set var5, AbstractHMIViewListener var6, int var7);
 
-    protected abstract void applyPropertyChanges(AbstractHMIViewListener abstractHMIViewListener, Set set, HMIProperties hMIProperties) {
-    }
+    protected abstract void applyPropertyChanges(AbstractHMIViewListener var1, Set var2, HMIProperties var3);
 
     public void loadView(String string, int n, String string2, HMIProperties hMIProperties) {
         Object object;
         int n2;
-        this.logChannel.log(-2137614336, "RemoteHMIService#loadView: updating view for context %1", (Object)string);
+        this.logChannel.log(10000000, "RemoteHMIService#loadView: updating view for context %1", (Object)string);
         RemoteHMIContext remoteHMIContext = this.contextManagerComponent.getContext(string);
         if (remoteHMIContext == null) {
             this.logChannel.log(10000, "RemoteHMIService#loadView: context is null. No new screen shown.");
             return;
         }
-        this.logChannel.log(1078071040, "CurrentContext is: %1", (Object)this.contextManagerComponent.getCurrentContext());
+        this.logChannel.log(1000000, "CurrentContext is: %1", (Object)this.contextManagerComponent.getCurrentContext());
         AbstractHMIViewListener abstractHMIViewListener = remoteHMIContext.getViewListener();
         if (abstractHMIViewListener != null) {
             abstractHMIViewListener.onExit();
@@ -345,7 +483,7 @@ RemoteHMIDSIAccess$IRemoteHMIDSIListener {
         boolean bl = false;
         AbstractHMIViewListener abstractHMIViewListener2 = this.getViewListener(n);
         boolean bl2 = this.contextManagerComponent.isContextActive(remoteHMIContext);
-        this.logChannel.log(1078071040, "RemoteHMIService#loadView is context active:  %1", bl2);
+        this.logChannel.log(1000000, "RemoteHMIService#loadView is context active:  %1", bl2);
         if (abstractHMIViewListener2 != null) {
             n2 = n;
             remoteHMIContext.updateContext(n2, string2, hMIProperties, abstractHMIViewListener2);
@@ -363,7 +501,7 @@ RemoteHMIDSIAccess$IRemoteHMIDSIListener {
                     this.lockModelGroup();
                     if (this.oldViewType == n2 && this.oldViewId.equals(string2) && this.oldContextName.equals(string)) {
                         bl3 = true;
-                        this.logChannel.log(1078071040, "RemoteHMIService#loadView: old and new view are the same (e.g. restoring old view after context change).");
+                        this.logChannel.log(1000000, "RemoteHMIService#loadView: old and new view are the same (e.g. restoring old view after context change).");
                     } else {
                         bl3 = false;
                     }
@@ -384,25 +522,25 @@ RemoteHMIDSIAccess$IRemoteHMIDSIListener {
                 this.animationComponent.configureAnimation(string, abstractHMIViewListener2, this.overrideAnimation, bl3);
                 this.overrideAnimation = -1;
             } else {
-                this.logChannel.log(1078071040, "RemoteHMIService#loadView: Not updating view because context %1 not active. Ignoring viewType %2.", (Object)string, (long)n);
+                this.logChannel.log(1000000, "RemoteHMIService#loadView: Not updating view because context %1 not active. Ignoring viewType %2.", (Object)string, (long)n);
             }
-        } else if (n == -1872822016) {
+        } else if (n == 90000) {
             n2 = n;
-            this.logChannel.log(1078071040, "RemoteHMIService#loadView: view type exit");
+            this.logChannel.log(1000000, "RemoteHMIService#loadView: view type exit");
         } else {
             this.logChannel.log(10000, "RemoteHMIService#loadView: Unknown new viewType=%1", (long)n);
             n2 = 0;
             remoteHMIContext.updateContext(n2, null, null, null);
         }
         if (bl2 && (abstractHMIViewListener2 == null || abstractHMIViewListener2.isTriggerScreenChange())) {
-            this.logChannel.log(1078071040, "RemoteHMIService#loadView: view type=%1, view ID %2, context='%3'", (Object)Integer.toString(n2), (Object)string2, (Object)string);
+            this.logChannel.log(1000000, "RemoteHMIService#loadView: view type=%1, view ID %2, context='%3'", (Object)Integer.toString(n2), (Object)string2, (Object)string);
             EntryPoint entryPoint = this.contextManagerComponent.getCurrentEntryPoint();
             if (entryPoint != null && entryPoint.getEntryPointId() == 1 && n2 == 3000 && this.contextManagerComponent.isIgnoreScreenConnect()) {
-                this.logChannel.log(1078071040, "RemoteHMIService#loadView: ignoring view connnect");
+                this.logChannel.log(1000000, "RemoteHMIService#loadView: ignoring view connnect");
                 this.contextManagerComponent.setIgnoreScreenConnect(false);
             } else {
-                object = this.modelBank.getChoiceModel(-1508367616);
-                this.logChannel.log(-2137614336, "RemoteHMIService#loadView: changing REMOTE_HMI_CURRENT_VIEW_CHOICE status from %1 to %2", (long)object.getStatus(), (long)n2);
+                object = this.modelBank.getChoiceModel(2300070);
+                this.logChannel.log(10000000, "RemoteHMIService#loadView: changing REMOTE_HMI_CURRENT_VIEW_CHOICE status from %1 to %2", (long)object.getStatus(), (long)n2);
                 object.setStatus(n2);
                 object.setValue(object.getValue() ^ 1);
                 this.viewTypeModelGroup.flush();
@@ -413,17 +551,17 @@ RemoteHMIDSIAccess$IRemoteHMIDSIListener {
             this.releaseAppStartupWaitingScreen(true);
             EntryPoint entryPoint = this.contextManagerComponent.getCurrentEntryPoint();
             if (entryPoint == null) {
-                this.logChannel.log(-1601830656, "RemoteHMIService#loadView: called for context '%1' but entrypoint is null which should not happen", (Object)string);
+                this.logChannel.log(100000, "RemoteHMIService#loadView: called for context '%1' but entrypoint is null which should not happen", (Object)string);
                 return;
             }
             object = entryPoint.getCurrentContext();
             if (object == null) {
-                this.logChannel.log(-1601830656, "RemoteHMIService#loadView: called for context '%1' and entrypoint context is null which should never happen", (Object)string);
+                this.logChannel.log(100000, "RemoteHMIService#loadView: called for context '%1' and entrypoint context is null which should never happen", (Object)string);
                 return;
             }
             String string3 = ((RemoteHMIContext)object).getContextName();
             if (!string.equals(string3)) {
-                this.logChannel.log(1078071040, "RemoteHMIService#loadView: called for context '%1' but entrypoint context is '%2' so can't remove waiting screen", (Object)string, (Object)string3);
+                this.logChannel.log(1000000, "RemoteHMIService#loadView: called for context '%1' but entrypoint context is '%2' so can't remove waiting screen", (Object)string, (Object)string3);
                 return;
             }
             this.triggerScreenEnter(string3);
@@ -434,23 +572,36 @@ RemoteHMIDSIAccess$IRemoteHMIDSIListener {
     }
 
     protected void triggerScreenEnter(String string) {
-        this.logChannel.log(-1601830656, "RemoteHMIService#triggerScreenEnter: has to be overridden in the derived class");
+        this.logChannel.log(100000, "RemoteHMIService#triggerScreenEnter: has to be overridden in the derived class");
     }
 
-    @Override
     public final void indicateViewProperties(String string, RemoteHMIView remoteHMIView) {
-        this.execute(new IndicateViewPropertyTask("indicate-view-properties", LogAppender$Factory.fromString(string), this, string, remoteHMIView, this.contextManagerComponent, this.logChannel));
+        this.execute(new IndicateViewPropertyTask("indicate-view-properties", LogAppender.Factory.fromString(string), this, string, remoteHMIView, this.contextManagerComponent, this.logChannel));
     }
 
-    @Override
-    public void indicateSpeechContext(String string, IRemoteHMISpeechContext iRemoteHMISpeechContext) {
-        this.execute(new RemoteHMIService$12(this, "indicate-speech-context", LogAppender$Factory.fromString(string), string, iRemoteHMISpeechContext));
+    public void indicateSpeechContext(final String string, final IRemoteHMISpeechContext iRemoteHMISpeechContext) {
+        this.execute(new AbstractRemoteHMITask("indicate-speech-context", LogAppender.Factory.fromString(string)){
+
+            public void run() {
+                RemoteHMIContext remoteHMIContext = RemoteHMIService.this.contextManagerComponent.getContext(string);
+                if (remoteHMIContext == null) {
+                    RemoteHMIService.this.logChannel.log(1000000, "RemoteHMIService#indicateSpeechContext: context is null, not sending speechContext");
+                    return;
+                }
+                if (RemoteHMIService.this.contextManagerComponent.isContextActive(remoteHMIContext)) {
+                    RemoteHMIService.this.logChannel.log(1000000, "RemoteHMIService#indicateSpeechContext: updating SDS service for context %1.", (Object)(remoteHMIContext.getContextName() == null ? "" : remoteHMIContext.getContextName()));
+                    RemoteHMIService.this.hmiAsrListener.indicateSpeechContext(iRemoteHMISpeechContext);
+                } else {
+                    RemoteHMIService.this.logChannel.log(1000000, "RemoteHMIService#indicateSpeechContext: context %1 not active", (Object)(remoteHMIContext.getContextName() == null ? "" : remoteHMIContext.getContextName()));
+                }
+            }
+        });
     }
 
     public void configureRemoteHMIContext() {
         EntryPoint entryPoint = this.contextManagerComponent.getCurrentEntryPoint();
         if (entryPoint == null) {
-            this.logChannel.log(-1601830656, "RemoteHMIService#configureRemoteHMIContext: current entry point is null");
+            this.logChannel.log(100000, "RemoteHMIService#configureRemoteHMIContext: current entry point is null");
             return;
         }
         RemoteHMIContext remoteHMIContext = entryPoint.getCurrentContext();
@@ -458,10 +609,10 @@ RemoteHMIDSIAccess$IRemoteHMIDSIListener {
         String string2 = StringUtilities.getStringNotNull(entryPoint.getNameOfContextToBeStarted());
         int n = entryPoint.getEntryPointId();
         if (string == null && string2.equals("")) {
-            this.logChannel.log(-1601830656, "RemoteHMIService#configureRemoteHMIContext: No context and nameOfContextToBeStarted exists for the entrypoint");
+            this.logChannel.log(100000, "RemoteHMIService#configureRemoteHMIContext: No context and nameOfContextToBeStarted exists for the entrypoint");
             if (n == 3 || n == 2) {
-                ChoiceModelApp choiceModelApp = this.getModelBankAccess().getChoiceModel(-1508367616);
-                choiceModelApp.setStatus(-1872822016);
+                ChoiceModelApp choiceModelApp = this.getModelBankAccess().getChoiceModel(2300070);
+                choiceModelApp.setStatus(90000);
                 this.contextManagerComponent.setWaitForApplicationValue(0);
                 choiceModelApp.setValue(choiceModelApp.getValue() ^ 1);
                 this.viewTypeModelGroup.flush();
@@ -472,15 +623,15 @@ RemoteHMIDSIAccess$IRemoteHMIDSIListener {
         }
         if (string == null && n == 1) {
             string = entryPoint.getNameOfContextToBeStarted();
-            this.logChannel.log(1078071040, "RemoteHMIService#configureRemoteHMIContext: current current for Audiconnect is null so using nameOfContextToBeStarted '%1'", (Object)string);
+            this.logChannel.log(1000000, "RemoteHMIService#configureRemoteHMIContext: current current for Audiconnect is null so using nameOfContextToBeStarted '%1'", (Object)string);
         }
         this.getBrowserController().checkWakeup();
         if (string == null) {
-            this.logChannel.log(-1601830656, "RemoteHMIService#configureRemoteHMIContext: no contextName exists so can't trigger signal to south side");
+            this.logChannel.log(100000, "RemoteHMIService#configureRemoteHMIContext: no contextName exists so can't trigger signal to south side");
             return;
         }
         this.dsiAccess.setContext(string);
-        this.logChannel.log(1078071040, "RemoteHMIService#configureRemoteHMIContext: signal for starting context '%1' for entrypoint '%2' sent to south side", (Object)string, (long)n);
+        this.logChannel.log(1000000, "RemoteHMIService#configureRemoteHMIContext: signal for starting context '%1' for entrypoint '%2' sent to south side", (Object)string, (long)n);
     }
 
     public void addCommandHandler(int n, AbstractCommandHandler abstractCommandHandler) {
@@ -494,17 +645,21 @@ RemoteHMIDSIAccess$IRemoteHMIDSIListener {
         this.commandHandlers.put(n2, abstractCommandHandler);
     }
 
-    @Override
     public final void indicateCommand(int n, Object object) {
-        this.logChannel.log(-2137614336, "RemoteHMIService#indicateCommand: state %1", (long)n);
+        this.logChannel.log(10000000, "RemoteHMIService#indicateCommand: state %1", (long)n);
         Integer n2 = new Integer(n);
         AbstractCommandHandler abstractCommandHandler = (AbstractCommandHandler)this.commandHandlers.get(n2);
         if (abstractCommandHandler == null) {
-            this.logChannel.log(-1601830656, "RemoteHMIService#indicateCommand: no handler found: %1", (Object)n2);
+            this.logChannel.log(100000, "RemoteHMIService#indicateCommand: no handler found: %1", (Object)n2);
             return;
         }
-        RemoteHMITask remoteHMITask = abstractCommandHandler.createTask(n, object);
-        this.execute(new RemoteHMIService$13(this, "indicate-command", LogAppender$Factory.fromObject(abstractCommandHandler, 64), remoteHMITask));
+        final RemoteHMITask remoteHMITask = abstractCommandHandler.createTask(n, object);
+        this.execute(new AbstractRemoteHMITask("indicate-command", LogAppender.Factory.fromObject(abstractCommandHandler, 64)){
+
+            public void run() {
+                RemoteHMIService.this.execute(remoteHMITask);
+            }
+        });
     }
 
     public String getCurrentViewId() {
@@ -550,11 +705,11 @@ RemoteHMIDSIAccess$IRemoteHMIDSIListener {
     protected void invokeActionImmediately(RemoteHMIAction remoteHMIAction) {
         if (remoteHMIAction == null) {
             if (this.logChannel != null) {
-                this.logChannel.log(-1601830656, "RemoteHMIService#invokeActionImmediately: action was null!");
+                this.logChannel.log(100000, "RemoteHMIService#invokeActionImmediately: action was null!");
             }
             return;
         }
-        this.logChannel.log(1078071040, "RemoteHMIService#invokeActionImmediately: called for action type '%1'", (long)remoteHMIAction.getType());
+        this.logChannel.log(1000000, "RemoteHMIService#invokeActionImmediately: called for action type '%1'", (long)remoteHMIAction.getType());
         this.adaptCoverArtDownload(remoteHMIAction);
         if (this.contextManagerComponent != null) {
             RemoteHMIContext remoteHMIContext = this.contextManagerComponent.getCurrentContext();
@@ -564,17 +719,17 @@ RemoteHMIDSIAccess$IRemoteHMIDSIListener {
                 this.dsiAccess.action(null, remoteHMIAction);
             }
         } else {
-            this.logChannel.log(-1601830656, "RemoteHMIService#invokeActionImmediately: contextManagerComponent was null!");
+            this.logChannel.log(100000, "RemoteHMIService#invokeActionImmediately: contextManagerComponent was null!");
         }
     }
 
     private void adaptCoverArtDownload(RemoteHMIAction remoteHMIAction) {
-        if (remoteHMIAction.getType() == -575563776) {
+        if (remoteHMIAction.getType() == 10007005) {
             EntryPoint entryPoint = this.contextManagerComponent.getEntryPointFromMap(4);
             MediaSubEntryPointsContainer mediaSubEntryPointsContainer = entryPoint.getSubEntryPointContainer();
             EntryPoint entryPoint2 = mediaSubEntryPointsContainer.getCurrentEntryPoint();
             if (entryPoint2 == null) {
-                this.logChannel.log(-2137614336, "RemoteHMIService#adaptCoverArtDownload: no subentry point found, action parameter PROP_ONLINE_MEDIA_CURRENT_CONTEXT not set.");
+                this.logChannel.log(10000000, "RemoteHMIService#adaptCoverArtDownload: no subentry point found, action parameter PROP_ONLINE_MEDIA_CURRENT_CONTEXT not set.");
                 return;
             }
             String string = entryPoint2.getNameOfContextToBeStarted();
@@ -582,12 +737,12 @@ RemoteHMIDSIAccess$IRemoteHMIDSIListener {
             if (remoteHMIContext != null) {
                 String string2 = remoteHMIContext.getContextName();
                 remoteHMIAction.getParameters().putString("onlineMediaCurrentContext", string2);
-                this.logChannel.log(-2137614336, "RemoteHMIService#invokeActionImmediately: action type '%1'. Got current context name %2.", (Object)Integer.toString(remoteHMIAction.getType()), (Object)string2);
+                this.logChannel.log(10000000, "RemoteHMIService#invokeActionImmediately: action type '%1'. Got current context name %2.", (Object)Integer.toString(remoteHMIAction.getType()), (Object)string2);
             } else if (string != null && !string.equals("")) {
                 remoteHMIAction.getParameters().putString("onlineMediaCurrentContext", string);
-                this.logChannel.log(-2137614336, "RemoteHMIService#invokeActionImmediately: action type '%1'. Got context name to be started %2.", (Object)Integer.toString(remoteHMIAction.getType()), (Object)string);
+                this.logChannel.log(10000000, "RemoteHMIService#invokeActionImmediately: action type '%1'. Got context name to be started %2.", (Object)Integer.toString(remoteHMIAction.getType()), (Object)string);
             } else {
-                this.logChannel.log(-1601830656, "RemoteHMIService#invokeActionImmediately: action type '%1'. Could not retrieve media entry point. MediaCurrentEntryPoint.id = %2", (Object)Integer.toString(remoteHMIAction.getType()), (long)entryPoint2.getEntryPointId());
+                this.logChannel.log(100000, "RemoteHMIService#invokeActionImmediately: action type '%1'. Could not retrieve media entry point. MediaCurrentEntryPoint.id = %2", (Object)Integer.toString(remoteHMIAction.getType()), (long)entryPoint2.getEntryPointId());
             }
         }
     }
@@ -596,18 +751,27 @@ RemoteHMIDSIAccess$IRemoteHMIDSIListener {
         return this.frameworkAccess;
     }
 
-    @Override
-    public void indicateSpeechHelpContexts(IRemoteHMISpeechHelpContext[] iRemoteHMISpeechHelpContextArray, IRemoteHMISpeechTopicContext[] iRemoteHMISpeechTopicContextArray, IRemoteHMISpeechHelpIntroPrompt iRemoteHMISpeechHelpIntroPrompt) {
-        this.execute(new RemoteHMIService$14(this, "indicate-speech-help-contexts", iRemoteHMISpeechHelpContextArray, iRemoteHMISpeechTopicContextArray, iRemoteHMISpeechHelpIntroPrompt));
+    public void indicateSpeechHelpContexts(final IRemoteHMISpeechHelpContext[] iRemoteHMISpeechHelpContextArray, final IRemoteHMISpeechTopicContext[] iRemoteHMISpeechTopicContextArray, final IRemoteHMISpeechHelpIntroPrompt iRemoteHMISpeechHelpIntroPrompt) {
+        this.execute(new AbstractRemoteHMITask("indicate-speech-help-contexts"){
+
+            public void run() {
+                RemoteHMIService.this.logChannel.log(1000000, "RemoteHMIService#indicateSpeechHelpContexts: updating SDS service.");
+                RemoteHMIService.this.hmiAsrListener.indicateSpeechHelpContexts(iRemoteHMISpeechHelpContextArray, iRemoteHMISpeechTopicContextArray, iRemoteHMISpeechHelpIntroPrompt);
+            }
+        });
     }
 
-    @Override
-    public void indicateSpeechGlobalCommands(IRemoteHMISpeechCommandSDS[] iRemoteHMISpeechCommandSDSArray) {
-        this.execute(new RemoteHMIService$15(this, "indicate-speech-global-commands", iRemoteHMISpeechCommandSDSArray));
+    public void indicateSpeechGlobalCommands(final IRemoteHMISpeechCommandSDS[] iRemoteHMISpeechCommandSDSArray) {
+        this.execute(new AbstractRemoteHMITask("indicate-speech-global-commands"){
+
+            public void run() {
+                RemoteHMIService.this.logChannel.log(1000000, "RemoteHMIService#indicateSpeechGlobalCommands: updating SDS service.");
+                RemoteHMIService.this.hmiAsrListener.indicateSpeechGlobalCommands(iRemoteHMISpeechCommandSDSArray);
+            }
+        });
     }
 
-    @Override
-    public void indicateContextsCommandDisplay(IRemoteHMISpeechContext$CommandDisplay iRemoteHMISpeechContext$CommandDisplay) {
+    public void indicateContextsCommandDisplay(IRemoteHMISpeechContext.CommandDisplay commandDisplay) {
     }
 
     public void setOnlineHmiService(OnlineHMIService onlineHMIService) {
@@ -622,19 +786,38 @@ RemoteHMIDSIAccess$IRemoteHMIDSIListener {
         return this.onlineHmiService;
     }
 
-    @Override
-    public void indicateCurrentSpeechHelpContext(String string) {
-        this.execute(new RemoteHMIService$16(this, "indicate-current-speech-help-context", string));
+    public void indicateCurrentSpeechHelpContext(final String string) {
+        this.execute(new AbstractRemoteHMITask("indicate-current-speech-help-context"){
+
+            public void run() {
+                if (RemoteHMIService.this.hmiAsrListener != null) {
+                    RemoteHMIService.this.hmiAsrListener.indicateCurrentSpeechHelpContext(string);
+                }
+            }
+        });
     }
 
-    @Override
-    public void setLanguage(Language language) {
-        this.logChannel.log(1078071040, "RemoteHMIService#setLanguage: trigger set language %1", (Object)language);
-        String string = this.getCorrectLanguageString(language);
+    public void setLanguage(final Language language) {
+        this.logChannel.log(1000000, "RemoteHMIService#setLanguage: trigger set language %1", (Object)language);
+        final String string = this.getCorrectLanguageString(language);
         if (this.languageListener != null) {
             this.languageListener.setLanguage(string);
         }
-        this.execute(new RemoteHMIService$17(this, "set-language", LogAppender$Factory.fromString(language == null ? "null" : string), language, string));
+        this.execute(new AbstractRemoteHMITask("set-language", LogAppender.Factory.fromString(language == null ? "null" : string)){
+
+            public void run() {
+                RemoteHMIService.this.logChannel.log(1000000, "RemoteHMIService#setLanguage: %1", (Object)language);
+                if (RemoteHMIService.this.dsiAccess.hasDSI()) {
+                    RemoteHMIService.this.dsiAccess.setHMILanguage(string);
+                    RemoteHMIAction remoteHMIAction = RemoteHMIService.this.getAction(950);
+                    remoteHMIAction.getParameters().put("value", string);
+                    RemoteHMIService.this.invokeActionImmediately(remoteHMIAction);
+                } else {
+                    RemoteHMIService.this.logChannel.log(100000, "RemoteHMIService#setLanguage: no IRemoteHMI present.");
+                    RemoteHMIService.this.initialLanguage = string;
+                }
+            }
+        });
     }
 
     protected String getCorrectLanguageString(Language language) {
@@ -642,14 +825,14 @@ RemoteHMIDSIAccess$IRemoteHMIDSIListener {
         if (language.getHmiCode().equals("nb_NO")) {
             string = language.getLanguageCode();
         }
-        this.logChannel.log(-2137614336, "RemoteHMIService#getCorrectLanguageString: having corrected lanuage %1", (Object)string);
+        this.logChannel.log(10000000, "RemoteHMIService#getCorrectLanguageString: having corrected lanuage %1", (Object)string);
         return string;
     }
 
     private void invalidateSpeechHelpContext() {
         if (this.hmiAsrListener != null) {
             this.hmiAsrListener.indicateSpeechHelpContexts(null, null, null);
-            this.logChannel.log(1078071040, "RemoteHMIService#invalidateSpeechHelpContext: Called");
+            this.logChannel.log(1000000, "RemoteHMIService#invalidateSpeechHelpContext: Called");
         }
     }
 
@@ -670,7 +853,7 @@ RemoteHMIDSIAccess$IRemoteHMIDSIListener {
     }
 
     public void onExit() {
-        this.logChannel.log(1078071040, "RemoteHMIService#onExit: Called.");
+        this.logChannel.log(1000000, "RemoteHMIService#onExit: Called.");
         for (int i2 = 0; i2 < this.components.size(); ++i2) {
             AbstractRemoteHMIComponent abstractRemoteHMIComponent = (AbstractRemoteHMIComponent)this.components.get(i2);
             try {
@@ -678,37 +861,49 @@ RemoteHMIDSIAccess$IRemoteHMIDSIListener {
                 continue;
             }
             catch (Exception exception) {
-                this.logChannel.log(-1601830656, "RemoteHMIService#onExit: Exception in %1.onExit. %1", (Object)super.getClass().getName(), (Throwable)exception);
+                this.logChannel.log(100000, "RemoteHMIService#onExit: Exception in %1.onExit. %1", (Object)abstractRemoteHMIComponent.getClass().getName(), (Throwable)exception);
             }
         }
         this.contextManagerComponent.showProviderLogo("");
-        this.logChannel.log(1078071040, "RemoteHMIService#onExit: sending EXIT action to interpreter");
+        this.logChannel.log(1000000, "RemoteHMIService#onExit: sending EXIT action to interpreter");
         this.invokeAction(this.getAction(2));
         this.animationComponent.reset();
     }
 
     public void onEnter() {
         this.configureRemoteHMIContext();
-        RemoteHMIAction remoteHMIAction = this.getAction(950179840);
+        RemoteHMIAction remoteHMIAction = this.getAction(10003000);
         this.invokeAction(remoteHMIAction);
-        this.logChannel.log(1078071040, "RemoteHMIService#onEnter: Called.");
+        this.logChannel.log(1000000, "RemoteHMIService#onEnter: Called.");
         for (int i2 = 0; i2 < this.components.size(); ++i2) {
             AbstractRemoteHMIComponent abstractRemoteHMIComponent = (AbstractRemoteHMIComponent)this.components.get(i2);
             abstractRemoteHMIComponent.onEnter();
         }
     }
 
-    @Override
     public void processMsg(int n) {
         if (n == 88) {
-            this.execute(new RemoteHMIService$18(this, "reset-to-factory-settings"));
+            this.execute(new AbstractRemoteHMITask("reset-to-factory-settings"){
+
+                public void run() {
+                    RemoteHMIService.this.logChannel.log(10000000, "RemoteHMIService#processMsg(): message \"RESET_NAV_MEMORY_SETTINGS\" received");
+                    RemoteHMIService.this.dsiAccess.resetToFactorySettings();
+                    RemoteHMIService.this.getBrowserController().resetToFactorySettings();
+                }
+            });
         } else if (n == 11) {
-            this.execute(new RemoteHMIService$19(this, "units-changed"));
+            this.execute(new AbstractRemoteHMITask("units-changed"){
+
+                public void run() {
+                    RemoteHMIService.this.logChannel.log(1000000, "RemoteHMIService#processMsg: units changed");
+                    RemoteHMIService.this.invokeActionImmediately(RemoteHMIService.this.getAction(1));
+                }
+            });
         } else if (n == 206) {
             if (this.lockingListener != null) {
                 this.lockingListener.updateLockingState(true);
             } else {
-                this.logChannel.log(1078071040, "RemoteHMIService#processMsg:  Locking concept not activated. (%1)", (long)n);
+                this.logChannel.log(1000000, "RemoteHMIService#processMsg:  Locking concept not activated. (%1)", (long)n);
             }
             AbstractHMIViewListener abstractHMIViewListener = this.getViewListener(13000);
             if (abstractHMIViewListener != null) {
@@ -718,7 +913,7 @@ RemoteHMIDSIAccess$IRemoteHMIDSIListener {
             if (this.lockingListener != null) {
                 this.lockingListener.updateLockingState(false);
             } else {
-                this.logChannel.log(1078071040, "RemoteHMIService#processMsg:  Locking concept not activated. (%1)", (long)n);
+                this.logChannel.log(1000000, "RemoteHMIService#processMsg:  Locking concept not activated. (%1)", (long)n);
             }
             AbstractHMIViewListener abstractHMIViewListener = this.getViewListener(13000);
             if (abstractHMIViewListener != null) {
@@ -727,8 +922,7 @@ RemoteHMIDSIAccess$IRemoteHMIDSIListener {
         }
     }
 
-    public abstract RemoteHMIMediaHandler getMediaHandler() {
-    }
+    public abstract RemoteHMIMediaHandler getMediaHandler();
 
     public AbstractHMIViewListener getCurrentView() {
         RemoteHMIContext remoteHMIContext = this.contextManagerComponent.getCurrentContext();
@@ -894,14 +1088,34 @@ RemoteHMIDSIAccess$IRemoteHMIDSIListener {
         return this.browserComponent;
     }
 
-    @Override
-    public void indicateContext(String string, int n) {
-        this.execute(new RemoteHMIService$20(this, "indicate-context", LogAppender$Factory.fromString(string), string, n));
+    public void indicateContext(final String string, final int n) {
+        this.execute(new AbstractRemoteHMITask("indicate-context", LogAppender.Factory.fromString(string)){
+
+            public void run() {
+                this.getParamsForDebugging();
+                RemoteHMIService.this.contextManagerComponent.setContext(string, n);
+            }
+
+            public LogAppender getParamsForDebugging() {
+                RemoteHMIService.this.logChannel.log(10000000, "RemoteHMIService#indicateContext: %1", (Object)string);
+                LogAppender logAppender = new LogAppender(){
+
+                    public void appendTo(Buffer buffer) {
+                        buffer.append("Contextname: ").append(string);
+                    }
+
+                    public int getEstimatedLength() {
+                        return 32;
+                    }
+                };
+                return logAppender;
+            }
+        });
     }
 
     public void setColor(int n) {
-        this.logChannel.log(1078071040, "RemoteHMIService#setColor: %1", (Object)Integer.toString(n));
-        this.modelBank.getChoiceModel(-1525144832).setValue(n);
+        this.logChannel.log(1000000, "RemoteHMIService#setColor: %1", (Object)Integer.toString(n));
+        this.modelBank.getChoiceModel(2300069).setValue(n);
     }
 
     public InitializationComponent getInitializationHandler() {
@@ -924,11 +1138,9 @@ RemoteHMIDSIAccess$IRemoteHMIDSIListener {
         return (AbstractHMIViewListener)this.viewListenerMap.get(new Integer(n));
     }
 
-    @Override
     public void stopResult(int n) {
     }
 
-    @Override
     public void setContextResult(int n) {
     }
 
@@ -944,13 +1156,12 @@ RemoteHMIDSIAccess$IRemoteHMIDSIListener {
         return this.efiComponent;
     }
 
-    @Override
-    public void indicateLogMessage(IRemoteHMIListener$LogLevel iRemoteHMIListener$LogLevel, String string, String string2, Object object, Object object2, Object object3, Object object4) {
+    public void indicateLogMessage(IRemoteHMIListener.LogLevel logLevel, String string, String string2, Object object, Object object2, Object object3, Object object4) {
         LogChannel logChannel = this.logChannelInterpreter;
         if (logChannel == null) {
             return;
         }
-        int n = iRemoteHMIListener$LogLevel.equals(IRemoteHMIListener$LogLevel.TRACE) ? 14808325 : (iRemoteHMIListener$LogLevel.equals(IRemoteHMIListener$LogLevel.DEBUG) ? -2137614336 : (iRemoteHMIListener$LogLevel.equals(IRemoteHMIListener$LogLevel.INFO) ? 1078071040 : (iRemoteHMIListener$LogLevel.equals(IRemoteHMIListener$LogLevel.WARN) ? -1601830656 : (iRemoteHMIListener$LogLevel.equals(IRemoteHMIListener$LogLevel.ERROR) ? 10000 : -1601830656))));
+        int n = logLevel.equals(IRemoteHMIListener.LogLevel.TRACE) ? 100000000 : (logLevel.equals(IRemoteHMIListener.LogLevel.DEBUG) ? 10000000 : (logLevel.equals(IRemoteHMIListener.LogLevel.INFO) ? 1000000 : (logLevel.equals(IRemoteHMIListener.LogLevel.WARN) ? 100000 : (logLevel.equals(IRemoteHMIListener.LogLevel.ERROR) ? 10000 : 100000))));
         if (n > logChannel.getCurrentLogThreshold()) {
             return;
         }
@@ -999,19 +1210,31 @@ RemoteHMIDSIAccess$IRemoteHMIDSIListener {
         return this.contextManagerComponent;
     }
 
-    @Override
-    public void indicateContextRemoved(String string) {
-        this.execute(new RemoteHMIService$21(this, "context-removed", LogAppender$Factory.fromString(string), string));
+    public void indicateContextRemoved(final String string) {
+        this.execute(new AbstractRemoteHMITask("context-removed", LogAppender.Factory.fromString(string)){
+
+            public void run() {
+                RemoteHMIService.this.contextManagerComponent.contextRemoved(string);
+            }
+        });
     }
 
-    @Override
-    public void indicateContextCreated(String string, int n) {
-        this.execute(new RemoteHMIService$22(this, "context-created", LogAppender$Factory.fromString(string), string, n));
+    public void indicateContextCreated(final String string, final int n) {
+        this.execute(new AbstractRemoteHMITask("context-created", LogAppender.Factory.fromString(string)){
+
+            public void run() {
+                RemoteHMIService.this.contextManagerComponent.contextCreated(string, n);
+            }
+        });
     }
 
-    @Override
-    public void indicateContextSuspended(String string) {
-        this.execute(new RemoteHMIService$23(this, "context-suspended", LogAppender$Factory.fromString(string), string));
+    public void indicateContextSuspended(final String string) {
+        this.execute(new AbstractRemoteHMITask("context-suspended", LogAppender.Factory.fromString(string)){
+
+            public void run() {
+                RemoteHMIService.this.contextManagerComponent.contextSuspended(string);
+            }
+        });
     }
 
     public IRemoteHMIMediaOnlineServiceListener getRemoteHMIMediaOnlineServiceListener() {
@@ -1025,38 +1248,48 @@ RemoteHMIDSIAccess$IRemoteHMIDSIListener {
     public void setAuthenticationService(PortalAuthenticationService portalAuthenticationService) {
         this.portalAuthentication = portalAuthenticationService;
         if (portalAuthenticationService != null) {
-            PortalAuthenticationService$UpdateProfileInfoListener portalAuthenticationService$UpdateProfileInfoListener = (PortalAuthenticationService$UpdateProfileInfoListener)((Object)this.getViewListener(13000));
-            if (portalAuthenticationService$UpdateProfileInfoListener != null) {
-                portalAuthenticationService.registerUpdateProfileInfoListener(portalAuthenticationService$UpdateProfileInfoListener);
+            PortalAuthenticationService.UpdateProfileInfoListener updateProfileInfoListener = (PortalAuthenticationService.UpdateProfileInfoListener)((Object)this.getViewListener(13000));
+            if (updateProfileInfoListener != null) {
+                portalAuthenticationService.registerUpdateProfileInfoListener(updateProfileInfoListener);
             }
-            portalAuthenticationService.registerUpdateProfileInfoListener(new RemoteHMIService$24(this));
+            portalAuthenticationService.registerUpdateProfileInfoListener(new PortalAuthenticationService.UpdateProfileInfoListener(){
+
+                public void updateProfileInfo(Object object) {
+                    RemoteHMIService.this.forwardProfileInfoChanged(object);
+                }
+
+                public void updateDeviceInfo(OSRDevice[] oSRDeviceArray) {
+                }
+            });
         }
     }
 
     protected void forwardProfileInfoChanged(Object object) {
-        this.logChannel.log(1078071040, "RemoteHMIService#updateProfileInfo queuing Authentication-result-action");
-        RemoteHMIAction remoteHMIAction = new RemoteHMIAction(-340224000);
+        this.logChannel.log(1000000, "RemoteHMIService#updateProfileInfo queuing Authentication-result-action");
+        final RemoteHMIAction remoteHMIAction = new RemoteHMIAction(10008811);
         remoteHMIAction.getParameters().put("userAuthenticationResult", object);
         this.ioSrUserCacheInformation = (IOsrUserCacheInformation)object;
-        this.execute(new RemoteHMIService$25(this, "authentication-result-task", remoteHMIAction));
+        this.execute(new AbstractRemoteHMITask("authentication-result-task"){
+
+            public void run() {
+                RemoteHMIService.this.invokeAction(remoteHMIAction);
+            }
+        });
     }
 
     public PortalAuthenticationService getAuthenticationService() {
         return this.portalAuthentication;
     }
 
-    public abstract Object getDistributedServiceComponent() {
-    }
+    public abstract Object getDistributedServiceComponent();
 
     public boolean hasDsiAccess() {
         return this.dsiAccess.hasDSI();
     }
 
-    public abstract Object getI18NTextComponent() {
-    }
+    public abstract Object getI18NTextComponent();
 
-    public abstract AbstractExternalServiceProvider getOnlineServiceProvider() {
-    }
+    public abstract AbstractExternalServiceProvider getOnlineServiceProvider();
 
     public boolean isTarget() {
         return this.frameworkAccess.isTarget();
@@ -1085,7 +1318,7 @@ RemoteHMIDSIAccess$IRemoteHMIDSIListener {
         }
         if ((object = remoteHMITask.getDelayMillis()) == null) {
             if (this.dispatcher.isDispatchThread()) {
-                this.dispatcherLogChannel.log(-2137614336, "RemoteHMIService#execute: synchronous execution for %1 (run from within the queue)", (Object)remoteHMITask);
+                this.dispatcherLogChannel.log(10000000, "RemoteHMIService#execute: synchronous execution for %1 (run from within the queue)", (Object)remoteHMITask);
                 remoteHMITask.run();
             } else {
                 this.dispatcher.execute(remoteHMITask);
@@ -1124,7 +1357,12 @@ RemoteHMIDSIAccess$IRemoteHMIDSIListener {
     }
 
     public void triggerFlushModelGroup(String string) {
-        this.execute(new RemoteHMIService$26(this, "flush-model-group", LogAppender$Factory.fromString(string)));
+        this.execute(new AbstractRemoteHMITask("flush-model-group", LogAppender.Factory.fromString(string)){
+
+            public void run() {
+                RemoteHMIService.this.flushModelGroup();
+            }
+        });
     }
 
     public void flushModelGroup() {
@@ -1143,7 +1381,7 @@ RemoteHMIDSIAccess$IRemoteHMIDSIListener {
     }
 
     public void overrideAnimation(int n) {
-        this.logChannel.log(1078071040, "RemoteHMIService#overrideAnimation: set to %1", (Object)new Integer(n));
+        this.logChannel.log(1000000, "RemoteHMIService#overrideAnimation: set to %1", (Object)new Integer(n));
         this.overrideAnimation = n;
     }
 
@@ -1169,7 +1407,7 @@ RemoteHMIDSIAccess$IRemoteHMIDSIListener {
 
     public boolean isSDSRunning() {
         if (this.getModelBankAccess().getChoiceModel(335).getValue() == 2 || this.getModelBankAccess().getChoiceModel(335).getValue() == 8) {
-            this.logChannel.log(-2137614336, "RemoteHMIService#isSDSRunning: SDS running");
+            this.logChannel.log(10000000, "RemoteHMIService#isSDSRunning: SDS running");
             return true;
         }
         return false;
@@ -1177,16 +1415,16 @@ RemoteHMIDSIAccess$IRemoteHMIDSIListener {
 
     public IGridFactory getGridFactory() {
         if (this.gridFactory == null) {
-            this.logChannel.log(-1601830656, "RemoteHMIService#getGridFactory: gridFactory is null with stacktrace %1", new Throwable());
+            this.logChannel.log(100000, "RemoteHMIService#getGridFactory: gridFactory is null with stacktrace %1", new Throwable());
         }
         return this.gridFactory;
     }
 
-    protected void setMapStateService(NaviOnlineService$MapStateService naviOnlineService$MapStateService) {
-        this.mapStateService = naviOnlineService$MapStateService;
+    protected void setMapStateService(NaviOnlineService.MapStateService mapStateService) {
+        this.mapStateService = mapStateService;
     }
 
-    public NaviOnlineService$MapStateService getMapStateService() {
+    public NaviOnlineService.MapStateService getMapStateService() {
         return this.mapStateService;
     }
 
@@ -1199,7 +1437,7 @@ RemoteHMIDSIAccess$IRemoteHMIDSIListener {
     }
 
     public void setOnlineOperatorCallService(OnlinePOICall onlinePOICall) {
-        this.logChannel.log(1078071040, "RemoteHMIService#setOnlineOperatorCallService was called with %1.", (Object)onlinePOICall);
+        this.logChannel.log(1000000, "RemoteHMIService#setOnlineOperatorCallService was called with %1.", (Object)onlinePOICall);
         this.onlineOperatorCallService = onlinePOICall;
     }
 
@@ -1232,8 +1470,8 @@ RemoteHMIDSIAccess$IRemoteHMIDSIListener {
     }
 
     public void startMediaApp(int n) {
-        this.logChannel.log(1078071040, "RemoteHmiService#startMediaApp entryPoint: %1", (long)n);
-        this.hmiService.getChoiceModel(386990848).setValue(n);
+        this.logChannel.log(1000000, "RemoteHmiService#startMediaApp entryPoint: %1", (long)n);
+        this.hmiService.getChoiceModel(200983).setValue(n);
     }
 
     public IMediaDrawerContext getMediaDrawerContext() {
@@ -1260,24 +1498,6 @@ RemoteHMIDSIAccess$IRemoteHMIDSIListener {
         return null;
     }
 
-    public abstract void triggerPrivacyMode(boolean bl) {
-    }
-
-    static /* synthetic */ void access$000(RemoteHMIService remoteHMIService) {
-        remoteHMIService.invalidateSpeechHelpContext();
-    }
-
-    static /* synthetic */ void access$100(RemoteHMIService remoteHMIService, String string) {
-        remoteHMIService.cancelViewDependentJobsForContext(string);
-    }
-
-    static /* synthetic */ HMISpeechASRListener access$200(RemoteHMIService remoteHMIService) {
-        return remoteHMIService.hmiAsrListener;
-    }
-
-    static /* synthetic */ String access$302(RemoteHMIService remoteHMIService, String string) {
-        remoteHMIService.initialLanguage = string;
-        return remoteHMIService.initialLanguage;
-    }
+    public abstract void triggerPrivacyMode(boolean var1);
 }
 

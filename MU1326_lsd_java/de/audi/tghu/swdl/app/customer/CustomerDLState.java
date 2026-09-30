@@ -15,18 +15,18 @@ import de.audi.tghu.swdl.app.hmiswitcher.HMISwitcher;
 
 public class CustomerDLState
 implements TimerListener {
-    public static final int ERROR_OK;
-    public static final int ERROR_SWDL_NOT_READY;
-    public static final int PROGRESS_NONE;
-    public static final int PROGRESS_SELECTION;
-    public static final int PROGRESS_SELECTION_DONE;
-    public static final int PROGRESS_DOWNLOADING;
-    public static final int PROGRESS_SUMMARY;
-    public static final int PROGRESS_RESTART;
-    public static final int PROGRESS_ABORT_MEDIA_SELECTION_PRESSED;
-    public static final int PROGRESS_CHECK_START_DOWNLOAD;
-    public static final int PROGRESS_CANCEL_DOWNLOAD_PRESSED;
-    private static final String CLASSNAME;
+    public static final int ERROR_OK = 0;
+    public static final int ERROR_SWDL_NOT_READY = 5;
+    public static final int PROGRESS_NONE = 0;
+    public static final int PROGRESS_SELECTION = 1;
+    public static final int PROGRESS_SELECTION_DONE = 2;
+    public static final int PROGRESS_DOWNLOADING = 3;
+    public static final int PROGRESS_SUMMARY = 4;
+    public static final int PROGRESS_RESTART = 5;
+    public static final int PROGRESS_ABORT_MEDIA_SELECTION_PRESSED = 6;
+    public static final int PROGRESS_CHECK_START_DOWNLOAD = 7;
+    public static final int PROGRESS_CANCEL_DOWNLOAD_PRESSED = 8;
+    private static final String CLASSNAME = "[CustomerDLState]";
     private final LogChannel log;
     private boolean cancelRequested = false;
     private volatile boolean selectingSourceMedium = false;
@@ -35,7 +35,7 @@ implements TimerListener {
     private boolean custDownloadStarted = false;
     private boolean isCustDownloadStateUpdated = false;
     private boolean isCustomerUpdateHasFocus = false;
-    private final Timer cancelDoneTimer = new Timer("Cancel Customer Swdl Selection", 0, true, this);
+    private final Timer cancelDoneTimer = new Timer("Cancel Customer Swdl Selection", 500L, true, this);
     private final HMISwitcher hmiSwitcher;
     private final SwdlModels swdlModels;
     private final SwdlEnv swdlEnv;
@@ -75,7 +75,7 @@ implements TimerListener {
     }
 
     public boolean isCancelRequested() {
-        this.log.log(1078071040, "%1 isCancelRequested(): %2", (Object)"[CustomerDLState]", (Object)this.cancelRequested);
+        this.log.log(1000000, "%1 isCancelRequested(): %2", (Object)CLASSNAME, (Object)this.cancelRequested);
         return this.cancelRequested;
     }
 
@@ -104,12 +104,12 @@ implements TimerListener {
     }
 
     public void startSelectingDevices() {
-        this.log.log(-2137614336, "%1 startSelectingDevices()", (Object)"[CustomerDLState]");
+        this.log.log(10000000, "%1 startSelectingDevices()", (Object)CLASSNAME);
         this.selectingDevices = true;
     }
 
     public void doneSelectingDevices() {
-        this.log.log(-2137614336, "%1 doneSelectingDevices()", (Object)"[CustomerDLState]");
+        this.log.log(10000000, "%1 doneSelectingDevices()", (Object)CLASSNAME);
         this.selectingDevices = false;
     }
 
@@ -118,7 +118,7 @@ implements TimerListener {
     }
 
     public void requestCancel() {
-        this.log.log(1078071040, "%1 requestCancel()", (Object)"[CustomerDLState]");
+        this.log.log(1000000, "%1 requestCancel()", (Object)CLASSNAME);
         this.cancelRequested = true;
         if (this.selectingRelease) {
             this.getHmiSwitcher().getSelectionManager().leaveReadingMetainfo();
@@ -133,7 +133,7 @@ implements TimerListener {
     }
 
     public void cancelDone() {
-        this.log.log(1078071040, "%1 cancelDone()", (Object)"[CustomerDLState]");
+        this.log.log(1000000, "%1 cancelDone()", (Object)CLASSNAME);
         if (this.cancelRequested) {
             this.cancelRequested = false;
             this.cancelDoneTimer.cancel();
@@ -141,18 +141,16 @@ implements TimerListener {
         }
     }
 
-    @Override
     public void cancelTimer(Timer timer) {
     }
 
-    @Override
     public void fireTimer(Timer timer) {
-        this.log.log(1078071040, "%1 cancelDone() Timer expired!", (Object)"[CustomerDLState]");
+        this.log.log(1000000, "%1 cancelDone() Timer expired!", (Object)CLASSNAME);
         this.cancelDone();
     }
 
     public void setLanguage(Language language) {
-        this.getSwdlEnv().getLogMain().log(1078071040, "CustomerDLState.setLanguage(language=%1)", (Object)language);
+        this.getSwdlEnv().getLogMain().log(1000000, "CustomerDLState.setLanguage(language=%1)", (Object)language);
         this.getHmiSwitcher().getVersionInfoController().setLanguage(language);
     }
 
@@ -170,12 +168,12 @@ implements TimerListener {
 
     public void startCustomerUpdate(boolean bl, int n) {
         if (this.getSwdlModels().getCustomerProgressStateChoice().getValue() == 2 || this.getSwdlModels().getCustomerProgressStateChoice().getValue() == 1) {
-            this.getSwdlEnv().getLogCustomer().log(1078071040, "CustomerDLState.startCustomerUpdate(%1): reset customer update", (long)n);
+            this.getSwdlEnv().getLogCustomer().log(1000000, "CustomerDLState.startCustomerUpdate(%1): reset customer update", (long)n);
             this.getSwdlModels().getCustomerProgressStateChoice().setValue(0);
             this.abortSelection(n);
             return;
         }
-        this.getSwdlEnv().getLogCustomer().log(1078071040, "CustomerDLState.startCustomerUpdate(%1)", (long)n);
+        this.getSwdlEnv().getLogCustomer().log(1000000, "CustomerDLState.startCustomerUpdate(%1)", (long)n);
         if (this.isSwdlActive()) {
             this.getSwdlEnv().getLogMain().log(10000, "CustomerDLState.startCustomerUpdate: An update is already active! No new update can be started! (reboot=%1,terminalID=%2)", bl, (long)n);
         } else {
@@ -193,7 +191,7 @@ implements TimerListener {
 
     public void updateCustDownloadState(boolean bl) {
         if (!this.isCustDownloadStateUpdated) {
-            this.getSwdlEnv().getLogHMI().log(1078071040, "CustomerDLState.updateCustDownloadState(custDownloadActive=%1)", (Object)bl);
+            this.getSwdlEnv().getLogHMI().log(1000000, "CustomerDLState.updateCustDownloadState(custDownloadActive=%1)", (Object)bl);
             if (bl) {
                 this.getSwdlEnv().getSwdlModels().getCustomerUpdateAgainRequestChoice().setValue(1);
                 this.getHmiSwitcher().initCustomerUpdate(-1, true, this.terminalID);
@@ -211,12 +209,12 @@ implements TimerListener {
     }
 
     public void downloadCompleted(int n) {
-        this.getSwdlEnv().getLogCustomer().log(1078071040, "CustomerDLState.downloadCompleted(errorCode=%1)", (long)n);
+        this.getSwdlEnv().getLogCustomer().log(1000000, "CustomerDLState.downloadCompleted(errorCode=%1)", (long)n);
         this.setErrorCode(n);
     }
 
     public void abortSelection(int n) {
-        this.getSwdlEnv().getLogCustomer().log(1078071040, "CustomerDLState.abortSelection()");
+        this.getSwdlEnv().getLogCustomer().log(1000000, "CustomerDLState.abortSelection()");
         if (this.getSwdlEnv().getHMISwitcher().getUOTAController().isUotaEntered()) {
             this.getSwdlEnv().getHMISwitcher().getUOTAController().abortUotaSequence();
         } else if (this.getSwdlModels().getCustomerProgressStateChoice().getValue() != 2) {
@@ -229,7 +227,7 @@ implements TimerListener {
     }
 
     private void customerUpdateDone(boolean bl) {
-        this.swdlEnv.getLogHMI().log(-2137614336, "CustomerDLState.customerUpdateDone(%1)", bl);
+        this.swdlEnv.getLogHMI().log(10000000, "CustomerDLState.customerUpdateDone(%1)", bl);
         if (bl) {
             this.getHmiSwitcher().releaseSwdlFocus();
         }
@@ -251,7 +249,7 @@ implements TimerListener {
     }
 
     public void requestCustDownloadCancel(int n) {
-        this.getSwdlEnv().getLogCustomer().log(1078071040, "CustomerDLState.requestCustDownloadCancel()");
+        this.getSwdlEnv().getLogCustomer().log(1000000, "CustomerDLState.requestCustDownloadCancel()");
         this.getSwdlEnv().getVariantAppSystem().cancelCustomerDownload(n);
     }
 
@@ -273,9 +271,9 @@ implements TimerListener {
     private void leaveCustomerUpdateInternal(int n) {
         BaseUpdateOverTheAirController baseUpdateOverTheAirController = this.getSwdlEnv().getHMISwitcher().getUOTAController();
         int n2 = this.getSwdlModels().getCustomerProgressStateChoice().getValue();
-        this.swdlEnv.getLogHMI().log(-2137614336, "CustomerDLState.leaveCustomerUpdateInternal(terminalID=%1), currentProgressState=%2, currentUotaState=%3", (long)n, (long)n2, (long)baseUpdateOverTheAirController.getUotaState());
+        this.swdlEnv.getLogHMI().log(10000000, "CustomerDLState.leaveCustomerUpdateInternal(terminalID=%1), currentProgressState=%2, currentUotaState=%3", (long)n, (long)n2, (long)baseUpdateOverTheAirController.getUotaState());
         if (baseUpdateOverTheAirController.isDownloadWaitForConnection()) {
-            this.swdlEnv.getLogHMI().log(-2137614336, "CustomerDLState.leaveCustomerUpdateInternal: UOTA download waits for connection - do nothing");
+            this.swdlEnv.getLogHMI().log(10000000, "CustomerDLState.leaveCustomerUpdateInternal: UOTA download waits for connection - do nothing");
             return;
         }
         switch (n2) {
@@ -301,7 +299,7 @@ implements TimerListener {
             }
             default: {
                 if (baseUpdateOverTheAirController.isDownloadActive() || baseUpdateOverTheAirController.isWaitForPDD() || baseUpdateOverTheAirController.isInstallActive()) {
-                    this.swdlEnv.getLogHMI().log(-2137614336, "CustomerDLState.leaveCustomerUpdateInternal: UOTA download, selection or installing active - do nothing");
+                    this.swdlEnv.getLogHMI().log(10000000, "CustomerDLState.leaveCustomerUpdateInternal: UOTA download, selection or installing active - do nothing");
                     break;
                 }
                 if (!baseUpdateOverTheAirController.isInstallActive() && baseUpdateOverTheAirController.isUotaEntered()) {
@@ -331,13 +329,13 @@ implements TimerListener {
     }
 
     public void leaveCustomerUpdate(int n) {
-        this.getSwdlEnv().getLogCustomer().log(1078071040, "CustomerDLState.leaveCustomerUpdate(terminalID=%1)", (long)n);
+        this.getSwdlEnv().getLogCustomer().log(1000000, "CustomerDLState.leaveCustomerUpdate(terminalID=%1)", (long)n);
         this.leaveCustomerUpdateInternal(n);
         this.isCustomerUpdateHasFocus = false;
     }
 
     public void leaveCustomerUpdatePopups(int n, int n2) {
-        this.getSwdlEnv().getLogHMI().log(1078071040, "CustomerDLState.leaveCustomerUpdatePopups(terminalID=%1, popupID=%2)", (long)n, (long)n2);
+        this.getSwdlEnv().getLogHMI().log(1000000, "CustomerDLState.leaveCustomerUpdatePopups(terminalID=%1, popupID=%2)", (long)n, (long)n2);
         switch (n2) {
             case 2: {
                 this.getHmiSwitcher().getProgressManager().continueProgressInterrupt();

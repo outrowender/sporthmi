@@ -11,88 +11,60 @@ import org.dsi.ifc.radio.WavebandInfo;
 
 public interface AMFMTunerListener
 extends CmdDefaultListener {
-    default public void updateStationList(Station[] stationArray) {
-    }
+    public void updateStationList(Station[] var1);
 
-    default public void updateStationListMW(Station[] stationArray) {
-    }
+    public void updateStationListMW(Station[] var1);
 
-    default public void updateStationListLW(Station[] stationArray) {
-    }
+    public void updateStationListLW(Station[] var1);
 
-    default public void updateWavebandInfoList(WavebandInfo[] wavebandInfoArray) {
-    }
+    public void updateWavebandInfoList(WavebandInfo[] var1);
 
-    default public void updateRadioText(AMFMRadioText aMFMRadioText) {
-    }
+    public void updateRadioText(AMFMRadioText var1);
 
-    default public void updateAFSwitchStatus(boolean bl) {
-    }
+    public void updateAFSwitchStatus(boolean var1);
 
-    default public void updateREGSwitchStatus(int n) {
-    }
+    public void updateREGSwitchStatus(int var1);
 
-    default public void updateLinkingUsageStatus(int n) {
-    }
+    public void updateLinkingUsageStatus(int var1);
 
-    default public void updateDetectedDevice(int n) {
-    }
+    public void updateDetectedDevice(int var1);
 
-    default public void tuneFrequencyStepsStatus(int n) {
-    }
+    public void tuneFrequencyStepsStatus(int var1);
 
-    default public void selectStationStatus(int n) {
-    }
+    public void selectStationStatus(int var1);
 
-    default public void seekStationStatus(int n) {
-    }
+    public void seekStationStatus(int var1);
 
-    default public void updateRadioTextPlus(int[] nArray, String[] stringArray) {
-    }
+    public void updateRadioTextPlus(int[] var1, String[] var2);
 
-    default public void updateSelectedStation(Station station) {
-    }
+    public void updateSelectedStation(Station var1);
 
-    default public void updateSelectedStationHD(Station station, int n) {
-    }
+    public void updateSelectedStationHD(Station var1, int var2);
 
-    default public void prepareTuningStatus(int n) {
-    }
+    public void prepareTuningStatus(int var1);
 
-    default public void selectFrequencyStatus(int n) {
-    }
+    public void selectFrequencyStatus(int var1);
 
-    default public void setAMBandRangeStatus(int n) {
-    }
+    public void setAMBandRangeStatus(int var1);
 
-    default public void forceFMUpdateStatus(int n) {
-    }
+    public void forceFMUpdateStatus(int var1);
 
-    default public void updatePiIgnoreSwitchStatus(boolean bl) {
-    }
+    public void updatePiIgnoreSwitchStatus(boolean var1);
 
-    default public void forceAMUpdateStatus(int n) {
-    }
+    public void forceAMUpdateStatus(int var1);
 
-    default public void updateRDSIgnoreSwitchStatus(boolean bl) {
-    }
+    public void updateRDSIgnoreSwitchStatus(boolean var1);
 
-    default public void updateMESwitchStatus(boolean bl) {
-    }
+    public void updateMESwitchStatus(boolean var1);
 
-    default public void updateHdStatus(int n) {
-    }
+    public void updateHdStatus(int var1);
 
-    default public void updateHdMode(int n) {
-    }
+    public void updateHdMode(int var1);
 
-    default public void updateHdStationInfo(HdStationInfo hdStationInfo) {
-    }
+    public void updateHdStationInfo(HdStationInfo var1);
 
-    default public void updateAvailability(int n) {
-    }
+    public void updateAvailability(int var1);
 
-    default public void updateElectronicSerialCode(String string) {
-    }
+    public void updateElectronicSerialCode(String var1);
 }
 

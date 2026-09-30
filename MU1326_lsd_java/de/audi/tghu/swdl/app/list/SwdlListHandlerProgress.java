@@ -33,7 +33,6 @@ extends AbstractSwdlListHandler {
         return this.progressManager;
     }
 
-    @Override
     public ListCell[] getNewRow() {
         ListCell[] listCellArray = new ListCell[this.getNrCol()];
         listCellArray[0] = new IntegerListCell(-1, 99);
@@ -47,10 +46,10 @@ extends AbstractSwdlListHandler {
     }
 
     void logList(String string, DeviceOverviewProgress[] deviceOverviewProgressArray) {
-        this.getLogHMI().log(-2137614336, "[SwdlListHandlerProgress] New %1 list received. ", (Object)string);
-        if (this.getLogHMI().getCurrentLogThreshold() == 14808325) {
+        this.getLogHMI().log(10000000, "[SwdlListHandlerProgress] New %1 list received. ", (Object)string);
+        if (this.getLogHMI().getCurrentLogThreshold() == 100000000) {
             for (int i2 = 0; i2 < deviceOverviewProgressArray.length; ++i2) {
-                this.getLogHMI().log(14808325, "[SwdlListHandlerProgress] %1 %2 %3", (Object)deviceOverviewProgressArray[i2].fileName, (Object)new Integer(deviceOverviewProgressArray[i2].type), (long)deviceOverviewProgressArray[i2].value);
+                this.getLogHMI().log(100000000, "[SwdlListHandlerProgress] %1 %2 %3", (Object)deviceOverviewProgressArray[i2].fileName, (Object)new Integer(deviceOverviewProgressArray[i2].type), (long)deviceOverviewProgressArray[i2].value);
             }
         }
     }
@@ -95,12 +94,11 @@ extends AbstractSwdlListHandler {
         return deviceOverviewProgress;
     }
 
-    @Override
     public void itemFocused(int n, int n2, int n3, int n4) {
         if (this.getListId() != n) {
-            this.getLogHMI().log(-1601830656, "[SwdlListHandlerProgress] itemFocused called at wrong handler! modelID %1 expected ModelID %2 ", (long)n, (long)this.getListId());
+            this.getLogHMI().log(100000, "[SwdlListHandlerProgress] itemFocused called at wrong handler! modelID %1 expected ModelID %2 ", (long)n, (long)this.getListId());
         } else {
-            this.getLogHMI().log(-2137614336, "[SwdlListHandlerProgress] itemFocused(): rowId=%1", (long)n2);
+            this.getLogHMI().log(10000000, "[SwdlListHandlerProgress] itemFocused(): rowId=%1", (long)n2);
             try {
                 this.focusProgressRow = this.getList().getRow(n2);
             }
@@ -130,7 +128,7 @@ extends AbstractSwdlListHandler {
                 string2 = string2.substring(0, n2);
             }
             if ((n = string2.indexOf(58)) < 0) {
-                string2 = new StringBuffer().append(string2).append(":0").toString();
+                string2 = string2 + ":0";
             }
             string = string2;
         }

@@ -12,9 +12,9 @@ import de.audi.tghu.navi.app.util.Util;
 import org.dsi.ifc.navigation.ManeuverElement;
 
 public class IconUtil {
-    public static final int IMG_DESTINATION;
-    public static final int IMG_STOPOVER_FIRST;
-    public static final int IMG_STOPOVER_LAST;
+    public static final int IMG_DESTINATION = 69;
+    public static final int IMG_STOPOVER_FIRST = 70;
+    public static final int IMG_STOPOVER_LAST = 78;
 
     public static synchronized boolean setStreetIconImage(IconHandler iconHandler, int n, String string, IconCell iconCell) {
         boolean bl = false;
@@ -67,7 +67,7 @@ public class IconUtil {
         int n4 = maneuverElement.getDirection() >> 4;
         int n5 = -1;
         if (logChannel.isDebug2()) {
-            logChannel.log(14808325, "IconUtil#getManeuverIconID(): manoeuvre element/direction = %1/%2", (long)n3, (long)n4);
+            logChannel.log(100000000, "IconUtil#getManeuverIconID(): manoeuvre element/direction = %1/%2", (long)n3, (long)n4);
         }
         switch (n3) {
             case 3: 

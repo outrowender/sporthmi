@@ -4,7 +4,6 @@
 package de.audi.tghu.hmi.evo;
 
 public interface ILongpressKeyHandler {
-    default public void handleLongpressStarted(Object object) {
-    }
+    public void handleLongpressStarted(Object var1);
 }
 

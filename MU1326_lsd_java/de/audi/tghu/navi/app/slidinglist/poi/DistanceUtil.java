@@ -15,7 +15,7 @@ public class DistanceUtil {
             if (n >= 0) {
                 distanceDifferentiationRow.setRRDDistance(n);
             } else {
-                logChannel.log(-2137614336, "DistanceUtil#updateRRDfor() - invalid rrd. Air distance calculation started. ");
+                logChannel.log(10000000, "DistanceUtil#updateRRDfor() - invalid rrd. Air distance calculation started. ");
                 PosPosition posPosition = iVehicle.getPosition();
                 int n2 = distanceDifferentiationRow.getLongitude();
                 int n3 = distanceDifferentiationRow.getLatitude();
@@ -23,7 +23,7 @@ public class DistanceUtil {
                 distanceDifferentiationRow.setAirDistance(n4);
             }
         } else {
-            logChannel.log(-1601830656, "DistanceUtil#updateRRDfor() - row is null! ");
+            logChannel.log(100000, "DistanceUtil#updateRRDfor() - row is null! ");
         }
     }
 }

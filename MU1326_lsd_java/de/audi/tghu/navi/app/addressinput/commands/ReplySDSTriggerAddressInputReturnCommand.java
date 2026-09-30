@@ -16,9 +16,8 @@ extends NavCommand {
         this.resultCode = by;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "%1#execute() - response with resultCode = %2", (Object)this.CLASS_NAME, (long)this.resultCode);
+        this.logger.log(10000000, "%1#execute() - response with resultCode = %2", (Object)this.CLASS_NAME, (long)this.resultCode);
         this.naviServiceListener.responseTriggerAddressInputReturn(this.resultCode);
         this.getCommandList().commandFinished();
     }

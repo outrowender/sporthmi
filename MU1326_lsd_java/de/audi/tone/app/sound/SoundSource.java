@@ -8,26 +8,25 @@ import de.audi.tone.app.intra.AbstractAppListener;
 
 public class SoundSource
 extends AbstractAppListener {
-    private static final int FM;
-    private static final int AM;
-    private static final int SDARS;
-    private static final int DAB;
-    private static final int TV;
-    private static final int CD_CDC;
-    private static final int DVD_DVDC;
-    private static final int MEDIA;
-    private static final int AUX;
-    private static final int AUX_BT;
-    private static final int IPOD;
-    private static final int WLAN;
-    private static final int SMARTPHONE_INTEGRATION;
+    private static final int FM = 0;
+    private static final int AM = 1;
+    private static final int SDARS = 2;
+    private static final int DAB = 3;
+    private static final int TV = 4;
+    private static final int CD_CDC = 5;
+    private static final int DVD_DVDC = 6;
+    private static final int MEDIA = 7;
+    private static final int AUX = 9;
+    private static final int AUX_BT = 10;
+    private static final int IPOD = 11;
+    private static final int WLAN = 12;
+    private static final int SMARTPHONE_INTEGRATION = 13;
     private final ToneEnv env;
 
     public SoundSource(ToneEnv toneEnv) {
         this.env = toneEnv;
     }
 
-    @Override
     public void updateConnectionStatus(int n, int n2, int n3) {
         if (n2 == 2 || n2 == 4) {
             int n4;
@@ -91,8 +90,8 @@ extends AbstractAppListener {
                     return;
                 }
             }
-            this.env.lcHMI.log(-2137614336, "[SoundSource.updateConnectionStatus] AC:%1 source:%2", (long)n, (long)n4);
-            this.env.getChoiceModel(1933709056).setValue(n4);
+            this.env.lcHMI.log(10000000, "[SoundSource.updateConnectionStatus] AC:%1 source:%2", (long)n, (long)n4);
+            this.env.getChoiceModel(1000051).setValue(n4);
         }
     }
 }

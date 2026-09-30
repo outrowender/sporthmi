@@ -4,7 +4,6 @@
 package de.audi.tuner.app.cmd.dab;
 
 import de.audi.tuner.app.cmd.dab.AbstractDABCmd;
-import de.audi.tuner.app.cmd.dab.AbstractDABCmd$Builder;
 import de.audi.tuner.app.dab.DabStation;
 import de.esolutions.fw.util.commons.Buffer;
 
@@ -15,8 +14,8 @@ extends AbstractDABCmd {
     private final boolean block;
     private final int terminal;
 
-    public SelectServiceCmd(int n, DabStation dabStation, boolean bl, int n2, AbstractDABCmd$Builder abstractDABCmd$Builder) {
-        super(abstractDABCmd$Builder);
+    public SelectServiceCmd(int n, DabStation dabStation, boolean bl, int n2, AbstractDABCmd.Builder builder) {
+        super(builder);
         this.selectServiceMode = n;
         this.station = dabStation;
         this.block = bl;
@@ -25,25 +24,22 @@ extends AbstractDABCmd {
         this.setName(buffer);
     }
 
-    @Override
     public void execute() {
         this.logExecuteFirstCmd();
-        this.logger.log(-2137614336, "[SelectServiceCmd.execute] mode:%2 station:%1 ", (Object)this.station, (long)this.selectServiceMode);
+        this.logger.log(10000000, "[SelectServiceCmd.execute] mode:%2 station:%1 ", (Object)this.station, (long)this.selectServiceMode);
         this.dabTuner.selectStation(this.station, this.selectServiceMode, this.terminal);
         if (!this.block) {
             this.commandFinished();
         }
     }
 
-    @Override
     protected void commandFinished() {
         this.logFinishFirstCmd();
         super.commandFinished();
     }
 
-    @Override
     public void selectServiceStatus(int n) {
-        this.logger.log(-2137614336, "[SelectServiceCmd.selectServiceStatus] status:%1", (long)n);
+        this.logger.log(10000000, "[SelectServiceCmd.selectServiceStatus] status:%1", (long)n);
         super.selectServiceStatus(n);
         if (n != 1) {
             this.commandFinished();

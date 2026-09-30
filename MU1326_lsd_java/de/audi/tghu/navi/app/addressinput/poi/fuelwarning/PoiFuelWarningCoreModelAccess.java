@@ -12,9 +12,9 @@ public abstract class PoiFuelWarningCoreModelAccess {
     protected final NavigationEnv env;
 
     public PoiFuelWarningCoreModelAccess(NavigationEnv navigationEnv) {
-        this.PETROL_STATION_SUFFIX_CHOICE = -14940672;
-        this.FUEL_TYPE_CHOICE = -2028075520;
-        this.FUEL_WARNING_RECOMMENDATION_CHOICE = -233110016;
+        this.PETROL_STATION_SUFFIX_CHOICE = 400639;
+        this.FUEL_TYPE_CHOICE = 401031;
+        this.FUEL_WARNING_RECOMMENDATION_CHOICE = 400370;
         this.env = navigationEnv;
     }
 }

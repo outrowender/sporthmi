@@ -20,16 +20,14 @@ extends PreviewMapStateNavLocations {
         this.tourName = string;
     }
 
-    @Override
     public void applyToScreenDetail() {
-        this.logger.log(-2137614336, "PreviewMapStateNavLocationsTour#applyToScreenDetail()");
+        this.logger.log(10000000, "PreviewMapStateNavLocationsTour#applyToScreenDetail()");
         NavLocation navLocation = this.getMapForPreview().getNaviInterface().getVehicle().getVehicleLocation();
         this.navLocationPivot = Util.navLocationToWgs84(navLocation);
         this.centerOnPivot = true;
         super.applyToScreenDetail();
     }
 
-    @Override
     public void applyToScreenDetailModels() {
         if (this.navLocations == null || this.navLocations.length == 0) {
             this.logger.log(10000, "PreviewMapStateNavLocationsTour#applyToScreenDetailModels() no nav location given");
@@ -40,21 +38,18 @@ extends PreviewMapStateNavLocations {
         }
     }
 
-    @Override
     public void applyToScreenFullMap() {
-        this.logger.log(-2137614336, "PreviewMapStateNavLocationsTour#applyToScreenFullMap()");
+        this.logger.log(10000000, "PreviewMapStateNavLocationsTour#applyToScreenFullMap()");
         NavLocation navLocation = this.getMapForPreview().getNaviInterface().getVehicle().getVehicleLocation();
         this.navLocationPivot = Util.navLocationToWgs84(navLocation);
         this.centerOnPivot = true;
         super.applyToScreenFullMap();
     }
 
-    @Override
     protected String getTourName() {
         return this.tourName;
     }
 
-    @Override
     public boolean isPreviewMapItemArea() {
         return this.navLocations != null && this.navLocations.length != 0;
     }

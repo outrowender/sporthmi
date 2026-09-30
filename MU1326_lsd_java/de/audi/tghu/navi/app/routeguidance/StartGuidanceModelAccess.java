@@ -16,23 +16,22 @@ public class StartGuidanceModelAccess
 implements IStartGuidanceModelAccess {
     private final NavigationEnv env;
     private final LogChannel logChannel;
-    private final String CLASS_NAME = Util.getClassNameFromPackageName(super.getClass());
+    private final String CLASS_NAME = Util.getClassNameFromPackageName(this.getClass());
 
     public StartGuidanceModelAccess(NavigationEnv navigationEnv) {
         this.env = navigationEnv;
         this.logChannel = navigationEnv.getLogChannel();
     }
 
-    @Override
     public void onStart(Route route, NavLocation navLocation, boolean bl) {
-        this.logChannel.log(-2137614336, new StringBuffer().append(this.CLASS_NAME).append("#onStart - isRgActive: %1, destinationToAdd: %3, currentRoute: %2").toString(), bl, (Object)route, (Object)navLocation);
+        this.logChannel.log(10000000, this.CLASS_NAME + "#onStart - isRgActive: %1, destinationToAdd: %3, currentRoute: %2", bl, (Object)route, (Object)navLocation);
         LocationFormattingResponse locationFormattingResponse = AddressFormatter.formatOneLine(navLocation, this.env);
         String string = locationFormattingResponse.getFirstLineAsText();
         if (Util.isEmpty(string)) {
             this.logChannel.log(10000, "%1#onStart() destinationToAdd contains no valid information.", (Object)this.CLASS_NAME);
         }
-        this.logChannel.log(-2137614336, "%1#onStart() update model Text to : \"%2\"", (Object)this.CLASS_NAME, (Object)string);
-        this.env.getLabelModel(-400620032).setText(string);
+        this.logChannel.log(10000000, "%1#onStart() update model Text to : \"%2\"", (Object)this.CLASS_NAME, (Object)string);
+        this.env.getLabelModel(401384).setText(string);
     }
 }
 

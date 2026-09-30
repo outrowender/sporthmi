@@ -9,21 +9,19 @@ import de.audi.tone.app.sound.AbstractSoundRange;
 
 public class BassRange
 extends AbstractSoundRange {
-    public static final int MODEL;
+    public static final int MODEL = 1000038;
 
     BassRange(IDSISoundHandler iDSISoundHandler, ToneEnv toneEnv, int n) {
-        super(iDSISoundHandler, toneEnv, 1715605248, -1757278464, n, toneEnv.getSysConst(4519) == 1);
+        super(iDSISoundHandler, toneEnv, 1000038, 1000087, n, toneEnv.getSysConst(4519) == 1);
     }
 
-    @Override
     void changeBy(int n) {
         this.dsiSound.changeBass(this.hmiTerminal, n);
     }
 
-    @Override
     protected void updateValue(int n) {
         super.updateValue(n);
-        this.env.getChoiceModel(1883377408).setValue(n);
+        this.env.getChoiceModel(1000048).setValue(n);
     }
 }
 

@@ -22,8 +22,8 @@ public class DabDummyNames {
         SimpleIntObjectMap simpleIntObjectMap = (SimpleIntObjectMap)this.dummyCompNames.get(n);
         if (simpleIntObjectMap == null) {
             componentInfo = new ComponentInfo();
-            componentInfo.fullName = new StringBuffer().append("Component ").append(Utilities.getFormatedDummyCounter(this.dummyCompNameCounter)).toString();
-            componentInfo.shortName = new StringBuffer().append("Comp ").append(Utilities.getFormatedDummyCounter(this.dummyCompNameCounter)).toString();
+            componentInfo.fullName = "Component " + Utilities.getFormatedDummyCounter(this.dummyCompNameCounter);
+            componentInfo.shortName = "Comp " + Utilities.getFormatedDummyCounter(this.dummyCompNameCounter);
             simpleIntObjectMap = new SimpleIntObjectMap();
             simpleIntObjectMap.add(n2, componentInfo);
             this.dummyCompNames.add(n, simpleIntObjectMap);
@@ -32,8 +32,8 @@ public class DabDummyNames {
             componentInfo = (ComponentInfo)simpleIntObjectMap.get(n2);
             if (componentInfo == null) {
                 componentInfo = new ComponentInfo();
-                componentInfo.fullName = new StringBuffer().append("Component ").append(Utilities.getFormatedDummyCounter(this.dummyCompNameCounter)).toString();
-                componentInfo.shortName = new StringBuffer().append("Comp ").append(Utilities.getFormatedDummyCounter(this.dummyCompNameCounter)).toString();
+                componentInfo.fullName = "Component " + Utilities.getFormatedDummyCounter(this.dummyCompNameCounter);
+                componentInfo.shortName = "Comp " + Utilities.getFormatedDummyCounter(this.dummyCompNameCounter);
                 simpleIntObjectMap.add(n2, componentInfo);
                 this.dummyCompNames.add(n, simpleIntObjectMap);
                 ++this.dummyCompNameCounter;
@@ -49,8 +49,8 @@ public class DabDummyNames {
             ensembleInfo = new EnsembleInfo();
             ensembleInfo.ensID = n;
             ensembleInfo.ensECC = n2;
-            ensembleInfo.fullName = new StringBuffer().append("Ensemble ").append(Utilities.getFormatedDummyCounter(this.dummyEnsNameCounter)).toString();
-            ensembleInfo.shortName = new StringBuffer().append("Ens ").append(Utilities.getFormatedDummyCounter(this.dummyEnsNameCounter)).toString();
+            ensembleInfo.fullName = "Ensemble " + Utilities.getFormatedDummyCounter(this.dummyEnsNameCounter);
+            ensembleInfo.shortName = "Ens " + Utilities.getFormatedDummyCounter(this.dummyEnsNameCounter);
             this.dummyEnsNames.add(n, ensembleInfo);
             ++this.dummyEnsNameCounter;
         }
@@ -61,8 +61,8 @@ public class DabDummyNames {
         ServiceInfo serviceInfo = (ServiceInfo)this.dummyServNames.get(n);
         if (serviceInfo == null) {
             serviceInfo = new ServiceInfo();
-            serviceInfo.fullName = new StringBuffer().append("Service ").append(Utilities.getFormatedDummyCounter(this.dummyServNameCounter)).toString();
-            serviceInfo.shortName = new StringBuffer().append("Serv ").append(Utilities.getFormatedDummyCounter(this.dummyServNameCounter)).toString();
+            serviceInfo.fullName = "Service " + Utilities.getFormatedDummyCounter(this.dummyServNameCounter);
+            serviceInfo.shortName = "Serv " + Utilities.getFormatedDummyCounter(this.dummyServNameCounter);
             serviceInfo.sID = n;
             this.dummyServNames.add((int)serviceInfo.sID, serviceInfo);
             ++this.dummyServNameCounter;

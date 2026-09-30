@@ -6,7 +6,6 @@ package de.audi.tghu.navi.app.sds;
 import de.audi.tghu.navi.app.sds.ISDSStateObserver;
 
 public interface ISDSStateEventsProvider {
-    default public void registerListener(ISDSStateObserver iSDSStateObserver) {
-    }
+    public void registerListener(ISDSStateObserver var1);
 }
 

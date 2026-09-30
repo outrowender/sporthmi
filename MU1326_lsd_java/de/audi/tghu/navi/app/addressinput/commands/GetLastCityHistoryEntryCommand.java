@@ -16,15 +16,13 @@ extends NavCommand {
         this.lastCity = lICityHistoryEntry;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "GetLastCityHistoryEntryCommand#execute calling liGetLastCityHistoryEntry(lastCity.getId() = %1)", this.lastCity.getId());
+        this.logger.log(10000000, "GetLastCityHistoryEntryCommand#execute calling liGetLastCityHistoryEntry(lastCity.getId() = %1)", this.lastCity.getId());
         this.getDSINavigation().liGetLastCityHistoryEntry(this.lastCity.getId());
     }
 
-    @Override
     public void liGetLastCityHistoryEntryResult(NavLocation navLocation, boolean bl) {
-        this.logger.log(-2137614336, "GetLastCityHistoryEntryCommand#liGetLastCityHistoryEntryResult(%1, %2)", (Object)LocationFormatter.formatLocationShort(navLocation), (Object)Boolean.toString(bl));
+        this.logger.log(10000000, "GetLastCityHistoryEntryCommand#liGetLastCityHistoryEntryResult(%1, %2)", (Object)LocationFormatter.formatLocationShort(navLocation), (Object)Boolean.toString(bl));
         if (navLocation != null) {
             this.getCommandList().put("NavLocation from History", navLocation);
         }

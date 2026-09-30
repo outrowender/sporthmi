@@ -28,7 +28,7 @@ public class GpxHandler {
     }
 
     public ICommandList getGpxRouteImportFromFileCommandList(String string, IRouteImportListener iRouteImportListener) {
-        this.logChannel.log(-2137614336, "GpxHandler#importRouteFromGpxFile( %1)", (Object)string);
+        this.logChannel.log(10000000, "GpxHandler#importRouteFromGpxFile( %1)", (Object)string);
         this.routeImportListener = iRouteImportListener;
         CommandList commandList = this.commandListFactory.createCommandList();
         commandList.add(new ImportRouteFromGpxFileCommand(string, this));

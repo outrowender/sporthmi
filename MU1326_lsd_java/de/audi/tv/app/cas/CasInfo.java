@@ -12,10 +12,9 @@ extends DefaultTVListener {
     private final LabelModelApp labelModel;
 
     public CasInfo(TVEnv tVEnv) {
-        this.labelModel = tVEnv.getLabelModel(1789667072);
+        this.labelModel = tVEnv.getLabelModel(2600042);
     }
 
-    @Override
     public void updateCASInfo(boolean bl, String string) {
         this.labelModel.setText(string);
     }

@@ -7,62 +7,45 @@ import de.audi.tghu.navi.app.INaviComponent;
 import de.audi.tghu.navi.app.routeguidance.IRouteGuidanceStateModelAccess;
 import de.audi.tghu.navi.app.routeguidance.IStartGuidanceManager;
 import de.audi.tghu.navi.app.routeguidance.RouteEventListener;
-import de.audi.tghu.navi.app.rp.TripHandler$TripData;
+import de.audi.tghu.navi.app.rp.TripHandler;
 import org.dsi.ifc.global.NavLocation;
 import org.dsi.ifc.navigation.Route;
 
 public interface IRouteManager
 extends IStartGuidanceManager,
 INaviComponent {
-    default public int getMaxNumberOfDestinations() {
-    }
+    public int getMaxNumberOfDestinations();
 
-    default public boolean canAddHardDestinations() {
-    }
+    public boolean canAddHardDestinations();
 
-    default public boolean canAddSoftDestinations() {
-    }
+    public boolean canAddSoftDestinations();
 
-    default public Route getRoute() {
-    }
+    public Route getRoute();
 
-    default public Route getFilteredRoute() {
-    }
+    public Route getFilteredRoute();
 
-    default public void resetSettings() {
-    }
+    public void resetSettings();
 
-    default public TripHandler$TripData getTripDataAuto() {
-    }
+    public TripHandler.TripData getTripDataAuto();
 
-    default public void rgNotPossible(int n) {
-    }
+    public void rgNotPossible(int var1);
 
-    default public void setTimeMode(int n) {
-    }
+    public void setTimeMode(int var1);
 
-    default public void toggleTimeMode(int n) {
-    }
+    public void toggleTimeMode(int var1);
 
-    default public void tripDataRefreshed() {
-    }
+    public void tripDataRefreshed();
 
-    default public Route getOffroadRouteFromNavLocation(NavLocation navLocation, int n) {
-    }
+    public Route getOffroadRouteFromNavLocation(NavLocation var1, int var2);
 
-    default public IRouteGuidanceStateModelAccess getModelAccess() {
-    }
+    public IRouteGuidanceStateModelAccess getModelAccess();
 
-    default public void setRouteEventListener(RouteEventListener routeEventListener) {
-    }
+    public void setRouteEventListener(RouteEventListener var1);
 
-    default public void refreshTripData() {
-    }
+    public void refreshTripData();
 
-    default public int getLastSelectedRouteIndex() {
-    }
+    public int getLastSelectedRouteIndex();
 
-    default public boolean isDestIndexMatching() {
-    }
+    public boolean isDestIndexMatching();
 }
 

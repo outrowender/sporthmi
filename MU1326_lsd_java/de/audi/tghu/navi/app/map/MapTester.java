@@ -1,8 +1,5 @@
 /*
  * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  java.lang.Double
  */
 package de.audi.tghu.navi.app.map;
 
@@ -14,7 +11,7 @@ import de.audi.atip.hmi.modelaccess.ChoiceModelApp;
 import de.audi.atip.hmi.modelaccess.ListModelApp;
 import de.audi.atip.interapp.NavigationUtilities;
 import de.audi.atip.interapp.icon.RenderingInfo;
-import de.audi.atip.interapp.icon.RenderingInfoProvider$SatelliteMapsLogoCallback;
+import de.audi.atip.interapp.icon.RenderingInfoProvider;
 import de.audi.atip.log.LogChannel;
 import de.audi.tghu.command.CommandList;
 import de.audi.tghu.navi.app.NavigationEnv;
@@ -62,12 +59,12 @@ import org.dsi.ifc.trafficregulation.TrafficSignInformation;
 public class MapTester {
     private final MapManager mm;
     private final NavigationEnv env;
-    public static final int IRQ_WARNING;
-    public static final int IRQ_VOICE;
-    public static final int IRQ_MINI_MAP;
-    public static final int TIMING_OUT_CONTENT_ID;
-    public static final int NO_MORE_EXISTING_CONTENT_ID;
-    public static final int CONTENT_ID_WITHOUT_RESOURCE_LOCATOR;
+    public static final int IRQ_WARNING = 50;
+    public static final int IRQ_VOICE = 51;
+    public static final int IRQ_MINI_MAP = 52;
+    public static final int TIMING_OUT_CONTENT_ID = 30201;
+    public static final int NO_MORE_EXISTING_CONTENT_ID = 30202;
+    public static final int CONTENT_ID_WITHOUT_RESOURCE_LOCATOR = 30203;
 
     public MapTester(MapManager mapManager) {
         this.mm = mapManager;
@@ -91,9 +88,9 @@ public class MapTester {
     }
 
     public void execute(String string) {
-        this.getLogChannel().log(1078071040, "MapTester#doGeneralTest( %1 )", (Object)string);
+        this.getLogChannel().log(1000000, "MapTester#doGeneralTest( %1 )", (Object)string);
         if (string.equals("cmdMapSetup()")) {
-            this.getLogChannel().log(1078071040, "%1\n%2", (Object)this.mm.getSetupMain(), (Object)this.mm.getSetupKombi());
+            this.getLogChannel().log(1000000, "%1\n%2", (Object)this.mm.getSetupMain(), (Object)this.mm.getSetupKombi());
         } else {
             String[] stringArray = StringUtils.splitString(string, ' ');
             int n = Integer.parseInt(stringArray[0]);
@@ -110,28 +107,28 @@ public class MapTester {
                 block0 : switch (n) {
                     case 100: {
                         IMapRequest iMapRequest2 = this.getMinorMap().getMVRequest();
-                        iMapRequest2.setMapPosition(new NavLocationWgs84(-1025237240, -2064995294));
+                        iMapRequest2.setMapPosition(new NavLocationWgs84(136307906, 581757572));
                         break;
                     }
                     case 101: {
                         IMapRequest iMapRequest3 = this.getMinorMap().getMVRequest();
-                        iMapRequest3.setMapPosition(new NavLocationWgs84(580926216, 653736482));
+                        iMapRequest3.setMapPosition(new NavLocationWgs84(138125346, 574289702));
                         break;
                     }
                     case 200: {
-                        iMapRequest.setMapPosition(new NavLocationWgs84(-1025237240, -2064995294));
+                        iMapRequest.setMapPosition(new NavLocationWgs84(136307906, 581757572));
                         break;
                     }
                     case 201: {
-                        iMapRequest.setMapPosition(new NavLocationWgs84(580926216, 653736482));
+                        iMapRequest.setMapPosition(new NavLocationWgs84(138125346, 574289702));
                         break;
                     }
                     case 203: {
                         if (this.getMapMain().getMapPosition() != null) {
-                            this.getLogChannel().log(1078071040, "lat=%1, long=%2", (long)this.getMapMain().getMapPosition().latitude, (long)this.getMapMain().getMapPosition().longitude);
+                            this.getLogChannel().log(1000000, "lat=%1, long=%2", (long)this.getMapMain().getMapPosition().latitude, (long)this.getMapMain().getMapPosition().longitude);
                             break;
                         }
-                        this.getLogChannel().log(1078071040, "mapPosition = null");
+                        this.getLogChannel().log(1000000, "mapPosition = null");
                         break;
                     }
                     case 309: {
@@ -153,23 +150,23 @@ public class MapTester {
                     case 310: {
                         IRouteInfo iRouteInfo = this.getMapMain().getRouteInfo();
                         if (iRouteInfo.isMixedListVisible()) {
-                            this.getLogChannel().log(1078071040, "MapTester#doGeneralTest() - RouteInfo is visible, hide it.");
+                            this.getLogChannel().log(1000000, "MapTester#doGeneralTest() - RouteInfo is visible, hide it.");
                             iRouteInfo.hide();
                             break;
                         }
-                        this.getLogChannel().log(1078071040, "MapTester#doGeneralTest() - RouteInfo is invisible, show it.");
+                        this.getLogChannel().log(1000000, "MapTester#doGeneralTest() - RouteInfo is invisible, show it.");
                         break;
                     }
                     case 311: {
-                        this.mm.getViews().getMainMapView().showToolTip(new StringBuffer().append(stringArray[1]).append("\n").append("====xxcvbnm").toString());
+                        this.mm.getViews().getMainMapView().showToolTip(stringArray[1] + "\n" + "====xxcvbnm");
                         break;
                     }
                     case 312: {
-                        this.mm.getViews().getMainMapView().showToolTip(new StringBuffer().append(stringArray[1]).append("\n").append("====xxcvbnm").toString(), false, "yxxxx", -1);
+                        this.mm.getViews().getMainMapView().showToolTip(stringArray[1] + "\n" + "====xxcvbnm", false, "yxxxx", -1);
                         break;
                     }
                     case 313: {
-                        this.mm.getViews().getMainMapView().showToolTip(new StringBuffer().append(stringArray[1]).append("\n").append("====xxcvbnm").toString(), true, "yxxxx", -1);
+                        this.mm.getViews().getMainMapView().showToolTip(stringArray[1] + "\n" + "====xxcvbnm", true, "yxxxx", -1);
                         break;
                     }
                     case 320: {
@@ -177,7 +174,7 @@ public class MapTester {
                         break;
                     }
                     case 321: {
-                        this.getMapMain().getGuiInterface().stickN(404817408, 0);
+                        this.getMapMain().getGuiInterface().stickN(401688, 0);
                         break;
                     }
                     case 400: {
@@ -230,22 +227,22 @@ public class MapTester {
                         break;
                     }
                     case 500: {
-                        this.getLogChannel().log(1078071040, "MapTester#doGeneralTest() - set map mode");
+                        this.getLogChannel().log(1000000, "MapTester#doGeneralTest() - set map mode");
                         this.getMapMain().getMVRequest().setMode(Integer.parseInt(stringArray[1]));
                         break;
                     }
                     case 501: {
-                        this.getLogChannel().log(1078071040, "MapTester#doGeneralTest() - switch map context");
+                        this.getLogChannel().log(1000000, "MapTester#doGeneralTest() - switch map context");
                         this.getMapMain().switchToContext(Integer.parseInt(stringArray[1]));
                         break;
                     }
                     case 502: {
-                        this.getLogChannel().log(1078071040, "MapTester#doGeneralTest() - fetch POI categories.");
-                        this.getMapMain().getActiveContext().keyPressed(-1860368896, -1);
+                        this.getLogChannel().log(1000000, "MapTester#doGeneralTest() - fetch POI categories.");
+                        this.getMapMain().getActiveContext().keyPressed(400785, -1);
                         break;
                     }
                     case 503: {
-                        this.getLogChannel().log(1078071040, "MapTester#doGeneralTest() - set map view type");
+                        this.getLogChannel().log(1000000, "MapTester#doGeneralTest() - set map view type");
                         this.getMapMain().getMVRequest().setViewType(Integer.parseInt(stringArray[1]));
                         break;
                     }
@@ -298,20 +295,20 @@ public class MapTester {
                         break;
                     }
                     case 623: {
-                        ((CtxRCCIMap)this.getMapMain().getActiveContext()).increment(-752679424, 1);
+                        ((CtxRCCIMap)this.getMapMain().getActiveContext()).increment(402387, 1);
                         break;
                     }
                     case 624: {
-                        ((CtxRCCIMap)this.getMapMain().getActiveContext()).keyPressed(1813906944, 15);
+                        ((CtxRCCIMap)this.getMapMain().getActiveContext()).keyPressed(401004, 15);
                         break;
                     }
                     case 800: {
-                        this.getLogChannel().log(1078071040, "MapTester#doGeneralTest() - [Rubberband] init");
+                        this.getLogChannel().log(1000000, "MapTester#doGeneralTest() - [Rubberband] init");
                         this.getMapMain().switchToContext(34);
                         break;
                     }
                     case 801: {
-                        this.getLogChannel().log(1078071040, "MapTester#doGeneralTest() - [Rubberband] drag route dx=%1, dy=%2", (long)Integer.parseInt(stringArray[1]), (long)Integer.parseInt(stringArray[2]));
+                        this.getLogChannel().log(1000000, "MapTester#doGeneralTest() - [Rubberband] drag route dx=%1, dy=%2", (long)Integer.parseInt(stringArray[1]), (long)Integer.parseInt(stringArray[2]));
                         if (this.getMapMain().getActiveContextIndex() == 34) {
                             this.getMapMain().getActiveContext().touchPadPositionMoved(-1, 1, 0, Integer.parseInt(stringArray[1]), Integer.parseInt(stringArray[2]));
                             break;
@@ -323,7 +320,7 @@ public class MapTester {
                         break;
                     }
                     case 803: {
-                        this.getLogChannel().log(1078071040, "MapTester#doGeneralTest() - [Rubberband] finish");
+                        this.getLogChannel().log(1000000, "MapTester#doGeneralTest() - [Rubberband] finish");
                         if (this.getMapMain().getActiveContextIndex() == 34) {
                             ((CtxRubberBand)this.getMapMain().getActiveContext()).finishRubberband();
                             break;
@@ -338,27 +335,27 @@ public class MapTester {
                         break;
                     }
                     case 902: {
-                        this.env.getChoiceModel(723322368).setStatus(0);
+                        this.env.getChoiceModel(400683).setStatus(0);
                         break;
                     }
                     case 903: {
-                        this.env.getChoiceModel(-467794432).setValue(0);
+                        this.env.getChoiceModel(401124).setValue(0);
                         break;
                     }
                     case 904: {
-                        this.env.getChoiceModel(-467794432).setValue(1);
+                        this.env.getChoiceModel(401124).setValue(1);
                         break;
                     }
                     case 905: {
-                        this.env.getChoiceModel(-434240000).setValue(0);
+                        this.env.getChoiceModel(401126).setValue(0);
                         break;
                     }
                     case 906: {
-                        this.env.getChoiceModel(-434240000).setValue(1);
+                        this.env.getChoiceModel(401126).setValue(1);
                         break;
                     }
                     case 907: {
-                        this.env.getChoiceModel(-434240000).setValue(2);
+                        this.env.getChoiceModel(401126).setValue(2);
                         break;
                     }
                     case 908: {
@@ -409,12 +406,12 @@ public class MapTester {
                         break;
                     }
                     case 915: {
-                        this.getLogChannel().log(-2137614336, "MapTester#toggleTMC()");
+                        this.getLogChannel().log(10000000, "MapTester#toggleTMC()");
                         this.getMapMain().getMapDataContainer().sMapContentList.toggleTMC();
                         break;
                     }
                     case 916: {
-                        this.env.getChoiceModel(-434240000).setValue(Integer.parseInt(stringArray[1]));
+                        this.env.getChoiceModel(401126).setValue(Integer.parseInt(stringArray[1]));
                         break;
                     }
                     case 917: {
@@ -454,17 +451,17 @@ public class MapTester {
                         break;
                     }
                     case 927: {
-                        int n4 = this.env.getChoiceModel(-736164352).getValue();
-                        this.env.getChoiceModel(-736164352).setValue(1 - n4);
+                        int n4 = this.env.getChoiceModel(401364).getValue();
+                        this.env.getChoiceModel(401364).setValue(1 - n4);
                         if (n4 != 0) break;
-                        BaseListModelApp baseListModelApp = this.env.getBaseListModel(-1256258048);
+                        BaseListModelApp baseListModelApp = this.env.getBaseListModel(401333);
                         baseListModelApp.removeAll();
                         EvoListRow evoListRow = new EvoListRow(0L, 2);
                         evoListRow.setInteger(0, 100);
-                        evoListRow.setLong(1, 0);
+                        evoListRow.setLong(1, 30000000L);
                         EvoListRow evoListRow2 = new EvoListRow(1L, 2);
                         evoListRow2.setInteger(0, 80);
-                        evoListRow2.setLong(1, 0);
+                        evoListRow2.setLong(1, 9000000L);
                         baseListModelApp.append(new EvoListRow[]{evoListRow, evoListRow2});
                         break;
                     }
@@ -477,7 +474,7 @@ public class MapTester {
                         break;
                     }
                     case 930: {
-                        this.getLogChannel().log(1078071040, "MapTester#930 - %1", (Object)this.mm.getViews().getMapSetupView());
+                        this.getLogChannel().log(1000000, "MapTester#930 - %1", (Object)this.mm.getViews().getMapSetupView());
                         break;
                     }
                     case 931: {
@@ -485,7 +482,7 @@ public class MapTester {
                         ListModelApp listModelApp = this.mm.guiEventDispatcher.getmScreenLayout();
                         if (listModelApp == null || (baseListRow = listModelApp.getRow(0)) == null) break;
                         for (int i2 = 0; i2 < baseListRow.getColumnCount(); ++i2) {
-                            this.getLogChannel().log(-2137614336, "%1: %2", (long)i2, (long)baseListRow.getInteger(i2));
+                            this.getLogChannel().log(10000000, "%1: %2", (long)i2, (long)baseListRow.getInteger(i2));
                         }
                         break;
                     }
@@ -526,7 +523,7 @@ public class MapTester {
                             poiOnlineSearchValuelistElementArray[i3].latitude = this.mm.getMapMain().getMVResponseControl().getMapPosition().latitude + i3 * 1500;
                             poiOnlineSearchValuelistElementArray[i3].type = (byte)2;
                             poiOnlineSearchValuelistElementArray[i3].url = "www.test.ve";
-                            poiOnlineSearchValuelistElementArray[i3].name = new StringBuffer().append("name ").append(i3).toString();
+                            poiOnlineSearchValuelistElementArray[i3].name = "name " + i3;
                         }
                         OnlinePOIResultList onlinePOIResultList = new OnlinePOIResultList(this.getLogChannel());
                         onlinePOIResultList.updateResultList(poiOnlineSearchValuelistElementArray, null);
@@ -542,7 +539,7 @@ public class MapTester {
                             poiOnlineSearchValuelistElementArray[i4].latitude = this.mm.getMapMain().getMVResponseControl().getMapPosition().latitude + i4 * 1500;
                             poiOnlineSearchValuelistElementArray[i4].type = (byte)2;
                             poiOnlineSearchValuelistElementArray[i4].url = "www.test.ve";
-                            poiOnlineSearchValuelistElementArray[i4].name = new StringBuffer().append("name ").append(i4).toString();
+                            poiOnlineSearchValuelistElementArray[i4].name = "name " + i4;
                         }
                         OnlinePOIResultList onlinePOIResultList = new OnlinePOIResultList(this.getLogChannel());
                         onlinePOIResultList.updateResultList(poiOnlineSearchValuelistElementArray, null);
@@ -570,7 +567,7 @@ public class MapTester {
                         break;
                     }
                     case 941: {
-                        PropertyModelApp propertyModelApp = this.env.getPropertyModel(-1893726720);
+                        PropertyModelApp propertyModelApp = this.env.getPropertyModel(401551);
                         propertyModelApp.setProperties(Integer.parseInt(stringArray[1]), new int[]{Integer.parseInt(stringArray[2])});
                         break;
                     }
@@ -579,7 +576,7 @@ public class MapTester {
                         TrafficSignInformation trafficSignInformation = new TrafficSignInformation();
                         trafficSignInformation.highestPrioritySign = 1;
                         trafficSignInformation.trafficSignOne = n8;
-                        trafficSignInformation.variant = 12544;
+                        trafficSignInformation.variant = 0x310000;
                         this.mm.naviInterface.getTrafficRegulationService().updateCurrentTrafficSign(trafficSignInformation, 1);
                         break;
                     }
@@ -624,7 +621,7 @@ public class MapTester {
                         int n10 = Integer.parseInt(stringArray[1]);
                         LayerProperty[] layerPropertyArray = new LayerProperty[n10];
                         for (n9 = 0; n9 < n10; ++n9) {
-                            layerPropertyArray[n9] = new LayerProperty("/gemib/models/GoogleEarthPOILayerIcon_places.png", new StringBuffer().append("DummyLayer").append(n9).toString(), n9, 0, 1);
+                            layerPropertyArray[n9] = new LayerProperty("/gemib/models/GoogleEarthPOILayerIcon_places.png", "DummyLayer" + n9, n9, 0, 1);
                         }
                         if (stringArray.length > 2) {
                             n9 = Integer.parseInt(stringArray[2]);
@@ -660,19 +657,19 @@ public class MapTester {
                     }
                     case 953: {
                         TmcMessage tmcMessage = new TmcMessage();
-                        tmcMessage.messageID = 0;
-                        tmcMessage.distanceToEvent = 0;
+                        tmcMessage.messageID = 2L;
+                        tmcMessage.distanceToEvent = 2000L;
                         tmcMessage.eventText = new String[]{"Some accident happened", "Can not reach the destination"};
                         int n15 = NavigationUtilities.degreeToWgs84(3992036.0);
                         int n16 = NavigationUtilities.degreeToWgs84(3992056.0);
                         int n17 = NavigationUtilities.degreeToWgs84(1.16460457E7);
                         int n18 = NavigationUtilities.degreeToWgs84(1.16460458E7);
                         if (stringArray.length == 3) {
-                            n15 = NavigationUtilities.degreeToWgs84(Double.parseDouble((String)stringArray[1]) * 100000.0);
-                            n16 = NavigationUtilities.degreeToWgs84(Double.parseDouble((String)stringArray[1]) * 100000.0 - 0.2);
-                            n18 = NavigationUtilities.degreeToWgs84(Double.parseDouble((String)stringArray[2]) * 100000.0);
-                            n17 = NavigationUtilities.degreeToWgs84(Double.parseDouble((String)stringArray[2]) * 100000.0 + 0.2);
-                            this.getLogChannel().log(-2137614336, "MapTester#953 (%1)", (Object)new StringBuffer().append(Double.parseDouble((String)stringArray[1])).append(";").append(Double.parseDouble((String)stringArray[2])).toString());
+                            n15 = NavigationUtilities.degreeToWgs84(Double.parseDouble(stringArray[1]) * 100000.0);
+                            n16 = NavigationUtilities.degreeToWgs84(Double.parseDouble(stringArray[1]) * 100000.0 - 0.2);
+                            n18 = NavigationUtilities.degreeToWgs84(Double.parseDouble(stringArray[2]) * 100000.0);
+                            n17 = NavigationUtilities.degreeToWgs84(Double.parseDouble(stringArray[2]) * 100000.0 + 0.2);
+                            this.getLogChannel().log(10000000, "MapTester#953 (%1)", (Object)(Double.parseDouble(stringArray[1]) + ";" + Double.parseDouble(stringArray[2])));
                         } else if (Util.isHURegionCN()) {
                             n15 = NavigationUtilities.degreeToWgs84(3992036.0);
                             n16 = NavigationUtilities.degreeToWgs84(3992035.0);
@@ -731,8 +728,8 @@ public class MapTester {
                     }
                     case 962: {
                         NavSegmentID navSegmentID = new NavSegmentID(new int[]{1, 2, 3});
-                        CalculatedRouteListElement calculatedRouteListElement = new CalculatedRouteListElement(0, 0, 0, 0, 0L, 0L, 0L, 2, false, false, false, false, false, false, navSegmentID, 0, 100, 5, 5, new int[]{1, 2, 34}, new String[]{"This is", "a hack"}, false);
-                        CalculatedRouteListElement calculatedRouteListElement2 = new CalculatedRouteListElement(0, 0, 0, 0, 0L, 0L, 0L, 2, false, false, false, false, false, false, navSegmentID, 0, 100, 5, 1, new int[]{1, 2, 34}, new String[]{"This is", "a hack"}, false);
+                        CalculatedRouteListElement calculatedRouteListElement = new CalculatedRouteListElement(20000L, 10000L, 12000L, 2L, 0L, 0L, 0L, 2, false, false, false, false, false, false, navSegmentID, 0, 100, 5, 5, new int[]{1, 2, 34}, new String[]{"This is", "a hack"}, false);
+                        CalculatedRouteListElement calculatedRouteListElement2 = new CalculatedRouteListElement(20000L, 10000L, 1812001L, 2L, 0L, 0L, 0L, 2, false, false, false, false, false, false, navSegmentID, 0, 100, 5, 1, new int[]{1, 2, 34}, new String[]{"This is", "a hack"}, false);
                         NavRectangle navRectangle = new NavRectangle();
                         navRectangle.xLeft = NavigationUtilities.degreeToWgs84(3992036.0);
                         navRectangle.xRight = NavigationUtilities.degreeToWgs84(3992056.0);
@@ -810,8 +807,8 @@ public class MapTester {
                     }
                     case 1001: {
                         NavPoiInfo navPoiInfo = new NavPoiInfo();
-                        navPoiInfo.distance = 0;
-                        navPoiInfo.remainingTime = 0;
+                        navPoiInfo.distance = 1000L;
+                        navPoiInfo.remainingTime = 60000L;
                         navPoiInfo.poiLocations = new NavLocation[3];
                         navPoiInfo.poiLocations[0] = new NavLocation();
                         navPoiInfo.poiLocations[0].proprietaryData = new NavLocationDescriptor[]{new NavLocationDescriptor(4097, "Rasthof K\u00f6schinger Forst Ost"), new NavLocationDescriptor(520, "50331767"), new NavLocationDescriptor(282, "536870961")};
@@ -825,20 +822,20 @@ public class MapTester {
                     }
                     case 1002: {
                         TurnListElement[] turnListElementArray = new TurnListElement[2];
-                        turnListElementArray[0] = new TurnListElement(0L, 0, 0L, null, "Street 0", "Turn to Street 0", "", 0, "Exit 0", "", 0, "", 0, null, null, 0, null, 0L, null);
+                        turnListElementArray[0] = new TurnListElement(0L, 60L, 0L, null, "Street 0", "Turn to Street 0", "", 0, "Exit 0", "", 0, "", 0, null, null, 0, null, 0L, null);
                         turnListElementArray[0].maneuver = new ManeuverElement[]{new ManeuverElement(16, 64, 0)};
-                        turnListElementArray[1] = new TurnListElement(0, 0, 0L, null, "Street 1", "Turn to Street 1", "", 0, "Exit 1", "", 0, "", 0, null, null, 0, null, 0L, null);
+                        turnListElementArray[1] = new TurnListElement(1000L, 60L, 0L, null, "Street 1", "Turn to Street 1", "", 0, "Exit 1", "", 0, "", 0, null, null, 0, null, 0L, null);
                         turnListElementArray[1].maneuver = new ManeuverElement[]{new ManeuverElement(16, 64, 0)};
                         IRouteInfo iRouteInfo = this.getMapMain().getRouteInfo();
                         iRouteInfo.updateRgTurnList(turnListElementArray);
                         break;
                     }
                     case 1003: {
-                        ((RenderingInfoProvider$SatelliteMapsLogoCallback)((Object)this.mm.getSatelliteMapsMediator().getMmuSatellitemapsmanagerFSM())).renderingInformationForSatelliteLogo(null);
+                        ((RenderingInfoProvider.SatelliteMapsLogoCallback)((Object)this.mm.getSatelliteMapsMediator().getMmuSatellitemapsmanagerFSM())).renderingInformationForSatelliteLogo(null);
                         break;
                     }
                     case 1004: {
-                        ((RenderingInfoProvider$SatelliteMapsLogoCallback)((Object)this.mm.getSatelliteMapsMediator().getMmuSatellitemapsmanagerFSM())).renderingInformationForSatelliteLogo(new RenderingInfo(318767200, true));
+                        ((RenderingInfoProvider.SatelliteMapsLogoCallback)((Object)this.mm.getSatelliteMapsMediator().getMmuSatellitemapsmanagerFSM())).renderingInformationForSatelliteLogo(new RenderingInfo(1610612755, true));
                         break;
                     }
                     case 2051: {
@@ -913,8 +910,8 @@ public class MapTester {
                         break;
                     }
                     case 5004: {
-                        int n32 = this.env.getChoiceModel(1562510848).getValue();
-                        this.env.getChoiceModel(1562510848).setValue(n32 == 0 ? 1 : 0);
+                        int n32 = this.env.getChoiceModel(402013).getValue();
+                        this.env.getChoiceModel(402013).setValue(n32 == 0 ? 1 : 0);
                         break;
                     }
                     case 5005: {
@@ -934,7 +931,7 @@ public class MapTester {
                         break;
                     }
                     case 5009: {
-                        ChoiceModelApp choiceModelApp = this.env.getChoiceModel(-618592768);
+                        ChoiceModelApp choiceModelApp = this.env.getChoiceModel(401883);
                         choiceModelApp.setValue(choiceModelApp.getValue() == 1 ? 0 : 1);
                         break;
                     }
@@ -976,23 +973,23 @@ public class MapTester {
             case 12: {
                 switch (Integer.parseInt(stringArray[1])) {
                     case 0: {
-                        this.getLogChannel().log(1078071040, "DSI_TYPE_STDMAP:\n%1", (Object)this.getMapMain().getMVResponseControlStd());
+                        this.getLogChannel().log(1000000, "DSI_TYPE_STDMAP:\n%1", (Object)this.getMapMain().getMVResponseControlStd());
                         break block0;
                     }
                     case 1: {
-                        this.getLogChannel().log(1078071040, "DSI_TYPE_GE:\n%1", (Object)this.getMapMain().getMVResponseGoogleCtrl());
+                        this.getLogChannel().log(1000000, "DSI_TYPE_GE:\n%1", (Object)this.getMapMain().getMVResponseGoogleCtrl());
                         break block0;
                     }
                     case 2: {
-                        this.getLogChannel().log(1078071040, "DSI_TYPE_ADDITIONAL:\n%1", (Object)this.getMinorMap().getMVResponseControlStd());
+                        this.getLogChannel().log(1000000, "DSI_TYPE_ADDITIONAL:\n%1", (Object)this.getMinorMap().getMVResponseControlStd());
                         break block0;
                     }
                     case 3: {
-                        this.getLogChannel().log(1078071040, "DSI_TYPE_KOMBI:\n%1", (Object)this.getMapKombi().getMVResponseControlStd());
+                        this.getLogChannel().log(1000000, "DSI_TYPE_KOMBI:\n%1", (Object)this.getMapKombi().getMVResponseControlStd());
                         break block0;
                     }
                     case 4: {
-                        this.getLogChannel().log(1078071040, "DSI_TYPE_GE2:\n%1", (Object)this.getMapKombi().getMVResponseGoogleCtrl());
+                        this.getLogChannel().log(1000000, "DSI_TYPE_GE2:\n%1", (Object)this.getMapKombi().getMVResponseGoogleCtrl());
                         break block0;
                     }
                 }
@@ -1005,42 +1002,42 @@ public class MapTester {
         switch (n) {
             case 20: {
                 MapEnv.useRgCalculate1stRouteAndPostponeRemaining = !MapEnv.useRgCalculate1stRouteAndPostponeRemaining;
-                this.getLogChannel().log(1078071040, "MapEnv.useRgCalculate1stRouteAndPostponeRemaining = %1", MapEnv.useRgCalculate1stRouteAndPostponeRemaining);
+                this.getLogChannel().log(1000000, "MapEnv.useRgCalculate1stRouteAndPostponeRemaining = %1", MapEnv.useRgCalculate1stRouteAndPostponeRemaining);
                 break;
             }
             case 21: {
                 MapEnv.isRouteInfoHandlerEnabled = !MapEnv.isRouteInfoHandlerEnabled;
-                this.getLogChannel().log(1078071040, "MapEnv.isRouteInfoHandlerEnabled = %1", MapEnv.isRouteInfoHandlerEnabled);
+                this.getLogChannel().log(1000000, "MapEnv.isRouteInfoHandlerEnabled = %1", MapEnv.isRouteInfoHandlerEnabled);
                 break;
             }
             case 22: {
                 MapEnv.waitForReadyBeforeEnterMap = !MapEnv.waitForReadyBeforeEnterMap;
-                this.getLogChannel().log(1078071040, "MapEnv.waitForReadyBeforeEnterMap = %1", MapEnv.waitForReadyBeforeEnterMap);
+                this.getLogChannel().log(1000000, "MapEnv.waitForReadyBeforeEnterMap = %1", MapEnv.waitForReadyBeforeEnterMap);
                 break;
             }
             case 23: {
                 MapEnv.useTopLeftToCalculateBoundingBox = !MapEnv.useTopLeftToCalculateBoundingBox;
-                this.getLogChannel().log(1078071040, "MapEnv.useTopLeftToCalculateBoundingBox = %1", MapEnv.useTopLeftToCalculateBoundingBox);
+                this.getLogChannel().log(1000000, "MapEnv.useTopLeftToCalculateBoundingBox = %1", MapEnv.useTopLeftToCalculateBoundingBox);
                 break;
             }
             case 24: {
                 MapEnv.restoreLastRubberbandPoint = !MapEnv.restoreLastRubberbandPoint;
-                this.getLogChannel().log(1078071040, "MapEnv.restoreLastRubberbandPoint = %1", MapEnv.restoreLastRubberbandPoint);
+                this.getLogChannel().log(1000000, "MapEnv.restoreLastRubberbandPoint = %1", MapEnv.restoreLastRubberbandPoint);
                 break;
             }
             case 25: {
                 MapEnv.enableSoftAnimationForRubberband = !MapEnv.enableSoftAnimationForRubberband;
-                this.getLogChannel().log(1078071040, "MapEnv.enableSoftAnimationForRubberband = %1", MapEnv.enableSoftAnimationForRubberband);
+                this.getLogChannel().log(1000000, "MapEnv.enableSoftAnimationForRubberband = %1", MapEnv.enableSoftAnimationForRubberband);
                 break;
             }
             case 26: {
                 MapEnv.mapModeForRouteBriefing = 10;
-                this.getLogChannel().log(1078071040, "MapEnv.mapModeForRouteBriefing = %1", (long)MapEnv.mapModeForRouteBriefing);
+                this.getLogChannel().log(1000000, "MapEnv.mapModeForRouteBriefing = %1", (long)MapEnv.mapModeForRouteBriefing);
                 break;
             }
             case 27: {
                 MapEnv.mapModeForRouteBriefing = 6;
-                this.getLogChannel().log(1078071040, "MapEnv.mapModeForRouteBriefing = %1", (long)MapEnv.mapModeForRouteBriefing);
+                this.getLogChannel().log(1000000, "MapEnv.mapModeForRouteBriefing = %1", (long)MapEnv.mapModeForRouteBriefing);
                 break;
             }
         }
@@ -1187,7 +1184,7 @@ public class MapTester {
             ((AbstractTrafficMiniMap)this.mm.getTrafficMiniMap()).getTrafficMiniMapDSIListener().updateActiveInterrupts(interruptArray2, 1);
         }
         try {
-            Thread.sleep(0);
+            Thread.sleep(500L);
         }
         catch (InterruptedException interruptedException) {
             interruptedException.printStackTrace();

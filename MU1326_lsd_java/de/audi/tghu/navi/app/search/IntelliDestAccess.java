@@ -5,62 +5,45 @@ package de.audi.tghu.navi.app.search;
 
 import de.audi.atip.interapp.ADBHMIAppService;
 import de.audi.atip.search.AbstractSearch;
-import de.audi.tghu.navi.app.rp.TripHandler$TripData;
+import de.audi.tghu.navi.app.rp.TripHandler;
 import de.audi.tghu.navi.app.search.ILastDestHandler;
 import org.dsi.ifc.global.NavLocation;
 import org.dsi.ifc.navigation.Route;
 import org.dsi.ifc.navigation.RrdCalculationInfo;
 
 public interface IntelliDestAccess {
-    default public NavLocation getNavLocationByIndex(int n) {
-    }
+    public NavLocation getNavLocationByIndex(int var1);
 
-    default public int startTrufflesSearch(String string, String[] stringArray) {
-    }
+    public int startTrufflesSearch(String var1, String[] var2);
 
-    default public void updateRouteInfo(Route route, TripHandler$TripData tripHandler$TripData) {
-    }
+    public void updateRouteInfo(Route var1, TripHandler.TripData var2);
 
-    default public void updateRgActive(boolean bl) {
-    }
+    public void updateRgActive(boolean var1);
 
-    default public ILastDestHandler getLastDestHandler() {
-    }
+    public ILastDestHandler getLastDestHandler();
 
-    default public void enterDestinationContext(int n) {
-    }
+    public void enterDestinationContext(int var1);
 
-    default public void exitDestinationContext(int n) {
-    }
+    public void exitDestinationContext(int var1);
 
-    default public void enterDestinationContextDownTransition(int n) {
-    }
+    public void enterDestinationContextDownTransition(int var1);
 
-    default public void exitTrufflesRangeSelect() {
-    }
+    public void exitTrufflesRangeSelect();
 
-    default public AbstractSearch getMainSearch() {
-    }
+    public AbstractSearch getMainSearch();
 
-    default public void updateRrdCalculationInfo(RrdCalculationInfo[] rrdCalculationInfoArray) {
-    }
+    public void updateRrdCalculationInfo(RrdCalculationInfo[] var1);
 
-    default public void resetSettings() {
-    }
+    public void resetSettings();
 
-    default public void setADBHMIAppService(ADBHMIAppService aDBHMIAppService) {
-    }
+    public void setADBHMIAppService(ADBHMIAppService var1);
 
-    default public void updateRmRoutesPress() {
-    }
+    public void updateRmRoutesPress();
 
-    default public void cancelSDSTrufflesSearch(boolean bl) {
-    }
+    public void cancelSDSTrufflesSearch(boolean var1);
 
-    default public boolean isTrufflesConflictmodeAvailable() {
-    }
+    public boolean isTrufflesConflictmodeAvailable();
 
-    default public int triggerTrufflesConflictmode(String string, String[] stringArray) {
-    }
+    public int triggerTrufflesConflictmode(String var1, String[] var2);
 }
 

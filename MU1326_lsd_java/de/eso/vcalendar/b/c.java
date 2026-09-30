@@ -51,7 +51,7 @@ public class c {
     }
 
     public final String toString() {
-        return new StringBuffer().append(this.a).append(";").append(this.e).append(";").append(this.c).append(";").append(this.d).append(";").append(this.b).toString();
+        return this.a + ";" + this.e + ";" + this.c + ";" + this.d + ";" + this.b;
     }
 }
 

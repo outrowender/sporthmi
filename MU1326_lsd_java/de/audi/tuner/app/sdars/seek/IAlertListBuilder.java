@@ -9,13 +9,10 @@ import org.dsi.ifc.sdars.SeekAlert;
 import org.dsi.ifc.sdars.SeekEntry;
 
 public interface IAlertListBuilder {
-    default public void alertStarted(BaseListModelApp baseListModelApp, SeekAlert seekAlert, SeekEntry seekEntry, AlertRow alertRow) {
-    }
+    public void alertStarted(BaseListModelApp var1, SeekAlert var2, SeekEntry var3, AlertRow var4);
 
-    default public void alertEnded(BaseListModelApp baseListModelApp, SeekAlert seekAlert, SeekEntry seekEntry) {
-    }
+    public void alertEnded(BaseListModelApp var1, SeekAlert var2, SeekEntry var3);
 
-    default public void alertUpdated(BaseListModelApp baseListModelApp, SeekAlert seekAlert, SeekEntry seekEntry, int n, AlertRow alertRow) {
-    }
+    public void alertUpdated(BaseListModelApp var1, SeekAlert var2, SeekEntry var3, int var4, AlertRow var5);
 }
 

@@ -78,7 +78,6 @@ extends AbstractMemoryRow {
         this.setInteger(6, n);
     }
 
-    @Override
     public boolean isPSFreezed() {
         if (this.getBand() == 4) {
             return false;
@@ -100,7 +99,6 @@ extends AbstractMemoryRow {
         return this.station;
     }
 
-    @Override
     public TunerObjectContainer getTOContainer() {
         return new TunerObjectContainer(new AMFMStation(this.station));
     }
@@ -109,7 +107,6 @@ extends AbstractMemoryRow {
         this.hdStatus = n;
     }
 
-    @Override
     public ListCell getReceptionCell() {
         if (this.getStation().isHd()) {
             switch (this.hdStatus) {
@@ -125,14 +122,12 @@ extends AbstractMemoryRow {
         return super.getReceptionCell();
     }
 
-    @Override
     public String toString() {
         Buffer buffer = new Buffer(300);
         buffer.append("AmFmMemoryRow ").append(this.station).append(' ').append(super.toString());
         return buffer.toString();
     }
 
-    @Override
     public void resetProgramData() {
         super.resetProgramData();
         this.setHMIResourceLocator(10, this.station.getImage(0));
@@ -140,14 +135,12 @@ extends AbstractMemoryRow {
         this.resetOverwrite();
     }
 
-    @Override
     public void setProgramData(TunerObjectContainer tunerObjectContainer, int n) {
         super.setProgramData(tunerObjectContainer, n);
         this.tmpOverwrite(tunerObjectContainer);
         this.setHdIcon(tunerObjectContainer.getAMFMService());
     }
 
-    @Override
     protected void tmpOverwrite(TunerObjectContainer tunerObjectContainer) {
         if (Utilities.isPiIgnore()) {
             AMFMStation aMFMStation = tunerObjectContainer.getAMFMService();
@@ -163,7 +156,6 @@ extends AbstractMemoryRow {
         }
     }
 
-    @Override
     protected void resetOverwrite() {
         super.resetOverwrite();
         this.setText(0, this.getAmFmStationName());
@@ -176,7 +168,6 @@ extends AbstractMemoryRow {
         this.setInteger(3, this.station.isPsFreezed() ? 1 : 0);
     }
 
-    @Override
     public boolean adjustLayoutIfNecessary(boolean bl, boolean bl2, int n) {
         int n2 = MemoryListHelper.getRS(1);
         boolean bl3 = false;
@@ -190,7 +181,6 @@ extends AbstractMemoryRow {
         return bl3;
     }
 
-    @Override
     public EvoListRow copy() {
         return new AmFmMemoryRow(this);
     }

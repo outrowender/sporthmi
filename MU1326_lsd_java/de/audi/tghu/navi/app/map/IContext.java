@@ -3,7 +3,7 @@
  */
 package de.audi.tghu.navi.app.map;
 
-import de.audi.atip.interapp.NaviOnlineService$NaviOnlineMapOverlay;
+import de.audi.atip.interapp.NaviOnlineService;
 import de.audi.atip.mmicombi.IViewSizeListener;
 import de.audi.tghu.navi.app.favorite.IFavorite;
 import de.audi.tghu.navi.app.map.context.ContextGUIListener;
@@ -26,280 +26,188 @@ extends ContextGUIListener,
 ContextUpdateListener,
 SetupChangeListener,
 IViewSizeListener {
-    default public void activateOrientationAccordingToSetup() {
-    }
+    public void activateOrientationAccordingToSetup();
 
-    default public void adaptDisplayContext(int n) {
-    }
+    public void adaptDisplayContext(int var1);
 
-    default public void automaticOrientateMap() {
-    }
+    public void automaticOrientateMap();
 
-    default public void cleanup() {
-    }
+    public void cleanup();
 
-    default public void displayCurrentRoute() {
-    }
+    public void displayCurrentRoute();
 
-    default public void enter() {
-    }
+    public void enter();
 
-    default public void enterEpilogue() {
-    }
+    public void enterEpilogue();
 
-    default public void enterMapScreen(int n) {
-    }
+    public void enterMapScreen(int var1);
 
-    default public void enterNavSetup() {
-    }
+    public void enterNavSetup();
 
-    default public void enterPrologue() {
-    }
+    public void enterPrologue();
 
-    default public void exit() {
-    }
+    public void exit();
 
-    default public void exitMapContentList() {
-    }
+    public void exitMapContentList();
 
-    default public void exitMapScreen() {
-    }
+    public void exitMapScreen();
 
-    default public void exitNavSetup() {
-    }
+    public void exitNavSetup();
 
-    default public void freezeMap() {
-    }
+    public void freezeMap();
 
-    default public void freezeMapLevel1() {
-    }
+    public void freezeMapLevel1();
 
-    default public int getDistanceToNextManeuver() {
-    }
+    public int getDistanceToNextManeuver();
 
-    default public String getDistString() {
-    }
+    public String getDistString();
 
-    default public NavLocation getEnterInMapLocation() {
-    }
+    public NavLocation getEnterInMapLocation();
 
-    default public boolean getManoeuvreZoomDisabledWithReturn() {
-    }
+    public boolean getManoeuvreZoomDisabledWithReturn();
 
-    default public int getNightDesign() {
-    }
+    public int getNightDesign();
 
-    default public boolean getRGActive() {
-    }
+    public boolean getRGActive();
 
-    default public boolean getRouteActiveOrRangeMapReady() {
-    }
+    public boolean getRouteActiveOrRangeMapReady();
 
-    default public boolean getSDSDialogActive() {
-    }
+    public boolean getSDSDialogActive();
 
-    default public void initAdditionalInfos() {
-    }
+    public void initAdditionalInfos();
 
-    default public boolean isUserZoomEnabled() {
-    }
+    public boolean isUserZoomEnabled();
 
-    default public void navigationEntered() {
-    }
+    public void navigationEntered();
 
-    default public void rbGetIDOfSelectedSegmentResult(long l) {
-    }
+    public void rbGetIDOfSelectedSegmentResult(long var1);
 
-    default public void rbGetRRDToSelectedSegmentResult(long l, int n) {
-    }
+    public void rbGetRRDToSelectedSegmentResult(long var1, int var3);
 
-    default public void refreshDistanceToNextManeuver() {
-    }
+    public void refreshDistanceToNextManeuver();
 
-    default public void refreshRoutes() {
-    }
+    public void refreshRoutes();
 
-    default public void rgStartGuidanceCalculatedRouteByUIDResult(NavSegmentID navSegmentID, int n) {
-    }
+    public void rgStartGuidanceCalculatedRouteByUIDResult(NavSegmentID var1, int var2);
 
-    default public void screenHidden() {
-    }
+    public void screenHidden();
 
-    default public void screenVisible() {
-    }
+    public void screenVisible();
 
-    default public void sdsSetZoomLevel(int n) {
-    }
+    public void sdsSetZoomLevel(int var1);
 
-    default public void setEnterInMapLocation(NavLocation navLocation, boolean bl, boolean bl2, IFavorite iFavorite, boolean bl3) {
-    }
+    public void setEnterInMapLocation(NavLocation var1, boolean var2, boolean var3, IFavorite var4, boolean var5);
 
-    default public void setIsInVia(boolean bl) {
-    }
+    public void setIsInVia(boolean var1);
 
-    default public void setNightDesign(int n) {
-    }
+    public void setNightDesign(int var1);
 
-    default public void setOnlineResultFlags(OnlinePOIResultList onlinePOIResultList) {
-    }
+    public void setOnlineResultFlags(OnlinePOIResultList var1);
 
-    default public void setWeatherOverlaysData(int n, NaviOnlineService$NaviOnlineMapOverlay[] naviOnlineService$NaviOnlineMapOverlayArray, int n2) {
-    }
+    public void setWeatherOverlaysData(int var1, NaviOnlineService.NaviOnlineMapOverlay[] var2, int var3);
 
-    default public void setPicNavMapLocation(NavLocation navLocation, boolean bl, int n, ResourceLocator resourceLocator) {
-    }
+    public void setPicNavMapLocation(NavLocation var1, boolean var2, int var3, ResourceLocator var4);
 
-    default public void setRemoteHMIResultFlags(OnlinePOIResultList onlinePOIResultList) {
-    }
+    public void setRemoteHMIResultFlags(OnlinePOIResultList var1);
 
-    default public void setRequestedFreeze(boolean bl) {
-    }
+    public void setRequestedFreeze(boolean var1);
 
-    default public void setRequestedVisibility(boolean bl) {
-    }
+    public void setRequestedVisibility(boolean var1);
 
-    default public void setSDSDialogActive(boolean bl) {
-    }
+    public void setSDSDialogActive(boolean var1);
 
-    default public void signalNaviNotOperable() {
-    }
+    public void signalNaviNotOperable();
 
-    default public void stopoverHasBeenPassed() {
-    }
+    public void stopoverHasBeenPassed();
 
-    default public void storeKeptContextIndex(int n) {
-    }
+    public void storeKeptContextIndex(int var1);
 
-    default public boolean supportsAdditionalInfo() {
-    }
+    public boolean supportsAdditionalInfo();
 
-    default public void switchDisplayContext(int n) {
-    }
+    public void switchDisplayContext(int var1);
 
-    default public void switchDisplayContextKombi(int n) {
-    }
+    public void switchDisplayContextKombi(int var1);
 
-    default public void switchToMap() {
-    }
+    public void switchToMap();
 
-    default public void unfreezeMapLevel1() {
-    }
+    public void unfreezeMapLevel1();
 
-    default public void requestPreferredViewType() {
-    }
+    public void requestPreferredViewType();
 
-    default public void sdsChangedMapType() {
-    }
+    public void sdsChangedMapType();
 
-    default public void switchDayNight() {
-    }
+    public void switchDayNight();
 
-    default public MapPin[] getDynamicPins() {
-    }
+    public MapPin[] getDynamicPins();
 
-    default public OnlinePOIResultList getOnlinePOIResultList() {
-    }
+    public OnlinePOIResultList getOnlinePOIResultList();
 
-    default public void incrementGesture(int n) {
-    }
+    public void incrementGesture(int var1);
 
-    default public void initViewPort() {
-    }
+    public void initViewPort();
 
-    default public void setBackgroundRenderingMode(boolean bl) {
-    }
+    public void setBackgroundRenderingMode(boolean var1);
 
-    default public void indicateTrafficEventNoticeMap(TmcMessage tmcMessage, NavRectangle navRectangle, int n) {
-    }
+    public void indicateTrafficEventNoticeMap(TmcMessage var1, NavRectangle var2, int var3);
 
-    default public void showTMC(boolean bl) {
-    }
+    public void showTMC(boolean var1);
 
-    default public void showSpeedAndFlowFreeflow(boolean bl) {
-    }
+    public void showSpeedAndFlowFreeflow(boolean var1);
 
-    default public void showSpeedAndFlowFreeflow(boolean bl, boolean bl2) {
-    }
+    public void showSpeedAndFlowFreeflow(boolean var1, boolean var2);
 
-    default public void showSpeedAndFlowCongestions(boolean bl) {
-    }
+    public void showSpeedAndFlowCongestions(boolean var1);
 
-    default public void showSpeedAndFlowCongestions(boolean bl, boolean bl2) {
-    }
+    public void showSpeedAndFlowCongestions(boolean var1, boolean var2);
 
-    default public void setSpeedAndFlowRoadClass(int n) {
-    }
+    public void setSpeedAndFlowRoadClass(int var1);
 
-    default public void setLandmarksVisible(boolean bl) {
-    }
+    public void setLandmarksVisible(boolean var1);
 
-    default public void setCityModelMode(int n) {
-    }
+    public void setCityModelMode(int var1);
 
-    default public void showBrandIcons(int n) {
-    }
+    public void showBrandIcons(int var1);
 
-    default public void showPictureNavigationIcons(boolean bl) {
-    }
+    public void showPictureNavigationIcons(boolean var1);
 
-    default public void showWeatherIcons(boolean bl) {
-    }
+    public void showWeatherIcons(boolean var1);
 
-    default public void onFiredRGAutoStartTimer() {
-    }
+    public void onFiredRGAutoStartTimer();
 
-    default public void resolvedSelectedValue(MapItemSelectionInfo mapItemSelectionInfo) {
-    }
+    public void resolvedSelectedValue(MapItemSelectionInfo var1);
 
-    default public void onEvent(int n) {
-    }
+    public void onEvent(int var1);
 
-    default public void onEvent(int n, Object object) {
-    }
+    public void onEvent(int var1, Object var2);
 
-    default public boolean isRangeMapReadyToShow() {
-    }
+    public boolean isRangeMapReadyToShow();
 
-    default public void hkBackPressed() {
-    }
+    public void hkBackPressed();
 
-    default public void updateBapManeuverDescriptor(BapManeuverDescriptor[] bapManeuverDescriptorArray) {
-    }
+    public void updateBapManeuverDescriptor(BapManeuverDescriptor[] var1);
 
-    default public void updateZoomLevel(float f2) {
-    }
+    public void updateZoomLevel(float var1);
 
-    default public void belowLowerThreshold(int n) {
-    }
+    public void belowLowerThreshold(int var1);
 
-    default public void exceedsUpperThreshold(int n) {
-    }
+    public void exceedsUpperThreshold(int var1);
 
-    default public void updateLockingState(boolean bl) {
-    }
+    public void updateLockingState(boolean var1);
 
-    default public void vehicleMoved() {
-    }
+    public void vehicleMoved();
 
-    default public void setOperatorCallResultLocation(NavLocationWgs84 navLocationWgs84) {
-    }
+    public void setOperatorCallResultLocation(NavLocationWgs84 var1);
 
-    default public void adjustCarPosition() {
-    }
+    public void adjustCarPosition();
 
-    default public void informTENMPopupPosition(int n, int n2, int n3, int n4) {
-    }
+    public void informTENMPopupPosition(int var1, int var2, int var3, int var4);
 
-    default public void hideTENM() {
-    }
+    public void hideTENM();
 
-    default public void recalculateVisibleArea() {
-    }
+    public void recalculateVisibleArea();
 
-    default public void switchAutoZoomOnOff(int n) {
-    }
+    public void switchAutoZoomOnOff(int var1);
 
-    default public void updateRgInfoForNextDestination(RgInfoForNextDestination rgInfoForNextDestination) {
-    }
+    public void updateRgInfoForNextDestination(RgInfoForNextDestination var1);
 }
 

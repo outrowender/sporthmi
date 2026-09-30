@@ -4,6 +4,7 @@
 package de.audi.tghu.navi.app.di.sequences.matchspeller;
 
 import de.audi.atip.hmi.modelaccess.MatchspellerModelApp;
+import de.audi.atip.hmi.modelaccess.SpellerModelApp;
 import de.audi.atip.interapp.navigation.previewmap.IPreviewMap;
 import de.audi.atip.log.LogChannel;
 import de.audi.tghu.command.CommandList;
@@ -22,7 +23,9 @@ import de.audi.tghu.navi.app.addressinput.commands.LISPUndoCharacterCommand;
 import de.audi.tghu.navi.app.addressinput.commands.ModelInputChangedCommand;
 import de.audi.tghu.navi.app.addressinput.commands.ModelUpdateSpellerAndResultListCommand;
 import de.audi.tghu.navi.app.addressinput.commands.SpellerStateChangedCommand;
+import de.audi.tghu.navi.app.command.DSIResponseContainer;
 import de.audi.tghu.navi.app.command.LIGetStateCommand;
+import de.audi.tghu.navi.app.command.NavCommand;
 import de.audi.tghu.navi.app.command.UnrequestItemsCommand;
 import de.audi.tghu.navi.app.di.IAddressInputManager;
 import de.audi.tghu.navi.app.di.commands.FilterHandwritingCharactersCommand;
@@ -31,25 +34,20 @@ import de.audi.tghu.navi.app.di.commands.LISPRequestNVCValidCharsCommand;
 import de.audi.tghu.navi.app.di.commands.LISetNvcRangeCommand;
 import de.audi.tghu.navi.app.di.commands.SetSpellerStrokeStatusCommand;
 import de.audi.tghu.navi.app.di.commands.SetSpellerValidHanziCharsCommand;
-import de.audi.tghu.navi.app.di.sequences.matchspeller.AbstractAddressInputMatchSpellerSequence$1;
-import de.audi.tghu.navi.app.di.sequences.matchspeller.AbstractAddressInputMatchSpellerSequence$2;
-import de.audi.tghu.navi.app.di.sequences.matchspeller.AbstractAddressInputMatchSpellerSequence$3;
-import de.audi.tghu.navi.app.di.sequences.matchspeller.AbstractAddressInputMatchSpellerSequence$4;
-import de.audi.tghu.navi.app.di.sequences.matchspeller.AbstractAddressInputMatchSpellerSequence$5;
-import de.audi.tghu.navi.app.di.sequences.matchspeller.AbstractAddressInputMatchSpellerSequence$6;
-import de.audi.tghu.navi.app.di.sequences.matchspeller.AbstractAddressInputMatchSpellerSequence$7;
 import de.audi.tghu.navi.app.di.sequences.matchspeller.IAddressInputAsiaSpecificSequence;
 import de.audi.tghu.navi.app.di.sequences.matchspeller.IAddressInputMatchSpellerSequence;
 import de.audi.tghu.navi.app.li.IAdditionalStateInfo;
 import de.audi.tghu.navi.app.li.SpellerStack;
 import de.audi.tghu.navi.app.li.sc.SpellerContext;
 import de.audi.tghu.navi.app.util.Util;
+import org.dsi.ifc.global.NavLocation;
+import org.dsi.ifc.navigation.LIValueList;
 import org.dsi.ifc.navigation.LIValueListElement;
 
 public abstract class AbstractAddressInputMatchSpellerSequence
 implements IAddressInputMatchSpellerSequence,
 IAddressInputAsiaSpecificSequence {
-    protected final String CLASS_NAME = Util.getClassNameFromPackageName(super.getClass());
+    protected final String CLASS_NAME = Util.getClassNameFromPackageName(this.getClass());
     protected final IAddressInputManager inputManager;
     protected final ICommandListFactory commandListFactory;
     protected final NavigationEnv env;
@@ -69,52 +67,56 @@ IAddressInputAsiaSpecificSequence {
         this.inputManager = iAddressInputManager;
     }
 
-    @Override
     public CommandList getStartCommandList(String string) {
-        this.logChannel.log(-2137614336, "%1#getStartCommandList(), and latestChar is: %2 ", (Object)this.CLASS_NAME, (Object)string);
+        this.logChannel.log(10000000, "%1#getStartCommandList(), and latestChar is: %2 ", (Object)this.CLASS_NAME, (Object)string);
         CommandList commandList = this.getStartCommandList();
         commandList.add(new LISPAddCharacterCommand(string));
-        commandList.add(new AbstractAddressInputMatchSpellerSequence$1(this, "Check if direct writing char is valid"));
+        commandList.add(new NavCommand("Check if direct writing char is valid"){
+
+            public void execute() {
+                if (this.dsiResponseContainer.getLispValueListCount() > 0L) {
+                    this.getCommandList().commandFinishedWithPostCommand(new ModelUpdateSpellerAndResultListCommand(AbstractAddressInputMatchSpellerSequence.this.modelAccess));
+                    return;
+                }
+                AbstractAddressInputMatchSpellerSequence.this.undoCharacter();
+                this.getCommandList().commandFinished();
+            }
+        });
         return commandList;
     }
 
-    @Override
     public void requestNextResultListWindow(int n, int n2) {
         if (this.addCharMonitor != null && this.addCharMonitor.isActive()) {
-            this.logChannel.log(-2137614336, "%1#requestNextResultListWindow - addCharIsActive discarding request=%2 with anchorindex=%3!", (Object)this.CLASS_NAME, (long)n2, (long)n);
+            this.logChannel.log(10000000, "%1#requestNextResultListWindow - addCharIsActive discarding request=%2 with anchorindex=%3!", (Object)this.CLASS_NAME, (long)n2, (long)n);
         } else {
             CommandList commandList = this.commandListFactory.createCommandList(1);
             commandList.add(new LISPRequestValueListByListIndexCommand(n, true));
             commandList.add(new ModelUpdateSpellerAndResultListCommand(this.modelAccess, n2, n));
-            commandList.execute(new StringBuffer().append(this.CLASS_NAME).append("#requestNextResultListWindows").toString());
+            commandList.execute(this.CLASS_NAME + "#requestNextResultListWindows");
         }
     }
 
-    @Override
     public void requestPreviousResultListWindow(int n) {
         CommandList commandList = this.commandListFactory.createCommandList(1);
         commandList.add(new LISPRequestValueListByListIndexCommand(n, false));
         commandList.add(new ModelUpdateSpellerAndResultListCommand(this.modelAccess));
-        commandList.execute(new StringBuffer().append(this.CLASS_NAME).append("requestPreviousResultListWindow").toString());
+        commandList.execute(this.CLASS_NAME + "requestPreviousResultListWindow");
     }
 
-    @Override
     public void addCharacter(String string) {
         CommandList commandList = this.commandListFactory.createCommandList(1);
         commandList.add(new LISPAddCharacterCommand(string));
         commandList.add(new ModelInputChangedCommand(this.modelAccess));
         commandList.add(new ModelUpdateSpellerAndResultListCommand(this.modelAccess));
-        commandList.execute(new StringBuffer().append(this.CLASS_NAME).append("#addCharacter").toString());
+        commandList.execute(this.CLASS_NAME + "#addCharacter");
     }
 
-    @Override
     public void addStroke(String string) {
         CommandList commandList = this.commandListFactory.createCommandList();
         commandList.add(new LISPAddStrokeCommand(string));
-        commandList.execute(new StringBuffer().append(this.CLASS_NAME).append("#addStroke").toString());
+        commandList.execute(this.CLASS_NAME + "#addStroke");
     }
 
-    @Override
     public void touchPadInputModeChanged(int n) {
         CommandList commandList = this.commandListFactory.createCommandList();
         commandList.add(new LISPDeleteAllCharactersCommand(true));
@@ -127,127 +129,184 @@ IAddressInputAsiaSpecificSequence {
         } else {
             this.logChannel.log(10000, "%1#inputModeTPChanged - invalid id for mode=%2", (Object)this.CLASS_NAME, (long)n);
         }
-        commandList.execute(new StringBuffer().append(this.CLASS_NAME).append("#inputModeTPChanged").toString());
+        commandList.execute(this.CLASS_NAME + "#inputModeTPChanged");
     }
 
-    @Override
     public void nonAlphaNumTPCharsChanged(int n, int n2, String string, MatchspellerModelApp matchspellerModelApp) {
-        this.logChannel.log(-2137614336, "%1#nonAlphaNumTPCharsChanged - modelId=%2, recognizedChars=%3", (Object)this.CLASS_NAME, (Object)Integer.toString(n), (Object)string);
+        this.logChannel.log(10000000, "%1#nonAlphaNumTPCharsChanged - modelId=%2, recognizedChars=%3", (Object)this.CLASS_NAME, (Object)Integer.toString(n), (Object)string);
         CommandList commandList = this.commandListFactory.createCommandList();
         commandList.add(new FilterHandwritingCharactersCommand(matchspellerModelApp, string));
-        commandList.execute(new StringBuffer().append(this.CLASS_NAME).append("#nonAlphaNumTPCharsChanged").toString());
+        commandList.execute(this.CLASS_NAME + "#nonAlphaNumTPCharsChanged");
     }
 
-    @Override
     public void requestValidHanziCharsWindow(int n, int n2, int n3) {
         CommandList commandList = this.commandListFactory.createCommandList();
         commandList.add(new LISPRequestNVCValidCharsCommand(3, n2, n3));
         commandList.add(new SetSpellerValidHanziCharsCommand(this.env.getMatchSpellerModel(n)));
         commandList.add(new SetSpellerStrokeStatusCommand(this.modelAccess));
-        commandList.execute(new StringBuffer().append(this.CLASS_NAME).append("#requestValidHanziCharsWindow").toString());
+        commandList.execute(this.CLASS_NAME + "#requestValidHanziCharsWindow");
     }
 
-    @Override
-    public void addCharacter(String string, int n, boolean bl) {
+    public void addCharacter(String string, final int n, boolean bl) {
         CommandList commandList = this.commandListFactory.createCommandList();
         if (bl) {
-            AbstractAddressInputMatchSpellerSequence$2 abstractAddressInputMatchSpellerSequence$2 = new AbstractAddressInputMatchSpellerSequence$2(this);
-            commandList.add(new LIGetStateCommand(this.spellerStack, new IAdditionalStateInfo[]{abstractAddressInputMatchSpellerSequence$2}, new SpellerContext(51)));
+            IAdditionalStateInfo iAdditionalStateInfo = new IAdditionalStateInfo(){
+
+                public void gatherInfo() {
+                }
+
+                public void restoreBefore() {
+                }
+
+                public void restoreAfter() {
+                    DSIResponseContainer dSIResponseContainer = AbstractAddressInputMatchSpellerSequence.this.env.getContainer();
+                    String string = dSIResponseContainer.getLispValidCharacters();
+                    String string2 = dSIResponseContainer.getLispCurrentInput();
+                    boolean bl = dSIResponseContainer.isLispIsFullMatch();
+                    boolean bl2 = dSIResponseContainer.isLispIsUndoAvailable();
+                    LIValueList lIValueList = dSIResponseContainer.getLispValueList();
+                    long l = dSIResponseContainer.getLispValueListCount();
+                    AbstractAddressInputMatchSpellerSequence.this.modelAccess.onStart(dSIResponseContainer.getLiCurrentLD());
+                    int n = 0;
+                    if (lIValueList.getList() != null && lIValueList.getList().length > 0) {
+                        n = lIValueList.getList()[0].listIndex;
+                    }
+                    AbstractAddressInputMatchSpellerSequence.this.modelAccess.onUpdateResultList(lIValueList, l, string2, bl, -1, n);
+                    AbstractAddressInputMatchSpellerSequence.this.modelAccess.onUpdateSpeller(string, string2, bl, bl2);
+                }
+            };
+            commandList.add(new LIGetStateCommand(this.spellerStack, new IAdditionalStateInfo[]{iAdditionalStateInfo}, new SpellerContext(51)));
         }
         commandList.add(new LISPAddCharacterCommand(string));
         commandList.add(new ModelInputChangedCommand(this.modelAccess));
         commandList.add(new ModelUpdateSpellerAndResultListCommand(this.modelAccess));
         if (bl) {
-            int n2 = this.spellerStack.getActiveSC().getContextID();
-            commandList.add(new AbstractAddressInputMatchSpellerSequence$3(this, new StringBuffer().append(this.CLASS_NAME).append("#addCharacter - if single result select it immediately").toString(), n, n2));
+            final int n2 = this.spellerStack.getActiveSC().getContextID();
+            commandList.add(new NavCommand(this.CLASS_NAME + "#addCharacter - if single result select it immediately"){
+
+                public void execute() {
+                    if (this.dsiResponseContainer.getLispValueListCount() == 1L) {
+                        AbstractAddressInputMatchSpellerSequence.this.logChannel.log(10000000, "%1#setSpellerStatusWaiting for model=%2", (Object)this.CLASS_NAME, (long)n);
+                        SpellerModelApp spellerModelApp = this.env.getSpellerModel(n);
+                        spellerModelApp.setControlButtonStates(0, 0);
+                        LIValueListElement lIValueListElement = this.dsiResponseContainer.getLispValueList().getList()[0];
+                        CommandList commandList = AbstractAddressInputMatchSpellerSequence.this.getSelectListElementCommandList(lIValueListElement);
+                        AbstractAddressInputMatchSpellerSequence.this.sendLocationToOnline(this.env, n, 0, n2, commandList);
+                        this.getCommandList().commandFinishedWithPostSequence(commandList);
+                        return;
+                    }
+                    AbstractAddressInputMatchSpellerSequence.this.spellerStack.pop();
+                    this.getCommandList().commandFinished();
+                }
+            });
         }
-        commandList.execute(new StringBuffer().append(this.CLASS_NAME).append("#addCharacter").toString());
+        commandList.execute(this.CLASS_NAME + "#addCharacter");
     }
 
-    public void sendLocationToOnline(NavigationEnv navigationEnv, int n, int n2, int n3, CommandList commandList) {
+    public void sendLocationToOnline(NavigationEnv navigationEnv, final int n, final int n2, int n3, CommandList commandList) {
         if (commandList != null) {
             if (n3 == Util.getVariantSpecificOnlineContext()) {
                 commandList.add(new ReturnNavLocationToPOIOnlineSearchSequence(this.commandListFactory).getStartCommandList());
             } else if (n3 == Util.getVariantSpecificRHMIContext()) {
                 commandList.add(new ReturnNavLocationToRemoteHmiFromCurrentLDSequence(this.commandListFactory).getStartCommandList());
             }
-            commandList.add(new AbstractAddressInputMatchSpellerSequence$4(this, "Delay fire model event", n, n2));
+            commandList.add(new NavCommand("Delay fire model event"){
+
+                public void execute() {
+                    this.env.fireModelEvent(n, n2);
+                    this.getCommandList().commandFinished();
+                }
+            });
         } else {
             navigationEnv.fireModelEvent(n, n2);
         }
     }
 
-    @Override
     public void undoCharacter() {
         CommandList commandList = this.commandListFactory.createCommandList(1);
         commandList.add(new LISPUndoCharacterCommand());
         commandList.add(new ModelInputChangedCommand(this.modelAccess));
         commandList.add(new ModelUpdateSpellerAndResultListCommand(this.modelAccess));
-        commandList.execute(new StringBuffer().append(this.CLASS_NAME).append("#undoCharacter").toString());
+        commandList.execute(this.CLASS_NAME + "#undoCharacter");
     }
 
-    @Override
     public void undoStroke() {
         CommandList commandList = this.commandListFactory.createCommandList(1);
         commandList.add(new LISPUndoCharacterCommand());
-        commandList.execute(new StringBuffer().append(this.CLASS_NAME).append("#undoStroke").toString());
+        commandList.execute(this.CLASS_NAME + "#undoStroke");
     }
 
-    @Override
     public void deleteAllCharacters() {
         CommandList commandList = this.commandListFactory.createCommandList(1);
         commandList.add(new LISPDeleteAllCharactersCommand());
         commandList.add(new ModelInputChangedCommand(this.modelAccess));
         commandList.add(new ModelUpdateSpellerAndResultListCommand(this.modelAccess));
-        commandList.execute(new StringBuffer().append(this.CLASS_NAME).append("#deleteAllCharacters").toString());
+        commandList.execute(this.CLASS_NAME + "#deleteAllCharacters");
     }
 
-    @Override
     public void unrequestItems(int n, int n2) {
         CommandList commandList = this.commandListFactory.createCommandList(1);
         commandList.add(new UnrequestItemsCommand(n, n2, this.modelAccess));
-        commandList.execute(new StringBuffer().append(this.CLASS_NAME).append("#unrequestItems").toString());
+        commandList.execute(this.CLASS_NAME + "#unrequestItems");
     }
 
-    @Override
-    public void showLocationInPreviewMap(IPreviewMap iPreviewMap, LIValueListElement lIValueListElement) {
+    public void showLocationInPreviewMap(final IPreviewMap iPreviewMap, LIValueListElement lIValueListElement) {
         if (iPreviewMap != null && lIValueListElement != null) {
             CommandList commandList = this.commandListFactory.createCommandList(1);
             commandList.add(new LISPGetLocationFromLIValueListElementCommand(lIValueListElement));
-            commandList.add(new AbstractAddressInputMatchSpellerSequence$5(this, "set Previewmap Location from selected Position", iPreviewMap));
-            commandList.execute(new StringBuffer().append(this.CLASS_NAME).append("#showLocationInPreviewMap").toString());
+            commandList.add(new NavCommand("set Previewmap Location from selected Position"){
+
+                public void execute() {
+                    NavLocation navLocation = this.dsiResponseContainer.getSelectedLocation();
+                    iPreviewMap.setPreviewLocation(navLocation, 1, null, null);
+                    this.getCommandList().commandFinished();
+                }
+            });
+            commandList.execute(this.CLASS_NAME + "#showLocationInPreviewMap");
         }
     }
 
-    public void showCurrentLDInPreviewMap(IPreviewMap iPreviewMap) {
+    public void showCurrentLDInPreviewMap(final IPreviewMap iPreviewMap) {
         if (iPreviewMap != null) {
             CommandList commandList = this.commandListFactory.createCommandList(1);
-            commandList.add(new AbstractAddressInputMatchSpellerSequence$6(this, "set Previewmap Location from currentLD", iPreviewMap));
-            commandList.execute(new StringBuffer().append(this.CLASS_NAME).append("#showCurrentLDInPreviewMap").toString());
+            commandList.add(new NavCommand("set Previewmap Location from currentLD"){
+
+                public void execute() {
+                    NavLocation navLocation = this.env.getContainer().getLiCurrentLD();
+                    iPreviewMap.setPreviewLocation(navLocation, 1, null, null);
+                    this.getCommandList().commandFinished();
+                }
+            });
+            commandList.execute(this.CLASS_NAME + "#showCurrentLDInPreviewMap");
         }
     }
 
-    @Override
     public void hidePreviewMap(IPreviewMap iPreviewMap) {
         if (iPreviewMap != null) {
             CommandList commandList = this.commandListFactory.createCommandList(1);
             commandList.add(new HidePreviewMapCommand(iPreviewMap));
-            commandList.execute(new StringBuffer().append(this.CLASS_NAME).append("#hidePreviewMap").toString());
+            commandList.execute(this.CLASS_NAME + "#hidePreviewMap");
         }
     }
 
-    public void showPreviewMapAroundCCP(IPreviewMap iPreviewMap) {
+    public void showPreviewMapAroundCCP(final IPreviewMap iPreviewMap) {
         if (iPreviewMap != null) {
             CommandList commandList = this.commandListFactory.createCommandList(1);
-            commandList.add(new AbstractAddressInputMatchSpellerSequence$7(this, "show Previewmap around CCP", iPreviewMap));
-            commandList.execute(new StringBuffer().append(this.CLASS_NAME).append("#showPreviewMapAroundCCP").toString());
+            commandList.add(new NavCommand("show Previewmap around CCP"){
+
+                public void execute() {
+                    iPreviewMap.setPreviewAreaAroundCCP(1);
+                    this.getCommandList().commandFinished();
+                }
+            });
+            commandList.execute(this.CLASS_NAME + "#showPreviewMapAroundCCP");
         }
     }
 
     public void spellerStateChanged(int n) {
         CommandList commandList = this.commandListFactory.createCommandList();
         commandList.add(new SpellerStateChangedCommand(n, this.modelAccess));
-        commandList.execute(new StringBuffer().append(this.CLASS_NAME).append("#spellerStateChanged").toString());
+        commandList.execute(this.CLASS_NAME + "#spellerStateChanged");
     }
 }
 

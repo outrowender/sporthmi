@@ -7,9 +7,8 @@ import de.audi.tghu.navi.app.command.NavCommand;
 
 public class DeleteSatelliteCacheCommand
 extends NavCommand {
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "DeleteSatelliteCacheCommand#execute() - calling deleteSatelliteCache()");
+        this.logger.log(10000000, "DeleteSatelliteCacheCommand#execute() - calling deleteSatelliteCache()");
         this.getDSINavigation().deleteSatelliteCache();
         this.getCommandList().commandFinished();
     }

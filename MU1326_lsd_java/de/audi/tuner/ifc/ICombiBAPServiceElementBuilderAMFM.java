@@ -9,10 +9,8 @@ import de.audi.atip.interapp.combi.bap.audio.data.CombiBAPReceptionListEntry;
 import de.audi.tuner.app.TunerObjectContainer;
 
 public interface ICombiBAPServiceElementBuilderAMFM {
-    default public CombiBAPCurrentStationInfo getAMFMCurrentStationEntry(TunerObjectContainer tunerObjectContainer, int n, int n2, int n3, HMIResourceLocator hMIResourceLocator) {
-    }
+    public CombiBAPCurrentStationInfo getAMFMCurrentStationEntry(TunerObjectContainer var1, int var2, int var3, int var4, HMIResourceLocator var5);
 
-    default public CombiBAPReceptionListEntry getAMFMListStationEntry(TunerObjectContainer tunerObjectContainer, int n) {
-    }
+    public CombiBAPReceptionListEntry getAMFMListStationEntry(TunerObjectContainer var1, int var2);
 }
 

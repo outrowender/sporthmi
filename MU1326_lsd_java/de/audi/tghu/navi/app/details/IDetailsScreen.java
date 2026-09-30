@@ -9,16 +9,12 @@ import org.dsi.ifc.online.OperatorCallResult;
 import org.dsi.ifc.tmc.TmcMessage;
 
 public interface IDetailsScreen {
-    default public IDestinationHandler getDestinationHandler() {
-    }
+    public IDestinationHandler getDestinationHandler();
 
-    default public void enterDetailsScreen(NavLocation navLocation) {
-    }
+    public void enterDetailsScreen(NavLocation var1);
 
-    default public void enterDetailsScreenTmc(TmcMessage tmcMessage) {
-    }
+    public void enterDetailsScreenTmc(TmcMessage var1);
 
-    default public void enterDetailsScreenOperatorCall(OperatorCallResult operatorCallResult) {
-    }
+    public void enterDetailsScreenOperatorCall(OperatorCallResult var1);
 }
 

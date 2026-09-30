@@ -13,12 +13,10 @@ extends NavCommand {
         this.guidanceMode = n;
     }
 
-    @Override
     public void execute() {
         this.getDSINavigation().rgSetRouteGuidanceMode(this.guidanceMode);
     }
 
-    @Override
     public void rgSetRouteGuidanceModeResult() {
         this.getCommandList().commandFinished();
     }

@@ -16,13 +16,13 @@ import org.dsi.ifc.online.OperatorCallResult;
 
 public class PoiResultListRow
 extends EvoListRow {
-    public static final int MODE_RELATIVE_AIR_DISTANCE;
-    public static final int MODE_REAL_ROAD_DISTANCE;
-    protected static final int COLUMN_ID;
-    protected static final int COLUMN_POI_NAME;
-    protected static final int COLUMN_DIRECTION_ARROW;
-    protected static final int COLUMN_DISTANCE;
-    protected static long idCounter;
+    public static final int MODE_RELATIVE_AIR_DISTANCE = 1;
+    public static final int MODE_REAL_ROAD_DISTANCE = 2;
+    protected static final int COLUMN_ID = 0;
+    protected static final int COLUMN_POI_NAME = 1;
+    protected static final int COLUMN_DIRECTION_ARROW = 2;
+    protected static final int COLUMN_DISTANCE = 3;
+    protected static long idCounter = 1L;
     protected final LogChannel logChannel = Online.getInstance().getOperatorCallLogChannel();
     protected OperatorCallResult result = null;
     protected NavigationHandler naviHandler;
@@ -55,7 +55,7 @@ extends EvoListRow {
         int n5 = navLocationWgs84.getLongitude();
         NaviService naviService = this.naviHandler.getNaviService();
         if (naviService == null) {
-            this.logChannel.log(-1601830656, "PoiResultListRow#computeNaviStuffAndUpdate: naviService is null. Cannot update Information in the list.");
+            this.logChannel.log(100000, "PoiResultListRow#computeNaviStuffAndUpdate: naviService is null. Cannot update Information in the list.");
             return;
         }
         switch (n) {
@@ -69,8 +69,8 @@ extends EvoListRow {
                 n2 = naviService.computeRelativeDirection(n5, n4);
             }
         }
-        this.logChannel.log(-2137614336, "PoiResultListRow#computeNaviStuffAndUpdate: distance = %1", (long)n3);
-        this.logChannel.log(-2137614336, "PoiResultListRow#computeNaviStuffAndUpdate: directionArrow = %1", (long)n2);
+        this.logChannel.log(10000000, "PoiResultListRow#computeNaviStuffAndUpdate: distance = %1", (long)n3);
+        this.logChannel.log(10000000, "PoiResultListRow#computeNaviStuffAndUpdate: directionArrow = %1", (long)n2);
         this.updateInformation(n3, n2);
     }
 
@@ -108,9 +108,8 @@ extends EvoListRow {
         return this.getMetrics(3).toString();
     }
 
-    @Override
     public EvoListRow copy() {
-        this.logChannel.log(-2137614336, "PoiResultListRow#copy: called!");
+        this.logChannel.log(10000000, "PoiResultListRow#copy: called!");
         return new PoiResultListRow(this);
     }
 
@@ -122,7 +121,6 @@ extends EvoListRow {
         return this.result.getLocation();
     }
 
-    @Override
     public String toString() {
         Buffer buffer = new Buffer();
         buffer.append("\nName = ");
@@ -148,10 +146,6 @@ extends EvoListRow {
 
     public OperatorCallResult getOperatorCallResult() {
         return this.result;
-    }
-
-    static {
-        idCounter = 1L;
     }
 }
 

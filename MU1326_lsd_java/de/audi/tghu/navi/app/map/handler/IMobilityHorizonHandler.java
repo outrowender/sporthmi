@@ -8,7 +8,6 @@ import org.dsi.ifc.mobilityhorizon.DSIMobilityHorizonListener;
 
 public interface IMobilityHorizonHandler
 extends DSIMobilityHorizonListener {
-    default public void setDSIMobilityHorizon(DSIMobilityHorizon dSIMobilityHorizon) {
-    }
+    public void setDSIMobilityHorizon(DSIMobilityHorizon var1);
 }
 

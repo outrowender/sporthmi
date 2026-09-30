@@ -4,8 +4,8 @@
 package de.eso.vcalendar.b;
 
 public class j {
-    public static final String c;
-    public static final String d;
+    public static final String c = "STANDARD";
+    public static final String d = "END:STANDARD";
     String e;
     String f;
     String g;

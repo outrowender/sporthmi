@@ -30,13 +30,13 @@ public class LW {
             if (autoClear) {
                 labelModelApp.setText(string);
             } else {
-                String string2 = labelModelApp.getText() != null ? new StringBuffer().append(labelModelApp.getText()).append("\n").toString() : string;
+                String string2 = labelModelApp.getText() != null ? labelModelApp.getText() + "\n" : string;
                 labelModelApp.setText(string2);
             }
             return;
         }
         if (logger != null) {
-            logger.log(-2137614336, "LW#log() - %1", (Object)string);
+            logger.log(10000000, "LW#log() - %1", (Object)string);
         }
     }
 

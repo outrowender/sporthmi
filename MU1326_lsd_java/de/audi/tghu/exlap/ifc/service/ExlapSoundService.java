@@ -10,19 +10,14 @@ import de.audi.tghu.exlap.impl.container.BalanceFaderContainer;
 public interface ExlapSoundService
 extends ExlapService,
 ExlapSoundListener {
-    default public void increaseVolume(int n) {
-    }
+    public void increaseVolume(int var1);
 
-    default public void decreaseVolume(int n) {
-    }
+    public void decreaseVolume(int var1);
 
-    default public void muteEntertainment(int n) {
-    }
+    public void muteEntertainment(int var1);
 
-    default public void unmuteEntertainment(int n) {
-    }
+    public void unmuteEntertainment(int var1);
 
-    default public void setBalanceFader(int n, BalanceFaderContainer balanceFaderContainer) {
-    }
+    public void setBalanceFader(int var1, BalanceFaderContainer var2);
 }
 

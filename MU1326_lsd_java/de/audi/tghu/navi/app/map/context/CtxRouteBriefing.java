@@ -3,14 +3,13 @@
  */
 package de.audi.tghu.navi.app.map.context;
 
-import de.audi.atip.log.LogChannel;
+import de.audi.atip.timer.DefaultTimerListener;
 import de.audi.atip.timer.Timer;
 import de.audi.tghu.navi.app.NavigationEnv;
 import de.audi.tghu.navi.app.map.AbstractMap;
 import de.audi.tghu.navi.app.map.context.CtxRouteBase;
-import de.audi.tghu.navi.app.map.context.CtxRouteBriefing$1;
 import de.audi.tghu.navi.app.map.dsi.IMapRequest;
-import de.audi.tghu.navi.app.map.routecalc.IRouteCalculator$RouteCalculationListener;
+import de.audi.tghu.navi.app.map.routecalc.IRouteCalculator;
 import de.audi.tghu.navi.app.map.utils.MapEnv;
 import de.audi.tghu.navi.app.util.Util;
 import org.dsi.ifc.map.AvailableRoute;
@@ -19,18 +18,23 @@ import org.dsi.ifc.map.Rect;
 
 public class CtxRouteBriefing
 extends CtxRouteBase
-implements IRouteCalculator$RouteCalculationListener {
-    protected Timer screenSwitchDelayer = new Timer("", 0, true, new CtxRouteBriefing$1(this));
-    private static final int SCREEN_SWITCH_DELAY;
+implements IRouteCalculator.RouteCalculationListener {
+    protected Timer screenSwitchDelayer = new Timer("", 10000L, true, new DefaultTimerListener(){
+
+        public void fireTimer(Timer timer) {
+            CtxRouteBriefing.this.getLogChannel().log(1000000, "CtxRouteBriefing#screenSwitchDelayer#fireTimer() - start RG and switch to shown context");
+            CtxRouteBriefing.this.getMap().switchToAShownContext();
+        }
+    });
+    private static final int SCREEN_SWITCH_DELAY = 10000;
     private boolean largeViewRequested = false;
 
     public CtxRouteBriefing(NavigationEnv navigationEnv, AbstractMap abstractMap) {
         super(navigationEnv, abstractMap);
     }
 
-    @Override
     public void enter() {
-        this.getLogChannel().log(-2137614336, "CtxRouteBriefing#enter()");
+        this.getLogChannel().log(10000000, "CtxRouteBriefing#enter()");
         if (this.getMap().getLastVisibleCID() != 30) {
             super.enter();
         } else {
@@ -54,7 +58,6 @@ implements IRouteCalculator$RouteCalculationListener {
         this.checkReadyToInitiateScreenSwitch();
     }
 
-    @Override
     public void exit() {
         super.exit();
         this.cancelScreenSwitchDelayer();
@@ -62,9 +65,8 @@ implements IRouteCalculator$RouteCalculationListener {
         this.naviMap.getNaviInterface().getViewSizeChangeHandler().unrequestLargeViewSize(10);
     }
 
-    @Override
     public void switchToMap() {
-        this.getLogChannel().log(-2137614336, "CtxRouteBriefing#switchToMap()");
+        this.getLogChannel().log(10000000, "CtxRouteBriefing#switchToMap()");
         this.doSwitch();
     }
 
@@ -76,36 +78,34 @@ implements IRouteCalculator$RouteCalculationListener {
         synchronized (object) {
             if (this.naviMap.getRouteCalculationHandler().isMatchingRoutesFound()) {
                 if (this.naviMap.getRouteCalculationHandler().isCalculatingAltRoutes() || this.naviMap.getRouteCalculationHandler().isWaitingForAlternativRoutes()) {
-                    this.getLogChannel().log(1078071040, "CtxRouteBriefing#doSwitch(): match found, switching to alt routes");
+                    this.getLogChannel().log(1000000, "CtxRouteBriefing#doSwitch(): match found, switching to alt routes");
                     this.naviMap.switchToContext(5);
                 } else if (this.naviMap.getRouteCalculationHandler().isCalculatingRubberband()) {
-                    this.getLogChannel().log(1078071040, "CtxRouteBriefing#doSwitch(): match found, switching to rubberband");
+                    this.getLogChannel().log(1000000, "CtxRouteBriefing#doSwitch(): match found, switching to rubberband");
                     this.naviMap.switchToContext(34);
                 } else {
-                    this.getLogChannel().log(1078071040, "CtxRouteBriefing#doSwitch(): match found, switching to single route");
+                    this.getLogChannel().log(1000000, "CtxRouteBriefing#doSwitch(): match found, switching to single route");
                     if (MapEnv.leaveRouteBriefingScreenAutomatically()) {
                         this.restartScreenSwitchDelayer();
                     } else {
-                        this.getLogChannel().log(1078071040, "CtxRouteBriefing#doSwitch(): match found, but we stay at this context.");
+                        this.getLogChannel().log(1000000, "CtxRouteBriefing#doSwitch(): match found, but we stay at this context.");
                     }
                 }
             } else {
-                this.getLogChannel().log(1078071040, "CtxRouteBriefing#doSwitch(): TIMEOUT, switching to single route");
+                this.getLogChannel().log(1000000, "CtxRouteBriefing#doSwitch(): TIMEOUT, switching to single route");
                 this.naviMap.getRouteCalculationHandler().abortRouteCalculation(false);
             }
         }
     }
 
-    @Override
     public void onMatchFound() {
-        this.getLogChannel().log(-2137614336, "CtxRouteBriefing#onMatchFound()");
+        this.getLogChannel().log(10000000, "CtxRouteBriefing#onMatchFound()");
         this.restartScreenSwitchDelayer();
     }
 
-    @Override
     public void updateAvailableRoutes(AvailableRoute[] availableRouteArray) {
         if (availableRouteArray != null && availableRouteArray.length > 0) {
-            this.getLogChannel().log(-2137614336, "CtxRouteBriefing#updateAvailableRoutes()");
+            this.getLogChannel().log(10000000, "CtxRouteBriefing#updateAvailableRoutes()");
             if (Util.isHURegionAsia()) {
                 this.getMap().getMVRequest().setMode(10);
             } else {
@@ -114,19 +114,16 @@ implements IRouteCalculator$RouteCalculationListener {
         }
     }
 
-    @Override
     protected int getMapMode() {
         return 2;
     }
 
-    @Override
     protected void refreshSidebarData() {
     }
 
-    @Override
     public void viewSizeChanged(int n) {
         if (n == 1) {
-            this.getLogChannel().log(1078071040, "CtxRouteBriefing#viewSizeChanged( ) - view size changed, leave this context (don't wait available route) and start RG");
+            this.getLogChannel().log(1000000, "CtxRouteBriefing#viewSizeChanged( ) - view size changed, leave this context (don't wait available route) and start RG");
             this.leaveBriefingScreen();
         }
     }
@@ -137,19 +134,17 @@ implements IRouteCalculator$RouteCalculationListener {
         this.getMap().switchToAShownContext();
     }
 
-    @Override
     public void onAllMatchFound(int n) {
-        this.getLogChannel().log(14808325, "CtxRouteBriefing#onAllMatchFound( %1 )", (long)n);
+        this.getLogChannel().log(100000000, "CtxRouteBriefing#onAllMatchFound( %1 )", (long)n);
         this.restartScreenSwitchDelayer();
     }
 
-    @Override
     public void keyPressed(int n, int n2) {
-        if (n == -904002048) {
-            this.getLogChannel().log(1078071040, "CtxRouteBriefing#keyPressed( %1, %2 ) - HK_Back event", (long)n, (long)n2);
+        if (n == 401098) {
+            this.getLogChannel().log(1000000, "CtxRouteBriefing#keyPressed( %1, %2 ) - HK_Back event", (long)n, (long)n2);
             this.onHKBackClicked();
-        } else if (n == 1897989632) {
-            this.getLogChannel().log(1078071040, "CtxRouteBriefing#keyPressed( %1, %2 ) - DDS_Enter event", (long)n, (long)n2);
+        } else if (n == 401777) {
+            this.getLogChannel().log(1000000, "CtxRouteBriefing#keyPressed( %1, %2 ) - DDS_Enter event", (long)n, (long)n2);
             this.getGUI().fireModelEvent(n);
             this.onDDSClicked();
         } else {
@@ -157,9 +152,8 @@ implements IRouteCalculator$RouteCalculationListener {
         }
     }
 
-    @Override
     protected void onHKBackClicked() {
-        this.getLogChannel().log(1078071040, "CtxRouteBriefing#onHKBackClicked()");
+        this.getLogChannel().log(1000000, "CtxRouteBriefing#onHKBackClicked()");
         this.getMap().getRouteCalculationHandler().abortRouteCalculation(false);
         this.getGUI().fireHKBackEvent();
     }
@@ -168,16 +162,16 @@ implements IRouteCalculator$RouteCalculationListener {
         boolean bl = this.screenSwitchDelayer.isRunning();
         if (this.isReadyToInitiateScreenSwitch()) {
             if (!bl) {
-                this.getLogChannel().log(1078071040, "CtxRouteBriefingPCore#screenSwitchDelayer#checkReadyToInitiateScreenSwitch() restartScreenSwitchDelayer");
+                this.getLogChannel().log(1000000, "CtxRouteBriefingPCore#screenSwitchDelayer#checkReadyToInitiateScreenSwitch() restartScreenSwitchDelayer");
                 this.restartScreenSwitchDelayer();
             } else {
-                this.getLogChannel().log(1078071040, "CtxRouteBriefingPCore#screenSwitchDelayer#checkReadyToInitiateScreenSwitch() screen switch delayer already running");
+                this.getLogChannel().log(1000000, "CtxRouteBriefingPCore#screenSwitchDelayer#checkReadyToInitiateScreenSwitch() screen switch delayer already running");
             }
         } else if (bl) {
-            this.getLogChannel().log(1078071040, "CtxRouteBriefingPCore#screenSwitchDelayer#checkReadyToInitiateScreenSwitch() - not all conditions fulfilled and timer running - cancelScreenSwitchDelayer");
+            this.getLogChannel().log(1000000, "CtxRouteBriefingPCore#screenSwitchDelayer#checkReadyToInitiateScreenSwitch() - not all conditions fulfilled and timer running - cancelScreenSwitchDelayer");
             this.cancelScreenSwitchDelayer();
         } else {
-            this.getLogChannel().log(1078071040, "CtxRouteBriefingPCore#screenSwitchDelayer#checkReadyToInitiateScreenSwitch() - not all conditions fulfilled and timer not running");
+            this.getLogChannel().log(1000000, "CtxRouteBriefingPCore#screenSwitchDelayer#checkReadyToInitiateScreenSwitch() - not all conditions fulfilled and timer not running");
         }
     }
 
@@ -185,44 +179,30 @@ implements IRouteCalculator$RouteCalculationListener {
         return !this.getMap().getRouteCalculationHandler().isRouteCalculationActive() || this.getMap().getRouteCalculationHandler().isMatchingRoutesFound();
     }
 
-    @Override
     protected void restartScreenSwitchDelayer() {
-        this.getLogChannel().log(-2137614336, "CtxRouteBriefing#restartScreenSwitchDelayer()");
+        this.getLogChannel().log(10000000, "CtxRouteBriefing#restartScreenSwitchDelayer()");
         this.screenSwitchDelayer.restart();
     }
 
-    @Override
     protected void cancelScreenSwitchDelayer() {
-        this.getLogChannel().log(-2137614336, "CtxRouteBriefing#cancelScreenSwitchDelayer()");
+        this.getLogChannel().log(10000000, "CtxRouteBriefing#cancelScreenSwitchDelayer()");
         this.screenSwitchDelayer.cancel();
     }
 
-    @Override
     public void onFailedCalculation() {
-        this.getLogChannel().log(-2137614336, "CtxRouteBriefing#onFailedCalculation()");
+        this.getLogChannel().log(10000000, "CtxRouteBriefing#onFailedCalculation()");
         this.restartScreenSwitchDelayer();
     }
 
-    @Override
     protected void onDDSClicked() {
-        this.getLogChannel().log(1078071040, "CtxRouteBriefing#onDDSClicked()");
+        this.getLogChannel().log(1000000, "CtxRouteBriefing#onDDSClicked()");
         this.leaveBriefingScreen();
     }
 
-    @Override
     public void incrementGesture(int n) {
     }
 
-    @Override
     public void displayCurrentRoute() {
-    }
-
-    static /* synthetic */ LogChannel access$000(CtxRouteBriefing ctxRouteBriefing) {
-        return ctxRouteBriefing.getLogChannel();
-    }
-
-    static /* synthetic */ AbstractMap access$100(CtxRouteBriefing ctxRouteBriefing) {
-        return ctxRouteBriefing.getMap();
     }
 }
 

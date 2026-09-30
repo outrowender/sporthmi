@@ -69,7 +69,7 @@ implements de.eso.a.a.a {
         }
         File file = new File(this.c);
         if (!file.exists() && !(bl = file.mkdirs())) {
-            de.eso.a.d.b.d(new StringBuffer().append("Can not create path: ").append(file.getAbsolutePath()).toString());
+            de.eso.a.d.b.d("Can not create path: " + file.getAbsolutePath());
             if (this.f != null) {
                 this.f.add(new Long(this.b.entryId));
             }
@@ -78,7 +78,7 @@ implements de.eso.a.a.a {
         }
         File file2 = null;
         if (!file.canWrite()) {
-            de.eso.a.d.b.d(new StringBuffer().append("Can not write to: ").append(file.getAbsolutePath()).toString());
+            de.eso.a.d.b.d("Can not write to: " + file.getAbsolutePath());
             if (this.f != null) {
                 this.f.add(new Long(this.b.entryId));
             }
@@ -94,12 +94,12 @@ implements de.eso.a.a.a {
                 this.a(2, null, this.a);
                 return;
             }
-            de.eso.a.d.b.c(new StringBuffer().append(file2).append(" has been written. Sending result.").toString());
+            de.eso.a.d.b.c(file2 + " has been written. Sending result.");
             this.a(0, file2.getAbsolutePath(), this.a);
         }
         catch (IOException iOException) {
             String string = file2 != null ? file2.getAbsolutePath() : " vcardFile = null";
-            de.eso.a.d.b.d(new StringBuffer().append("Error writing VCard to ").append(string).toString());
+            de.eso.a.d.b.d("Error writing VCard to " + string);
             try {
                 if (this.f != null) {
                     this.f.add(new Long(this.b.entryId));
@@ -111,7 +111,7 @@ implements de.eso.a.a.a {
             }
         }
         catch (c c2) {
-            de.eso.a.d.b.d(new StringBuffer().append("Error writing VCard :").append(c2.getMessage()).toString());
+            de.eso.a.d.b.d("Error writing VCard :" + c2.getMessage());
             try {
                 if (this.f != null) {
                     this.f.add(new Long(-1L));
@@ -124,13 +124,12 @@ implements de.eso.a.a.a {
         }
     }
 
-    @Override
     public void a() {
         try {
             this.b();
         }
         catch (MethodException methodException) {
-            de.eso.a.d.b.d(new StringBuffer().append("Cannot send reply message: ").append(methodException.getMessage()).toString());
+            de.eso.a.d.b.d("Cannot send reply message: " + methodException.getMessage());
         }
     }
 }

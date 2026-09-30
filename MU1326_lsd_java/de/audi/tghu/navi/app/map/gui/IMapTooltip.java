@@ -11,22 +11,16 @@ import org.dsi.ifc.map.Point;
 import org.dsi.ifc.map.PosInfo;
 
 public interface IMapTooltip {
-    default public void resolvePicNavLocation(int n, int n2, ResourceLocator resourceLocator) {
-    }
+    public void resolvePicNavLocation(int var1, int var2, ResourceLocator var3);
 
-    default public void show(MapItemSelectionInfo mapItemSelectionInfo) {
-    }
+    public void show(MapItemSelectionInfo var1);
 
-    default public MapItemSelectionAction checkToShow(MapItemSelectionInfo mapItemSelectionInfo, Point point, boolean bl, boolean bl2) {
-    }
+    public MapItemSelectionAction checkToShow(MapItemSelectionInfo var1, Point var2, boolean var3, boolean var4);
 
-    default public void show(MapItemSelectionInfo mapItemSelectionInfo, Point point) {
-    }
+    public void show(MapItemSelectionInfo var1, Point var2);
 
-    default public void showToolTip(String string, int n, int n2, PosInfo posInfo, String string2, boolean bl, boolean bl2, ResourceLocator resourceLocator) {
-    }
+    public void showToolTip(String var1, int var2, int var3, PosInfo var4, String var5, boolean var6, boolean var7, ResourceLocator var8);
 
-    default public ToolTipTimer getTooltipTimer() {
-    }
+    public ToolTipTimer getTooltipTimer();
 }
 

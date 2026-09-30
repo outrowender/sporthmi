@@ -7,10 +7,8 @@ import java.io.File;
 import java.io.InputStream;
 
 public interface b {
-    default public boolean a(File file) {
-    }
+    public boolean a(File var1);
 
-    default public boolean a(InputStream inputStream) {
-    }
+    public boolean a(InputStream var1);
 }
 

@@ -18,10 +18,10 @@ public class ReadOutSync
 implements TMCReadOutQueueListener,
 Runnable,
 TTSListener {
-    static final int ANNOUNCEMENT_ON_CALL_OFF;
-    static final long READ_OUT_DURATION;
-    static final long REPEAT_SLOT;
-    static final int GUIDANCE_SPEECH_MODE_OFF;
+    static final int ANNOUNCEMENT_ON_CALL_OFF = 1;
+    static final long READ_OUT_DURATION = 20000L;
+    static final long REPEAT_SLOT = 2000L;
+    static final int GUIDANCE_SPEECH_MODE_OFF = 3;
     private LogChannel logChMain;
     private TMCReadOutAllQueue tmcMsgQueue;
     private final IFrameworkAccess framework;
@@ -44,25 +44,25 @@ TTSListener {
         this.tmcMsgQueue = tMCReadOutAllQueue;
         this.env = infoEnv;
         this.framework = infoEnv.getFramework();
-        logChannel.log(-2137614336, "[ReadOutSync#ReadOutSync] Called. ");
+        logChannel.log(10000000, "[ReadOutSync#ReadOutSync] Called. ");
     }
 
     public synchronized void distanceToDestinationUpdated(long l) {
         if (this.logChMain.isDebug2()) {
-            this.logChMain.log(14808325, "[ReadOutSync#distanceToDestinationUpdated] Called. ");
+            this.logChMain.log(100000000, "[ReadOutSync#distanceToDestinationUpdated] Called. ");
         }
         this.tmcMsgQueue.setDistanceToTarget(l);
-        super.notify();
+        this.notify();
     }
 
     synchronized int repeatOrAbortTmcMessageReadOutSince(long l) {
-        this.logChMain.log(-2137614336, "[ReadOutSync#repeatOrAbortTmcMessageReadOutSince] Called, timestamp: %1 ", l);
+        this.logChMain.log(10000000, "[ReadOutSync#repeatOrAbortTmcMessageReadOutSince] Called, timestamp: %1 ", l);
         if (this.msg == null) {
-            this.logChMain.log(-2137614336, "[ReadOutSync#repeatOrAbortTmcMessageReadOutSince] No message available. ");
+            this.logChMain.log(10000000, "[ReadOutSync#repeatOrAbortTmcMessageReadOutSince] No message available. ");
             return 1;
         }
         if (this.currentlySpeaking) {
-            this.logChMain.log(-2137614336, "[ReadOutSync#repeatOrAbortTmcMessageReadOutSince] Abort reading out current message. ");
+            this.logChMain.log(10000000, "[ReadOutSync#repeatOrAbortTmcMessageReadOutSince] Abort reading out current message. ");
             try {
                 if (this.ttsService != null) {
                     this.ttsService.abortSpeaking();
@@ -77,12 +77,12 @@ TTSListener {
             return 3;
         }
         if (this.timeOfLastSpokenMessage >= l) {
-            this.logChMain.log(-2137614336, "[ReadOutSync#repeatOrAbortTmcMessageReadOutSince] The timestamp of last spoken message is valid, time of last spoken message: %1 ", this.timeOfLastSpokenMessage);
+            this.logChMain.log(10000000, "[ReadOutSync#repeatOrAbortTmcMessageReadOutSince] The timestamp of last spoken message is valid, time of last spoken message: %1 ", this.timeOfLastSpokenMessage);
             if (this.hasTimeForRepeating()) {
-                this.logChMain.log(-2137614336, "[ReadOutSync#repeatOrAbortTmcMessageReadOutSince] There is enough time for start the repeat, start repeat ");
+                this.logChMain.log(10000000, "[ReadOutSync#repeatOrAbortTmcMessageReadOutSince] There is enough time for start the repeat, start repeat ");
                 TTSSingleSpeakService tTSSingleSpeakService = this.getTTSService();
                 if (tTSSingleSpeakService == null) {
-                    this.logChMain.log(-2137614336, "[ReadOutSync#repeatOrAbortTmcMessageReadOutSince] No TTS service. ");
+                    this.logChMain.log(10000000, "[ReadOutSync#repeatOrAbortTmcMessageReadOutSince] No TTS service. ");
                     return 0;
                 }
                 try {
@@ -94,62 +94,60 @@ TTSListener {
                 }
                 return 0;
             }
-            this.logChMain.log(-2137614336, "[ReadOutSync#repeatOrAbortTmcMessageReadOutSince] There is NOT enough time for start the repeat. ");
+            this.logChMain.log(10000000, "[ReadOutSync#repeatOrAbortTmcMessageReadOutSince] There is NOT enough time for start the repeat. ");
             return 2;
         }
-        this.logChMain.log(-2137614336, "[ReadOutSync#repeatOrAbortTmcMessageReadOutSince] Last TMC message was spoken before timestamp, time of last message: %1, timestamp: %2 ", this.timeOfLastSpokenMessage, l);
+        this.logChMain.log(10000000, "[ReadOutSync#repeatOrAbortTmcMessageReadOutSince] Last TMC message was spoken before timestamp, time of last message: %1, timestamp: %2 ", this.timeOfLastSpokenMessage, l);
         return 2;
     }
 
     synchronized boolean isCurrentlySpeaking() {
-        this.logChMain.log(-2137614336, "[ReadOutSync#isCurrentlySpeaking] Called. ");
+        this.logChMain.log(10000000, "[ReadOutSync#isCurrentlySpeaking] Called. ");
         return this.currentlySpeaking;
     }
 
     synchronized TMCReadOutMessage getCurrentMessage() {
-        this.logChMain.log(-2137614336, "[ReadOutSync#getCurrentMessage] Called. ");
+        this.logChMain.log(10000000, "[ReadOutSync#getCurrentMessage] Called. ");
         return this.msg;
     }
 
     synchronized long getCurrentMessageId() {
-        this.logChMain.log(-2137614336, "[ReadOutSync#getCurrentMessageId] Called. ");
+        this.logChMain.log(10000000, "[ReadOutSync#getCurrentMessageId] Called. ");
         if (this.msg == null) {
-            long l = -1L;
-            return;
+            return -1L;
         }
-        long l = this.msg.getMessageID();
+        return this.msg.getMessageID();
     }
 
     public synchronized void setTimeForAnnouncement(long l) {
-        this.logChMain.log(-2137614336, "[ReadOutSync#setTimeForAnnouncement] Called, remaining time: %1 ", l);
+        this.logChMain.log(10000000, "[ReadOutSync#setTimeForAnnouncement] Called, remaining time: %1 ", l);
         this.timespan = l;
         this.timeStamp = this.framework.getMonotonicTime();
-        super.notify();
+        this.notify();
     }
 
-    @Override
     public synchronized void run() {
-        this.logChMain.log(-2137614336, "[ReadOutSync#run] Called. ");
-        Thread.currentThread().setName(new StringBuffer().append(Thread.currentThread().getName()).append("AppTMCReadOut").toString());
+        this.logChMain.log(10000000, "[ReadOutSync#run] Called. ");
+        Thread.currentThread().setName(Thread.currentThread().getName() + "AppTMCReadOut");
         while (this.active) {
             while (this.active && (this.getTTSService() == null || (this.msg = this.getTmcMessage()) == null || this.currentlySpeaking || !this.hasTimeForSpeaking() || this.currentlyRepeating || !this.checkSetupNavAnnouncementsEnabled())) {
                 try {
                     if (this.logChMain.isDebug2()) {
-                        this.logChMain.log(14808325, "[ReadOutSync#run] Waiting! Currently speaking: %1, message: %2 ", this.currentlySpeaking, (Object)this.msg);
-                        this.logChMain.log(14808325, "[ReadOutSync#run] Time for speaking: %1", this.hasTimeForSpeaking());
+                        this.logChMain.log(100000000, "[ReadOutSync#run] Waiting! Currently speaking: %1, message: %2 ", this.currentlySpeaking, (Object)this.msg);
+                        this.logChMain.log(100000000, "[ReadOutSync#run] Time for speaking: %1", this.hasTimeForSpeaking());
                     }
-                    super.wait();
+                    this.wait();
                 }
                 catch (InterruptedException interruptedException) {
                     this.logChMain.log(10000, "[ReadOutSync#run] ERROR (InterruptedException): %1 ", (Throwable)interruptedException);
                 }
             }
             if (!this.active) {
-                this.logChMain.log(-2137614336, "[ReadOutSync#run] not active anymore, stopping. ");
+                this.logChMain.log(10000000, "[ReadOutSync#run] not active anymore, stopping. ");
                 continue;
             }
             try {
-                this.logChMain.log(-2137614336, "[ReadOutSync#run] After waiting, time limit is not reached, speak message: %1, message ID: %2 ", (Object)this.msg.getReadOutString(), this.msg.getMessageID());
+                this.logChMain.log(10000000, "[ReadOutSync#run] After waiting, time limit is not reached, speak message: %1, message ID: %2 ", (Object)this.msg.getReadOutString(), this.msg.getMessageID());
                 TTSSingleSpeakService tTSSingleSpeakService = this.getTTSService();
                 if (tTSSingleSpeakService == null) continue;
                 tTSSingleSpeakService.speak(this.msg.getReadOutString());
@@ -159,13 +157,13 @@ TTSListener {
                 this.logChMain.log(10000, "[ReadOutSync#run] ERROR (Exception): %1 ", (Throwable)exception);
             }
         }
-        this.logChMain.log(-2137614336, "[ReadOutSync#run] end thread. ");
+        this.logChMain.log(10000000, "[ReadOutSync#run] end thread. ");
     }
 
     public synchronized void stop() {
-        this.logChMain.log(-2137614336, "[ReadOutSync#stop] Stop read out sync thread. ");
+        this.logChMain.log(10000000, "[ReadOutSync#stop] Stop read out sync thread. ");
         this.active = false;
-        super.notify();
+        this.notify();
     }
 
     private boolean hasTimeForSpeaking() {
@@ -173,16 +171,16 @@ TTSListener {
         long l2;
         boolean bl;
         if (!this.rgActive) {
-            this.logChMain.log(-2137614336, "[ReadOutSync#hasTimeForSpeaking] No route guidance active => we assume that there's engough time for speaking.");
+            this.logChMain.log(10000000, "[ReadOutSync#hasTimeForSpeaking] No route guidance active => we assume that there's engough time for speaking.");
             return true;
         }
         long l3 = this.framework.getMonotonicTime();
         if (this.logChMain.isDebug2()) {
-            this.logChMain.log(14808325, "[ReadOutSync#hasTimeForSpeaking] currentTime: %1, timeStamp: %2, timespan: %3 ", l3, this.timeStamp, this.timespan);
+            this.logChMain.log(100000000, "[ReadOutSync#hasTimeForSpeaking] currentTime: %1, timeStamp: %2, timespan: %3 ", l3, this.timeStamp, this.timespan);
         }
-        boolean bl2 = bl = (l2 = l3 - this.timeStamp) < (l = this.timespan - 0);
+        boolean bl2 = bl = (l2 = l3 - this.timeStamp) < (l = this.timespan - 20000L);
         if (this.logChMain.isDebug2()) {
-            this.logChMain.log(14808325, "[ReadOutSync#hasTimeForSpeaking] timeLag: %1, availableTime: %2, result: %3", l2, l, bl);
+            this.logChMain.log(100000000, "[ReadOutSync#hasTimeForSpeaking] timeLag: %1, availableTime: %2, result: %3", l2, l, bl);
         }
         return bl;
     }
@@ -190,94 +188,84 @@ TTSListener {
     private boolean hasTimeForRepeating() {
         long l;
         if (this.logChMain.isDebug2()) {
-            this.logChMain.log(14808325, "[ReadOutSync#hasTimeForRepeating] Called. ");
+            this.logChMain.log(100000000, "[ReadOutSync#hasTimeForRepeating] Called. ");
         }
-        return (l = this.framework.getMonotonicTime()) - this.timeStamp < this.timespan - 0;
+        return (l = this.framework.getMonotonicTime()) - this.timeStamp < this.timespan - 2000L;
     }
 
-    @Override
     public synchronized void sessionStopped() {
         if (this.msg == null) {
-            this.logChMain.log(-2137614336, "[ReadOutSync#sessionStopped] Called, message: null ");
+            this.logChMain.log(10000000, "[ReadOutSync#sessionStopped] Called, message: null ");
         } else {
-            this.logChMain.log(-2137614336, "[ReadOutSync#sessionStopped] Called, message: %1, message ID: %2 ", (Object)this.msg.getReadOutString(), this.msg.getMessageID());
+            this.logChMain.log(10000000, "[ReadOutSync#sessionStopped] Called, message: %1, message ID: %2 ", (Object)this.msg.getReadOutString(), this.msg.getMessageID());
         }
         if (this.speakingAborted) {
-            this.logChMain.log(-2137614336, "[ReadOutSync#sessionStopped] Speaking message was aborted.");
+            this.logChMain.log(10000000, "[ReadOutSync#sessionStopped] Speaking message was aborted.");
         }
         if (this.speakingFailed) {
-            this.logChMain.log(-2137614336, "[ReadOutSync#sessionStopped] Speaking message has failed, notify message queue.");
+            this.logChMain.log(10000000, "[ReadOutSync#sessionStopped] Speaking message has failed, notify message queue.");
             this.tmcMsgQueue.speakingFinished(this.msg);
         } else {
-            this.logChMain.log(-2137614336, "[ReadOutSync#sessionStopped] Speaking message finished, notify message queue. ");
+            this.logChMain.log(10000000, "[ReadOutSync#sessionStopped] Speaking message finished, notify message queue. ");
             this.tmcMsgQueue.speakingFinished(this.msg);
         }
         this.currentlySpeaking = false;
         this.currentlyRepeating = false;
-        super.notify();
+        this.notify();
     }
 
-    @Override
     public synchronized void speakingFinished() {
         if (this.msg == null) {
-            this.logChMain.log(-2137614336, "[ReadOutSync#speakingFinished] Speaking message finished, message: null ");
+            this.logChMain.log(10000000, "[ReadOutSync#speakingFinished] Speaking message finished, message: null ");
         } else {
-            this.logChMain.log(-2137614336, "[ReadOutSync#speakingFinished] Speaking message finished, message: %1, message ID: %2 ", (Object)this.msg.getReadOutString(), this.msg.getMessageID());
+            this.logChMain.log(10000000, "[ReadOutSync#speakingFinished] Speaking message finished, message: %1, message ID: %2 ", (Object)this.msg.getReadOutString(), this.msg.getMessageID());
         }
         this.speakingAborted = false;
         this.speakingFailed = false;
         this.timeOfLastSpokenMessage = this.framework.getMonotonicTime();
     }
 
-    @Override
     public synchronized void speakingAborted() {
         if (this.msg == null) {
-            this.logChMain.log(-2137614336, "[ReadOutSync#speakingFinished] Speaking message was aborted, message: null ");
+            this.logChMain.log(10000000, "[ReadOutSync#speakingFinished] Speaking message was aborted, message: null ");
         } else {
-            this.logChMain.log(-2137614336, "[ReadOutSync#speakingFinished] Speaking message was aborted, message: %1, message ID: %2 ", (Object)this.msg.getReadOutString(), this.msg.getMessageID());
+            this.logChMain.log(10000000, "[ReadOutSync#speakingFinished] Speaking message was aborted, message: %1, message ID: %2 ", (Object)this.msg.getReadOutString(), this.msg.getMessageID());
         }
         this.speakingAborted = true;
     }
 
-    @Override
     public synchronized void speakingFailed() {
         if (this.msg == null) {
-            this.logChMain.log(-2137614336, "[ReadOutSync#speakingFailed] Speaking message was aborted, message: null");
+            this.logChMain.log(10000000, "[ReadOutSync#speakingFailed] Speaking message was aborted, message: null");
         } else {
-            this.logChMain.log(-2137614336, "[ReadOutSync#speakingFailed] Speaking message was aborted, message: %1, message ID: %2", (Object)this.msg.getReadOutString(), this.msg.getMessageID());
+            this.logChMain.log(10000000, "[ReadOutSync#speakingFailed] Speaking message was aborted, message: %1, message ID: %2", (Object)this.msg.getReadOutString(), this.msg.getMessageID());
         }
         this.speakingFailed = true;
     }
 
-    @Override
     public synchronized void containsMessages() {
-        this.logChMain.log(-2137614336, "[ReadOutSync#containsMessages] Queue contains messages and could be spoken. ");
-        super.notify();
+        this.logChMain.log(10000000, "[ReadOutSync#containsMessages] Queue contains messages and could be spoken. ");
+        this.notify();
     }
 
-    @Override
     public void sessionStarted() {
-        this.logChMain.log(-2137614336, "[ReadOutSync#sessionStarted] Called.");
+        this.logChMain.log(10000000, "[ReadOutSync#sessionStarted] Called.");
     }
 
-    @Override
     public void sessionPaused() {
-        this.logChMain.log(-2137614336, "[ReadOutSync#sessionPaused] Called.");
+        this.logChMain.log(10000000, "[ReadOutSync#sessionPaused] Called.");
     }
 
-    @Override
     public void sessionResumed() {
-        this.logChMain.log(-2137614336, "[ReadOutSync#sessionResumed] Called.");
+        this.logChMain.log(10000000, "[ReadOutSync#sessionResumed] Called.");
     }
 
-    @Override
     public void audioAvailable(boolean bl) {
-        this.logChMain.log(-2137614336, "[ReadOutSync#audioAvailable] Called.");
+        this.logChMain.log(10000000, "[ReadOutSync#audioAvailable] Called.");
     }
 
-    @Override
     public void speakingStarted() {
-        this.logChMain.log(-2137614336, "[ReadOutSync#speakingStarted] Called.");
+        this.logChMain.log(10000000, "[ReadOutSync#speakingStarted] Called.");
     }
 
     private synchronized TMCReadOutMessage getTmcMessage() {
@@ -286,17 +274,17 @@ TTSListener {
 
     public synchronized void updateTmcUrgentMessages(TmcMessage[] tmcMessageArray) {
         String string = tmcMessageArray == null ? "null" : String.valueOf(tmcMessageArray.length);
-        this.logChMain.log(-2137614336, "[ReadOutSync#updateTmcUrgentMessages] Called, forward to urgent queue, number of messages: %1 ", (Object)string);
+        this.logChMain.log(10000000, "[ReadOutSync#updateTmcUrgentMessages] Called, forward to urgent queue, number of messages: %1 ", (Object)string);
         this.tmcMsgQueue.updateTmcUrgentMessages(tmcMessageArray);
     }
 
     public void setTTSService(TTSSingleSpeakService tTSSingleSpeakService) {
-        this.logChMain.log(-2137614336, "[ReadOutSync#setTTSService] Called.");
+        this.logChMain.log(10000000, "[ReadOutSync#setTTSService] Called.");
         this.ttsService = tTSSingleSpeakService;
     }
 
     public void setTTSServiceNoTel(TTSSingleSpeakService tTSSingleSpeakService) {
-        this.logChMain.log(-2137614336, "[ReadOutSync#setTTSServiceNoTel] Called.");
+        this.logChMain.log(10000000, "[ReadOutSync#setTTSServiceNoTel] Called.");
         this.ttsServiceNoTel = tTSSingleSpeakService;
     }
 
@@ -304,12 +292,12 @@ TTSListener {
         ChoiceModelApp choiceModelApp = this.env.getChoiceModel(3829);
         if (choiceModelApp == null || choiceModelApp.getValue() != 1) {
             if (this.logChMain.isDebug2()) {
-                this.logChMain.log(14808325, "[AppTMCReadOut#setReadOutMode] Currently using ttsService ");
+                this.logChMain.log(100000000, "[AppTMCReadOut#setReadOutMode] Currently using ttsService ");
             }
             return this.ttsService;
         }
         if (this.logChMain.isDebug2()) {
-            this.logChMain.log(14808325, "[AppTMCReadOut#setReadOutMode] Currently using ttsServiceNoTel ");
+            this.logChMain.log(100000000, "[AppTMCReadOut#setReadOutMode] Currently using ttsServiceNoTel ");
         }
         return this.ttsServiceNoTel;
     }
@@ -320,19 +308,18 @@ TTSListener {
 
     protected boolean checkSetupNavAnnouncementsEnabled() {
         if (this.env.getFramework().isAsia()) {
-            this.logChMain.log(-2137614336, "[AppTMCReadOut#checkSetupNavAnnouncementsEnabled] Nav announcements disabled for CLU3 - clear queue");
+            this.logChMain.log(10000000, "[AppTMCReadOut#checkSetupNavAnnouncementsEnabled] Nav announcements disabled for CLU3 - clear queue");
             return false;
         }
         ChoiceModelApp choiceModelApp = this.env.getChoiceModel(555);
         if (choiceModelApp == null || choiceModelApp.getValue() != 3) {
             return true;
         }
-        this.logChMain.log(-2137614336, "[AppTMCReadOut#checkSetupNavAnnouncementsEnabled] Nav announcements disabled - clear queue");
+        this.logChMain.log(10000000, "[AppTMCReadOut#checkSetupNavAnnouncementsEnabled] Nav announcements disabled - clear queue");
         this.updateTmcUrgentMessages(null);
         return false;
     }
 
-    @Override
     public void speakingPaused() {
     }
 }

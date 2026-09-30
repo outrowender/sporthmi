@@ -16,9 +16,8 @@ extends Command {
         this.modelHandler = abstractModelHandler;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(1078071040, "DefaultErrorCommand#execute: executing started!");
+        this.logger.log(1000000, "DefaultErrorCommand#execute: executing started!");
         this.modelHandler.showDefaultError(true, 1);
     }
 }

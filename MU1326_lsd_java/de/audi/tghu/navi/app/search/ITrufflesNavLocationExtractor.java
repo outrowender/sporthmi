@@ -7,7 +7,6 @@ import de.audi.atip.hmi.model.list.EvoListRow;
 import org.dsi.ifc.global.NavLocation;
 
 public interface ITrufflesNavLocationExtractor {
-    default public NavLocation extractNavLocationFromRow(EvoListRow evoListRow) {
-    }
+    public NavLocation extractNavLocationFromRow(EvoListRow var1);
 }
 

@@ -4,28 +4,20 @@
 package de.audi.tuner.ifc;
 
 public interface IRadioAudioService {
-    default public void fadeTo(int n, int n2) {
-    }
+    public void fadeTo(int var1, int var2);
 
-    default public boolean isActive(int n) {
-    }
+    public boolean isActive(int var1);
 
-    default public void requestAudioChannel(int n, int n2) {
-    }
+    public void requestAudioChannel(int var1, int var2);
 
-    default public int getStatus(int n) {
-    }
+    public int getStatus(int var1);
 
-    default public void demute() {
-    }
+    public void demute();
 
-    default public boolean isAMAvailable() {
-    }
+    public boolean isAMAvailable();
 
-    default public int getConnectionForActiveTuner(int n) {
-    }
+    public int getConnectionForActiveTuner(int var1);
 
-    default public boolean isTunerAudioConnection(int n) {
-    }
+    public boolean isTunerAudioConnection(int var1);
 }
 

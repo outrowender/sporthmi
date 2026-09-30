@@ -5,6 +5,7 @@ package de.audi.tuner.app.dab;
 
 import de.audi.atip.hmi.model.ChoiceListener;
 import de.audi.atip.hmi.model.DefaultButtonListener;
+import de.audi.atip.hmi.model.update.ModelTrigger;
 import de.audi.tuner.app.DrawerFocusManager;
 import de.audi.tuner.app.IDrawerFocusManager;
 import de.audi.tuner.app.LanguageManager;
@@ -21,34 +22,32 @@ import de.audi.tuner.app.dab.DABLabels;
 import de.audi.tuner.app.dab.DABSetupHandler;
 import de.audi.tuner.app.dab.DABTuner;
 import de.audi.tuner.app.dab.DabReceptionStatus;
-import de.audi.tuner.app.dab.GUIHandlerDAB$ButtonListener;
-import de.audi.tuner.app.dab.GUIHandlerDAB$MyMessageListener;
-import de.audi.tuner.app.dab.GUIHandlerDAB$PowerEventListener;
-import de.audi.tuner.app.dab.GUIHandlerDAB$PrevNextHandler;
-import de.audi.tuner.app.dab.GUIHandlerDAB$StationListHandler;
 import de.audi.tuner.app.dab.stationlist.DabCascadedListHandler;
 import de.audi.tuner.app.dab.stationlist.DabFlatListHandler;
 import de.audi.tuner.app.dab.stationlist.DabFolderListHandler;
+import de.audi.tuner.app.dab.stationlist.DabListRow;
 import de.audi.tuner.app.storage.TunerStorage;
 import de.audi.tuner.ifc.IPowerEvent;
 import de.audi.tuner.ifc.IPrevNext;
 import de.audi.tuner.ifc.IScanHandler;
+import de.audi.tuner.ifc.ISearchBreak;
 import de.audi.tuner.ifc.IStationListHandler;
 import de.audi.tuner.ifc.IStoreStationHandler;
 import de.audi.tuner.ifc.ITunerDABGUIHandler;
 import de.audi.tuner.ifc.ITunerVariantExt;
 import de.audi.tuner.ifc.listener.IUpdateListener;
 import de.audi.tuner.ifc.listener.MessageListener;
+import de.esolutions.fw.util.commons.SimpleIntIntMap;
 
 public class GUIHandlerDAB
 extends DefaultButtonListener
 implements ITunerDABGUIHandler,
 ChoiceListener {
-    final IPrevNext prevNextHandler = new GUIHandlerDAB$PrevNextHandler(this, null);
+    final IPrevNext prevNextHandler = new PrevNextHandler();
     private final DabFolderListHandler folderListHandler;
     private final DabFlatListHandler flatListHandler;
     private final DabCascadedListHandler cascadedListHandler;
-    private final IStationListHandler stationList = new GUIHandlerDAB$StationListHandler(this, null);
+    private final IStationListHandler stationList = new StationListHandler();
     private final Logger logger;
     private final TunerModels models;
     private final DABTuner dabTuner;
@@ -63,21 +62,21 @@ ChoiceListener {
         this.dabTuner = dABTuner;
         this.storage = tunerStorage;
         this.labels = new DABLabels(tunerBasics.getModels(), this.storage);
-        this.models.getChoiceModel(378011904).setChoiceListener(this);
-        this.models.getChoiceModel(-1333264128).setChoiceListener(this);
-        this.models.getChoiceModel(-1333264128).setStatus(Utilities.isEvoHigh() ? 1 : 0);
-        this.models.getChoiceModel(-2037972736).setChoiceListener(this);
+        this.models.getChoiceModel(100374).setChoiceListener(this);
+        this.models.getChoiceModel(100528).setChoiceListener(this);
+        this.models.getChoiceModel(100528).setStatus(Utilities.isEvoHigh() ? 1 : 0);
+        this.models.getChoiceModel(100230).setChoiceListener(this);
         if (Utilities.isDABBand3AndLBandCoded()) {
-            this.models.getChoiceModel(-2037972736).setStatus(1);
+            this.models.getChoiceModel(100230).setStatus(1);
         } else {
-            this.models.getChoiceModel(-2037972736).setStatus(0);
+            this.models.getChoiceModel(100230).setStatus(0);
         }
-        this.models.getChoiceModel(394789120).setChoiceListener(this);
-        this.models.getButtonModel(478675200).setButtonListener(this);
-        this.models.getChoiceModel(-1970798336).setButtonListener(this);
-        GUIHandlerDAB$ButtonListener gUIHandlerDAB$ButtonListener = new GUIHandlerDAB$ButtonListener(this, null);
-        this.models.getButtonModel(-1702362880).setButtonListener(gUIHandlerDAB$ButtonListener);
-        this.models.getButtonModel(-1719140096).setButtonListener(gUIHandlerDAB$ButtonListener);
+        this.models.getChoiceModel(100375).setChoiceListener(this);
+        this.models.getButtonModel(100380).setButtonListener(this);
+        this.models.getChoiceModel(100490).setButtonListener(this);
+        ButtonListener buttonListener = new ButtonListener();
+        this.models.getButtonModel(100506).setButtonListener(buttonListener);
+        this.models.getButtonModel(100505).setButtonListener(buttonListener);
         this.folderListHandler = new DabFolderListHandler(dABTuner, tunerBasics, tunerStorage, iTunerVariantExt, languageManager, iScanHandler);
         this.flatListHandler = new DabFlatListHandler(dABTuner, tunerBasics, languageManager, iTunerVariantExt, tunerStorage, iScanHandler);
         this.cascadedListHandler = new DabCascadedListHandler(dABTuner, tunerBasics, tunerStorage, iTunerVariantExt, languageManager, iScanHandler);
@@ -88,11 +87,10 @@ ChoiceListener {
         this.cascadedListHandler.init();
         int[] nArray = this.setupHandler.getCurrentSetup();
         if (nArray != null && nArray.length > 2) {
-            this.itemSelected(394789120, nArray[2], 0, 0);
+            this.itemSelected(100375, nArray[2], 0, 0);
         }
     }
 
-    @Override
     public void register(IStoreStationHandler iStoreStationHandler) {
         this.flatListHandler.register(iStoreStationHandler);
         this.folderListHandler.register(iStoreStationHandler);
@@ -106,41 +104,38 @@ ChoiceListener {
 
     void processSetup(int[] nArray) {
         if (nArray != null) {
-            this.itemSelected(-2037972736, nArray[0], 0, 0);
-            this.itemSelected(378011904, nArray[1], 0, 0);
-            this.itemSelected(394789120, nArray[2], 0, 0);
-            this.itemSelected(-1333264128, nArray[3], 0, 0);
+            this.itemSelected(100230, nArray[0], 0, 0);
+            this.itemSelected(100374, nArray[1], 0, 0);
+            this.itemSelected(100375, nArray[2], 0, 0);
+            this.itemSelected(100528, nArray[3], 0, 0);
         } else {
             this.logger.main.log(10000, "[GUIHandlerDAB.initSetup] setup is null");
         }
     }
 
-    @Override
     public MessageListener getMessageListener() {
-        return new GUIHandlerDAB$MyMessageListener(this, null);
+        return new MyMessageListener();
     }
 
-    @Override
     public void itemFocused(int n, int n2, int n3, int n4) {
     }
 
-    @Override
     public void itemSelected(int n, int n2, int n3, int n4) {
-        this.logger.hmi.log(-2137614336, "[GUIHandlerDAB.itemSelected] on model: %1 index %2 ", (long)n, (long)n2);
-        this.logger.hmi.log(-2137614336, "[GUIHandlerDAB.itemSelected] on col %1 terminal %2 ", (long)n3, (long)n4);
+        this.logger.hmi.log(10000000, "[GUIHandlerDAB.itemSelected] on model: %1 index %2 ", (long)n, (long)n2);
+        this.logger.hmi.log(10000000, "[GUIHandlerDAB.itemSelected] on col %1 terminal %2 ", (long)n3, (long)n4);
         switch (n) {
             case 100374: {
                 int n5;
-                this.models.getChoiceModel(378011904).setValue(n2);
+                this.models.getChoiceModel(100374).setValue(n2);
                 int n6 = n5 = n2 == 1 ? 3 : 2;
-                if (n5 == 3 && this.models.getChoiceModel(-1333264128).getValue() == 1) {
+                if (n5 == 3 && this.models.getChoiceModel(100528).getValue() == 1) {
                     n5 = 7;
                 }
                 this.dabTuner.switchLinking(n5);
                 break;
             }
             case 100528: {
-                this.models.getChoiceModel(-1333264128).setValue(n2);
+                this.models.getChoiceModel(100528).setValue(n2);
                 this.dabTuner.setSoftlinking(n2);
                 TunerProxyManager.getInstance().getUnifiedTuner().setSoftlinking(n2);
                 break;
@@ -151,7 +146,7 @@ ChoiceListener {
                 break;
             }
             case 100375: {
-                this.models.getChoiceModel(394789120).setValue(n2);
+                this.models.getChoiceModel(100375).setValue(n2);
                 this.flatListHandler.setSortMode(n2);
                 this.folderListHandler.setSortMode(n2);
                 this.cascadedListHandler.setSortMode(n2);
@@ -162,7 +157,6 @@ ChoiceListener {
         }
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
         switch (n) {
             case 100490: {
@@ -172,8 +166,8 @@ ChoiceListener {
                 break;
             }
             case 100380: {
-                if (this.models.getBaseListModel(1804075264).getLength() <= 0) break;
-                this.models.getButtonModel(478675200).fireEvent(n3);
+                if (this.models.getBaseListModel(100459).getLength() <= 0) break;
+                this.models.getButtonModel(100380).fireEvent(n3);
                 break;
             }
         }
@@ -183,17 +177,14 @@ ChoiceListener {
         return this.folderListHandler;
     }
 
-    @Override
     public IStationListHandler getStationListHandler() {
         return this.stationList;
     }
 
-    @Override
     public boolean tuneById(long l, int n) {
         return this.folderListHandler.tuneById(l, n);
     }
 
-    @Override
     public TunerObjectContainer[] getStationList() {
         if (Utilities.isBentley()) {
             return this.folderListHandler.getStationList();
@@ -204,17 +195,14 @@ ChoiceListener {
         return this.folderListHandler.getStationList();
     }
 
-    @Override
     public TunerObjectContainer[] getStationListHierarchical() {
         return this.folderListHandler.getStationList();
     }
 
-    @Override
     public TunerObjectContainer[] getStationList(int n) {
         return this.getStationList();
     }
 
-    @Override
     public TunerObjectContainer getCurrentStation() {
         if (Utilities.isPGen1OrBentley() || this.isSortModeAlphabetically()) {
             return this.flatListHandler.getActiveStation();
@@ -247,54 +235,130 @@ ChoiceListener {
     }
 
     boolean isSortModeAlphabetically() {
-        return this.models.getChoiceModel(394789120).getValue() == 0;
+        return this.models.getChoiceModel(100375).getValue() == 0;
     }
 
-    @Override
     public void setSyncLinkState(DabReceptionStatus dabReceptionStatus) {
         this.folderListHandler.setSyncLinkState(dabReceptionStatus.syncStatus, dabReceptionStatus.linkStatus);
     }
 
-    @Override
     public IPowerEvent getPoPowerStateListener() {
-        return new GUIHandlerDAB$PowerEventListener(this, null);
+        return new PowerEventListener();
     }
 
-    static /* synthetic */ Logger access$400(GUIHandlerDAB gUIHandlerDAB) {
-        return gUIHandlerDAB.logger;
+    private class ButtonListener
+    extends DefaultButtonListener {
+        private ButtonListener() {
+        }
+
+        public void keyTyped(int n, int n2, int n3) {
+            switch (n) {
+                case 100506: {
+                    GUIHandlerDAB.this.dabTuner.seekStation(1, n3);
+                    break;
+                }
+                case 100505: {
+                    GUIHandlerDAB.this.dabTuner.seekStation(2, n3);
+                    break;
+                }
+            }
+        }
+
+        public void keyLongTyped(int n, int n2, int n3) {
+            switch (n) {
+                case 100506: {
+                    GUIHandlerDAB.this.dabTuner.seekStation(6, n3);
+                    break;
+                }
+                case 100505: {
+                    GUIHandlerDAB.this.dabTuner.seekStation(7, n3);
+                    break;
+                }
+            }
+        }
     }
 
-    static /* synthetic */ DabFlatListHandler access$500(GUIHandlerDAB gUIHandlerDAB) {
-        return gUIHandlerDAB.flatListHandler;
+    private class PrevNextHandler
+    implements IPrevNext {
+        private PrevNextHandler() {
+        }
+
+        public void handlePrevNext(boolean bl) {
+            ((GUIHandlerDAB)GUIHandlerDAB.this).logger.dabDSI.log(1000000, "[GUIHandlerDAB.PrevNextHandler.handlePrevNext]SelectNextSevice, direction is up: %1 ", bl);
+            DabListRow dabListRow = GUIHandlerDAB.this.isSortModeAlphabetically() ? GUIHandlerDAB.this.flatListHandler.getNextObjectIndexFromList(bl) : GUIHandlerDAB.this.folderListHandler.getNextObjectIndexFromList(bl);
+            if (dabListRow != null) {
+                GUIHandlerDAB.this.dabTuner.selectStation(dabListRow.getDabStation(), 0, 0);
+            }
+            if (!GUIHandlerDAB.this.drawerFocus.isDrawerOpen()) {
+                GUIHandlerDAB.this.models.getMenuModel(100370).trigger(ModelTrigger.JOIN_CURSOR);
+            }
+        }
     }
 
-    static /* synthetic */ DabFolderListHandler access$600(GUIHandlerDAB gUIHandlerDAB) {
-        return gUIHandlerDAB.folderListHandler;
+    private class MyMessageListener
+    extends MessageListener {
+        private MyMessageListener() {
+        }
+
+        public void unitsChanged() {
+            GUIHandlerDAB.this.dabTuner.setNotification(new int[]{29});
+        }
     }
 
-    static /* synthetic */ DABTuner access$700(GUIHandlerDAB gUIHandlerDAB) {
-        return gUIHandlerDAB.dabTuner;
+    private class PowerEventListener
+    implements IPowerEvent {
+        private PowerEventListener() {
+        }
+
+        public void notifyPowerEvent(int n, int n2) {
+            if (n == 2) {
+                SimpleIntIntMap simpleIntIntMap = GUIHandlerDAB.this.folderListHandler.getFolderStates();
+                GUIHandlerDAB.this.storage.storeDABListLM(simpleIntIntMap);
+                if (GUIHandlerDAB.this.dabTuner.isSeekActive()) {
+                    GUIHandlerDAB.this.dabTuner.abortSeek();
+                }
+                if (GUIHandlerDAB.this.models.getChoiceModel(100490).getValue() == 1) {
+                    GUIHandlerDAB.this.dabTuner.forceStationListUpdate(false);
+                }
+            }
+        }
     }
 
-    static /* synthetic */ IDrawerFocusManager access$800(GUIHandlerDAB gUIHandlerDAB) {
-        return gUIHandlerDAB.drawerFocus;
-    }
+    private class StationListHandler
+    implements IStationListHandler {
+        private StationListHandler() {
+        }
 
-    static /* synthetic */ TunerModels access$900(GUIHandlerDAB gUIHandlerDAB) {
-        return gUIHandlerDAB.models;
-    }
+        public void register(ISearchBreak iSearchBreak, int n) {
+            throw new IllegalArgumentException();
+        }
 
-    static /* synthetic */ IDrawerFocusManager access$802(GUIHandlerDAB gUIHandlerDAB, IDrawerFocusManager iDrawerFocusManager) {
-        gUIHandlerDAB.drawerFocus = iDrawerFocusManager;
-        return gUIHandlerDAB.drawerFocus;
-    }
+        public void register(IDrawerFocusManager iDrawerFocusManager) {
+            GUIHandlerDAB.this.drawerFocus = iDrawerFocusManager;
+        }
 
-    static /* synthetic */ DabCascadedListHandler access$1000(GUIHandlerDAB gUIHandlerDAB) {
-        return gUIHandlerDAB.cascadedListHandler;
-    }
+        public boolean tuneById(long l, int n) {
+            return GUIHandlerDAB.this.folderListHandler.tuneById(l, n);
+        }
 
-    static /* synthetic */ TunerStorage access$1200(GUIHandlerDAB gUIHandlerDAB) {
-        return gUIHandlerDAB.storage;
+        public void addUpdateListener(IUpdateListener iUpdateListener) {
+            GUIHandlerDAB.this.folderListHandler.addUpdateListener(iUpdateListener);
+        }
+
+        public void setPrefImgType(int n) {
+            GUIHandlerDAB.this.flatListHandler.setPrefImgType(n);
+            GUIHandlerDAB.this.folderListHandler.setPrefImgType(n);
+            GUIHandlerDAB.this.cascadedListHandler.setPrefImgType(n);
+            GUIHandlerDAB.this.labels.setPrefImgType(n);
+        }
+
+        public boolean isEnsemble(int n) {
+            DabListRow dabListRow;
+            if (GUIHandlerDAB.this.isSortModeAlphabetically()) {
+                return false;
+            }
+            return n < GUIHandlerDAB.this.models.getBaseListModel(100491).getLength() && (dabListRow = (DabListRow)GUIHandlerDAB.this.models.getBaseListModel(100491).getRow(n)).isEnsemble();
+        }
     }
 }
 

@@ -4,13 +4,10 @@
 package de.audi.tuner.ifc;
 
 public interface IScanHandler {
-    default public void abortScan() {
-    }
+    public void abortScan();
 
-    default public boolean isScanActive() {
-    }
+    public boolean isScanActive();
 
-    default public boolean handleHkPrevHkNext(boolean bl) {
-    }
+    public boolean handleHkPrevHkNext(boolean var1);
 }
 

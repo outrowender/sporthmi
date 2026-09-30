@@ -10,11 +10,6 @@ import de.audi.atip.phone.ITelService;
 import de.audi.atip.phone.ITelServiceListener;
 import de.audi.tghu.navi.app.AbstractNaviServiceComponent;
 import de.audi.tghu.navi.app.phone.ITelServiceController;
-import de.audi.tghu.navi.app.phone.TelServiceController$1;
-import de.audi.tghu.navi.app.phone.TelServiceController$2;
-import de.audi.tghu.navi.app.phone.TelServiceController$3;
-import de.audi.tghu.navi.app.phone.TelServiceController$4;
-import de.audi.tghu.navi.app.phone.TelServiceController$IOperation;
 import org.dsi.ifc.global.ResourceLocator;
 
 public class TelServiceController
@@ -27,86 +22,95 @@ ITelServiceController {
         super(logChannel);
     }
 
-    @Override
     public ITelService getTelService() {
         return this;
     }
 
-    @Override
     protected String[] getTrackedService() {
         return new String[]{(class$de$audi$atip$phone$ITelService == null ? (class$de$audi$atip$phone$ITelService = TelServiceController.class$("de.audi.atip.phone.ITelService")) : class$de$audi$atip$phone$ITelService).getName()};
     }
 
-    @Override
     protected boolean trackedServiceAdded(Object object) {
-        this.logChannel.log(-2137614336, "TelServiceController#trackedServiceAdded( %1 )", object);
+        this.logChannel.log(10000000, "TelServiceController#trackedServiceAdded( %1 )", object);
         if (object instanceof ITelService) {
             return true;
         }
-        this.logChannel.log(-2137614336, "TelServiceController#trackedServiceAdded() - not an ITelServiceSDS");
+        this.logChannel.log(10000000, "TelServiceController#trackedServiceAdded() - not an ITelServiceSDS");
         return false;
     }
 
-    @Override
     protected boolean trackedServiceRemoved(Object object) {
-        this.logChannel.log(-2137614336, "TelServiceController#trackedServiceRemoved( %1 )", object);
+        this.logChannel.log(10000000, "TelServiceController#trackedServiceRemoved( %1 )", object);
         return object instanceof NaviServiceListener;
     }
 
-    @Override
     protected void onStart() {
-        this.logChannel.log(-2137614336, "TelServiceController#onStart( )");
+        this.logChannel.log(10000000, "TelServiceController#onStart( )");
     }
 
-    @Override
     protected void onStop() {
-        this.logChannel.log(-2137614336, "TelServiceController#onStop( )");
+        this.logChannel.log(10000000, "TelServiceController#onStop( )");
     }
 
-    private void traverseServices(TelServiceController$IOperation telServiceController$IOperation) {
+    private void traverseServices(IOperation iOperation) {
         Object[] objectArray = this.tracker.getServices();
         if (objectArray != null && objectArray.length > 0) {
-            this.logChannel.log(-2137614336, "TelServiceController#traverseListeners - length: %1", (long)objectArray.length);
+            this.logChannel.log(10000000, "TelServiceController#traverseListeners - length: %1", (long)objectArray.length);
             if (objectArray.length > 1) {
-                this.logChannel.log(-1601830656, "TelServiceController#traverseListeners - More than 1 ITelService! - length: %1", (long)objectArray.length);
+                this.logChannel.log(100000, "TelServiceController#traverseListeners - More than 1 ITelService! - length: %1", (long)objectArray.length);
             }
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 ITelService iTelService = (ITelService)objectArray[i2];
                 try {
-                    telServiceController$IOperation.execute(iTelService);
+                    iOperation.execute(iTelService);
                     continue;
                 }
                 catch (Exception exception) {
-                    this.logChannel.log(10000, "TelServiceController#traverseListeners - error during update. - %1", (Object)super.getClass().getName());
+                    this.logChannel.log(10000, "TelServiceController#traverseListeners - error during update. - %1", (Object)iTelService.getClass().getName());
                 }
             }
         } else {
-            this.logChannel.log(-2137614336, "TelServiceController#traverseListeners - no services");
+            this.logChannel.log(10000000, "TelServiceController#traverseListeners - no services");
         }
     }
 
-    @Override
-    public void dialNumber(String string, ITelServiceListener iTelServiceListener, boolean bl) {
-        this.logChannel.log(-2137614336, "TelServiceController#dialNumber - number: %1", (Object)string);
-        this.traverseServices(new TelServiceController$1(this, string, iTelServiceListener, bl));
+    public void dialNumber(final String string, final ITelServiceListener iTelServiceListener, final boolean bl) {
+        this.logChannel.log(10000000, "TelServiceController#dialNumber - number: %1", (Object)string);
+        this.traverseServices(new IOperation(){
+
+            public void execute(ITelService iTelService) {
+                iTelService.dialNumber(string, iTelServiceListener, bl);
+            }
+        });
     }
 
-    @Override
-    public void dialNumberFromADBEntry(String string, String string2, short s, short s2, long l, ResourceLocator resourceLocator, int n, int n2, ITelServiceListener iTelServiceListener, boolean bl) {
-        this.traverseServices(new TelServiceController$2(this, string, string2, s, s2, l, resourceLocator, n, n2, iTelServiceListener, bl));
+    public void dialNumberFromADBEntry(final String string, final String string2, final short s, final short s2, final long l, final ResourceLocator resourceLocator, final int n, final int n2, final ITelServiceListener iTelServiceListener, final boolean bl) {
+        this.traverseServices(new IOperation(){
+
+            public void execute(ITelService iTelService) {
+                iTelService.dialNumberFromADBEntry(string, string2, s, s2, l, resourceLocator, n, n2, iTelServiceListener, bl);
+            }
+        });
     }
 
-    @Override
-    public void prepareDialing(String string, ITelServiceListener iTelServiceListener) {
-        this.traverseServices(new TelServiceController$3(this, string, iTelServiceListener));
+    public void prepareDialing(final String string, final ITelServiceListener iTelServiceListener) {
+        this.traverseServices(new IOperation(){
+
+            public void execute(ITelService iTelService) {
+                iTelService.prepareDialing(string, iTelServiceListener);
+            }
+        });
     }
 
-    @Override
-    public void prepareDialing(String string, String string2, short s, short s2, long l, ResourceLocator resourceLocator, int n, int n2, ITelServiceListener iTelServiceListener) {
-        this.traverseServices(new TelServiceController$4(this, string, string2, s, s2, l, resourceLocator, n, n2, iTelServiceListener));
+    public void prepareDialing(final String string, final String string2, final short s, final short s2, final long l, final ResourceLocator resourceLocator, final int n, final int n2, final ITelServiceListener iTelServiceListener) {
+        this.traverseServices(new IOperation(){
+
+            public void execute(ITelService iTelService) {
+                iTelService.prepareDialing(string, string2, s, s2, l, resourceLocator, n, n2, iTelServiceListener);
+            }
+        });
     }
 
-    @Override
     public void dialNumber(ITelCallSession iTelCallSession, boolean bl) {
     }
 
@@ -117,6 +121,10 @@ ITelServiceController {
         catch (ClassNotFoundException classNotFoundException) {
             throw new NoClassDefFoundError().initCause(classNotFoundException);
         }
+    }
+
+    private static interface IOperation {
+        public void execute(ITelService var1);
     }
 }
 

@@ -6,7 +6,7 @@ package de.audi.tghu.navi.app.sdis;
 import de.audi.atip.activator.AbstractActivator;
 import de.audi.atip.interapp.NavigationUtilities;
 import de.audi.atip.log.LogChannel;
-import de.audi.atip.sdis.IHMISyncNaviReplies$LastDestination;
+import de.audi.atip.sdis.IHMISyncNaviReplies;
 import de.audi.tghu.command.CommandList;
 import de.audi.tghu.command.ICommandListFactory;
 import de.audi.tghu.navi.app.NavigationEnv;
@@ -17,7 +17,6 @@ import de.audi.tghu.navi.app.routeguidance.IRouteManager;
 import de.audi.tghu.navi.app.sdis.INaviTabletService;
 import de.audi.tghu.navi.app.sdis.INaviTabletServiceListener;
 import de.audi.tghu.navi.app.sdis.NaviSDISStartGuidanceHandler;
-import de.audi.tghu.navi.app.sdis.NaviTabletService$1;
 import de.audi.tghu.navi.app.util.LocationFormatter;
 import de.audi.tghu.navi.app.util.RouteUtil;
 import de.audi.tghu.navi.app.util.Util;
@@ -32,10 +31,10 @@ import org.dsi.ifc.navigation.RouteDestination;
 
 public class NaviTabletService
 implements INaviTabletService {
-    public static final String NAVLOCATIONS_ARRAY;
+    public static final String NAVLOCATIONS_ARRAY = "NavLocationArray";
     protected final LogChannel logger;
     private final IRouteManager routeManager;
-    private final String CLASS_NAME = Util.getClassNameFromPackageName(super.getClass());
+    private final String CLASS_NAME = Util.getClassNameFromPackageName(this.getClass());
     protected ICommandListFactory commandListFactory;
     private INaviTabletServiceListener naviTabletServiceListener;
     protected final NavigationEnv env;
@@ -48,68 +47,63 @@ implements INaviTabletService {
         this.logger = logChannel;
         this.env = navigationEnv;
         this.startGuidanceHandler = naviSDISStartGuidanceHandler;
-        logChannel.log(-2137614336, new StringBuffer().append(this.CLASS_NAME).append(" initialized").toString());
+        logChannel.log(10000000, this.CLASS_NAME + " initialized");
     }
 
-    @Override
     public boolean isReady() {
         return this.env.getChoiceModel(177).getValue() == 1;
     }
 
-    @Override
-    public IHMISyncNaviReplies$LastDestination[] requestLastDestinationList() {
-        this.logger.log(1078071040, new StringBuffer().append(this.CLASS_NAME).append("#requestLastDestinationList()").toString());
-        IHMISyncNaviReplies$LastDestination[] iHMISyncNaviReplies$LastDestinationArray = null;
+    public IHMISyncNaviReplies.LastDestination[] requestLastDestinationList() {
+        this.logger.log(1000000, this.CLASS_NAME + "#requestLastDestinationList()");
+        IHMISyncNaviReplies.LastDestination[] lastDestinationArray = null;
         if (this.routeManager == null) {
-            this.logger.log(1078071040, new StringBuffer().append(this.CLASS_NAME).append("#requestLastDestinationList() -- Routemanager is null").toString());
-            return new IHMISyncNaviReplies$LastDestination[0];
+            this.logger.log(1000000, this.CLASS_NAME + "#requestLastDestinationList() -- Routemanager is null");
+            return new IHMISyncNaviReplies.LastDestination[0];
         }
         if (this.routeManager.getFilteredRoute() == null) {
-            this.logger.log(1078071040, new StringBuffer().append(this.CLASS_NAME).append("#requestLastDestinationList() -- Filtered Route is null").toString());
-            return new IHMISyncNaviReplies$LastDestination[0];
+            this.logger.log(1000000, this.CLASS_NAME + "#requestLastDestinationList() -- Filtered Route is null");
+            return new IHMISyncNaviReplies.LastDestination[0];
         }
         Route route = this.routeManager.getFilteredRoute();
         int n = RouteUtil.getRouteLength(route);
         if (n > 0) {
-            iHMISyncNaviReplies$LastDestinationArray = new IHMISyncNaviReplies$LastDestination[n];
+            lastDestinationArray = new IHMISyncNaviReplies.LastDestination[n];
             for (int i2 = 0; i2 < n; ++i2) {
                 NavLocation navLocation = route.getRoutelist()[i2].getRouteLocation();
-                iHMISyncNaviReplies$LastDestinationArray[i2] = new IHMISyncNaviReplies$LastDestination();
-                iHMISyncNaviReplies$LastDestinationArray[i2].listPosition = i2;
-                iHMISyncNaviReplies$LastDestinationArray[i2].queryId = -1;
-                iHMISyncNaviReplies$LastDestinationArray[i2].name = AddressFormatter.formatOneLine(navLocation, this.env).getFirstLineAsText();
-                iHMISyncNaviReplies$LastDestinationArray[i2].latitude = NavigationUtilities.wgs84ToDegree(navLocation.getLatitude());
-                iHMISyncNaviReplies$LastDestinationArray[i2].longitude = NavigationUtilities.wgs84ToDegree(navLocation.getLongitude());
+                lastDestinationArray[i2] = new IHMISyncNaviReplies.LastDestination();
+                lastDestinationArray[i2].listPosition = i2;
+                lastDestinationArray[i2].queryId = -1;
+                lastDestinationArray[i2].name = AddressFormatter.formatOneLine(navLocation, this.env).getFirstLineAsText();
+                lastDestinationArray[i2].latitude = NavigationUtilities.wgs84ToDegree(navLocation.getLatitude());
+                lastDestinationArray[i2].longitude = NavigationUtilities.wgs84ToDegree(navLocation.getLongitude());
             }
         }
-        return iHMISyncNaviReplies$LastDestinationArray;
+        return lastDestinationArray;
     }
 
-    @Override
     public void updateCarPosition(PosPosition posPosition) {
         if (this.naviTabletServiceListener != null) {
             if (this.logger.isDebug2()) {
-                this.logger.log(14808325, new StringBuffer().append(this.CLASS_NAME).append("#updateCarPosition() - updatedCarPosition is called").toString());
+                this.logger.log(100000000, this.CLASS_NAME + "#updateCarPosition() - updatedCarPosition is called");
             }
             this.naviTabletServiceListener.updateCarPosition(posPosition);
         } else if (this.logger.isDebug2()) {
-            this.logger.log(14808325, new StringBuffer().append(this.CLASS_NAME).append("#updateCarPosition() - No naviTabletServiceListener available").toString());
+            this.logger.log(100000000, this.CLASS_NAME + "#updateCarPosition() - No naviTabletServiceListener available");
         }
     }
 
-    @Override
     public void updateRouteGuidanceActive(boolean bl) {
         if (this.naviTabletServiceListener != null) {
             if (this.logger.isDebug2()) {
-                this.logger.log(14808325, new StringBuffer().append(this.CLASS_NAME).append("#updateRouteGuidanceActive( %1 ) - updateRouteGuidanceActive is called").toString(), bl);
+                this.logger.log(100000000, this.CLASS_NAME + "#updateRouteGuidanceActive( %1 ) - updateRouteGuidanceActive is called", bl);
             }
             this.naviTabletServiceListener.updateRouteGuidanceActive(bl);
         } else if (this.logger.isDebug2()) {
-            this.logger.log(14808325, new StringBuffer().append(this.CLASS_NAME).append("#updateRouteGuidanceActive() - No naviTabletServiceListener available").toString());
+            this.logger.log(100000000, this.CLASS_NAME + "#updateRouteGuidanceActive() - No naviTabletServiceListener available");
         }
     }
 
-    @Override
     public void updateRgDestinationInfo(NavRouteListData[] navRouteListDataArray, NavigationEnv navigationEnv) {
         if (navigationEnv.getContainer().isRgActive()) {
             this.forwardUpdateRgDestinationInfo(navRouteListDataArray, navigationEnv);
@@ -122,7 +116,7 @@ implements INaviTabletService {
 
     private void forwardUpdateRgDestinationInfo(NavRouteListData[] navRouteListDataArray, NavigationEnv navigationEnv) {
         if (this.naviTabletServiceListener != null && navRouteListDataArray != null && navRouteListDataArray.length > 0) {
-            this.logger.log(1078071040, new StringBuffer().append(this.CLASS_NAME).append("#updateRgDestinationInfo() - updateDestinationInfo is called").toString());
+            this.logger.log(1000000, this.CLASS_NAME + "#updateRgDestinationInfo() - updateDestinationInfo is called");
             NavRouteListData[] navRouteListDataArray2 = this.clearNavRouteListDataFromSoftdestination(this.routeManager.getRoute(), navRouteListDataArray);
             if (navRouteListDataArray2.length == 0) {
                 return;
@@ -134,16 +128,16 @@ implements INaviTabletService {
             }
             this.naviTabletServiceListener.updateDestinationInfo(navRouteListDataArray2, navLocationArray, navigationEnv);
         } else if (this.logger.isDebug2()) {
-            this.logger.log(14808325, "%1#updateRgDestinationInfo() - No naviTabletServiceListener available or empty navRouteListData recieved (%2)", (Object)this.CLASS_NAME, (Object)(navRouteListDataArray == null ? "null" : Integer.toString(navRouteListDataArray.length)));
+            this.logger.log(100000000, "%1#updateRgDestinationInfo() - No naviTabletServiceListener available or empty navRouteListData recieved (%2)", (Object)this.CLASS_NAME, (Object)(navRouteListDataArray == null ? "null" : Integer.toString(navRouteListDataArray.length)));
         }
     }
 
     private NavRouteListData[] clearNavRouteListDataFromSoftdestination(Route route, NavRouteListData[] navRouteListDataArray) {
         NavRouteListData[] navRouteListDataArray2;
-        this.logger.log(-2137614336, "%1#clearNavRouteListDataFromSoftDestinations", (Object)this.CLASS_NAME);
+        this.logger.log(10000000, "%1#clearNavRouteListDataFromSoftDestinations", (Object)this.CLASS_NAME);
         RouteDestination[] routeDestinationArray = route.getRoutelist();
         if (routeDestinationArray.length != navRouteListDataArray.length) {
-            this.logger.log(-1601830656, "%1#clearNavRouteListDataFromSoftDestinations - length missmatch return original routelistdata", (Object)this.CLASS_NAME);
+            this.logger.log(100000, "%1#clearNavRouteListDataFromSoftDestinations - length missmatch return original routelistdata", (Object)this.CLASS_NAME);
             navRouteListDataArray2 = new NavRouteListData[]{};
         } else {
             ArrayList arrayList = new ArrayList();
@@ -164,39 +158,36 @@ implements INaviTabletService {
                 n = navRouteListDataArray[i2].remainingTravelTime;
             }
             navRouteListDataArray2 = (NavRouteListData[])arrayList.toArray(new NavRouteListData[arrayList.size()]);
-            this.logger.log(1078071040, "NaviTabletService#clearNavRouteListDataFromSoftdestination() - clearedRouteListData.length: %1  clearedRouteListData: %2", (Object)new StringBuffer().append("").append(arrayList.size()).toString(), (Object)arrayList);
+            this.logger.log(1000000, "NaviTabletService#clearNavRouteListDataFromSoftdestination() - clearedRouteListData.length: %1  clearedRouteListData: %2", (Object)("" + arrayList.size()), (Object)arrayList);
         }
         return navRouteListDataArray2;
     }
 
-    @Override
     public void startGuidanceToDestinations(NavLocation[] navLocationArray, NavCommand navCommand, NavCommand navCommand2) {
         StringBuffer stringBuffer = new StringBuffer();
         for (int i2 = 0; i2 < navLocationArray.length; ++i2) {
             stringBuffer.append(" [").append(i2).append("]-Destination = ").append(LocationFormatter.formatLocationShort(navLocationArray[i2]));
         }
-        this.env.getSdisLogChannel().log(-2137614336, new StringBuffer().append(this.CLASS_NAME).append("#startGuidanceToDestinations Destinations: %1").toString(), (Object)stringBuffer.toString());
+        this.env.getSdisLogChannel().log(10000000, this.CLASS_NAME + "#startGuidanceToDestinations Destinations: %1", (Object)stringBuffer.toString());
         this.startGuidanceHandler.prepareStartGuidance(navLocationArray, navCommand, navCommand2);
     }
 
-    @Override
     public void registerListener(INaviTabletServiceListener iNaviTabletServiceListener) {
         this.naviTabletServiceListener = iNaviTabletServiceListener;
     }
 
-    @Override
     public void updateRgInfoForNextDestination(RgInfoForNextDestination rgInfoForNextDestination) {
         int n;
         if (this.naviTabletServiceListener == null) {
             if (this.logger.isDebug2()) {
-                this.logger.log(14808325, new StringBuffer().append(this.CLASS_NAME).append("#updateRgInfoForNextDestination() - No naviTabletServiceListener available").toString());
+                this.logger.log(100000000, this.CLASS_NAME + "#updateRgInfoForNextDestination() - No naviTabletServiceListener available");
             }
             return;
         }
         Route route = this.routeManager.getRoute();
         NavRouteListData[] navRouteListDataArray = this.env.getContainer().getRgDestinationInfo();
         if (route == null || route.getRoutelist() == null || navRouteListDataArray == null || route.getRoutelist().length != navRouteListDataArray.length) {
-            this.logger.log(-1601830656, "%1#updateRgInfoForNextDestination() - Route length(%2) does not match NavRouteListData length(%3), queue update!", (Object)this.CLASS_NAME, (Object)Integer.toString(RouteUtil.getRouteLength(route)), (Object)(navRouteListDataArray == null ? "empty" : Integer.toString(navRouteListDataArray.length)));
+            this.logger.log(100000, "%1#updateRgInfoForNextDestination() - Route length(%2) does not match NavRouteListData length(%3), queue update!", (Object)this.CLASS_NAME, (Object)Integer.toString(RouteUtil.getRouteLength(route)), (Object)(navRouteListDataArray == null ? "empty" : Integer.toString(navRouteListDataArray.length)));
             this.rgInfoForNextDestinationIsPending = true;
             return;
         }
@@ -219,21 +210,26 @@ implements INaviTabletService {
         this.naviTabletServiceListener.updateNextDestinationInfo(rgInfoForNextDestination2);
     }
 
-    @Override
     public CommandList getTransformCommandList(NavLocation[] navLocationArray) {
         CommandList commandList = this.commandListFactory.createCommandList();
         NavLocation[] navLocationArray2 = new NavLocation[navLocationArray.length];
-        commandList.put("NavLocationArray", navLocationArray2);
+        commandList.put(NAVLOCATIONS_ARRAY, navLocationArray2);
         for (int i2 = 0; i2 < navLocationArray.length; ++i2) {
-            int n = i2;
-            this.logger.log(-2137614336, new StringBuffer().append(this.CLASS_NAME).append("#getTransformCommandList location to transform = %1").toString(), (Object)navLocationArray[i2]);
+            final int n = i2;
+            this.logger.log(10000000, this.CLASS_NAME + "#getTransformCommandList location to transform = %1", (Object)navLocationArray[i2]);
             commandList.add(new LIGetLocationDescriptionTransformCommand(navLocationArray[i2]));
-            commandList.add(new NaviTabletService$1(this, new StringBuffer().append(this.CLASS_NAME).append("#getTransformCommandList - Add transformed Location to NavLocation-Array").toString(), n));
+            commandList.add(new NavCommand(this.CLASS_NAME + "#getTransformCommandList - Add transformed Location to NavLocation-Array"){
+
+                public void execute() {
+                    NavLocation[] navLocationArray = (NavLocation[])this.getCommandList().get(NaviTabletService.NAVLOCATIONS_ARRAY);
+                    navLocationArray[n] = this.dsiResponseContainer.getTransformedLocation();
+                    this.getCommandList().commandFinished();
+                }
+            });
         }
         return commandList;
     }
 
-    @Override
     public void routeChanged() {
         NavRouteListData[] navRouteListDataArray = this.env.getContainer().getRgDestinationInfo();
         if (navRouteListDataArray != null && navRouteListDataArray.length != 0) {
@@ -241,7 +237,6 @@ implements INaviTabletService {
         }
     }
 
-    @Override
     public void registerService(AbstractActivator abstractActivator) {
     }
 }

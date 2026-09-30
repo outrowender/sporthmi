@@ -12,6 +12,7 @@ import de.audi.tuner.app.sdars.CategoryInfoExt;
 import de.audi.tuner.app.sdars.SdarsRadioText;
 import de.audi.tuner.ifc.ISimpleTuner;
 import de.esolutions.fw.util.commons.Buffer;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
@@ -21,7 +22,7 @@ import org.dsi.ifc.sdars.StationInfo;
 public class StationInfoExt
 extends StationInfo
 implements Serializable {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = -4354368266343016400L;
     private RadioHMIResourceLocator stationArt = ISimpleTuner.EMPTY_RADIO_RL;
     private CategoryInfoExt category = CategoryInfoExt.EMPTY_CATEGORY;
     private int presetPos;
@@ -83,7 +84,7 @@ implements Serializable {
         this.audioOk = bl;
     }
 
-    private void writeObject(ObjectOutputStream objectOutputStream) {
+    private void writeObject(ObjectOutputStream objectOutputStream) throws IOException {
         objectOutputStream.writeShort(this.stationNumber);
         objectOutputStream.writeInt(this.sID);
         objectOutputStream.writeUTF(this.shortLabel);
@@ -98,7 +99,7 @@ implements Serializable {
         objectOutputStream.writeBoolean(this.category.isGracenoteRequest);
     }
 
-    private void readObject(ObjectInputStream objectInputStream) {
+    private void readObject(ObjectInputStream objectInputStream) throws IOException, ClassNotFoundException {
         this.audioOk = true;
         this.pdt = SdarsRadioText.EMPTY_RADIOTEXT;
         this.stationNumber = objectInputStream.readShort();
@@ -130,7 +131,6 @@ implements Serializable {
         return new ArtistAndTitlePair(this.pdt.getLongestAvailableArtistName(), this.pdt.getLongestAvailableProgramTitle());
     }
 
-    @Override
     public String toString() {
         Buffer buffer = new Buffer(200);
         buffer.append("StationInfoExt");

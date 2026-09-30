@@ -14,7 +14,6 @@ extends NavCommand {
         this.modelAccess = iMatchspellerModelAccess;
     }
 
-    @Override
     public void execute() {
         this.modelAccess.onInputChanged();
         this.getCommandList().commandFinished();

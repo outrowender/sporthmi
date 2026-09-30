@@ -1,17 +1,13 @@
 /*
  * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  java.lang.Double
  */
 package de.audi.tv.app.util;
 
 import de.audi.tv.app.util.Pair;
 import de.audi.tv.app.util.Predicates;
-import de.audi.tv.app.util.Predicates$AndCompoundPredicate;
-import de.audi.tv.app.util.ReflectionUtils$1;
-import de.audi.tv.app.util.ReflectionUtils$IsNotEnclosingAccessPredicate;
-import de.audi.tv.app.util.ReflectionUtils$IsNotPrivatePredicate;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedList;
@@ -54,7 +50,7 @@ public class ReflectionUtils {
                 }
                 catch (NumberFormatException numberFormatException3) {
                     try {
-                        double d2 = Double.parseDouble((String)string);
+                        double d2 = Double.parseDouble(string);
                         return new Pair(Double.TYPE, new Double(d2));
                     }
                     catch (NumberFormatException numberFormatException4) {
@@ -69,15 +65,22 @@ public class ReflectionUtils {
     }
 
     public static Collection getDeclaredFields(Class clazz) {
-        return Predicates.filter(Arrays.asList(clazz.getDeclaredFields()), new ReflectionUtils$1());
+        return Predicates.filter(Arrays.asList(clazz.getDeclaredFields()), new Predicates.Predicate(){
+
+            public boolean apply(Object object) {
+                boolean bl = Modifier.isPrivate(((Field)object).getModifiers());
+                boolean bl2 = ((Field)object).getName().startsWith("this");
+                return !bl2 && !bl;
+            }
+        });
     }
 
     public static Collection getPublicDeclaredMethods(Class clazz) {
         List list = Arrays.asList(clazz.getDeclaredMethods());
-        Predicates$AndCompoundPredicate predicates$AndCompoundPredicate = new Predicates$AndCompoundPredicate();
-        predicates$AndCompoundPredicate.add(new ReflectionUtils$IsNotPrivatePredicate(null));
-        predicates$AndCompoundPredicate.add(new ReflectionUtils$IsNotEnclosingAccessPredicate(null));
-        return Predicates.filter(list, predicates$AndCompoundPredicate);
+        Predicates.AndCompoundPredicate andCompoundPredicate = new Predicates.AndCompoundPredicate();
+        andCompoundPredicate.add(new IsNotPrivatePredicate());
+        andCompoundPredicate.add(new IsNotEnclosingAccessPredicate());
+        return Predicates.filter(list, andCompoundPredicate);
     }
 
     public static String getSimpleName(Class clazz) {
@@ -102,6 +105,26 @@ public class ReflectionUtils {
         }
         catch (ClassNotFoundException classNotFoundException) {
             throw new NoClassDefFoundError().initCause(classNotFoundException);
+        }
+    }
+
+    private static class IsNotPrivatePredicate
+    implements Predicates.Predicate {
+        private IsNotPrivatePredicate() {
+        }
+
+        public boolean apply(Object object) {
+            return !Modifier.isPrivate(((Method)object).getModifiers());
+        }
+    }
+
+    private static class IsNotEnclosingAccessPredicate
+    implements Predicates.Predicate {
+        private IsNotEnclosingAccessPredicate() {
+        }
+
+        public boolean apply(Object object) {
+            return !((Method)object).getName().startsWith("access");
         }
     }
 }

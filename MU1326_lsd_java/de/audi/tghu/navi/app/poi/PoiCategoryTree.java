@@ -5,38 +5,38 @@ package de.audi.tghu.navi.app.poi;
 
 import de.audi.tghu.navi.app.map.impl.ContentListItem;
 import de.audi.tghu.navi.app.map.impl.ItemList;
-import de.audi.tghu.navi.app.poi.PoiCategoryTree$CategoryTreeNode;
-import de.audi.tghu.navi.app.poi.PoiCategoryTree$PoiCategoryTreeIterator;
 import de.esolutions.fw.util.commons.Buffer;
 import de.esolutions.fw.util.commons.Formatter;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Stack;
 
 public class PoiCategoryTree {
     public static int ROOT_ID = -1;
-    private PoiCategoryTree$CategoryTreeNode root = new PoiCategoryTree$CategoryTreeNode(ContentListItem.createPOIItem(-1, 0, "", true, -1, true));
-    private static final String POINTER;
-    private static final String BOX_CHECKED;
-    private static final String BOX_UNCHECKED;
+    private CategoryTreeNode root = new CategoryTreeNode(ContentListItem.createPOIItem(-1, 0, "", true, -1, true));
+    private static final String POINTER = "\u25ba ";
+    private static final String BOX_CHECKED = "\u2611\u202f";
+    private static final String BOX_UNCHECKED = "\u2610\u202f";
 
     public boolean isEmpty() {
-        return PoiCategoryTree$CategoryTreeNode.access$000(this.root).isEmpty();
+        return this.root.children.isEmpty();
     }
 
     public ContentListItem getCategory(int n) {
-        PoiCategoryTree$CategoryTreeNode poiCategoryTree$CategoryTreeNode = this.getTreeNode(n);
-        return poiCategoryTree$CategoryTreeNode == null ? null : poiCategoryTree$CategoryTreeNode.getCategory();
+        CategoryTreeNode categoryTreeNode = this.getTreeNode(n);
+        return categoryTreeNode == null ? null : categoryTreeNode.getCategory();
     }
 
     public ItemList getSubCategoriesOf(int n) {
-        PoiCategoryTree$CategoryTreeNode poiCategoryTree$CategoryTreeNode = this.getTreeNode(n);
+        CategoryTreeNode categoryTreeNode = this.getTreeNode(n);
         ItemList itemList = new ItemList();
-        if (poiCategoryTree$CategoryTreeNode == null) {
+        if (categoryTreeNode == null) {
             return itemList;
         }
-        Iterator iterator = PoiCategoryTree$CategoryTreeNode.access$000(poiCategoryTree$CategoryTreeNode).iterator();
+        Iterator iterator = categoryTreeNode.children.iterator();
         while (iterator.hasNext()) {
-            PoiCategoryTree$CategoryTreeNode poiCategoryTree$CategoryTreeNode2 = (PoiCategoryTree$CategoryTreeNode)iterator.next();
-            itemList.add(poiCategoryTree$CategoryTreeNode2.getCategory());
+            CategoryTreeNode categoryTreeNode2 = (CategoryTreeNode)iterator.next();
+            itemList.add(categoryTreeNode2.getCategory());
         }
         return itemList;
     }
@@ -47,75 +47,75 @@ public class PoiCategoryTree {
         return itemList;
     }
 
-    private void getLeafs(ItemList itemList, PoiCategoryTree$CategoryTreeNode poiCategoryTree$CategoryTreeNode) {
-        if (PoiCategoryTree$CategoryTreeNode.access$100(poiCategoryTree$CategoryTreeNode) != null && (!PoiCategoryTree$CategoryTreeNode.access$100((PoiCategoryTree$CategoryTreeNode)poiCategoryTree$CategoryTreeNode).isParent || PoiCategoryTree$CategoryTreeNode.access$000(poiCategoryTree$CategoryTreeNode).isEmpty())) {
-            itemList.add(PoiCategoryTree$CategoryTreeNode.access$100(poiCategoryTree$CategoryTreeNode));
+    private void getLeafs(ItemList itemList, CategoryTreeNode categoryTreeNode) {
+        if (categoryTreeNode.category != null && (!((CategoryTreeNode)categoryTreeNode).category.isParent || categoryTreeNode.children.isEmpty())) {
+            itemList.add(categoryTreeNode.category);
         }
-        Iterator iterator = PoiCategoryTree$CategoryTreeNode.access$000(poiCategoryTree$CategoryTreeNode).iterator();
+        Iterator iterator = categoryTreeNode.children.iterator();
         while (iterator.hasNext()) {
-            PoiCategoryTree$CategoryTreeNode poiCategoryTree$CategoryTreeNode2 = (PoiCategoryTree$CategoryTreeNode)iterator.next();
-            this.getLeafs(itemList, poiCategoryTree$CategoryTreeNode2);
+            CategoryTreeNode categoryTreeNode2 = (CategoryTreeNode)iterator.next();
+            this.getLeafs(itemList, categoryTreeNode2);
         }
     }
 
     public Iterator iterator() {
-        return new PoiCategoryTree$PoiCategoryTreeIterator(this, this.root);
+        return new PoiCategoryTreeIterator(this.root);
     }
 
-    protected PoiCategoryTree$CategoryTreeNode getTreeNode(int n) {
+    protected CategoryTreeNode getTreeNode(int n) {
         return n == 0 ? this.root : this.getTreeNode(n, this.root);
     }
 
-    protected PoiCategoryTree$CategoryTreeNode getTreeNode(int n, PoiCategoryTree$CategoryTreeNode poiCategoryTree$CategoryTreeNode) {
-        if (poiCategoryTree$CategoryTreeNode.getUID() == n) {
-            return poiCategoryTree$CategoryTreeNode;
+    protected CategoryTreeNode getTreeNode(int n, CategoryTreeNode categoryTreeNode) {
+        if (categoryTreeNode.getUID() == n) {
+            return categoryTreeNode;
         }
-        Iterator iterator = PoiCategoryTree$CategoryTreeNode.access$000(poiCategoryTree$CategoryTreeNode).iterator();
+        Iterator iterator = categoryTreeNode.children.iterator();
         while (iterator.hasNext()) {
-            PoiCategoryTree$CategoryTreeNode poiCategoryTree$CategoryTreeNode2 = (PoiCategoryTree$CategoryTreeNode)iterator.next();
-            PoiCategoryTree$CategoryTreeNode poiCategoryTree$CategoryTreeNode3 = this.getTreeNode(n, poiCategoryTree$CategoryTreeNode2);
-            if (poiCategoryTree$CategoryTreeNode3 == null) continue;
-            return poiCategoryTree$CategoryTreeNode3;
+            CategoryTreeNode categoryTreeNode2 = (CategoryTreeNode)iterator.next();
+            CategoryTreeNode categoryTreeNode3 = this.getTreeNode(n, categoryTreeNode2);
+            if (categoryTreeNode3 == null) continue;
+            return categoryTreeNode3;
         }
         return null;
     }
 
     public void setItemChecked(int n, boolean bl) {
-        PoiCategoryTree$CategoryTreeNode poiCategoryTree$CategoryTreeNode = this.getTreeNode(n);
-        if (PoiCategoryTree$CategoryTreeNode.access$100(poiCategoryTree$CategoryTreeNode) != null) {
-            PoiCategoryTree$CategoryTreeNode.access$100((PoiCategoryTree$CategoryTreeNode)poiCategoryTree$CategoryTreeNode).checked = bl;
+        CategoryTreeNode categoryTreeNode = this.getTreeNode(n);
+        if (categoryTreeNode.category != null) {
+            ((CategoryTreeNode)categoryTreeNode).category.checked = bl;
         }
     }
 
     public String toString() {
-        Buffer buffer = new Buffer(super.getClass().getName()).append(':').append(Formatter.LINE_SEPARATOR);
+        Buffer buffer = new Buffer(this.getClass().getName()).append(':').append(Formatter.LINE_SEPARATOR);
         this.buildString(buffer, "", this.root);
         return buffer.toString();
     }
 
-    private void buildString(Buffer buffer, String string, PoiCategoryTree$CategoryTreeNode poiCategoryTree$CategoryTreeNode) {
-        if (poiCategoryTree$CategoryTreeNode == null) {
+    private void buildString(Buffer buffer, String string, CategoryTreeNode categoryTreeNode) {
+        if (categoryTreeNode == null) {
             return;
         }
-        if (PoiCategoryTree$CategoryTreeNode.access$000(poiCategoryTree$CategoryTreeNode).isEmpty()) {
-            if (PoiCategoryTree$CategoryTreeNode.access$100((PoiCategoryTree$CategoryTreeNode)poiCategoryTree$CategoryTreeNode).rowID == ROOT_ID) {
+        if (categoryTreeNode.children.isEmpty()) {
+            if (((CategoryTreeNode)categoryTreeNode).category.rowID == ROOT_ID) {
                 buffer.append("EMPTY!");
                 return;
             }
-            buffer.append(PoiCategoryTree$CategoryTreeNode.access$100((PoiCategoryTree$CategoryTreeNode)poiCategoryTree$CategoryTreeNode).checked ? "\u2611\u202f" : "\u2610\u202f").append(PoiCategoryTree$CategoryTreeNode.access$100((PoiCategoryTree$CategoryTreeNode)poiCategoryTree$CategoryTreeNode).text).append(" <").append(PoiCategoryTree$CategoryTreeNode.access$100((PoiCategoryTree$CategoryTreeNode)poiCategoryTree$CategoryTreeNode).rowID).append(!PoiCategoryTree$CategoryTreeNode.access$100((PoiCategoryTree$CategoryTreeNode)poiCategoryTree$CategoryTreeNode).enabled ? ", n/a>" : ">").append(Formatter.LINE_SEPARATOR);
+            buffer.append(((CategoryTreeNode)categoryTreeNode).category.checked ? BOX_CHECKED : BOX_UNCHECKED).append(((CategoryTreeNode)categoryTreeNode).category.text).append(" <").append(((CategoryTreeNode)categoryTreeNode).category.rowID).append(!((CategoryTreeNode)categoryTreeNode).category.enabled ? ", n/a>" : ">").append(Formatter.LINE_SEPARATOR);
             return;
         }
-        if (PoiCategoryTree$CategoryTreeNode.access$100((PoiCategoryTree$CategoryTreeNode)poiCategoryTree$CategoryTreeNode).rowID == ROOT_ID) {
-            buffer.append(this.areAllItemsChecked() ? "\u2611\u202f" : "\u2610\u202f").append("All").append(Formatter.LINE_SEPARATOR);
+        if (((CategoryTreeNode)categoryTreeNode).category.rowID == ROOT_ID) {
+            buffer.append(this.areAllItemsChecked() ? BOX_CHECKED : BOX_UNCHECKED).append("All").append(Formatter.LINE_SEPARATOR);
         } else {
-            buffer.append("\u25ba ").append(PoiCategoryTree$CategoryTreeNode.access$100((PoiCategoryTree$CategoryTreeNode)poiCategoryTree$CategoryTreeNode).text).append(" <").append(PoiCategoryTree$CategoryTreeNode.access$100((PoiCategoryTree$CategoryTreeNode)poiCategoryTree$CategoryTreeNode).rowID).append(!PoiCategoryTree$CategoryTreeNode.access$100((PoiCategoryTree$CategoryTreeNode)poiCategoryTree$CategoryTreeNode).enabled ? ", n/a>" : ">").append(Formatter.LINE_SEPARATOR);
+            buffer.append(POINTER).append(((CategoryTreeNode)categoryTreeNode).category.text).append(" <").append(((CategoryTreeNode)categoryTreeNode).category.rowID).append(!((CategoryTreeNode)categoryTreeNode).category.enabled ? ", n/a>" : ">").append(Formatter.LINE_SEPARATOR);
         }
-        string = new StringBuffer().append(string).append("  ").toString();
-        Iterator iterator = PoiCategoryTree$CategoryTreeNode.access$000(poiCategoryTree$CategoryTreeNode).iterator();
+        string = string + "  ";
+        Iterator iterator = categoryTreeNode.children.iterator();
         while (iterator.hasNext()) {
             buffer.append(string);
-            PoiCategoryTree$CategoryTreeNode poiCategoryTree$CategoryTreeNode2 = (PoiCategoryTree$CategoryTreeNode)iterator.next();
-            this.buildString(buffer, string, poiCategoryTree$CategoryTreeNode2);
+            CategoryTreeNode categoryTreeNode2 = (CategoryTreeNode)iterator.next();
+            this.buildString(buffer, string, categoryTreeNode2);
         }
     }
 
@@ -127,6 +127,69 @@ public class PoiCategoryTree {
             return false;
         }
         return true;
+    }
+
+    protected static class CategoryTreeNode {
+        private ContentListItem category;
+        private ArrayList children;
+
+        public CategoryTreeNode(ContentListItem contentListItem) {
+            this.category = contentListItem;
+            this.children = new ArrayList();
+        }
+
+        public int getUID() {
+            return this.category == null ? ROOT_ID : this.category.rowID;
+        }
+
+        public int getParentUID() {
+            return this.category == null ? ROOT_ID : this.category.parentId;
+        }
+
+        public ContentListItem getCategory() {
+            return this.category;
+        }
+
+        public void addChild(CategoryTreeNode categoryTreeNode) {
+            this.children.add(categoryTreeNode);
+        }
+    }
+
+    private class PoiCategoryTreeIterator
+    implements Iterator {
+        Iterator currentIterator;
+        Stack nextIterators;
+
+        public PoiCategoryTreeIterator(CategoryTreeNode categoryTreeNode) {
+            this.currentIterator = categoryTreeNode.children.iterator();
+            this.nextIterators = new Stack();
+        }
+
+        public boolean hasNext() {
+            if (this.currentIterator.hasNext()) {
+                return true;
+            }
+            if (this.nextIterators.isEmpty()) {
+                return false;
+            }
+            while (!this.nextIterators.isEmpty()) {
+                this.currentIterator = (Iterator)this.nextIterators.pop();
+                if (!this.currentIterator.hasNext()) continue;
+                return true;
+            }
+            return false;
+        }
+
+        public Object next() {
+            CategoryTreeNode categoryTreeNode = (CategoryTreeNode)this.currentIterator.next();
+            if (!categoryTreeNode.children.isEmpty()) {
+                this.nextIterators.push(categoryTreeNode.children.iterator());
+            }
+            return categoryTreeNode.category;
+        }
+
+        public void remove() {
+        }
     }
 }
 

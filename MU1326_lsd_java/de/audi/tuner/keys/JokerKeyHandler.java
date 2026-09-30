@@ -20,19 +20,18 @@ extends DefaultKeyHandler {
         super(keyHandlerBasics);
         this.framework = keyHandlerBasics.getBasics().getFramework();
         this.defaultButtonHandler = defaultButtonHandler;
-        this.models.getButtonModel(1418199296).setButtonListener(this);
+        this.models.getButtonModel(100436).setButtonListener(this);
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3) {
-        this.logger.hmi.log(-2137614336, "JokerKeyHandler#keyReleased: ");
-        if (n != 1418199296) {
-            this.logger.hmi.log(-2137614336, "JokerKeyHandler#keyReleased: unhandled key code %1", (long)n);
+        this.logger.hmi.log(10000000, "JokerKeyHandler#keyReleased: ");
+        if (n != 100436) {
+            this.logger.hmi.log(10000000, "JokerKeyHandler#keyReleased: unhandled key code %1", (long)n);
             return;
         }
         int n4 = this.models.getChoiceModel(395).getValue();
         if (n4 == 7) {
-            this.logger.hmi.log(-2137614336, "JokerKeyHandler#keyReleased: switch traffic announcement");
+            this.logger.hmi.log(10000000, "JokerKeyHandler#keyReleased: switch traffic announcement");
             if (this.announce.toggleTaMode()) {
                 this.framework.getMsgDistrib().sendMessage(66);
             } else {
@@ -42,7 +41,7 @@ extends DefaultKeyHandler {
         }
         boolean bl = this.status.hasAudioFocus(0);
         if (n4 == 8 && !bl) {
-            this.logger.hmi.log(-2137614336, "JokerKeyHandler#keyReleased: switch Media to Tuner -> start timer");
+            this.logger.hmi.log(10000000, "JokerKeyHandler#keyReleased: switch Media to Tuner -> start timer");
             if (this.synchronizingTimer == null) {
                 this.synchronizingTimer = new Timer("SyncTimer", 5, null, new TimerSyncer(this), 1L, true);
             }
@@ -50,24 +49,23 @@ extends DefaultKeyHandler {
             return;
         }
         if (n4 == 8 && bl) {
-            this.logger.hmi.log(-2137614336, "JokerKeyHandler#keyReleased: switch Tuner to Media");
+            this.logger.hmi.log(10000000, "JokerKeyHandler#keyReleased: switch Tuner to Media");
         }
         if (n4 == 9 && bl) {
-            this.logger.hmi.log(-2137614336, "JokerKeyHandler#keyReleased: skip forward");
-            this.defaultButtonHandler.keyTyped(1283981568, n2, 0);
+            this.logger.hmi.log(10000000, "JokerKeyHandler#keyReleased: skip forward");
+            this.defaultButtonHandler.keyTyped(100428, n2, 0);
             return;
         }
         if (n4 == 14 && bl) {
-            this.logger.hmi.log(-2137614336, "JokerKeyHandler#keyReleased: skip backward");
-            this.defaultButtonHandler.keyTyped(1300758784, n2, 0);
+            this.logger.hmi.log(10000000, "JokerKeyHandler#keyReleased: skip backward");
+            this.defaultButtonHandler.keyTyped(100429, n2, 0);
             return;
         }
     }
 
-    @Override
     public void fireTimer(Timer timer) {
         if ("SyncTimer".equals(timer.getName())) {
-            this.logger.hmi.log(-2137614336, "JokerKeyHandler#fireTimer: -> switch Media to Tuner");
+            this.logger.hmi.log(10000000, "JokerKeyHandler#fireTimer: -> switch Media to Tuner");
             int n = this.models.getActiveTuner();
             this.audioFocusClient.switchSource(0, n, null);
         }

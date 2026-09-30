@@ -4,34 +4,24 @@
 package de.audi.tghu.navi.app.map.context;
 
 public interface SetupChangeListener {
-    default public void onChangedSetup(int n, int n2) {
-    }
+    public void onChangedSetup(int var1, int var2);
 
-    default public void onChangedMapRepresentation(int n, int n2) {
-    }
+    public void onChangedMapRepresentation(int var1, int var2);
 
-    default public void onChangedAdditionalInfos(int n) {
-    }
+    public void onChangedAdditionalInfos(int var1);
 
-    default public void onChangedAutoZoom(int n) {
-    }
+    public void onChangedAutoZoom(int var1);
 
-    default public void onChangedIntersectionZoom(int n, boolean bl) {
-    }
+    public void onChangedIntersectionZoom(int var1, boolean var2);
 
-    default public void onChangedDayNightView(int n) {
-    }
+    public void onChangedDayNightView(int var1);
 
-    default public void onChangedMapType(int n, int n2) {
-    }
+    public void onChangedMapType(int var1, int var2);
 
-    default public void onChangedOrientation(int n) {
-    }
+    public void onChangedOrientation(int var1);
 
-    default public void onChangedPanorama(boolean bl) {
-    }
+    public void onChangedPanorama(boolean var1);
 
-    default public void setRangeMapDefaultZoomLevel() {
-    }
+    public void setRangeMapDefaultZoomLevel();
 }
 

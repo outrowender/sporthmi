@@ -4,7 +4,6 @@
 package de.audi.tghu.navi.app.map.event;
 
 public interface MapEventListener {
-    default public void onEvent(int n, int n2) {
-    }
+    public void onEvent(int var1, int var2);
 }
 

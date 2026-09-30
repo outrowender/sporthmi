@@ -6,22 +6,17 @@ package de.audi.tghu.waveplayer;
 import de.audi.tghu.waveplayer.WavePlayerListener;
 
 public interface RingTonePlayer {
-    public static final int PLAY_ONCE;
-    public static final int PLAY_REPEATEDLY;
+    public static final int PLAY_ONCE = 0;
+    public static final int PLAY_REPEATEDLY = 1;
 
-    default public void playTone(int n, int n2) {
-    }
+    public void playTone(int var1, int var2);
 
-    default public void playDefault(int n) {
-    }
+    public void playDefault(int var1);
 
-    default public void abort() {
-    }
+    public void abort();
 
-    default public void setListener(WavePlayerListener wavePlayerListener) {
-    }
+    public void setListener(WavePlayerListener var1);
 
-    default public void removeListener(WavePlayerListener wavePlayerListener) {
-    }
+    public void removeListener(WavePlayerListener var1);
 }
 

@@ -31,9 +31,8 @@ extends NavCommand {
         this.previewMap = iPreviewMap;
     }
 
-    @Override
     public void execute() {
-        this.logChannel.log(1078071040, new StringBuffer().append(this.CLASS_NAME).append("CMD_updatePreviewMap: updating index %1").toString(), (long)this.index);
+        this.logChannel.log(1000000, this.CLASS_NAME + "CMD_updatePreviewMap: updating index %1", (long)this.index);
         NavLocation navLocation = this.resultList.getTransformedLocationAt(this.index);
         LocationFormattingResponse locationFormattingResponse = AddressFormatter.formatTwoLines(navLocation, this.env);
         String string = locationFormattingResponse.getFirstLineAsText();
@@ -45,11 +44,11 @@ extends NavCommand {
         if (navLocation != null) {
             int n = this.searchArea.getSearchContext();
             if (n == 0) {
-                this.logChannel.log(-2137614336, new StringBuffer().append(this.CLASS_NAME).append("CMD_updatePreviewMap: current car position is at the center of preview map name: %1 address: %2").toString(), (Object)string, (Object)string2);
+                this.logChannel.log(10000000, this.CLASS_NAME + "CMD_updatePreviewMap: current car position is at the center of preview map name: %1 address: %2", (Object)string, (Object)string2);
                 this.previewMap.setPreviewPoiOnlineAroundCCP(navLocation, 3, null, guiTooltipInformationContainer);
             } else {
                 NavLocation navLocation2;
-                this.logChannel.log(-2137614336, new StringBuffer().append(this.CLASS_NAME).append("CMD_updatePreviewMap: center of city, destination or stopover is at the center of the map name: %1 address: %2").toString(), (Object)string, (Object)string2);
+                this.logChannel.log(10000000, this.CLASS_NAME + "CMD_updatePreviewMap: center of city, destination or stopover is at the center of the map name: %1 address: %2", (Object)string, (Object)string2);
                 NavLocation navLocation3 = navLocation2 = this.searchArea == null ? null : this.searchArea.getNavLocation();
                 if (navLocation2 == null) {
                     this.previewMap.setPreviewPoiOnlineAroundCCP(navLocation, 3, null, guiTooltipInformationContainer);
@@ -63,7 +62,7 @@ extends NavCommand {
                 }
             }
         } else {
-            this.logChannel.log(-1601830656, new StringBuffer().append(this.CLASS_NAME).append("CMD_updatePreviewMap: no detailed location for index %1").toString(), (long)this.index);
+            this.logChannel.log(100000, this.CLASS_NAME + "CMD_updatePreviewMap: no detailed location for index %1", (long)this.index);
         }
         this.getCommandList().commandFinished();
     }

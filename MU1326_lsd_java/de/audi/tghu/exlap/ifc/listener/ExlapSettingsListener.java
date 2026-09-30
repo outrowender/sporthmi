@@ -8,7 +8,6 @@ import de.audi.tghu.exlap.impl.container.ExlapRestrictionModeContainer;
 
 public interface ExlapSettingsListener
 extends ExlapListener {
-    default public void updateExlapRestrictionMode(ExlapRestrictionModeContainer exlapRestrictionModeContainer) {
-    }
+    public void updateExlapRestrictionMode(ExlapRestrictionModeContainer var1);
 }
 

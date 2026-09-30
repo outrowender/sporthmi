@@ -8,23 +8,22 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Map$Entry;
 import java.util.Set;
 import org.dsi.ifc.global.NavLocation;
 
 public class FavoriteLocation
 implements Serializable {
-    private static final long serialVersionUID;
-    public static final String COUNTRY;
-    public static final String STATE;
-    public static final String ZIPCODE;
-    public static final String COUNTRY_ABBREVIATION;
-    public static final String CITY;
-    public static final String CITY_PART;
-    public static final String STREET;
-    public static final String STREET2;
-    public static final String HOUSENUMBER;
-    public static final String NAME;
+    private static final long serialVersionUID = -6837932154771343199L;
+    public static final String COUNTRY = "COUNTRY";
+    public static final String STATE = "STATE";
+    public static final String ZIPCODE = "ZIPCODE";
+    public static final String COUNTRY_ABBREVIATION = "COUNTRY_ABBREVIATION";
+    public static final String CITY = "CITY";
+    public static final String CITY_PART = "CITY_PART";
+    public static final String STREET = "STREET";
+    public static final String STREET2 = "STREET2";
+    public static final String HOUSENUMBER = "HOUSENUMBER";
+    public static final String NAME = "NAME";
     private Integer key;
     private Map values;
     int longitude;
@@ -99,7 +98,7 @@ implements Serializable {
             if (this.key == null ? n != null : !this.key.equals(n)) {
                 return false;
             }
-        } else if (object.getClass() == super.getClass()) {
+        } else if (object.getClass() == this.getClass()) {
             FavoriteLocation favoriteLocation = (FavoriteLocation)object;
             if (this.key == null ? favoriteLocation.key != null : !this.key.equals(favoriteLocation.key)) {
                 return false;
@@ -111,20 +110,20 @@ implements Serializable {
     }
 
     public String getSpeakableName() {
-        String string = this.getField("NAME");
+        String string = this.getField(NAME);
         if (Util.isEmpty(string)) {
-            string = Util.isEmpty(this.getField("STREET")) ? this.getField("CITY") : (Util.isEmpty(this.getField("HOUSENUMBER")) ? (Util.isEmpty(this.getField("STREET2")) ? new StringBuffer().append(this.getField("STREET")).append(" ").append(this.getField("CITY")).toString() : new StringBuffer().append(this.getField("STREET")).append(" ").append(this.getField("STREET2")).append(" ").append(this.getField("CITY")).toString()) : new StringBuffer().append(this.getField("STREET")).append(" ").append(this.getField("HOUSENUMBER")).append(" ").append(this.getField("CITY")).toString());
+            string = Util.isEmpty(this.getField(STREET)) ? this.getField(CITY) : (Util.isEmpty(this.getField(HOUSENUMBER)) ? (Util.isEmpty(this.getField(STREET2)) ? new StringBuffer().append(this.getField(STREET)).append(" ").append(this.getField(CITY)).toString() : new StringBuffer().append(this.getField(STREET)).append(" ").append(this.getField(STREET2)).append(" ").append(this.getField(CITY)).toString()) : new StringBuffer().append(this.getField(STREET)).append(" ").append(this.getField(HOUSENUMBER)).append(" ").append(this.getField(CITY)).toString());
         }
         return string;
     }
 
     public String toString() {
-        StringBuffer stringBuffer = new StringBuffer(Util.getClassNameFromPackageName(super.getClass()));
+        StringBuffer stringBuffer = new StringBuffer(Util.getClassNameFromPackageName(this.getClass()));
         stringBuffer.append("(key=").append(this.getKey());
         Iterator iterator = this.getValues().entrySet().iterator();
         while (iterator.hasNext()) {
-            Map$Entry map$Entry = (Map$Entry)iterator.next();
-            stringBuffer.append(map$Entry.getKey()).append("=").append(map$Entry.getValue()).append(", ");
+            Map.Entry entry = (Map.Entry)iterator.next();
+            stringBuffer.append(entry.getKey()).append("=").append(entry.getValue()).append(", ");
         }
         stringBuffer.append("longitude =").append(this.longitude).append(", ");
         stringBuffer.append("latitude =").append(this.latitude).append(")");
@@ -134,15 +133,15 @@ implements Serializable {
     public void update(NavLocation navLocation) {
         this.setLatitude(navLocation.latitude);
         this.setLongitude(navLocation.longitude);
-        this.setField("NAME", Util.getFavoriteNameFromLocation(navLocation));
-        this.setField("COUNTRY", navLocation.getCountry());
-        this.setField("COUNTRY_ABBREVIATION", navLocation.getCountryAbbreviation());
-        this.setField("STATE", Util.getStateAbbreviation(navLocation));
-        this.setField("CITY", navLocation.getTown());
-        this.setField("ZIPCODE", navLocation.getZipCode());
-        this.setField("STREET", navLocation.getStreet());
-        this.setField("STREET2", navLocation.getJunction());
-        this.setField("HOUSENUMBER", navLocation.getHousenumber());
+        this.setField(NAME, Util.getFavoriteNameFromLocation(navLocation));
+        this.setField(COUNTRY, navLocation.getCountry());
+        this.setField(COUNTRY_ABBREVIATION, navLocation.getCountryAbbreviation());
+        this.setField(STATE, Util.getStateAbbreviation(navLocation));
+        this.setField(CITY, navLocation.getTown());
+        this.setField(ZIPCODE, navLocation.getZipCode());
+        this.setField(STREET, navLocation.getStreet());
+        this.setField(STREET2, navLocation.getJunction());
+        this.setField(HOUSENUMBER, navLocation.getHousenumber());
     }
 
     static /* synthetic */ Class class$(String string) {

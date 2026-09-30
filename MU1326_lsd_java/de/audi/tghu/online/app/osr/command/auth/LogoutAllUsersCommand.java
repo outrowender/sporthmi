@@ -4,20 +4,18 @@
 package de.audi.tghu.online.app.osr.command.auth;
 
 import de.audi.tghu.online.app.osr.command.AbstractOSRCommand;
-import de.audi.tghu.online.app.osr.command.auth.LogoutAllUsersCommand$LogoutAllUsersCommandResponseListener;
 import org.dsi.ifc.online.DSIOnlineServiceRegistration;
 import org.dsi.ifc.online.OSRServiceState;
 import org.dsi.ifc.online.OSRUser;
 
 public class LogoutAllUsersCommand
 extends AbstractOSRCommand {
-    LogoutAllUsersCommand$LogoutAllUsersCommandResponseListener listener;
+    LogoutAllUsersCommandResponseListener listener;
 
-    public LogoutAllUsersCommand(LogoutAllUsersCommand$LogoutAllUsersCommandResponseListener logoutAllUsersCommand$LogoutAllUsersCommandResponseListener) {
-        this.listener = logoutAllUsersCommand$LogoutAllUsersCommandResponseListener;
+    public LogoutAllUsersCommand(LogoutAllUsersCommandResponseListener logoutAllUsersCommandResponseListener) {
+        this.listener = logoutAllUsersCommandResponseListener;
     }
 
-    @Override
     public void execute() {
         DSIOnlineServiceRegistration dSIOnlineServiceRegistration = this.getDSI();
         if (dSIOnlineServiceRegistration == null) {
@@ -27,13 +25,16 @@ extends AbstractOSRCommand {
         dSIOnlineServiceRegistration.logoutAuthScheme("AudiT21Realm");
     }
 
-    @Override
     public void logoutAuthSchemeResult(String string, OSRUser[] oSRUserArray, int[] nArray) {
         this.listener.logoutAllUsersCommandResponse(oSRUserArray, nArray);
         this.getCommandList().commandFinished();
     }
 
     public void updateServiceList(OSRServiceState[] oSRServiceStateArray, int n) {
+    }
+
+    public static interface LogoutAllUsersCommandResponseListener {
+        public void logoutAllUsersCommandResponse(OSRUser[] var1, int[] var2);
     }
 }
 

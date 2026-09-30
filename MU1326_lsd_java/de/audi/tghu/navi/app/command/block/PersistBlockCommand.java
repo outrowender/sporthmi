@@ -14,15 +14,13 @@ extends NavCommand {
         this.uid = lArray;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "PersistBlockCommand#execute() - calling persistBlock()");
+        this.logger.log(10000000, "PersistBlockCommand#execute() - calling persistBlock()");
         this.getDSIBlocking().persistBlock(this.uid);
     }
 
-    @Override
     public void persistBlockResult(long[] lArray, int n) {
-        this.logger.log(-2137614336, "PersistBlockCommand#persistBlockResult()");
+        this.logger.log(10000000, "PersistBlockCommand#persistBlockResult()");
         if (n == 0) {
             this.getCommandList().commandFinished();
         } else {

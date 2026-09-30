@@ -4,7 +4,7 @@
 package de.audi.tghu.navi.app.map.routeinfo;
 
 import de.audi.tghu.navi.app.map.routeinfo.MixedListItem;
-import de.audi.tghu.navi.app.map.routeinfo.RouteInfoHandler$TravelData;
+import de.audi.tghu.navi.app.map.routeinfo.RouteInfoHandler;
 import de.audi.tghu.navi.app.map.routeinfo.RouteInfoHelper;
 import de.audi.tghu.navi.app.map.utils.MixedListRow;
 import de.esolutions.fw.util.commons.Buffer;
@@ -15,21 +15,19 @@ extends MixedListItem {
     private TmcMessage mTmcMessage;
     private int[] iconIDs = new int[0];
 
-    public MixedListItemTMC(TmcMessage tmcMessage, RouteInfoHandler$TravelData routeInfoHandler$TravelData, MixedListRow mixedListRow, long l, long l2, RouteInfoHelper routeInfoHelper) {
+    public MixedListItemTMC(TmcMessage tmcMessage, RouteInfoHandler.TravelData travelData, MixedListRow mixedListRow, long l, long l2, RouteInfoHelper routeInfoHelper) {
         this.helper = routeInfoHelper;
         this.mTmcMessage = tmcMessage;
         this.mMixedListRow = mixedListRow;
         this.iconIDs = this.mMixedListRow.updateValuesForTMC(tmcMessage, -1);
         this.mFormat = routeInfoHelper.getDefaultFormat(tmcMessage);
-        this.init(tmcMessage, routeInfoHandler$TravelData, l, l2);
+        this.init(tmcMessage, travelData, l, l2);
     }
 
-    @Override
     public int[] getIconIDs() {
         return this.iconIDs;
     }
 
-    @Override
     public boolean updateDistanceToCar(long l) {
         super.updateDistanceToCar(l);
         String string = this.helper.formatDistString(this.getDistanceToCar());
@@ -40,12 +38,10 @@ extends MixedListItem {
         return false;
     }
 
-    @Override
     public Object getEvent() {
         return this.mTmcMessage;
     }
 
-    @Override
     public int getDestinationIndex() {
         return this.mTmcMessage.destinationIndex;
     }

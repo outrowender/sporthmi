@@ -23,6 +23,7 @@ import org.osgi.framework.BundleException;
 import org.osgi.framework.BundleListener;
 import org.osgi.framework.Filter;
 import org.osgi.framework.FrameworkListener;
+import org.osgi.framework.InvalidSyntaxException;
 import org.osgi.framework.ServiceListener;
 import org.osgi.framework.ServiceReference;
 import org.osgi.framework.ServiceRegistration;
@@ -52,13 +53,11 @@ BundleContext {
         this.registeredServices.remove(serviceInfo);
     }
 
-    @Override
     public int getState() {
         return this.state;
     }
 
-    @Override
-    public void start() {
+    public void start() throws BundleException {
         this.state = 8;
         try {
             Class clazz = Class.forName(this.activator);
@@ -66,19 +65,19 @@ BundleContext {
         }
         catch (ClassNotFoundException classNotFoundException) {
             this.state = 4;
-            throw new BundleException(new StringBuffer().append("Bundle ").append(this.name).append(" activator not found").toString(), classNotFoundException);
+            throw new BundleException("Bundle " + this.name + " activator not found", classNotFoundException);
         }
         catch (InstantiationException instantiationException) {
             this.state = 4;
-            throw new BundleException(new StringBuffer().append("Bundle ").append(this.name).append(" activator invalid").toString(), instantiationException);
+            throw new BundleException("Bundle " + this.name + " activator invalid", instantiationException);
         }
         catch (IllegalAccessException illegalAccessException) {
             this.state = 4;
-            throw new BundleException(new StringBuffer().append("Bundle ").append(this.name).append(" activator invalid").toString(), illegalAccessException);
+            throw new BundleException("Bundle " + this.name + " activator invalid", illegalAccessException);
         }
         catch (Exception exception) {
             this.state = 4;
-            throw new BundleException(new StringBuffer().append("Bundle ").append(this.name).append(" unexpected exception loading activator").toString(), exception);
+            throw new BundleException("Bundle " + this.name + " unexpected exception loading activator", exception);
         }
         try {
             this.bundleActivator.start(this);
@@ -86,7 +85,7 @@ BundleContext {
         catch (Exception exception) {
             this.bundleActivator = null;
             this.state = 4;
-            throw new BundleException(new StringBuffer().append("[bundle:").append(this.name).append("] exception starting bundle").toString(), exception);
+            throw new BundleException("[bundle:" + this.name + "] exception starting bundle", exception);
         }
         finally {
             ServiceRegistry.getInstance().waitForDelayedChanges();
@@ -94,8 +93,7 @@ BundleContext {
         this.state = 32;
     }
 
-    @Override
-    public void stop() {
+    public void stop() throws BundleException {
         if (this.bundleActivator == null) {
             this.state = 4;
             return;
@@ -105,7 +103,7 @@ BundleContext {
             this.bundleActivator.stop(this);
         }
         catch (Exception exception) {
-            throw new BundleException(new StringBuffer().append("[bundle ").append(this.name).append("] exception stopping bundle").toString(), exception);
+            throw new BundleException("[bundle " + this.name + "] exception stopping bundle", exception);
         }
         finally {
             this.bundleActivator = null;
@@ -113,22 +111,18 @@ BundleContext {
         }
     }
 
-    @Override
-    public void update() {
+    public void update() throws BundleException {
         System.err.println("Bundle#update() not supported!");
     }
 
-    @Override
-    public void update(InputStream inputStream) {
+    public void update(InputStream inputStream) throws BundleException {
         System.err.println("Bundle#update(InputStream) not supported!");
     }
 
-    @Override
-    public void uninstall() {
+    public void uninstall() throws BundleException {
         System.err.println("Bundle#uninstall() not supported!");
     }
 
-    @Override
     public Dictionary getHeaders() {
         Hashtable hashtable = new Hashtable();
         ((Dictionary)hashtable).put("Bundle-Name", this.name);
@@ -136,7 +130,6 @@ BundleContext {
         return hashtable;
     }
 
-    @Override
     public long getBundleId() {
         return this.id;
     }
@@ -145,36 +138,30 @@ BundleContext {
         return this.name;
     }
 
-    @Override
     public String getLocation() {
         return this.name;
     }
 
-    @Override
     public ServiceReference[] getRegisteredServices() {
         Object[] objectArray = new ServiceReference[this.registeredServices.size()];
         this.registeredServices.toArray(objectArray);
         return objectArray;
     }
 
-    @Override
     public synchronized ServiceReference[] getServicesInUse() {
         Object[] objectArray = new ServiceReference[this.servicesInUse.size()];
         this.servicesInUse.toArray(objectArray);
         return objectArray;
     }
 
-    @Override
     public boolean hasPermission(Object object) {
         return true;
     }
 
-    @Override
     public URL getResource(String string) {
         return ClassLoader.getSystemResource(string);
     }
 
-    @Override
     public String getProperty(String string) {
         if ("AuditTrail".equals(string)) {
             return AuditTrail.getInstance().toString();
@@ -182,83 +169,68 @@ BundleContext {
         return (String)this.getHeaders().get(string);
     }
 
-    @Override
     public Bundle getBundle() {
         return this;
     }
 
-    @Override
-    public Bundle installBundle(String string) {
+    public Bundle installBundle(String string) throws BundleException {
         throw new UnsupportedOperationException("BundleContext#installBundle(String) not supported!");
     }
 
-    @Override
-    public Bundle installBundle(String string, InputStream inputStream) {
+    public Bundle installBundle(String string, InputStream inputStream) throws BundleException {
         throw new UnsupportedOperationException("BundleContext#installBundle(String, InputStream) not supported!");
     }
 
-    @Override
     public Bundle getBundle(long l) {
-        if (l < 0) {
+        if (l < Integer.MAX_VALUE) {
             return BundleRegistry.getInstance().getBundle((int)l);
         }
         return null;
     }
 
-    @Override
     public Bundle[] getBundles() {
         return BundleRegistry.getInstance().getBundles();
     }
 
-    @Override
-    public void addServiceListener(ServiceListener serviceListener, String string) {
+    public void addServiceListener(ServiceListener serviceListener, String string) throws InvalidSyntaxException {
         System.err.println("BundleContext#addServiceListener(ServiceListener, String) in future version");
     }
 
-    @Override
     public void addServiceListener(ServiceListener serviceListener) {
         ServiceRegistry.getInstance().addServiceListener(serviceListener);
     }
 
-    @Override
     public void removeServiceListener(ServiceListener serviceListener) {
         ServiceRegistry.getInstance().removeServiceListener(serviceListener);
     }
 
-    @Override
     public void addBundleListener(BundleListener bundleListener) {
         throw new UnsupportedOperationException("BundleContext#addBundleListener(BundleListener) not supported!");
     }
 
-    @Override
     public void removeBundleListener(BundleListener bundleListener) {
         throw new UnsupportedOperationException("BundleContext#removeBundleListener(BundleListener) not supported!");
     }
 
-    @Override
     public void addFrameworkListener(FrameworkListener frameworkListener) {
         System.err.println("BundleContext#addFrameworkListener(FrameworkListener) not supported!");
     }
 
-    @Override
     public void removeFrameworkListener(FrameworkListener frameworkListener) {
         throw new UnsupportedOperationException("BundleContext#removeFrameworkListener(FrameworkListener) not supported!");
     }
 
-    @Override
     public ServiceRegistration registerService(String[] stringArray, Object object, Dictionary dictionary) {
         ServiceInfo serviceInfo = ServiceDelegator.getServiceInfo(this, stringArray, object, dictionary);
         return serviceInfo;
     }
 
-    @Override
     public ServiceRegistration registerService(String string, Object object, Dictionary dictionary) {
         ServiceInfo serviceInfo = ServiceDelegator.getServiceInfo(this, string, object, dictionary);
         return serviceInfo;
     }
 
-    @Override
-    public ServiceReference[] getServiceReferences(String string, String string2) {
+    public ServiceReference[] getServiceReferences(String string, String string2) throws InvalidSyntaxException {
         List list;
         Object[] objectArray;
         if (string == null) {
@@ -281,30 +253,25 @@ BundleContext {
         return objectArray;
     }
 
-    @Override
     public ServiceReference getServiceReference(String string) {
         return ServiceRegistry.getInstance().getServiceInfo(string);
     }
 
-    @Override
     public synchronized Object getService(ServiceReference serviceReference) {
         this.servicesInUse.add(serviceReference);
         return ((ServiceInfo)serviceReference).getService();
     }
 
-    @Override
     public synchronized boolean ungetService(ServiceReference serviceReference) {
         this.servicesInUse.remove(serviceReference);
         return true;
     }
 
-    @Override
     public File getDataFile(String string) {
         return null;
     }
 
-    @Override
-    public Filter createFilter(String string) {
+    public Filter createFilter(String string) throws InvalidSyntaxException {
         return new ServiceFilter(string);
     }
 
@@ -338,13 +305,13 @@ BundleContext {
                 break;
             }
             default: {
-                stringBuffer.append(new StringBuffer().append(" (Unknown ").append(this.state).append(")").toString());
+                stringBuffer.append(" (Unknown " + this.state + ")");
             }
         }
         stringBuffer.append(" (").append(this.activator).append(')');
         int n2 = this.registeredServices.size();
         int n3 = this.servicesInUse.size();
-        stringBuffer.append(new StringBuffer().append("\n     Registered Services (").append(n2).append("):").toString());
+        stringBuffer.append("\n     Registered Services (" + n2 + "):");
         if (n2 == 0) {
             stringBuffer.append(" NONE");
         }
@@ -352,7 +319,7 @@ BundleContext {
             stringBuffer.append("\n          -> ");
             stringBuffer.append(this.registeredServices.get(n));
         }
-        stringBuffer.append(new StringBuffer().append("\n     Services in use (").append(n3).append("):").toString());
+        stringBuffer.append("\n     Services in use (" + n3 + "):");
         if (n3 == 0) {
             stringBuffer.append(" NONE");
         }

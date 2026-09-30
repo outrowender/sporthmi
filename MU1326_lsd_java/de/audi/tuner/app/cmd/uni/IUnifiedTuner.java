@@ -10,25 +10,18 @@ import de.audi.tuner.ifc.IStationListHandler;
 
 public interface IUnifiedTuner
 extends ISimpleTuner {
-    default public void selectStation(UnifiedStationExt unifiedStationExt, int n) {
-    }
+    public void selectStation(UnifiedStationExt var1, int var2);
 
-    default public UnifiedStationExt getActiveStation() {
-    }
+    public UnifiedStationExt getActiveStation();
 
-    default public void uniSelected(UnifiedStationExt unifiedStationExt, int n) {
-    }
+    public void uniSelected(UnifiedStationExt var1, int var2);
 
-    default public IStationListHandler getStationListHandler() {
-    }
+    public IStationListHandler getStationListHandler();
 
-    default public IPrevNext getPrevNextHandler() {
-    }
+    public IPrevNext getPrevNextHandler();
 
-    default public void reNotification(int n) {
-    }
+    public void reNotification(int var1);
 
-    default public void setSoftlinking(int n) {
-    }
+    public void setSoftlinking(int var1);
 }
 

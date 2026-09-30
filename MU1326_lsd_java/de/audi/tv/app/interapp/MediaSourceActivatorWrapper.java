@@ -14,7 +14,6 @@ implements ITVParentActivationService {
         this.service = iMediaService;
     }
 
-    @Override
     public void activateSource(int n) {
         if (n == 0) {
             this.service.activateSource(7, 0);

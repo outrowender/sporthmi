@@ -16,9 +16,9 @@ implements CacheEventListener {
     private NavigationEnv env;
     private LogChannel logChannel;
     private CacheHandler cacheHandler;
-    private static final int HIDE_SERVICE;
-    private static final int SHOW_SERVICE;
-    protected static final int LICENSE_STATE_UNKNOWN;
+    private static final int HIDE_SERVICE = 0;
+    private static final int SHOW_SERVICE = 1;
+    protected static final int LICENSE_STATE_UNKNOWN = -1;
 
     private static String getSatMapsAppIDForVariant() {
         if (Util.isHURegionJP()) {
@@ -38,12 +38,12 @@ implements CacheEventListener {
     }
 
     private void initModels() {
-        this.logChannel.log(1078071040, "ServiceListHandler#initModels");
+        this.logChannel.log(1000000, "ServiceListHandler#initModels");
         for (int i2 = 0; i2 < SERVICES.length; ++i2) {
             String[] stringArray = this.getTokens(SERVICES[i2]);
             if (stringArray == null) continue;
             for (int i3 = 0; i3 < stringArray.length; ++i3) {
-                this.logChannel.log(1078071040, "ServiceListHandler#initModels setting intial visibility of %1:%2 to invisible", (Object)SERVICES[i2], (Object)stringArray[i3]);
+                this.logChannel.log(1000000, "ServiceListHandler#initModels setting intial visibility of %1:%2 to invisible", (Object)SERVICES[i2], (Object)stringArray[i3]);
                 ChoiceModelApp choiceModelApp = this.mapServiceIdToVisibilityModel(SERVICES[i2], stringArray[i3]);
                 if (choiceModelApp == null) {
                     this.logChannel.log(10000, "ServiceListHandler#initModels no model for service %1:%2", (Object)SERVICES[i2], (Object)stringArray[i3]);
@@ -61,12 +61,10 @@ implements CacheEventListener {
         }
     }
 
-    @Override
     public String[] getServiceIDs() {
         return SERVICES;
     }
 
-    @Override
     public final String[] getTokens(String string) {
         if (string.equals("UpdateOverTheAir")) {
             return new String[]{"lic_uota_ppoi", "lic_uota_nav"};
@@ -104,13 +102,12 @@ implements CacheEventListener {
         return null;
     }
 
-    @Override
     public void updateToken(String string, String string2, Object object) {
         ChoiceModelApp choiceModelApp;
-        this.logChannel.log(-2137614336, "ServiceListHandler#updateToken(%1, %2, %3)", (Object)string, (Object)string2, (Object)object.toString());
+        this.logChannel.log(10000000, "ServiceListHandler#updateToken(%1, %2, %3)", (Object)string, (Object)string2, (Object)object.toString());
         int n = -1;
         if (string == null || string2 == null) {
-            this.logChannel.log(1078071040, "ServiceListHandler#updateToken() - serviceID or token is NULL -> Ignore Update");
+            this.logChannel.log(1000000, "ServiceListHandler#updateToken() - serviceID or token is NULL -> Ignore Update");
             return;
         }
         if (object != null) {
@@ -118,11 +115,11 @@ implements CacheEventListener {
                 n = (Integer)object;
             }
             catch (ClassCastException classCastException) {
-                this.logChannel.log(-1601830656, "ServiceListHandler#updateToken() - Can not cast newValue to int! I'll set it to -1");
+                this.logChannel.log(100000, "ServiceListHandler#updateToken() - Can not cast newValue to int! I'll set it to -1");
             }
         }
         if ((choiceModelApp = this.mapServiceIdToVisibilityModel(string, string2)) == null) {
-            this.logChannel.log(-1601830656, "ServiceListHandler#updateToken cannot map service %1 to a visibility model");
+            this.logChannel.log(100000, "ServiceListHandler#updateToken cannot map service %1 to a visibility model");
             return;
         }
         choiceModelApp.setStatus(n);
@@ -138,23 +135,23 @@ implements CacheEventListener {
     private ChoiceModelApp mapServiceIdToVisibilityModel(String string, String string2) {
         ChoiceModelApp choiceModelApp;
         if (string.equals("service_dsi_satellitemaps") && string2.equals("satellitemaps")) {
-            choiceModelApp = this.env.getChoiceModel(-819853824);
+            choiceModelApp = this.env.getChoiceModel(402127);
         } else if (string.equals("ebnav") && string2.equals("satellitemaps_eb")) {
-            choiceModelApp = this.env.getChoiceModel(-819853824);
+            choiceModelApp = this.env.getChoiceModel(402127);
         } else if (string.equals("service_dsi_onlinetraffic") && string2.equals("lic_traffic")) {
-            choiceModelApp = this.env.getChoiceModel(-803076608);
+            choiceModelApp = this.env.getChoiceModel(402128);
         } else if (string.equals("weatherinmaponlineservice") && string2.equals("weatherGrid")) {
-            choiceModelApp = this.env.getChoiceModel(-786299392);
+            choiceModelApp = this.env.getChoiceModel(402129);
         } else if (string.equals("service_dsi_operatorcall") && string2.equals("poicall")) {
-            choiceModelApp = this.env.getChoiceModel(-1994193408);
+            choiceModelApp = this.env.getChoiceModel(402313);
         } else if (string.equals("awnavicore") && string2.equals("satellitemaps")) {
-            choiceModelApp = this.env.getChoiceModel(-819853824);
+            choiceModelApp = this.env.getChoiceModel(402127);
         } else if (string.equals("service_dsi_destimport") && string2.equals("zieleinspeisung")) {
-            choiceModelApp = this.env.getChoiceModel(-1977416192);
+            choiceModelApp = this.env.getChoiceModel(402314);
         } else if (string.equals("service_trafficlight") && string2.equals("trafficlightsinfo_v1")) {
-            choiceModelApp = this.env.getChoiceModel(388236800);
+            choiceModelApp = this.env.getChoiceModel(402455);
         } else if (string.equals("service_dsi_poi") && string2.equals("poi_haptic")) {
-            choiceModelApp = this.env.getChoiceModel(-534772224);
+            choiceModelApp = this.env.getChoiceModel(401632);
         } else if (string.equals("online_metadata_service_app") && string2.equals("gracenote")) {
             choiceModelApp = this.env.getChoiceModel(4655);
         } else if (string.equals("UpdateOverTheAir")) {
@@ -179,7 +176,7 @@ implements CacheEventListener {
     }
 
     public boolean isGEVisibile() {
-        return this.env.getChoiceModel(-819853824).getValue() == 1;
+        return this.env.getChoiceModel(402127).getValue() == 1;
     }
 }
 

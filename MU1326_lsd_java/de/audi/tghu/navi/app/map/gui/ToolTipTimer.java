@@ -31,7 +31,7 @@ implements TimerListener {
     public ToolTipTimer(NavigationEnv navigationEnv, LogChannel logChannel, AbstractMap abstractMap) {
         this.logChannel = logChannel;
         this.naviMap = abstractMap;
-        this.mTimer = new Timer("ToolTipTimer", 0, true, this);
+        this.mTimer = new Timer("ToolTipTimer", 700L, true, this);
         this.mMutex = new Object();
         this.mCancelled = Util.isPorsche(navigationEnv.getFramework());
     }
@@ -50,7 +50,7 @@ implements TimerListener {
             this.mIsStack = bl;
             this.mIsPicNav = bl2;
             this.mPicNavLocator = resourceLocator;
-            this.logChannel.log(-2137614336, "CtxFreeMap#ToolTipTimer#restart(%1, ...)", (Object)this.mMessage);
+            this.logChannel.log(10000000, "CtxFreeMap#ToolTipTimer#restart(%1, ...)", (Object)this.mMessage);
             this.mCancelled = false;
             this.mTimer.restart();
         }
@@ -73,10 +73,10 @@ implements TimerListener {
         Object object = this.mMutex;
         synchronized (object) {
             if (!this.mCancelled) {
-                this.logChannel.log(-2137614336, "CtxFreeMap#ToolTipTimer#cancelAndHideToolTip()");
+                this.logChannel.log(10000000, "CtxFreeMap#ToolTipTimer#cancelAndHideToolTip()");
                 this.mCancelled = true;
                 this.mTimer.cancel();
-                this.logChannel.log(-2137614336, "CtxShown#hideToolTip()");
+                this.logChannel.log(10000000, "CtxShown#hideToolTip()");
                 this.naviMap.getGuiInterface().hideToolTip();
             }
         }
@@ -85,18 +85,16 @@ implements TimerListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void fireTimer(Timer timer) {
         Object object = this.mMutex;
         synchronized (object) {
-            this.logChannel.log(-2137614336, "CtxFreeMap#ToolTipTimer#fireTimer - mapScrollDir: %1 mCancelled: %2", (long)this.naviMap.getMapDataContainer().sMapScrollDir, (long)(this.mCancelled ? 1 : 0));
+            this.logChannel.log(10000000, "CtxFreeMap#ToolTipTimer#fireTimer - mapScrollDir: %1 mCancelled: %2", (long)this.naviMap.getMapDataContainer().sMapScrollDir, (long)(this.mCancelled ? 1 : 0));
             if (this.naviMap.getMapDataContainer().sMapScrollDir < 0 && !this.mCancelled) {
                 this.naviMap.getMapTooltip().showToolTip(this.mMessage, this.mX, this.mY, this.mPositionInfo, this.mURL, this.mIsStack, this.mIsPicNav, this.mPicNavLocator);
             }
         }
     }
 
-    @Override
     public void cancelTimer(Timer timer) {
     }
 }

@@ -17,11 +17,9 @@ public final class NativeProfAdapter {
         return instance;
     }
 
-    native void createKernelUserEvent(String string) {
-    }
+    native void createKernelUserEvent(String var1);
 
-    native void createKernelUserEvent(int n, String string) {
-    }
+    native void createKernelUserEvent(int var1, String var2);
 
     static {
         try {

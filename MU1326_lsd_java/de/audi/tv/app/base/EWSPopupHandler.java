@@ -14,20 +14,16 @@ implements IEWSPopupHandler {
         this.env = tVEnv;
     }
 
-    @Override
     public void showPopup() {
-        this.env.framework.getHmiServiceApp().showPopup(1085024000);
+        this.env.framework.getHmiServiceApp().showPopup(2600000);
     }
 
-    @Override
     public void hidePopup() {
     }
 
-    @Override
     public void showDetails() {
     }
 
-    @Override
     public void showAreaList() {
     }
 }

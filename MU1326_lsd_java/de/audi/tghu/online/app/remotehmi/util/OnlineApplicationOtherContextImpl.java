@@ -35,12 +35,10 @@ implements OnlineApplicationOtherContext {
         this.setEntryPointId(iExternalService.getEntryPointId());
     }
 
-    @Override
     public String getAppName() {
         return this.appName;
     }
 
-    @Override
     public boolean isEnabled() {
         return this.isEnabled;
     }
@@ -49,12 +47,10 @@ implements OnlineApplicationOtherContext {
         this.isEnabled = bl;
     }
 
-    @Override
     public String getAppContext() {
         return this.appContext;
     }
 
-    @Override
     public String getSourceListIconActive() {
         return this.sourceListIconActive;
     }
@@ -63,7 +59,6 @@ implements OnlineApplicationOtherContext {
         this.sourceListIconActive = string;
     }
 
-    @Override
     public String getSourceListIconInactive() {
         return this.sourceListIconInactive;
     }
@@ -72,7 +67,6 @@ implements OnlineApplicationOtherContext {
         this.sourceListIconInactive = string;
     }
 
-    @Override
     public String getCaptionIcon() {
         return this.captionIcon;
     }
@@ -81,7 +75,6 @@ implements OnlineApplicationOtherContext {
         this.captionIcon = string;
     }
 
-    @Override
     public String getLoadingIcon() {
         return this.loadingIcon;
     }
@@ -90,7 +83,6 @@ implements OnlineApplicationOtherContext {
         this.loadingIcon = string;
     }
 
-    @Override
     public String getSourceListIconReflection() {
         return this.sourceListIconReflection;
     }
@@ -137,7 +129,6 @@ implements OnlineApplicationOtherContext {
         this.entryPointId = n;
     }
 
-    @Override
     public int getEntryPointId() {
         return this.entryPointId;
     }
@@ -146,7 +137,6 @@ implements OnlineApplicationOtherContext {
         this.subEntryPoint = string;
     }
 
-    @Override
     public String getSubEntryPoint() {
         return this.subEntryPoint;
     }

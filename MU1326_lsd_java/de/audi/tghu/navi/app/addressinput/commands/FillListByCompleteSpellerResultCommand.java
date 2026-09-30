@@ -16,7 +16,7 @@ import org.dsi.ifc.navigation.LIValueListElement;
 
 public class FillListByCompleteSpellerResultCommand
 extends NavCommand {
-    public static final String COUNTRIES_LIST_KEY;
+    public static final String COUNTRIES_LIST_KEY = "countries";
     private int selectionCriterion;
     private int selectionCriterion2;
     private boolean removeZipCode;
@@ -46,22 +46,21 @@ extends NavCommand {
         this.list = listModelApp;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(1078071040, "FillListByCompleteSpellerResultCommand#execute() - selectionCriterion: %1, selectionCriterion2: %2, list.getLength(): %3", (Object)Selcrit.asString(this.selectionCriterion), (Object)Selcrit.asString(this.selectionCriterion2), (long)this.list.getLength());
-        this.logger.log(1078071040, "FillListByCompleteSpellerResultCommand#execute() - removeZipCode: %1, removeTown: %2, removeStreet: %3", this.removeZipCode, this.removeTown, this.removeStreet);
+        this.logger.log(1000000, "FillListByCompleteSpellerResultCommand#execute() - selectionCriterion: %1, selectionCriterion2: %2, list.getLength(): %3", (Object)Selcrit.asString(this.selectionCriterion), (Object)Selcrit.asString(this.selectionCriterion2), (long)this.list.getLength());
+        this.logger.log(1000000, "FillListByCompleteSpellerResultCommand#execute() - removeZipCode: %1, removeTown: %2, removeStreet: %3", this.removeZipCode, this.removeTown, this.removeStreet);
         try {
             if (this.list.getLength() == 0) {
                 if (this.selectionCriterion2 == -1) {
-                    this.logger.log(1078071040, "FillListByCompleteSpellerResultCommand#execute() - call liStartSpeller()");
+                    this.logger.log(1000000, "FillListByCompleteSpellerResultCommand#execute() - call liStartSpeller()");
                     this.getDSINavigation().liStartSpeller(this.selectionCriterion, this.removeZipCode, this.removeTown, this.removeStreet);
                 } else {
-                    this.logger.log(1078071040, "FillListByCompleteSpellerResultCommand#execute() - call liStartMultiCriteriaSpeller(%1, %2)", (Object)Selcrit.asString(this.selectionCriterion), (Object)Selcrit.asString(this.selectionCriterion2));
+                    this.logger.log(1000000, "FillListByCompleteSpellerResultCommand#execute() - call liStartMultiCriteriaSpeller(%1, %2)", (Object)Selcrit.asString(this.selectionCriterion), (Object)Selcrit.asString(this.selectionCriterion2));
                     this.getDSINavigation().liStartMultiCriteriaSpeller(this.selectionCriterion, this.selectionCriterion2, this.removeZipCode, this.removeTown, this.removeStreet);
                 }
             } else {
                 int n = ((IntegerListCell)this.list.getCell(this.list.getLength() - 1, 0)).getValue();
-                this.logger.log(1078071040, "FillListByCompleteSpellerResultCommand#execute() - calling lispRequestValueListByListIndex(%1,true)", (long)n);
+                this.logger.log(1000000, "FillListByCompleteSpellerResultCommand#execute() - calling lispRequestValueListByListIndex(%1,true)", (long)n);
                 this.getDSINavigation().lispRequestValueListByListIndex(n, true);
             }
         }
@@ -87,14 +86,13 @@ extends NavCommand {
         for (int i2 = 0; i2 < this.list.getLength(); ++i2) {
             lIValueListElementArray[i2] = (LIValueListElement)((ObjectListCell)this.list.getCell(i2, 1)).getValue();
         }
-        this.getCommandList().put("countries", lIValueListElementArray);
+        this.getCommandList().put(COUNTRIES_LIST_KEY, lIValueListElementArray);
     }
 
-    @Override
     public void liValueList(LIValueList lIValueList, long l) {
         int n;
         int n2;
-        this.logger.log(1078071040, "LIStartSpellerCommand#liValueList() - (# %1) ", l);
+        this.logger.log(1000000, "LIStartSpellerCommand#liValueList() - (# %1) ", l);
         this.dsiResponseContainer.setLiValueList(lIValueList, l);
         this.valueListResponded = true;
         int n3 = this.list.getLength();
@@ -108,7 +106,7 @@ extends NavCommand {
         int n4 = lIValueList.getList().length;
         LIValueListElement[] lIValueListElementArray = lIValueList.getList();
         for (n2 = n = n3 > 0 ? 1 : 0; n2 < n4; ++n2) {
-            this.list.addRow(new BaseListRow(new ListCell[]{new IntegerListCell(lIValueListElementArray[n2].listIndex, -129), new ObjectListCell(lIValueListElementArray[n2])}));
+            this.list.addRow(new BaseListRow(new ListCell[]{new IntegerListCell(lIValueListElementArray[n2].listIndex, Integer.MAX_VALUE), new ObjectListCell(lIValueListElementArray[n2])}));
         }
         n2 = this.list.getLength();
         if ((long)n2 < l) {
@@ -118,9 +116,8 @@ extends NavCommand {
         this.checkFinished();
     }
 
-    @Override
     public void lispUpdateSpellerResult(String string, int n, boolean bl, boolean bl2, String string2, int n2, int n3, boolean bl3, boolean bl4, int n4, long l) {
-        this.logger.log(1078071040, "LIStartSpellerCommand#lispUpdateSpellerResult() ");
+        this.logger.log(1000000, "LIStartSpellerCommand#lispUpdateSpellerResult() ");
         if (l == 0L) {
             this.dsiResponseContainer.setLispUpdateSpellerResult(string, n, bl, bl2, string2, n2, n3, bl3, bl4, n4);
             this.spellerResultResponded = true;

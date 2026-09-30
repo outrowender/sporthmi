@@ -11,17 +11,16 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Map$Entry;
 import org.dsi.ifc.has.HASDataContainer;
 import org.dsi.ifc.has.HASDataElement;
 
 public class BalanceFaderRangesContainer
 extends AbstractContainer {
-    private static final int CONTAINER_ID_BALANCE_FADER_RANGES;
-    private static final int ELEMENT_ID_BALANCE_LEFT;
-    private static final int ELEMENT_ID_BALANCE_RIGHT;
-    private static final int ELEMENT_ID_FADER_REAR;
-    private static final int ELEMENT_ID_FADER_FRONT;
+    private static final int CONTAINER_ID_BALANCE_FADER_RANGES = 49;
+    private static final int ELEMENT_ID_BALANCE_LEFT = 106;
+    private static final int ELEMENT_ID_BALANCE_RIGHT = 107;
+    private static final int ELEMENT_ID_FADER_REAR = 108;
+    private static final int ELEMENT_ID_FADER_FRONT = 109;
     private Map map = new HashMap();
 
     public BalanceFaderRangesContainer(int n, int n2, int n3, int n4) {
@@ -74,14 +73,12 @@ extends AbstractContainer {
         return ((Long)this.map.get(new Integer(109))).intValue();
     }
 
-    @Override
     public List createContainer(int n, int n2, int n3) {
         ArrayList arrayList = new ArrayList();
         arrayList.add(new HASDataContainer(49, n2, n, this.createElements(), n3));
         return arrayList;
     }
 
-    @Override
     public HASDataContainer[] createContainer() {
         List list = this.createContainer(-1, 1, -1);
         return (HASDataContainer[])list.toArray(new HASDataContainer[list.size()]);
@@ -92,23 +89,23 @@ extends AbstractContainer {
         HASDataElement[] hASDataElementArray = new HASDataElement[this.map.size()];
         Iterator iterator = this.map.entrySet().iterator();
         while (iterator.hasNext()) {
-            Map$Entry map$Entry = (Map$Entry)iterator.next();
-            if (map$Entry.getValue() == null) continue;
-            switch ((Integer)map$Entry.getKey()) {
+            Map.Entry entry = (Map.Entry)iterator.next();
+            if (entry.getValue() == null) continue;
+            switch ((Integer)entry.getKey()) {
                 case 106: {
-                    hASDataElementArray[n++] = new IntegerElement(106, ((Long)map$Entry.getValue()).intValue());
+                    hASDataElementArray[n++] = new IntegerElement(106, ((Long)entry.getValue()).intValue());
                     break;
                 }
                 case 107: {
-                    hASDataElementArray[n++] = new IntegerElement(107, ((Long)map$Entry.getValue()).intValue());
+                    hASDataElementArray[n++] = new IntegerElement(107, ((Long)entry.getValue()).intValue());
                     break;
                 }
                 case 108: {
-                    hASDataElementArray[n++] = new IntegerElement(108, ((Long)map$Entry.getValue()).intValue());
+                    hASDataElementArray[n++] = new IntegerElement(108, ((Long)entry.getValue()).intValue());
                     break;
                 }
                 case 109: {
-                    hASDataElementArray[n++] = new IntegerElement(109, ((Long)map$Entry.getValue()).intValue());
+                    hASDataElementArray[n++] = new IntegerElement(109, ((Long)entry.getValue()).intValue());
                     break;
                 }
             }
@@ -116,50 +113,49 @@ extends AbstractContainer {
         return hASDataElementArray;
     }
 
-    @Override
     public void toString(StringWriter stringWriter) {
         stringWriter.write("BalanceFaderRangesContainer(");
         Iterator iterator = this.map.entrySet().iterator();
         while (iterator.hasNext()) {
-            Map$Entry map$Entry = (Map$Entry)iterator.next();
-            switch ((Integer)map$Entry.getKey()) {
+            Map.Entry entry = (Map.Entry)iterator.next();
+            switch ((Integer)entry.getKey()) {
                 case 106: {
-                    if (map$Entry.getValue() == null) {
+                    if (entry.getValue() == null) {
                         stringWriter.write("balanceLeft(int)=null");
                         break;
                     }
                     stringWriter.write("balanceLeft(int)='");
-                    stringWriter.write(map$Entry.getValue().toString());
+                    stringWriter.write(entry.getValue().toString());
                     stringWriter.write("'");
                     break;
                 }
                 case 107: {
-                    if (map$Entry.getValue() == null) {
+                    if (entry.getValue() == null) {
                         stringWriter.write("balanceRight(int)=null");
                         break;
                     }
                     stringWriter.write("balanceRight(int)='");
-                    stringWriter.write(map$Entry.getValue().toString());
+                    stringWriter.write(entry.getValue().toString());
                     stringWriter.write("'");
                     break;
                 }
                 case 108: {
-                    if (map$Entry.getValue() == null) {
+                    if (entry.getValue() == null) {
                         stringWriter.write("faderRear(int)=null");
                         break;
                     }
                     stringWriter.write("faderRear(int)='");
-                    stringWriter.write(map$Entry.getValue().toString());
+                    stringWriter.write(entry.getValue().toString());
                     stringWriter.write("'");
                     break;
                 }
                 case 109: {
-                    if (map$Entry.getValue() == null) {
+                    if (entry.getValue() == null) {
                         stringWriter.write("faderFront(int)=null");
                         break;
                     }
                     stringWriter.write("faderFront(int)='");
-                    stringWriter.write(map$Entry.getValue().toString());
+                    stringWriter.write(entry.getValue().toString());
                     stringWriter.write("'");
                     break;
                 }
@@ -170,7 +166,6 @@ extends AbstractContainer {
         stringWriter.write(")");
     }
 
-    @Override
     protected Object clone() {
         BalanceFaderRangesContainer balanceFaderRangesContainer = new BalanceFaderRangesContainer(this);
         return balanceFaderRangesContainer;

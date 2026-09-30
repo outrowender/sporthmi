@@ -3,6 +3,7 @@
  */
 package de.audi.tghu.lang;
 
+import de.audi.atip.activator.AbstractHMIActivator;
 import de.audi.atip.base.IFrameworkAccess;
 import de.audi.atip.diag.IDiagnosisApp;
 import de.audi.atip.diag.sw.AbstractSwDiagnosis;
@@ -15,7 +16,6 @@ import de.audi.atip.i18n.Language;
 import de.audi.atip.log.LogChannel;
 import de.audi.atip.msg.MsgListener;
 import de.audi.tghu.lang.LangChangeWatchDog;
-import de.audi.tghu.lang.LanguageManager$LangComponent;
 import de.esolutions.fw.util.commons.Buffer;
 import de.esolutions.fw.util.commons.Converter;
 import de.esolutions.fw.util.commons.error.DumpInfoProvider;
@@ -23,7 +23,9 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Locale;
 import java.util.StringTokenizer;
 
@@ -32,20 +34,20 @@ implements ILanguageManager,
 IDiagnosisApp,
 DumpInfoProvider,
 MsgListener {
-    private static final String OFF_LANGUAGE_REPLACEMENT_1;
-    private static final String OFF_LANGUAGE_REPLACEMENT_2;
-    private static final int STATE_INIT;
-    private static final int STATE_IN_PROGRESS;
-    private static final int STATE_CHANG_OK;
-    private static final int STATE_CHANGE_FAILED;
+    private static final String OFF_LANGUAGE_REPLACEMENT_1 = "XXXXX";
+    private static final String OFF_LANGUAGE_REPLACEMENT_2 = "00000";
+    private static final int STATE_INIT = 0;
+    private static final int STATE_IN_PROGRESS = 1;
+    private static final int STATE_CHANG_OK = 2;
+    private static final int STATE_CHANGE_FAILED = 3;
     private final LogChannel lc;
     private final IFrameworkAccess fw;
     private ILanguageUIHandler langMngrUI;
     private LangChangeWatchDog langChangeWatchdog;
-    private final LanguageManager$LangComponent hmi;
-    private final LanguageManager$LangComponent navi;
-    private final LanguageManager$LangComponent tts;
-    private final LanguageManager$LangComponent sds;
+    private final LangComponent hmi;
+    private final LangComponent navi;
+    private final LangComponent tts;
+    private final LangComponent sds;
     private final Object availableLangsLock = new Object();
     private boolean textDirectionLtr = true;
     private byte[] persistedLanguages = null;
@@ -53,19 +55,18 @@ MsgListener {
     LanguageManager(IFrameworkAccess iFrameworkAccess) {
         this.fw = iFrameworkAccess;
         this.lc = this.fw.getLogChannel("Fw.Language.Manager");
-        this.hmi = new LanguageManager$LangComponent(this, null);
-        this.navi = new LanguageManager$LangComponent(this, null);
-        this.tts = new LanguageManager$LangComponent(this, null);
-        this.sds = new LanguageManager$LangComponent(this, null);
+        this.hmi = new LangComponent();
+        this.navi = new LangComponent();
+        this.tts = new LangComponent();
+        this.sds = new LangComponent();
     }
 
     private synchronized ILanguageUIHandler getLangMngrUI() {
         return this.langMngrUI;
     }
 
-    @Override
     public synchronized void setLanguageUIHandler(ILanguageUIHandler iLanguageUIHandler) {
-        this.lc.log(-2137614336, "setLanguageUIHandler: %1", (Object)iLanguageUIHandler);
+        this.lc.log(10000000, "setLanguageUIHandler: %1", (Object)iLanguageUIHandler);
         if (this.langMngrUI != null) {
             this.langMngrUI.setLanguageManager(null);
             if (this.langChangeWatchdog != null) {
@@ -81,7 +82,7 @@ MsgListener {
         }
     }
 
-    private LanguageManager$LangComponent getLangComponent(String string) {
+    private LangComponent getLangComponent(String string) {
         if ("LANG_COMPONENT_HMI".equals(string)) {
             return this.hmi;
         }
@@ -106,10 +107,10 @@ MsgListener {
             byArray = this.fw.getStorageMgr().getByteArray(261, 201, null);
         }
         if (!bl || null == byArray) {
-            byArray = this.fw.getStorageMgr().getByteArray(906042371, 201, new byte[0]);
+            byArray = this.fw.getStorageMgr().getByteArray(52166966, 201, new byte[0]);
         }
         if (this.lc.isDebug()) {
-            this.lc.log(-2137614336, "read VISIBLE_LANGUAGES visibleLangsStorage=%1", (Object)Converter.array2String(byArray));
+            this.lc.log(10000000, "read VISIBLE_LANGUAGES visibleLangsStorage=%1", (Object)Converter.array2String(byArray));
         }
         String string = System.getProperty("languages.hmi.builtin", this.getDefaultLanguageByRegion().getLanguageCode());
         StringTokenizer stringTokenizer = new StringTokenizer(string, ",");
@@ -128,7 +129,7 @@ MsgListener {
         } else {
             object3 = this.parseLangs(1, this.getDefaultLanguageByRegion().getLanguageCode(), null);
         }
-        this.lc.log(-2137614336, "read builtInHMILanguages=%1", object3);
+        this.lc.log(10000000, "read builtInHMILanguages=%1", object3);
         if (byArray.length == 0) {
             this.removeArabicLanguage((List)object3);
             object2 = object3;
@@ -142,7 +143,7 @@ MsgListener {
                 object2 = object3;
                 this.lc.log(10000, "wrong format of VISIBLE_LANGUAGES in storage, use default HMI lang=%1", object2);
             }
-            this.lc.log(-2137614336, "read VISIBLE_LANGUAGES lang=%1", object2);
+            this.lc.log(10000000, "read VISIBLE_LANGUAGES lang=%1", object2);
         }
         object = new ArrayList((Collection)object3);
         object3.retainAll((Collection)object2);
@@ -150,7 +151,7 @@ MsgListener {
             object3 = object;
             this.lc.log(10000, "intersection of VISIBLE_LANGUAGES in storage and HMI built in langs is empty, use all HMI langs=%1", object);
         }
-        this.lc.log(-2137614336, "intersection of visibleSysLangs and builtInHMILanguages=%1", object3);
+        this.lc.log(10000000, "intersection of visibleSysLangs and builtInHMILanguages=%1", object3);
         String[] stringArray = (String[])object3.toArray(new String[object3.size()]);
         this.propagateAvailableLanguagesToComponents(stringArray);
     }
@@ -167,7 +168,7 @@ MsgListener {
     }
 
     private List parseLangs(int n, String string, byte[] byArray) {
-        this.lc.log(-2137614336, "languages=%1, length=%2", (Object)string, (long)n);
+        this.lc.log(10000000, "languages=%1, length=%2", (Object)string, (long)n);
         ArrayList arrayList = new ArrayList();
         if (string == null || n < 1 || n > 32) {
             this.lc.log(10000, "invalid lang data, languages=%1", (Object)string);
@@ -205,7 +206,7 @@ MsgListener {
     }
 
     private boolean checkLanguage(String string) {
-        this.lc.log(-2137614336, "checkLanguage: langCode=%1", (Object)string);
+        this.lc.log(10000000, "checkLanguage: langCode=%1", (Object)string);
         if (string == null) {
             return false;
         }
@@ -215,11 +216,10 @@ MsgListener {
         return string.charAt(2) == '_';
     }
 
-    @Override
     public void checkAndSetNewLanguage(Language language) {
-        this.lc.log(-2137614336, "checkAndSetNewLanguage: language=%1", (Object)language.getLanguageCode());
+        this.lc.log(10000000, "checkAndSetNewLanguage: language=%1", (Object)language.getLanguageCode());
         try {
-            LanguageManager$LangComponent.access$102(this.hmi, language);
+            this.hmi.currentLang = language;
             this.updateHMITextDirection();
             ILanguageUIHandler iLanguageUIHandler = this.getLangMngrUI();
             LangChangeWatchDog langChangeWatchDog = this.langChangeWatchdog;
@@ -235,28 +235,28 @@ MsgListener {
                 this.lc.log(10000, "checkAndSetNewLanguage: UI adapter not ready!");
             }
             if (this.checkLanguageAvailability(language)) {
-                LanguageManager$LangComponent.access$102(this.navi, language);
-                if (Arrays.asList(LanguageManager$LangComponent.access$200(this.tts)).contains(language)) {
-                    LanguageManager$LangComponent.access$102(this.tts, language);
+                this.navi.currentLang = language;
+                if (Arrays.asList(this.tts.availableLangs).contains(language)) {
+                    this.tts.currentLang = language;
                 } else {
-                    LanguageManager$LangComponent.access$102(this.tts, this.getDefaultLanguageByRegion());
+                    this.tts.currentLang = this.getDefaultLanguageByRegion();
                 }
-                if (LanguageManager$LangComponent.access$200(this.sds).length == 0 || Arrays.asList(LanguageManager$LangComponent.access$200(this.sds)).contains(language)) {
-                    LanguageManager$LangComponent.access$102(this.sds, language);
+                if (this.sds.availableLangs.length == 0 || Arrays.asList(this.sds.availableLangs).contains(language)) {
+                    this.sds.currentLang = language;
                 } else {
                     this.lc.log(10000, "new language not available for SDS, switch SDS OFF");
-                    LanguageManager$LangComponent.access$102(this.sds, new Language(-1, "", "", "", -1, Locale.US));
+                    this.sds.currentLang = new Language(-1, "", "", "", -1, Locale.US);
                 }
             } else {
                 this.lc.log(10000, "new language not available for TTS or NAVI");
-                LanguageManager$LangComponent.access$102(this.navi, this.getDefaultLanguageByRegion());
-                LanguageManager$LangComponent.access$102(this.tts, this.getDefaultLanguageByRegion());
+                this.navi.currentLang = this.getDefaultLanguageByRegion();
+                this.tts.currentLang = this.getDefaultLanguageByRegion();
                 this.lc.log(10000, "HMI and TTS language are different, switch SDS OFF");
-                LanguageManager$LangComponent.access$102(this.sds, new Language(-1, "", "", "", -1, Locale.US));
+                this.sds.currentLang = new Language(-1, "", "", "", -1, Locale.US);
             }
-            LanguageManager$LangComponent.access$302(this.navi, 1);
-            LanguageManager$LangComponent.access$302(this.tts, 1);
-            LanguageManager$LangComponent.access$302(this.sds, 1);
+            this.navi.status = 1;
+            this.tts.status = 1;
+            this.sds.status = 1;
             this.navi.notifyListeners();
             this.tts.notifyListeners();
             this.sds.notifyListeners();
@@ -269,9 +269,9 @@ MsgListener {
 
     private boolean checkLanguageAvailability(Language language) {
         if (this.fw.isPorsche()) {
-            return Arrays.asList(LanguageManager$LangComponent.access$200(this.navi)).contains(language) && Arrays.asList(LanguageManager$LangComponent.access$200(this.tts)).contains(language);
+            return Arrays.asList(this.navi.availableLangs).contains(language) && Arrays.asList(this.tts.availableLangs).contains(language);
         }
-        return Arrays.asList(LanguageManager$LangComponent.access$200(this.navi)).contains(language);
+        return Arrays.asList(this.navi.availableLangs).contains(language);
     }
 
     protected void addI18NTarget(I18NTarget i18NTarget, String string, String string2) {
@@ -279,33 +279,31 @@ MsgListener {
     }
 
     protected void removeI18NTarget(I18NTarget i18NTarget) {
-        LanguageManager$LangComponent.access$400(this.hmi).remove(i18NTarget);
-        LanguageManager$LangComponent.access$500(this.hmi).remove(i18NTarget);
-        LanguageManager$LangComponent.access$400(this.tts).remove(i18NTarget);
-        LanguageManager$LangComponent.access$400(this.sds).remove(i18NTarget);
-        LanguageManager$LangComponent.access$400(this.navi).remove(i18NTarget);
+        this.hmi.i18NTargets.remove(i18NTarget);
+        this.hmi.i18NTargetsScreens.remove(i18NTarget);
+        this.tts.i18NTargets.remove(i18NTarget);
+        this.sds.i18NTargets.remove(i18NTarget);
+        this.navi.i18NTargets.remove(i18NTarget);
     }
 
     public boolean isLangChangeCompleted() {
-        boolean bl = !(!LanguageManager$LangComponent.access$400(this.navi).isEmpty() && LanguageManager$LangComponent.access$300(this.navi) == 1 || !LanguageManager$LangComponent.access$400(this.tts).isEmpty() && LanguageManager$LangComponent.access$300(this.tts) == 1 || !LanguageManager$LangComponent.access$400(this.sds).isEmpty() && LanguageManager$LangComponent.access$300(this.sds) == 1);
+        boolean bl = !(!this.navi.i18NTargets.isEmpty() && this.navi.status == 1 || !this.tts.i18NTargets.isEmpty() && this.tts.status == 1 || !this.sds.i18NTargets.isEmpty() && this.sds.status == 1);
         return bl;
     }
 
-    @Override
     public Language[] getAvailableLanguages(String string) {
-        this.lc.log(-2137614336, "getAvailableLanguages: langComponent=%1", (Object)string);
-        return LanguageManager$LangComponent.access$200(this.getLangComponent(string));
+        this.lc.log(10000000, "getAvailableLanguages: langComponent=%1", (Object)string);
+        return this.getLangComponent(string).availableLangs;
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updateAvailableLanguages(String string, String[] stringArray) {
         int n;
         String[] stringArray2 = (String[])stringArray.clone();
         if (this.lc.isDebug()) {
-            this.lc.log(-2137614336, "updateAvailableLanguages: langComponent=%1, availableLang=%2", (Object)string, (Object)Converter.array2String(stringArray2));
+            this.lc.log(10000000, "updateAvailableLanguages: langComponent=%1, availableLang=%2", (Object)string, (Object)Converter.array2String(stringArray2));
         }
         if (string == null || stringArray2 == null) {
             this.lc.log(10000, "langComponent or availableLang is NULL");
@@ -349,27 +347,26 @@ MsgListener {
         }
         Object object = this.availableLangsLock;
         synchronized (object) {
-            LanguageManager$LangComponent.access$202(this.getLangComponent(string), this.getLanguagesFromCodes(stringArray2));
+            LangComponent.access$202(this.getLangComponent(string), this.getLanguagesFromCodes(stringArray2));
         }
     }
 
-    @Override
     public Language getCurrentLanguage(String string) {
-        this.lc.log(-2137614336, "getCurrentLanguage: langComponent=%1", (Object)string);
-        return LanguageManager$LangComponent.access$100(this.getLangComponent(string));
+        this.lc.log(10000000, "getCurrentLanguage: langComponent=%1", (Object)string);
+        return this.getLangComponent(string).currentLang;
     }
 
     private void serializeAndStore() {
         try {
             byte[] byArray = new byte[22];
-            System.arraycopy((Object)LanguageManager$LangComponent.access$100(this.hmi).getHmiCode().getBytes(), 0, (Object)byArray, 0, 5);
-            System.arraycopy((Object)LanguageManager$LangComponent.access$100(this.navi).getHmiCode().getBytes(), 0, (Object)byArray, 6, 5);
-            String string = LanguageManager$LangComponent.access$100(this.sds).getHmiCode();
+            System.arraycopy((Object)this.hmi.currentLang.getHmiCode().getBytes(), 0, (Object)byArray, 0, 5);
+            System.arraycopy((Object)this.navi.currentLang.getHmiCode().getBytes(), 0, (Object)byArray, 6, 5);
+            String string = this.sds.currentLang.getHmiCode();
             if ("".equals(string)) {
-                string = "00000";
+                string = OFF_LANGUAGE_REPLACEMENT_2;
             }
             System.arraycopy((Object)string.getBytes(), 0, (Object)byArray, 12, 5);
-            this.fw.getStorageMgr().setString(-553599487, 308, LanguageManager$LangComponent.access$100(this.hmi).getHmiCode());
+            this.fw.getStorageMgr().setString(29229279, 308, this.hmi.currentLang.getHmiCode());
             this.fw.getStorageMgr().setByteArray(1101, 10, byArray);
             this.persistedLanguages = byArray;
         }
@@ -379,41 +376,41 @@ MsgListener {
     }
 
     private void initHMILanguage(String string) {
-        if (this.checkLanguage(string) && Arrays.asList(LanguageManager$LangComponent.access$200(this.hmi)).contains(this.getLanguageFromCode(string))) {
-            this.lc.log(-2137614336, "set HMI_LANGUAGE to language=%1", (Object)string);
-            LanguageManager$LangComponent.access$102(this.hmi, this.getLanguageFromCode(string));
+        if (this.checkLanguage(string) && Arrays.asList(this.hmi.availableLangs).contains(this.getLanguageFromCode(string))) {
+            this.lc.log(10000000, "set HMI_LANGUAGE to language=%1", (Object)string);
+            this.hmi.currentLang = this.getLanguageFromCode(string);
         } else {
             Language language = this.getFallbackLanguage();
-            this.lc.log(-2137614336, "set HMI_LANGUAGE to fallback language=%1", (Object)language);
-            LanguageManager$LangComponent.access$102(this.hmi, language);
+            this.lc.log(10000000, "set HMI_LANGUAGE to fallback language=%1", (Object)language);
+            this.hmi.currentLang = language;
         }
         this.updateHMITextDirection();
     }
 
     private void initTTSNavLanguage(String string) {
-        if (this.checkLanguage(string) && Arrays.asList(LanguageManager$LangComponent.access$200(this.hmi)).contains(this.getLanguageFromCode(string))) {
-            this.lc.log(-2137614336, "set NAVI/TTS_LANGUAGE to language=%1", (Object)string);
-            LanguageManager$LangComponent.access$102(this.navi, this.getLanguageFromCode(string));
-            LanguageManager$LangComponent.access$102(this.tts, this.getLanguageFromCode(string));
+        if (this.checkLanguage(string) && Arrays.asList(this.hmi.availableLangs).contains(this.getLanguageFromCode(string))) {
+            this.lc.log(10000000, "set NAVI/TTS_LANGUAGE to language=%1", (Object)string);
+            this.navi.currentLang = this.getLanguageFromCode(string);
+            this.tts.currentLang = this.getLanguageFromCode(string);
         } else {
             Language language = this.getFallbackLanguage();
-            this.lc.log(-2137614336, "set NAVI/TTS_LANGUAGE to fallback language=%1", (Object)language);
-            LanguageManager$LangComponent.access$102(this.navi, language);
-            LanguageManager$LangComponent.access$102(this.tts, language);
+            this.lc.log(10000000, "set NAVI/TTS_LANGUAGE to fallback language=%1", (Object)language);
+            this.navi.currentLang = language;
+            this.tts.currentLang = language;
         }
     }
 
     private void initSDSLanguage(String string) {
-        if (this.checkLanguage(string) && Arrays.asList(LanguageManager$LangComponent.access$200(this.hmi)).contains(this.getLanguageFromCode(string))) {
-            this.lc.log(-2137614336, "set SDS_LANGUAGE to language=%1", (Object)string);
-            LanguageManager$LangComponent.access$102(this.sds, this.getLanguageFromCode(string));
-        } else if ("XXXXX".equals(string) || "00000".equals(string)) {
-            this.lc.log(-2137614336, "switch SDS_LANGUAGE OFF");
-            LanguageManager$LangComponent.access$102(this.sds, new Language(-1, "", "", "", -1, Locale.US));
+        if (this.checkLanguage(string) && Arrays.asList(this.hmi.availableLangs).contains(this.getLanguageFromCode(string))) {
+            this.lc.log(10000000, "set SDS_LANGUAGE to language=%1", (Object)string);
+            this.sds.currentLang = this.getLanguageFromCode(string);
+        } else if (OFF_LANGUAGE_REPLACEMENT_1.equals(string) || OFF_LANGUAGE_REPLACEMENT_2.equals(string)) {
+            this.lc.log(10000000, "switch SDS_LANGUAGE OFF");
+            this.sds.currentLang = new Language(-1, "", "", "", -1, Locale.US);
         } else {
             Language language = this.getFallbackLanguage();
-            this.lc.log(-2137614336, "set SDS_LANGUAGE to fallback language=%1", (Object)language);
-            LanguageManager$LangComponent.access$102(this.sds, language);
+            this.lc.log(10000000, "set SDS_LANGUAGE to fallback language=%1", (Object)language);
+            this.sds.currentLang = language;
         }
     }
 
@@ -436,9 +433,9 @@ MsgListener {
             byArray = this.fw.getStorageMgr().getByteArray(261, 202, null);
         }
         if (!bl || null == byArray) {
-            byArray = this.fw.getStorageMgr().getByteArray(906042371, 202, new byte[0]);
+            byArray = this.fw.getStorageMgr().getByteArray(52166966, 202, new byte[0]);
         }
-        this.lc.log(-2137614336, "readAndDeserializeFromCoding() data[]=%1", (Object)byArray);
+        this.lc.log(10000000, "readAndDeserializeFromCoding() data[]=%1", (Object)byArray);
         if (byArray.length == 22) {
             this.initHMILanguage(new String(byArray, 0, 5));
             this.initTTSNavLanguage(new String(byArray, 6, 5));
@@ -453,9 +450,8 @@ MsgListener {
         this.serializeAndStore();
     }
 
-    @Override
     public void init(boolean bl) {
-        this.lc.log(-2137614336, "init()");
+        this.lc.log(10000000, "init()");
         try {
             this.initAvailableLanguages(bl);
             this.readAndDeserialize(bl);
@@ -469,16 +465,15 @@ MsgListener {
         }
     }
 
-    @Override
     public void responseSetLanguage(String string, boolean bl) {
-        this.lc.log(-2137614336, "responseSetLanguage: languageComponent=%2, ok=%1", bl, (Object)string);
+        this.lc.log(10000000, "responseSetLanguage: languageComponent=%2, ok=%1", bl, (Object)string);
         int n = bl ? 2 : 3;
-        LanguageManager$LangComponent languageManager$LangComponent = this.getLangComponent(string);
-        if (languageManager$LangComponent == null) {
+        LangComponent langComponent = this.getLangComponent(string);
+        if (langComponent == null) {
             this.lc.log(10000, "responseSetLanguage: languageComponent %1 is not valid or null!", (Object)string);
             return;
         }
-        LanguageManager$LangComponent.access$302(languageManager$LangComponent, n);
+        langComponent.status = n;
         if (this.isLangChangeCompleted()) {
             ILanguageUIHandler iLanguageUIHandler = this.getLangMngrUI();
             LangChangeWatchDog langChangeWatchDog = this.langChangeWatchdog;
@@ -488,7 +483,7 @@ MsgListener {
                 }
                 iLanguageUIHandler.langChangeFinished();
             } else {
-                this.lc.log(-1601830656, "responseSetLanguage: UI adapter not ready!");
+                this.lc.log(100000, "responseSetLanguage: UI adapter not ready!");
             }
         }
     }
@@ -540,7 +535,7 @@ MsgListener {
         catch (Exception exception) {
             language = I18NTarget.LANGUAGES[9];
         }
-        this.lc.log(-2137614336, "getDefaultLanguageByRegion: language=%1", (Object)language);
+        this.lc.log(10000000, "getDefaultLanguageByRegion: language=%1", (Object)language);
         return language;
     }
 
@@ -556,17 +551,17 @@ MsgListener {
             synchronized (object) {
                 int n;
                 Language[] languageArray = this.getAvailableLanguages("LANG_COMPONENT_HMI");
-                this.lc.log(-2137614336, "getFallbackLanguage: check region language available");
+                this.lc.log(10000000, "getFallbackLanguage: check region language available");
                 for (n = 0; n < languageArray.length; ++n) {
                     if (!language.equals(languageArray[n])) continue;
                     language2 = language;
                 }
                 if (null == language2) {
-                    this.lc.log(-2137614336, "getFallbackLanguage: search english dialect");
+                    this.lc.log(10000000, "getFallbackLanguage: search english dialect");
                     for (n = 0; n < languageArray.length; ++n) {
                         Language language3 = languageArray[n];
                         if (null == language3) {
-                            this.lc.log(-2137614336, "getFallbackLanguage: language %2 is null", (long)n);
+                            this.lc.log(10000000, "getFallbackLanguage: language %2 is null", (long)n);
                             continue;
                         }
                         if (!language3.getLanguageCode().toLowerCase().startsWith("en_")) continue;
@@ -575,7 +570,7 @@ MsgListener {
                     }
                 }
                 if (null == language2) {
-                    this.lc.log(-2137614336, "getFallbackLanguage: take first language");
+                    this.lc.log(10000000, "getFallbackLanguage: take first language");
                     language2 = languageArray[0];
                 }
             }
@@ -593,7 +588,7 @@ MsgListener {
                 this.propagateAvailableLanguagesToComponents(new String[]{language2.getHmiCode()});
             }
         }
-        this.lc.log(-2137614336, "getFallbackLanguage: language=%1", language2);
+        this.lc.log(10000000, "getFallbackLanguage: language=%1", language2);
         return language2;
     }
 
@@ -620,26 +615,21 @@ MsgListener {
         return objectArray;
     }
 
-    @Override
     public void performAction(int n, Object object) {
     }
 
-    @Override
     public void startDiagSession() {
     }
 
-    @Override
     public void stopDiagSession() {
     }
 
-    @Override
     public void switch2OriginSource(int n, int n2) {
     }
 
-    @Override
     public void updateDiagnosticValueChanged(int n, long l) {
-        this.lc.log(-2137614336, "updateDiagnosticValueChanged: namespace=%1, key=%2", (long)n, l);
-        if (n == 906042371 && l == 0 || n == 1101 && l == 0) {
+        this.lc.log(10000000, "updateDiagnosticValueChanged: namespace=%1, key=%2", (long)n, l);
+        if (n == 52166966 && l == 202L || n == 1101 && l == 10L) {
             try {
                 this.initAvailableLanguages(false);
                 this.readAndDeserializeFromCoding(false);
@@ -657,24 +647,21 @@ MsgListener {
         }
     }
 
-    @Override
     public void dump(PrintStream printStream, String string) {
         printStream.println(new StringBuffer().append("Persistence: ").append(this.persistedLanguages != null ? new String(this.persistedLanguages) : "not read (yet)!").toString());
         printStream.print(AbstractSwDiagnosis.dumpObject(this));
     }
 
-    @Override
     public String getName() {
         return "LanguageManager";
     }
 
-    @Override
     public boolean isLeftToRightOrientation() {
         return this.textDirectionLtr;
     }
 
     private void updateHMITextDirection() {
-        this.textDirectionLtr = LanguageManager$LangComponent.access$100(this.hmi).getTextDirection() == 0;
+        this.textDirectionLtr = this.hmi.currentLang.getTextDirection() == 0;
         ChoiceModelApp choiceModelApp = this.fw.getHmiServiceApp().getChoiceModel(4359);
         if (choiceModelApp != null) {
             choiceModelApp.setValue(this.textDirectionLtr ? 0 : 1);
@@ -688,7 +675,6 @@ MsgListener {
         }
     }
 
-    @Override
     public void processMsg(int n) {
         switch (n) {
             case 97: {
@@ -698,8 +684,75 @@ MsgListener {
         }
     }
 
-    static /* synthetic */ LogChannel access$600(LanguageManager languageManager) {
-        return languageManager.lc;
+    private final class LangComponent {
+        private int status = 0;
+        private Language[] availableLangs = new Language[0];
+        private Language currentLang = LanguageManager.this.getDefaultLanguageByRegion();
+        private final List i18NTargets = new LinkedList();
+        private final List i18NTargetsScreens = new LinkedList();
+
+        private LangComponent() {
+        }
+
+        public synchronized void addI18NTarget(I18NTarget i18NTarget, String string) {
+            if (i18NTarget instanceof AbstractHMIActivator) {
+                if (!this.i18NTargetsScreens.contains(i18NTarget)) {
+                    this.i18NTargetsScreens.add(i18NTarget);
+                }
+            } else if (!this.i18NTargets.contains(i18NTarget)) {
+                this.i18NTargets.add(i18NTarget);
+                if ("UPDATE_AFTER_REGISTRATION".equals(string)) {
+                    try {
+                        i18NTarget.setLanguage(this.currentLang);
+                    }
+                    catch (Exception exception) {
+                        LanguageManager.this.lc.log(10000, "setI18NTargetLanguage, i18NTargetsScreens - Error: %1", (Throwable)exception);
+                    }
+                    catch (Error error) {
+                        LanguageManager.this.lc.log(1000, "setI18NTargetLanguage, i18NTargetsScreens - Critical Error!");
+                        error.printStackTrace();
+                    }
+                }
+            }
+        }
+
+        public synchronized void notifyListeners() {
+            ListIterator listIterator = this.i18NTargetsScreens.listIterator();
+            while (listIterator.hasNext()) {
+                try {
+                    ((I18NTarget)listIterator.next()).setLanguage(this.currentLang);
+                }
+                catch (Exception exception) {
+                    LanguageManager.this.lc.log(10000, "setI18NTargetLanguage, i18NTargetsScreens - Error: %1", (Throwable)exception);
+                }
+                catch (Error error) {
+                    LanguageManager.this.lc.log(1000, "setI18NTargetLanguage, i18NTargetsScreens - Critical Error!");
+                    error.printStackTrace();
+                }
+            }
+            listIterator = this.i18NTargets.listIterator();
+            while (listIterator.hasNext()) {
+                try {
+                    ((I18NTarget)listIterator.next()).setLanguage(this.currentLang);
+                }
+                catch (Exception exception) {
+                    LanguageManager.this.lc.log(10000, "setI18NTargetLanguage, i18NTargets - Error: %1", (Throwable)exception);
+                }
+                catch (Error error) {
+                    LanguageManager.this.lc.log(1000, "setI18NTargetLanguage, i18NTargets - Criticial Error!");
+                    error.printStackTrace();
+                }
+            }
+        }
+
+        public String toString() {
+            return AbstractSwDiagnosis.dumpObject(this);
+        }
+
+        static /* synthetic */ Language[] access$202(LangComponent langComponent, Language[] languageArray) {
+            langComponent.availableLangs = languageArray;
+            return languageArray;
+        }
     }
 }
 

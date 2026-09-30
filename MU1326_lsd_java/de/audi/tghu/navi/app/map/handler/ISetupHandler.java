@@ -5,235 +5,169 @@ package de.audi.tghu.navi.app.map.handler;
 
 import de.audi.atip.hmi.model.ChoiceListener;
 import de.audi.tghu.navi.app.map.AbstractMap;
-import de.audi.tghu.navi.app.map.context.State$StateData;
+import de.audi.tghu.navi.app.map.context.State;
 
 public interface ISetupHandler
 extends ChoiceListener {
-    public static final float DEFAULT_ZOOM_LEVEL;
+    public static final float DEFAULT_ZOOM_LEVEL = 400.0f;
 
-    default public void saveState() {
-    }
+    public void saveState();
 
-    default public void initFromStateData(State$StateData state$StateData, boolean bl) {
-    }
+    public void initFromStateData(State.StateData var1, boolean var2);
 
-    default public boolean isInitializationPhasefinished() {
-    }
+    public boolean isInitializationPhasefinished();
 
-    default public void setOption(int n, int n2, boolean bl) {
-    }
+    public void setOption(int var1, int var2, boolean var3);
 
-    default public void setOption(int n, boolean bl, boolean bl2) {
-    }
+    public void setOption(int var1, boolean var2, boolean var3);
 
-    default public void setMapTypeAndOrientation(int n) {
-    }
+    public void setMapTypeAndOrientation(int var1);
 
-    default public void setPanorama(boolean bl, boolean bl2) {
-    }
+    public void setPanorama(boolean var1, boolean var2);
 
-    default public void setOrientation(int n, boolean bl) {
-    }
+    public void setOrientation(int var1, boolean var2);
 
-    default public void setMapType(int n, boolean bl) {
-    }
+    public void setMapType(int var1, boolean var2);
 
-    default public void setAutoZoom(int n, boolean bl) {
-    }
+    public void setAutoZoom(int var1, boolean var2);
 
-    default public void setAdditionalInfos(int n, boolean bl) {
-    }
+    public void setAdditionalInfos(int var1, boolean var2);
 
-    default public void setCrossingView(int n, boolean bl) {
-    }
+    public void setCrossingView(int var1, boolean var2);
 
-    default public void setTopBusiness(boolean bl, boolean bl2, int n) {
-    }
+    public void setTopBusiness(boolean var1, boolean var2, int var3);
 
-    default public void setTopPrivate(boolean bl, boolean bl2, int n) {
-    }
+    public void setTopPrivate(boolean var1, boolean var2, int var3);
 
-    default public void setBrandedPOIs(int n, boolean bl, int n2) {
-    }
+    public void setBrandedPOIs(int var1, boolean var2, int var3);
 
-    default public void setSpeedAndFlowFreeflow(boolean bl, boolean bl2, int n) {
-    }
+    public void setSpeedAndFlowFreeflow(boolean var1, boolean var2, int var3);
 
-    default public void setSpeedAndFlowCongestions(boolean bl, boolean bl2, int n) {
-    }
+    public void setSpeedAndFlowCongestions(boolean var1, boolean var2, int var3);
 
-    default public void setPicNavIcons(boolean bl, boolean bl2, int n) {
-    }
+    public void setPicNavIcons(boolean var1, boolean var2, int var3);
 
-    default public void setWeatherIcons(boolean bl, boolean bl2, int n) {
-    }
+    public void setWeatherIcons(boolean var1, boolean var2, int var3);
 
-    default public void setRange(boolean bl, boolean bl2, int n) {
-    }
+    public void setRange(boolean var1, boolean var2, int var3);
 
-    default public void setSavedZoomListIndex(int n, boolean bl) {
-    }
+    public void setSavedZoomListIndex(int var1, boolean var2);
 
-    default public void setMapRepresentation(int n, boolean bl) {
-    }
+    public void setMapRepresentation(int var1, boolean var2);
 
-    default public void setPoiVisible(int[] nArray, boolean[] blArray, boolean bl) {
-    }
+    public void setPoiVisible(int[] var1, boolean[] var2, boolean var3);
 
-    default public void setFavorites(boolean bl, boolean bl2, int n) {
-    }
+    public void setFavorites(boolean var1, boolean var2, int var3);
 
-    default public void setGoogle3DCityModel(int n, boolean bl) {
-    }
+    public void setGoogle3DCityModel(int var1, boolean var2);
 
-    default public int getDayNightView() {
-    }
+    public int getDayNightView();
 
-    default public int getOrientation() {
-    }
+    public int getOrientation();
 
-    default public int getMapType(boolean bl) {
-    }
+    public int getMapType(boolean var1);
 
-    default public int getMapType() {
-    }
+    public int getMapType();
 
-    default public int getAutoZoom() {
-    }
+    public int getAutoZoom();
 
-    default public int getAutoZoom(boolean bl) {
-    }
+    public int getAutoZoom(boolean var1);
 
-    default public int getAdditionalInfos() {
-    }
+    public int getAdditionalInfos();
 
-    default public int getCrossingView() {
-    }
+    public int getCrossingView();
 
-    default public boolean getTMCSymbols(int n) {
-    }
+    public boolean getTMCSymbols(int var1);
 
-    default public boolean get3DLandmarks(int n) {
-    }
+    public boolean get3DLandmarks(int var1);
 
-    default public int get3DBuildings(int n) {
-    }
+    public int get3DBuildings(int var1);
 
-    default public boolean getTopBusiness(int n) {
-    }
+    public boolean getTopBusiness(int var1);
 
-    default public boolean getTopPrivate(int n) {
-    }
+    public boolean getTopPrivate(int var1);
 
-    default public int getBrandedPOIs(int n) {
-    }
+    public int getBrandedPOIs(int var1);
 
-    default public boolean getSpeedAndFlowFreeflow(int n) {
-    }
+    public boolean getSpeedAndFlowFreeflow(int var1);
 
-    default public boolean getSpeedAndFlowCongestions(int n) {
-    }
+    public boolean getSpeedAndFlowCongestions(int var1);
 
-    default public boolean getPicNavIcons(int n) {
-    }
+    public boolean getPicNavIcons(int var1);
 
-    default public boolean isWeatherIconVisible(int n) {
-    }
+    public boolean isWeatherIconVisible(int var1);
 
-    default public boolean getRange(int n) {
-    }
+    public boolean getRange(int var1);
 
-    default public int getSavedZoomListIndex() {
-    }
+    public int getSavedZoomListIndex();
 
-    default public int getMapRepresentation() {
-    }
+    public int getMapRepresentation();
 
-    default public int getBackupMapRepresentation() {
-    }
+    public int getBackupMapRepresentation();
 
-    default public int[] getPoiVisibleUid() {
-    }
+    public int[] getPoiVisibleUid();
 
-    default public boolean[] getPoiVisibleStatus() {
-    }
+    public boolean[] getPoiVisibleStatus();
 
-    default public boolean isCrossingViewEnabled() {
-    }
+    public boolean isCrossingViewEnabled();
 
-    default public boolean isMapInMapEnabled() {
-    }
+    public boolean isMapInMapEnabled();
 
-    default public boolean isRouteInfoEnabled() {
-    }
+    public boolean isRouteInfoEnabled();
 
-    default public boolean isPanorama() {
-    }
+    public boolean isPanorama();
 
-    default public boolean isFavoriteVisible(int n) {
-    }
+    public boolean isFavoriteVisible(int var1);
 
-    default public int getGoogle3DCityModel() {
-    }
+    public int getGoogle3DCityModel();
 
-    default public void forceHiddenContextRefresh(boolean bl) {
-    }
+    public void forceHiddenContextRefresh(boolean var1);
 
-    default public int[] getPoiVisibility() {
-    }
+    public int[] getPoiVisibility();
 
-    default public void resetSettings() {
-    }
+    public void resetSettings();
 
-    default public void bind(AbstractMap abstractMap) {
-    }
+    public void bind(AbstractMap var1);
 
-    default public int getProperty(int n) {
-    }
+    public int getProperty(int var1);
 
-    default public void setProperty(int n, int n2) {
-    }
+    public void setProperty(int var1, int var2);
 
-    default public boolean isManeuverZoomDependendOnAutoZoom() {
-    }
+    public boolean isManeuverZoomDependendOnAutoZoom();
 
-    default public int getEtaMode() {
-    }
+    public int getEtaMode();
 
-    default public int getSpeedAndFlow() {
-    }
+    public int getSpeedAndFlow();
 
-    default public int getLayerPOI() {
-    }
+    public int getLayerPOI();
 
-    default public int getRangeMapVisibilitySetting() {
-    }
+    public int getRangeMapVisibilitySetting();
 
-    default public int getIntersectionZoom() {
-    }
+    public int getIntersectionZoom();
 
-    default public int getOnlineTraffic() {
-    }
+    public int getOnlineTraffic();
 
-    default public boolean getGeneralPoiVisibility() {
-    }
+    public boolean getGeneralPoiVisibility();
 
-    default public void setEtaMode(int n, boolean bl) {
-    }
+    public void setEtaMode(int var1, boolean var2);
 
-    default public void setLayerPOI(int n, boolean bl) {
-    }
+    public void setLayerPOI(int var1, boolean var2);
 
-    default public void setRangeMapVisibilitySetting(int n, boolean bl) {
-    }
+    public void setRangeMapVisibilitySetting(int var1, boolean var2);
 
-    default public void setSpeedAndFlow(int n, boolean bl) {
-    }
+    public void setSpeedAndFlow(int var1, boolean var2);
 
-    default public void setIntersectionZoom(int n, boolean bl) {
-    }
+    public void setIntersectionZoom(int var1, boolean var2);
 
-    default public void setOnlineTraffic(int n, boolean bl) {
+    public void setOnlineTraffic(int var1, boolean var2);
+
+    public static interface Property {
+        public static final int ASIA_MAP_CONTENT_TRAFFIC_EVENT_ICONS = 0;
+        public static final int ASIA_MAP_CONTENT_TRAFFIC_EVENT_NOTICE = 1;
+        public static final int ASIA_MAP_CONTENT_UNCROWDED_ROAD = 2;
+        public static final int ASIA_MAP_CONTENT_FAVORITES = 4;
+        public static final int ASIA_MAP_CONTENT_TRAFFIC_FLOW = 5;
+        public static final int ASIA_MAP_CONTENT_WEATHER_ICONS = 6;
     }
 }
 

@@ -11,12 +11,8 @@ import de.audi.remotehmi.HMIProperties;
 import de.audi.remotehmi.RemoteHMIAction;
 import de.audi.remotehmi.ui.mib2.grid.ISpeller;
 import de.audi.remotehmi.util.LogAppender;
-import de.audi.remotehmi.util.LogAppender$Factory;
+import de.audi.tghu.online.app.remotehmi.AbstractRemoteHMITask;
 import de.audi.tghu.online.app.remotehmi.RemoteHMIService;
-import de.audi.tghu.online.app.remotehmi.search.AbstractSpellerHandler$1;
-import de.audi.tghu.online.app.remotehmi.search.AbstractSpellerHandler$2;
-import de.audi.tghu.online.app.remotehmi.search.AbstractSpellerHandler$3;
-import de.audi.tghu.online.app.remotehmi.search.AbstractSpellerHandler$4;
 import de.audi.tghu.online.app.remotehmi.search.ISearchListener;
 import de.audi.tghu.online.app.remotehmi.search.ITruffleSearchHandler;
 import de.audi.tghu.online.app.remotehmi.util.MapUtilities;
@@ -30,8 +26,8 @@ import org.dsi.ifc.search.Token;
 public abstract class AbstractSpellerHandler
 implements SpellerListener,
 ISearchListener {
-    public static final int STATE_INVISIBLE;
-    public static final int STATE_VISIBLE;
+    public static final int STATE_INVISIBLE = 0;
+    public static final int STATE_VISIBLE = 1;
     protected RemoteHMIService service;
     protected int type;
     protected ITruffleSearchHandler truffleSearchHandler;
@@ -45,8 +41,7 @@ ISearchListener {
         this.service = remoteHMIService;
     }
 
-    public abstract void setTruffleComponent(ITruffleSearchHandler iTruffleSearchHandler) {
-    }
+    public abstract void setTruffleComponent(ITruffleSearchHandler var1);
 
     public void updateViewProperties(ISpeller iSpeller, boolean bl) {
         this.type = iSpeller.getType();
@@ -56,17 +51,19 @@ ISearchListener {
         this.spellerModel.setCommandAvailable(7, bl2);
     }
 
-    @Override
-    public final void textChanged(int n, String string, char c2, int n2) {
-        this.logChannel.log(1078071040, "AbstractSpellerHandler#textChanged: type %1, text changed %2", (Object)MapUtilities.getDescriptionOfFirstValue(ISpeller.typeOptions, this.type), (Object)string);
-        this.service.execute(new AbstractSpellerHandler$1(this, "speller-text-changed", LogAppender$Factory.fromString(string), n, string, c2, n2));
+    public final void textChanged(final int n, final String string, final char c2, final int n2) {
+        this.logChannel.log(1000000, "AbstractSpellerHandler#textChanged: type %1, text changed %2", (Object)MapUtilities.getDescriptionOfFirstValue(ISpeller.typeOptions, this.type), (Object)string);
+        this.service.execute(new AbstractRemoteHMITask("speller-text-changed", LogAppender.Factory.fromString(string)){
+
+            public void run() {
+                AbstractSpellerHandler.this.processTextChanged(n, string, c2, n2);
+            }
+        });
     }
 
-    protected abstract void processTextChanged(int n, String string, char c2, int n2) {
-    }
+    protected abstract void processTextChanged(int var1, String var2, char var3, int var4);
 
-    protected abstract void triggerSpellerAction(RemoteHMIAction remoteHMIAction, int n, String string) {
-    }
+    protected abstract void triggerSpellerAction(RemoteHMIAction var1, int var2, String var3);
 
     protected void invokeAction(RemoteHMIAction remoteHMIAction, String string, int n, String string2) {
         HMIProperties hMIProperties = remoteHMIAction.getParameters();
@@ -80,10 +77,9 @@ ISearchListener {
         this.spellerBarVisibilityChoice.setValue(bl ? 1 : 0);
     }
 
-    @Override
     public void commandPressed(int n, int n2, int n3) {
         String string = "AbstractSpellerHandler#commandPressed: commandPressed model=%1, index=%2 (4711 =opened, 4712=closed).";
-        this.logChannel.log(1078071040, string, (long)n, (long)n2);
+        this.logChannel.log(1000000, string, (long)n, (long)n2);
         if (n2 == 4711) {
             this.spellerBandVisibilityCallback(true);
         } else if (n2 == 4712) {
@@ -91,41 +87,44 @@ ISearchListener {
         }
     }
 
-    protected abstract void spellerBandVisibilityCallback(boolean bl) {
-    }
+    protected abstract void spellerBandVisibilityCallback(boolean var1);
 
-    @Override
     public void focusedCharacter(int n, char c2, int n2) {
-        this.logChannel.log(1078071040, "AbstractSpellerHandler#focusedCharacter: focusedCharacter");
+        this.logChannel.log(1000000, "AbstractSpellerHandler#focusedCharacter: focusedCharacter");
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3) {
-        this.logChannel.log(1078071040, "AbstractSpellerHandler#keyPressed: keyPressed");
+        this.logChannel.log(1000000, "AbstractSpellerHandler#keyPressed: keyPressed");
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3) {
-        this.logChannel.log(1078071040, "AbstractSpellerHandler#keyReleased: keyReleased");
+        this.logChannel.log(1000000, "AbstractSpellerHandler#keyReleased: keyReleased");
     }
 
-    @Override
-    public void keyTyped(int n, int n2, int n3) {
-        this.logChannel.log(1078071040, "AbstractSpellerHandler#keyTyped: keyTyped");
-        this.service.execute(new AbstractSpellerHandler$2(this, "speller-key-typed", LogAppender$Factory.fromInt(n2), n));
+    public void keyTyped(final int n, int n2, int n3) {
+        this.logChannel.log(1000000, "AbstractSpellerHandler#keyTyped: keyTyped");
+        this.service.execute(new AbstractRemoteHMITask("speller-key-typed", LogAppender.Factory.fromInt(n2)){
+
+            public void run() {
+                AbstractSpellerHandler.this.triggerSpellerAction(AbstractSpellerHandler.this.service.getAction(1000900), n, (String)AbstractSpellerHandler.this.spellerValues.get(new Integer(n)));
+            }
+        });
     }
 
     protected void clearSpeller() {
         this.spellerModel.clear();
     }
 
-    @Override
-    public void triggerApplySearchFilter(int n, Token[] tokenArray) {
-        this.service.execute(new AbstractSpellerHandler$3(this, "speller-apply-search-filter", LogAppender$Factory.fromInt(n), n, tokenArray));
+    public void triggerApplySearchFilter(final int n, final Token[] tokenArray) {
+        this.service.execute(new AbstractRemoteHMITask("speller-apply-search-filter", LogAppender.Factory.fromInt(n)){
+
+            public void run() {
+                AbstractSpellerHandler.this.applySearchFilter(n, tokenArray);
+            }
+        });
     }
 
-    protected abstract void applySearchFilter(int n, Token[] tokenArray) {
-    }
+    protected abstract void applySearchFilter(int var1, Token[] var2);
 
     protected ArrayList createHighlightList(Token[] tokenArray) {
         ArrayList arrayList = new ArrayList(tokenArray.length);
@@ -154,10 +153,20 @@ ISearchListener {
         return nArray;
     }
 
-    @Override
-    public void handleSuggestion(Suggestion suggestion, String string) {
-        LogAppender logAppender = suggestion == null ? null : LogAppender$Factory.fromString(suggestion.getSuggestion());
-        this.service.execute(new AbstractSpellerHandler$4(this, "speller-handle-suggestion", logAppender, suggestion));
+    public void handleSuggestion(final Suggestion suggestion, String string) {
+        LogAppender logAppender = suggestion == null ? null : LogAppender.Factory.fromString(suggestion.getSuggestion());
+        this.service.execute(new AbstractRemoteHMITask("speller-handle-suggestion", logAppender){
+
+            public void run() {
+                if (suggestion == null) {
+                    AbstractSpellerHandler.this.logChannel.log(1000000, "AbstractSpellerHandler#requestSuggestion: no suggestion");
+                    return;
+                }
+                String string = new StringBuffer().append(AbstractSpellerHandler.this.spellerModel.getText()).append(suggestion.getSuggestion()).toString();
+                AbstractSpellerHandler.this.logChannel.log(10000000, "AbstractGuiSearchHandler#setSlowGuess setting %1 as slow guess", (Object)string);
+                AbstractSpellerHandler.this.spellerModel.setSuggestions(string, suggestion.getQuery());
+            }
+        });
     }
 }
 

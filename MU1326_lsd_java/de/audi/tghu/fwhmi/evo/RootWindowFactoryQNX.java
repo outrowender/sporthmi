@@ -14,7 +14,6 @@ extends AbstractRootWindowFactory {
         super(iFrameworkAccess);
     }
 
-    @Override
     public IRootWindow getRootWindow(int n) {
         return new RootWindowQNX(n, this.framework);
     }

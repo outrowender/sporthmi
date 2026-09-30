@@ -30,9 +30,8 @@ implements IDisplayManagerListener {
         }
     }
 
-    @Override
     public void startComponentResult(int n, int n2, int n3, int n4) {
-        this.log.log(-2137614336, "[DisplayManagerListenerImpl.startComponentResult] cid: %1, displayID: %2, sessionID: %3, resultCode: %4");
+        this.log.log(10000000, "[DisplayManagerListenerImpl.startComponentResult] cid: %1, displayID: %2, sessionID: %3, resultCode: %4");
         try {
             for (int i2 = 0; i2 < this.listeners.length; ++i2) {
                 this.listeners[i2].startComponentResult(n, n2, n3, n4);
@@ -43,9 +42,8 @@ implements IDisplayManagerListener {
         }
     }
 
-    @Override
     public void stopComponentResult(int n, int n2, int n3, int n4) {
-        this.log.log(-2137614336, "[DisplayManagerListenerImpl.stopComponentResult] cid: %1, displayID: %2, sessionID: %3, resultCode: %4");
+        this.log.log(10000000, "[DisplayManagerListenerImpl.stopComponentResult] cid: %1, displayID: %2, sessionID: %3, resultCode: %4");
         try {
             for (int i2 = 0; i2 < this.listeners.length; ++i2) {
                 this.listeners[i2].stopComponentResult(n, n2, n3, n4);
@@ -56,11 +54,9 @@ implements IDisplayManagerListener {
         }
     }
 
-    @Override
     public void setCroppingResult(int n) {
     }
 
-    @Override
     public void error() {
         this.log.log(10000, "<- [DisplayManagerListenerImpl.error]");
     }

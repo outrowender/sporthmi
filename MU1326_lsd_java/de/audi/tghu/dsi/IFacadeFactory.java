@@ -7,7 +7,6 @@ import de.audi.atip.log.LogChannel;
 import de.audi.tghu.dsi.audio.DSISoundExt;
 
 public interface IFacadeFactory {
-    default public DSISoundExt getDSISoundExt(LogChannel logChannel) {
-    }
+    public DSISoundExt getDSISoundExt(LogChannel var1);
 }
 

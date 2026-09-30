@@ -15,9 +15,8 @@ extends AbstractOSRCommand {
         this.language = string;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "ORSSetLanguageCommand#execute() - call method setLanguage( %1 )", (Object)this.language);
+        this.logger.log(10000000, "ORSSetLanguageCommand#execute() - call method setLanguage( %1 )", (Object)this.language);
         DSIOnlineServiceRegistration dSIOnlineServiceRegistration = this.getDSI();
         if (dSIOnlineServiceRegistration == null) {
             this.logger.log(10000, "ORSSetLanguageCommand#execute no DSI");

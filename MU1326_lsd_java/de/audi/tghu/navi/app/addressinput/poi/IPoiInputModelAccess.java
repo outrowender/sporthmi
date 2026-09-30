@@ -4,10 +4,8 @@
 package de.audi.tghu.navi.app.addressinput.poi;
 
 public interface IPoiInputModelAccess {
-    default public void leavePoiScreens() {
-    }
+    public void leavePoiScreens();
 
-    default public void updateRgActive(boolean bl) {
-    }
+    public void updateRgActive(boolean var1);
 }
 

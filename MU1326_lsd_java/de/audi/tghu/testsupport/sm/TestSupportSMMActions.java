@@ -9,6 +9,7 @@ import de.audi.atip.statemachine.AbstractSMM;
 import de.audi.atip.statemachine.ActionProxy;
 import de.audi.atip.statemachine.SMModuleConstants;
 import de.audi.atip.statemachine.SMServices;
+import java.util.NoSuchElementException;
 
 public class TestSupportSMMActions
 implements SMModuleConstants {
@@ -67,7 +68,7 @@ implements SMModuleConstants {
         }
     }
 
-    public HMIModel getModel(int n) {
+    public HMIModel getModel(int n) throws NoSuchElementException {
         return this.smm.getModel(n);
     }
 }

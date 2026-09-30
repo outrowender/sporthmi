@@ -4,19 +4,14 @@
 package de.audi.tone.app.volume.mapper;
 
 public interface IVolumeMapper {
-    default public int mapModel2Volume(int n, int n2) {
-    }
+    public int mapModel2Volume(int var1, int var2);
 
-    default public int mapModel2Volume(int n) {
-    }
+    public int mapModel2Volume(int var1);
 
-    default public int mapVolume2Model(int n) {
-    }
+    public int mapVolume2Model(int var1);
 
-    default public int mapModelVolumeRangeMin(int n) {
-    }
+    public int mapModelVolumeRangeMin(int var1);
 
-    default public int mapModelVolumeRangeMax(int n) {
-    }
+    public int mapModelVolumeRangeMax(int var1);
 }
 

@@ -27,7 +27,7 @@ public class PreviewMapEventVisibilities {
     }
 
     public void resetEventVisibilities(boolean bl, boolean bl2) {
-        this.logger.log(14808325, "PreviewMapEventVisibilities#resetEventVisibilities() resetVisibleRoutes: %1", bl2);
+        this.logger.log(100000000, "PreviewMapEventVisibilities#resetEventVisibilities() resetVisibleRoutes: %1", bl2);
         if (this.previewMapHandler.isPreviewMapOperable()) {
             this.previewMapHandler.getMapForPreview().getMapFlagHandler().setTemporaryPins(new MapPin[0]);
             if (bl2) {
@@ -37,7 +37,7 @@ public class PreviewMapEventVisibilities {
             this.ensureTMCVisibility(null, bl);
             this.removeRouteHighlighting();
         } else {
-            this.logger.log(-1601830656, "PreviewMapEventVisibilities#resetEventVisibilities() - preview map currently not operable!");
+            this.logger.log(100000, "PreviewMapEventVisibilities#resetEventVisibilities() - preview map currently not operable!");
         }
     }
 
@@ -46,19 +46,19 @@ public class PreviewMapEventVisibilities {
     }
 
     public void ensurePOIVisibility(NavLocation[] navLocationArray, boolean bl) {
-        this.logger.log(14808325, "PreviewMapEventVisibilities#ensurePOIVisibility() - number of POIs: %1", navLocationArray == null ? 0L : (long)navLocationArray.length);
+        this.logger.log(100000000, "PreviewMapEventVisibilities#ensurePOIVisibility() - number of POIs: %1", navLocationArray == null ? 0L : (long)navLocationArray.length);
         if (bl || this.previewMapHandler.isPreviewMapReady()) {
             if (navLocationArray == null) {
                 navLocationArray = new NavLocation[]{};
             }
             this.previewMapHandler.getMapForPreview().getMVRequest().ensurePoiVisibility(navLocationArray);
         } else {
-            this.logger.log(-1601830656, "PreviewMapEventVisibilities#ensurePOIVisibility() - preview map currently not active!");
+            this.logger.log(100000, "PreviewMapEventVisibilities#ensurePOIVisibility() - preview map currently not active!");
         }
     }
 
     public void ensureTMCVisibility(long[] lArray, boolean bl) {
-        this.logger.log(14808325, "PreviewMapHandler#ensureTMCVisibility() - number of messageIds: %1", lArray == null ? 0L : (long)lArray.length);
+        this.logger.log(100000000, "PreviewMapHandler#ensureTMCVisibility() - number of messageIds: %1", lArray == null ? 0L : (long)lArray.length);
         if (bl || this.previewMapHandler.isPreviewMapReady()) {
             if (lArray == null) {
                 lArray = new long[]{0L};
@@ -70,12 +70,12 @@ public class PreviewMapEventVisibilities {
                 this.previewMapHandler.getMapForPreview().getMVRequest().ensureTMCVisibility(lArray[i2]);
             }
         } else {
-            this.logger.log(-1601830656, "PreviewMapEventVisibilities#ensureTMCVisibility() - preview map currently not active!");
+            this.logger.log(100000, "PreviewMapEventVisibilities#ensureTMCVisibility() - preview map currently not active!");
         }
     }
 
     protected void removeRouteHighlighting() {
-        this.logger.log(14808325, "PreviewMapEventVisibilities#removeRouteHighlighting()");
+        this.logger.log(100000000, "PreviewMapEventVisibilities#removeRouteHighlighting()");
         this.previewMapHandler.getMapForPreview().getMVRequest().highlightRouteBasedOnLength(0L, 0L, 0);
     }
 }

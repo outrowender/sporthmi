@@ -4,10 +4,10 @@
 package de.audi.tghu.navi.app.command;
 
 import de.audi.atip.search.util.AbstractSearchResultFormatter;
-import de.audi.tghu.navi.app.command.CreateTryMatchCommand$1;
 import de.audi.tghu.navi.app.command.LITryMatchLocationCommand;
 import de.audi.tghu.navi.app.command.NavCommand;
 import de.audi.tghu.navi.app.navlocationextractor.NavLocationsCache;
+import de.audi.tghu.navi.app.util.LocationFormatter;
 import de.audi.tghu.navi.app.util.Util;
 import org.dsi.ifc.navigation.TryMatchLocationData;
 import org.dsi.ifc.navigation.TryMatchLocationResultData;
@@ -24,7 +24,6 @@ extends NavCommand {
         this.cache = navLocationsCache;
     }
 
-    @Override
     public void execute() {
         TryMatchLocationResultData[] tryMatchLocationResultDataArray;
         Token[] tokenArray = this.result.getTokens();
@@ -41,8 +40,15 @@ extends NavCommand {
             tryMatchLocationData.junction = token6.getToken();
         }
         if ((tryMatchLocationResultDataArray = this.cache.getCachedData(tryMatchLocationData)) != null && tryMatchLocationResultDataArray.length > 0) {
-            CreateTryMatchCommand$1 createTryMatchCommand$1 = new CreateTryMatchCommand$1(this, "SearchResultAsyncNavLocationExtractor#GetCachedTryMatchLocationResultDataCommand", tryMatchLocationResultDataArray);
-            this.getCommandList().commandFinishedWithPostCommand(createTryMatchCommand$1);
+            NavCommand navCommand = new NavCommand("SearchResultAsyncNavLocationExtractor#GetCachedTryMatchLocationResultDataCommand"){
+
+                public void execute() {
+                    this.logger.log(1000000, "SearchResultAsyncNavLocationExtractor#GetCachedLiTryMatchLocationResultDataCommand#execute() cachedResponse[0].matchLevel: %2, cachedResponse.length: %3, cachedResponse[0].getLocation(): %1", (Object)LocationFormatter.formatLocationShort(tryMatchLocationResultDataArray[0].getLocation()), (long)tryMatchLocationResultDataArray[0].matchLevel, (long)tryMatchLocationResultDataArray.length);
+                    this.dsiResponseContainer.setTryMatchLocationResultData(tryMatchLocationResultDataArray);
+                    this.getCommandList().commandFinished();
+                }
+            };
+            this.getCommandList().commandFinishedWithPostCommand(navCommand);
             return;
         }
         this.getCommandList().commandFinishedWithPostCommand(new LITryMatchLocationCommand(tryMatchLocationData, this.cache));

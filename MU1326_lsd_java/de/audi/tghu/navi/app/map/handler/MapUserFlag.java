@@ -7,9 +7,9 @@ import de.esolutions.fw.util.commons.Buffer;
 import org.dsi.ifc.map.MapFlag;
 
 public class MapUserFlag {
-    public static final int FLAG_TYPE_UNDEFINED;
-    public static final int FLAG_TYPE_ONLINE_POI;
-    public static final int FLAG_TYPE_REMOTE_HMI;
+    public static final int FLAG_TYPE_UNDEFINED = -1;
+    public static final int FLAG_TYPE_ONLINE_POI = 0;
+    public static final int FLAG_TYPE_REMOTE_HMI = 1;
     public int mIndex;
     public MapFlag mMapFlag;
     public String mName;

@@ -20,9 +20,9 @@ import java.util.Map;
 public final class LogServImpl
 implements LogChannelFactory,
 LogServAdmin {
-    private static final int[] logLevelValues = new int[]{0, 1000, 10000, -1601830656, 1078071040, -2137614336, 14808325};
+    private static final int[] logLevelValues = new int[]{0, 1000, 10000, 100000, 1000000, 10000000, 100000000};
     static int defaultLevel = 10000;
-    private static final boolean DEBUG_DEV;
+    private static final boolean DEBUG_DEV = false;
     private final IFrameworkAccess framework;
     private final Map allChannels;
     private final List allLogSinks;
@@ -36,17 +36,14 @@ LogServAdmin {
         this.lc = this.getLogChannel("Fw.Log.Main");
     }
 
-    @Override
     public long getTimeStamp(boolean bl) {
         return bl ? this.framework.getKombiTime() : this.framework.getMonotonicTime();
     }
 
-    @Override
     public synchronized Map getAvailableChannels() {
         return new HashMap(this.allChannels);
     }
 
-    @Override
     public synchronized List getAllLogSinks() {
         return new ArrayList(this.allLogSinks);
     }
@@ -54,7 +51,6 @@ LogServAdmin {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public LogChannel getLogChannel(String string) {
         LogChannelImpl logChannelImpl;
         if (string == null || string.equals("")) {
@@ -65,7 +61,7 @@ LogServAdmin {
             logChannelImpl = (LogChannelImpl)this.allChannels.get(string);
         }
         if (logChannelImpl != null) {
-            this.lc.log(-2137614336, "LogChannel: %1 already exists, returning INSTANCE.", (Object)string);
+            this.lc.log(10000000, "LogChannel: %1 already exists, returning INSTANCE.", (Object)string);
         } else {
             logChannelImpl = new LogChannelImpl(this, false);
             logChannelImpl.name = string;
@@ -75,12 +71,11 @@ LogServAdmin {
                 this.allChannels.put(string, logChannelImpl);
                 this.updateChannelConfiguration(logChannelImpl);
             }
-            this.lc.log(-2137614336, "LogChannel: %1 created.", (Object)string);
+            this.lc.log(10000000, "LogChannel: %1 created.", (Object)string);
         }
         return logChannelImpl;
     }
 
-    @Override
     public void log(LogEntry logEntry) {
         String string = logEntry.getChannelName();
         if (string != null) {
@@ -103,7 +98,6 @@ LogServAdmin {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public LogSink addLogSink(LogSink logSink) {
         LogServImpl logServImpl = this;
         synchronized (logServImpl) {
@@ -113,14 +107,13 @@ LogServAdmin {
             this.updateChannelConfiguration(logSink);
         }
         logSink.registerServices(this);
-        this.lc.log(-2137614336, "[LogServImpl#addLogSink] LogSink %1 detected and added.", (Object)logSink);
+        this.lc.log(10000000, "[LogServImpl#addLogSink] LogSink %1 detected and added.", (Object)logSink);
         return logSink;
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void removeLogSink(LogSink logSink) {
         logSink.registerServices(null);
         LogServImpl logServImpl = this;
@@ -128,7 +121,7 @@ LogServAdmin {
             this.allLogSinks.remove(logSink);
             this.updateChannelConfiguration();
         }
-        this.lc.log(1078071040, "LogSink %1 removed.", (Object)logSink);
+        this.lc.log(1000000, "LogSink %1 removed.", (Object)logSink);
     }
 
     private void setLogThreshold(LogChannelImpl logChannelImpl, int n) {
@@ -153,7 +146,6 @@ LogServAdmin {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updateChannelConfiguration() {
         LogServImpl logServImpl = this;
         synchronized (logServImpl) {
@@ -164,7 +156,6 @@ LogServAdmin {
         }
     }
 
-    @Override
     public void updateChannelConfiguration(String string) {
         LogChannelImpl logChannelImpl = (LogChannelImpl)this.getLogChannel(string);
         if (logChannelImpl != null) {

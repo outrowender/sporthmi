@@ -17,15 +17,14 @@ public abstract class AbstractPathEntry {
         this.ns = string2;
     }
 
-    public abstract void match(Map map, Node node, List list) {
-    }
+    public abstract void match(Map var1, Node var2, List var3);
 
     public List matchList(Map map, List list) {
         ArrayList arrayList = new ArrayList(5);
         for (int i2 = 0; i2 < list.size(); ++i2) {
             Object object = list.get(i2);
             if (!(object instanceof Node)) {
-                throw new RuntimeException(new StringBuffer().append("Invalid child ").append(object).toString());
+                throw new RuntimeException("Invalid child " + object);
             }
             Node node = (Node)object;
             this.match(map, node, arrayList);

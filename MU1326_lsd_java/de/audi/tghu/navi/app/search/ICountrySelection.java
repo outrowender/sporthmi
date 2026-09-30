@@ -6,25 +6,18 @@ package de.audi.tghu.navi.app.search;
 import org.dsi.ifc.search.Country;
 
 public interface ICountrySelection {
-    default public void updateCountriesList(Country[] countryArray) {
-    }
+    public void updateCountriesList(Country[] var1);
 
-    default public void loadCountriesFromNavigation() {
-    }
+    public void loadCountriesFromNavigation();
 
-    default public void loadPersistentState() {
-    }
+    public void loadPersistentState();
 
-    default public void savePersistentState() {
-    }
+    public void savePersistentState();
 
-    default public String[] getActiveCountries() {
-    }
+    public String[] getActiveCountries();
 
-    default public String[] getAllCountries() {
-    }
+    public String[] getAllCountries();
 
-    default public void resetSettings() {
-    }
+    public void resetSettings();
 }
 

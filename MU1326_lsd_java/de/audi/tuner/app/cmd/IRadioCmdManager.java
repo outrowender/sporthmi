@@ -22,185 +22,127 @@ import de.audi.tuner.ifc.SDARSTunerListener;
 import de.audi.tuner.ifc.UnifiedTunerListener;
 
 public interface IRadioCmdManager {
-    public static final String KEY_TYPE;
-    public static final String CL_AMFM;
-    public static final String CL_DAB;
-    public static final String CL_UNI;
-    public static final String CL_SDARS;
-    public static final String CL_DONT_ABORT;
+    public static final String KEY_TYPE = "CL_TYPE";
+    public static final String CL_AMFM = "AM/FM";
+    public static final String CL_DAB = "DAB";
+    public static final String CL_UNI = "UNI";
+    public static final String CL_SDARS = "SDARS";
+    public static final String CL_DONT_ABORT = "DONT_ABORT";
 
-    default public boolean isBlocked() {
-    }
+    public boolean isBlocked();
 
-    default public void destroy() {
-    }
+    public void destroy();
 
-    default public RadioCommandList createCmdList(String string) {
-    }
+    public RadioCommandList createCmdList(String var1);
 
-    default public AMFMTunerListener getActiveAMFMCommand() {
-    }
+    public AMFMTunerListener getActiveAMFMCommand();
 
-    default public DABTunerListener getActiveDABCmd() {
-    }
+    public DABTunerListener getActiveDABCmd();
 
-    default public SDARSTunerListener getActiveSDARSCmd() {
-    }
+    public SDARSTunerListener getActiveSDARSCmd();
 
-    default public UnifiedTunerListener getActiveUnifiedCommand() {
-    }
+    public UnifiedTunerListener getActiveUnifiedCommand();
 
-    default public HMIAudioServiceListener getActiveAudioCmd() {
-    }
+    public HMIAudioServiceListener getActiveAudioCmd();
 
-    default public AllBandCmdListener getActiveAllBandCmd(ISimpleTuner iSimpleTuner) {
-    }
+    public AllBandCmdListener getActiveAllBandCmd(ISimpleTuner var1);
 
-    default public void enqueue(CommandList commandList) {
-    }
+    public void enqueue(CommandList var1);
 
-    default public boolean executesCmd(Class clazz) {
-    }
+    public boolean executesCmd(Class var1);
 
-    default public AbstractRadioCmd cmdInitAmFmDone() {
-    }
+    public AbstractRadioCmd cmdInitAmFmDone();
 
-    default public AbstractRadioCmd cmdInitDabDone() {
-    }
+    public AbstractRadioCmd cmdInitDabDone();
 
-    default public AbstractRadioCmd cmdInitSdarsDone() {
-    }
+    public AbstractRadioCmd cmdInitSdarsDone();
 
-    default public AbstractRadioCmd cmdRestoreAudio(int n) {
-    }
+    public AbstractRadioCmd cmdRestoreAudio(int var1);
 
-    default public AbstractRadioCmd cmdWaitAMAvilable() {
-    }
+    public AbstractRadioCmd cmdWaitAMAvilable();
 
-    default public AbstractRadioCmd cmdWaitAMAvilable(int n) {
-    }
+    public AbstractRadioCmd cmdWaitAMAvilable(int var1);
 
-    default public AbstractRadioCmd cmdRequestConnection(int n, int n2) {
-    }
+    public AbstractRadioCmd cmdRequestConnection(int var1, int var2);
 
-    default public AbstractRadioCmd cmdFadeToConnection(int n, int n2) {
-    }
+    public AbstractRadioCmd cmdFadeToConnection(int var1, int var2);
 
-    default public AbstractRadioCmd cmdDemute() {
-    }
+    public AbstractRadioCmd cmdDemute();
 
-    default public AbstractRadioCmd cmdAbortAMForcedStationListUpdate(IAmFmDsiDownManager iAmFmDsiDownManager) {
-    }
+    public AbstractRadioCmd cmdAbortAMForcedStationListUpdate(IAmFmDsiDownManager var1);
 
-    default public AbstractRadioCmd cmdAbortDABForcedStationListUpdate(DABDSIDownManager dABDSIDownManager) {
-    }
+    public AbstractRadioCmd cmdAbortDABForcedStationListUpdate(DABDSIDownManager var1);
 
-    default public AbstractRadioCmd cmdAbortDABForcedUpdateListAndSwitchLinkingDeviceUsage(DABDSIDownManager dABDSIDownManager) {
-    }
+    public AbstractRadioCmd cmdAbortDABForcedUpdateListAndSwitchLinkingDeviceUsage(DABDSIDownManager var1);
 
-    default public AbstractRadioCmd cmdTuneAMFMStationBlock(AMFMStation aMFMStation, boolean bl, int n) {
-    }
+    public AbstractRadioCmd cmdTuneAMFMStationBlock(AMFMStation var1, boolean var2, int var3);
 
-    default public AbstractRadioCmd cmdTuneAMFMStationDontBlock(AMFMStation aMFMStation, boolean bl, int n) {
-    }
+    public AbstractRadioCmd cmdTuneAMFMStationDontBlock(AMFMStation var1, boolean var2, int var3);
 
-    default public AbstractRadioCmd cmdHighlightAMFMStation(AMFMStation aMFMStation, boolean bl, int n) {
-    }
+    public AbstractRadioCmd cmdHighlightAMFMStation(AMFMStation var1, boolean var2, int var3);
 
-    default public AbstractRadioCmd cmdSwitchAMFMUsage(boolean bl) {
-    }
+    public AbstractRadioCmd cmdSwitchAMFMUsage(boolean var1);
 
-    default public AbstractRadioCmd cmdWaitAMFMTunerReady(boolean bl) {
-    }
+    public AbstractRadioCmd cmdWaitAMFMTunerReady(boolean var1);
 
-    default public AbstractRadioCmd cmdSeekAbort() {
-    }
+    public AbstractRadioCmd cmdSeekAbort();
 
-    default public AbstractRadioCmd cmdWaitDABTunerReady() {
-    }
+    public AbstractRadioCmd cmdWaitDABTunerReady();
 
-    default public AbstractRadioCmd cmdWaitUniTunerReady() {
-    }
+    public AbstractRadioCmd cmdWaitUniTunerReady();
 
-    default public AbstractRadioCmd cmdTuneUniStationBlock(UnifiedStationExt unifiedStationExt, int n) {
-    }
+    public AbstractRadioCmd cmdTuneUniStationBlock(UnifiedStationExt var1, int var2);
 
-    default public AbstractRadioCmd cmdTuneUniStationDontBlock(UnifiedStationExt unifiedStationExt, int n) {
-    }
+    public AbstractRadioCmd cmdTuneUniStationDontBlock(UnifiedStationExt var1, int var2);
 
-    default public AbstractRadioCmd cmdInitUniDone() {
-    }
+    public AbstractRadioCmd cmdInitUniDone();
 
-    default public AbstractRadioCmd cmdSetNotificationUni(int[] nArray) {
-    }
+    public AbstractRadioCmd cmdSetNotificationUni(int[] var1);
 
-    default public AbstractRadioCmd cmdSwitchUniUsage(boolean bl) {
-    }
+    public AbstractRadioCmd cmdSwitchUniUsage(boolean var1);
 
-    default public AbstractRadioCmd cmdWaitSDARSTunerReady() {
-    }
+    public AbstractRadioCmd cmdWaitSDARSTunerReady();
 
-    default public AbstractRadioCmd cmdSelectSDARSServiceBlock(StationInfoExt stationInfoExt) {
-    }
+    public AbstractRadioCmd cmdSelectSDARSServiceBlock(StationInfoExt var1);
 
-    default public AbstractRadioCmd cmdSelectSDARSServiceDontBlock(StationInfoExt stationInfoExt) {
-    }
+    public AbstractRadioCmd cmdSelectSDARSServiceDontBlock(StationInfoExt var1);
 
-    default public AbstractRadioCmd cmdSelectDABServiceBlock(int n, DabStation dabStation, int n2) {
-    }
+    public AbstractRadioCmd cmdSelectDABServiceBlock(int var1, DabStation var2, int var3);
 
-    default public AbstractRadioCmd cmdSelectDABServiceDontBlock(int n, DabStation dabStation, int n2) {
-    }
+    public AbstractRadioCmd cmdSelectDABServiceDontBlock(int var1, DabStation var2, int var3);
 
-    default public AbstractRadioCmd cmdSwitchDABUsage(boolean bl) {
-    }
+    public AbstractRadioCmd cmdSwitchDABUsage(boolean var1);
 
-    default public AbstractRadioCmd cmdSetNotificationDAB(int[] nArray) {
-    }
+    public AbstractRadioCmd cmdSetNotificationDAB(int[] var1);
 
-    default public AbstractRadioCmd cmdSetNotificationAMFM(int[] nArray) {
-    }
+    public AbstractRadioCmd cmdSetNotificationAMFM(int[] var1);
 
-    default public AbstractRadioCmd cmdSetNotificationSDARS(int[] nArray) {
-    }
+    public AbstractRadioCmd cmdSetNotificationSDARS(int[] var1);
 
-    default public AbstractRadioCmd cmdHmiReadySDARS() {
-    }
+    public AbstractRadioCmd cmdHmiReadySDARS();
 
-    default public RadioCommandList clSwitchToAMFM(int n, AMFMStation aMFMStation, boolean bl) {
-    }
+    public RadioCommandList clSwitchToAMFM(int var1, AMFMStation var2, boolean var3);
 
-    default public RadioCommandList clSwitchToAMFM(int n, int n2) {
-    }
+    public RadioCommandList clSwitchToAMFM(int var1, int var2);
 
-    default public RadioCommandList clSwitchToDAB(int n, DabStation dabStation, int n2) {
-    }
+    public RadioCommandList clSwitchToDAB(int var1, DabStation var2, int var3);
 
-    default public RadioCommandList clSwitchToDAB(int n) {
-    }
+    public RadioCommandList clSwitchToDAB(int var1);
 
-    default public RadioCommandList clSwitchToUni(int n) {
-    }
+    public RadioCommandList clSwitchToUni(int var1);
 
-    default public RadioCommandList clSwitchToUni(UnifiedStationExt unifiedStationExt, int n) {
-    }
+    public RadioCommandList clSwitchToUni(UnifiedStationExt var1, int var2);
 
-    default public RadioCommandList clSwitchToSDARS(int n) {
-    }
+    public RadioCommandList clSwitchToSDARS(int var1);
 
-    default public RadioCommandList clSwitchToSDARS(StationInfoExt stationInfoExt, int n) {
-    }
+    public RadioCommandList clSwitchToSDARS(StationInfoExt var1, int var2);
 
-    default public AbstractRadioCmd cmdInitSetup(ISimpleTuner iSimpleTuner) {
-    }
+    public AbstractRadioCmd cmdInitSetup(ISimpleTuner var1);
 
-    default public AbstractRadioCmd cmdWaitDSIRegistered(ISimpleTuner iSimpleTuner) {
-    }
+    public AbstractRadioCmd cmdWaitDSIRegistered(ISimpleTuner var1);
 
-    default public boolean isControlledbyCmd(int n) {
-    }
+    public boolean isControlledbyCmd(int var1);
 
-    default public CommandListManager getCommandListManager() {
-    }
+    public CommandListManager getCommandListManager();
 }
 

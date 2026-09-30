@@ -21,12 +21,12 @@ import org.dsi.ifc.tvtuner.ServiceInfo;
 
 public class TVSearchListRow
 extends SearchResultListRow {
-    static final int COL_COUNT;
-    private static final int COL_SERVICE_NAME;
-    private static final int COL_PROPERTIES;
-    private static final int COL_ERROR_ICON;
-    private static final int COL_STATION_ICON;
-    private static final int COL_IS_FAVORITE;
+    static final int COL_COUNT = 5;
+    private static final int COL_SERVICE_NAME = 0;
+    private static final int COL_PROPERTIES = 1;
+    private static final int COL_ERROR_ICON = 2;
+    private static final int COL_STATION_ICON = 3;
+    private static final int COL_IS_FAVORITE = 4;
     private final IRowProperties properties;
     private final ITVRowFactory rowFactory;
     final ServiceInfo service;
@@ -95,7 +95,6 @@ extends SearchResultListRow {
         return this.status;
     }
 
-    @Override
     public EvoListRow copy() {
         return new TVSearchListRow(this);
     }

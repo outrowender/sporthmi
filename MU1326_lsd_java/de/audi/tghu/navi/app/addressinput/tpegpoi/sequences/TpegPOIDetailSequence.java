@@ -12,10 +12,8 @@ import de.audi.tghu.navi.app.addressinput.poi.commands.PoiModelStartCommand;
 import de.audi.tghu.navi.app.addressinput.poi.models.IPoiDetailScreenModelAccess;
 import de.audi.tghu.navi.app.addressinput.tpegpoi.commands.TpegPoiRequestExtendedInfoCommand;
 import de.audi.tghu.navi.app.addressinput.tpegpoi.sequences.TpegPOIBaseSequence;
-import de.audi.tghu.navi.app.addressinput.tpegpoi.sequences.TpegPOIDetailSequence$1;
-import de.audi.tghu.navi.app.addressinput.tpegpoi.sequences.TpegPOIDetailSequence$2;
-import de.audi.tghu.navi.app.addressinput.tpegpoi.sequences.TpegPOIDetailSequence$3;
 import de.audi.tghu.navi.app.command.LIGetStateCommand;
+import de.audi.tghu.navi.app.command.NavCommand;
 import de.audi.tghu.navi.app.li.SpellerStack;
 import de.audi.tghu.navi.app.li.sc.SpellerContext;
 import org.dsi.ifc.global.NavLocation;
@@ -38,17 +36,35 @@ extends TpegPOIBaseSequence {
         commandList.add(new PoiModelStartCommand(this.modelAccess));
         commandList.add(new LISPSelectListItemCommand(lIValueListElement.getListIndex()));
         commandList.add(new TpegPoiRequestExtendedInfoCommand());
-        commandList.add(new TpegPOIDetailSequence$1(this, new StringBuffer().append(this.CLASS_NAME).append(" - Model onUpdateLocation").toString()));
-        commandList.add(new TpegPOIDetailSequence$2(this, new StringBuffer().append(this.CLASS_NAME).append(" - Setting preview map").toString()));
+        commandList.add(new NavCommand(this.CLASS_NAME + " - Model onUpdateLocation"){
+
+            public void execute() {
+                TpegPOIDetailSequence.this.modelAccess.onUpdateLocation(this.dsiResponseContainer.getLiCurrentLD());
+                this.getCommandList().commandFinished();
+            }
+        });
+        commandList.add(new NavCommand(this.CLASS_NAME + " - Setting preview map"){
+
+            public void execute() {
+                TpegPOIDetailSequence.this.previewMap.setPreviewPOIsOnboard(new NavLocation[]{this.dsiResponseContainer.getLiCurrentLD()}, 5, null, null);
+                this.getCommandList().commandFinished();
+            }
+        });
         return commandList;
     }
 
-    public void startWithNavLocation(NavLocation navLocation) {
+    public void startWithNavLocation(final NavLocation navLocation) {
         CommandList commandList = this.commandListFactory.createCommandList();
         commandList.add(new PoiModelStartCommand(this.modelAccess));
         commandList.add(new TpegPoiRequestExtendedInfoCommand(navLocation));
-        commandList.add(new TpegPOIDetailSequence$3(this, new StringBuffer().append(this.CLASS_NAME).append(" - Model onUpdateLocation").toString(), navLocation));
-        commandList.execute(new StringBuffer().append(this.CLASS_NAME).append("#startWithNavLocation").toString());
+        commandList.add(new NavCommand(this.CLASS_NAME + " - Model onUpdateLocation"){
+
+            public void execute() {
+                TpegPOIDetailSequence.this.modelAccess.onUpdateLocation(navLocation);
+                this.getCommandList().commandFinished();
+            }
+        });
+        commandList.execute(this.CLASS_NAME + "#startWithNavLocation");
     }
 }
 

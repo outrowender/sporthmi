@@ -8,9 +8,9 @@ import de.audi.atip.rse.AbstractRSECommand;
 
 public abstract class AbstractI18nCmd
 extends AbstractRSECommand {
-    private static final short I18N_MODULE;
-    public static final short SET_LANGUAGE_AT_RSE;
-    public static final short QUERY_LANGUAGE_FROM_MU;
+    private static final short I18N_MODULE = 4608;
+    public static final short SET_LANGUAGE_AT_RSE = 4609;
+    public static final short QUERY_LANGUAGE_FROM_MU = 4610;
     private final FwServices fwServices;
 
     AbstractI18nCmd(FwServices fwServices, int n) {

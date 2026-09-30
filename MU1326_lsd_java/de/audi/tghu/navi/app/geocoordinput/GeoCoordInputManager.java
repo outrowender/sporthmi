@@ -3,7 +3,7 @@
  */
 package de.audi.tghu.navi.app.geocoordinput;
 
-import de.audi.atip.interapp.NaviADBService$LocationInputHandler;
+import de.audi.atip.interapp.NaviADBService;
 import de.audi.atip.interapp.navigation.previewmap.IPreviewMap;
 import de.audi.atip.interapp.navigation.previewmap.gui.GuiTooltipInformationContainer;
 import de.audi.atip.log.LogChannel;
@@ -14,7 +14,7 @@ import de.audi.tghu.navi.app.ADBInterAppService;
 import de.audi.tghu.navi.app.HomeAddressHandler;
 import de.audi.tghu.navi.app.NavigationEnv;
 import de.audi.tghu.navi.app.command.LIGetLocationDescriptionTransformCommand;
-import de.audi.tghu.navi.app.geocoordinput.GeoCoordInputManager$1;
+import de.audi.tghu.navi.app.command.NavCommand;
 import de.audi.tghu.navi.app.geocoordinput.GuiModelAccessInputGeoCoordinate;
 import de.audi.tghu.navi.app.guidance.IVehicle;
 import de.audi.tghu.navi.app.map.MapInterface;
@@ -33,11 +33,11 @@ public class GeoCoordInputManager {
     private final MapInterface mapInterface;
     private final HomeAddressHandler homeAddressHandler;
     protected NavLocation coordinates;
-    private static final int CURSOR_POSITION_ON_LATITUDE;
-    private static final int CURSOR_POSITION_ON_LONGITUDE;
-    private static final int CURSOR_POSITION_ON_START;
-    protected static final boolean PREVIEWMAP_LOCATION_SET;
-    protected static final boolean PREVIEWMAP_LOCATION_DO_NOT_SET;
+    private static final int CURSOR_POSITION_ON_LATITUDE = 0;
+    private static final int CURSOR_POSITION_ON_LONGITUDE = 1;
+    private static final int CURSOR_POSITION_ON_START = 2;
+    protected static final boolean PREVIEWMAP_LOCATION_SET = true;
+    protected static final boolean PREVIEWMAP_LOCATION_DO_NOT_SET = false;
     private boolean latitudeChanged = false;
     private boolean longitudeChanged = false;
 
@@ -56,33 +56,33 @@ public class GeoCoordInputManager {
 
     public void start() {
         if (this.logChannel.isDebug2()) {
-            this.logChannel.log(14808325, "GeoCoordInputManager#start()");
+            this.logChannel.log(100000000, "GeoCoordInputManager#start()");
         }
         this.startGuidanceDependantSequence.start(this.env.getContainer().getTransformedLocation());
     }
 
     public void storeToAdb() {
         if (this.logChannel.isDebug2()) {
-            this.logChannel.log(14808325, "GeoCoordInputManager#storeToAdb()");
+            this.logChannel.log(100000000, "GeoCoordInputManager#storeToAdb()");
         }
         byte[] byArray = this.adbInterAppService.resolveGeoCoords(this.coordinates.longitude, this.coordinates.latitude, "");
-        NaviADBService$LocationInputHandler naviADBService$LocationInputHandler = this.adbInterAppService.getCurrentLocationInputHandler();
-        if (naviADBService$LocationInputHandler != null) {
-            naviADBService$LocationInputHandler.updateLocation(byArray);
+        NaviADBService.LocationInputHandler locationInputHandler = this.adbInterAppService.getCurrentLocationInputHandler();
+        if (locationInputHandler != null) {
+            locationInputHandler.updateLocation(byArray);
             this.adbInterAppService.removeHandler();
         }
     }
 
     public void storeHomeAddress() {
         if (this.logChannel.isDebug2()) {
-            this.logChannel.log(14808325, "GeoCoordInputManager#storeHomeAddress()");
+            this.logChannel.log(100000000, "GeoCoordInputManager#storeHomeAddress()");
         }
         this.homeAddressHandler.onCreateEditHomeAddress(this.coordinates);
     }
 
     public void enterWithCCPAsCoordinates() {
         if (this.logChannel.isDebug2()) {
-            this.logChannel.log(14808325, "GeoCoordInputManager#enterWithCCPAsCoordinates()");
+            this.logChannel.log(100000000, "GeoCoordInputManager#enterWithCCPAsCoordinates()");
         }
         this.coordinates = this.vehicle.getVehicleLocation();
         this.getDetailedLocationInformation(this.coordinates, false);
@@ -92,15 +92,15 @@ public class GeoCoordInputManager {
 
     public void enter() {
         if (this.logChannel.isDebug2()) {
-            this.logChannel.log(14808325, "GeoCoordInputManager#enter()");
+            this.logChannel.log(100000000, "GeoCoordInputManager#enter()");
         }
         this.previewMap.setPreviewLocationDistant(this.getCurrentCoordinates(), 1, null, null);
     }
 
     public void coordinateUpdate(GeoMetric geoMetric, int n) {
         if (this.logChannel.isDebug2()) {
-            this.logChannel.log(14808325, "GeoCoordInputManager#coordinateUpdate()");
-            this.logChannel.log(14808325, "GeoCoordInputManager#coordinateUpdate() --> Status: %1", (long)n);
+            this.logChannel.log(100000000, "GeoCoordInputManager#coordinateUpdate()");
+            this.logChannel.log(100000000, "GeoCoordInputManager#coordinateUpdate() --> Status: %1", (long)n);
         }
         if (n == 0) {
             this.latitudeChanged = true;
@@ -135,19 +135,30 @@ public class GeoCoordInputManager {
         this.previewMap.setPreviewLocationDistant(this.coordinates, 1, this.geoCoordModelAccess, guiTooltipInformationContainer);
     }
 
-    protected void getDetailedLocationInformation(NavLocation navLocation, boolean bl) {
+    protected void getDetailedLocationInformation(NavLocation navLocation, final boolean bl) {
         if (this.logChannel.isDebug2()) {
-            this.logChannel.log(14808325, "GeoCoordInputManager#getDetailedLocationInformation()");
+            this.logChannel.log(100000000, "GeoCoordInputManager#getDetailedLocationInformation()");
         }
         CommandList commandList = this.commandListFactory.createCommandList();
         commandList.add(new LIGetLocationDescriptionTransformCommand(navLocation));
-        commandList.add(new GeoCoordInputManager$1(this, bl));
+        commandList.add(new NavCommand(){
+
+            public void execute() {
+                NavLocation navLocation = this.dsiResponseContainer.getTransformedLocation();
+                GeoCoordInputManager.this.geoCoordModelAccess.onUpdateLocation(navLocation);
+                GuiTooltipInformationContainer guiTooltipInformationContainer = GeoCoordInputManager.this.geoCoordModelAccess.createMapTooltipInformationContainer(navLocation, null);
+                if (bl) {
+                    GeoCoordInputManager.this.coordinateUpdateSetPreviewMap(guiTooltipInformationContainer);
+                }
+                this.getCommandList().commandFinished();
+            }
+        });
         commandList.execute("GeoCoordInputManager#coordinateUpdate()");
     }
 
     public NavLocation getCurrentCoordinates() {
         if (this.logChannel.isDebug2()) {
-            this.logChannel.log(14808325, "GeoCoordInputManager#getCurrentCoordinates()");
+            this.logChannel.log(100000000, "GeoCoordInputManager#getCurrentCoordinates()");
         }
         return this.coordinates;
     }
@@ -155,15 +166,11 @@ public class GeoCoordInputManager {
     public void destOptShowInMap() {
         if (this.coordinates == null) {
             if (this.logChannel.isDebug2()) {
-                this.logChannel.log(14808325, "GeoCoordInputManager#destOptShowInMap() --- Coordinates is NULL");
+                this.logChannel.log(100000000, "GeoCoordInputManager#destOptShowInMap() --- Coordinates is NULL");
             }
             return;
         }
         this.mapInterface.destOptShowInMap(this.coordinates);
-    }
-
-    static /* synthetic */ GuiModelAccessInputGeoCoordinate access$000(GeoCoordInputManager geoCoordInputManager) {
-        return geoCoordInputManager.geoCoordModelAccess;
     }
 }
 

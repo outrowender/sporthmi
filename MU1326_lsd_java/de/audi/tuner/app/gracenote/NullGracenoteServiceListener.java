@@ -14,7 +14,6 @@ implements IGracenoteServiceListener {
         super(logChannel, "IGracenoteServiceListener");
     }
 
-    @Override
     public void updateOnlineLookupStatus(int n) {
         this.log();
     }

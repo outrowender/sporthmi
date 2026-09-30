@@ -26,20 +26,15 @@ public abstract class AbstractUIService {
         return this.stateMachine.getSMI();
     }
 
-    public abstract void activateUI(State[] stateArray, int n, AdditionalScreenData additionalScreenData) {
-    }
+    public abstract void activateUI(State[] var1, int var2, AdditionalScreenData var3);
 
-    public abstract void reactivateUI(State[] stateArray, int n, AdditionalScreenData additionalScreenData) {
-    }
+    public abstract void reactivateUI(State[] var1, int var2, AdditionalScreenData var3);
 
-    public abstract void noStateChange() {
-    }
+    public abstract void noStateChange();
 
-    protected abstract void lockScreen(boolean bl) {
-    }
+    protected abstract void lockScreen(boolean var1);
 
-    protected abstract void stopUI() {
-    }
+    protected abstract void stopUI();
 
     protected StateMachineTerminal getTerminal() {
         return this.stateMachine.getTerminal();

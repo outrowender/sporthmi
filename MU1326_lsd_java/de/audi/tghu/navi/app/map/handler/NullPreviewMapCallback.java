@@ -14,11 +14,9 @@ implements PreviewMapCallback {
         this.logger = logChannel;
     }
 
-    @Override
     public void onPreviewMapEntered() {
     }
 
-    @Override
     public void onPreviewMapLeft() {
     }
 }

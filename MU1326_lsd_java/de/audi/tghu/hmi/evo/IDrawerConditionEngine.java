@@ -9,34 +9,24 @@ import de.audi.tghu.hmi.evo.IFocusedPropertyObject;
 import de.audi.tghu.hmi.evo.IRightDrawerActionReceiver;
 
 public interface IDrawerConditionEngine {
-    default public void spellerActive(boolean bl) {
-    }
+    public void spellerActive(boolean var1);
 
-    default public void activateDrawer(IDrawerControllerEvo iDrawerControllerEvo, long[] lArray) {
-    }
+    public void activateDrawer(IDrawerControllerEvo var1, long[] var2);
 
-    default public void processCCEvent(ComponentConditionEvent componentConditionEvent) {
-    }
+    public void processCCEvent(ComponentConditionEvent var1);
 
-    default public void setFocusedProperty(IFocusedPropertyObject iFocusedPropertyObject) {
-    }
+    public void setFocusedProperty(IFocusedPropertyObject var1);
 
-    default public int getTargetModelID() {
-    }
+    public int getTargetModelID();
 
-    default public int getTargetRow() {
-    }
+    public int getTargetRow();
 
-    default public int getTargetWidgetID() {
-    }
+    public int getTargetWidgetID();
 
-    default public long[] getActiveContexts() {
-    }
+    public long[] getActiveContexts();
 
-    default public IRightDrawerActionReceiver getTargetActionReceiver() {
-    }
+    public IRightDrawerActionReceiver getTargetActionReceiver();
 
-    default public Object getInternalState() {
-    }
+    public Object getInternalState();
 }
 

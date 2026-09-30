@@ -11,8 +11,8 @@ import java.util.Collections;
 import java.util.Iterator;
 
 class DownloadPackageData {
-    public static final String PKG_CATEGORY_SYSTEM;
-    public static final String PKG_CATEGORY_NAVDATA;
+    public static final String PKG_CATEGORY_SYSTEM = "system";
+    public static final String PKG_CATEGORY_NAVDATA = "navdata";
     private final UotaPkgInfoWrapper[] downloadPackages;
     private final LogChannel logChannel;
 
@@ -44,7 +44,7 @@ class DownloadPackageData {
         UotaPkgInfoWrapper uotaPkgInfoWrapper = this.getDownloadPackage(n);
         if (null != uotaPkgInfoWrapper) {
             bl = this.getDownloadPackages()[n].isPPOI();
-            this.logChannel.log(-2137614336, "[DownloadPackageData].isPPOIPackage(%1): %2", (Object)Integer.toString(n), (Object)Boolean.toString(bl));
+            this.logChannel.log(10000000, "[DownloadPackageData].isPPOIPackage(%1): %2", (Object)Integer.toString(n), (Object)Boolean.toString(bl));
         }
         return bl;
     }
@@ -58,7 +58,7 @@ class DownloadPackageData {
     }
 
     String getPackageNames(String string) {
-        this.logChannel.log(-2137614336, "[DownloadPackageData].getPackageNames(%1)", (Object)string);
+        this.logChannel.log(10000000, "[DownloadPackageData].getPackageNames(%1)", (Object)string);
         Buffer buffer = new Buffer();
         UotaPkgInfoWrapper[] uotaPkgInfoWrapperArray = this.getDownloadPackages();
         ArrayList arrayList = new ArrayList(uotaPkgInfoWrapperArray.length);
@@ -75,12 +75,12 @@ class DownloadPackageData {
             }
             buffer.append(iterator.next());
         }
-        this.logChannel.log(-2137614336, "[DownloadPackageData].getPackageNames:%1", (Object)buffer);
+        this.logChannel.log(10000000, "[DownloadPackageData].getPackageNames:%1", (Object)buffer);
         return buffer.toString();
     }
 
     String getPackageVersions(String string) {
-        this.logChannel.log(-2137614336, "[DownloadPackageData].getPackageVersions(%1)", (Object)string);
+        this.logChannel.log(10000000, "[DownloadPackageData].getPackageVersions(%1)", (Object)string);
         Buffer buffer = new Buffer();
         UotaPkgInfoWrapper[] uotaPkgInfoWrapperArray = this.getDownloadPackages();
         ArrayList arrayList = new ArrayList(1);
@@ -97,7 +97,7 @@ class DownloadPackageData {
             }
             buffer.append(iterator.next());
         }
-        this.logChannel.log(-2137614336, "[DownloadPackageData].getPackageVersions:%1", (Object)buffer);
+        this.logChannel.log(10000000, "[DownloadPackageData].getPackageVersions:%1", (Object)buffer);
         return buffer.toString();
     }
 }

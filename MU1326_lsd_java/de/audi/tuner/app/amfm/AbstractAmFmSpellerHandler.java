@@ -3,16 +3,14 @@
  */
 package de.audi.tuner.app.amfm;
 
+import de.audi.atip.hmi.model.listener.DefaultSpellerListener;
 import de.audi.atip.hmi.modelaccess.ChoiceModelApp;
 import de.audi.atip.hmi.modelaccess.MatchspellerModelApp;
+import de.audi.atip.timer.DefaultTimerListener;
 import de.audi.atip.timer.Timer;
 import de.audi.tuner.app.AbstractNumberSpellerHandler;
 import de.audi.tuner.app.amfm.AMFMStation;
 import de.audi.tuner.app.amfm.AMFMTuner;
-import de.audi.tuner.app.amfm.AbstractAmFmSpellerHandler$DsiUpListener;
-import de.audi.tuner.app.amfm.AbstractAmFmSpellerHandler$SpellerListener;
-import de.audi.tuner.app.amfm.AbstractAmFmSpellerHandler$TimerListener;
-import de.audi.tuner.app.amfm.AbstractAmFmSpellerHandler$TunerActionProxyListenerExt;
 import de.audi.tuner.app.amfm.dsi.AMFMDsiUpInfo;
 import de.audi.tuner.app.ap.TunerActionProxyListener;
 import de.audi.tuner.ifc.IScanHandler;
@@ -23,10 +21,10 @@ import org.dsi.ifc.radio.WavebandInfo;
 
 public abstract class AbstractAmFmSpellerHandler
 extends AbstractNumberSpellerHandler {
-    protected static final long AUTO_CLEAR_DELAY;
-    protected static final long AUTO_SELECT_DELAY;
-    final AMFMDsiUpInfo dsiUpListener = new AbstractAmFmSpellerHandler$DsiUpListener(this, null);
-    public final TunerActionProxyListener proxyListener = new AbstractAmFmSpellerHandler$TunerActionProxyListenerExt(this, null);
+    protected static final long AUTO_CLEAR_DELAY = 20000L;
+    protected static final long AUTO_SELECT_DELAY = 10000L;
+    final AMFMDsiUpInfo dsiUpListener = new DsiUpListener();
+    public final TunerActionProxyListener proxyListener = new TunerActionProxyListenerExt();
     private final IScanHandler scanHandler;
     protected MatchspellerModelApp spellerModel;
     private ChoiceModelApp frequencyModel;
@@ -35,10 +33,10 @@ extends AbstractNumberSpellerHandler {
     int kommaPos = -1;
     int hdPos = -1;
     protected Map hdSubchannelSpellerMap = new HashMap();
-    protected static final String HD_POSTFIX;
+    protected static final String HD_POSTFIX = " HD";
     Timer clearTimer;
     Timer selectTimer;
-    final AbstractAmFmSpellerHandler$SpellerListener spellerListener = new AbstractAmFmSpellerHandler$SpellerListener(this);
+    final SpellerListener spellerListener = new SpellerListener();
 
     public AbstractAmFmSpellerHandler(MatchspellerModelApp matchspellerModelApp, ChoiceModelApp choiceModelApp, AMFMTuner aMFMTuner, IScanHandler iScanHandler) {
         this.tuner = aMFMTuner;
@@ -47,9 +45,9 @@ extends AbstractNumberSpellerHandler {
         this.spellerModel.setSpellerListener(this.spellerListener);
         this.frequencyModel = choiceModelApp;
         this.frequencyModel.setValue(1);
-        AbstractAmFmSpellerHandler$TimerListener abstractAmFmSpellerHandler$TimerListener = new AbstractAmFmSpellerHandler$TimerListener(this);
-        this.clearTimer = new Timer("clearTimer", 0, true, abstractAmFmSpellerHandler$TimerListener);
-        this.selectTimer = new Timer("selectTimer", 0, true, abstractAmFmSpellerHandler$TimerListener);
+        TimerListener timerListener = new TimerListener();
+        this.clearTimer = new Timer("clearTimer", 20000L, true, timerListener);
+        this.selectTimer = new Timer("selectTimer", 10000L, true, timerListener);
     }
 
     private void prepare(String string) {
@@ -67,18 +65,17 @@ extends AbstractNumberSpellerHandler {
         }
     }
 
-    protected abstract String appendComma(String string) {
-    }
+    protected abstract String appendComma(String var1);
 
     protected String appendHd(String string) {
         String string2;
         String string3 = string;
         if (this.station != null && (string2 = (String)this.hdSubchannelSpellerMap.get(this.station.getFrequencyString())) != null && string2.length() > 0) {
             if (this.hdPos == -1) {
-                string3 = new StringBuffer().append(string).append(" HD").toString();
+                string3 = new StringBuffer().append(string).append(HD_POSTFIX).toString();
                 this.hdPos = string.length();
             }
-            if (this.hdPos + " HD".length() == string3.length() && string2.length() > 1) {
+            if (this.hdPos + HD_POSTFIX.length() == string3.length() && string2.length() > 1) {
                 this.spellerModel.setValidChars(string2);
             }
         }
@@ -129,36 +126,113 @@ extends AbstractNumberSpellerHandler {
         }
     }
 
-    protected abstract int getWaveband() {
+    protected abstract int getWaveband();
+
+    protected abstract void processWavebandInfo(WavebandInfo var1);
+
+    protected abstract int cutOffTrailingDigits(int var1);
+
+    protected abstract void setStationFromFrequency(String var1);
+
+    private class DsiUpListener
+    extends AMFMDsiUpInfo {
+        private DsiUpListener() {
+        }
+
+        public void updateWavebandInfoList(WavebandInfo[] wavebandInfoArray) {
+            int n;
+            if (wavebandInfoArray == null) {
+                return;
+            }
+            int n2 = 0;
+            int n3 = 0;
+            int n4 = 0;
+            for (n = 0; n < wavebandInfoArray.length; ++n) {
+                if (wavebandInfoArray[n].waveband != AbstractAmFmSpellerHandler.this.getWaveband()) continue;
+                n2 = AbstractAmFmSpellerHandler.this.cutOffTrailingDigits((int)wavebandInfoArray[n].lowerLimit);
+                n3 = AbstractAmFmSpellerHandler.this.cutOffTrailingDigits((int)wavebandInfoArray[n].upperLimit);
+                n4 = AbstractAmFmSpellerHandler.this.cutOffTrailingDigits((int)wavebandInfoArray[n].stepWidth);
+                AbstractAmFmSpellerHandler.this.processWavebandInfo(wavebandInfoArray[n]);
+                break;
+            }
+            if (n3 > n2 && n4 > 0) {
+                AbstractAmFmSpellerHandler.this.initMap();
+                for (n = n2; n <= n3; n += n4) {
+                    AbstractAmFmSpellerHandler.this.addNumber(n);
+                }
+            }
+            AbstractAmFmSpellerHandler.this.prepare(AbstractAmFmSpellerHandler.this.spellerModel.getText());
+        }
     }
 
-    protected abstract void processWavebandInfo(WavebandInfo wavebandInfo) {
+    class TimerListener
+    extends DefaultTimerListener {
+        TimerListener() {
+        }
+
+        public void fireTimer(Timer timer) {
+            if (timer.equals(AbstractAmFmSpellerHandler.this.clearTimer)) {
+                AbstractAmFmSpellerHandler.this.resetSpeller();
+            } else {
+                AbstractAmFmSpellerHandler.this.tuneFrequency();
+            }
+        }
     }
 
-    protected abstract int cutOffTrailingDigits(int n) {
+    class SpellerListener
+    extends DefaultSpellerListener {
+        SpellerListener() {
+        }
+
+        public void keyTyped(int n, int n2, int n3) {
+            AbstractAmFmSpellerHandler.this.tuneFrequency();
+        }
+
+        public void textChanged(int n, String string, char c2, int n2) {
+            if (c2 == '\b') {
+                string = this.chrBackspace(string);
+                AbstractAmFmSpellerHandler.this.spellerModel.setText(string);
+            }
+            AbstractAmFmSpellerHandler.this.setStationFromFrequency(string);
+            AbstractAmFmSpellerHandler.this.prepare(string);
+            String string2 = AbstractAmFmSpellerHandler.this.appendComma(string);
+            AbstractAmFmSpellerHandler.this.appendHd(string2);
+            if (AbstractAmFmSpellerHandler.this.station != null) {
+                AbstractAmFmSpellerHandler.this.selectTimer.restart();
+                AbstractAmFmSpellerHandler.this.clearTimer.cancel();
+            } else {
+                AbstractAmFmSpellerHandler.this.clearTimer.restart();
+                AbstractAmFmSpellerHandler.this.selectTimer.cancel();
+            }
+            AbstractAmFmSpellerHandler.this.spellerModel.setControlButtonStates(-1, AbstractAmFmSpellerHandler.this.station != null ? 1 : 0);
+        }
+
+        private String chrBackspace(String string) {
+            String string2 = "";
+            if (AbstractAmFmSpellerHandler.this.station != null) {
+                string2 = (String)AbstractAmFmSpellerHandler.this.hdSubchannelSpellerMap.get(AbstractAmFmSpellerHandler.this.station.getFrequencyString());
+            }
+            if (AbstractAmFmSpellerHandler.this.kommaPos != -1 && string.length() == AbstractAmFmSpellerHandler.this.kommaPos) {
+                AbstractAmFmSpellerHandler.this.kommaPos = -1;
+                return string.substring(0, string.length() - 1);
+            }
+            if (AbstractAmFmSpellerHandler.this.hdPos != -1 && (string.length() == AbstractAmFmSpellerHandler.this.hdPos + AbstractAmFmSpellerHandler.HD_POSTFIX.length() - 1 || string2.length() == 1)) {
+                String string3 = AbstractAmFmSpellerHandler.this.kommaPos != -1 ? string.substring(0, AbstractAmFmSpellerHandler.this.kommaPos + 1) : string.substring(0, AbstractAmFmSpellerHandler.this.hdPos - 1);
+                AbstractAmFmSpellerHandler.this.hdPos = -1;
+                return string3;
+            }
+            return string;
+        }
     }
 
-    protected abstract void setStationFromFrequency(String string) {
-    }
+    private class TunerActionProxyListenerExt
+    extends TunerActionProxyListener {
+        private TunerActionProxyListenerExt() {
+        }
 
-    static /* synthetic */ void access$200(AbstractAmFmSpellerHandler abstractAmFmSpellerHandler) {
-        abstractAmFmSpellerHandler.tuneFrequency();
-    }
-
-    static /* synthetic */ void access$300(AbstractAmFmSpellerHandler abstractAmFmSpellerHandler, String string) {
-        abstractAmFmSpellerHandler.prepare(string);
-    }
-
-    static /* synthetic */ void access$400(AbstractAmFmSpellerHandler abstractAmFmSpellerHandler) {
-        abstractAmFmSpellerHandler.resetSpeller();
-    }
-
-    static /* synthetic */ void access$500(AbstractAmFmSpellerHandler abstractAmFmSpellerHandler) {
-        abstractAmFmSpellerHandler.initMap();
-    }
-
-    static /* synthetic */ void access$600(AbstractAmFmSpellerHandler abstractAmFmSpellerHandler, int n) {
-        abstractAmFmSpellerHandler.addNumber(n);
+        public void spellerLeft() {
+            AbstractAmFmSpellerHandler.this.resetSpeller();
+        }
     }
 }
 

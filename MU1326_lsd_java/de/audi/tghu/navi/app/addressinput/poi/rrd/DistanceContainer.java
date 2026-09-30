@@ -21,7 +21,6 @@ implements IDistanceContainer {
         }
     }
 
-    @Override
     public RrdCalculationInfo getDistance(int n) {
         RrdCalculationInfo rrdCalculationInfo = null;
         if (this.distances != null && 0 <= n && n < this.distances.length) {
@@ -30,7 +29,6 @@ implements IDistanceContainer {
         return rrdCalculationInfo;
     }
 
-    @Override
     public void storeRRDDistances(RrdCalculationInfo[] rrdCalculationInfoArray) {
         this.distances = new RrdCalculationInfo[this.distances.length];
         System.arraycopy((Object)rrdCalculationInfoArray, 0, (Object)this.distances, 0, rrdCalculationInfoArray.length >= this.distances.length ? this.distances.length : rrdCalculationInfoArray.length);

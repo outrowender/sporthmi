@@ -189,7 +189,7 @@ public final class DSIResponseContainer {
     }
 
     public synchronized long getLispValueListCount() {
-        long l = this.lispValueListCount;
+        return this.lispValueListCount;
     }
 
     public synchronized void setLispValueListCount(long l) {
@@ -223,7 +223,7 @@ public final class DSIResponseContainer {
     public synchronized void setLispUpdateSpellerResult(String string, int n, boolean bl, boolean bl2, String string2, int n2, int n3, boolean bl3, boolean bl4, int n4) {
         LogChannel logChannel = Navigation.getInstance().getEnv().getLogChannel();
         if (logChannel.isDebug2()) {
-            logChannel.log(14808325, "DSIResponseContainer#setLispUpdateSpellerResult - lispCurrentInput=%1, lispCurrentSelectionCriterion=%2, lispIsFullMatch=%3, lispValidCharacters=%4", (Object)string, (Object)new StringBuffer().append(n).append("").toString(), (Object)Boolean.toString(bl), (Object)string2);
+            logChannel.log(100000000, "DSIResponseContainer#setLispUpdateSpellerResult - lispCurrentInput=%1, lispCurrentSelectionCriterion=%2, lispIsFullMatch=%3, lispValidCharacters=%4", (Object)string, (Object)(n + ""), (Object)Boolean.toString(bl), (Object)string2);
         }
         this.lispCurrentInput = string;
         if (n == 127 && this.lispCurrentSelectionCriterion != 127) {
@@ -251,7 +251,7 @@ public final class DSIResponseContainer {
     }
 
     public synchronized void setLiCurrentState(NavLocation navLocation, int[] nArray, int[] nArray2) {
-        Navigation.getInstance().getEnv().getLogChannel().log(-2137614336, "DSIResponseContainer#setLiCurrentState - liCurrentLD=%1, liAvailableSelectionCriteria=%2, liUsefulRefinementCriteria=%3", (Object)LocationFormatter.formatLocationShort(navLocation), (Object)Selcrit.asString(nArray), (Object)Selcrit.asString(nArray2));
+        Navigation.getInstance().getEnv().getLogChannel().log(10000000, "DSIResponseContainer#setLiCurrentState - liCurrentLD=%1, liAvailableSelectionCriteria=%2, liUsefulRefinementCriteria=%3", (Object)LocationFormatter.formatLocationShort(navLocation), (Object)Selcrit.asString(nArray), (Object)Selcrit.asString(nArray2));
         this.liCurrentLD = navLocation;
         this.liAvailableSelectionCriteria = nArray;
         this.liUsefulRefinementCriteria = nArray2;
@@ -350,7 +350,7 @@ public final class DSIResponseContainer {
     }
 
     public synchronized long getPOIValueListCount() {
-        long l = this.poiValueListCount;
+        return this.poiValueListCount;
     }
 
     public synchronized void setCalculatedRoutes(CalculatedRouteListElement[] calculatedRouteListElementArray) {
@@ -410,7 +410,7 @@ public final class DSIResponseContainer {
     }
 
     public synchronized long getAddedRouteId() {
-        long l = this.addedRouteId;
+        return this.addedRouteId;
     }
 
     public synchronized void setAddedRouteId(long l) {
@@ -486,7 +486,7 @@ public final class DSIResponseContainer {
     }
 
     public synchronized long getRgTimeAfaToDestination() {
-        long l = this.rgTimeAfaToDestination;
+        return this.rgTimeAfaToDestination;
     }
 
     public synchronized void setTryBestMatchResultData(TryBestMatchResultData[] tryBestMatchResultDataArray) {
@@ -648,7 +648,7 @@ public final class DSIResponseContainer {
     }
 
     public synchronized long getCombinedRouteListResultAnchorId() {
-        long l = this.combinedRouteListResultAnchorId;
+        return this.combinedRouteListResultAnchorId;
     }
 
     public void setRMLPOILocation(NavLocation navLocation) {

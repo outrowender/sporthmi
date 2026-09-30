@@ -25,8 +25,8 @@ import java.util.Map;
 public class PsFreezeDB
 implements TimerListener,
 IPSFreezeDB {
-    private static final int MAX_FREEZED_ENTRIES;
-    private static final int AUTOSTORE_INTERVAL_MS;
+    private static final int MAX_FREEZED_ENTRIES = 200;
+    private static final int AUTOSTORE_INTERVAL_MS = 600000;
     private Map dataBase = new HashMap();
     private boolean dataBaseDirty = false;
     private final Timer autoStoreTimer;
@@ -36,21 +36,20 @@ IPSFreezeDB {
     public PsFreezeDB(TunerBasics tunerBasics, TunerStorage tunerStorage) {
         this.log = tunerBasics.getLogger().amfmDeepDebug;
         this.storage = tunerStorage;
-        this.autoStoreTimer = new Timer("psAutoStoreTimer", 5, tunerBasics.getLogger().timer, this, 0, false);
+        this.autoStoreTimer = new Timer("psAutoStoreTimer", 5, tunerBasics.getLogger().timer, this, 600000L, false);
         this.autoStoreTimer.start();
         this.loadDataBase();
     }
 
-    @Override
     public void add(AMFMStation aMFMStation) {
         if (aMFMStation.isPsFreezed()) {
             if (this.isFull()) {
-                this.log.log(-2137614336, "[PsFreezeDB#add], Database is full, removing an entry...");
+                this.log.log(10000000, "[PsFreezeDB#add], Database is full, removing an entry...");
                 this.remove(this.getKeyOfOldestEntry());
             }
             Long l = this.createKey(aMFMStation);
-            this.log.log(-2137614336, "[PsFreezeDB#add], key: %1", (Object)l);
-            this.log.log(-2137614336, "[PsFreezeDB#add], name: %1", (Object)aMFMStation.name);
+            this.log.log(10000000, "[PsFreezeDB#add], key: %1", (Object)l);
+            this.log.log(10000000, "[PsFreezeDB#add], name: %1", (Object)aMFMStation.name);
             this.dataBase.put(l, new PsFreezeData(aMFMStation.name));
             this.storeDataBase();
         } else {
@@ -58,7 +57,6 @@ IPSFreezeDB {
         }
     }
 
-    @Override
     public void remove(AMFMStation aMFMStation) {
         if (!aMFMStation.isPsFreezed()) {
             this.remove(this.createKey(aMFMStation));
@@ -68,14 +66,12 @@ IPSFreezeDB {
         }
     }
 
-    @Override
     public void removeAll() {
-        this.log.log(-2137614336, "[PsFreezeDB#removeAll]");
+        this.log.log(10000000, "[PsFreezeDB#removeAll]");
         this.dataBase.clear();
         this.storeDataBase();
     }
 
-    @Override
     public String getFreezedName(AMFMStation aMFMStation) {
         String string = null;
         if (aMFMStation != null) {
@@ -83,11 +79,10 @@ IPSFreezeDB {
             this.dataBaseDirty = this.resetAge(psFreezeData);
             string = psFreezeData.getFreezedName();
         }
-        this.log.log(-2137614336, "[PsFreezeDB#getFreezedName], returning: %1", string);
+        this.log.log(10000000, "[PsFreezeDB#getFreezedName], returning: %1", string);
         return string;
     }
 
-    @Override
     public String getFreezedName(UnifiedStationExt unifiedStationExt) {
         String string = null;
         if (unifiedStationExt != null) {
@@ -95,13 +90,13 @@ IPSFreezeDB {
             this.dataBaseDirty = this.resetAge(psFreezeData);
             string = psFreezeData.getFreezedName();
         }
-        this.log.log(-2137614336, "[PsFreezeDB#getFreezedName], returning: %1", string);
+        this.log.log(10000000, "[PsFreezeDB#getFreezedName], returning: %1", string);
         return string;
     }
 
     public int getSize() {
         int n = this.dataBase.size();
-        this.log.log(-2137614336, "[PsFreezeDB#getSize], returning: %1", (long)n);
+        this.log.log(10000000, "[PsFreezeDB#getSize], returning: %1", (long)n);
         return n;
     }
 
@@ -110,7 +105,7 @@ IPSFreezeDB {
     }
 
     private void loadDataBase() {
-        this.log.log(-2137614336, "[PsFreezeDB#loadDataBase]");
+        this.log.log(10000000, "[PsFreezeDB#loadDataBase]");
         this.dataBase.clear();
         try {
             if (this.storage != null) {
@@ -119,7 +114,7 @@ IPSFreezeDB {
                     ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(byArray);
                     DataInputStream dataInputStream = new DataInputStream(byteArrayInputStream);
                     int n = dataInputStream.readInt();
-                    this.log.log(1078071040, "[PsFreezeDB#loadDataBase]: length %1", (long)n);
+                    this.log.log(1000000, "[PsFreezeDB#loadDataBase]: length %1", (long)n);
                     for (int i2 = 0; i2 < n; ++i2) {
                         long l = dataInputStream.readLong();
                         String string = dataInputStream.readUTF();
@@ -128,7 +123,7 @@ IPSFreezeDB {
                     }
                     dataInputStream.close();
                 } else {
-                    this.log.log(1078071040, "[PsFreezeDB#loadDataBase]: empty byteArray");
+                    this.log.log(1000000, "[PsFreezeDB#loadDataBase]: empty byteArray");
                 }
             }
         }
@@ -145,7 +140,7 @@ IPSFreezeDB {
             while (iterator.hasNext()) {
                 Long l = (Long)iterator.next();
                 PsFreezeData psFreezeData = this.get(l);
-                int n = l.intValue() & 0xFFFF0000;
+                int n = l.intValue() & 0xFFFF;
                 if (n != 0) {
                     buffer.append("PI  : ").append(Long.toHexString(n));
                 } else {
@@ -160,13 +155,11 @@ IPSFreezeDB {
         return "Database is empty";
     }
 
-    @Override
     public void cancelTimer(Timer timer) {
     }
 
-    @Override
     public void fireTimer(Timer timer) {
-        this.log.log(-2137614336, "[PsFreezeDB#fireTimer]");
+        this.log.log(10000000, "[PsFreezeDB#fireTimer]");
         if (timer.equals(this.autoStoreTimer) && this.dataBaseDirty) {
             this.storeDataBase();
         }
@@ -176,18 +169,18 @@ IPSFreezeDB {
         if (aMFMStation.rds && aMFMStation.pi != 0) {
             return new Long(aMFMStation.pi);
         }
-        return new Long(aMFMStation.frequency << 16 | (long)(aMFMStation.pi & 0xFFFF0000));
+        return new Long(aMFMStation.frequency << 16 | (long)(aMFMStation.pi & 0xFFFF));
     }
 
     private Long createKey(UnifiedStationExt unifiedStationExt) {
         if (unifiedStationExt.rds && unifiedStationExt.piSId != 0) {
             return new Long(unifiedStationExt.piSId);
         }
-        return new Long(unifiedStationExt.frequency << 16 | (long)(unifiedStationExt.piSId & 0xFFFF0000));
+        return new Long(unifiedStationExt.frequency << 16 | (long)(unifiedStationExt.piSId & 0xFFFF));
     }
 
     private void storeDataBase() {
-        this.log.log(-2137614336, "[PsFreezeDB#storeDataBase]");
+        this.log.log(10000000, "[PsFreezeDB#storeDataBase]");
         try {
             if (this.storage != null) {
                 this.storage.storePsFreezeDB(this.toByteArray());
@@ -199,7 +192,7 @@ IPSFreezeDB {
         }
     }
 
-    private byte[] toByteArray() {
+    private byte[] toByteArray() throws IOException {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         DataOutputStream dataOutputStream = new DataOutputStream(byteArrayOutputStream);
         dataOutputStream.writeInt(this.dataBase.size());
@@ -217,9 +210,9 @@ IPSFreezeDB {
     }
 
     private void remove(Long l) {
-        this.log.log(-2137614336, "[PsFreezeDB#remove], key: %1", (Object)l);
+        this.log.log(10000000, "[PsFreezeDB#remove], key: %1", (Object)l);
         if (this.dataBase.remove(l) == null) {
-            this.log.log(-1601830656, "[PsFreezeDB#remove], Could not remove object, invalid key (%1) given?", (Object)l);
+            this.log.log(100000, "[PsFreezeDB#remove], Could not remove object, invalid key (%1) given?", (Object)l);
         }
     }
 
@@ -263,7 +256,7 @@ IPSFreezeDB {
             this.dataBaseDirty = true;
             bl = true;
         }
-        this.log.log(-2137614336, "[PsFreezeDB#resetAge], resetDone: %1", bl);
+        this.log.log(10000000, "[PsFreezeDB#resetAge], resetDone: %1", bl);
         return bl;
     }
 }

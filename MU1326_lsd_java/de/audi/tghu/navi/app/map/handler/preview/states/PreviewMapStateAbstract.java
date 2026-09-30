@@ -39,14 +39,11 @@ public abstract class PreviewMapStateAbstract {
         return this.getPreviewMapHandler().getMapForFullScreen();
     }
 
-    public abstract void applyToScreenDetail() {
-    }
+    public abstract void applyToScreenDetail();
 
-    public abstract void applyToScreenDetailModels() {
-    }
+    public abstract void applyToScreenDetailModels();
 
-    public abstract void applyToScreenFullMap() {
-    }
+    public abstract void applyToScreenFullMap();
 
     public void releaseApplyToScreenDetail() {
     }
@@ -54,8 +51,7 @@ public abstract class PreviewMapStateAbstract {
     public void releaseApplyToScreenFullMap() {
     }
 
-    public abstract NavLocation getNavLocationForEnterInMap() {
-    }
+    public abstract NavLocation getNavLocationForEnterInMap();
 
     public void setPreviewMapClientId(int n) {
         this.previewMapClientId = n;

@@ -7,6 +7,6 @@ import de.eso.vcalendar.b.e;
 
 public class g
 extends e {
-    public static final String b;
+    public static final String b = "VJOURNAL";
 }
 

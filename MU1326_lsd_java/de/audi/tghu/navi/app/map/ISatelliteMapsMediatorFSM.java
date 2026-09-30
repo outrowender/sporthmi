@@ -4,27 +4,42 @@
 package de.audi.tghu.navi.app.map;
 
 import de.audi.atip.interapp.icon.RenderingInfoProvider;
-import de.audi.tghu.navi.app.map.ISatelliteMapsMediatorFSM$NullSatellitesManagerFSM;
 
 public interface ISatelliteMapsMediatorFSM {
-    public static final ISatelliteMapsMediatorFSM NULL_SATELLITES_MANAGAER_FSM = new ISatelliteMapsMediatorFSM$NullSatellitesManagerFSM();
+    public static final ISatelliteMapsMediatorFSM NULL_SATELLITES_MANAGAER_FSM = new NullSatellitesManagerFSM();
 
-    default public void cleanUp() {
-    }
+    public void cleanUp();
 
-    default public void updatemapStyle(int n) {
-    }
+    public void updatemapStyle(int var1);
 
-    default public void setMapStyle(int n, boolean bl) {
-    }
+    public void setMapStyle(int var1, boolean var2);
 
-    default public boolean isSatelliteMapsActive() {
-    }
+    public boolean isSatelliteMapsActive();
 
-    default public void setLogosAccordingToSetup() {
-    }
+    public void setLogosAccordingToSetup();
 
-    default public void setRenderingInfoProvider(RenderingInfoProvider renderingInfoProvider) {
+    public void setRenderingInfoProvider(RenderingInfoProvider var1);
+
+    public static class NullSatellitesManagerFSM
+    implements ISatelliteMapsMediatorFSM {
+        public void cleanUp() {
+        }
+
+        public void updatemapStyle(int n) {
+        }
+
+        public void setMapStyle(int n, boolean bl) {
+        }
+
+        public boolean isSatelliteMapsActive() {
+            return false;
+        }
+
+        public void setLogosAccordingToSetup() {
+        }
+
+        public void setRenderingInfoProvider(RenderingInfoProvider renderingInfoProvider) {
+        }
     }
 }
 

@@ -13,19 +13,16 @@ public class ToneActivator
 extends AbstractToneActivator {
     private ToneAppEvo app;
 
-    @Override
     protected void init() {
         VariantProviderEvo variantProviderEvo = new VariantProviderEvo();
         this.app = new ToneAppEvo(this.framework, variantProviderEvo);
         this.app.init();
     }
 
-    @Override
     protected ToneAppCommon getApp() {
         return this.app;
     }
 
-    @Override
     public void start(BundleContext bundleContext) {
         super.start(bundleContext);
         this.registerActionProxy(19, this.app.actionProxy);

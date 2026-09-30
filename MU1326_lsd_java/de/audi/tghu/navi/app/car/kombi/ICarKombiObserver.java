@@ -6,7 +6,6 @@ package de.audi.tghu.navi.app.car.kombi;
 import org.dsi.ifc.carkombi.BCViewOptions;
 
 public interface ICarKombiObserver {
-    default public void updateBCViewOptions(BCViewOptions bCViewOptions) {
-    }
+    public void updateBCViewOptions(BCViewOptions var1);
 }
 

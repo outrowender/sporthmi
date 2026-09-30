@@ -22,8 +22,8 @@ import org.dsi.ifc.global.NavLocation;
 public abstract class NaviFavoriteHandler
 extends AbstractFavoriteListHandler
 implements INaviFavoriteHandler {
-    private static final int persistenceVersion;
-    private static long uniqueIdCounter;
+    private static final int persistenceVersion = 3;
+    private static long uniqueIdCounter = 0L;
     protected final LocationSerializer locationSerializer;
     protected final NavigationEnv env;
     protected final ICommandListFactory commandListFactory;
@@ -55,27 +55,21 @@ implements INaviFavoriteHandler {
         this.favoriteDataProvider.stop();
     }
 
-    protected abstract IFavoriteLocationFormat initLocationFormatForRegion() {
-    }
+    protected abstract IFavoriteLocationFormat initLocationFormatForRegion();
 
-    public abstract void updateNaviPersistence() {
-    }
+    public abstract void updateNaviPersistence();
 
-    @Override
-    protected abstract void capacityReached(boolean bl) {
-    }
+    protected abstract void capacityReached(boolean var1);
 
     public static synchronized long generateUniqueID() {
-        long l = uniqueIdCounter = uniqueIdCounter + 1L;
+        return ++uniqueIdCounter;
     }
 
-    @Override
     public boolean isCapacityReached() {
         return false;
     }
 
-    public abstract void resetMemorySettings() {
-    }
+    public abstract void resetMemorySettings();
 
     protected void resetInputMode() {
         this.env.getChoiceModel(170).setValue(0);
@@ -84,58 +78,44 @@ implements INaviFavoriteHandler {
     public void saveAsFavorite(NavLocation navLocation, String string, boolean bl) {
     }
 
-    @Override
     public void addToFavorites(NavLocation navLocation) {
     }
 
-    @Override
     public void saveAddressOfEditedFavorite(NavLocation navLocation) {
     }
 
-    @Override
     public boolean isContextEditSavedFavorite() {
-        return ((ChoiceModel)this.env.getChoiceModel(1579091456)).getValue() == 11;
+        return ((ChoiceModel)this.env.getChoiceModel(401246)).getValue() == 11;
     }
 
-    @Override
     public boolean isContextHome() {
-        return ((ChoiceModel)this.env.getChoiceModel(1579091456)).getValue() == 2;
+        return ((ChoiceModel)this.env.getChoiceModel(401246)).getValue() == 2;
     }
 
-    @Override
     public boolean isContextOffice() {
-        return ((ChoiceModel)this.env.getChoiceModel(1579091456)).getValue() == 8;
+        return ((ChoiceModel)this.env.getChoiceModel(401246)).getValue() == 8;
     }
 
-    @Override
     public HomeAddressHandler getHomeAddressHandler() {
         return null;
     }
 
-    @Override
     public HomeAddressHandler getOfficeAddressHandler() {
         return null;
     }
 
-    @Override
     public void resetSavedTypeContext() {
     }
 
     public void resetMyScreenConfiguration() {
     }
 
-    @Override
     public boolean handleActionDependingOnContext(NavLocation navLocation) {
         return false;
     }
 
-    @Override
     public boolean handleActionDependingOnContext(NavLocation navLocation, String string) {
         return false;
-    }
-
-    static {
-        uniqueIdCounter = 0L;
     }
 }
 

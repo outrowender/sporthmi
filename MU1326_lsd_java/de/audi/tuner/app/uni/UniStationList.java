@@ -7,12 +7,16 @@ import de.audi.atip.hmi.model.list.BaseListModelApp;
 import de.audi.atip.hmi.model.list.EvoListRow;
 import de.audi.atip.hmi.model.list.SelectedItem;
 import de.audi.atip.hmi.model.menu.MenuModelApp;
+import de.audi.atip.hmi.model.menu.MenuModelListener;
+import de.audi.atip.hmi.model.update.ModelTrigger;
 import de.audi.atip.log.LogChannel;
+import de.audi.atip.timer.DefaultTimerListener;
 import de.audi.atip.timer.Timer;
 import de.audi.tuner.app.DrawerFocusManager;
 import de.audi.tuner.app.IDrawerFocusManager;
 import de.audi.tuner.app.LanguageManager;
 import de.audi.tuner.app.Logger;
+import de.audi.tuner.app.RadioBaseListModelListener;
 import de.audi.tuner.app.RadioComparators;
 import de.audi.tuner.app.RadioObjectIds;
 import de.audi.tuner.app.TunerBasics;
@@ -23,12 +27,6 @@ import de.audi.tuner.app.storage.TunerStorage;
 import de.audi.tuner.app.uni.UniDsiDownInfo;
 import de.audi.tuner.app.uni.UniDsiUpInfo;
 import de.audi.tuner.app.uni.UniListRow;
-import de.audi.tuner.app.uni.UniStationList$CompServiceLookup;
-import de.audi.tuner.app.uni.UniStationList$ListListener;
-import de.audi.tuner.app.uni.UniStationList$PrevNextHandler;
-import de.audi.tuner.app.uni.UniStationList$TimerListener;
-import de.audi.tuner.app.uni.UniStationList$UniDownListener;
-import de.audi.tuner.app.uni.UniStationList$UniUpListener;
 import de.audi.tuner.app.uni.UnifiedListComparator;
 import de.audi.tuner.app.uni.UnifiedStationExt;
 import de.audi.tuner.app.uni.UnifiedTuner;
@@ -46,18 +44,18 @@ import java.util.List;
 class UniStationList
 extends UpdateListenerHandler
 implements IStationListHandler {
-    final UniDsiUpInfo dsiUpListener = new UniStationList$UniUpListener(this, null);
-    final UniDsiDownInfo dsiDownListener = new UniStationList$UniDownListener(this, null);
-    final IPrevNext prevNextHandler = new UniStationList$PrevNextHandler(this, null);
-    private static final int REASON_NONE;
-    private static final int REASON_NEW_STATION;
-    private static final int REASON_RESORTING;
-    private static final int REASON_PROGRAM_CHANGED;
-    private static final int REASON_RADIOTEXT_CHANGED;
-    private static final int REASON_SLIDESHOW_CHANGED;
-    private static final int AREA_FIX_NAME;
-    private static final int AREA_SCROLLING;
-    private static final int AREA_FREQUENCY;
+    final UniDsiUpInfo dsiUpListener = new UniUpListener();
+    final UniDsiDownInfo dsiDownListener = new UniDownListener();
+    final IPrevNext prevNextHandler = new PrevNextHandler();
+    private static final int REASON_NONE = 0;
+    private static final int REASON_NEW_STATION = 1;
+    private static final int REASON_RESORTING = 2;
+    private static final int REASON_PROGRAM_CHANGED = 3;
+    private static final int REASON_RADIOTEXT_CHANGED = 4;
+    private static final int REASON_SLIDESHOW_CHANGED = 5;
+    private static final int AREA_FIX_NAME = 0;
+    private static final int AREA_SCROLLING = 1;
+    private static final int AREA_FREQUENCY = 2;
     private final Logger logger;
     private final BaseListModelApp listModel;
     private final MenuModelApp menuModel;
@@ -83,15 +81,15 @@ implements IStationListHandler {
         this.rowFactory = abstractListRowFactory;
         this.tuner = unifiedTuner;
         this.activeStation = new UnifiedStationExt();
-        this.listModel = tunerModels.getBaseListModel(-813235968);
-        this.menuModel = tunerModels.getMenuModel(-695795456);
-        UniStationList$ListListener uniStationList$ListListener = new UniStationList$ListListener(this, tunerModels, -695795456);
-        this.listModel.setListener(uniStationList$ListListener);
-        tunerModels.getMenuModel(-695795456).setListener(uniStationList$ListListener);
-        this.comparator = new UnifiedListComparator(languageManager, new UniStationList$CompServiceLookup(this));
-        UniStationList$TimerListener uniStationList$TimerListener = new UniStationList$TimerListener(this, null);
-        this.timerTmp = new Timer("timerTmp", 0, true, uniStationList$TimerListener);
-        this.timerFocus = new Timer("timerFocus", 0, true, uniStationList$TimerListener);
+        this.listModel = tunerModels.getBaseListModel(100303);
+        this.menuModel = tunerModels.getMenuModel(100310);
+        ListListener listListener = new ListListener(tunerModels, 100310);
+        this.listModel.setListener(listListener);
+        tunerModels.getMenuModel(100310).setListener(listListener);
+        this.comparator = new UnifiedListComparator(languageManager, new CompServiceLookup());
+        TimerListener timerListener = new TimerListener();
+        this.timerTmp = new Timer("timerTmp", 5000L, true, timerListener);
+        this.timerFocus = new Timer("timerFocus", 5000L, true, timerListener);
         this.imgType = tunerStorage.loadPreferredImageType();
     }
 
@@ -105,12 +103,10 @@ implements IStationListHandler {
         }
     }
 
-    @Override
     public void register(ISearchBreak iSearchBreak, int n) {
         throw new IllegalArgumentException();
     }
 
-    @Override
     public void register(IDrawerFocusManager iDrawerFocusManager) {
         this.drawerFocus = iDrawerFocusManager;
     }
@@ -196,7 +192,7 @@ implements IStationListHandler {
                             UniListRow uniListRow = this.rowFactory.getUniListRow(this.activeStation, false, this.imgType);
                             uniListRow.setStationActive(true);
                             this.listArray.add(uniListRow);
-                            this.logger.uniList.log(14808325, "[UniStationList.doListUpdate] active station has index %1", (long)i2);
+                            this.logger.uniList.log(100000000, "[UniStationList.doListUpdate] active station has index %1", (long)i2);
                             break block16;
                         } else {
                             this.logger.uniList.log(10000, "[UniStationList.doListUpdate] active station already added -> ignore %1", (Object)this.lastList[i2]);
@@ -209,7 +205,7 @@ implements IStationListHandler {
                 bl2 = true;
             }
             if (!bl) {
-                this.logger.uniList.log(14808325, "[UniStationList.doListUpdate] active not included %1", (Object)this.activeStation);
+                this.logger.uniList.log(100000000, "[UniStationList.doListUpdate] active not included %1", (Object)this.activeStation);
                 this.tmpAddedStation = null;
                 if (this.activeStation.hasPrimaryService()) {
                     UniListRow uniListRow = this.rowFactory.getUniListRow(this.activeStation.getPrimaryService(), true, this.imgType);
@@ -220,7 +216,7 @@ implements IStationListHandler {
                 this.listArray.add(uniListRow);
             }
             if (this.tmpAddedStation != null) {
-                this.logger.uniList.log(14808325, "[UniStationList.doListUpdate] add tmpAddedStation %1", (Object)this.tmpAddedStation);
+                this.logger.uniList.log(100000000, "[UniStationList.doListUpdate] add tmpAddedStation %1", (Object)this.tmpAddedStation);
                 if (this.tmpAddedStation.hasPrimaryService()) {
                     this.listArray.add(this.rowFactory.getUniListRow(this.tmpAddedStation.getPrimaryService(), true, this.imgType));
                 }
@@ -231,7 +227,7 @@ implements IStationListHandler {
                 this.timerFocus.restart();
             }
             if (this.tmpAddedFocussedStation != null) {
-                this.logger.uniList.log(14808325, "[UniStationList.doListUpdate] add focused row %1", (Object)this.focussedRow);
+                this.logger.uniList.log(100000000, "[UniStationList.doListUpdate] add focused row %1", (Object)this.focussedRow);
                 this.listArray.add(this.focussedRow);
             }
             Collections.sort(this.listArray, this.comparator);
@@ -269,9 +265,9 @@ implements IStationListHandler {
     }
 
     private void highlight(UnifiedStationExt unifiedStationExt) {
-        this.logger.uniList.log(-2137614336, "[UniStationList.highlight] %1", (Object)unifiedStationExt);
+        this.logger.uniList.log(10000000, "[UniStationList.highlight] %1", (Object)unifiedStationExt);
         int n = this.getUpdateReason(this.activeStation, unifiedStationExt);
-        this.logger.uniList.log(-2137614336, "[UniStationList.highlight] reason %1", (long)n);
+        this.logger.uniList.log(10000000, "[UniStationList.highlight] reason %1", (long)n);
         if (n != 0) {
             int n2;
             BaseListModelApp baseListModelApp = this.listModel;
@@ -309,7 +305,7 @@ implements IStationListHandler {
             if (bl) {
                 this.listModel.update(baseListModelApp);
             }
-            this.logger.uniList.log(14808325, "[UniStationList.highlight] old %1 new %2", (long)n2, (long)n3);
+            this.logger.uniList.log(100000000, "[UniStationList.highlight] old %1 new %2", (long)n2, (long)n3);
             if (n2 == n3 && (selectedItem.getUniqueID() != uniListRow3.getUniqueID() || bl2)) {
                 this.propagateUpdatedStationList(11);
             } else {
@@ -363,9 +359,8 @@ implements IStationListHandler {
         return UnifiedStationExt.equals(unifiedStationExt2, unifiedStationExt) ? unifiedStationExt2 : unifiedStationExt;
     }
 
-    @Override
     public boolean tuneById(long l, int n) {
-        this.logger.combi.log(-2137614336, "[UniStationList.tuneById], id: %1", l);
+        this.logger.combi.log(10000000, "[UniStationList.tuneById], id: %1", l);
         UniListRow uniListRow = (UniListRow)this.listModel.getRowByUniqueID(l);
         if (uniListRow != null) {
             this.tuner.selectStation(this.getStation(uniListRow), n);
@@ -398,7 +393,6 @@ implements IStationListHandler {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void setPrefImgType(int n) {
         this.imgType = n;
         List list = this.listArray;
@@ -407,38 +401,8 @@ implements IStationListHandler {
         }
     }
 
-    @Override
     public boolean isEnsemble(int n) {
         return false;
-    }
-
-    static /* synthetic */ UnifiedStationExt access$400(UniStationList uniStationList, UniListRow uniListRow) {
-        return uniStationList.getStation(uniListRow);
-    }
-
-    static /* synthetic */ UnifiedTuner access$500(UniStationList uniStationList) {
-        return uniStationList.tuner;
-    }
-
-    static /* synthetic */ List access$600(UniStationList uniStationList) {
-        return uniStationList.listArray;
-    }
-
-    static /* synthetic */ UniListRow access$702(UniStationList uniStationList, UniListRow uniListRow) {
-        uniStationList.focussedRow = uniListRow;
-        return uniStationList.focussedRow;
-    }
-
-    static /* synthetic */ void access$800(UniStationList uniStationList, UnifiedStationExt unifiedStationExt) {
-        uniStationList.highlight(unifiedStationExt);
-    }
-
-    static /* synthetic */ void access$900(UniStationList uniStationList) {
-        uniStationList.addActiveStationToList();
-    }
-
-    static /* synthetic */ UnifiedStationExt access$1000(UniStationList uniStationList) {
-        return uniStationList.activeStation;
     }
 
     static /* synthetic */ UnifiedStationExt[] access$1102(UniStationList uniStationList, UnifiedStationExt[] unifiedStationExtArray) {
@@ -446,47 +410,175 @@ implements IStationListHandler {
         return unifiedStationExtArray;
     }
 
-    static /* synthetic */ UnifiedStationExt access$1002(UniStationList uniStationList, UnifiedStationExt unifiedStationExt) {
-        uniStationList.activeStation = unifiedStationExt;
-        return uniStationList.activeStation;
+    private class ListListener
+    extends RadioBaseListModelListener
+    implements MenuModelListener {
+        public ListListener(TunerModels tunerModels, int n) {
+            super(tunerModels, n);
+        }
+
+        public void itemSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
+            if (this.isNewSelection(evoListRow, n, n2, n3, n4)) {
+                UnifiedStationExt unifiedStationExt = UniStationList.this.getStation((UniListRow)evoListRow);
+                UniStationList.this.tuner.selectStation(unifiedStationExt, n4);
+            }
+        }
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void itemFocused(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
+            List list = UniStationList.this.listArray;
+            synchronized (list) {
+                UniStationList.this.focussedRow = (UniListRow)evoListRow;
+            }
+        }
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void itemFocused(int n, int n2, long l, int n3) {
+            if (n != 100303) {
+                List list = UniStationList.this.listArray;
+                synchronized (list) {
+                    UniStationList.this.focussedRow = null;
+                }
+            }
+        }
     }
 
-    static /* synthetic */ void access$1200(UniStationList uniStationList) {
-        uniStationList.doListUpdate();
+    private class TimerListener
+    extends DefaultTimerListener {
+        private TimerListener() {
+        }
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void fireTimer(Timer timer) {
+            if (timer.equals(UniStationList.this.timerTmp)) {
+                List list = UniStationList.this.listArray;
+                synchronized (list) {
+                    UniStationList.this.tmpAddedStation = null;
+                    UniStationList.this.doListUpdate();
+                }
+            }
+            List list = UniStationList.this.listArray;
+            synchronized (list) {
+                UniStationList.this.tmpAddedFocussedStation = null;
+                UniStationList.this.doListUpdate();
+            }
+        }
     }
 
-    static /* synthetic */ Timer access$1300(UniStationList uniStationList) {
-        return uniStationList.timerTmp;
+    private class UniUpListener
+    extends UniDsiUpInfo {
+        boolean lowReception = false;
+
+        private UniUpListener() {
+        }
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void updateSelectedStation(UnifiedStationExt unifiedStationExt) {
+            boolean bl;
+            List list = UniStationList.this.listArray;
+            synchronized (list) {
+                if (UniStationList.this.activeStation != null && UniStationList.this.activeStation.hasPrimaryService() && !unifiedStationExt.hasPrimaryService() && UnifiedStationExt.equals(UniStationList.this.activeStation, unifiedStationExt)) {
+                    unifiedStationExt.setPrimaryService(UniStationList.this.activeStation.getPrimaryService());
+                }
+                UniStationList.this.addActiveStationToList();
+                UniStationList.this.highlight(unifiedStationExt);
+            }
+            boolean bl2 = bl = unifiedStationExt.getAudioStatus() == 3;
+            if (this.lowReception != bl) {
+                this.lowReception = bl;
+                UniStationList.this.propagateUpdatedMuteStatus(11, this.lowReception);
+            }
+        }
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void updateStationList(UnifiedStationExt[] unifiedStationExtArray, UnifiedStationExt unifiedStationExt) {
+            List list = UniStationList.this.listArray;
+            synchronized (list) {
+                UniStationList.access$1102(UniStationList.this, unifiedStationExtArray);
+                UniStationList.this.addActiveStationToList();
+                if (unifiedStationExt != null) {
+                    UniStationList.this.activeStation = unifiedStationExt;
+                }
+                UniStationList.this.doListUpdate();
+            }
+        }
     }
 
-    static /* synthetic */ UnifiedStationExt access$1402(UniStationList uniStationList, UnifiedStationExt unifiedStationExt) {
-        uniStationList.tmpAddedStation = unifiedStationExt;
-        return uniStationList.tmpAddedStation;
+    private class PrevNextHandler
+    implements IPrevNext {
+        private PrevNextHandler() {
+        }
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void handlePrevNext(boolean bl) {
+            UniListRow uniListRow = null;
+            Object object = UniStationList.this.listArray;
+            synchronized (object) {
+                SelectedItem selectedItem = UniStationList.this.listModel.getSelected();
+                int n = UniStationList.this.listModel.getLength();
+                int n2 = 0;
+                if (selectedItem != null) {
+                    n2 = bl ? ((n2 = selectedItem.getIndex() + 1) >= n ? 0 : n2) : ((n2 = selectedItem.getIndex() - 1) < 0 ? n - 1 : n2);
+                }
+                ((UniStationList)UniStationList.this).logger.uniDSI.log(10000000, "[UniStationList.handleNextPrev] index %1 -> %2 (length: %3)", (Object)selectedItem, (long)n2, (long)n);
+                uniListRow = (UniListRow)UniStationList.this.listModel.getRow(n2);
+            }
+            object = UniStationList.this.getStation(uniListRow);
+            ((UniStationList)UniStationList.this).logger.uniDSI.log(10000000, "[UniStationList.handleNextPrev] stationToSelect: %1 ", object);
+            UniStationList.this.tuner.selectStation((UnifiedStationExt)object, 0);
+            if (!UniStationList.this.drawerFocus.isDrawerOpen()) {
+                UniStationList.this.menuModel.trigger(ModelTrigger.JOIN_CURSOR);
+            }
+        }
     }
 
-    static /* synthetic */ UnifiedStationExt access$1502(UniStationList uniStationList, UnifiedStationExt unifiedStationExt) {
-        uniStationList.tmpAddedFocussedStation = unifiedStationExt;
-        return uniStationList.tmpAddedFocussedStation;
+    private class UniDownListener
+    extends UniDsiDownInfo {
+        private UniDownListener() {
+        }
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void preTuneCommand(UnifiedStationExt unifiedStationExt) {
+            List list = UniStationList.this.listArray;
+            synchronized (list) {
+                UniStationList.this.highlight(unifiedStationExt);
+                UniStationList.this.addActiveStationToList();
+            }
+        }
     }
 
-    static /* synthetic */ BaseListModelApp access$1600(UniStationList uniStationList) {
-        return uniStationList.listModel;
-    }
+    protected class CompServiceLookup {
+        protected CompServiceLookup() {
+        }
 
-    static /* synthetic */ Logger access$1700(UniStationList uniStationList) {
-        return uniStationList.logger;
-    }
-
-    static /* synthetic */ IDrawerFocusManager access$1800(UniStationList uniStationList) {
-        return uniStationList.drawerFocus;
-    }
-
-    static /* synthetic */ MenuModelApp access$1900(UniStationList uniStationList) {
-        return uniStationList.menuModel;
-    }
-
-    static /* synthetic */ UnifiedStationExt[] access$1100(UniStationList uniStationList) {
-        return uniStationList.lastList;
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public String getServiceName(int n) {
+            List list = UniStationList.this.listArray;
+            synchronized (list) {
+                for (int i2 = 0; i2 < UniStationList.this.lastList.length; ++i2) {
+                    if (((UniStationList)UniStationList.this).lastList[i2].piSId != n || ((UniStationList)UniStationList.this).lastList[i2].sCIDI != 0) continue;
+                    return UniStationList.this.lastList[i2].getName(true);
+                }
+            }
+            ((UniStationList)UniStationList.this).logger.uniList.log(10000, "[UniStationList.getServiceName] service missing pi: %1", (long)n);
+            return "";
+        }
     }
 }
 

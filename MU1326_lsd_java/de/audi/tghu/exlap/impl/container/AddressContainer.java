@@ -1,8 +1,5 @@
 /*
  * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  java.lang.Double
  */
 package de.audi.tghu.exlap.impl.container;
 
@@ -15,23 +12,22 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Map$Entry;
 import org.dsi.ifc.has.HASDataContainer;
 import org.dsi.ifc.has.HASDataElement;
 
 public class AddressContainer
 extends AbstractContainer {
-    private static final int CONTAINER_ID_ADDRESS;
-    private static final int ELEMENT_ID_LATITUDE;
-    private static final int ELEMENT_ID_LONGITUDE;
-    private static final int ELEMENT_ID_FORMATTED_STRING;
-    private static final int ELEMENT_ID_STREET;
-    private static final int ELEMENT_ID_CITY;
-    private static final int ELEMENT_ID_COUNTRY;
-    private static final int ELEMENT_ID_HOUSENUMBER;
-    private static final int ELEMENT_ID_ZIP;
-    private static final int ELEMENT_ID_STATE;
-    private static final int ELEMENT_ID_ALTITUDE;
+    private static final int CONTAINER_ID_ADDRESS = 1;
+    private static final int ELEMENT_ID_LATITUDE = 1;
+    private static final int ELEMENT_ID_LONGITUDE = 2;
+    private static final int ELEMENT_ID_FORMATTED_STRING = 3;
+    private static final int ELEMENT_ID_STREET = 4;
+    private static final int ELEMENT_ID_CITY = 5;
+    private static final int ELEMENT_ID_COUNTRY = 6;
+    private static final int ELEMENT_ID_HOUSENUMBER = 7;
+    private static final int ELEMENT_ID_ZIP = 8;
+    private static final int ELEMENT_ID_STATE = 10;
+    private static final int ELEMENT_ID_ALTITUDE = 21;
     private Map map = new HashMap();
 
     public AddressContainer() {
@@ -218,14 +214,12 @@ extends AbstractContainer {
         return (Double)this.map.get(new Integer(21));
     }
 
-    @Override
     public List createContainer(int n, int n2, int n3) {
         ArrayList arrayList = new ArrayList();
         arrayList.add(new HASDataContainer(1, n2, n, this.createElements(), n3));
         return arrayList;
     }
 
-    @Override
     public HASDataContainer[] createContainer() {
         List list = this.createContainer(-1, 1, -1);
         return (HASDataContainer[])list.toArray(new HASDataContainer[list.size()]);
@@ -236,47 +230,47 @@ extends AbstractContainer {
         HASDataElement[] hASDataElementArray = new HASDataElement[this.map.size()];
         Iterator iterator = this.map.entrySet().iterator();
         while (iterator.hasNext()) {
-            Map$Entry map$Entry = (Map$Entry)iterator.next();
-            if (map$Entry.getValue() == null) continue;
-            switch ((Integer)map$Entry.getKey()) {
+            Map.Entry entry = (Map.Entry)iterator.next();
+            if (entry.getValue() == null) continue;
+            switch ((Integer)entry.getKey()) {
                 case 1: {
-                    hASDataElementArray[n++] = new DoubleElement(1, (double)((Double)map$Entry.getValue()));
+                    hASDataElementArray[n++] = new DoubleElement(1, (double)((Double)entry.getValue()));
                     break;
                 }
                 case 2: {
-                    hASDataElementArray[n++] = new DoubleElement(2, (double)((Double)map$Entry.getValue()));
+                    hASDataElementArray[n++] = new DoubleElement(2, (double)((Double)entry.getValue()));
                     break;
                 }
                 case 3: {
-                    hASDataElementArray[n++] = new StringElement(3, (String)map$Entry.getValue());
+                    hASDataElementArray[n++] = new StringElement(3, (String)entry.getValue());
                     break;
                 }
                 case 4: {
-                    hASDataElementArray[n++] = new StringElement(4, (String)map$Entry.getValue());
+                    hASDataElementArray[n++] = new StringElement(4, (String)entry.getValue());
                     break;
                 }
                 case 5: {
-                    hASDataElementArray[n++] = new StringElement(5, (String)map$Entry.getValue());
+                    hASDataElementArray[n++] = new StringElement(5, (String)entry.getValue());
                     break;
                 }
                 case 6: {
-                    hASDataElementArray[n++] = new StringElement(6, (String)map$Entry.getValue());
+                    hASDataElementArray[n++] = new StringElement(6, (String)entry.getValue());
                     break;
                 }
                 case 7: {
-                    hASDataElementArray[n++] = new StringElement(7, (String)map$Entry.getValue());
+                    hASDataElementArray[n++] = new StringElement(7, (String)entry.getValue());
                     break;
                 }
                 case 8: {
-                    hASDataElementArray[n++] = new StringElement(8, (String)map$Entry.getValue());
+                    hASDataElementArray[n++] = new StringElement(8, (String)entry.getValue());
                     break;
                 }
                 case 10: {
-                    hASDataElementArray[n++] = new StringElement(10, (String)map$Entry.getValue());
+                    hASDataElementArray[n++] = new StringElement(10, (String)entry.getValue());
                     break;
                 }
                 case 21: {
-                    hASDataElementArray[n++] = new DoubleElement(21, (double)((Double)map$Entry.getValue()));
+                    hASDataElementArray[n++] = new DoubleElement(21, (double)((Double)entry.getValue()));
                     break;
                 }
             }
@@ -284,110 +278,109 @@ extends AbstractContainer {
         return hASDataElementArray;
     }
 
-    @Override
     public void toString(StringWriter stringWriter) {
         stringWriter.write("AddressContainer(");
         Iterator iterator = this.map.entrySet().iterator();
         while (iterator.hasNext()) {
-            Map$Entry map$Entry = (Map$Entry)iterator.next();
-            switch ((Integer)map$Entry.getKey()) {
+            Map.Entry entry = (Map.Entry)iterator.next();
+            switch ((Integer)entry.getKey()) {
                 case 1: {
-                    if (map$Entry.getValue() == null) {
+                    if (entry.getValue() == null) {
                         stringWriter.write("latitude(double)=null");
                         break;
                     }
                     stringWriter.write("latitude(double)='");
-                    stringWriter.write(map$Entry.getValue().toString());
+                    stringWriter.write(entry.getValue().toString());
                     stringWriter.write("'");
                     break;
                 }
                 case 2: {
-                    if (map$Entry.getValue() == null) {
+                    if (entry.getValue() == null) {
                         stringWriter.write("longitude(double)=null");
                         break;
                     }
                     stringWriter.write("longitude(double)='");
-                    stringWriter.write(map$Entry.getValue().toString());
+                    stringWriter.write(entry.getValue().toString());
                     stringWriter.write("'");
                     break;
                 }
                 case 3: {
-                    if (map$Entry.getValue() == null) {
+                    if (entry.getValue() == null) {
                         stringWriter.write("formattedString(String)=null");
                         break;
                     }
                     stringWriter.write("formattedString(String)='");
-                    stringWriter.write(map$Entry.getValue().toString());
+                    stringWriter.write(entry.getValue().toString());
                     stringWriter.write("'");
                     break;
                 }
                 case 4: {
-                    if (map$Entry.getValue() == null) {
+                    if (entry.getValue() == null) {
                         stringWriter.write("street(String)=null");
                         break;
                     }
                     stringWriter.write("street(String)='");
-                    stringWriter.write(map$Entry.getValue().toString());
+                    stringWriter.write(entry.getValue().toString());
                     stringWriter.write("'");
                     break;
                 }
                 case 5: {
-                    if (map$Entry.getValue() == null) {
+                    if (entry.getValue() == null) {
                         stringWriter.write("city(String)=null");
                         break;
                     }
                     stringWriter.write("city(String)='");
-                    stringWriter.write(map$Entry.getValue().toString());
+                    stringWriter.write(entry.getValue().toString());
                     stringWriter.write("'");
                     break;
                 }
                 case 6: {
-                    if (map$Entry.getValue() == null) {
+                    if (entry.getValue() == null) {
                         stringWriter.write("country(String)=null");
                         break;
                     }
                     stringWriter.write("country(String)='");
-                    stringWriter.write(map$Entry.getValue().toString());
+                    stringWriter.write(entry.getValue().toString());
                     stringWriter.write("'");
                     break;
                 }
                 case 7: {
-                    if (map$Entry.getValue() == null) {
+                    if (entry.getValue() == null) {
                         stringWriter.write("housenumber(String)=null");
                         break;
                     }
                     stringWriter.write("housenumber(String)='");
-                    stringWriter.write(map$Entry.getValue().toString());
+                    stringWriter.write(entry.getValue().toString());
                     stringWriter.write("'");
                     break;
                 }
                 case 8: {
-                    if (map$Entry.getValue() == null) {
+                    if (entry.getValue() == null) {
                         stringWriter.write("zip(String)=null");
                         break;
                     }
                     stringWriter.write("zip(String)='");
-                    stringWriter.write(map$Entry.getValue().toString());
+                    stringWriter.write(entry.getValue().toString());
                     stringWriter.write("'");
                     break;
                 }
                 case 10: {
-                    if (map$Entry.getValue() == null) {
+                    if (entry.getValue() == null) {
                         stringWriter.write("state(String)=null");
                         break;
                     }
                     stringWriter.write("state(String)='");
-                    stringWriter.write(map$Entry.getValue().toString());
+                    stringWriter.write(entry.getValue().toString());
                     stringWriter.write("'");
                     break;
                 }
                 case 21: {
-                    if (map$Entry.getValue() == null) {
+                    if (entry.getValue() == null) {
                         stringWriter.write("altitude(double)=null");
                         break;
                     }
                     stringWriter.write("altitude(double)='");
-                    stringWriter.write(map$Entry.getValue().toString());
+                    stringWriter.write(entry.getValue().toString());
                     stringWriter.write("'");
                     break;
                 }
@@ -398,7 +391,6 @@ extends AbstractContainer {
         stringWriter.write(")");
     }
 
-    @Override
     protected Object clone() {
         AddressContainer addressContainer = new AddressContainer(this);
         return addressContainer;

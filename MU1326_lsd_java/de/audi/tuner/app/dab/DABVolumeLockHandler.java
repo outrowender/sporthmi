@@ -6,12 +6,11 @@ package de.audi.tuner.app.dab;
 import de.audi.tuner.app.TunerAudioMgmt;
 import de.audi.tuner.app.TunerModels;
 import de.audi.tuner.app.dab.DABDsiUpInfo;
-import de.audi.tuner.app.dab.DABVolumeLockHandler$DsiUpListener;
 import de.audi.tuner.app.dab.DabReceptionStatus;
 import de.esolutions.fw.util.commons.Buffer;
 
 class DABVolumeLockHandler {
-    final DABDsiUpInfo dsiUpListener = new DABVolumeLockHandler$DsiUpListener(this, null);
+    final DABDsiUpInfo dsiUpListener = new DsiUpListener();
     private int selectServiceStatus = 1;
     private boolean seekRunning = false;
     private DabReceptionStatus reception = new DabReceptionStatus(0, 0);
@@ -49,53 +48,45 @@ class DABVolumeLockHandler {
         }
     }
 
-    static /* synthetic */ DabReceptionStatus access$100(DABVolumeLockHandler dABVolumeLockHandler) {
-        return dABVolumeLockHandler.reception;
-    }
+    private class DsiUpListener
+    extends DABDsiUpInfo {
+        private DsiUpListener() {
+        }
 
-    static /* synthetic */ DabReceptionStatus access$102(DABVolumeLockHandler dABVolumeLockHandler, DabReceptionStatus dabReceptionStatus) {
-        dABVolumeLockHandler.reception = dabReceptionStatus;
-        return dABVolumeLockHandler.reception;
-    }
+        public void updateReceptionStatus(DabReceptionStatus dabReceptionStatus) {
+            if (!DABVolumeLockHandler.this.reception.equals(dabReceptionStatus)) {
+                DABVolumeLockHandler.this.reception = dabReceptionStatus;
+                DABVolumeLockHandler.this.updateVolumeLock();
+            }
+        }
 
-    static /* synthetic */ void access$200(DABVolumeLockHandler dABVolumeLockHandler) {
-        dABVolumeLockHandler.updateVolumeLock();
-    }
+        public void selectServiceStatus(int n) {
+            if (n != DABVolumeLockHandler.this.selectServiceStatus) {
+                DABVolumeLockHandler.this.selectServiceStatus = n;
+                DABVolumeLockHandler.this.updateVolumeLock();
+            }
+        }
 
-    static /* synthetic */ int access$300(DABVolumeLockHandler dABVolumeLockHandler) {
-        return dABVolumeLockHandler.selectServiceStatus;
-    }
+        public void seekServiceStatus(boolean bl) {
+            if (DABVolumeLockHandler.this.seekRunning != bl) {
+                DABVolumeLockHandler.this.seekRunning = bl;
+                DABVolumeLockHandler.this.updateVolumeLock();
+            }
+        }
 
-    static /* synthetic */ int access$302(DABVolumeLockHandler dABVolumeLockHandler, int n) {
-        dABVolumeLockHandler.selectServiceStatus = n;
-        return dABVolumeLockHandler.selectServiceStatus;
-    }
+        public void forceLMUpdateStatus(int n) {
+            if (n != DABVolumeLockHandler.this.listUpdateStatus) {
+                DABVolumeLockHandler.this.listUpdateStatus = n;
+                DABVolumeLockHandler.this.updateVolumeLock();
+            }
+        }
 
-    static /* synthetic */ boolean access$400(DABVolumeLockHandler dABVolumeLockHandler) {
-        return dABVolumeLockHandler.seekRunning;
-    }
-
-    static /* synthetic */ boolean access$402(DABVolumeLockHandler dABVolumeLockHandler, boolean bl) {
-        dABVolumeLockHandler.seekRunning = bl;
-        return dABVolumeLockHandler.seekRunning;
-    }
-
-    static /* synthetic */ int access$500(DABVolumeLockHandler dABVolumeLockHandler) {
-        return dABVolumeLockHandler.listUpdateStatus;
-    }
-
-    static /* synthetic */ int access$502(DABVolumeLockHandler dABVolumeLockHandler, int n) {
-        dABVolumeLockHandler.listUpdateStatus = n;
-        return dABVolumeLockHandler.listUpdateStatus;
-    }
-
-    static /* synthetic */ int access$600(DABVolumeLockHandler dABVolumeLockHandler) {
-        return dABVolumeLockHandler.detectedDevice;
-    }
-
-    static /* synthetic */ int access$602(DABVolumeLockHandler dABVolumeLockHandler, int n) {
-        dABVolumeLockHandler.detectedDevice = n;
-        return dABVolumeLockHandler.detectedDevice;
+        public void updateDetectedDevice(int n) {
+            if (n != DABVolumeLockHandler.this.detectedDevice) {
+                DABVolumeLockHandler.this.detectedDevice = n;
+                DABVolumeLockHandler.this.updateVolumeLock();
+            }
+        }
     }
 }
 

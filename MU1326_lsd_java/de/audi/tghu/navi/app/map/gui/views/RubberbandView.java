@@ -16,7 +16,7 @@ implements IView {
 
     public RubberbandView(NavigationEnv navigationEnv) {
         this.logger = navigationEnv.getLogChannel("App.Map.GUI.Main");
-        this.blmRubberband = navigationEnv.getBaseListModel(-1256258048);
+        this.blmRubberband = navigationEnv.getBaseListModel(401333);
         EvoListRow evoListRow = new EvoListRow(0L, 2);
         EvoListRow evoListRow2 = new EvoListRow(1L, 2);
         evoListRow.setInteger(0, 0);
@@ -32,8 +32,8 @@ implements IView {
     }
 
     public void update(int n, long l, int n2, long l2) {
-        this.getLogger().log(-2137614336, "RubberbandView#update( ) - distOld: %1, etaOld: %2", (long)n, l);
-        this.getLogger().log(-2137614336, "RubberbandView#update( ) - new dist : %1, new eta : %2 )", (long)n2, l2);
+        this.getLogger().log(10000000, "RubberbandView#update( ) - distOld: %1, etaOld: %2", (long)n, l);
+        this.getLogger().log(10000000, "RubberbandView#update( ) - new dist : %1, new eta : %2 )", (long)n2, l2);
         EvoListRow evoListRow = this.blmRubberband.getRow(0);
         evoListRow.setInteger(0, n);
         evoListRow.setLong(1, l);
@@ -45,7 +45,7 @@ implements IView {
     }
 
     public void updateDraggedRoute(int n, long l) {
-        this.getLogger().log(-2137614336, "RubberbandView#updateDraggedRoute( ) - new dist : %1, new eta : %2 )", (long)n, l);
+        this.getLogger().log(10000000, "RubberbandView#updateDraggedRoute( ) - new dist : %1, new eta : %2 )", (long)n, l);
         EvoListRow evoListRow = this.blmRubberband.getRow(1);
         evoListRow.setInteger(0, n);
         evoListRow.setLong(1, l);

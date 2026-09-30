@@ -19,7 +19,6 @@ extends AbstractPathEntry {
         this.right = string2;
     }
 
-    @Override
     public void match(Map map, Node node, List list) {
         if (node.getAttributes().getNamedItem(this.left) == null) {
             return;

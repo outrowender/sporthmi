@@ -5,9 +5,13 @@ package de.audi.tuner.app.history;
 
 import de.audi.atip.interapp.radio.IHistoryListService;
 import de.audi.atip.interapp.radio.IHistoryVetoService;
+import de.audi.atip.interapp.tv.TVStation;
+import de.audi.atip.timer.DefaultTimerListener;
 import de.audi.atip.timer.Timer;
+import de.audi.tuner.app.AudioFocusInfo;
+import de.audi.tuner.app.AudioInfo;
 import de.audi.tuner.app.IDrawerFocusManager;
-import de.audi.tuner.app.LanguageManager$ILanguageChangeListener;
+import de.audi.tuner.app.LanguageManager;
 import de.audi.tuner.app.RadioComparators;
 import de.audi.tuner.app.TunerBasics;
 import de.audi.tuner.app.TunerObjectContainer;
@@ -17,32 +21,21 @@ import de.audi.tuner.app.amfm.dsi.AMFMDsiDownInfo;
 import de.audi.tuner.app.amfm.dsi.AMFMDsiUpInfo;
 import de.audi.tuner.app.dab.DABDsiDownInfo;
 import de.audi.tuner.app.dab.DABDsiUpInfo;
+import de.audi.tuner.app.dab.DabReceptionStatus;
+import de.audi.tuner.app.dab.DabStation;
 import de.audi.tuner.app.history.HistoryStationList;
-import de.audi.tuner.app.history.HistoryTuner$1;
-import de.audi.tuner.app.history.HistoryTuner$2;
-import de.audi.tuner.app.history.HistoryTuner$3;
-import de.audi.tuner.app.history.HistoryTuner$AMFMDsiDownListener;
-import de.audi.tuner.app.history.HistoryTuner$AMFMDsiUpListener;
-import de.audi.tuner.app.history.HistoryTuner$AudioFocusInfoListener;
-import de.audi.tuner.app.history.HistoryTuner$AudioInfoListener;
-import de.audi.tuner.app.history.HistoryTuner$DABDsiDownListener;
-import de.audi.tuner.app.history.HistoryTuner$DABDsiUpListener;
-import de.audi.tuner.app.history.HistoryTuner$HistoryListService;
-import de.audi.tuner.app.history.HistoryTuner$HistoryVetoService;
-import de.audi.tuner.app.history.HistoryTuner$RsdbStatusListener;
-import de.audi.tuner.app.history.HistoryTuner$SDARSDsiDownListener;
-import de.audi.tuner.app.history.HistoryTuner$SDARSDsiUpListener;
-import de.audi.tuner.app.history.HistoryTuner$TimerListener;
-import de.audi.tuner.app.history.HistoryTuner$UniDsiDownListener;
-import de.audi.tuner.app.history.HistoryTuner$UniDsiUpListener;
 import de.audi.tuner.app.history.IHistoryTuneListener;
 import de.audi.tuner.app.history.ITunePlugin;
 import de.audi.tuner.app.misc.IOptionsListener;
+import de.audi.tuner.app.rsdb.IRSDBResult;
+import de.audi.tuner.app.rsdb.IRadioDatabaseListener;
+import de.audi.tuner.app.sdars.StationInfoExt;
 import de.audi.tuner.app.sdars.dsi.SDARSDsiDownInfo;
 import de.audi.tuner.app.sdars.dsi.SDARSDsiUpInfo;
 import de.audi.tuner.app.storage.TunerStorage;
 import de.audi.tuner.app.uni.UniDsiDownInfo;
 import de.audi.tuner.app.uni.UniDsiUpInfo;
+import de.audi.tuner.app.uni.UnifiedStationExt;
 import de.audi.tuner.ifc.AbstractListRowFactory;
 import de.audi.tuner.ifc.ILogoDatabase;
 import de.audi.tuner.ifc.IMemoryList;
@@ -52,24 +45,26 @@ import de.audi.tuner.ifc.IScanHandler;
 import de.audi.tuner.ifc.listener.IUpdateListener;
 import de.audi.tuner.ifc.listener.MessageListener;
 import de.audi.tuner.sds.UpdateListenerHandler;
+import de.audi.tuner.util.jobqueue.AbstractNamedRunnable;
+import org.dsi.ifc.sdars.ServiceStatus3;
 
 public class HistoryTuner
 extends UpdateListenerHandler {
-    private final Timer addTimer = new Timer("history", 0, true, new HistoryTuner$TimerListener(this, null));
-    public final IHistoryListService historyListService = new HistoryTuner$HistoryListService(this, null);
-    public final IHistoryVetoService historyVetoService = new HistoryTuner$HistoryVetoService(this, null);
+    private final Timer addTimer = new Timer("history", 10000L, true, new TimerListener());
+    public final IHistoryListService historyListService = new HistoryListService();
+    public final IHistoryVetoService historyVetoService = new HistoryVetoService();
     public ILogoDatabase logoDb = null;
-    public final AMFMDsiUpInfo amfmDsiUpListener = new HistoryTuner$AMFMDsiUpListener(this, null);
-    public final DABDsiUpInfo dabDsiUpListener = new HistoryTuner$DABDsiUpListener(this, null);
-    public final SDARSDsiUpInfo sdarsDsiUpListener = new HistoryTuner$SDARSDsiUpListener(this, null);
-    public final UniDsiUpInfo uniDsiUpListener = new HistoryTuner$UniDsiUpListener(this, null);
-    public final AMFMDsiDownInfo amfmDsiDownListener = new HistoryTuner$AMFMDsiDownListener(this, null);
-    public final UniDsiDownInfo uniDsiDownListener = new HistoryTuner$UniDsiDownListener(this, null);
-    public final SDARSDsiDownInfo sdarsDsiDownListener = new HistoryTuner$SDARSDsiDownListener(this, null);
-    public final DABDsiDownInfo dabDsiDownListener = new HistoryTuner$DABDsiDownListener(this, null);
-    public final HistoryTuner$AudioInfoListener audioInfoListener = new HistoryTuner$AudioInfoListener(this, null);
-    public final HistoryTuner$AudioFocusInfoListener audioFocusListener = new HistoryTuner$AudioFocusInfoListener(this, null);
-    public final HistoryTuner$RsdbStatusListener rsdbStatusListener = new HistoryTuner$RsdbStatusListener(this, null);
+    public final AMFMDsiUpInfo amfmDsiUpListener = new AMFMDsiUpListener();
+    public final DABDsiUpInfo dabDsiUpListener = new DABDsiUpListener();
+    public final SDARSDsiUpInfo sdarsDsiUpListener = new SDARSDsiUpListener();
+    public final UniDsiUpInfo uniDsiUpListener = new UniDsiUpListener();
+    public final AMFMDsiDownInfo amfmDsiDownListener = new AMFMDsiDownListener();
+    public final UniDsiDownInfo uniDsiDownListener = new UniDsiDownListener();
+    public final SDARSDsiDownInfo sdarsDsiDownListener = new SDARSDsiDownListener();
+    public final DABDsiDownInfo dabDsiDownListener = new DABDsiDownListener();
+    public final AudioInfoListener audioInfoListener = new AudioInfoListener();
+    public final AudioFocusInfoListener audioFocusListener = new AudioFocusInfoListener();
+    public final RsdbStatusListener rsdbStatusListener = new RsdbStatusListener();
     private TunerObjectContainer amFmSelStation;
     private TunerObjectContainer dabStation;
     private TunerObjectContainer uniStation;
@@ -123,7 +118,7 @@ extends UpdateListenerHandler {
         return this.historyList.messageListener;
     }
 
-    public LanguageManager$ILanguageChangeListener getLanguageChangeListener() {
+    public LanguageManager.ILanguageChangeListener getLanguageChangeListener() {
         return this.historyList.languageChangeListener;
     }
 
@@ -172,12 +167,17 @@ extends UpdateListenerHandler {
         this.lastStation = tunerObjectContainer;
     }
 
-    public void updatePSFreeze(AMFMStation aMFMStation) {
+    public void updatePSFreeze(final AMFMStation aMFMStation) {
         if (!this.basics.tunerJobQueue.isJobQueueDispatchThread()) {
-            this.basics.tunerJobQueue.enqueue(new HistoryTuner$1(this, "HistroyTuner.updatePSFreeze", aMFMStation));
+            this.basics.tunerJobQueue.enqueue(new AbstractNamedRunnable("HistroyTuner.updatePSFreeze"){
+
+                public void run() {
+                    HistoryTuner.this.updatePSFreeze(aMFMStation);
+                }
+            });
             return;
         }
-        this.basics.getLogger().history.log(-2137614336, "[HistoryTuner.updatePSFreeze] (un)freeze station %1", (Object)aMFMStation);
+        this.basics.getLogger().history.log(10000000, "[HistoryTuner.updatePSFreeze] (un)freeze station %1", (Object)aMFMStation);
         this.historyList.updatePSFreeze(aMFMStation);
         if (this.lastStation.getType() == 3 && RadioComparators.equals(aMFMStation, this.lastStation.getAMFMService())) {
             this.lastStation.getAMFMService().freezePs(aMFMStation.name);
@@ -190,9 +190,9 @@ extends UpdateListenerHandler {
         boolean bl = false;
         boolean bl2 = Utilities.checkIfAtLeastOneBooleanIsTrue(this.addOperationVetos);
         if (bl2) {
-            this.basics.getLogger().history.log(-2137614336, "[HistoryTuner.processAdd] veto for station: %1", (Object)this.lastStation);
+            this.basics.getLogger().history.log(10000000, "[HistoryTuner.processAdd] veto for station: %1", (Object)this.lastStation);
         } else {
-            this.basics.getLogger().history.log(-2137614336, "[HistoryTuner.processAdd] add station: %1", (Object)this.lastStation);
+            this.basics.getLogger().history.log(10000000, "[HistoryTuner.processAdd] add station: %1", (Object)this.lastStation);
             this.historyList.add(this.lastStation);
             bl = true;
         }
@@ -209,9 +209,14 @@ extends UpdateListenerHandler {
         return this.historyList.prevNextHandler;
     }
 
-    public void setPreferredImgType(int n) {
+    public void setPreferredImgType(final int n) {
         if (!this.basics.tunerJobQueue.isJobQueueDispatchThread()) {
-            this.basics.tunerJobQueue.enqueue(new HistoryTuner$2(this, "HistroyTuner.setPreferredImgType", n));
+            this.basics.tunerJobQueue.enqueue(new AbstractNamedRunnable("HistroyTuner.setPreferredImgType"){
+
+                public void run() {
+                    HistoryTuner.this.setPreferredImgType(n);
+                }
+            });
             return;
         }
         this.historyList.setPreferredImgType(n);
@@ -236,95 +241,441 @@ extends UpdateListenerHandler {
         return tunerObjectContainerArray2;
     }
 
-    public void setNamesOnOff(boolean bl) {
+    public void setNamesOnOff(final boolean bl) {
         if (!this.basics.tunerJobQueue.isJobQueueDispatchThread()) {
-            this.basics.tunerJobQueue.enqueue(new HistoryTuner$3(this, "HistroyTuner.setNamesOnOff", bl));
+            this.basics.tunerJobQueue.enqueue(new AbstractNamedRunnable("HistroyTuner.setNamesOnOff"){
+
+                public void run() {
+                    HistoryTuner.this.setNamesOnOff(bl);
+                }
+            });
             return;
         }
         this.historyList.setNamesOnOff(bl);
     }
 
-    static /* synthetic */ TunerBasics access$1400(HistoryTuner historyTuner) {
-        return historyTuner.basics;
+    private class TimerListener
+    extends DefaultTimerListener {
+        private TimerListener() {
+        }
+
+        public void fireTimer(Timer timer) {
+            ((HistoryTuner)HistoryTuner.this).basics.tunerJobQueue.enqueue(new AbstractNamedRunnable("HistroyTuner.TimerListener.fireTimer"){
+
+                public void run() {
+                    HistoryTuner.this.processAdd();
+                }
+            });
+        }
     }
 
-    static /* synthetic */ TunerObjectContainer access$1502(HistoryTuner historyTuner, TunerObjectContainer tunerObjectContainer) {
-        historyTuner.amFmSelStation = tunerObjectContainer;
-        return historyTuner.amFmSelStation;
+    private class DABDsiUpListener
+    extends DABDsiUpInfo {
+        private DABDsiUpListener() {
+        }
+
+        public void updateCurrentStation(final DabStation dabStation, final DabReceptionStatus dabReceptionStatus) {
+            if (!((HistoryTuner)HistoryTuner.this).basics.tunerJobQueue.isJobQueueDispatchThread()) {
+                ((HistoryTuner)HistoryTuner.this).basics.tunerJobQueue.enqueue(new AbstractNamedRunnable("HistroyTuner.DABDsiUpListener.updateCurrentStation"){
+
+                    public void run() {
+                        DABDsiUpListener.this.updateCurrentStation(dabStation, dabReceptionStatus);
+                    }
+                });
+                return;
+            }
+            ((HistoryTuner)HistoryTuner.this).basics.getLogger().history.log(10000000, "[HistoryTuner.updateCurrentStation] DAB station: %1", (Object)dabStation);
+            HistoryTuner.this.dabStation = new TunerObjectContainer(dabStation);
+            HistoryTuner.this.dabStation.setReceptionStatus(dabReceptionStatus.getReception());
+            int n = HistoryTuner.this.basics.getModels().getActiveTuner();
+            if (HistoryTuner.this.radioHasAudioFocus && n == 5) {
+                HistoryTuner.this.update();
+                if (HistoryTuner.this.historyList.highlight(HistoryTuner.this.dabStation) == 0) {
+                    HistoryTuner.this.addTimer.cancel();
+                }
+            }
+        }
     }
 
-    static /* synthetic */ boolean access$1600(HistoryTuner historyTuner) {
-        return historyTuner.radioHasAudioFocus;
+    private class UniDsiUpListener
+    extends UniDsiUpInfo {
+        private UniDsiUpListener() {
+        }
+
+        public void updateSelectedStation(final UnifiedStationExt unifiedStationExt) {
+            if (!((HistoryTuner)HistoryTuner.this).basics.tunerJobQueue.isJobQueueDispatchThread()) {
+                ((HistoryTuner)HistoryTuner.this).basics.tunerJobQueue.enqueue(new AbstractNamedRunnable("HistroyTuner.UniDsiUpListener.updateSelectedStation"){
+
+                    public void run() {
+                        UniDsiUpListener.this.updateSelectedStation(unifiedStationExt);
+                    }
+                });
+                return;
+            }
+            ((HistoryTuner)HistoryTuner.this).basics.getLogger().history.log(10000000, "[HistoryTuner.updateSelectedStation] Unified station: %1", (Object)unifiedStationExt);
+            HistoryTuner.this.uniStation = new TunerObjectContainer(unifiedStationExt);
+            int n = HistoryTuner.this.basics.getModels().getActiveTuner();
+            if (HistoryTuner.this.radioHasAudioFocus && n == 11) {
+                HistoryTuner.this.update();
+                if (HistoryTuner.this.historyList.highlight(HistoryTuner.this.uniStation) == 0) {
+                    HistoryTuner.this.addTimer.cancel();
+                }
+            }
+        }
     }
 
-    static /* synthetic */ void access$1700(HistoryTuner historyTuner) {
-        historyTuner.update();
+    private class AMFMDsiUpListener
+    extends AMFMDsiUpInfo {
+        private AMFMDsiUpListener() {
+        }
+
+        public void updateSelectedStation(final AMFMStation aMFMStation) {
+            if (!((HistoryTuner)HistoryTuner.this).basics.tunerJobQueue.isJobQueueDispatchThread()) {
+                ((HistoryTuner)HistoryTuner.this).basics.tunerJobQueue.enqueue(new AbstractNamedRunnable("HistroyTuner.AMFMDsiUpListener.updateSelectedStation"){
+
+                    public void run() {
+                        AMFMDsiUpListener.this.updateSelectedStation(aMFMStation);
+                    }
+                });
+                return;
+            }
+            ((HistoryTuner)HistoryTuner.this).basics.getLogger().history.log(10000000, "[HistoryTuner.updateSelectedStation] AM/FM station: %1", (Object)aMFMStation);
+            HistoryTuner.this.amFmSelStation = new TunerObjectContainer(aMFMStation);
+            int n = HistoryTuner.this.basics.getModels().getActiveTuner();
+            if (HistoryTuner.this.radioHasAudioFocus && (n == 1 || n == 4 || n == 10)) {
+                HistoryTuner.this.update();
+                if (HistoryTuner.this.historyList.highlight(HistoryTuner.this.amFmSelStation) == 0) {
+                    HistoryTuner.this.addTimer.cancel();
+                }
+            }
+        }
     }
 
-    static /* synthetic */ TunerObjectContainer access$1500(HistoryTuner historyTuner) {
-        return historyTuner.amFmSelStation;
+    private class AudioInfoListener
+    extends AudioInfo {
+        private AudioInfoListener() {
+        }
+
+        public void fadedInConnForBand(final int n) {
+            if (!((HistoryTuner)HistoryTuner.this).basics.tunerJobQueue.isJobQueueDispatchThread()) {
+                ((HistoryTuner)HistoryTuner.this).basics.tunerJobQueue.enqueue(new AbstractNamedRunnable("HistroyTuner.AudioInfoListener.fadedInConnForBand"){
+
+                    public void run() {
+                        AudioInfoListener.this.fadedInConnForBand(n);
+                    }
+                });
+                return;
+            }
+            ((HistoryTuner)HistoryTuner.this).basics.getLogger().history.log(10000000, "[HistoryTuner.fadedInConnForBand] %1", (long)n);
+            HistoryTuner.this.update();
+        }
     }
 
-    static /* synthetic */ HistoryStationList access$1800(HistoryTuner historyTuner) {
-        return historyTuner.historyList;
+    private class DABDsiDownListener
+    extends DABDsiDownInfo {
+        private DABDsiDownListener() {
+        }
+
+        public void preTuneAction(final DabStation dabStation, final DabReceptionStatus dabReceptionStatus, final int n) {
+            if (!((HistoryTuner)HistoryTuner.this).basics.tunerJobQueue.isJobQueueDispatchThread()) {
+                ((HistoryTuner)HistoryTuner.this).basics.tunerJobQueue.enqueue(new AbstractNamedRunnable("HistroyTuner.DABDsiDownListener.preTuneAction"){
+
+                    public void run() {
+                        DABDsiDownListener.this.preTuneAction(dabStation, dabReceptionStatus, n);
+                    }
+                });
+                return;
+            }
+            ((HistoryTuner)HistoryTuner.this).basics.getLogger().history.log(10000000, "[HistoryTuner.preTuneAction] DAB station: %1", (Object)dabStation);
+            HistoryTuner.this.dabStation = new TunerObjectContainer(dabStation);
+            HistoryTuner.this.dabStation.setReceptionStatus(dabReceptionStatus.getReception());
+            int n2 = HistoryTuner.this.basics.getModels().getActiveTuner();
+            if (HistoryTuner.this.radioHasAudioFocus && n2 == 5) {
+                HistoryTuner.this.update();
+                if (HistoryTuner.this.historyList.highlight(HistoryTuner.this.dabStation) == 0) {
+                    HistoryTuner.this.addTimer.cancel();
+                }
+            }
+        }
     }
 
-    static /* synthetic */ Timer access$1900(HistoryTuner historyTuner) {
-        return historyTuner.addTimer;
+    private class HistoryListService
+    implements IHistoryListService {
+        private HistoryListService() {
+        }
+
+        public void updateAudibleTVStation(final TVStation tVStation) {
+            if (!((HistoryTuner)HistoryTuner.this).basics.tunerJobQueue.isJobQueueDispatchThread()) {
+                ((HistoryTuner)HistoryTuner.this).basics.tunerJobQueue.enqueue(new AbstractNamedRunnable("HistroyTuner.HistoryListService.updateAudibleTVStation"){
+
+                    public void run() {
+                        HistoryListService.this.updateAudibleTVStation(tVStation);
+                    }
+                });
+                return;
+            }
+            ((HistoryTuner)HistoryTuner.this).basics.getLogger().history.log(10000000, "[HistoryListService.updateAudibleTVStation] %1", (Object)tVStation);
+            if (tVStation == null) {
+                HistoryTuner.this.tvStation = TunerObjectContainer.EMPTY_CONTAINER;
+                HistoryTuner.this.tvHasAudioFocus = false;
+            } else {
+                HistoryTuner.this.tvStation = new TunerObjectContainer(tVStation);
+                HistoryTuner.this.tvHasAudioFocus = true;
+                HistoryTuner.this.update();
+                if (HistoryTuner.this.historyList.highlight(HistoryTuner.this.tvStation) == 0) {
+                    HistoryTuner.this.addTimer.cancel();
+                }
+            }
+        }
     }
 
-    static /* synthetic */ TunerObjectContainer access$2002(HistoryTuner historyTuner, TunerObjectContainer tunerObjectContainer) {
-        historyTuner.dabStation = tunerObjectContainer;
-        return historyTuner.dabStation;
+    private class HistoryVetoService
+    implements IHistoryVetoService {
+        private HistoryVetoService() {
+        }
+
+        public void updateVeto(final int n, final boolean bl) {
+            if (!((HistoryTuner)HistoryTuner.this).basics.tunerJobQueue.isJobQueueDispatchThread()) {
+                ((HistoryTuner)HistoryTuner.this).basics.tunerJobQueue.enqueue(new AbstractNamedRunnable("HistroyTuner.HistoryVetoService.updateVeto"){
+
+                    public void run() {
+                        HistoryVetoService.this.updateVeto(n, bl);
+                    }
+                });
+                return;
+            }
+            ((HistoryTuner)HistoryTuner.this).basics.getLogger().history.log(10000000, "[HistoryVetoService.updateVeto] app %2, veto %1", bl, (long)n);
+            if (n < 0 || n >= 2) {
+                ((HistoryTuner)HistoryTuner.this).basics.getLogger().history.log(10000, "[HistoryVetoService.updateVeto] veto ignored! %1 is a illegal app identifier", (long)n);
+            } else {
+                boolean bl2 = Utilities.checkIfAtLeastOneBooleanIsTrue(HistoryTuner.this.addOperationVetos);
+                ((HistoryTuner)HistoryTuner.this).addOperationVetos[n] = bl;
+                if (!HistoryTuner.this.addTimer.isRunning()) {
+                    boolean bl3 = Utilities.checkIfAtLeastOneBooleanIsTrue(HistoryTuner.this.addOperationVetos);
+                    if (bl2 && !bl3) {
+                        HistoryTuner.this.addTimer.restart();
+                    }
+                }
+            }
+        }
     }
 
-    static /* synthetic */ TunerObjectContainer access$2000(HistoryTuner historyTuner) {
-        return historyTuner.dabStation;
+    private class RsdbResultListener
+    implements IRSDBResult {
+        private RsdbResultListener() {
+        }
+
+        public void resultAvailable() {
+            if (!((HistoryTuner)HistoryTuner.this).basics.tunerJobQueue.isJobQueueDispatchThread()) {
+                ((HistoryTuner)HistoryTuner.this).basics.tunerJobQueue.enqueue(new AbstractNamedRunnable("HistroyTuner.RsdbResultListener.resultAvailable"){
+
+                    public void run() {
+                        RsdbResultListener.this.resultAvailable();
+                    }
+                });
+                return;
+            }
+            HistoryTuner.this.historyList.init(HistoryTuner.this.logoDb);
+        }
     }
 
-    static /* synthetic */ TunerObjectContainer access$2102(HistoryTuner historyTuner, TunerObjectContainer tunerObjectContainer) {
-        historyTuner.uniStation = tunerObjectContainer;
-        return historyTuner.uniStation;
+    private class RsdbStatusListener
+    implements IRadioDatabaseListener {
+        private RsdbStatusListener() {
+        }
+
+        public void databaseReady(final ILogoDatabase iLogoDatabase) {
+            if (!((HistoryTuner)HistoryTuner.this).basics.tunerJobQueue.isJobQueueDispatchThread()) {
+                ((HistoryTuner)HistoryTuner.this).basics.tunerJobQueue.enqueue(new AbstractNamedRunnable("HistroyTuner.RsdbStatusListener.databaseReady"){
+
+                    public void run() {
+                        RsdbStatusListener.this.databaseReady(iLogoDatabase);
+                    }
+                });
+                return;
+            }
+            HistoryTuner.this.historyList.persist();
+            if (iLogoDatabase.isRealDatabase()) {
+                HistoryTuner.this.logoDb = iLogoDatabase;
+                TunerObjectContainer[] tunerObjectContainerArray = HistoryTuner.this.getList();
+                iLogoDatabase.requestDataById(tunerObjectContainerArray, new RsdbResultListener());
+            } else {
+                HistoryTuner.this.logoDb = null;
+                HistoryTuner.this.historyList.init(null);
+            }
+        }
     }
 
-    static /* synthetic */ TunerObjectContainer access$2100(HistoryTuner historyTuner) {
-        return historyTuner.uniStation;
+    private class SDARSDsiUpListener
+    extends SDARSDsiUpInfo {
+        private ServiceStatus3 serviceStatus = new ServiceStatus3();
+
+        private SDARSDsiUpListener() {
+        }
+
+        public void updateSelectedStation(final StationInfoExt stationInfoExt) {
+            if (!((HistoryTuner)HistoryTuner.this).basics.tunerJobQueue.isJobQueueDispatchThread()) {
+                ((HistoryTuner)HistoryTuner.this).basics.tunerJobQueue.enqueue(new AbstractNamedRunnable("HistroyTuner.SDARSDsiUpListener.updateSelectedStation"){
+
+                    public void run() {
+                        SDARSDsiUpListener.this.updateSelectedStation(stationInfoExt);
+                    }
+                });
+                return;
+            }
+            ((HistoryTuner)HistoryTuner.this).basics.getLogger().history.log(10000000, "[HistoryTuner.updateSelectedStation] SDARS station: %1", (Object)stationInfoExt);
+            HistoryTuner.this.sdarsStation = new TunerObjectContainer(stationInfoExt);
+            int n = HistoryTuner.this.basics.getModels().getActiveTuner();
+            if (HistoryTuner.this.radioHasAudioFocus && n == 7) {
+                HistoryTuner.this.update();
+                if (HistoryTuner.this.historyList.highlight(HistoryTuner.this.sdarsStation) == 0) {
+                    HistoryTuner.this.addTimer.cancel();
+                }
+            }
+        }
+
+        public void updateStationList(final StationInfoExt[] stationInfoExtArray) {
+            if (!((HistoryTuner)HistoryTuner.this).basics.tunerJobQueue.isJobQueueDispatchThread()) {
+                ((HistoryTuner)HistoryTuner.this).basics.tunerJobQueue.enqueue(new AbstractNamedRunnable("HistroyTuner.SDARSDsiUpListener.updateStationList"){
+
+                    public void run() {
+                        SDARSDsiUpListener.this.updateStationList(stationInfoExtArray);
+                    }
+                });
+                return;
+            }
+            HistoryTuner.this.historyList.updateSdarsList(stationInfoExtArray);
+        }
+
+        public void updateServiceStatus3(final ServiceStatus3 serviceStatus3) {
+            if (!((HistoryTuner)HistoryTuner.this).basics.tunerJobQueue.isJobQueueDispatchThread()) {
+                ((HistoryTuner)HistoryTuner.this).basics.tunerJobQueue.enqueue(new AbstractNamedRunnable("HistroyTuner.SDARSDsiUpListener.updateServiceStatus3"){
+
+                    public void run() {
+                        SDARSDsiUpListener.this.updateServiceStatus3(serviceStatus3);
+                    }
+                });
+                return;
+            }
+            if (this.serviceStatus.antennaStatus != serviceStatus3.antennaStatus) {
+                this.serviceStatus = serviceStatus3;
+                if (this.serviceStatus.antennaStatus == 1) {
+                    HistoryTuner.this.historyList.setSDARSState(6);
+                } else {
+                    HistoryTuner.this.historyList.setSDARSState(0);
+                }
+            }
+        }
     }
 
-    static /* synthetic */ TunerObjectContainer access$2202(HistoryTuner historyTuner, TunerObjectContainer tunerObjectContainer) {
-        historyTuner.sdarsStation = tunerObjectContainer;
-        return historyTuner.sdarsStation;
+    private class UniDsiDownListener
+    extends UniDsiDownInfo {
+        private UniDsiDownListener() {
+        }
+
+        public void preTuneCommand(final UnifiedStationExt unifiedStationExt) {
+            if (!((HistoryTuner)HistoryTuner.this).basics.tunerJobQueue.isJobQueueDispatchThread()) {
+                ((HistoryTuner)HistoryTuner.this).basics.tunerJobQueue.enqueue(new AbstractNamedRunnable("HistroyTuner.UniDsiDownListener.preTuneCommand"){
+
+                    public void run() {
+                        UniDsiDownListener.this.preTuneCommand(unifiedStationExt);
+                    }
+                });
+                return;
+            }
+            ((HistoryTuner)HistoryTuner.this).basics.getLogger().history.log(10000000, "[HistoryTuner.preTuneCommand] Unified station: %1", (Object)unifiedStationExt);
+            HistoryTuner.this.uniStation = new TunerObjectContainer(unifiedStationExt);
+            int n = HistoryTuner.this.basics.getModels().getActiveTuner();
+            if (HistoryTuner.this.radioHasAudioFocus && n == 11) {
+                HistoryTuner.this.historyList.highlight(HistoryTuner.this.uniStation);
+            }
+        }
     }
 
-    static /* synthetic */ TunerObjectContainer access$2200(HistoryTuner historyTuner) {
-        return historyTuner.sdarsStation;
+    private class AMFMDsiDownListener
+    extends AMFMDsiDownInfo {
+        private AMFMDsiDownListener() {
+        }
+
+        public void preTuneAction(final AMFMStation aMFMStation, final boolean bl) {
+            if (!((HistoryTuner)HistoryTuner.this).basics.tunerJobQueue.isJobQueueDispatchThread()) {
+                ((HistoryTuner)HistoryTuner.this).basics.tunerJobQueue.enqueue(new AbstractNamedRunnable("HistroyTuner.AMFMDsiDownListener.preTuneAction"){
+
+                    public void run() {
+                        AMFMDsiDownListener.this.preTuneAction(aMFMStation, bl);
+                    }
+                });
+                return;
+            }
+            ((HistoryTuner)HistoryTuner.this).basics.getLogger().history.log(10000000, "[HistoryTuner.preTuneAction] AM/FM station: %1", (Object)aMFMStation);
+            HistoryTuner.this.amFmSelStation = new TunerObjectContainer(aMFMStation);
+            int n = HistoryTuner.this.basics.getModels().getActiveTuner();
+            if (HistoryTuner.this.radioHasAudioFocus && (n == 1 || n == 4 || n == 10)) {
+                HistoryTuner.this.update();
+                HistoryTuner.this.historyList.highlight(HistoryTuner.this.amFmSelStation);
+            }
+        }
     }
 
-    static /* synthetic */ boolean access$1602(HistoryTuner historyTuner, boolean bl) {
-        historyTuner.radioHasAudioFocus = bl;
-        return historyTuner.radioHasAudioFocus;
+    private class SDARSDsiDownListener
+    extends SDARSDsiDownInfo {
+        private SDARSDsiDownListener() {
+        }
+
+        public void preTuneAction(final StationInfoExt stationInfoExt) {
+            if (!((HistoryTuner)HistoryTuner.this).basics.tunerJobQueue.isJobQueueDispatchThread()) {
+                ((HistoryTuner)HistoryTuner.this).basics.tunerJobQueue.enqueue(new AbstractNamedRunnable("HistroyTuner.SDARSDsiDownListener.preTuneAction"){
+
+                    public void run() {
+                        SDARSDsiDownListener.this.preTuneAction(stationInfoExt);
+                    }
+                });
+                return;
+            }
+            ((HistoryTuner)HistoryTuner.this).basics.getLogger().history.log(10000000, "[HistoryTuner.preTuneAction] SDARS station: %1", (Object)stationInfoExt);
+            HistoryTuner.this.sdarsStation = new TunerObjectContainer(stationInfoExt);
+            int n = HistoryTuner.this.basics.getModels().getActiveTuner();
+            if (HistoryTuner.this.radioHasAudioFocus && n == 7) {
+                HistoryTuner.this.update();
+                if (HistoryTuner.this.historyList.highlight(HistoryTuner.this.sdarsStation) == 0) {
+                    HistoryTuner.this.addTimer.cancel();
+                }
+            }
+        }
     }
 
-    static /* synthetic */ void access$2400(HistoryTuner historyTuner) {
-        historyTuner.processAdd();
-    }
+    private class AudioFocusInfoListener
+    extends AudioFocusInfo {
+        private AudioFocusInfoListener() {
+        }
 
-    static /* synthetic */ TunerObjectContainer access$2602(HistoryTuner historyTuner, TunerObjectContainer tunerObjectContainer) {
-        historyTuner.tvStation = tunerObjectContainer;
-        return historyTuner.tvStation;
-    }
+        public void audioFocusLost() {
+            if (!((HistoryTuner)HistoryTuner.this).basics.tunerJobQueue.isJobQueueDispatchThread()) {
+                ((HistoryTuner)HistoryTuner.this).basics.tunerJobQueue.enqueue(new AbstractNamedRunnable("HistroyTuner.AudioFocusInfoListener.audioFocusLost"){
 
-    static /* synthetic */ boolean access$2702(HistoryTuner historyTuner, boolean bl) {
-        historyTuner.tvHasAudioFocus = bl;
-        return historyTuner.tvHasAudioFocus;
-    }
+                    public void run() {
+                        AudioFocusInfoListener.this.audioFocusLost();
+                    }
+                });
+                return;
+            }
+            HistoryTuner.this.radioHasAudioFocus = false;
+            HistoryTuner.this.addTimer.cancel();
+        }
 
-    static /* synthetic */ TunerObjectContainer access$2600(HistoryTuner historyTuner) {
-        return historyTuner.tvStation;
-    }
+        public void audioFocus(final int n, final int n2) {
+            if (!((HistoryTuner)HistoryTuner.this).basics.tunerJobQueue.isJobQueueDispatchThread()) {
+                ((HistoryTuner)HistoryTuner.this).basics.tunerJobQueue.enqueue(new AbstractNamedRunnable("HistroyTuner.AudioFocusInfoListener.audioFocus"){
 
-    static /* synthetic */ boolean[] access$2800(HistoryTuner historyTuner) {
-        return historyTuner.addOperationVetos;
+                    public void run() {
+                        AudioFocusInfoListener.this.audioFocus(n, n2);
+                    }
+                });
+                return;
+            }
+            HistoryTuner.this.radioHasAudioFocus = true;
+            HistoryTuner.this.update();
+        }
     }
 }
 

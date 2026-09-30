@@ -4,7 +4,6 @@
 package de.audi.tghu.online.app.standard;
 
 public interface IDistributedServiceCallListener {
-    default public boolean informListener(String string) {
-    }
+    public boolean informListener(String var1);
 }
 

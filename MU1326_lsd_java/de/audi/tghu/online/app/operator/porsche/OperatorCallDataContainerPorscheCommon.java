@@ -18,7 +18,6 @@ extends AbstractOperatorCallDataContainer {
         super(string, iFrameworkAccess, navigationHandler, intelliDestOperatorCallDataProvider, bl, true, n, n2);
     }
 
-    @Override
     protected AbstractHistoryCallData createNewHistoryCallData(OperatorCallResult[] operatorCallResultArray, String string, Date date) {
         return new HistoryCallDataPorscheCommon(this.framework, this.naviHandler, operatorCallResultArray, this.calls, string, date);
     }

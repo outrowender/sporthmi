@@ -23,29 +23,28 @@ implements Runnable {
         this.log = iFrameworkAccess.getLogChannel("App.Exlap.Dispatcher");
     }
 
-    @Override
     public void run() {
         this.currentThread = Thread.currentThread();
         while (this.running) {
             this.processQueues();
-            int n = 0;
-            long l = System.currentTimeMillis();
+            long l = 60000L;
+            long l2 = System.currentTimeMillis();
             Iterator iterator = this.sendQueue.iterator();
-            this.log.log(-2137614336, "ExlapDispatcher#run(): processing worker");
+            this.log.log(10000000, "ExlapDispatcher#run(): processing worker");
             while (iterator.hasNext()) {
                 IExlapWorker iExlapWorker = (IExlapWorker)iterator.next();
-                long l2 = iExlapWorker.getLastExecution() + (long)iExlapWorker.getInterval() - l;
-                if (l2 <= 0L) {
-                    this.sendUpdates(iExlapWorker, l);
+                long l3 = iExlapWorker.getLastExecution() + (long)iExlapWorker.getInterval() - l2;
+                if (l3 <= 0L) {
+                    this.sendUpdates(iExlapWorker, l2);
                     iterator.remove();
                     continue;
                 }
-                if (l2 >= n) continue;
-                n = (int)l2;
+                if (l3 >= l) continue;
+                l = l3;
             }
-            this.sleep(n);
+            this.sleep(l);
         }
-        this.log.log(1078071040, "ExlapDispatcher#run(): stopping ExlapDispatcher thread");
+        this.log.log(1000000, "ExlapDispatcher#run(): stopping ExlapDispatcher thread");
     }
 
     /*
@@ -57,7 +56,7 @@ implements Runnable {
         synchronized (object) {
             this.currentThread.interrupt();
         }
-        this.log.log(1078071040, "ExlapDispatcher#stop(): stopping ExlapDispatcher");
+        this.log.log(1000000, "ExlapDispatcher#stop(): stopping ExlapDispatcher");
     }
 
     /*
@@ -81,8 +80,8 @@ implements Runnable {
             iExlapWorker.setLastExecution(l);
         }
         catch (Exception exception) {
-            this.log.log(1078071040, new StringBuffer().append("ExlapDispatcher#sendUpdates(): Exception in worker while sending: ").append(exception.getMessage()).toString());
-            this.log.log(-2137614336, "ExlapDispatcher#sendUpdates(): Exception in worker while sending: ", (Throwable)exception);
+            this.log.log(1000000, "ExlapDispatcher#sendUpdates(): Exception in worker while sending: " + exception.getMessage());
+            this.log.log(10000000, "ExlapDispatcher#sendUpdates(): Exception in worker while sending: ", (Throwable)exception);
             return;
         }
     }
@@ -92,7 +91,7 @@ implements Runnable {
             return;
         }
         try {
-            this.log.log(-2137614336, "ExlapDispatcher#sleep(): ExlapDispatcher sleeping for %1 milliseconds: ", l);
+            this.log.log(10000000, "ExlapDispatcher#sleep(): ExlapDispatcher sleeping for %1 milliseconds: ", l);
             Thread.sleep(l);
         }
         catch (InterruptedException interruptedException) {

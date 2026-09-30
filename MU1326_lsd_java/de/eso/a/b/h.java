@@ -8,19 +8,18 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Map$Entry;
+import java.util.Map;
 import java.util.Set;
 
 public class h
 extends HashMap
 implements i {
-    private static final long a;
+    private static final long a = 1943563828307035349L;
 
     public Collection a(Object object) {
         return (Collection)this.get(object);
     }
 
-    @Override
     public Object put(Object object, Object object2) {
         boolean bl;
         Collection collection = this.a(object);
@@ -31,7 +30,6 @@ implements i {
         return (bl = collection.add(object2)) ? object2 : null;
     }
 
-    @Override
     public boolean containsValue(Object object) {
         Set set = super.entrySet();
         if (set == null) {
@@ -39,8 +37,8 @@ implements i {
         }
         Iterator iterator = set.iterator();
         while (iterator.hasNext()) {
-            Map$Entry map$Entry = (Map$Entry)iterator.next();
-            Collection collection = (Collection)map$Entry.getValue();
+            Map.Entry entry = (Map.Entry)iterator.next();
+            Collection collection = (Collection)entry.getValue();
             if (!collection.contains(object)) continue;
             return true;
         }
@@ -55,7 +53,6 @@ implements i {
         return collection.contains(object2);
     }
 
-    @Override
     public Object b(Object object, Object object2) {
         Collection collection = this.a(object);
         if (collection == null) {
@@ -71,13 +68,12 @@ implements i {
         return object2;
     }
 
-    @Override
     public void clear() {
         Set set = super.entrySet();
         Iterator iterator = set.iterator();
         while (iterator.hasNext()) {
-            Map$Entry map$Entry = (Map$Entry)iterator.next();
-            Collection collection = (Collection)map$Entry.getValue();
+            Map.Entry entry = (Map.Entry)iterator.next();
+            Collection collection = (Collection)entry.getValue();
             collection.clear();
         }
         super.clear();

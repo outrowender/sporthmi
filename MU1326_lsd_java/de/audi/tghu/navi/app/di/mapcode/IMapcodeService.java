@@ -4,7 +4,6 @@
 package de.audi.tghu.navi.app.di.mapcode;
 
 public interface IMapcodeService {
-    default public void enterMapcodeScreen() {
-    }
+    public void enterMapcodeScreen();
 }
 

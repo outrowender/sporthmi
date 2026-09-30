@@ -3,23 +3,23 @@
  */
 package de.audi.tv.app.settings;
 
+import de.audi.atip.hmi.model.listener.DefaultChoiceListener;
 import de.audi.atip.hmi.modelaccess.ChoiceModelApp;
 import de.audi.atip.interapp.displaymanager.DSIMgnHandler;
 import de.audi.tv.app.base.TVEnv;
 import de.audi.tv.app.dsi.DSITV;
-import de.audi.tv.app.settings.AspectRatioAV$ChoiceListener;
 import de.audi.tv.app.settings.SettingsStorage;
 
 public class AspectRatioAV {
-    private static final int ITEM_4_3;
-    private static final int ITEM_16_9;
-    static final int DEFAULT;
-    private static final int DISPLAY_ID;
-    private static final int CID;
-    private static final int SRC_X;
-    private static final int SRC_Y;
-    private static final int SRC_WIDTH;
-    private static final int SRC_HEIGHT;
+    private static final int ITEM_4_3 = 0;
+    private static final int ITEM_16_9 = 1;
+    static final int DEFAULT = 1;
+    private static final int DISPLAY_ID = 0;
+    private static final int CID = 26;
+    private static final int SRC_X = 0;
+    private static final int SRC_Y = 0;
+    private static final int SRC_WIDTH = 0;
+    private static final int SRC_HEIGHT = 0;
     private final TVEnv env;
     private final SettingsStorage storage;
     private final DSITV dsi;
@@ -31,8 +31,8 @@ public class AspectRatioAV {
         this.storage = settingsStorage;
         this.dsi = dSITV;
         this.displayHandler = new DSIMgnHandler(tVEnv.framework);
-        ChoiceModelApp choiceModelApp = tVEnv.getChoiceModel(-1649662208);
-        choiceModelApp.setChoiceListener(new AspectRatioAV$ChoiceListener(this, null));
+        ChoiceModelApp choiceModelApp = tVEnv.getChoiceModel(2600093);
+        choiceModelApp.setChoiceListener(new ChoiceListener());
         choiceModelApp.setValue(1);
     }
 
@@ -42,7 +42,7 @@ public class AspectRatioAV {
     }
 
     protected void restore() {
-        this.env.lcMain.log(-2137614336, "[AspectRatioAV.restore]");
+        this.env.lcMain.log(10000000, "[AspectRatioAV.restore]");
         int n = this.storage.loadAspectRatioAV();
         this.setAspectRatio(n);
     }
@@ -52,7 +52,7 @@ public class AspectRatioAV {
     }
 
     private void setAspectRatio(int n) {
-        this.env.lcHMI.log(-2137614336, "[AspectRatioAV.setAspectRatio] ratio:%1", (long)n);
+        this.env.lcHMI.log(10000000, "[AspectRatioAV.setAspectRatio] ratio:%1", (long)n);
         if (this.selectedSource == 1) {
             switch (n) {
                 case 1: {
@@ -67,7 +67,7 @@ public class AspectRatioAV {
                     throw new IllegalArgumentException(new StringBuffer().append("Invalid ratio selected: ").append(n).toString());
                 }
             }
-            this.env.getChoiceModel(-1649662208).setValue(n);
+            this.env.getChoiceModel(2600093).setValue(n);
         }
         this.storage.saveAspectRatioAV(n);
     }
@@ -76,12 +76,16 @@ public class AspectRatioAV {
         this.restore();
     }
 
-    static /* synthetic */ int access$100(AspectRatioAV aspectRatioAV) {
-        return aspectRatioAV.selectedSource;
-    }
+    private class ChoiceListener
+    extends DefaultChoiceListener {
+        private ChoiceListener() {
+        }
 
-    static /* synthetic */ void access$200(AspectRatioAV aspectRatioAV, int n) {
-        aspectRatioAV.setAspectRatio(n);
+        public void itemSelected(int n, int n2, int n3, int n4) {
+            if (AspectRatioAV.this.selectedSource == 1) {
+                AspectRatioAV.this.setAspectRatio(n2);
+            }
+        }
     }
 }
 

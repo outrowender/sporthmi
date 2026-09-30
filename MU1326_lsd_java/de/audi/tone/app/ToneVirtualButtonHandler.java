@@ -15,11 +15,10 @@ implements ButtonListener {
     private final ButtonModelApp toneMmiTochVirtualButton;
 
     public ToneVirtualButtonHandler(ToneEnv toneEnv) {
-        this.toneMmiTochVirtualButton = toneEnv.getButtonModel(-1337848064);
+        this.toneMmiTochVirtualButton = toneEnv.getButtonModel(1000112);
         this.toneMmiTochVirtualButton.setButtonListener(this);
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
         AdditionalScreenData additionalScreenData = new AdditionalScreenData();
         additionalScreenData.addData(2, Boolean.TRUE);

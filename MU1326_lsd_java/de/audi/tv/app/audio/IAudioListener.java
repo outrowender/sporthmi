@@ -4,19 +4,14 @@
 package de.audi.tv.app.audio;
 
 public interface IAudioListener {
-    default public void onMuGotTvAudioFocus(boolean bl) {
-    }
+    public void onMuGotTvAudioFocus(boolean var1);
 
-    default public void onMuLostTvAudioFocus() {
-    }
+    public void onMuLostTvAudioFocus();
 
-    default public void onSdisGotTvAudioFocus() {
-    }
+    public void onSdisGotTvAudioFocus();
 
-    default public void onSdisLostTvAudioFocus() {
-    }
+    public void onSdisLostTvAudioFocus();
 
-    default public void onMuteChange(boolean bl) {
-    }
+    public void onMuteChange(boolean var1);
 }
 

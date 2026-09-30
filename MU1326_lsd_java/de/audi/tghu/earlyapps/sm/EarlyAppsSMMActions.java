@@ -10,6 +10,7 @@ import de.audi.atip.statemachine.ActionProxy;
 import de.audi.atip.statemachine.SMModuleConstants;
 import de.audi.atip.statemachine.SMServices;
 import de.audi.atip.statemachine.ap.EarlyAppsActionProxy;
+import java.util.NoSuchElementException;
 
 public class EarlyAppsSMMActions
 implements SMModuleConstants {
@@ -26,7 +27,7 @@ implements SMModuleConstants {
     public void removeActionProxy(int n, ActionProxy actionProxy) {
         if (actionProxy instanceof EarlyAppsActionProxy) {
             this.ap0 = null;
-            this.logChannel.log(-2137614336, "EarlyAppsActionProxy Action Proxy removed");
+            this.logChannel.log(10000000, "EarlyAppsActionProxy Action Proxy removed");
             return;
         }
     }
@@ -34,7 +35,7 @@ implements SMModuleConstants {
     public ActionProxy addActionProxy(int n, ActionProxy actionProxy) {
         if (actionProxy instanceof EarlyAppsActionProxy) {
             this.ap0 = (EarlyAppsActionProxy)actionProxy;
-            this.logChannel.log(-2137614336, "EarlyAppsActionProxy Action Proxy added");
+            this.logChannel.log(10000000, "EarlyAppsActionProxy Action Proxy added");
             return this.ap0;
         }
         return null;
@@ -45,7 +46,7 @@ implements SMModuleConstants {
             this.logChannel.log(1000, "Action Proxy 'EarlyAppsActionProxy' is causing an exception in call '%1'", (Object)string, (Throwable)nullPointerException);
             throw nullPointerException;
         }
-        this.logChannel.log(1078071040, "Action Proxy 'EarlyAppsActionProxy' missing for call '%1'", (Object)string);
+        this.logChannel.log(1000000, "Action Proxy 'EarlyAppsActionProxy' missing for call '%1'", (Object)string);
     }
 
     public void execFocusGainedAction(SMServices sMServices, int n) {
@@ -67,7 +68,7 @@ implements SMModuleConstants {
                 return;
             }
             case 2100043: {
-                sMServices.removeContext(0);
+                sMServices.removeContext(1033578716L);
                 return;
             }
             case 2100054: {
@@ -84,11 +85,11 @@ implements SMModuleConstants {
                 return;
             }
             case 2100066: {
-                sMServices.removeContext(0);
+                sMServices.removeContext(1341779114L);
                 return;
             }
             case 2100067: {
-                sMServices.removeContext(0);
+                sMServices.removeContext(456296360L);
                 return;
             }
             case 2100068: {
@@ -103,7 +104,7 @@ implements SMModuleConstants {
                 return;
             }
             case 2100069: {
-                sMServices.removeContext(0);
+                sMServices.removeContext(456296360L);
                 sMServices.popDrawerIDs();
                 return;
             }
@@ -142,7 +143,7 @@ implements SMModuleConstants {
                 return;
             }
             case 2100043: {
-                sMServices.addContext(0);
+                sMServices.addContext(1033578716L);
                 return;
             }
             case 2100054: {
@@ -154,7 +155,7 @@ implements SMModuleConstants {
                 return;
             }
             case 2100058: {
-                sMServices.pushDrawerIDs(0L, 0);
+                sMServices.pushDrawerIDs(0L, 2100024L);
                 sMServices.setColor(1);
                 return;
             }
@@ -164,15 +165,15 @@ implements SMModuleConstants {
                 return;
             }
             case 2100066: {
-                sMServices.addContext(0);
+                sMServices.addContext(1341779114L);
                 return;
             }
             case 2100067: {
-                sMServices.addContext(0);
+                sMServices.addContext(456296360L);
                 return;
             }
             case 2100068: {
-                sMServices.pushDrawerIDs(0L, 0);
+                sMServices.pushDrawerIDs(0L, 2100024L);
                 sMServices.setColor(1);
                 EarlyAppsActionProxy earlyAppsActionProxy = this.ap0;
                 try {
@@ -184,7 +185,7 @@ implements SMModuleConstants {
                 return;
             }
             case 2100069: {
-                sMServices.addContext(0);
+                sMServices.addContext(456296360L);
                 sMServices.pushDrawerIDs(0L, 0L);
                 return;
             }
@@ -209,7 +210,7 @@ implements SMModuleConstants {
             }
             case 2100075: {
                 sMServices.setColor(1);
-                sMServices.pushDrawerIDs(0L, 0);
+                sMServices.pushDrawerIDs(0L, 2100024L);
                 return;
             }
         }
@@ -301,7 +302,7 @@ implements SMModuleConstants {
         }
     }
 
-    public HMIModel getModel(int n) {
+    public HMIModel getModel(int n) throws NoSuchElementException {
         return this.smm.getModel(n);
     }
 }

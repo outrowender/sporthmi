@@ -28,12 +28,10 @@ extends AbstractLayoutProvider {
         return this.logger;
     }
 
-    @Override
     protected BaseListRow getListRow() {
         return this.mScreenLayout;
     }
 
-    @Override
     public Rect getVisibleArea(int n, boolean bl, boolean bl2, boolean bl3) {
         Rect rect = new Rect();
         int n2 = this.getScreenWidth();
@@ -53,11 +51,10 @@ extends AbstractLayoutProvider {
             rect.diffX = 800;
             rect.diffY = 298;
         }
-        this.getLogger().log(-2137614336, "LayoutProviderG22Kombi#getVisibleArea() - contextId = %2 -> %1", (Object)rect, (long)n);
+        this.getLogger().log(10000000, "LayoutProviderG22Kombi#getVisibleArea() - contextId = %2 -> %1", (Object)rect, (long)n);
         return rect;
     }
 
-    @Override
     public Rect getVisibleArea(int n, boolean bl, boolean bl2) {
         return this.getVisibleArea(n, bl, bl2, true);
     }

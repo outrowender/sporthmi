@@ -6,7 +6,6 @@ package de.audi.tghu.navi.app.map.handler;
 import de.audi.tghu.navi.app.map.dsi.AbstractRequester;
 
 public interface DSIStateChangeListener {
-    default public void onOperabilityChanged(AbstractRequester abstractRequester) {
-    }
+    public void onOperabilityChanged(AbstractRequester var1);
 }
 

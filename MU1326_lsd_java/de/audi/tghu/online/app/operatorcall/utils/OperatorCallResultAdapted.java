@@ -20,7 +20,7 @@ extends OperatorCallResult {
         this.name = this.trimString("poiName", operatorCallResult.getName(), 40);
         this.address = this.trimAddress(operatorCallResult.getAddress());
         this.serviceId = this.trimString("serviceId", operatorCallResult.getServiceId(), 40);
-        this.logChannel.log(1078071040, this.buffer.toString());
+        this.logChannel.log(1000000, this.buffer.toString());
     }
 
     private OperatorCallAddressEntry trimAddress(OperatorCallAddressEntry operatorCallAddressEntry) {

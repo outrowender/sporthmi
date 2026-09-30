@@ -34,14 +34,14 @@ implements ButtonListener {
         this.announcementRepeatActive = false;
         this.announcementRepeatMonitor = new Monitor(navigationEnv.getLogChannel());
         audioStateMachine.setLastAnnouncementHandler(this);
-        navigationEnv.getButtonModel(1461650944).setButtonListener(this);
+        navigationEnv.getButtonModel(401239).setButtonListener(this);
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
     public void repeatLastAnnouncement(int n) {
-        this.logChannel.log(-2137614336, "LastAnnouncementHandler#repeatLastAnnouncement( %1 )", (long)n);
+        this.logChannel.log(10000000, "LastAnnouncementHandler#repeatLastAnnouncement( %1 )", (long)n);
         long l = this.audioStateMachine.getLastAnnouncementTimestamp();
         int n2 = this.tmcGateway.repeatOrAbortTmcMessageReadOutSince(l);
         if (n2 == -1 || n2 == 1 || n2 == 2) {
@@ -55,16 +55,16 @@ implements ButtonListener {
                     commandList.add(new AfaRepeatCommand(n));
                     commandList.execute("LastAnnouncementHandler#repeatLastAnnouncement");
                 } else {
-                    this.logChannel.log(1078071040, "LastAnnouncementHandler#repeatLastAnnouncement() - repeating dismissed!");
+                    this.logChannel.log(1000000, "LastAnnouncementHandler#repeatLastAnnouncement() - repeating dismissed!");
                 }
             }
         } else {
-            this.logChannel.log(1078071040, "LastAnnouncementHandler#repeatLastAnnouncement() - not repeating last nav announcement. tmcRepeatResult: %1", (long)n2);
+            this.logChannel.log(1000000, "LastAnnouncementHandler#repeatLastAnnouncement() - not repeating last nav announcement. tmcRepeatResult: %1", (long)n2);
         }
     }
 
     public void repeatLastAnnouncementSimple(int n) {
-        this.logChannel.log(-2137614336, "LastAnnouncementHandler#repeatLastAnnouncementSimple( %1 )", (long)n);
+        this.logChannel.log(10000000, "LastAnnouncementHandler#repeatLastAnnouncementSimple( %1 )", (long)n);
         CommandList commandList = this.commandListFactory.createCommandList(1);
         commandList.add(new AfaRepeatCommand(n));
         commandList.execute("LastAnnouncementHandler#repeatLastAnnouncementSimple");
@@ -74,7 +74,7 @@ implements ButtonListener {
      * WARNING - Removed try catching itself - possible behaviour change.
      */
     public void updateAudioRequest(int n) {
-        this.logChannel.log(-2137614336, "LastAnnouncementHandler#updateAudioRequest( %1 )", (long)n);
+        this.logChannel.log(10000000, "LastAnnouncementHandler#updateAudioRequest( %1 )", (long)n);
         Monitor monitor = this.announcementRepeatMonitor;
         synchronized (monitor) {
             if (this.announcementRepeatActive && !this.announcementRepeatMonitor.isActive() && (n == 2 || n == 4)) {
@@ -93,10 +93,9 @@ implements ButtonListener {
         }
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
-        this.logChannel.log(-2137614336, "LastAnnouncementHandler#keyTyped( %1 )", (long)n);
-        if (n == 1461650944) {
+        this.logChannel.log(10000000, "LastAnnouncementHandler#keyTyped( %1 )", (long)n);
+        if (n == 401239) {
             this.repeatLastAnnoucment();
         }
     }
@@ -106,15 +105,12 @@ implements ButtonListener {
         this.repeatLastAnnouncement(n);
     }
 
-    @Override
     public void keyLongTyped(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3) {
     }
 }

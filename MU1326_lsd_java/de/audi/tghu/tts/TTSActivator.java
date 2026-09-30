@@ -70,11 +70,10 @@ TTSOperable {
     static /* synthetic */ Class class$de$audi$atip$interapp$tts$TTSListener;
     static /* synthetic */ Class class$de$audi$atip$interapp$tts$TTSService;
 
-    @Override
     public void start(BundleContext bundleContext) {
         super.start(bundleContext);
         this.logCh = this.framework.getLogChannel("Fw.TTS");
-        this.logCh.log(-2137614336, "[TTSActivator#start] called");
+        this.logCh.log(10000000, "[TTSActivator#start] called");
         this.ttsProviderServiceImpl = new TTSProviderServiceImpl(this.framework, this);
         this.registerTTSListener();
         this.registerHMIAudioServiceListeners();
@@ -84,7 +83,7 @@ TTSOperable {
     }
 
     private void initTrackers() {
-        this.logCh.log(-2137614336, "[TTSActivator#initTrackers] for HMIAudioServices, DSITTS and SwDiagnosis");
+        this.logCh.log(10000000, "[TTSActivator#initTrackers] for HMIAudioServices, DSITTS and SwDiagnosis");
         this.audioTracker = new ServiceTracker(this.bundleContext, (class$de$audi$atip$audio$HMIAudioService == null ? (class$de$audi$atip$audio$HMIAudioService = TTSActivator.class$("de.audi.atip.audio.HMIAudioService")) : class$de$audi$atip$audio$HMIAudioService).getName(), (ServiceTrackerCustomizer)this);
         this.audioTracker.open();
         this.ttsTracker = new ServiceTracker(this.bundleContext, (class$org$dsi$ifc$tts$DSITTS == null ? (class$org$dsi$ifc$tts$DSITTS = TTSActivator.class$("org.dsi.ifc.tts.DSITTS")) : class$org$dsi$ifc$tts$DSITTS).getName(), (ServiceTrackerCustomizer)this);
@@ -97,9 +96,8 @@ TTSOperable {
         this.volumeOnOffTracker.open();
     }
 
-    @Override
     public void stop(BundleContext bundleContext) {
-        this.logCh.log(-2137614336, "[TTSActivator#stop] called");
+        this.logCh.log(10000000, "[TTSActivator#stop] called");
         this.unregisterServices();
         this.closeTracker();
         if (this.framework != null) {
@@ -110,7 +108,7 @@ TTSOperable {
     }
 
     private void closeTracker() {
-        this.logCh.log(-2137614336, "[TTSActivator#closeTracker] called");
+        this.logCh.log(10000000, "[TTSActivator#closeTracker] called");
         this.audioTracker = this.closeTracker(this.audioTracker);
         this.ttsTracker = this.closeTracker(this.ttsTracker);
         this.diagnoseTracker = this.closeTracker(this.diagnoseTracker);
@@ -119,7 +117,7 @@ TTSOperable {
     }
 
     private void unregisterServices() {
-        this.logCh.log(-2137614336, "[TTSActivator#unregisterService] called");
+        this.logCh.log(10000000, "[TTSActivator#unregisterService] called");
         if (this.sRegTTSListener != null) {
             this.sRegTTSListener.unregister();
             this.sRegTTSListener = null;
@@ -138,7 +136,7 @@ TTSOperable {
     }
 
     private void startTTSDSIs() {
-        this.logCh.log(-2137614336, "[TTSActivator#startTTSDSIs] request start of TTS DSIs");
+        this.logCh.log(10000000, "[TTSActivator#startTTSDSIs] request start of TTS DSIs");
         this.framework.startDSIService((class$org$dsi$ifc$tts$DSITTS == null ? (class$org$dsi$ifc$tts$DSITTS = TTSActivator.class$("org.dsi.ifc.tts.DSITTS")) : class$org$dsi$ifc$tts$DSITTS).getName(), 0);
         if (this.framework.getSysConst(523) == 1) {
             this.framework.startDSIService((class$org$dsi$ifc$tts$DSITTS == null ? (class$org$dsi$ifc$tts$DSITTS = TTSActivator.class$("org.dsi.ifc.tts.DSITTS")) : class$org$dsi$ifc$tts$DSITTS).getName(), 1);
@@ -147,7 +145,7 @@ TTSOperable {
 
     private void registerTTSListener() {
         Hashtable hashtable;
-        this.logCh.log(-2137614336, "[TTSActivator#registerTTSListener] register DSIListener and I18NTarget");
+        this.logCh.log(10000000, "[TTSActivator#registerTTSListener] register DSIListener and I18NTarget");
         Hashtable hashtable2 = new Hashtable();
         hashtable2.put("DEVICE_NAME", (class$org$dsi$ifc$tts$DSITTSListener == null ? (class$org$dsi$ifc$tts$DSITTSListener = TTSActivator.class$("org.dsi.ifc.tts.DSITTSListener")) : class$org$dsi$ifc$tts$DSITTSListener).getName());
         hashtable2.put("DEVICE_INSTANCE", new Integer(0));
@@ -212,23 +210,23 @@ TTSOperable {
     private void registerHMIAudioServiceListener(TTSInitialization tTSInitialization, Integer n) {
         Hashtable hashtable = new Hashtable();
         hashtable.put("AUDIO_CLIENT_ID", n);
-        this.logCh.log(-2137614336, "[TTSActivator#registerHMIAudioServiceListener] register HMIAudioServiceListener for AudioService under clientID=%1", (Object)n);
+        this.logCh.log(10000000, "[TTSActivator#registerHMIAudioServiceListener] register HMIAudioServiceListener for AudioService under clientID=%1", (Object)n);
         this.sRegHMIAudioService.add(this.bundleContext.registerService((class$de$audi$atip$audio$HMIAudioServiceListener == null ? (class$de$audi$atip$audio$HMIAudioServiceListener = TTSActivator.class$("de.audi.atip.audio.HMIAudioServiceListener")) : class$de$audi$atip$audio$HMIAudioServiceListener).getName(), (Object)tTSInitialization.getAudioListener(), (Dictionary)hashtable));
     }
 
     private void registerVolumeOnOffPressListener(TTSInitialization tTSInitialization) {
-        this.logCh.log(-2137614336, "[TTSActivator#registerVolumeOnOffPressListener] register VolumeOnOffPressListener for AudioService");
+        this.logCh.log(10000000, "[TTSActivator#registerVolumeOnOffPressListener] register VolumeOnOffPressListener for AudioService");
         this.sRegVolumeOnOffPressList.add(this.bundleContext.registerService((class$de$audi$atip$interapp$audio$VolumeOnOffPressListener == null ? (class$de$audi$atip$interapp$audio$VolumeOnOffPressListener = TTSActivator.class$("de.audi.atip.interapp.audio.VolumeOnOffPressListener")) : class$de$audi$atip$interapp$audio$VolumeOnOffPressListener).getName(), (Object)tTSInitialization.getVolumeOnOffPressListener(), (Dictionary)new Hashtable(0)));
     }
 
     public void registerAndTrackServices() {
-        this.logCh.log(-2137614336, "[TTSActivator#registerAndTrackServices]");
+        this.logCh.log(10000000, "[TTSActivator#registerAndTrackServices]");
         this.registerAndTrackTTSServices();
         this.framework.getStartupMgr().triggerTTSAvailable();
     }
 
     private void registerAndTrackTTSServices() {
-        this.logCh.log(-2137614336, "[TTSActivator#registerAndTrackTTSServices]");
+        this.logCh.log(10000000, "[TTSActivator#registerAndTrackTTSServices]");
         this.registerTTSSDSService(TTSService.CLIENT_ID_SDS);
         String string = this.framework.getLanguageMgr().getCurrentLanguage("LANG_COMPONENT_HMI").getLanguageCode();
         if (!("da_DK".equals(string) || "fi_FI".equals(string) || "sl_SI".equals(string) || "uk_UA".equals(string) || "ro_RO".equals(string) || "el_GR".equals(string) || "ms_MY".equals(string))) {
@@ -255,15 +253,15 @@ TTSOperable {
             this.registerTTSSingleSpeakService(TTSService.CLIENT_ID_ETC_INFORMATION);
             this.registerTTSSingleSpeakService(TTSService.CLIENT_ID_ETC_WARNING);
         }
-        this.logCh.log(-2137614336, "[TTSActivator#registerAndTrackTTSServices] registering of at most %1 TTSService done", (long)0);
+        this.logCh.log(10000000, "[TTSActivator#registerAndTrackTTSServices] registering of at most %1 TTSService done", 18L);
         this.ttsListenerTracker = this.closeTracker(this.ttsListenerTracker);
         this.ttsListenerTracker = new ServiceTracker(this.bundleContext, (class$de$audi$atip$interapp$tts$TTSListener == null ? (class$de$audi$atip$interapp$tts$TTSListener = TTSActivator.class$("de.audi.atip.interapp.tts.TTSListener")) : class$de$audi$atip$interapp$tts$TTSListener).getName(), (ServiceTrackerCustomizer)this);
         this.ttsListenerTracker.open();
-        this.logCh.log(-2137614336, "[TTSActivator#registerAndTrackTTSServices] tracking TTSListener done");
+        this.logCh.log(10000000, "[TTSActivator#registerAndTrackTTSServices] tracking TTSListener done");
     }
 
     private void registerTTSSingleSpeakService(Integer n) {
-        this.logCh.log(-2137614336, "[TTSActivator#registerTTSSingleSpeakService] client:%1", (Object)n);
+        this.logCh.log(10000000, "[TTSActivator#registerTTSSingleSpeakService] client:%1", (Object)n);
         Hashtable hashtable = new Hashtable();
         hashtable.put("TTS_CLIENT_ID", n);
         TTSSingleSpeakService tTSSingleSpeakService = this.ttsProviderServiceImpl.getTTSSingleSpeakService(n);
@@ -271,7 +269,7 @@ TTSOperable {
     }
 
     private void registerTTSSessionBaseSpeakService(Integer n) {
-        this.logCh.log(-2137614336, "[TTSActivator#registerTTSSessionBaseSpeakService] client:%1", (Object)n);
+        this.logCh.log(10000000, "[TTSActivator#registerTTSSessionBaseSpeakService] client:%1", (Object)n);
         Hashtable hashtable = new Hashtable();
         hashtable.put("TTS_CLIENT_ID", n);
         TTSSessionBasedService tTSSessionBasedService = this.ttsProviderServiceImpl.getTTSSessionBasedService(n);
@@ -279,7 +277,7 @@ TTSOperable {
     }
 
     private void registerTTSSDSService(Integer n) {
-        this.logCh.log(-2137614336, "[TTSActivator#registerTTSSDSService] client:%1", (Object)n);
+        this.logCh.log(10000000, "[TTSActivator#registerTTSSDSService] client:%1", (Object)n);
         Hashtable hashtable = new Hashtable();
         hashtable.put("TTS_CLIENT_ID", n);
         TTSSDSService tTSSDSService = this.ttsProviderServiceImpl.getTTSSDSService(n);
@@ -289,7 +287,7 @@ TTSOperable {
     private void unregisterTTSServices() {
         for (int i2 = 0; i2 < this.sRegTTSService.length; ++i2) {
             if (this.sRegTTSService[i2] == null) continue;
-            this.logCh.log(-2137614336, "[TTSActivator#unregisterTTSServices] %1", (Object)this.sRegTTSService[i2]);
+            this.logCh.log(10000000, "[TTSActivator#unregisterTTSServices] %1", (Object)this.sRegTTSService[i2]);
             this.sRegTTSService[i2].unregister();
             this.sRegTTSService[i2] = null;
         }
@@ -299,7 +297,7 @@ TTSOperable {
         for (int i2 = this.sRegHMIAudioService.size(); i2 > 0; --i2) {
             ServiceRegistration serviceRegistration = (ServiceRegistration)this.sRegHMIAudioService.remove(i2 - 1);
             if (serviceRegistration == null) continue;
-            this.logCh.log(-2137614336, "[TTSActivator#unregisterHMIAudioServices] %1", (Object)serviceRegistration);
+            this.logCh.log(10000000, "[TTSActivator#unregisterHMIAudioServices] %1", (Object)serviceRegistration);
             serviceRegistration.unregister();
         }
         this.sRegHMIAudioService.clear();
@@ -309,7 +307,7 @@ TTSOperable {
         for (int i2 = this.sRegVolumeOnOffPressList.size(); i2 > 0; --i2) {
             ServiceRegistration serviceRegistration = (ServiceRegistration)this.sRegVolumeOnOffPressList.remove(i2 - 1);
             if (serviceRegistration == null) continue;
-            this.logCh.log(-2137614336, "[TTSActivator#unregisterVolumeOnOffServices] %1", (Object)serviceRegistration);
+            this.logCh.log(10000000, "[TTSActivator#unregisterVolumeOnOffServices] %1", (Object)serviceRegistration);
             serviceRegistration.unregister();
         }
         this.sRegVolumeOnOffPressList.clear();
@@ -317,67 +315,66 @@ TTSOperable {
 
     private void addTTSService(DSITTS dSITTS, int n) {
         if (n == 0) {
-            this.logCh.log(-2137614336, "[TTSActivator#addTTSService] Instance 0 found");
+            this.logCh.log(10000000, "[TTSActivator#addTTSService] Instance 0 found");
             this.ttsDSI0 = dSITTS;
             this.ttsProviderServiceImpl.setTTSInstance0(this.ttsDSI0);
             this.checkAvailableDSI();
         } else if (n == 1) {
-            this.logCh.log(-2137614336, "[TTSActivator#addTTSService] Instance 1 found");
+            this.logCh.log(10000000, "[TTSActivator#addTTSService] Instance 1 found");
             this.ttsDSI1 = dSITTS;
             this.ttsProviderServiceImpl.setTTSInstance1(this.ttsDSI1);
             this.checkAvailableDSI();
         } else {
-            this.logCh.log(-2137614336, "[TTSActivator#addTTSService] Unknown INSTANCE '%1'", (long)n);
+            this.logCh.log(10000000, "[TTSActivator#addTTSService] Unknown INSTANCE '%1'", (long)n);
         }
     }
 
     private synchronized void checkAvailableDSI() {
         if (!this.isAudioAvailable()) {
-            this.logCh.log(-2137614336, "[TTSActivator#checkAvailableDSI] Audio DSI is not available yet.");
+            this.logCh.log(10000000, "[TTSActivator#checkAvailableDSI] Audio DSI is not available yet.");
             return;
         }
-        this.logCh.log(-2137614336, "[TTSActivator#checkAvailableDSI] Audio DSI is available");
+        this.logCh.log(10000000, "[TTSActivator#checkAvailableDSI] Audio DSI is available");
         if (this.framework.getSysConst(523) == 1) {
             if (this.ttsDSI0 == null || this.ttsDSI1 == null) {
-                this.logCh.log(-2137614336, "[TTSActivator#checkAvailableDSI] TTS DSI #0 or #1 is not available yet.");
+                this.logCh.log(10000000, "[TTSActivator#checkAvailableDSI] TTS DSI #0 or #1 is not available yet.");
                 return;
             }
-            this.logCh.log(-2137614336, "[TTSActivator#checkAvailableDSI] TTS DSI #0 and #1 available");
+            this.logCh.log(10000000, "[TTSActivator#checkAvailableDSI] TTS DSI #0 and #1 available");
             if (this.ttsOperableCounter >= 2 && this.ttsresponseSetLanguageCounter >= 2) {
                 if (!this.isAlreadyRegistered()) {
-                    this.logCh.log(1078071040, "[TTSActivator#checkAvailableDSI] TTS DSI #0 and #1 are fully operable, register TTSServices");
+                    this.logCh.log(1000000, "[TTSActivator#checkAvailableDSI] TTS DSI #0 and #1 are fully operable, register TTSServices");
                     this.registerAndTrackServices();
                     this.setAlreadyRegistered(true);
                 } else {
-                    this.logCh.log(-2137614336, "[TTSActivator#checkAvailableDSI] TTSServices already registered, do nothing.");
+                    this.logCh.log(10000000, "[TTSActivator#checkAvailableDSI] TTSServices already registered, do nothing.");
                 }
             } else {
-                this.logCh.log(-2137614336, "[TTSActivator#checkAvailableDSI] not ready: TTS Operable %1/2 ResponseSetLanuage %2/2", (long)this.ttsOperableCounter, (long)this.ttsresponseSetLanguageCounter);
+                this.logCh.log(10000000, "[TTSActivator#checkAvailableDSI] not ready: TTS Operable %1/2 ResponseSetLanuage %2/2", (long)this.ttsOperableCounter, (long)this.ttsresponseSetLanguageCounter);
             }
             return;
         }
         if (this.ttsDSI0 == null) {
-            this.logCh.log(-2137614336, "[TTSActivator#checkAvailableDSI] TTS DSI #0 is not available yet.");
+            this.logCh.log(10000000, "[TTSActivator#checkAvailableDSI] TTS DSI #0 is not available yet.");
             return;
         }
-        this.logCh.log(-2137614336, "[TTSActivator#checkAvailableDSI] TTS DSI #0 available.");
+        this.logCh.log(10000000, "[TTSActivator#checkAvailableDSI] TTS DSI #0 available.");
         if (this.ttsOperableCounter >= 1 && this.ttsresponseSetLanguageCounter >= 1) {
             if (!this.isAlreadyRegistered()) {
-                this.logCh.log(-2137614336, "[TTSActivator#checkAvailableDSI] TTS DSI #0 is fully operable, register TTSServices");
+                this.logCh.log(10000000, "[TTSActivator#checkAvailableDSI] TTS DSI #0 is fully operable, register TTSServices");
                 this.registerAndTrackServices();
                 this.setAlreadyRegistered(true);
             } else {
-                this.logCh.log(-2137614336, "[TTSActivator#checkAvailableDSI] TTSServices already registered, do nothing.");
+                this.logCh.log(10000000, "[TTSActivator#checkAvailableDSI] TTSServices already registered, do nothing.");
             }
         } else {
-            this.logCh.log(-2137614336, "[TTSActivator#checkAvailableDSI] not ready: TTS Operable %1/1 ResponseSetLanuage %2/1", (long)this.ttsOperableCounter, (long)this.ttsresponseSetLanguageCounter);
+            this.logCh.log(10000000, "[TTSActivator#checkAvailableDSI] not ready: TTS Operable %1/1 ResponseSetLanuage %2/1", (long)this.ttsOperableCounter, (long)this.ttsresponseSetLanguageCounter);
         }
     }
 
-    @Override
     public Object addingService(ServiceReference serviceReference) {
         Object object = this.getBundleContext().getService(serviceReference);
-        this.logCh.log(-2137614336, "[TTSActivator#addingService] service : %1", object);
+        this.logCh.log(10000000, "[TTSActivator#addingService] service : %1", object);
         if (object instanceof HMIAudioService) {
             Integer n;
             HMIAudioService hMIAudioService;
@@ -395,7 +392,7 @@ TTSOperable {
                 if (n != null) {
                     this.addTTSService((DSITTS)object, n);
                 } else {
-                    this.logCh.log(-2137614336, "No INSTANCE of TTS DSI defined, do nothing!");
+                    this.logCh.log(10000000, "No INSTANCE of TTS DSI defined, do nothing!");
                 }
             }
         } else if (object instanceof SwDiagnosisManager) {
@@ -412,24 +409,22 @@ TTSOperable {
         } else if (object instanceof SDSService) {
             this.ttsProviderServiceImpl.setSDSService((SDSService)object);
         } else {
-            this.logCh.log(-1601830656, "track unwanted service: %1", object);
+            this.logCh.log(100000, "track unwanted service: %1", object);
             this.getBundleContext().ungetService(serviceReference);
             return null;
         }
         return object;
     }
 
-    @Override
     public void modifiedService(ServiceReference serviceReference, Object object) {
-        this.logCh.log(-2137614336, "[TTSActivator#modifiedService] modified service : %1 [ignored]", object);
+        this.logCh.log(10000000, "[TTSActivator#modifiedService] modified service : %1 [ignored]", object);
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void removedService(ServiceReference serviceReference, Object object) {
-        this.logCh.log(-2137614336, "[TTSActivator#removedService] removed service : %1", object);
+        this.logCh.log(10000000, "[TTSActivator#removedService] removed service : %1", object);
         if (object instanceof HMIAudioService) {
             this.setAudioAvailable(false);
             Integer n = (Integer)serviceReference.getProperty("AUDIO_CLIENT_ID");
@@ -441,7 +436,7 @@ TTSOperable {
             } else if (n == 1) {
                 this.ttsDSI1 = null;
             } else {
-                this.logCh.log(-2137614336, "[TTSActivator#removedService] unknown DSITTS service instance : %1", (long)n);
+                this.logCh.log(10000000, "[TTSActivator#removedService] unknown DSITTS service instance : %1", (long)n);
                 this.getBundleContext().ungetService(serviceReference);
                 return;
             }
@@ -453,24 +448,22 @@ TTSOperable {
             this.unregisterServices();
         } else if (object instanceof TTSListener) {
             Integer n = (Integer)serviceReference.getProperty("TTS_CLIENT_ID");
-            this.logCh.log(-2137614336, "[TTSActivator#removedService] TTSListener clientID : %1 - doing nothing", (Object)n);
+            this.logCh.log(10000000, "[TTSActivator#removedService] TTSListener clientID : %1 - doing nothing", (Object)n);
         } else {
-            this.logCh.log(-2137614336, "[TTSActivator#removedService] unknown service : %1", object);
+            this.logCh.log(10000000, "[TTSActivator#removedService] unknown service : %1", object);
         }
         this.getBundleContext().ungetService(serviceReference);
     }
 
-    @Override
     public synchronized void fullyOperable() {
         ++this.ttsOperableCounter;
-        this.logCh.log(-2137614336, "[TTSActivator#fullyOperable] TTS operable counter: %1", (long)this.ttsOperableCounter);
+        this.logCh.log(10000000, "[TTSActivator#fullyOperable] TTS operable counter: %1", (long)this.ttsOperableCounter);
         this.checkAvailableDSI();
     }
 
-    @Override
     public synchronized void responseSetLanguageComplete() {
         ++this.ttsresponseSetLanguageCounter;
-        this.logCh.log(-2137614336, "[TTSActivator#responseSetLanguageComplete] TTS responseSetLanguage counter: %1", (long)this.ttsresponseSetLanguageCounter);
+        this.logCh.log(10000000, "[TTSActivator#responseSetLanguageComplete] TTS responseSetLanguage counter: %1", (long)this.ttsresponseSetLanguageCounter);
         this.checkAvailableDSI();
     }
 
@@ -497,9 +490,8 @@ TTSOperable {
         return this.ttsProviderServiceImpl;
     }
 
-    @Override
     public void stopTTSServices() {
-        this.logCh.log(-2137614336, "[TTSActivator#stopTTSServices]");
+        this.logCh.log(10000000, "[TTSActivator#stopTTSServices]");
         this.setTtsresponseSetLanguageCounter(0);
         this.setAlreadyRegistered(false);
         this.unregisterTTSServices();

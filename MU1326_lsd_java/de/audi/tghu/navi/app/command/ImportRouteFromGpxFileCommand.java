@@ -17,13 +17,11 @@ extends NavCommand {
         this.gpxHandler = gpxHandler;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "ImportRouteFromGpxFileCommand#execute() - filePath = %1", (Object)this.filePath);
+        this.logger.log(10000000, "ImportRouteFromGpxFileCommand#execute() - filePath = %1", (Object)this.filePath);
         this.getDSINavigation().importRouteFromGpxFile(this.filePath);
     }
 
-    @Override
     public void importRouteFromGpxFileResult(NavLocation navLocation) {
         this.gpxHandler.setImportedLocation(navLocation);
         this.getCommandList().commandFinished();

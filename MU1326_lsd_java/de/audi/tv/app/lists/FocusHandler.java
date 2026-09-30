@@ -7,7 +7,6 @@ import de.audi.atip.log.LogChannel;
 import de.audi.tv.app.base.TVEnv;
 import de.audi.tv.app.lists.AbstractStationList;
 import de.audi.tv.app.lists.DefaultTVListsListener;
-import de.audi.tv.app.lists.FocusHandler$1;
 import de.audi.tv.app.lists.IFocusProvider;
 import de.audi.tv.app.lists.IListFocusListener;
 import de.audi.tv.app.storage.FocusedListStorage;
@@ -18,7 +17,12 @@ extends DefaultTVListsListener {
     private final LogChannel log;
     private final FocusedListStorage storage;
     private final IListFocusListener listFocusListener;
-    private IFocusProvider provider = new FocusHandler$1(this);
+    private IFocusProvider provider = new IFocusProvider(){
+
+        public AbstractStationList getFocusedList(int n) {
+            return null;
+        }
+    };
     private volatile long favoritesCount = 0L;
 
     public FocusHandler(TVEnv tVEnv, IListFocusListener iListFocusListener) {
@@ -55,15 +59,14 @@ extends DefaultTVListsListener {
     public final void changeFocus(int n) {
         FocusHandler focusHandler = this;
         synchronized (focusHandler) {
-            this.log.log(-2137614336, "[FocusHandler.focusChanged] focusedList:%1", (long)n);
-            this.env.getChoiceModel(1756112640).setValue(-1);
-            this.env.getChoiceModel(1756112640).setValue(n);
+            this.log.log(10000000, "[FocusHandler.focusChanged] focusedList:%1", (long)n);
+            this.env.getChoiceModel(2600040).setValue(-1);
+            this.env.getChoiceModel(2600040).setValue(n);
             this.storage.saveFocusedList(n);
             this.listFocusListener.onFocusedListChanged(n);
         }
     }
 
-    @Override
     public void updateFavoritesListSize(int n) {
         this.favoritesCount = n;
         if (n == 0 && this.storage.getFocusedList() == 1) {

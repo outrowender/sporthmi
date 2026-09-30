@@ -8,6 +8,7 @@ import de.audi.atip.log.LogChannel;
 import de.audi.atip.statemachine.AbstractSMM;
 import de.audi.atip.statemachine.SMModuleConstants;
 import java.util.HashMap;
+import java.util.NoSuchElementException;
 
 public class WirelessChargingSMMInitTransitions
 implements SMModuleConstants {
@@ -56,11 +57,11 @@ implements SMModuleConstants {
     }
 
     private void initTransitionTargetStateList0(int[][] nArray) {
-        nArray[0] = new int[]{1122054912};
-        nArray[1] = new int[]{1105277696};
+        nArray[0] = new int[]{3400002};
+        nArray[1] = new int[]{3400001};
         nArray[2] = nArray[0];
-        nArray[3] = new int[]{1138832128};
-        nArray[4] = new int[]{1155609344};
+        nArray[3] = new int[]{3400003};
+        nArray[4] = new int[]{3400004};
     }
 
     private void initTransIncludeJumpList() {
@@ -68,7 +69,7 @@ implements SMModuleConstants {
         this.smm.setTransIncludeJumpTransition(hashMap);
     }
 
-    public HMIModel getModel(int n) {
+    public HMIModel getModel(int n) throws NoSuchElementException {
         return this.smm.getModel(n);
     }
 }

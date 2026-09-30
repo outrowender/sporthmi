@@ -14,9 +14,8 @@ implements ISourceActivator {
         this.log = logChannel;
     }
 
-    @Override
     public void activate(int n) {
-        this.log.log(-1601830656, "[NullCombiSourceActivator.activate] source: %1", (long)n);
+        this.log.log(100000, "[NullCombiSourceActivator.activate] source: %1", (long)n);
     }
 }
 

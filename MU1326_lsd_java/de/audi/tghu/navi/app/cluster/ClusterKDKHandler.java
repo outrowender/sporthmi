@@ -11,19 +11,14 @@ public interface ClusterKDKHandler
 extends NaviMoKoKDKConstants,
 IViewSizeListener,
 PowerEventListener {
-    default public void updateKOMOViewEnabled(boolean bl) {
-    }
+    public void updateKOMOViewEnabled(boolean var1);
 
-    default public void updateKOMOViewVisible(boolean bl) {
-    }
+    public void updateKOMOViewVisible(boolean var1);
 
-    default public void updateRgActive(boolean bl) {
-    }
+    public void updateRgActive(boolean var1);
 
-    default public void setKDKVisibility(boolean bl) {
-    }
+    public void setKDKVisibility(boolean var1);
 
-    default public void cleanup() {
-    }
+    public void cleanup();
 }
 

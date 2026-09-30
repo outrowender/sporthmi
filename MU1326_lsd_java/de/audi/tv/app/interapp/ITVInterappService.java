@@ -4,19 +4,14 @@
 package de.audi.tv.app.interapp;
 
 public interface ITVInterappService {
-    default public void setActiveStation(long l) {
-    }
+    public void setActiveStation(long var1);
 
-    default public void setTerminalMode(byte by) {
-    }
+    public void setTerminalMode(byte var1);
 
-    default public void sendPressedPanelKey(short s) {
-    }
+    public void sendPressedPanelKey(short var1);
 
-    default public void logonToTV() {
-    }
+    public void logonToTV();
 
-    default public void logoffFromTV() {
-    }
+    public void logoffFromTV();
 }
 

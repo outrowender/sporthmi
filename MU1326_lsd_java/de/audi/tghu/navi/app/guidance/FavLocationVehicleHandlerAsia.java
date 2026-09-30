@@ -25,17 +25,14 @@ implements ILocationDisambiguationCallback {
         this.popupHandler = iLocationDisambiguatorPopupHandler;
     }
 
-    @Override
     public void addToContact(int n, int n2) {
         this.locationDisambiguator.startDisambiguationForNavLocation(this.vehicle.getVehicleLocationDescription(), this, 2, n, n2);
     }
 
-    @Override
     public void saveAsFavorite(int n, int n2) {
         this.locationDisambiguator.startDisambiguationForNavLocation(this.vehicle.getVehicleLocationDescription(), this, 1, n, n2);
     }
 
-    @Override
     public void locationDisambiguationCallback(LocationDisambiguationWrapper locationDisambiguationWrapper) {
         this.popupHandler.startPopupHandling(locationDisambiguationWrapper);
     }

@@ -22,21 +22,20 @@ extends NavCommand {
         this.commandListFactory = iCommandListFactory;
     }
 
-    @Override
     public void execute() {
         int n = 0;
         LIValueList lIValueList = this.dsiResponseContainer.getLispValueList();
-        this.logger.log(-2137614336, "ModelUpdateChildCategoryListCommand#execute - valueList=%1", (Object)lIValueList);
+        this.logger.log(10000000, "ModelUpdateChildCategoryListCommand#execute - valueList=%1", (Object)lIValueList);
         if (Util.isListValid(lIValueList) && lIValueList.getList().length > 0) {
             n = lIValueList.getList().length;
             if ((long)(lIValueList.getList()[n - 1].getListIndex() + 1) >= this.dsiResponseContainer.getLispValueListCount()) {
                 if (this.logger.isDebug2()) {
-                    this.logger.log(14808325, "ModelUpdateChildCategoryListCommand#execute - valueListSize: %1, rcCount: %2, lastIndex = %3", (long)n, this.dsiResponseContainer.getLispValueListCount(), (long)lIValueList.getList()[n - 1].getListIndex());
+                    this.logger.log(100000000, "ModelUpdateChildCategoryListCommand#execute - valueListSize: %1, rcCount: %2, lastIndex = %3", (long)n, this.dsiResponseContainer.getLispValueListCount(), (long)lIValueList.getList()[n - 1].getListIndex());
                 }
                 this.getCommandList().commandFinishedWithPostCommand(new NewModelUpdateResultListCommand(this.modelAccess));
             } else {
                 if (this.logger.isDebug2()) {
-                    this.logger.log(14808325, "ModelUpdateChildCategoryListCommand#execute - valueListSize: %1, rcCount: %2, lastIndex = %3", (long)n, this.dsiResponseContainer.getLispValueListCount(), (long)lIValueList.getList()[n - 1].getListIndex());
+                    this.logger.log(100000000, "ModelUpdateChildCategoryListCommand#execute - valueListSize: %1, rcCount: %2, lastIndex = %3", (long)n, this.dsiResponseContainer.getLispValueListCount(), (long)lIValueList.getList()[n - 1].getListIndex());
                 }
                 CommandList commandList = this.commandListFactory.createCommandList();
                 commandList.add(new NewModelUpdateResultListCommand(this.modelAccess));
@@ -45,7 +44,7 @@ extends NavCommand {
                 this.getCommandList().commandFinishedWithPostSequence(commandList);
             }
         } else {
-            this.logger.log(-2137614336, "ModelUpdateChildCategoryListCommand#execute - received empty LIValueList from DSI.");
+            this.logger.log(10000000, "ModelUpdateChildCategoryListCommand#execute - received empty LIValueList from DSI.");
             this.getCommandList().commandAborted("received empty LIValueList from DSI");
         }
     }

@@ -36,11 +36,11 @@ implements AudioManagement {
         try {
             this.stateMachine.setCurrentConnection(n);
             if (bl) {
-                this.logChannel.log(-2137614336, "AudioState#requestConnection() - audioConnection: %1 already active", (long)n);
+                this.logChannel.log(10000000, "AudioState#requestConnection() - audioConnection: %1 already active", (long)n);
                 this.stateMachine.goTo(2);
                 this.stateMachine.fadedIn(n, 0);
             } else {
-                this.logChannel.log(-2137614336, "AudioState#requestConnection() - audioConnection: %1 ", (long)n);
+                this.logChannel.log(10000000, "AudioState#requestConnection() - audioConnection: %1 ", (long)n);
                 this.stateMachine.getAudioManagement().requestConnection(n);
                 this.stateMachine.goTo(1);
             }
@@ -53,7 +53,7 @@ implements AudioManagement {
     }
 
     protected void fadeToConnection(int n) {
-        this.logChannel.log(-2137614336, "AudioState#fadeToConnection( %1 ) ", (long)n);
+        this.logChannel.log(10000000, "AudioState#fadeToConnection( %1 ) ", (long)n);
         try {
             this.stateMachine.getAudioManagement().fadeToConnection(n);
             this.stateMachine.goTo(2);
@@ -66,10 +66,10 @@ implements AudioManagement {
 
     protected void releaseConnection(int n) {
         if (n == 83) {
-            this.logChannel.log(1078071040, "AudioState#releaseConnection( %1 ) IGNORED (controlled by AppTone)", (long)n);
+            this.logChannel.log(1000000, "AudioState#releaseConnection( %1 ) IGNORED (controlled by AppTone)", (long)n);
             return;
         }
-        this.logChannel.log(-2137614336, "AudioState#releaseConnection( %1 ) ", (long)n);
+        this.logChannel.log(10000000, "AudioState#releaseConnection( %1 ) ", (long)n);
         try {
             this.stateMachine.getAudioManagement().releaseConnection(n);
             this.stateMachine.goTo(4);
@@ -81,13 +81,12 @@ implements AudioManagement {
     }
 
     protected void acknowledgeStopAudio(int n) {
-        this.logChannel.log(-2137614336, "AudioState#acknowledgeStopAudio( %1 ) ", (long)n);
+        this.logChannel.log(10000000, "AudioState#acknowledgeStopAudio( %1 ) ", (long)n);
         this.stateMachine.initAudio();
     }
 
-    @Override
     public void updateAudioRequest(int n) {
-        if (this.logChannel.getCurrentLogThreshold() >= -2137614336) {
+        if (this.logChannel.getCurrentLogThreshold() >= 10000000) {
             String string;
             switch (n) {
                 case 1: {
@@ -110,53 +109,48 @@ implements AudioManagement {
                     string = "AUDIOSTATE_UNKNOWN";
                 }
             }
-            this.logChannel.log(-2137614336, "AudioState#updateAudioRequest( %2 ) %1", (Object)string, (long)n);
+            this.logChannel.log(10000000, "AudioState#updateAudioRequest( %2 ) %1", (Object)string, (long)n);
         }
     }
 
-    @Override
     public void fadedIn(int n, int n2) {
         if (AudioStateMachine.isNaviAudioConnection(n) && n != 83) {
-            this.logChannel.log(-1601830656, "AudioState#fadedIn( %2 ) - not expected [%1]! ", (Object)this, (long)n);
+            this.logChannel.log(100000, "AudioState#fadedIn( %2 ) - not expected [%1]! ", (Object)this, (long)n);
         }
     }
 
-    @Override
     public void startConnection(int n, int n2) {
         if (n == 83) {
-            this.logChannel.log(-2137614336, "AudioState#startConnection( %1 ) - going to CONNECTION_FADEDIN", (long)n);
+            this.logChannel.log(10000000, "AudioState#startConnection( %1 ) - going to CONNECTION_FADEDIN", (long)n);
             this.stateMachine.goTo(2);
         } else if (AudioStateMachine.isNaviAudioConnection(n)) {
-            this.logChannel.log(-1601830656, "AudioState#startConnection( %2 ) - not expected [%1]! ", (Object)this, (long)n);
+            this.logChannel.log(100000, "AudioState#startConnection( %2 ) - not expected [%1]! ", (Object)this, (long)n);
         }
     }
 
-    @Override
     public void stopConnection(int n, int n2) {
         if (AudioStateMachine.isNaviAudioConnection(n)) {
-            this.logChannel.log(-2137614336, "AudioState#stopConnection( %2 ) - [%1] ", (Object)this, (long)n);
+            this.logChannel.log(10000000, "AudioState#stopConnection( %2 ) - [%1] ", (Object)this, (long)n);
             this.handleStopOrErrorConnection(n);
         }
     }
 
-    @Override
     public final void pauseConnection(int n, int n2) {
         if (AudioStateMachine.isNaviAudioConnection(n)) {
-            this.logChannel.log(-1601830656, "AudioState#pauseConnection( %2 ) - not expected [%1]! ", (Object)this, (long)n);
+            this.logChannel.log(100000, "AudioState#pauseConnection( %2 ) - not expected [%1]! ", (Object)this, (long)n);
             this.handleStopOrErrorConnection(n);
         }
     }
 
-    @Override
     public final void errorConnection(int n, int n2, int n3) {
         if (AudioStateMachine.isNaviAudioConnection(n)) {
-            this.logChannel.log(-1601830656, "AudioState#errorConnection( %2, %3 ) - [%1] ", (Object)this, (long)n, (long)n3);
+            this.logChannel.log(100000, "AudioState#errorConnection( %2, %3 ) - [%1] ", (Object)this, (long)n, (long)n3);
             this.handleStopOrErrorConnection(n);
         }
     }
 
     private void handleStopOrErrorConnection(int n) {
-        this.logChannel.log(-2137614336, "AudioState#handleStopOrErrorConnection( %2 ) - going to CONNECTION_STOPPED [%1] ", (Object)this, (long)n);
+        this.logChannel.log(10000000, "AudioState#handleStopOrErrorConnection( %2 ) - going to CONNECTION_STOPPED [%1] ", (Object)this, (long)n);
         this.stateMachine.audioTrigger(false);
         HMIAudioService hMIAudioService = this.stateMachine.getAudioManagement();
         if (hMIAudioService.getStatus(116) != 5) {

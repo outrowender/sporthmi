@@ -72,7 +72,6 @@ extends QueueWorker {
         }
     }
 
-    @Override
     protected void handleQueuedObject(Object object) {
         de.eso.a.a.a a2 = (de.eso.a.a.a)object;
         a2.a();

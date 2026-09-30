@@ -13,11 +13,11 @@ import de.audi.tghu.navi.app.car.IUpdateESPDataObserver;
 import de.audi.tghu.navi.app.car.IUpdateVehicleStandstillObserver;
 import de.audi.tghu.navi.app.car.IVehicleStatesEventsProvider;
 import de.audi.tghu.navi.app.car.IVehicleStatesObserver;
+import de.audi.tghu.navi.app.command.NavCommand;
 import de.audi.tghu.navi.app.command.sds.LIStripLocationCommand;
 import de.audi.tghu.navi.app.guidance.CcpCountry;
 import de.audi.tghu.navi.app.guidance.IVehicle;
 import de.audi.tghu.navi.app.guidance.IVehicleModelAccess;
-import de.audi.tghu.navi.app.guidance.Vehicle$1;
 import de.audi.tghu.navi.app.navobserver.INavObserverRegistry;
 import de.audi.tghu.navi.app.util.LocationFormatter;
 import de.audi.tghu.navi.app.util.TextUtil;
@@ -32,8 +32,8 @@ IUpdateVehicleStandstillObserver,
 IUpdateESPDataObserver,
 IVehicleStatesObserver {
     protected static volatile IVehicle instance;
-    private static final int VELOCITY_ERROR_THRESHOLD;
-    private static final int VELOCITY_DEMO_MODE;
+    private static final int VELOCITY_ERROR_THRESHOLD = 300;
+    private static final int VELOCITY_DEMO_MODE = 50;
     protected final NavigationEnv env;
     protected final LogChannel guidanceLogChannel;
     private GeoMetric geoMetric = new GeoMetric(0, 0);
@@ -58,23 +58,20 @@ IVehicleStatesObserver {
         this.vehicleCountryLocationMonitor = new Monitor(this.guidanceLogChannel);
     }
 
-    @Override
     public void setModelAccess(IVehicleModelAccess iVehicleModelAccess) {
         this.modelAccess = iVehicleModelAccess;
     }
 
-    @Override
     public synchronized void unitsChanged() {
-        this.guidanceLogChannel.log(-2137614336, "Vehicle#unitsChanged()");
+        this.guidanceLogChannel.log(10000000, "Vehicle#unitsChanged()");
         this.refreshHeight();
     }
 
-    @Override
     public synchronized void refreshPositionDescription() {
         NavLocation navLocation = this.env.getContainer().getSoPosPositionDescription();
         CcpCountry.updateIfChanged(navLocation, this.navObserverRegistry);
         if (this.guidanceLogChannel.isDebug2()) {
-            this.guidanceLogChannel.log(14808325, "Vehicle#refreshPositionDescription( %1 )", (Object)LocationFormatter.formatLocationShort(navLocation));
+            this.guidanceLogChannel.log(100000000, "Vehicle#refreshPositionDescription( %1 )", (Object)LocationFormatter.formatLocationShort(navLocation));
         }
         String string = LocationFormatter.formatCountry(navLocation);
         String string2 = Util.getCountryAbbreviation(navLocation);
@@ -92,7 +89,6 @@ IVehicleStatesObserver {
         }
     }
 
-    @Override
     public synchronized void refreshPosPosition(PosPosition posPosition) {
         if (posPosition != null) {
             this.geoMetric.setGeoValues(posPosition.getLatitude(), posPosition.getLongitude());
@@ -103,7 +99,7 @@ IVehicleStatesObserver {
             short s2 = posPosition.getUsedSatellites();
             int n2 = posPosition.getState();
             if (this.guidanceLogChannel.isDebug2()) {
-                this.guidanceLogChannel.log(14808325, "Vehicle#refreshPosition( %1, %2, %3 )", (Object)string, (Object)string2, (long)n);
+                this.guidanceLogChannel.log(100000000, "Vehicle#refreshPosition( %1, %2, %3 )", (Object)string, (Object)string2, (long)n);
             }
             this.currentLatitude = string;
             this.currentLongitude = string2;
@@ -116,13 +112,12 @@ IVehicleStatesObserver {
         }
     }
 
-    @Override
     public synchronized void refreshHeight() {
         PosPosition posPosition = this.env.getContainer().getSoPosPosition();
         if (posPosition != null) {
             int n = posPosition.getHeight();
             if (this.guidanceLogChannel.isDebug2()) {
-                this.guidanceLogChannel.log(14808325, "Vehicle#refreshHeight( %1 )", (Object)Util.formatHeight(n));
+                this.guidanceLogChannel.log(100000000, "Vehicle#refreshHeight( %1 )", (Object)Util.formatHeight(n));
             }
             if (this.modelAccess != null) {
                 this.modelAccess.updateHeight(n);
@@ -130,7 +125,6 @@ IVehicleStatesObserver {
         }
     }
 
-    @Override
     public NavLocation getVehicleLocation() {
         NavLocation navLocation;
         PosPosition posPosition = this.getPosition();
@@ -143,7 +137,6 @@ IVehicleStatesObserver {
         return navLocation;
     }
 
-    @Override
     public NavLocation getVehicleLocationDescription() {
         NavLocation navLocation = this.env.getContainer().getSoPosPositionDescription();
         if (navLocation == null || navLocation.latitude == 0 && navLocation.longitude == 0) {
@@ -153,19 +146,17 @@ IVehicleStatesObserver {
         return navLocation;
     }
 
-    @Override
     public NavLocation getVehicleCountryLocation() {
         if (this.vehicleCountryLocation != null) {
             if (this.env.getLogChannel().isDebug()) {
-                this.env.getLogChannel().log(-2137614336, "Vehicle#getVehicleCountryLocation() - returning: '%1'", (Object)LocationFormatter.formatLocationShort(this.vehicleCountryLocation));
+                this.env.getLogChannel().log(10000000, "Vehicle#getVehicleCountryLocation() - returning: '%1'", (Object)LocationFormatter.formatLocationShort(this.vehicleCountryLocation));
             }
             return this.vehicleCountryLocation;
         }
-        this.env.getLogChannel().log(-1601830656, "Vehicle#getVehicleCountryLocation() - failed to create location (vehicle location is null!)");
+        this.env.getLogChannel().log(100000, "Vehicle#getVehicleCountryLocation() - failed to create location (vehicle location is null!)");
         return new NavLocation();
     }
 
-    @Override
     public void setVehicleCountryLocation(NavLocation navLocation) {
         this.vehicleCountryLocation = navLocation;
     }
@@ -173,10 +164,10 @@ IVehicleStatesObserver {
     private void refreshCurrentStreet() {
         String string = this.isMatchedToDigitalMap() ? this.posPositionStreet : TextUtil.getOffRoadName();
         if (this.guidanceLogChannel.isDebug2()) {
-            this.guidanceLogChannel.log(14808325, "Vehicle#refreshCurrentStreet( %1 )", (Object)string);
+            this.guidanceLogChannel.log(100000000, "Vehicle#refreshCurrentStreet( %1 )", (Object)string);
         }
         if (string != null && !string.equals(this.currentStreet)) {
-            this.guidanceLogChannel.log(-2137614336, "Vehicle#refreshCurrentStreet - update label and routeplan, street: %1", (Object)string);
+            this.guidanceLogChannel.log(10000000, "Vehicle#refreshCurrentStreet - update label and routeplan, street: %1", (Object)string);
             this.currentStreet = string;
             if (this.modelAccess != null) {
                 this.modelAccess.updateStreet(string);
@@ -190,7 +181,16 @@ IVehicleStatesObserver {
             CommandList commandList = this.commandListFactory.createCommandList(1);
             commandList.addMonitor(this.vehicleCountryLocationMonitor);
             commandList.add(new LIStripLocationCommand(navLocation, 1));
-            commandList.add(new Vehicle$1(this, "GetCountryVehicleLocation"));
+            commandList.add(new NavCommand("GetCountryVehicleLocation"){
+
+                public void execute() {
+                    Vehicle.this.vehicleCountryLocation = (NavLocation)this.getCommandList().get("STRIPPED_LOCATION");
+                    if (this.logger.isDebug()) {
+                        this.logger.log(10000000, "GetCountryVehicleLocation#execute() - strippedLocation: %1", (Object)LocationFormatter.formatLocationShort(Vehicle.this.vehicleCountryLocation));
+                    }
+                    this.getCommandList().commandFinished();
+                }
+            });
             commandList.execute("Vehicle#refreshVehicleCountryLocation()");
         }
     }
@@ -203,7 +203,6 @@ IVehicleStatesObserver {
         return !navLocation.getCountry().equalsIgnoreCase(this.vehicleCountryLocation.getCountry());
     }
 
-    @Override
     public boolean isMatchedToDigitalMap() {
         PosPosition posPosition = this.env.getContainer().getSoPosPosition();
         boolean bl = false;
@@ -213,41 +212,34 @@ IVehicleStatesObserver {
         return bl;
     }
 
-    @Override
     public String getCountryAbbreviation() {
         return this.getVehicleCountryLocation().getCountryAbbreviation();
     }
 
-    @Override
     public String getCountry() {
         return this.currentCountry;
     }
 
-    @Override
     public String getCity() {
         return this.currentCity;
     }
 
-    @Override
     public String getStreet() {
         return this.currentStreet;
     }
 
-    @Override
     public String getLatitude() {
         return this.currentLatitude;
     }
 
-    @Override
     public String getLongitude() {
         return this.currentLongitude;
     }
 
-    @Override
     public int getHeading(PosPosition posPosition) {
         int n;
         if (posPosition == null) {
-            this.env.getLogChannel().log(-1601830656, "Vehicle#getHeading() - Invalid vehicle position null! Setting heading to 0.");
+            this.env.getLogChannel().log(100000, "Vehicle#getHeading() - Invalid vehicle position null! Setting heading to 0.");
             n = 0;
         } else {
             n = posPosition.getDirectionAngle() % 360;
@@ -255,27 +247,24 @@ IVehicleStatesObserver {
         return n;
     }
 
-    @Override
     public PosPosition getFrontUnitPosition() {
         PosPosition posPosition = this.env.getFramework().isFrontMU() ? this.env.getContainer().getSoPosPosition() : this.env.getRemoteContainer().getSoPosPosition();
         if (posPosition == null) {
-            this.env.getLogChannel().log(-1601830656, "Vehicle#getFrontUnitPosition() - Invalid vehicle position null!");
+            this.env.getLogChannel().log(100000, "Vehicle#getFrontUnitPosition() - Invalid vehicle position null!");
             posPosition = new PosPosition();
         }
         return posPosition;
     }
 
-    @Override
     public PosPosition getPosition() {
         PosPosition posPosition = this.env.getContainer().getSoPosPosition();
         if (posPosition == null) {
-            this.env.getLogChannel().log(-1601830656, "Util#getPosition() - Invalid vehicle position null! ");
+            this.env.getLogChannel().log(100000, "Util#getPosition() - Invalid vehicle position null! ");
             posPosition = new PosPosition();
         }
         return posPosition;
     }
 
-    @Override
     public void updateESPData(int n, boolean bl) {
         this.carVelocity = n;
         if (this.carVelocity >= 300) {
@@ -283,29 +272,23 @@ IVehicleStatesObserver {
         }
     }
 
-    @Override
     public int getCarVelocity() {
         return this.env.getContainer().isEtcDemoMode() ? 50 : this.carVelocity;
     }
 
-    @Override
     public void updateVehicleStandstill(boolean bl) {
     }
 
-    @Override
     public void vehicleStatesEventsProviderAdded(IVehicleStatesEventsProvider iVehicleStatesEventsProvider) {
         iVehicleStatesEventsProvider.registerListener(this);
     }
 
-    @Override
     public void updateTankInfo(TankInfo tankInfo) {
     }
 
-    @Override
     public void updateDisplayDayNightDesign(boolean bl) {
     }
 
-    @Override
     public void updateESPData() {
     }
 
@@ -324,21 +307,11 @@ IVehicleStatesObserver {
         instance = iVehicle;
     }
 
-    @Override
     public synchronized void cleanUp() {
         if (instance != null && this.env != null) {
-            this.env.getLogChannel().log(-2137614336, "Vehicle#cleanup()");
+            this.env.getLogChannel().log(10000000, "Vehicle#cleanup()");
             instance = null;
         }
-    }
-
-    static /* synthetic */ NavLocation access$002(Vehicle vehicle, NavLocation navLocation) {
-        vehicle.vehicleCountryLocation = navLocation;
-        return vehicle.vehicleCountryLocation;
-    }
-
-    static /* synthetic */ NavLocation access$000(Vehicle vehicle) {
-        return vehicle.vehicleCountryLocation;
     }
 }
 

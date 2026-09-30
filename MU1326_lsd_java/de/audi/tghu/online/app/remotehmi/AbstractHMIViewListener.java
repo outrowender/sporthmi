@@ -13,7 +13,6 @@ import de.audi.atip.hmi.modelaccess.LabelModelApp;
 import de.audi.atip.hmi.modelaccess.ResourceLocatorModelApp;
 import de.audi.atip.hmi.modelaccess.VirtualButtonModelApp;
 import de.audi.atip.interapp.NaviOnlineService;
-import de.audi.atip.interapp.NaviOnlineService$RRDListener;
 import de.audi.atip.log.LogChannel;
 import de.audi.atip.util.Util;
 import de.audi.remotehmi.HMIProperties;
@@ -24,8 +23,6 @@ import de.audi.remotehmi.ui.mib2.grid.IGrid;
 import de.audi.remotehmi.ui.mib2.grid.IGridFactory;
 import de.audi.remotehmi.ui.mib2.grid.IGridList;
 import de.audi.remotehmi.ui.mib2.grid.IPageHistory;
-import de.audi.tghu.online.app.remotehmi.AbstractHMIViewListener$1;
-import de.audi.tghu.online.app.remotehmi.AbstractHMIViewListener$SoftkeyButtonListener;
 import de.audi.tghu.online.app.remotehmi.ArrayUtilities;
 import de.audi.tghu.online.app.remotehmi.ContextManagerComponent;
 import de.audi.tghu.online.app.remotehmi.OnlineModelBankAccess;
@@ -33,16 +30,17 @@ import de.audi.tghu.online.app.remotehmi.PageHistory;
 import de.audi.tghu.online.app.remotehmi.RemoteHMIContext;
 import de.audi.tghu.online.app.remotehmi.RemoteHMIService;
 import de.audi.tghu.online.app.remotehmi.UpdateRrdTask;
+import de.audi.tghu.online.app.remotehmi.VirtualButtonAdapter;
 import de.audi.tghu.online.app.remotehmi.onlinemedia.IViewNpsListenerInterface;
 import java.util.List;
 import java.util.ListIterator;
 
 public abstract class AbstractHMIViewListener
 implements ButtonListener,
-NaviOnlineService$RRDListener {
-    public static final int INVISIBLE;
-    public static final int VISIBLE;
-    private static final int MAX_TEXT_LENGTH;
+NaviOnlineService.RRDListener {
+    public static final int INVISIBLE = 0;
+    public static final int VISIBLE = 1;
+    private static final int MAX_TEXT_LENGTH = 2000;
     protected final LogChannel logChannel;
     protected final ModelGroup mainModelGroup;
     protected final OnlineModelBankAccess modelBank;
@@ -57,7 +55,7 @@ NaviOnlineService$RRDListener {
     private int lastSelectedSK = 0;
     private boolean receiveMediaUpdates = false;
     private boolean takeScreenshotFor3D = false;
-    private AbstractHMIViewListener$SoftkeyButtonListener softkeyButtonListener;
+    private SoftkeyButtonListener softkeyButtonListener;
     private List viewDataTypes;
     private ICursor defaultCursor;
 
@@ -67,33 +65,52 @@ NaviOnlineService$RRDListener {
         this.modelBank = onlineModelBankAccess;
         this.hmiService = hMIService;
         this.remoteHmiService = remoteHMIService;
-        this.hkReturnVirtualButtonListener = new AbstractHMIViewListener$1(this);
+        this.hkReturnVirtualButtonListener = new VirtualButtonAdapter(){
+
+            public void keyPressed(int n, int n2, int n3) {
+                if (n == 2300103) {
+                    AbstractHMIViewListener.this.keyPressedVirtualButton(n, n2, n3);
+                }
+            }
+
+            public void increment(int n, int n2, int n3) {
+                if (n == 2300103) {
+                    AbstractHMIViewListener.this.keyPressedVirtualButton(n, 10403, n3);
+                }
+            }
+
+            public void decrement(int n, int n2, int n3) {
+                if (n == 2300103) {
+                    AbstractHMIViewListener.this.keyPressedVirtualButton(n, 10403, n3);
+                }
+            }
+        };
     }
 
     protected VirtualButtonModelApp getVirtualButton() {
-        return this.modelBank.getVirtualButtonModel(-954719488);
+        return this.modelBank.getVirtualButtonModel(2300103);
     }
 
     public void updateViewProperties(HMIProperties hMIProperties, boolean bl, RemoteHMIContext remoteHMIContext) {
         Object object;
         Object object2;
-        VirtualButtonModelApp virtualButtonModelApp = this.modelBank.getVirtualButtonModel(-954719488);
+        VirtualButtonModelApp virtualButtonModelApp = this.modelBank.getVirtualButtonModel(2300103);
         virtualButtonModelApp.setVirtualButtonListener(this.hkReturnVirtualButtonListener);
         if (hMIProperties.contains("colorChoice")) {
-            this.modelBank.getChoiceModel(-1525144832).setValue(hMIProperties.getInt("colorChoice"));
+            this.modelBank.getChoiceModel(2300069).setValue(hMIProperties.getInt("colorChoice"));
         }
         if (hMIProperties.contains("npsConfiguration")) {
             object2 = (int[])hMIProperties.get("npsConfiguration");
             if (object2 == null || ((int[])object2).length == 0) {
-                this.logChannel.log(-1601830656, "AbstractHMIViewListener##updateViewProperties npsLineTextOrder is null or empty so can't replace the default order");
+                this.logChannel.log(100000, "AbstractHMIViewListener##updateViewProperties npsLineTextOrder is null or empty so can't replace the default order");
                 return;
             }
             object = (IViewNpsListenerInterface)((Object)this.remoteHmiService.getViewListener(15000));
             if (object == null) {
-                this.logChannel.log(-1601830656, "AbstractHMIViewListener##updateViewProperties viewNpsListener is null or empty, so can't replace the given order");
+                this.logChannel.log(100000, "AbstractHMIViewListener##updateViewProperties viewNpsListener is null or empty, so can't replace the given order");
                 return;
             }
-            this.logChannel.log(1078071040, "AbstractHMIViewListener##updateViewProperties: order recieved for nps is %1", object2);
+            this.logChannel.log(1000000, "AbstractHMIViewListener##updateViewProperties: order recieved for nps is %1", object2);
             object.getMediaValues().setTextLineOrder((int[])object2);
             object.updateMetadataValues();
         }
@@ -138,7 +155,7 @@ NaviOnlineService$RRDListener {
 
     public int setScrollIndex(HMIProperties hMIProperties) {
         int n = hMIProperties.getInt("scrollIndex");
-        this.logChannel.log(1078071040, "AbstractHMIViewListener#setScrollIndex() was called with index %1.", (long)n);
+        this.logChannel.log(1000000, "AbstractHMIViewListener#setScrollIndex() was called with index %1.", (long)n);
         return n;
     }
 
@@ -172,28 +189,28 @@ NaviOnlineService$RRDListener {
         if (labelModelApp != null) {
             stringArray = hMIProperties.contains("title") ? hMIProperties.getString("title") : "";
             labelModelApp.setText((String)stringArray);
-            this.logChannel.log(1078071040, "AbstractHMIViewListene#setTitles: update title: %1", (Object)stringArray);
+            this.logChannel.log(1000000, "AbstractHMIViewListene#setTitles: update title: %1", (Object)stringArray);
         }
         if (resourceLocatorModelApp != null) {
             stringArray = hMIProperties.contains("titleIcon") ? hMIProperties.getString("titleIcon") : "";
             resourceLocatorModelApp.setResourceLocator(-1, (String)stringArray);
             int n = stringArray != null && stringArray.length() > 0 ? 1 : 0;
             resourceLocatorModelApp.setStatus(n);
-            this.logChannel.log(-2137614336, "AbstractHMIViewListene#setTitles: update icon: %1", (long)n);
+            this.logChannel.log(10000000, "AbstractHMIViewListene#setTitles: update icon: %1", (long)n);
         }
         stringArray = hMIProperties.getStringArray("subtitle");
         String string = ArrayUtilities.getSafeArrayValue(stringArray, 0);
         String string2 = ArrayUtilities.getSafeArrayValue(stringArray, 1);
         if (labelModelApp2 != null) {
-            this.logChannel.log(1078071040, "AbstractHMIViewListene#setTitles: subtitle: '%1'", (Object)string);
+            this.logChannel.log(1000000, "AbstractHMIViewListene#setTitles: subtitle: '%1'", (Object)string);
             labelModelApp2.setText(string);
         } else {
-            this.logChannel.log(1078071040, "AbstractHMIViewListene#setTitles: subtitlemodel is null! subtitle: '%1'", (Object)string);
+            this.logChannel.log(1000000, "AbstractHMIViewListene#setTitles: subtitlemodel is null! subtitle: '%1'", (Object)string);
         }
         if (labelModelApp3 != null) {
             labelModelApp3.setText(string2);
         }
-        ChoiceModelApp choiceModelApp = this.modelBank.getChoiceModel(-1491590400);
+        ChoiceModelApp choiceModelApp = this.modelBank.getChoiceModel(2300071);
         int n = choiceModelApp.getValue();
         int n2 = string.length() == 0 ? 0 : 1;
         boolean bl = this.subtitleChangedInUpdate = n2 != n;
@@ -213,15 +230,15 @@ NaviOnlineService$RRDListener {
                 } else {
                     this.modelBank.getLabelModel(215).setText("");
                 }
-                this.logChannel.log(1078071040, "AbstractHMIViewListener#showPartialPopup: showing partial popup");
+                this.logChannel.log(1000000, "AbstractHMIViewListener#showPartialPopup: showing partial popup");
             } else {
-                this.logChannel.log(-1601830656, "AbstractHMIViewListener#showPartialPopup: not showing partial popup, because text1 is empty.");
+                this.logChannel.log(100000, "AbstractHMIViewListener#showPartialPopup: not showing partial popup, because text1 is empty.");
             }
         }
     }
 
     public void keyPressedVirtualButton(int n, int n2, int n3) {
-        this.logChannel.log(-2137614336, "AbstractHMIViewListener#keyPressedVirtualButton keyID '%1' modelID '%2'", (long)n2, (long)n);
+        this.logChannel.log(10000000, "AbstractHMIViewListener#keyPressedVirtualButton keyID '%1' modelID '%2'", (long)n2, (long)n);
         RemoteHMIAction remoteHMIAction = null;
         int n4 = this.isDefaultCursorAvailable() ? this.getOldCursor().getFocus().getIndex() : -1;
         String string = this.getSelectedId(n4);
@@ -237,7 +254,7 @@ NaviOnlineService$RRDListener {
         switch (n) {
             case 2300103: {
                 this.invokeAction(remoteHMIAction);
-                this.logChannel.log(-2137614336, "AbstractHMIViewListener#keyPressedVirtualButton DSIRemoteHMI.action('%1')", remoteHMIAction);
+                this.logChannel.log(10000000, "AbstractHMIViewListener#keyPressedVirtualButton DSIRemoteHMI.action('%1')", remoteHMIAction);
                 break;
             }
         }
@@ -251,23 +268,23 @@ NaviOnlineService$RRDListener {
     }
 
     protected void stopMediaFile() {
-        this.logChannel.log(-2137614336, "AbstractHMIViewListener#stopMediaFile: called");
+        this.logChannel.log(10000000, "AbstractHMIViewListener#stopMediaFile: called");
         this.remoteHmiService.getMediaHandler().abort();
     }
 
     protected void playMediaFile(String string, String string2) {
-        this.logChannel.log(-2137614336, "AbstractHMIViewListener#playMediaFile file '%1'", (Object)string);
+        this.logChannel.log(10000000, "AbstractHMIViewListener#playMediaFile file '%1'", (Object)string);
         this.remoteHmiService.getMediaHandler().abort();
         try {
             this.remoteHmiService.getMediaHandler().play(string, string2, this);
         }
         catch (Exception exception) {
-            this.logChannel.log(-2137614336, "AbstractHMIViewListener#playMediaFile Exception (%1)", (Throwable)exception);
+            this.logChannel.log(10000000, "AbstractHMIViewListener#playMediaFile Exception (%1)", (Throwable)exception);
         }
     }
 
     public void activateBluetoothAudio() {
-        this.logChannel.log(-2137614336, "AbstractHMIViewListener#activateBluetoothAudio");
+        this.logChannel.log(10000000, "AbstractHMIViewListener#activateBluetoothAudio");
         this.remoteHmiService.getMediaHandler().activateBluetooth();
     }
 
@@ -333,7 +350,7 @@ NaviOnlineService$RRDListener {
     }
 
     protected void configureSoftkeyModels(int[] nArray) {
-        this.softkeyButtonListener = new AbstractHMIViewListener$SoftkeyButtonListener(this, nArray);
+        this.softkeyButtonListener = new SoftkeyButtonListener(this, nArray);
         this.skButtonModels = new ButtonModelApp[4];
         for (int i2 = 0; i2 < nArray.length; ++i2) {
             ButtonModelApp buttonModelApp;
@@ -351,19 +368,15 @@ NaviOnlineService$RRDListener {
         this.invokeAction(n, n2, this.getSelectedId(n2), string);
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyLongTyped(int n, int n2, int n3) {
     }
 
@@ -426,7 +439,7 @@ NaviOnlineService$RRDListener {
     }
 
     protected void invokeAction(int n, int n2, String string, String string2) {
-        this.logChannel.log(1078071040, "AbstractHMIViewListener#invokeAction: create action with actionType=%1, selectedNr=%2, selectedId=%3, actionId=%2", (Object)new Integer(n), (Object)new Integer(n2), (Object)string, (Object)string2);
+        this.logChannel.log(1000000, "AbstractHMIViewListener#invokeAction: create action with actionType=%1, selectedNr=%2, selectedId=%3, actionId=%2", (Object)new Integer(n), (Object)new Integer(n2), (Object)string, (Object)string2);
         RemoteHMIAction remoteHMIAction = this.createAction(n, n2, string, string2);
         this.invokeAction(remoteHMIAction);
     }
@@ -444,15 +457,15 @@ NaviOnlineService$RRDListener {
     }
 
     protected void checkNaviOperable(NaviOnlineService naviOnlineService) {
-        ChoiceModelApp choiceModelApp = this.modelBank.getChoiceModel(303768320);
+        ChoiceModelApp choiceModelApp = this.modelBank.getChoiceModel(2300690);
         if (naviOnlineService == null || !naviOnlineService.getIsNaviFullyOperable()) {
-            this.logChannel.log(1078071040, "AbstractHMIViewListener#checkNaviOperable: navigation NOT fully operable, show ERROR screen");
+            this.logChannel.log(1000000, "AbstractHMIViewListener#checkNaviOperable: navigation NOT fully operable, show ERROR screen");
             choiceModelApp.setValue(0);
         } else {
-            this.logChannel.log(1078071040, "AbstractHMIViewListener#checkNaviOperable: navigation fully operable");
+            this.logChannel.log(1000000, "AbstractHMIViewListener#checkNaviOperable: navigation fully operable");
             choiceModelApp.setValue(1);
         }
-        ButtonModelApp buttonModelApp = this.modelBank.getButtonModel(320545536);
+        ButtonModelApp buttonModelApp = this.modelBank.getButtonModel(2300691);
         buttonModelApp.setButtonListener(this);
     }
 
@@ -472,7 +485,7 @@ NaviOnlineService$RRDListener {
             this.logChannel.log(1000, "AbstractHMIViewListener#setNewCursor: RemoteHMIContext is null! Cursor position cannot be changed!");
             return;
         }
-        this.logChannel.log(-2137614336, "AbstractHMIViewListener#setNewCursor: cursor=%1 context = %2", (Object)iCursor, (Object)remoteHMIContext);
+        this.logChannel.log(10000000, "AbstractHMIViewListener#setNewCursor: cursor=%1 context = %2", (Object)iCursor, (Object)remoteHMIContext);
         remoteHMIContext.setNewCursor(iCursor);
     }
 
@@ -536,12 +549,11 @@ NaviOnlineService$RRDListener {
     }
 
     protected void setNowPlayingScreenMode(int n) {
-        this.hmiService.getChoiceModel(-2011421952).setValue(n);
+        this.hmiService.getChoiceModel(2301064).setValue(n);
     }
 
-    @Override
     public void updateRrdItems(List list) {
-        this.logChannel.log(1078071040, "AbstractHMIViewListener#updateRrdItems: received list %1", (long)((Object)list).hashCode());
+        this.logChannel.log(1000000, "AbstractHMIViewListener#updateRrdItems: received list %1", (long)((Object)list).hashCode());
         this.remoteHmiService.execute(new UpdateRrdTask(list, false, this));
     }
 
@@ -549,30 +561,30 @@ NaviOnlineService$RRDListener {
         ICursor iCursor;
         ICursor iCursor2 = iGridList.getInitialCursor();
         int n = remoteHMIContext.getLastActionType();
-        boolean bl2 = n == 104 || n == 400 || n == -2104059904;
+        boolean bl2 = n == 104 || n == 400 || n == 10000002;
         boolean bl3 = remoteHMIContext.hasCursor() && (!bl || bl2);
         boolean bl4 = iCursor2.isForceUpdate() || contextManagerComponent.isTransitionToInclude();
         String string = remoteHMIContext.getContextName();
         if (bl3 && !bl4) {
             iCursor = remoteHMIContext.getOldCursor();
-            this.logChannel.log(1078071040, "AbstractHMIViewListener#correctListState: (%1) restoring old cursor %2, (actionType %3, %4)", (Object)string, (Object)iCursor, (Object)new Integer(n), (Object)(bl ? "initial list " : "not initial list"));
+            this.logChannel.log(1000000, "AbstractHMIViewListener#correctListState: (%1) restoring old cursor %2, (actionType %3, %4)", (Object)string, (Object)iCursor, (Object)new Integer(n), (Object)(bl ? "initial list " : "not initial list"));
             if (remoteHMIContext.hasPageHistory() && iGridList.isRestoreHistoryDataActive()) {
                 iGridList = this.restorePageHistory(iGridList);
             }
         } else {
             if (bl3 && bl4) {
-                this.logChannel.log(1078071040, "AbstractHMIViewListener#correctListState: (%1) veto: %2, %3", (Object)string, (Object)(iCursor2.isForceUpdate() ? "initial cursor force update" : "-"), (Object)(contextManagerComponent.isTransitionToInclude() ? "transition to include" : "-"));
+                this.logChannel.log(1000000, "AbstractHMIViewListener#correctListState: (%1) veto: %2, %3", (Object)string, (Object)(iCursor2.isForceUpdate() ? "initial cursor force update" : "-"), (Object)(contextManagerComponent.isTransitionToInclude() ? "transition to include" : "-"));
             }
             if (iGridList.isRestoreHistoryDataActive()) {
                 remoteHMIContext.setPageHistory(this.getNewPageHistory(iGridList));
             }
             iCursor = iGridList.getInitialCursor();
-            this.logChannel.log(1078071040, "AbstractHMIViewListener#correctListState: (%1) restoring initial cursor %2 (actionType %3, %4)", (Object)string, (Object)iCursor, (Object)Util.createInteger(n), (Object)(bl4 ? "veto" : "no veto"));
+            this.logChannel.log(1000000, "AbstractHMIViewListener#correctListState: (%1) restoring initial cursor %2 (actionType %3, %4)", (Object)string, (Object)iCursor, (Object)Util.createInteger(n), (Object)(bl4 ? "veto" : "no veto"));
         }
         ICursorComponent iCursorComponent = iGridList.getCorrectedFocus(iCursor.getFocus());
         ICursorComponent iCursorComponent2 = iGridList.getCorrectedSelection(iCursor.getSelection());
         ICursor iCursor3 = iGridFactory.createCursor(iCursorComponent, iCursorComponent2);
-        this.logChannel.log(-2137614336, "AbstractHMIViewListener#correctListState: (%1) correcting cursor to %2", (Object)string, (Object)iCursor);
+        this.logChannel.log(10000000, "AbstractHMIViewListener#correctListState: (%1) correcting cursor to %2", (Object)string, (Object)iCursor);
         return iCursor3;
     }
 
@@ -582,7 +594,7 @@ NaviOnlineService$RRDListener {
             this.logChannel.log(10000, "AbstractHMIViewListener#getNewPageHistory: The given grid list should not be NULL");
             return pageHistory;
         }
-        this.logChannel.log(1078071040, "AbstractHMIViewListener#getNewPageHistory: creating new PageHistory!");
+        this.logChannel.log(1000000, "AbstractHMIViewListener#getNewPageHistory: creating new PageHistory!");
         ListIterator listIterator = iGridList.listIterator();
         while (listIterator.hasNext()) {
             IGrid iGrid = (IGrid)listIterator.next();
@@ -607,7 +619,7 @@ NaviOnlineService$RRDListener {
             this.logChannel.log(10000, "AbstractHMIViewListener#updatePageHistory: RemoteHMIContext is null! Cursor position cannot be determined!");
             return;
         }
-        this.logChannel.log(1078071040, "AbstractHMIViewListener#updatePageHistory: Updating expansion state!");
+        this.logChannel.log(1000000, "AbstractHMIViewListener#updatePageHistory: Updating expansion state!");
         IPageHistory iPageHistory = remoteHMIContext.getPageHistory();
         iPageHistory.setExpansionState(string, n, bl);
         remoteHMIContext.setPageHistory(iPageHistory);
@@ -615,13 +627,55 @@ NaviOnlineService$RRDListener {
 
     protected IGridList restorePageHistory(IGridList iGridList) {
         IPageHistory iPageHistory = this.getOldPageHistory();
-        this.logChannel.log(1078071040, "AbstractHMIViewListener#restorePageHistory: restoring PageHistory!");
+        this.logChannel.log(1000000, "AbstractHMIViewListener#restorePageHistory: restoring PageHistory!");
         iPageHistory.restoreToGrid(iGridList);
         return iGridList;
     }
 
     public void updateLockingState(boolean bl) {
-        this.logChannel.log(1078071040, "AbstractHMIViewListener#updateLockingState: not implemented. locking: %1", bl);
+        this.logChannel.log(1000000, "AbstractHMIViewListener#updateLockingState: not implemented. locking: %1", bl);
+    }
+
+    private static class SoftkeyButtonListener
+    implements ButtonListener {
+        private final AbstractHMIViewListener hmiView;
+        private final int[] modelIDs;
+        private final int[] actionTypes = new int[]{103, 100, 101, 102};
+
+        public SoftkeyButtonListener(AbstractHMIViewListener abstractHMIViewListener, int[] nArray) {
+            this.hmiView = abstractHMIViewListener;
+            this.modelIDs = nArray;
+        }
+
+        public void keyPressed(int n, int n2, int n3) {
+            for (int i2 = 0; i2 < this.modelIDs.length; ++i2) {
+                if (n != this.modelIDs[i2]) continue;
+                String string = this.getSelectedSkID(i2);
+                this.hmiView.invokeSoftkeyAction(this.actionTypes[i2], string);
+                break;
+            }
+        }
+
+        public String getSelectedSkID(int n) {
+            String string = "";
+            String[] stringArray = this.hmiView.getSkIDs();
+            if (stringArray != null && n >= 0 && n <= stringArray.length) {
+                string = stringArray[n];
+            }
+            if (string == null) {
+                string = "";
+            }
+            return string;
+        }
+
+        public void keyReleased(int n, int n2, int n3) {
+        }
+
+        public void keyTyped(int n, int n2, int n3) {
+        }
+
+        public void keyLongTyped(int n, int n2, int n3) {
+        }
     }
 }
 

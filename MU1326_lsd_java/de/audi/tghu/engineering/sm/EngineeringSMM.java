@@ -18,19 +18,19 @@ import java.util.NoSuchElementException;
 
 public class EngineeringSMM
 extends AbstractAppSMM {
-    public static final int MODULE_ID;
-    public static final String SMM_NAME;
+    public static final int MODULE_ID = 13;
+    public static final String SMM_NAME = "EngineeringSMM";
     private EngineeringSMMInitStates smmInitStates;
     private EngineeringSMMInitTransitions smmInitTransitions;
     private EngineeringSMMInitMediators smmInitMediators;
     private EngineeringSMMActions smmActions;
 
     public EngineeringSMM(IFrameworkAccess iFrameworkAccess, int n, String string) {
-        super(iFrameworkAccess, n, string, 0, 13, "EngineeringSMM");
+        super(iFrameworkAccess, n, string, 0, 13, SMM_NAME);
     }
 
     public EngineeringSMM(IFrameworkAccess iFrameworkAccess, int n, String string, int n2) {
-        super(iFrameworkAccess, n, string, n2, 13, "EngineeringSMM");
+        super(iFrameworkAccess, n, string, n2, 13, SMM_NAME);
     }
 
     private void initSubclasses() {
@@ -40,18 +40,17 @@ extends AbstractAppSMM {
         this.smmActions = new EngineeringSMMActions(this, this.logChannel);
     }
 
-    @Override
     protected void init() {
         this.initSubclasses();
-        this.topLevelStateID = 567677696;
+        this.topLevelStateID = 1300001;
         this.popupIDList = EMPTY_INT_LIST;
         this.popupPriorityList = EMPTY_INT_LIST;
         this.popupTopLevelStateIDList = EMPTY_INT_LIST;
         this.popupZPMPriorityList = EMPTY_INT_LIST;
         this.popupZPMSlotList = EMPTY_INT_LIST;
-        this.extStateIDList = new int[]{567677696};
+        this.extStateIDList = new int[]{1300001};
         this.extStateLabelList = new String[]{"engineeringDesktop"};
-        this.incSlotList = new int[]{634786560};
+        this.incSlotList = new int[]{1300005};
         this.incSlotStateIDList = new int[]{-3};
         this.smmInitStates.initStates();
         this.smmInitMediators.initMediators();
@@ -59,7 +58,6 @@ extends AbstractAppSMM {
         this.reqExtStateLabelList = new String[]{null, null, null, "swdl"};
     }
 
-    @Override
     public boolean checkGuard(int n, int n2) {
         try {
             switch (n) {
@@ -67,7 +65,7 @@ extends AbstractAppSMM {
                     switch (n2) {
                         case 0: {
                             this.logCheckGuard("BufferedListModel (MODELID#1300016) Length == 0");
-                            return ((BufferedListModel)this.getModel(819335936)).getLength() == 0;
+                            return ((BufferedListModel)this.getModel(1300016)).getLength() == 0;
                         }
                         case 1: {
                             this.logCheckGuardDefault();
@@ -93,53 +91,44 @@ extends AbstractAppSMM {
     }
 
     private void logCheckGuardDefault() {
-        this.smLogChannel.log(-2137614336, "[EngineeringSMM.java#checkGuard] else-case, always true");
+        this.smLogChannel.log(10000000, "[EngineeringSMM.java#checkGuard] else-case, always true");
     }
 
     private void logCheckGuard(String string) {
-        this.smLogChannel.log(-2137614336, "[EngineeringSMM.java#checkGuard] checking: '%1'", (Object)string);
+        this.smLogChannel.log(10000000, "[EngineeringSMM.java#checkGuard] checking: '%1'", (Object)string);
     }
 
-    @Override
     public void execSDForState(TTSASR tTSASR, ITTSASRContext iTTSASRContext, int n) {
     }
 
-    @Override
     public void execFocusGainedAction(SMServices sMServices, int n) {
         this.smmActions.execFocusGainedAction(sMServices, n);
     }
 
-    @Override
     public void execFocusLostAction(SMServices sMServices, int n) {
         this.smmActions.execFocusLostAction(sMServices, n);
     }
 
-    @Override
     public void execExitAction(SMServices sMServices, int n) {
         this.smmActions.execExitAction(sMServices, n);
     }
 
-    @Override
     public void execEnteredAction(SMServices sMServices, int n) {
         this.smmActions.execEnteredAction(sMServices, n);
     }
 
-    @Override
     public void execEnterAction(SMServices sMServices, int n) {
         this.smmActions.execEnterAction(sMServices, n);
     }
 
-    @Override
     public void execTransitionAction(SMServices sMServices, int n, int n2) {
         this.smmActions.execTransitionAction(sMServices, n, n2);
     }
 
-    @Override
     public ActionProxy addActionProxy(int n, ActionProxy actionProxy) {
         return this.smmActions.addActionProxy(n, actionProxy);
     }
 
-    @Override
     public void removeActionProxy(int n, ActionProxy actionProxy) {
         this.smmActions.removeActionProxy(n, actionProxy);
     }

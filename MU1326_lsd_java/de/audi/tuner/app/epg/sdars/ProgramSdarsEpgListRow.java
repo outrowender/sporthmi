@@ -12,12 +12,12 @@ import org.dsi.ifc.sdars.EPGProgramInfo;
 
 public class ProgramSdarsEpgListRow
 extends AbstractProgramSdarsEpgListRow {
-    private static final int INDEX_CHANNEL_NUMBER;
-    private static final int INDEX_CHANNEL_NAME;
-    private static final int INDEX_PROGRAM_START;
-    private static final int INDEX_PROGRAM_END;
-    private static final int INDEX_PROGRAM_NAME;
-    public static final int PROGRAM_COL_COUNT;
+    private static final int INDEX_CHANNEL_NUMBER = 1;
+    private static final int INDEX_CHANNEL_NAME = 2;
+    private static final int INDEX_PROGRAM_START = 3;
+    private static final int INDEX_PROGRAM_END = 4;
+    private static final int INDEX_PROGRAM_NAME = 5;
+    public static final int PROGRAM_COL_COUNT = 6;
 
     public ProgramSdarsEpgListRow(StationInfoExt stationInfoExt, EPGProgramInfo ePGProgramInfo, int n, long l) {
         super(1, 6, stationInfoExt, ePGProgramInfo, n, l);
@@ -31,30 +31,25 @@ extends AbstractProgramSdarsEpgListRow {
         super(programSdarsEpgListRow);
     }
 
-    @Override
     public EvoListRow copy() {
         return new ProgramSdarsEpgListRow(this);
     }
 
-    @Override
     public boolean representsStation() {
         return false;
     }
 
-    @Override
     public boolean representsProgram() {
         return true;
     }
 
-    @Override
     public String getFormatedPerid() {
         return new Buffer(20).append(this.getText(3)).append(" - ").append(this.getText(4)).toString();
     }
 
-    @Override
     public void updateTimesWithTimezoneOffset(long l) {
-        long l2 = (long)this.programInfo.startTime * 0 + l;
-        long l3 = (long)this.programInfo.endTime * 0 + l;
+        long l2 = (long)this.programInfo.startTime * 1000L + l;
+        long l3 = (long)this.programInfo.endTime * 1000L + l;
         this.setText(3, Utilities.getFormatedTime(l2));
         this.setText(4, Utilities.getFormatedTime(l3));
     }
@@ -67,7 +62,6 @@ extends AbstractProgramSdarsEpgListRow {
         return Utilities.getFirstNotEmpty(ePGProgramInfo.longProgramName, ePGProgramInfo.shortProgramName);
     }
 
-    @Override
     public int getActionForSelection(int n) {
         return 2;
     }

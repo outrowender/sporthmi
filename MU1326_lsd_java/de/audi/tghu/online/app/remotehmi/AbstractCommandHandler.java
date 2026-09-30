@@ -4,7 +4,7 @@
 package de.audi.tghu.online.app.remotehmi;
 
 import de.audi.remotehmi.util.LogAppender;
-import de.audi.tghu.online.app.remotehmi.AbstractCommandHandler$1;
+import de.audi.tghu.online.app.remotehmi.AbstractRemoteHMITask;
 import de.audi.tghu.online.app.remotehmi.RemoteHMITask;
 import de.esolutions.fw.util.commons.Buffer;
 
@@ -19,8 +19,7 @@ public abstract class AbstractCommandHandler {
         return this.name;
     }
 
-    public abstract void indicateCommand(int n, Object object) {
-    }
+    public abstract void indicateCommand(int var1, Object var2);
 
     protected LogAppender getParamsForDebugging(Object object) {
         return null;
@@ -34,8 +33,13 @@ public abstract class AbstractCommandHandler {
         return buffer.toString();
     }
 
-    public RemoteHMITask createTask(int n, Object object) {
-        return new AbstractCommandHandler$1(this, this.getFullName(), this.getParamsForDebugging(object), n, object);
+    public RemoteHMITask createTask(final int n, final Object object) {
+        return new AbstractRemoteHMITask(this.getFullName(), this.getParamsForDebugging(object)){
+
+            public void run() {
+                AbstractCommandHandler.this.indicateCommand(n, object);
+            }
+        };
     }
 }
 

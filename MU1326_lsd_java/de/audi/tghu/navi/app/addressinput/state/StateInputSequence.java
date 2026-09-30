@@ -21,9 +21,9 @@ import de.audi.tghu.navi.app.addressinput.commands.ModelStartCommand;
 import de.audi.tghu.navi.app.addressinput.commands.ModelUpdateSpellerAndResultListCommand;
 import de.audi.tghu.navi.app.addressinput.commands.UpdateAddressInputFormScreenModelsCommand;
 import de.audi.tghu.navi.app.addressinput.country.SetBackupLocationForAddressInputFormCommand;
-import de.audi.tghu.navi.app.addressinput.state.StateInputSequence$1;
-import de.audi.tghu.navi.app.addressinput.state.StateInputSequence$2;
 import de.audi.tghu.navi.app.command.LISPCancelSpellerCommand;
+import de.audi.tghu.navi.app.command.LISetHistoryCommand;
+import de.audi.tghu.navi.app.command.NavCommand;
 import de.audi.tghu.navi.app.li.SpellerStack;
 import de.audi.tghu.navi.app.util.Util;
 import org.dsi.ifc.navigation.LIValueListElement;
@@ -40,19 +40,16 @@ implements IMatchspellerInputSequenceExt {
         this.addressInputForm = iAddressInputForm;
     }
 
-    @Override
     public void selectListElement(LIValueListElement lIValueListElement, boolean bl) {
         CommandList commandList = this.getSelectListElementCommandList(lIValueListElement, bl);
         commandList.execute("StateInputSequence#selectListElement");
     }
 
-    @Override
     public void selectElementByIdentifier(String string) {
         CommandList commandList = this.getSelectElementByIdentifierCommandList(string);
         commandList.execute("StateInputSequence#selectElementByIdentifier");
     }
 
-    @Override
     public CommandList getSelectListElementCommandList(LIValueListElement lIValueListElement, boolean bl) {
         CommandList commandList = this.commandListFactory.createCommandList();
         this.addGetStateCommand(commandList, bl, lIValueListElement);
@@ -62,7 +59,12 @@ implements IMatchspellerInputSequenceExt {
         commandList.add(new UpdateAddressInputFormScreenModelsCommand(this.modelAccess));
         commandList.add(new SetBackupLocationForAddressInputFormCommand(this.addressInputForm));
         if (!Util.isHURegionAsia()) {
-            commandList.add(new StateInputSequence$1(this, "get current LD and set history context"));
+            commandList.add(new NavCommand("get current LD and set history context"){
+
+                public void execute() {
+                    this.getCommandList().commandFinishedWithPostCommand(new LISetHistoryCommand(this.dsiResponseContainer.getLiCurrentLD()));
+                }
+            });
         }
         if (this.previewMap != null) {
             commandList.add(new CmdNaviPreviewMapUpdate(this.previewMap, 1, null, null));
@@ -70,7 +72,6 @@ implements IMatchspellerInputSequenceExt {
         return commandList;
     }
 
-    @Override
     public CommandList getSelectElementByIdentifierCommandList(String string) {
         CommandList commandList = this.commandListFactory.createCommandList();
         commandList.add(new LispSelectListItemByIdent(string));
@@ -78,7 +79,12 @@ implements IMatchspellerInputSequenceExt {
         commandList.add(new UpdateAddressInputFormScreenModelsCommand(this.modelAccess));
         commandList.add(new SetBackupLocationForAddressInputFormCommand(this.addressInputForm));
         if (!Util.isHURegionAsia()) {
-            commandList.add(new StateInputSequence$2(this, "get current LD and set history context"));
+            commandList.add(new NavCommand("get current LD and set history context"){
+
+                public void execute() {
+                    this.getCommandList().commandFinishedWithPostCommand(new LISetHistoryCommand(this.dsiResponseContainer.getLiCurrentLD()));
+                }
+            });
         }
         if (this.previewMap != null) {
             commandList.add(new CmdNaviPreviewMapUpdate(this.previewMap, 1, null, null));
@@ -86,7 +92,6 @@ implements IMatchspellerInputSequenceExt {
         return commandList;
     }
 
-    @Override
     public CommandList createStartCommandList(boolean bl) {
         CommandList commandList = this.commandListFactory.createCommandList();
         this.addGetStateCommand(commandList, bl, null);

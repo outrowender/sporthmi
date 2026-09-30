@@ -33,48 +33,38 @@ implements IDeviceInfoManager {
         this.accessType = n;
     }
 
-    @Override
     public boolean checkAccessType(int n) {
         return this.getAccessType() == n;
     }
 
-    @Override
     public boolean isStateView() {
         return 1 == this.getSwdlModels().getDeviceStatusEnteredChoice().getStatus();
     }
 
-    @Override
     public boolean isStandardSelection() {
         return false;
     }
 
-    @Override
     public void doGetDevices(int n, String string, boolean bl) {
         this.setAccessType(n);
         this.getDeviceInfoDSIHandler().doSetAccessType(n);
     }
 
-    @Override
     public void doGetModules(int n) {
     }
 
-    @Override
     public void updateInfoFilePath(String string, String string2) {
     }
 
-    @Override
     public void doSelectDevice(int n) {
     }
 
-    @Override
     public void doSelectModule(int n) {
     }
 
-    @Override
     public void doGetFileInfos() {
     }
 
-    @Override
     public void doGetFileInfoPath(int n) {
     }
 }

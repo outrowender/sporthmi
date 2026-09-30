@@ -3,7 +3,7 @@
  */
 package de.audi.tghu.navi.app.util.addressformatting;
 
-import de.audi.atip.interapp.NaviService$NaviDetails;
+import de.audi.atip.interapp.NaviService;
 import de.audi.atip.log.LogChannel;
 import de.audi.tghu.navi.app.NavigationEnv;
 import de.audi.tghu.navi.app.util.Util;
@@ -17,7 +17,7 @@ import org.dsi.ifc.search.SearchResult;
 public abstract class FormatAddress {
     protected final LogChannel logChannel;
     protected final NavigationEnv env;
-    protected final String CLASS_NAME = Util.getClassNameFromPackageName(super.getClass());
+    protected final String CLASS_NAME = Util.getClassNameFromPackageName(this.getClass());
     protected final FormattedHighlightedText commaSymbol = new FormattedHighlightedText(", ");
     protected final FormattedHighlightedText slashSymbol = new FormattedHighlightedText("/");
     protected final FormattedHighlightedText minusSymbol = new FormattedHighlightedText("-");
@@ -28,14 +28,11 @@ public abstract class FormatAddress {
         this.logChannel = navigationEnv.getLogChannel("App.Navi.Main");
     }
 
-    protected abstract LocationFormattingResponse asSingleLine(LocationFormattingRequest locationFormattingRequest) {
-    }
+    protected abstract LocationFormattingResponse asSingleLine(LocationFormattingRequest var1);
 
-    protected abstract LocationFormattingResponse asTwoLines(LocationFormattingRequest locationFormattingRequest) {
-    }
+    protected abstract LocationFormattingResponse asTwoLines(LocationFormattingRequest var1);
 
-    protected abstract LocationFormattingResponse asThreeLines(LocationFormattingRequest locationFormattingRequest) {
-    }
+    protected abstract LocationFormattingResponse asThreeLines(LocationFormattingRequest var1);
 
     public LocationFormattingResponse asTwoLines(NavLocation navLocation, NavigationEnv navigationEnv, boolean bl) {
         try {
@@ -81,13 +78,13 @@ public abstract class FormatAddress {
         }
     }
 
-    public LocationFormattingResponse asTwoLines(NaviService$NaviDetails naviService$NaviDetails, NavigationEnv navigationEnv) {
+    public LocationFormattingResponse asTwoLines(NaviService.NaviDetails naviDetails, NavigationEnv navigationEnv) {
         try {
-            return this.asTwoLines(new LocationFormattingRequest(naviService$NaviDetails));
+            return this.asTwoLines(new LocationFormattingRequest(naviDetails));
         }
         catch (Exception exception) {
             this.logChannel.log(10000, "FormatAddress#asTwoLines Exception: %1", (Throwable)exception);
-            this.logChannel.log(10000, "FormatAddress#asTwoLines NaviDetails: %1", (Object)naviService$NaviDetails);
+            this.logChannel.log(10000, "FormatAddress#asTwoLines NaviDetails: %1", (Object)naviDetails);
             return new LocationFormattingResponse();
         }
     }
@@ -125,13 +122,13 @@ public abstract class FormatAddress {
         }
     }
 
-    public LocationFormattingResponse asThreeLines(NaviService$NaviDetails naviService$NaviDetails, NavigationEnv navigationEnv) {
+    public LocationFormattingResponse asThreeLines(NaviService.NaviDetails naviDetails, NavigationEnv navigationEnv) {
         try {
-            return this.asThreeLines(new LocationFormattingRequest(naviService$NaviDetails));
+            return this.asThreeLines(new LocationFormattingRequest(naviDetails));
         }
         catch (Exception exception) {
             this.logChannel.log(10000, "FormatAddress#asThreeLines Exception: %1", (Throwable)exception);
-            this.logChannel.log(10000, "FormatAddress#asThreeLines NaviDetails: %1", (Object)naviService$NaviDetails);
+            this.logChannel.log(10000, "FormatAddress#asThreeLines NaviDetails: %1", (Object)naviDetails);
             return new LocationFormattingResponse();
         }
     }
@@ -169,13 +166,13 @@ public abstract class FormatAddress {
         }
     }
 
-    public LocationFormattingResponse asSingleLine(NaviService$NaviDetails naviService$NaviDetails, NavigationEnv navigationEnv) {
+    public LocationFormattingResponse asSingleLine(NaviService.NaviDetails naviDetails, NavigationEnv navigationEnv) {
         try {
-            return this.asSingleLine(new LocationFormattingRequest(naviService$NaviDetails));
+            return this.asSingleLine(new LocationFormattingRequest(naviDetails));
         }
         catch (Exception exception) {
             this.logChannel.log(10000, "FormatAddress#asSingleLine Exception: %1", (Throwable)exception);
-            this.logChannel.log(10000, "FormatAddress#asSingleLine NaviDetails: %1", (Object)naviService$NaviDetails);
+            this.logChannel.log(10000, "FormatAddress#asSingleLine NaviDetails: %1", (Object)naviDetails);
             return new LocationFormattingResponse();
         }
     }

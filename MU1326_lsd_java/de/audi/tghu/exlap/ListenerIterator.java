@@ -6,7 +6,6 @@ package de.audi.tghu.exlap;
 import de.audi.tghu.exlap.ExlapListener;
 
 public interface ListenerIterator {
-    default public void processListener(ExlapListener exlapListener) {
-    }
+    public void processListener(ExlapListener var1);
 }
 

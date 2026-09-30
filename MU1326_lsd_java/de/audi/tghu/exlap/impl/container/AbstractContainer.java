@@ -15,7 +15,6 @@ Cloneable {
         return stringWriter.toString();
     }
 
-    protected abstract Object clone() {
-    }
+    protected abstract Object clone();
 }
 

@@ -3,23 +3,21 @@
  */
 package de.audi.tuner.app.amfm;
 
+import de.audi.atip.hmi.model.DefaultButtonListener;
 import de.audi.atip.log.LogChannel;
+import de.audi.atip.timer.DefaultTimerListener;
 import de.audi.atip.timer.Timer;
 import de.audi.tuner.app.TunerBasics;
 import de.audi.tuner.app.TunerModels;
 import de.audi.tuner.app.Utilities;
 import de.audi.tuner.app.amfm.AMFMStation;
 import de.audi.tuner.app.amfm.HdStationInfoExt;
-import de.audi.tuner.app.amfm.HdTagging$ButtonListener;
-import de.audi.tuner.app.amfm.HdTagging$DSIDownListener;
-import de.audi.tuner.app.amfm.HdTagging$DsiUpListener;
-import de.audi.tuner.app.amfm.HdTagging$TaggingManagerListener;
-import de.audi.tuner.app.amfm.HdTagging$TimerListener;
 import de.audi.tuner.app.amfm.IDoTagging;
 import de.audi.tuner.app.amfm.dsi.AMFMDsiDownInfo;
 import de.audi.tuner.app.amfm.dsi.AMFMDsiUpInfo;
 import de.audi.tuner.ifc.ISimpleTuner;
 import de.audi.tuner.itunes.ITaggingManager;
+import de.audi.tuner.itunes.ITaggingManagerListener;
 import de.audi.tuner.itunes.TaggingData;
 import de.audi.tuner.itunes.TaggingPossibilityEnum;
 import org.dsi.ifc.global.DateTime;
@@ -28,11 +26,11 @@ import org.dsi.ifc.radio.HdStationInfo;
 
 public class HdTagging
 implements IDoTagging {
-    private static final long TEN_SECONDS;
-    final AMFMDsiUpInfo amfmDsiUpListener = new HdTagging$DsiUpListener(this, null);
-    final AMFMDsiDownInfo dsiDownListener = new HdTagging$DSIDownListener(this, null);
+    private static final long TEN_SECONDS = 10000L;
+    final AMFMDsiUpInfo amfmDsiUpListener = new DsiUpListener();
+    final AMFMDsiDownInfo dsiDownListener = new DSIDownListener();
     private final TunerModels models;
-    private final Timer tagTimer = new Timer("tagTimer", 0, true, new HdTagging$TimerListener(this, null));
+    private final Timer tagTimer = new Timer("tagTimer", 10000L, true, new TimerListener());
     private AMFMStation currentStation = new AMFMStation();
     private HdStationInfoExt actInfo = ISimpleTuner.EMPTY_HDSTATIONINFO;
     private HdStationInfoExt prevInfo = ISimpleTuner.EMPTY_HDSTATIONINFO;
@@ -44,13 +42,13 @@ implements IDoTagging {
     public HdTagging(TunerBasics tunerBasics) {
         this.models = tunerBasics.getModels();
         this.log = tunerBasics.getLogger().tagging;
-        this.models.getButtonModel(1569128704).setButtonListener(new HdTagging$ButtonListener(this, null));
-        this.models.getChoiceModel(1351090432).forceUpdate(true);
+        this.models.getButtonModel(100189).setButtonListener(new ButtonListener());
+        this.models.getChoiceModel(100432).forceUpdate(true);
     }
 
     public void register(ITaggingManager iTaggingManager) {
         this.taggingMgr = iTaggingManager;
-        this.taggingMgr.register(new HdTagging$TaggingManagerListener(this, null));
+        this.taggingMgr.register(new TaggingManagerListener());
     }
 
     private void update(AMFMStation aMFMStation) {
@@ -67,7 +65,7 @@ implements IDoTagging {
 
     private void storeSongInfo(HdStationInfoExt hdStationInfoExt) {
         if (this.actInfo.artistName.length() + this.actInfo.songTitle.length() == 0) {
-            if (System.currentTimeMillis() - this.actTime > 0) {
+            if (System.currentTimeMillis() - this.actTime > 10000L) {
                 this.prevInfo = this.actInfo;
             }
             this.actInfo = hdStationInfoExt;
@@ -93,7 +91,7 @@ implements IDoTagging {
 
     private void finishTagging() {
         if (this.actTime < this.buttonTime) {
-            if (this.buttonTime - this.actTime > 0) {
+            if (this.buttonTime - this.actTime > 10000L) {
                 this.addTag(this.actInfo, null, 0);
             } else {
                 this.addTag(this.prevInfo, this.actInfo, 2);
@@ -141,7 +139,6 @@ implements IDoTagging {
         return aMFMStation.frequency != this.currentStation.frequency || aMFMStation.serviceId != this.currentStation.serviceId;
     }
 
-    @Override
     public void doTagging(int n, int n2) {
         TaggingPossibilityEnum taggingPossibilityEnum = this.doTaggingAndReturnSuccess();
         if (taggingPossibilityEnum.informUser) {
@@ -162,8 +159,8 @@ implements IDoTagging {
             this.tagTimer.restart();
             n = this.taggingMgr.getExpectedTagResult();
         }
-        this.models.getLabelModel(76087552).setText(this.actInfo.songTitle);
-        this.models.getChoiceModel(1351090432).setValue(n);
+        this.models.getLabelModel(100612).setText(this.actInfo.songTitle);
+        this.models.getChoiceModel(100432).setValue(n);
         return taggingPossibilityEnum;
     }
 
@@ -175,31 +172,68 @@ implements IDoTagging {
             taggingPossibilityEnum = TaggingPossibilityEnum.forHd(this.actInfo, this.taggingMgr);
             n = this.actInfo.getTaggingStatus();
         }
-        this.models.getChoiceModel(42533120).setValue(taggingPossibilityEnum.possible ? 0 : 1);
+        this.models.getChoiceModel(100610).setValue(taggingPossibilityEnum.possible ? 0 : 1);
         int n2 = n == 2 || n == 4 ? 1 : 3;
-        this.models.getButtonModel(1569128704).setStatus(n2);
+        this.models.getButtonModel(100189).setStatus(n2);
         int n3 = this.models.getActiveTuner();
         boolean bl2 = bl = n3 == 4 || n3 == 1;
         if (!taggingPossibilityEnum.possible && bl) {
-            this.models.getChoiceModel(378077440).setValue(taggingPossibilityEnum.ordinal);
+            this.models.getChoiceModel(100630).setValue(taggingPossibilityEnum.ordinal);
         }
-        this.models.getChoiceModel(881459456).setValue(taggingPossibilityEnum.ordinal);
+        this.models.getChoiceModel(100916).setValue(taggingPossibilityEnum.ordinal);
     }
 
-    static /* synthetic */ TaggingPossibilityEnum access$500(HdTagging hdTagging) {
-        return hdTagging.doTaggingAndReturnSuccess();
+    private class DsiUpListener
+    extends AMFMDsiUpInfo {
+        private DsiUpListener() {
+        }
+
+        public void updateSelectedStation(AMFMStation aMFMStation) {
+            HdTagging.this.update(aMFMStation);
+        }
     }
 
-    static /* synthetic */ void access$600(HdTagging hdTagging) {
-        hdTagging.finishTagging();
+    private class TimerListener
+    extends DefaultTimerListener {
+        private TimerListener() {
+        }
+
+        public void fireTimer(Timer timer) {
+            HdTagging.this.finishTagging();
+        }
     }
 
-    static /* synthetic */ void access$700(HdTagging hdTagging, AMFMStation aMFMStation) {
-        hdTagging.update(aMFMStation);
+    private class ButtonListener
+    extends DefaultButtonListener {
+        private ButtonListener() {
+        }
+
+        public void keyTyped(int n, int n2, int n3) {
+            HdTagging.this.doTaggingAndReturnSuccess();
+        }
     }
 
-    static /* synthetic */ void access$800(HdTagging hdTagging) {
-        hdTagging.adjustTaggingDependetModels();
+    private class DSIDownListener
+    extends AMFMDsiDownInfo {
+        private DSIDownListener() {
+        }
+
+        public void preTuneAction(AMFMStation aMFMStation, boolean bl) {
+            HdTagging.this.update(aMFMStation);
+        }
+    }
+
+    private class TaggingManagerListener
+    implements ITaggingManagerListener {
+        private TaggingManagerListener() {
+        }
+
+        public void taggedContentChanged() {
+            HdTagging.this.adjustTaggingDependetModels();
+        }
+
+        public void updateTagResult(int n) {
+        }
     }
 }
 

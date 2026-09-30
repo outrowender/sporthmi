@@ -23,32 +23,26 @@ implements DSIDestinationImport {
         this.listener = dSIDestinationImportListener;
     }
 
-    @Override
     public void setNotification(int[] nArray, DSIListener dSIListener) {
     }
 
-    @Override
     public void setNotification(int n, DSIListener dSIListener) {
     }
 
-    @Override
     public void setNotification(DSIListener dSIListener) {
     }
 
-    @Override
     public void clearNotification(int[] nArray, DSIListener dSIListener) {
     }
 
-    @Override
     public void clearNotification(int n, DSIListener dSIListener) {
     }
 
-    @Override
     public void clearNotification(DSIListener dSIListener) {
     }
 
     private PortalADBEntry createEntry(String string, String string2, String string3, String string4) {
-        PortalLocation portalLocation = new PortalLocation(-556655608, -413027806, "unstructured");
+        PortalLocation portalLocation = new PortalLocation(136106718, 582115815, "unstructured");
         PortalPersonalData portalPersonalData = new PortalPersonalData(string3, "", string4, "", "", "");
         PortalPhoneData portalPhoneData = new PortalPhoneData("01601112222", 1L);
         PortalAddressData portalAddressData = new PortalAddressData(0L, "street", "locality", "country", "postOfficeBox", "region", "postalCode", "unstructured");
@@ -60,7 +54,7 @@ implements DSIDestinationImport {
     }
 
     private PortalADBEntry createEntry2(String string, String string2, String string3, String string4) {
-        PortalLocation portalLocation = new PortalLocation(-556655608, -413027806, "unstructured");
+        PortalLocation portalLocation = new PortalLocation(136106718, 582115815, "unstructured");
         PortalPersonalData portalPersonalData = new PortalPersonalData(string3, "", string4, "", "", "");
         PortalPhoneData portalPhoneData = new PortalPhoneData("01601112222", 1L);
         PortalAddressData portalAddressData = new PortalAddressData(0L, "street", "locality", "country", "postOfficeBox", "region", "postalCode", "unstructured");
@@ -78,13 +72,12 @@ implements DSIDestinationImport {
         return portalADBEntry;
     }
 
-    @Override
     public void downloadAddressList(int n, boolean bl) {
-        System.out.println(new StringBuffer().append("DSIDestinationImportSIM#downloadAddressList() [isImport=").append(bl).append("]").toString());
+        System.out.println("DSIDestinationImportSIM#downloadAddressList() [isImport=" + bl + "]");
         PortalADBEntry[] portalADBEntryArray = new PortalADBEntry[]{this.createEntry("Hans Maulwurf", "Mein bester Freund", "Maulwurf", "Hans"), this.createEntry2("Peter Pan", "Mein Traumprinz", "Pan", "Peter"), this.createEntry3("Andreas Udi", "Unser Kunde", "Udi", "Andreas")};
         int n2 = 3002;
         try {
-            Thread.sleep(0);
+            Thread.sleep(500L);
         }
         catch (InterruptedException interruptedException) {
             interruptedException.printStackTrace();
@@ -94,11 +87,9 @@ implements DSIDestinationImport {
         this.listener.downloadAddressListResult(portalADBEntryArray2, n3, 0);
     }
 
-    @Override
     public void stopAction() {
     }
 
-    @Override
     public void setADBImportStatus(long[] lArray, int n) {
     }
 }

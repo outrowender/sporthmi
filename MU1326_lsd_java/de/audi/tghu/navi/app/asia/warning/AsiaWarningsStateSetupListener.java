@@ -25,26 +25,26 @@ extends DefaultChoiceListener {
     }
 
     private void registerChoiceModelListener() {
-        this.env.getChoiceModel(1461782016).setChoiceListener(this);
-        this.env.getChoiceModel(1512113664).setChoiceListener(this);
-        this.env.getChoiceModel(1445004800).setChoiceListener(this);
-        this.env.getChoiceModel(1478559232).setChoiceListener(this);
-        this.env.getChoiceModel(1495336448).setChoiceListener(this);
+        this.env.getChoiceModel(401751).setChoiceListener(this);
+        this.env.getChoiceModel(401754).setChoiceListener(this);
+        this.env.getChoiceModel(401750).setChoiceListener(this);
+        this.env.getChoiceModel(401752).setChoiceListener(this);
+        this.env.getChoiceModel(401753).setChoiceListener(this);
     }
 
     public void initModels(AsiaWarningsStateManager asiaWarningsStateManager) {
-        this.env.getChoiceModel(1461782016).setValue(asiaWarningsStateManager.getLowFuelWarningState());
-        this.env.getChoiceModel(1512113664).setValue(asiaWarningsStateManager.getMergingTrafficState());
-        this.env.getChoiceModel(1445004800).setValue(asiaWarningsStateManager.getLaneWarningState());
-        this.env.getChoiceModel(1478559232).setValue(asiaWarningsStateManager.getRailwayCrossingWarningState());
-        this.env.getChoiceModel(1495336448).setValue(asiaWarningsStateManager.getSpeedCameraWarningState());
+        this.env.getChoiceModel(401751).setValue(asiaWarningsStateManager.getLowFuelWarningState());
+        this.env.getChoiceModel(401754).setValue(asiaWarningsStateManager.getMergingTrafficState());
+        this.env.getChoiceModel(401750).setValue(asiaWarningsStateManager.getLaneWarningState());
+        this.env.getChoiceModel(401752).setValue(asiaWarningsStateManager.getRailwayCrossingWarningState());
+        this.env.getChoiceModel(401753).setValue(asiaWarningsStateManager.getSpeedCameraWarningState());
     }
 
     public void makeInitialDSICalls(DSITrafficRegulation dSITrafficRegulation) {
-        this.setWarningStatus(1512113664, 1 == this.state.getMergingTrafficState(), dSITrafficRegulation);
-        this.setWarningStatus(1445004800, 1 == this.state.getLaneWarningState(), dSITrafficRegulation);
-        this.setWarningStatus(1478559232, 1 == this.state.getRailwayCrossingWarningState(), dSITrafficRegulation);
-        this.setWarningStatus(1495336448, 1 == this.state.getSpeedCameraWarningState(), dSITrafficRegulation);
+        this.setWarningStatus(401754, 1 == this.state.getMergingTrafficState(), dSITrafficRegulation);
+        this.setWarningStatus(401750, 1 == this.state.getLaneWarningState(), dSITrafficRegulation);
+        this.setWarningStatus(401752, 1 == this.state.getRailwayCrossingWarningState(), dSITrafficRegulation);
+        this.setWarningStatus(401753, 1 == this.state.getSpeedCameraWarningState(), dSITrafficRegulation);
     }
 
     protected static int getWarningType(int n) {
@@ -69,9 +69,9 @@ extends DefaultChoiceListener {
         if (null != dSITrafficRegulation) {
             int n2 = AsiaWarningsStateSetupListener.getWarningType(n);
             dSITrafficRegulation.setWarningStatus(n2, bl, true, 0);
-            this.env.getLogChannel().log(1078071040, "AsiaWarningsStateSetupListener#itemSelected#informTrafficRegulationDsi warningType=%2 warningOnOffState=%1", bl, (long)n2);
+            this.env.getLogChannel().log(1000000, "AsiaWarningsStateSetupListener#itemSelected#informTrafficRegulationDsi warningType=%2 warningOnOffState=%1", bl, (long)n2);
         } else {
-            this.env.getLogChannel().log(-1601830656, "AsiaWarningsStateSetupListener#itemSelected#informTrafficRegulationDsi null == getTrafficRegulationDsi()");
+            this.env.getLogChannel().log(100000, "AsiaWarningsStateSetupListener#itemSelected#informTrafficRegulationDsi null == getTrafficRegulationDsi()");
         }
     }
 
@@ -84,9 +84,8 @@ extends DefaultChoiceListener {
         return n2;
     }
 
-    @Override
     public void itemSelected(int n, int n2, int n3, int n4) {
-        this.env.getLogChannel().log(1078071040, "AsiaWarningsStateSetupListener#itemSelected model=%1 item=%2", (long)n, (long)n2);
+        this.env.getLogChannel().log(1000000, "AsiaWarningsStateSetupListener#itemSelected model=%1 item=%2", (long)n, (long)n2);
         switch (n) {
             case 401751: {
                 this.state.setLowFuelWarningState(this.toggleCheckbox(n));
@@ -113,7 +112,7 @@ extends DefaultChoiceListener {
     }
 
     public void resetSettings() {
-        this.env.getLogChannel().log(1078071040, "AsiaWarningsStateSetupListener#resetSettings()");
+        this.env.getLogChannel().log(1000000, "AsiaWarningsStateSetupListener#resetSettings()");
         this.state.restoreDefault();
         this.initModels(this.state);
         this.state.saveWarningStates();

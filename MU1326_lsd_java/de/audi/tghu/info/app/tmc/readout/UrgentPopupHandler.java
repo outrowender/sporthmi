@@ -29,8 +29,7 @@ public abstract class UrgentPopupHandler {
         this.msgFilter = new UrgentMessageFilter(logChannel);
     }
 
-    protected abstract boolean showNextPopup() {
-    }
+    protected abstract boolean showNextPopup();
 
     public void setHmiApplication(InfoHMIApplication infoHMIApplication) {
         this.hmiApp = infoHMIApplication;
@@ -47,14 +46,14 @@ public abstract class UrgentPopupHandler {
         boolean bl = false;
         UrgentPopupHandler urgentPopupHandler = this;
         synchronized (urgentPopupHandler) {
-            this.logger.log(-2137614336, "[UrgentPopupHandler#urgentPopupRemoved] Called. ");
+            this.logger.log(10000000, "[UrgentPopupHandler#urgentPopupRemoved] Called. ");
             bl = this.showNextPopup();
         }
         if (bl) {
-            this.logger.log(-2137614336, "[UrgentPopupHandler#urgentPopupRemoved] Call HMI application for showing popup.");
+            this.logger.log(10000000, "[UrgentPopupHandler#urgentPopupRemoved] Call HMI application for showing popup.");
             this.showPopup(bl);
         } else {
-            this.logger.log(-2137614336, "[UrgentPopupHandler#urgentPopupRemoved] Do not show popup.");
+            this.logger.log(10000000, "[UrgentPopupHandler#urgentPopupRemoved] Do not show popup.");
             this.env.getFramework().getPowerMgr().setExtendedPowerState(201, 0);
         }
     }
@@ -66,7 +65,7 @@ public abstract class UrgentPopupHandler {
         boolean bl = false;
         UrgentPopupHandler urgentPopupHandler = this;
         synchronized (urgentPopupHandler) {
-            this.logger.log(-2137614336, "[UrgentPopupHandler#updateTmcUrgentMessages] Called. ");
+            this.logger.log(10000000, "[UrgentPopupHandler#updateTmcUrgentMessages] Called. ");
             this.msgFilter.filterMessages(tmcMessageArray);
             this.msgs = this.msgFilter.getMessagesForShowing();
             this.env.getFramework().getPowerMgr().setExtendedPowerState(200, 0);
@@ -77,10 +76,10 @@ public abstract class UrgentPopupHandler {
 
     protected void showPopup(boolean bl) {
         if (bl) {
-            this.logger.log(-2137614336, "[UrgentPopupHandler#updateTmcUrgentMessages] Call HMI application for showing popup.");
+            this.logger.log(10000000, "[UrgentPopupHandler#updateTmcUrgentMessages] Call HMI application for showing popup.");
             this.hmiApp.showPopup();
         } else {
-            this.logger.log(-2137614336, "[UrgentPopupHandler#updateTmcUrgentMessages] Do not show popup.");
+            this.logger.log(10000000, "[UrgentPopupHandler#updateTmcUrgentMessages] Do not show popup.");
         }
     }
 

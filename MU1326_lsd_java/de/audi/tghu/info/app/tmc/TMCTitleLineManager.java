@@ -8,12 +8,12 @@ import de.audi.tghu.info.app.InfoEnv;
 import de.audi.tghu.info.app.tmc.TMCHelper;
 
 public class TMCTitleLineManager {
-    static final int NO_ICON;
-    static final int TMC;
-    static final int NO_TMC;
-    static final int TMC_PRO;
-    static final int ONLINE_TRAFFIC;
-    static final int TPEG;
+    static final int NO_ICON = 0;
+    static final int TMC = 1;
+    static final int NO_TMC = 2;
+    static final int TMC_PRO = 3;
+    static final int ONLINE_TRAFFIC = 4;
+    static final int TPEG = 5;
     private int activeTrafficSource;
     private LogChannel logCh;
     private final InfoEnv env;
@@ -32,12 +32,12 @@ public class TMCTitleLineManager {
     protected void setTitleLineIconId() {
         if (TMCHelper.isHURegionNAR()) {
             if (this.logCh.isDebug2()) {
-                this.logCh.log(14808325, "[TMCTitleLineManager#setTitleLineIconId] NAR variant.");
+                this.logCh.log(100000000, "[TMCTitleLineManager#setTitleLineIconId] NAR variant.");
             }
             this.setTitleLineIconIdForNAR();
         } else {
             if (this.logCh.isDebug2()) {
-                this.logCh.log(14808325, "[TMCTitleLineManager#setTitleLineIconId] European variant.");
+                this.logCh.log(100000000, "[TMCTitleLineManager#setTitleLineIconId] European variant.");
             }
             this.setTitleLineIconIdForEurope();
         }

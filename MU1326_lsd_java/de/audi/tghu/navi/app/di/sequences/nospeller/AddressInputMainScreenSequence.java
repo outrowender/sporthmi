@@ -15,11 +15,8 @@ import de.audi.tghu.navi.app.addressinput.commands.SetHistoryContextWithCurrentL
 import de.audi.tghu.navi.app.addressinput.commands.StoreCurrentLDCommand;
 import de.audi.tghu.navi.app.addressinput.commands.UpdateAddressInputFormScreenModelsCommand;
 import de.audi.tghu.navi.app.command.LIGetLocationDescriptionTransformCommand;
+import de.audi.tghu.navi.app.command.NavCommand;
 import de.audi.tghu.navi.app.di.IAddressInputManager;
-import de.audi.tghu.navi.app.di.sequences.nospeller.AddressInputMainScreenSequence$1;
-import de.audi.tghu.navi.app.di.sequences.nospeller.AddressInputMainScreenSequence$2;
-import de.audi.tghu.navi.app.di.sequences.nospeller.AddressInputMainScreenSequence$3;
-import de.audi.tghu.navi.app.di.sequences.nospeller.AddressInputMainScreenSequence$4;
 import de.audi.tghu.navi.app.di.sequences.nospeller.IAddressInputNoSpellerSequence;
 import de.audi.tghu.navi.app.li.SpellerStack;
 import de.audi.tghu.navi.app.routeguidance.IStartGuidanceToDestinationSequence;
@@ -31,7 +28,7 @@ import org.dsi.ifc.navigation.LIValueListElement;
 public class AddressInputMainScreenSequence
 implements IAddressInputNoSpellerSequence {
     private boolean firstTimeEntered = false;
-    protected final String CLASS_NAME = Util.getClassNameFromPackageName(super.getClass());
+    protected final String CLASS_NAME = Util.getClassNameFromPackageName(this.getClass());
     protected final NavigationEnv env;
     protected final IStartGuidanceToDestinationSequence routeGuidanceSequence;
     protected final SpellerStack spellerStack;
@@ -60,7 +57,6 @@ implements IAddressInputNoSpellerSequence {
         return this.modelAccessToUse;
     }
 
-    @Override
     public CommandList getStartCommandList() {
         return this.getStartCommandList(null);
     }
@@ -73,15 +69,20 @@ implements IAddressInputNoSpellerSequence {
         this.setModelAccess(bl);
         CommandList commandList = this.commandListFactory.createCommandList();
         commandList.add(new StoreCurrentLDCommand());
-        this.logChannel.log(-2137614336, "%2#getStartCommandList() - NavLocation is = %1", (Object)LocationFormatter.formatLocationShort(navLocation), (Object)this.CLASS_NAME);
+        this.logChannel.log(10000000, "%2#getStartCommandList() - NavLocation is = %1", (Object)LocationFormatter.formatLocationShort(navLocation), (Object)this.CLASS_NAME);
         if (navLocation != null) {
             commandList.add(new LISetCurrentLDCommand(navLocation));
         } else {
             NavLocation navLocation2 = this.inputManager.getInitialLocation();
-            this.logChannel.log(-2137614336, "%2#getStartCommandList() - NavLocation is null or empty. Using initial Location is = %1", (Object)LocationFormatter.formatLocationShort(navLocation2), (Object)this.CLASS_NAME);
+            this.logChannel.log(10000000, "%2#getStartCommandList() - NavLocation is null or empty. Using initial Location is = %1", (Object)LocationFormatter.formatLocationShort(navLocation2), (Object)this.CLASS_NAME);
             if (Util.isEmpty(navLocation2.country) && Util.isEmpty(navLocation2.countryAbbreviation)) {
                 commandList.add(new LIGetLocationDescriptionTransformCommand(navLocation2));
-                commandList.add(new AddressInputMainScreenSequence$1(this, "Enqueue liSetCurrentLd with transformed location"));
+                commandList.add(new NavCommand("Enqueue liSetCurrentLd with transformed location"){
+
+                    public void execute() {
+                        this.getCommandList().commandFinishedWithPostCommand(new LISetCurrentLDCommand(this.dsiResponseContainer.getTransformedLocation()));
+                    }
+                });
             } else {
                 commandList.add(new LISetCurrentLDCommand(navLocation2));
             }
@@ -89,15 +90,35 @@ implements IAddressInputNoSpellerSequence {
         if (!Util.isHURegionAsia()) {
             commandList.add(new SetHistoryContextWithCurrentLDCommand());
         }
-        commandList.add(new AddressInputMainScreenSequence$2(this));
+        commandList.add(new NavCommand(){
+
+            public void execute() {
+                AddressInputMainScreenSequence.this.inputManager.setBackupLocation(this.dsiResponseContainer.getLiCurrentLD());
+                AddressInputMainScreenSequence.this.modelAccessToUse.onStart(this.dsiResponseContainer.getLiCurrentLD());
+                this.getCommandList().commandFinished();
+            }
+        });
         commandList.add(new UpdateAddressInputFormScreenModelsCommand(this.modelAccessToUse));
-        commandList.add(new AddressInputMainScreenSequence$3(this, "Set flag that NDF was entered for the first time"));
+        commandList.add(new NavCommand("Set flag that NDF was entered for the first time"){
+
+            public void execute() {
+                AddressInputMainScreenSequence.this.firstTimeEntered = true;
+                this.getCommandList().commandFinished();
+            }
+        });
         return commandList;
     }
 
     public CommandList getStartRouteGuidanceCommandList() {
         CommandList commandList = this.commandListFactory.createCommandList();
-        commandList.add(new AddressInputMainScreenSequence$4(this, new StringBuffer().append(this.CLASS_NAME).append(" - Start route guidance").toString()));
+        commandList.add(new NavCommand(new StringBuffer().append(this.CLASS_NAME).append(" - Start route guidance").toString()){
+
+            public void execute() {
+                NavLocation navLocation = this.dsiResponseContainer.getLiCurrentLD();
+                AddressInputMainScreenSequence.this.routeGuidanceSequence.start(navLocation);
+                this.getCommandList().commandFinished();
+            }
+        });
         return commandList;
     }
 
@@ -189,7 +210,7 @@ implements IAddressInputNoSpellerSequence {
     }
 
     protected void setModelAccess(boolean bl) {
-        this.logChannel.log(-2137614336, "%1#setModelAccess - useOnlineModelAccess=%2", (Object)this.CLASS_NAME, (Object)bl);
+        this.logChannel.log(10000000, "%1#setModelAccess - useOnlineModelAccess=%2", (Object)this.CLASS_NAME, (Object)bl);
         if (bl) {
             if (this.onlineModelAccess == null) {
                 this.logChannel.log(10000, "%1#setModelAccess - onlineModelAccess is NULL", (Object)this.CLASS_NAME);
@@ -209,19 +230,12 @@ implements IAddressInputNoSpellerSequence {
         return false;
     }
 
-    @Override
     public CommandList getSelectListElementCommandList(LIValueListElement lIValueListElement) {
         return this.commandListFactory.createCommandList();
     }
 
-    @Override
     public CommandList getSelectElementByIdentifierCommandList(String string) {
         return this.commandListFactory.createCommandList();
-    }
-
-    static /* synthetic */ boolean access$002(AddressInputMainScreenSequence addressInputMainScreenSequence, boolean bl) {
-        addressInputMainScreenSequence.firstTimeEntered = bl;
-        return addressInputMainScreenSequence.firstTimeEntered;
     }
 }
 

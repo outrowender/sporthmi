@@ -7,7 +7,7 @@ import de.eso.vcalendar.b.j;
 
 public class i
 extends j {
-    public static final String a;
-    public static final String b;
+    public static final String a = "DAYLIGHT";
+    public static final String b = "END:DAYLIGHT";
 }
 

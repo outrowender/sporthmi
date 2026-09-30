@@ -19,7 +19,6 @@ implements IMyLocationAccessorFactory {
         this.factory = iLocationAccessorFactory;
     }
 
-    @Override
     public IMyLocationAccessor cloneLocationAccessor(IMyLocationAccessor iMyLocationAccessor) {
         if (iMyLocationAccessor instanceof PCLocationAccessor) {
             if (this.factory == null) {
@@ -31,17 +30,14 @@ implements IMyLocationAccessorFactory {
         return null;
     }
 
-    @Override
     public IMyLocationAccessor createLocationAccessorFromGeoPos(int n, int n2) {
         return this.factory != null ? new PCLocationAccessorWrapper(this.factory.createLocationAccessorFromGeoPos(n, n2)) : new PCLocationAccessor(n, n2);
     }
 
-    @Override
     public IMyLocationAccessor fromLocation(NavLocation navLocation) {
         return this.factory != null ? new PCLocationAccessorWrapper(this.factory.fromLocation(navLocation)) : new PCLocationAccessor(navLocation);
     }
 
-    @Override
     public NavLocation toLocation(IMyLocationAccessor iMyLocationAccessor) {
         if (iMyLocationAccessor instanceof PCLocationAccessor) {
             return ((PCLocationAccessor)iMyLocationAccessor).trans;
@@ -52,7 +48,6 @@ implements IMyLocationAccessorFactory {
         return null;
     }
 
-    @Override
     public IMyLocationAccessor fromTraceId(NavSegmentID navSegmentID) {
         return this.factory != null ? new PCLocationAccessorWrapper(this.factory.fromTraceId(navSegmentID)) : new PCLocationAccessor(navSegmentID);
     }

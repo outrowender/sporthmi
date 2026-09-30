@@ -14,7 +14,6 @@ extends NavCommand {
         this.modelAccess = iPoiSpellerModelAccess;
     }
 
-    @Override
     public void execute() {
         String string = this.dsiResponseContainer.getLispValidCharacters();
         String string2 = this.dsiResponseContainer.getLispCurrentInput();

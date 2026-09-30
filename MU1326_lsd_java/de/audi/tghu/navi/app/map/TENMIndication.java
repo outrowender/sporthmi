@@ -4,10 +4,10 @@
 package de.audi.tghu.navi.app.map;
 
 import de.audi.atip.log.LogChannel;
+import de.audi.atip.timer.DefaultTimerListener;
 import de.audi.atip.timer.Timer;
 import de.audi.tghu.navi.app.NavigationEnv;
 import de.audi.tghu.navi.app.map.ITENMIndication;
-import de.audi.tghu.navi.app.map.TENMIndication$1;
 import de.audi.tghu.navi.app.map.context.TrafficEventMsgExtractor;
 import de.audi.tghu.navi.app.map.instances.MapMain;
 import de.audi.tghu.navi.app.util.Util;
@@ -20,23 +20,26 @@ implements ITENMIndication {
     private final MapMain mapMain;
     private final LogChannel mLogChannel;
     private final Timer trafficEventNoticePopupRemovalTimer;
-    private static final int TIME_DELAY;
+    private static final int TIME_DELAY = 10000;
 
     public TENMIndication(NavigationEnv navigationEnv, MapMain mapMain) {
         this.env = navigationEnv;
         this.mapMain = mapMain;
         this.mLogChannel = navigationEnv.getMapMainLogChannel();
-        this.trafficEventNoticePopupRemovalTimer = new Timer("TENMIndication.contextSwitchDelayTimer", 0, true, new TENMIndication$1(this));
+        this.trafficEventNoticePopupRemovalTimer = new Timer("TENMIndication.contextSwitchDelayTimer", 10000L, true, new DefaultTimerListener(){
+
+            public synchronized void fireTimer(Timer timer) {
+                TENMIndication.this.hideTrafficEventNoticePopup();
+            }
+        });
     }
 
-    @Override
     public void cleanup() {
         this.trafficEventNoticePopupRemovalTimer.cancel();
     }
 
-    @Override
     public void indicateTrafficEventNoticeMap(TmcMessage tmcMessage, NavRectangle navRectangle, int n) {
-        this.mLogChannel.log(-2137614336, "TENMIndication#indicateTrafficEventNoticeMap( =%1 ) and soundID is( =%2 )", (Object)(tmcMessage == null ? "message is null" : "message is not null"), (long)n);
+        this.mLogChannel.log(10000000, "TENMIndication#indicateTrafficEventNoticeMap( =%1 ) and soundID is( =%2 )", (Object)(tmcMessage == null ? "message is null" : "message is not null"), (long)n);
         boolean bl = this.checkSetupEnablement();
         boolean bl2 = this.mapMain.getMapManager().getCruiseModeHandler().isInCruiseMode();
         int n2 = this.env.getFramework().getHmiServiceApp().getCurrentPopup();
@@ -47,14 +50,14 @@ implements ITENMIndication {
                     this.mLogChannel.log(10000, "TENMIndication#indicateTrafficEventNoticeMap() - data not valid - return! message: %1", (Object)tmcMessage);
                     return;
                 }
-                this.mLogChannel.log(-2137614336, "TENMIndication#indicateTrafficEventNoticeMap() - Indicate TENM for reduced mode");
+                this.mLogChannel.log(10000000, "TENMIndication#indicateTrafficEventNoticeMap() - Indicate TENM for reduced mode");
                 this.notifyTENMInReducedMode(tmcMessage, navRectangle, n);
             } else {
                 if (tmcMessage == null || navRectangle == null) {
                     this.mLogChannel.log(10000, "TENMIndication#indicateTrafficEventNoticeMap() - data not valid - return! message: %1 rectangle:%2", (Object)tmcMessage, (Object)navRectangle);
                     return;
                 }
-                this.mLogChannel.log(-2137614336, "TENMIndication#indicateTrafficEventNoticeMap() - Indicate TENM for normal mode");
+                this.mLogChannel.log(10000000, "TENMIndication#indicateTrafficEventNoticeMap() - Indicate TENM for normal mode");
                 this.notifyTENMInNormalMode(tmcMessage, navRectangle, n);
             }
         }
@@ -62,12 +65,12 @@ implements ITENMIndication {
 
     private boolean checkSetupEnablement() {
         if (Util.isPorsche(this.env.getFramework())) {
-            return this.env.getChoiceModel(-1474230784).getValue() == 1;
+            return this.env.getChoiceModel(401832).getValue() == 1;
         }
         if (Util.isHURegionJP()) {
-            return this.env.getChoiceModel(-1162146560).getValue() == 1;
+            return this.env.getChoiceModel(900026).getValue() == 1;
         }
-        return this.env.getChoiceModel(-1474230784).getValue() == 1;
+        return this.env.getChoiceModel(401832).getValue() == 1;
     }
 
     private void notifyTENMInNormalMode(TmcMessage tmcMessage, NavRectangle navRectangle, int n) {
@@ -78,7 +81,7 @@ implements ITENMIndication {
     private void notifyTENMInReducedMode(TmcMessage tmcMessage, NavRectangle navRectangle, int n) {
         this.mapMain.getActiveContext().indicateTrafficEventNoticeMap(tmcMessage, navRectangle, n);
         TrafficEventMsgExtractor trafficEventMsgExtractor = new TrafficEventMsgExtractor(this.env);
-        this.env.getFramework().getHmiServiceApp().getLabelModel(388105728).setText(trafficEventMsgExtractor.extractTrafficEventMsg(this.mapMain.getMapDataContainer().trafficNoticeMessage));
+        this.env.getFramework().getHmiServiceApp().getLabelModel(401943).setText(trafficEventMsgExtractor.extractTrafficEventMsg(this.mapMain.getMapDataContainer().trafficNoticeMessage));
         if (this.mapMain.getMapDataContainer().isInMap) {
             this.showTrafficEventNoticePopup();
         }
@@ -87,18 +90,18 @@ implements ITENMIndication {
     }
 
     private void showTrafficEventNoticePopup() {
-        this.mLogChannel.log(-2137614336, "TENMIndicationHandler#showTrafficEventNoticePopup()");
+        this.mLogChannel.log(10000000, "TENMIndicationHandler#showTrafficEventNoticePopup()");
         this.mapMain.getMapManager().getPartialPopupHandler().showPopupTrafficeNoticeMap(true);
     }
 
     private boolean isTENMInterruptionAllowed(boolean bl, boolean bl2, int n, boolean bl3) {
-        this.mLogChannel.log(-2137614336, "TENMIndicationHandler#isTENMInterruptionAllowed() - isTrafficNoticeMapOn: %1, isInCruiseMode: %2, popupVisible: %3 ", (Object)bl, (Object)bl2, (long)n);
-        this.mLogChannel.log(-2137614336, "TENMIndicationHandler#isTENMInterruptionAllowed() - isVicsEmergencyPopupShown: %1 ", bl3);
+        this.mLogChannel.log(10000000, "TENMIndicationHandler#isTENMInterruptionAllowed() - isTrafficNoticeMapOn: %1, isInCruiseMode: %2, popupVisible: %3 ", (Object)bl, (Object)bl2, (long)n);
+        this.mLogChannel.log(10000000, "TENMIndicationHandler#isTENMInterruptionAllowed() - isVicsEmergencyPopupShown: %1 ", bl3);
         return bl && bl2 && n == -1 && !bl3;
     }
 
     private void hideTrafficEventNoticePopup() {
-        this.mLogChannel.log(-2137614336, "TENMIndicationHandler#hideTrafficEventNoticePopup()");
+        this.mLogChannel.log(10000000, "TENMIndicationHandler#hideTrafficEventNoticePopup()");
         this.mapMain.getMapManager().getPartialPopupHandler().showPopupTrafficeNoticeMap(false);
     }
 
@@ -108,10 +111,6 @@ implements ITENMIndication {
 
     protected LogChannel getLogChannel() {
         return this.mLogChannel;
-    }
-
-    static /* synthetic */ void access$000(TENMIndication tENMIndication) {
-        tENMIndication.hideTrafficEventNoticePopup();
     }
 }
 

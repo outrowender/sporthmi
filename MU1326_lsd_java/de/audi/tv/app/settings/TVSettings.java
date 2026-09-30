@@ -4,8 +4,11 @@
 package de.audi.tv.app.settings;
 
 import de.audi.atip.utils.generics.Consumer;
+import de.audi.atip.utils.reactive.properties.Property;
+import de.audi.atip.utils.reactive.properties.PropertyFactory;
 import de.audi.tv.app.base.ITVEventListener;
 import de.audi.tv.app.base.TVEnv;
+import de.audi.tv.app.base.TVEventDefaultListener;
 import de.audi.tv.app.dsi.DSICallListener;
 import de.audi.tv.app.dsi.DSITV;
 import de.audi.tv.app.dsi.DefaultTVListener;
@@ -21,12 +24,6 @@ import de.audi.tv.app.settings.ServiceLinking;
 import de.audi.tv.app.settings.SettingsStorage;
 import de.audi.tv.app.settings.Subtitle;
 import de.audi.tv.app.settings.TVNormList;
-import de.audi.tv.app.settings.TVSettings$1;
-import de.audi.tv.app.settings.TVSettings$DSICallListenerExt;
-import de.audi.tv.app.settings.TVSettings$EventListener;
-import de.audi.tv.app.settings.TVSettings$SettingHandler;
-import de.audi.tv.app.settings.TVSettings$TVListenerExt;
-import de.audi.tv.app.settings.TVSettings$UpdateProvider;
 import de.audi.tv.app.settings.VisualAudio;
 import de.audi.tv.app.settings.audio.AudioChannels;
 import de.audi.tv.app.settings.parental.IChildLockListener;
@@ -34,11 +31,13 @@ import de.audi.tv.app.settings.parental.ParentalLevelList;
 import de.audi.tv.app.settings.parental.PasswordController;
 import java.util.ArrayList;
 import java.util.List;
+import org.dsi.ifc.tvtuner.ProgramInfo;
+import org.dsi.ifc.tvtuner.ServiceInfo;
 
 public class TVSettings {
-    public final DSICallListener dsiCallListener = new TVSettings$DSICallListenerExt(this, null);
-    public final DefaultTVListener tvListener = new TVSettings$TVListenerExt(this, null);
-    public final ISettingHandler settingHandler = new TVSettings$SettingHandler(this, null);
+    public final DSICallListener dsiCallListener = new DSICallListenerExt();
+    public final DefaultTVListener tvListener = new TVListenerExt();
+    public final ISettingHandler settingHandler = new SettingHandler();
     public final ITVEventListener eventListener;
     private final TVEnv env;
     private final AudioChannels audioChannels;
@@ -55,7 +54,7 @@ public class TVSettings {
     private final PasswordController parentalPassword;
     private final ParentalLevelList parentalLevel;
     private final List settingListeners = new ArrayList(1);
-    private final TVSettings$UpdateProvider provider = new TVSettings$UpdateProvider(this, null);
+    private final UpdateProvider provider = new UpdateProvider();
     private final SettingsStorage storage;
 
     public TVSettings(TVEnv tVEnv, DSITV dSITV, IChildLockListener iChildLockListener) {
@@ -72,10 +71,27 @@ public class TVSettings {
         this.aspectRatioTV = new AspectRatioTV(tVEnv, this.storage, dSITV);
         this.aspectRatioAV = new AspectRatioAV(tVEnv, this.storage, dSITV);
         this.tvAvDisplaySettings = new DisplaySettings(tVEnv, dSITV, this.storage);
-        this.eventListener = new TVSettings$EventListener(this, null);
+        this.eventListener = new EventListener();
         this.parentalPassword = new PasswordController(tVEnv, this.storage, this.provider);
         this.parentalLevel = new ParentalLevelList(tVEnv, this.storage, iChildLockListener);
-        tVEnv.properties.dmComponent.currentDisplayableId.async(this.env.dispatch).subscribe((Consumer)new TVSettings$1(this));
+        tVEnv.properties.dmComponent.currentDisplayableId.async(this.env.dispatch).subscribe(new Consumer<Integer>(){
+
+            @Override
+            public void accept(Integer n) {
+                if (n == 26) {
+                    TVSettings.this.tvAvDisplaySettings.enterSelectedTvAvMode();
+                    TVSettings.this.aspectRatioTV.enterTVMode();
+                } else {
+                    TVSettings.this.tvAvDisplaySettings.enterTerminalMode();
+                    TVSettings.this.aspectRatioTV.enterTerminalMode();
+                }
+            }
+
+            @Override
+            public /* synthetic */ void accept(Object object) {
+                this.accept((Integer)object);
+            }
+        });
     }
 
     /*
@@ -100,7 +116,7 @@ public class TVSettings {
     }
 
     public void restoreSettings(int n) {
-        this.env.lcMain.log(1078071040, "[TVSettings.restoreSettings] sourceType:%1", (long)n);
+        this.env.lcMain.log(1000000, "[TVSettings.restoreSettings] sourceType:%1", (long)n);
         this.tvAvDisplaySettings.setSelectedSource(n);
         switch (n) {
             case 0: {
@@ -131,7 +147,7 @@ public class TVSettings {
 
     public void resetToDefault(boolean bl, boolean bl2) {
         boolean bl3 = this.env.getConfiguration().hasAV();
-        this.env.lcMain.log(1078071040, "[TVSettings.resetSettings] sys %1, pers %2", bl, bl2);
+        this.env.lcMain.log(1000000, "[TVSettings.resetSettings] sys %1, pers %2", bl, bl2);
         if (bl) {
             if (bl3) {
                 this.aspectRatioAV.resetToDefault();
@@ -160,48 +176,199 @@ public class TVSettings {
         this.parentalPassword.deinit();
     }
 
-    static /* synthetic */ DisplaySettings access$500(TVSettings tVSettings) {
-        return tVSettings.tvAvDisplaySettings;
+    public static class Properties {
+        public final Property<Boolean> visualAudioActive;
+
+        public Properties(PropertyFactory propertyFactory) {
+            this.visualAudioActive = propertyFactory.createProperty("TVSettings.visualAudioActive", new Boolean(true));
+        }
     }
 
-    static /* synthetic */ AspectRatioTV access$600(TVSettings tVSettings) {
-        return tVSettings.aspectRatioTV;
+    private class EventListener
+    extends TVEventDefaultListener {
+        private volatile boolean isTvOnSdisActive = false;
+        private volatile boolean isInStandby = true;
+
+        private EventListener() {
+        }
+
+        public void onPowerStateStandby() {
+            this.isInStandby = true;
+            this.resetOnStandby();
+        }
+
+        public void onPowerStateOn() {
+            this.isInStandby = false;
+        }
+
+        public void onDsiLockStateChanged(boolean bl) {
+            TVSettings.this.tvNorm.dsiLockStateChanged(bl);
+        }
+
+        public void onSdisGotTvAudioFocus() {
+            this.isTvOnSdisActive = true;
+        }
+
+        public void onSdisLostTvAudioFocus() {
+            this.isTvOnSdisActive = false;
+            this.resetOnStandby();
+        }
+
+        private void resetOnStandby() {
+            if (!this.isTvOnSdisActive && this.isInStandby) {
+                TVSettings.this.aspectRatioTV.onPowerStateStandby();
+                TVSettings.this.tvAvDisplaySettings.onPowerStateStandby();
+            }
+        }
     }
 
-    static /* synthetic */ AudioChannels access$700(TVSettings tVSettings) {
-        return tVSettings.audioChannels;
+    private class TVListenerExt
+    extends DefaultTVListener {
+        private TVListenerExt() {
+        }
+
+        public void updateSelectedService(ProgramInfo programInfo) {
+            TVSettings.this.audioChannels.update(programInfo.availableAudioChannels);
+            TVSettings.this.audioChannels.updateActiveAudioChannel(programInfo.selectedAudioChannel);
+            TVSettings.this.aspectRatioTV.update(programInfo.videoFormat);
+            TVSettings.this.parentalLevel.updateRequiredAge(programInfo.parentalRating);
+        }
+
+        public void updateServiceLinking(boolean bl) {
+            TVSettings.this.serviceLinking.update(bl);
+        }
+
+        public void updateSubtitle(boolean bl) {
+            TVSettings.this.subtitle.update(bl);
+        }
+
+        public void updateTVNormArea(int n) {
+            TVSettings.this.tvNorm.updateTVNormArea(n);
+        }
+
+        public void updateTVNormList(int[] nArray) {
+            TVSettings.this.tvNorm.updateTVNormList(nArray);
+        }
+
+        public void updateBrowserListSort(int n) {
+            TVSettings.this.channelSorting.update(n);
+        }
     }
 
-    static /* synthetic */ PasswordController access$800(TVSettings tVSettings) {
-        return tVSettings.parentalPassword;
+    private class SettingHandler
+    implements ISettingHandler {
+        private SettingHandler() {
+        }
+
+        public void setAudioToggleButtonAvailability(boolean bl) {
+            TVSettings.this.audioChannels.setAudioToggleButtonAvailability(bl);
+        }
+
+        public void resetPasswordConfirmation() {
+            TVSettings.this.parentalPassword.resetPasswordConfirmation();
+        }
+
+        public void parentalRatingLeft() {
+        }
     }
 
-    static /* synthetic */ AspectRatioAV access$900(TVSettings tVSettings) {
-        return tVSettings.aspectRatioAV;
+    private class UpdateProvider
+    implements ISettingListener {
+        boolean visualAudioUpdate;
+        boolean ewsUpdate;
+        int stationListSorting = -1;
+
+        private UpdateProvider() {
+        }
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void updateVisualAudio(boolean bl) {
+            List list = TVSettings.this.settingListeners;
+            synchronized (list) {
+                this.visualAudioUpdate = bl;
+                for (int i2 = 0; i2 < TVSettings.this.settingListeners.size(); ++i2) {
+                    ((ISettingListener)TVSettings.this.settingListeners.get(i2)).updateVisualAudio(bl);
+                }
+            }
+        }
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void updateEWS(boolean bl) {
+            List list = TVSettings.this.settingListeners;
+            synchronized (list) {
+                this.ewsUpdate = bl;
+                for (int i2 = 0; i2 < TVSettings.this.settingListeners.size(); ++i2) {
+                    ((ISettingListener)TVSettings.this.settingListeners.get(i2)).updateEWS(bl);
+                }
+            }
+        }
+
+        public void passwordChanged() {
+            for (int i2 = 0; i2 < TVSettings.this.settingListeners.size(); ++i2) {
+                ((ISettingListener)TVSettings.this.settingListeners.get(i2)).passwordChanged();
+            }
+        }
+
+        public void passwordNeedsToBeEnteredAgain() {
+            for (int i2 = 0; i2 < TVSettings.this.settingListeners.size(); ++i2) {
+                ((ISettingListener)TVSettings.this.settingListeners.get(i2)).passwordNeedsToBeEnteredAgain();
+            }
+        }
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void updateStationListSorting(int n) {
+            List list = TVSettings.this.settingListeners;
+            synchronized (list) {
+                if (n != this.stationListSorting) {
+                    this.stationListSorting = n;
+                    for (int i2 = 0; i2 < TVSettings.this.settingListeners.size(); ++i2) {
+                        ((ISettingListener)TVSettings.this.settingListeners.get(i2)).updateStationListSorting(n);
+                    }
+                }
+            }
+        }
     }
 
-    static /* synthetic */ ServiceLinking access$1000(TVSettings tVSettings) {
-        return tVSettings.serviceLinking;
-    }
+    private class DSICallListenerExt
+    extends DSICallListener {
+        private DSICallListenerExt() {
+        }
 
-    static /* synthetic */ Subtitle access$1100(TVSettings tVSettings) {
-        return tVSettings.subtitle;
-    }
+        public void switchSource(int n, boolean bl) {
+            TVSettings.this.aspectRatioAV.setSelectedSource(n);
+            TVSettings.this.aspectRatioTV.setSelectedSource(n);
+            TVSettings.this.tvAvDisplaySettings.setSelectedSource(n);
+        }
 
-    static /* synthetic */ ChannelSorting access$1200(TVSettings tVSettings) {
-        return tVSettings.channelSorting;
-    }
+        public void enableServiceLinking(boolean bl) {
+            TVSettings.this.serviceLinking.update(bl);
+        }
 
-    static /* synthetic */ TVNormList access$1300(TVSettings tVSettings) {
-        return tVSettings.tvNorm;
-    }
+        public void enableSubtitle(boolean bl) {
+            TVSettings.this.subtitle.update(bl);
+        }
 
-    static /* synthetic */ ParentalLevelList access$1400(TVSettings tVSettings) {
-        return tVSettings.parentalLevel;
-    }
+        public void setBrowserListSort(int n) {
+            TVSettings.this.channelSorting.update(n);
+        }
 
-    static /* synthetic */ List access$1500(TVSettings tVSettings) {
-        return tVSettings.settingListeners;
+        public void setNormArea(int n) {
+            TVSettings.this.tvNorm.updateTVNormArea(n);
+        }
+
+        public void selectService(ServiceInfo serviceInfo, boolean bl) {
+            ((TVSettings)TVSettings.this).parentalLevel.callListener.selectService(serviceInfo, bl);
+        }
+
+        public void selectNextService(int n) {
+            ((TVSettings)TVSettings.this).parentalLevel.callListener.selectNextService(n);
+        }
     }
 }
 

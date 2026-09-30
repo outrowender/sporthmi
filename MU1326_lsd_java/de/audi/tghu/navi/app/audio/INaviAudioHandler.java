@@ -8,16 +8,12 @@ import de.audi.tghu.waveplayer.WavePlayerListener;
 
 public interface INaviAudioHandler
 extends WavePlayerListener {
-    default public void setWavePlayer(WavePlayer wavePlayer) {
-    }
+    public void setWavePlayer(WavePlayer var1);
 
-    default public void audioConnectionFadedIn() {
-    }
+    public void audioConnectionFadedIn();
 
-    default public void requestBeepTone(int n, int n2) {
-    }
+    public void requestBeepTone(int var1, int var2);
 
-    default public boolean isBeepTonePlaying() {
-    }
+    public boolean isBeepTonePlaying();
 }
 

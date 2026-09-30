@@ -12,29 +12,20 @@ import org.dsi.ifc.global.ResourceLocator;
 
 public interface IFileBrowser
 extends IFileBrowserSession {
-    default public Path chdir(Path path) {
-    }
+    public Path chdir(Path var1);
 
-    default public int getSelectedFileCount() {
-    }
+    public int getSelectedFileCount();
 
-    default public int getFileCount() {
-    }
+    public int getFileCount();
 
-    default public BrowsedFileSet getFiles(int n, int n2) {
-    }
+    public BrowsedFileSet getFiles(int var1, int var2);
 
-    default public ResourceLocator[] getResourceLocators(int n, int n2) {
-    }
+    public ResourceLocator[] getResourceLocators(int var1, int var2);
 
-    default public boolean selectFile(BrowsedFile browsedFile, boolean bl) {
-    }
+    public boolean selectFile(BrowsedFile var1, boolean var2);
 
-    @Override
-    default public IFileBrowser getSelection() {
-    }
+    public IFileBrowser getSelection();
 
-    default public PreviewInfo[] getFilesWithPreviews(int n, int n2, BrowsedFileSet browsedFileSet) {
-    }
+    public PreviewInfo[] getFilesWithPreviews(int var1, int var2, BrowsedFileSet var3) throws IllegalArgumentException, NullPointerException;
 }
 

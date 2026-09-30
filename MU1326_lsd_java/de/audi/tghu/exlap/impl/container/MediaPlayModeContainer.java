@@ -13,16 +13,15 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Map$Entry;
 import org.dsi.ifc.has.HASDataContainer;
 import org.dsi.ifc.has.HASDataElement;
 
 public class MediaPlayModeContainer
 extends AbstractContainer {
-    private static final int CONTAINER_ID_MEDIA_PLAY_MODE;
-    private static final int ELEMENT_ID_REPEAT_MODE;
-    private static final int ELEMENT_ID_MIX_MODE;
-    private static final int ELEMENT_ID_PMLTMODE;
+    private static final int CONTAINER_ID_MEDIA_PLAY_MODE = 24;
+    private static final int ELEMENT_ID_REPEAT_MODE = 63;
+    private static final int ELEMENT_ID_MIX_MODE = 64;
+    private static final int ELEMENT_ID_PMLTMODE = 78;
     private Map map = new HashMap();
 
     public MediaPlayModeContainer(MediaRepeatModeEnumeration mediaRepeatModeEnumeration, boolean bl, boolean bl2) {
@@ -66,14 +65,12 @@ extends AbstractContainer {
         return (Boolean)this.map.get(new Integer(78));
     }
 
-    @Override
     public List createContainer(int n, int n2, int n3) {
         ArrayList arrayList = new ArrayList();
         arrayList.add(new HASDataContainer(24, n2, n, this.createElements(), n3));
         return arrayList;
     }
 
-    @Override
     public HASDataContainer[] createContainer() {
         List list = this.createContainer(-1, 1, -1);
         return (HASDataContainer[])list.toArray(new HASDataContainer[list.size()]);
@@ -84,19 +81,19 @@ extends AbstractContainer {
         HASDataElement[] hASDataElementArray = new HASDataElement[this.map.size()];
         Iterator iterator = this.map.entrySet().iterator();
         while (iterator.hasNext()) {
-            Map$Entry map$Entry = (Map$Entry)iterator.next();
-            if (map$Entry.getValue() == null) continue;
-            switch ((Integer)map$Entry.getKey()) {
+            Map.Entry entry = (Map.Entry)iterator.next();
+            if (entry.getValue() == null) continue;
+            switch ((Integer)entry.getKey()) {
                 case 63: {
-                    hASDataElementArray[n++] = new IntegerElement(63, ((MediaRepeatModeEnumeration)map$Entry.getValue()).ordinal());
+                    hASDataElementArray[n++] = new IntegerElement(63, ((MediaRepeatModeEnumeration)entry.getValue()).ordinal());
                     break;
                 }
                 case 64: {
-                    hASDataElementArray[n++] = new BooleanElement(64, (boolean)((Boolean)map$Entry.getValue()));
+                    hASDataElementArray[n++] = new BooleanElement(64, (boolean)((Boolean)entry.getValue()));
                     break;
                 }
                 case 78: {
-                    hASDataElementArray[n++] = new BooleanElement(78, (boolean)((Boolean)map$Entry.getValue()));
+                    hASDataElementArray[n++] = new BooleanElement(78, (boolean)((Boolean)entry.getValue()));
                     break;
                 }
             }
@@ -104,40 +101,39 @@ extends AbstractContainer {
         return hASDataElementArray;
     }
 
-    @Override
     public void toString(StringWriter stringWriter) {
         stringWriter.write("MediaPlayModeContainer(");
         Iterator iterator = this.map.entrySet().iterator();
         while (iterator.hasNext()) {
-            Map$Entry map$Entry = (Map$Entry)iterator.next();
-            switch ((Integer)map$Entry.getKey()) {
+            Map.Entry entry = (Map.Entry)iterator.next();
+            switch ((Integer)entry.getKey()) {
                 case 63: {
-                    if (map$Entry.getValue() == null) {
+                    if (entry.getValue() == null) {
                         stringWriter.write("repeatMode(MediaRepeatModeEnumeration)=null");
                         break;
                     }
                     stringWriter.write("repeatMode(MediaRepeatModeEnumeration)='");
-                    stringWriter.write(map$Entry.getValue().toString());
+                    stringWriter.write(entry.getValue().toString());
                     stringWriter.write("'");
                     break;
                 }
                 case 64: {
-                    if (map$Entry.getValue() == null) {
+                    if (entry.getValue() == null) {
                         stringWriter.write("mixMode(boolean)=null");
                         break;
                     }
                     stringWriter.write("mixMode(boolean)='");
-                    stringWriter.write(map$Entry.getValue().toString());
+                    stringWriter.write(entry.getValue().toString());
                     stringWriter.write("'");
                     break;
                 }
                 case 78: {
-                    if (map$Entry.getValue() == null) {
+                    if (entry.getValue() == null) {
                         stringWriter.write("pMLTMode(boolean)=null");
                         break;
                     }
                     stringWriter.write("pMLTMode(boolean)='");
-                    stringWriter.write(map$Entry.getValue().toString());
+                    stringWriter.write(entry.getValue().toString());
                     stringWriter.write("'");
                     break;
                 }
@@ -148,7 +144,6 @@ extends AbstractContainer {
         stringWriter.write(")");
     }
 
-    @Override
     protected Object clone() {
         MediaPlayModeContainer mediaPlayModeContainer = new MediaPlayModeContainer(this);
         return mediaPlayModeContainer;

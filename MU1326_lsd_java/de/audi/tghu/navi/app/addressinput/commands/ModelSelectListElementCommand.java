@@ -14,7 +14,6 @@ extends NavCommand {
         this.modelAccess = iMatchspellerModelAccess;
     }
 
-    @Override
     public void execute() {
         this.modelAccess.onElementSelected(this.dsiResponseContainer.getLiCurrentLD());
         this.getCommandList().commandFinished();

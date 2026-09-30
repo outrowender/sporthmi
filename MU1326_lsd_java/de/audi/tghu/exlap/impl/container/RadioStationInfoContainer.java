@@ -16,28 +16,27 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Map$Entry;
 import org.dsi.ifc.global.ResourceLocator;
 import org.dsi.ifc.has.HASDataContainer;
 import org.dsi.ifc.has.HASDataElement;
 
 public class RadioStationInfoContainer
 extends AbstractContainer {
-    private static final int CONTAINER_ID_RADIO_STATION_INFO;
-    private static final int ELEMENT_ID_NAME;
-    private static final int ELEMENT_ID_FREQUENCY;
-    private static final int ELEMENT_ID_BAND;
-    private static final int ELEMENT_ID_PICODE;
-    private static final int ELEMENT_ID_SHORT_NAME;
-    private static final int ELEMENT_ID_RDS;
-    private static final int ELEMENT_ID_TP;
-    private static final int ELEMENT_ID_FREQUENCY_LABEL;
-    private static final int ELEMENT_ID_SERVICE_ID;
-    private static final int ELEMENT_ID_ENSEMBLE_ID;
-    private static final int ELEMENT_ID_EXTENDED_COUNTRY_CODE;
-    private static final int ELEMENT_ID_SERVICE_COMPONENT_ID;
-    private static final int ELEMENT_ID_STATION_LOGO;
-    private static final int ELEMENT_ID_FMLINKING_ACTIVE;
+    private static final int CONTAINER_ID_RADIO_STATION_INFO = 26;
+    private static final int ELEMENT_ID_NAME = 51;
+    private static final int ELEMENT_ID_FREQUENCY = 52;
+    private static final int ELEMENT_ID_BAND = 53;
+    private static final int ELEMENT_ID_PICODE = 54;
+    private static final int ELEMENT_ID_SHORT_NAME = 79;
+    private static final int ELEMENT_ID_RDS = 80;
+    private static final int ELEMENT_ID_TP = 81;
+    private static final int ELEMENT_ID_FREQUENCY_LABEL = 82;
+    private static final int ELEMENT_ID_SERVICE_ID = 83;
+    private static final int ELEMENT_ID_ENSEMBLE_ID = 84;
+    private static final int ELEMENT_ID_EXTENDED_COUNTRY_CODE = 85;
+    private static final int ELEMENT_ID_SERVICE_COMPONENT_ID = 86;
+    private static final int ELEMENT_ID_STATION_LOGO = 87;
+    private static final int ELEMENT_ID_FMLINKING_ACTIVE = 120;
     private Map map = new HashMap();
 
     public RadioStationInfoContainer() {
@@ -292,14 +291,12 @@ extends AbstractContainer {
         return (Boolean)this.map.get(new Integer(120));
     }
 
-    @Override
     public List createContainer(int n, int n2, int n3) {
         ArrayList arrayList = new ArrayList();
         arrayList.add(new HASDataContainer(26, n2, n, this.createElements(), n3));
         return arrayList;
     }
 
-    @Override
     public HASDataContainer[] createContainer() {
         List list = this.createContainer(-1, 1, -1);
         return (HASDataContainer[])list.toArray(new HASDataContainer[list.size()]);
@@ -310,63 +307,63 @@ extends AbstractContainer {
         HASDataElement[] hASDataElementArray = new HASDataElement[this.map.size()];
         Iterator iterator = this.map.entrySet().iterator();
         while (iterator.hasNext()) {
-            Map$Entry map$Entry = (Map$Entry)iterator.next();
-            if (map$Entry.getValue() == null) continue;
-            switch ((Integer)map$Entry.getKey()) {
+            Map.Entry entry = (Map.Entry)iterator.next();
+            if (entry.getValue() == null) continue;
+            switch ((Integer)entry.getKey()) {
                 case 51: {
-                    hASDataElementArray[n++] = new StringElement(51, (String)map$Entry.getValue());
+                    hASDataElementArray[n++] = new StringElement(51, (String)entry.getValue());
                     break;
                 }
                 case 52: {
-                    hASDataElementArray[n++] = new LongElement(52, (long)((Long)map$Entry.getValue()));
+                    hASDataElementArray[n++] = new LongElement(52, (long)((Long)entry.getValue()));
                     break;
                 }
                 case 53: {
-                    hASDataElementArray[n++] = new IntegerElement(53, ((RadioBandEnumeration)map$Entry.getValue()).ordinal());
+                    hASDataElementArray[n++] = new IntegerElement(53, ((RadioBandEnumeration)entry.getValue()).ordinal());
                     break;
                 }
                 case 54: {
-                    hASDataElementArray[n++] = new IntegerElement(54, ((Long)map$Entry.getValue()).intValue());
+                    hASDataElementArray[n++] = new IntegerElement(54, ((Long)entry.getValue()).intValue());
                     break;
                 }
                 case 79: {
-                    hASDataElementArray[n++] = new StringElement(79, (String)map$Entry.getValue());
+                    hASDataElementArray[n++] = new StringElement(79, (String)entry.getValue());
                     break;
                 }
                 case 80: {
-                    hASDataElementArray[n++] = new BooleanElement(80, (boolean)((Boolean)map$Entry.getValue()));
+                    hASDataElementArray[n++] = new BooleanElement(80, (boolean)((Boolean)entry.getValue()));
                     break;
                 }
                 case 81: {
-                    hASDataElementArray[n++] = new BooleanElement(81, (boolean)((Boolean)map$Entry.getValue()));
+                    hASDataElementArray[n++] = new BooleanElement(81, (boolean)((Boolean)entry.getValue()));
                     break;
                 }
                 case 82: {
-                    hASDataElementArray[n++] = new StringElement(82, (String)map$Entry.getValue());
+                    hASDataElementArray[n++] = new StringElement(82, (String)entry.getValue());
                     break;
                 }
                 case 83: {
-                    hASDataElementArray[n++] = new LongElement(83, (long)((Long)map$Entry.getValue()));
+                    hASDataElementArray[n++] = new LongElement(83, (long)((Long)entry.getValue()));
                     break;
                 }
                 case 84: {
-                    hASDataElementArray[n++] = new IntegerElement(84, ((Long)map$Entry.getValue()).intValue());
+                    hASDataElementArray[n++] = new IntegerElement(84, ((Long)entry.getValue()).intValue());
                     break;
                 }
                 case 85: {
-                    hASDataElementArray[n++] = new IntegerElement(85, ((Long)map$Entry.getValue()).intValue());
+                    hASDataElementArray[n++] = new IntegerElement(85, ((Long)entry.getValue()).intValue());
                     break;
                 }
                 case 86: {
-                    hASDataElementArray[n++] = new IntegerElement(86, ((Long)map$Entry.getValue()).intValue());
+                    hASDataElementArray[n++] = new IntegerElement(86, ((Long)entry.getValue()).intValue());
                     break;
                 }
                 case 87: {
-                    hASDataElementArray[n++] = new ResourceElement(87, (ResourceLocator)map$Entry.getValue());
+                    hASDataElementArray[n++] = new ResourceElement(87, (ResourceLocator)entry.getValue());
                     break;
                 }
                 case 120: {
-                    hASDataElementArray[n++] = new BooleanElement(120, (boolean)((Boolean)map$Entry.getValue()));
+                    hASDataElementArray[n++] = new BooleanElement(120, (boolean)((Boolean)entry.getValue()));
                     break;
                 }
             }
@@ -374,150 +371,149 @@ extends AbstractContainer {
         return hASDataElementArray;
     }
 
-    @Override
     public void toString(StringWriter stringWriter) {
         stringWriter.write("RadioStationInfoContainer(");
         Iterator iterator = this.map.entrySet().iterator();
         while (iterator.hasNext()) {
-            Map$Entry map$Entry = (Map$Entry)iterator.next();
-            switch ((Integer)map$Entry.getKey()) {
+            Map.Entry entry = (Map.Entry)iterator.next();
+            switch ((Integer)entry.getKey()) {
                 case 51: {
-                    if (map$Entry.getValue() == null) {
+                    if (entry.getValue() == null) {
                         stringWriter.write("name(String)=null");
                         break;
                     }
                     stringWriter.write("name(String)='");
-                    stringWriter.write(map$Entry.getValue().toString());
+                    stringWriter.write(entry.getValue().toString());
                     stringWriter.write("'");
                     break;
                 }
                 case 52: {
-                    if (map$Entry.getValue() == null) {
+                    if (entry.getValue() == null) {
                         stringWriter.write("frequency(long)=null");
                         break;
                     }
                     stringWriter.write("frequency(long)='");
-                    stringWriter.write(map$Entry.getValue().toString());
+                    stringWriter.write(entry.getValue().toString());
                     stringWriter.write("'");
                     break;
                 }
                 case 53: {
-                    if (map$Entry.getValue() == null) {
+                    if (entry.getValue() == null) {
                         stringWriter.write("band(RadioBandEnumeration)=null");
                         break;
                     }
                     stringWriter.write("band(RadioBandEnumeration)='");
-                    stringWriter.write(map$Entry.getValue().toString());
+                    stringWriter.write(entry.getValue().toString());
                     stringWriter.write("'");
                     break;
                 }
                 case 54: {
-                    if (map$Entry.getValue() == null) {
+                    if (entry.getValue() == null) {
                         stringWriter.write("pICode(int)=null");
                         break;
                     }
                     stringWriter.write("pICode(int)='");
-                    stringWriter.write(map$Entry.getValue().toString());
+                    stringWriter.write(entry.getValue().toString());
                     stringWriter.write("'");
                     break;
                 }
                 case 79: {
-                    if (map$Entry.getValue() == null) {
+                    if (entry.getValue() == null) {
                         stringWriter.write("shortName(String)=null");
                         break;
                     }
                     stringWriter.write("shortName(String)='");
-                    stringWriter.write(map$Entry.getValue().toString());
+                    stringWriter.write(entry.getValue().toString());
                     stringWriter.write("'");
                     break;
                 }
                 case 80: {
-                    if (map$Entry.getValue() == null) {
+                    if (entry.getValue() == null) {
                         stringWriter.write("rDS(boolean)=null");
                         break;
                     }
                     stringWriter.write("rDS(boolean)='");
-                    stringWriter.write(map$Entry.getValue().toString());
+                    stringWriter.write(entry.getValue().toString());
                     stringWriter.write("'");
                     break;
                 }
                 case 81: {
-                    if (map$Entry.getValue() == null) {
+                    if (entry.getValue() == null) {
                         stringWriter.write("tP(boolean)=null");
                         break;
                     }
                     stringWriter.write("tP(boolean)='");
-                    stringWriter.write(map$Entry.getValue().toString());
+                    stringWriter.write(entry.getValue().toString());
                     stringWriter.write("'");
                     break;
                 }
                 case 82: {
-                    if (map$Entry.getValue() == null) {
+                    if (entry.getValue() == null) {
                         stringWriter.write("frequencyLabel(String)=null");
                         break;
                     }
                     stringWriter.write("frequencyLabel(String)='");
-                    stringWriter.write(map$Entry.getValue().toString());
+                    stringWriter.write(entry.getValue().toString());
                     stringWriter.write("'");
                     break;
                 }
                 case 83: {
-                    if (map$Entry.getValue() == null) {
+                    if (entry.getValue() == null) {
                         stringWriter.write("serviceId(long)=null");
                         break;
                     }
                     stringWriter.write("serviceId(long)='");
-                    stringWriter.write(map$Entry.getValue().toString());
+                    stringWriter.write(entry.getValue().toString());
                     stringWriter.write("'");
                     break;
                 }
                 case 84: {
-                    if (map$Entry.getValue() == null) {
+                    if (entry.getValue() == null) {
                         stringWriter.write("ensembleId(int)=null");
                         break;
                     }
                     stringWriter.write("ensembleId(int)='");
-                    stringWriter.write(map$Entry.getValue().toString());
+                    stringWriter.write(entry.getValue().toString());
                     stringWriter.write("'");
                     break;
                 }
                 case 85: {
-                    if (map$Entry.getValue() == null) {
+                    if (entry.getValue() == null) {
                         stringWriter.write("extendedCountryCode(int)=null");
                         break;
                     }
                     stringWriter.write("extendedCountryCode(int)='");
-                    stringWriter.write(map$Entry.getValue().toString());
+                    stringWriter.write(entry.getValue().toString());
                     stringWriter.write("'");
                     break;
                 }
                 case 86: {
-                    if (map$Entry.getValue() == null) {
+                    if (entry.getValue() == null) {
                         stringWriter.write("serviceComponentId(int)=null");
                         break;
                     }
                     stringWriter.write("serviceComponentId(int)='");
-                    stringWriter.write(map$Entry.getValue().toString());
+                    stringWriter.write(entry.getValue().toString());
                     stringWriter.write("'");
                     break;
                 }
                 case 87: {
-                    if (map$Entry.getValue() == null) {
+                    if (entry.getValue() == null) {
                         stringWriter.write("stationLogo(ResourceLocator)=null");
                         break;
                     }
                     stringWriter.write("stationLogo(ResourceLocator)='");
-                    stringWriter.write(map$Entry.getValue().toString());
+                    stringWriter.write(entry.getValue().toString());
                     stringWriter.write("'");
                     break;
                 }
                 case 120: {
-                    if (map$Entry.getValue() == null) {
+                    if (entry.getValue() == null) {
                         stringWriter.write("fMLinkingActive(boolean)=null");
                         break;
                     }
                     stringWriter.write("fMLinkingActive(boolean)='");
-                    stringWriter.write(map$Entry.getValue().toString());
+                    stringWriter.write(entry.getValue().toString());
                     stringWriter.write("'");
                     break;
                 }
@@ -528,7 +524,6 @@ extends AbstractContainer {
         stringWriter.write(")");
     }
 
-    @Override
     protected Object clone() {
         RadioStationInfoContainer radioStationInfoContainer = new RadioStationInfoContainer(this);
         return radioStationInfoContainer;

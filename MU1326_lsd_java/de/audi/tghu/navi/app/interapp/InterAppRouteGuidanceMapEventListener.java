@@ -17,26 +17,25 @@ implements MapEventListener {
         this.logger = logChannel;
     }
 
-    @Override
     public void onEvent(int n, int n2) {
-        this.logger.log(-2137614336, "InterAppRouteGuidanceMapEventListener#onEvent() eventId=%1, value=%2", (long)n, (long)n2);
+        this.logger.log(10000000, "InterAppRouteGuidanceMapEventListener#onEvent() eventId=%1, value=%2", (long)n, (long)n2);
         if (n == 211) {
             if (this.logger.isDebug2()) {
-                this.logger.log(14808325, "InterAppRouteGuidanceMapEventListener#onEvent() response SDS with RESULT_INVALID");
+                this.logger.log(100000000, "InterAppRouteGuidanceMapEventListener#onEvent() response SDS with RESULT_INVALID");
             }
             this.listener.responseStartRouteGuidance((byte)3);
         } else if (n == 202) {
             if (this.logger.isDebug2()) {
-                this.logger.log(14808325, "InterAppRouteGuidanceMapEventListener#onEvent() response SDS with RESULT_ERROR");
+                this.logger.log(100000000, "InterAppRouteGuidanceMapEventListener#onEvent() response SDS with RESULT_ERROR");
             }
             this.listener.responseStartRouteGuidance((byte)1);
         } else if (n == 212) {
             if (this.logger.isDebug2()) {
-                this.logger.log(14808325, "InterAppRouteGuidanceMapEventListener#onEvent() response SDS with RESULT_OK");
+                this.logger.log(100000000, "InterAppRouteGuidanceMapEventListener#onEvent() response SDS with RESULT_OK");
             }
             this.listener.responseStartRouteGuidance((byte)0);
         } else if (this.logger.isDebug2()) {
-            this.logger.log(14808325, "InterAppRouteGuidanceMapEventListener#onEvent() unknown eventId");
+            this.logger.log(100000000, "InterAppRouteGuidanceMapEventListener#onEvent() unknown eventId");
         }
     }
 }

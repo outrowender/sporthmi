@@ -6,13 +6,12 @@ package de.audi.tghu.navi.app.command;
 import de.audi.tghu.navi.app.command.NavCommand;
 import de.audi.tghu.navi.app.countryinfo.ICountryInfoHandler;
 import de.audi.tghu.navi.app.tr.TrafficRegulationService;
-import de.audi.tghu.navi.app.tr.TrafficRegulationService$CountrySpeedInfoObserver;
 import de.audi.tghu.navi.app.util.Util;
 import org.dsi.ifc.trafficregulation.RoadClassSpeedInfo;
 
 public class RequestRoadClassSpeedInfoForCountryCommand
 extends NavCommand
-implements TrafficRegulationService$CountrySpeedInfoObserver {
+implements TrafficRegulationService.CountrySpeedInfoObserver {
     private String countryAbbreviation;
     private ICountryInfoHandler handler;
 
@@ -21,15 +20,14 @@ implements TrafficRegulationService$CountrySpeedInfoObserver {
         this.countryAbbreviation = string;
     }
 
-    @Override
     public void execute() {
         if (Util.isHURegionAsia()) {
-            this.logger.log(-2137614336, "RequestRoadClassSpeedInfoForCountryCommand#execute() - Asia not supported");
+            this.logger.log(10000000, "RequestRoadClassSpeedInfoForCountryCommand#execute() - Asia not supported");
             this.getCommandList().commandFinished();
             return;
         }
         if (!Util.isEmpty(this.countryAbbreviation)) {
-            this.logger.log(-2137614336, "RequestRoadClassSpeedInfoForCountryCommand#execute() - calling requestRoadClassSpeedInfoForCountry( %1 )", (Object)this.countryAbbreviation);
+            this.logger.log(10000000, "RequestRoadClassSpeedInfoForCountryCommand#execute() - calling requestRoadClassSpeedInfoForCountry( %1 )", (Object)this.countryAbbreviation);
             TrafficRegulationService trafficRegulationService = this.navigation.getTrafficRegulationService();
             if (trafficRegulationService != null) {
                 trafficRegulationService.registerCountrySpeedInfoObserver(this);
@@ -44,9 +42,8 @@ implements TrafficRegulationService$CountrySpeedInfoObserver {
         }
     }
 
-    @Override
     public void requestRoadClassSpeedInfoForCountryResult(RoadClassSpeedInfo[] roadClassSpeedInfoArray, int n) {
-        this.logger.log(-2137614336, "RequestRoadClassSpeedInfoForCountryCommand#requestRoadClassSpeedInfoForCountryResult() - resultCode: %1", (long)n);
+        this.logger.log(10000000, "RequestRoadClassSpeedInfoForCountryCommand#requestRoadClassSpeedInfoForCountryResult() - resultCode: %1", (long)n);
         this.navigation.getTrafficRegulationService().registerCountrySpeedInfoObserver(null);
         if (n == 0) {
             if (this.validateRCSInfoArray(roadClassSpeedInfoArray)) {
@@ -56,7 +53,7 @@ implements TrafficRegulationService$CountrySpeedInfoObserver {
                     this.logger.log(10000, "RequestRoadClassSpeedInfoForCountryCommand#requestRoadClassSpeedInfoForCountryResult() - listener is null!");
                 }
             } else {
-                this.logger.log(-2137614336, "RequestRoadClassSpeedInfoForCountryCommand#requestRoadClassSpeedInfoForCountryResult() - result is null or countryAbbreviation (%1) does not match with first element of array", (Object)this.countryAbbreviation);
+                this.logger.log(10000000, "RequestRoadClassSpeedInfoForCountryCommand#requestRoadClassSpeedInfoForCountryResult() - result is null or countryAbbreviation (%1) does not match with first element of array", (Object)this.countryAbbreviation);
                 if (this.handler != null) {
                     this.handler.updateRoadClassSpeedInfo(null);
                 } else {

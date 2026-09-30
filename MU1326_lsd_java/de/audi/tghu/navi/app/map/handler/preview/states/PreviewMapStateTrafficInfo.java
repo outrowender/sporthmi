@@ -15,7 +15,7 @@ extends PreviewMapStateAbstract {
     }
 
     protected int getTmcMinZoomIndex() {
-        return this.getMapForPreview().getZoomHandler().getZoomListIndex(61505);
+        return this.getMapForPreview().getZoomHandler().getZoomListIndex(30.0f);
     }
 
     public String toString() {

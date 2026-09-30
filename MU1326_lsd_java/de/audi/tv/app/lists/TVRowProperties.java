@@ -15,102 +15,90 @@ implements IRowProperties {
         this.category = n;
     }
 
-    @Override
     public void setElementIsFavorite(boolean bl) {
         if (bl) {
-            this.props.add(1714859157, 42);
+            this.props.add(-1783875994, 42);
         } else {
-            this.props.remove(1714859157);
+            this.props.remove(-1783875994);
         }
     }
 
-    @Override
     public void setDatabroadcastIsAvailable(boolean bl) {
         if (bl) {
-            this.props.add(1711971779, 42);
+            this.props.add(-1013118362, 42);
         } else {
-            this.props.remove(1711971779);
+            this.props.remove(-1013118362);
         }
     }
 
-    @Override
     public void setDatabroadcastIsLoading(boolean bl) {
         if (bl) {
-            this.props.add(-1175825325, 42);
+            this.props.add(1398074041, 42);
         } else {
-            this.props.remove(-1175825325);
+            this.props.remove(1398074041);
         }
     }
 
-    @Override
     public void setDatabroadcastIsCheckingOrUnavailable(boolean bl) {
         if (bl) {
-            this.props.add(194867602, 42);
+            this.props.add(-1838047989, 42);
         } else {
-            this.props.remove(194867602);
+            this.props.remove(-1838047989);
         }
     }
 
-    @Override
     public void setVisualAudioIsAvailable(boolean bl) {
         if (bl) {
-            this.props.add(-1151749279, 42);
+            this.props.add(1639143867, 42);
         } else {
-            this.props.remove(-1151749279);
+            this.props.remove(1639143867);
         }
     }
 
-    @Override
     public void setVisualAudioIsLoading(boolean bl) {
         if (bl) {
-            this.props.add(26686355, 42);
+            this.props.add(-1825335551, 42);
         } else {
-            this.props.remove(26686355);
+            this.props.remove(-1825335551);
         }
     }
 
-    @Override
     public void setVisualAudioIsUnavailable(boolean bl) {
         if (bl) {
-            this.props.add(588584050, 42);
+            this.props.add(1913918755, 42);
         } else {
-            this.props.remove(588584050);
+            this.props.remove(1913918755);
         }
     }
 
-    @Override
     public void setTeletextIsAvailable(boolean bl) {
         if (bl) {
-            this.props.add(-384001756, 42);
+            this.props.add(614014185, 42);
         } else {
-            this.props.remove(-384001756);
+            this.props.remove(614014185);
         }
     }
 
-    @Override
     public void setTeletextIsLoading(boolean bl) {
         if (bl) {
-            this.props.add(-361800949, 42);
+            this.props.add(190541802, 42);
         } else {
-            this.props.remove(-361800949);
+            this.props.remove(190541802);
         }
     }
 
-    @Override
     public void setTeletextIsUnavailable(boolean bl) {
         if (bl) {
-            this.props.add(214470605, 42);
+            this.props.add(-846215156, 42);
         } else {
-            this.props.remove(214470605);
+            this.props.remove(-846215156);
         }
     }
 
-    @Override
     public int[] toArray() {
         return this.props.getKeys();
     }
 
-    @Override
     public int getCategory() {
         return this.category;
     }

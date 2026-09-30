@@ -8,8 +8,8 @@ import org.dsi.ifc.online.DSIOnlineServiceRegistration;
 
 final class PrivacyModeActivationCommand
 extends AbstractOSRCommand {
-    private static final int PRIVACY_OFF;
-    private static final int PRIVACY_ON;
+    private static final int PRIVACY_OFF = 1;
+    private static final int PRIVACY_ON = 32;
     private final boolean privacyModeIsActive;
     private DSIOnlineServiceRegistration dsiOnlineServiceRegistration;
 
@@ -18,7 +18,6 @@ extends AbstractOSRCommand {
         this.privacyModeIsActive = bl;
     }
 
-    @Override
     public void execute() {
         this.dsiOnlineServiceRegistration.setActivePrivacyCategoryMask(0);
         this.getCommandList().commandFinished();

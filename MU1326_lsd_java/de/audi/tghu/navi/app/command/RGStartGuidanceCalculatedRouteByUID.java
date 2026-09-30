@@ -19,20 +19,18 @@ extends NavCommand {
         this.routeGuidanceStateModelAccess = iRouteGuidanceStateModelAccess;
     }
 
-    @Override
     public void execute() {
         boolean bl = this.dsiResponseContainer.isRgActive();
-        this.logger.log(-2137614336, "RGStartGuidanceCalculatedRouteByUID#execute() - calling rgStartGuidanceCalculatedRouteByUID( %1, %2 ) ", (Object)this.routeSegmentId, (Object)this.isPredictiveRoute);
+        this.logger.log(10000000, "RGStartGuidanceCalculatedRouteByUID#execute() - calling rgStartGuidanceCalculatedRouteByUID( %1, %2 ) ", (Object)this.routeSegmentId, (Object)this.isPredictiveRoute);
         this.getDSINavigation().rgStartGuidanceCalculatedRouteByUID(this.routeSegmentId);
         if (bl) {
             this.getCommandList().commandFinished();
         }
     }
 
-    @Override
     public void rgStartGuidanceCalculatedRouteByUIDResult(NavSegmentID navSegmentID, int n) {
         if (n == 0) {
-            this.logger.log(-2137614336, "RGStartGuidanceCalculatedRouteByUID#rgStartGuidanceCalculatedRouteByUIDResult()");
+            this.logger.log(10000000, "RGStartGuidanceCalculatedRouteByUID#rgStartGuidanceCalculatedRouteByUIDResult()");
             this.routeGuidanceStateModelAccess.setPredictiveRgRunning(this.isPredictiveRoute);
             this.getCommandList().commandFinished();
         } else {
@@ -42,7 +40,6 @@ extends NavCommand {
         }
     }
 
-    @Override
     public void rgStartGuidanceCalculatedRouteResult(int n) {
     }
 }

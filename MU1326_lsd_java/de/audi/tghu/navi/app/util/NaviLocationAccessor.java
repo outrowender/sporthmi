@@ -11,16 +11,16 @@ import org.dsi.ifc.base.IAdapterManager;
 import org.dsi.ifc.navigation.util.ILocationAccessorFactory;
 
 public class NaviLocationAccessor {
-    public static final int ADDITIONALFLAG_POI_24H;
-    public static final int ADDITIONALFLAG_POI_3D;
-    public static final int ADDITIONALFLAG_POI_PREMIUM;
-    public static final int ADDITIONALFLAG_POI_DIESEL;
-    public static final int ADDITIONALFLAG_FULLPOSTALCODE;
-    public static final int ADDITIONALFLAG_NEEDEDFORREFINEMENT_TOWNREFINEMENT;
-    public static final int ADDITIONALFLAG_NEEDEDFORREFINEMENT_ZIPCODE;
-    public static final int ADDITIONALFLAG_ISSPELLED_ZIPCODE;
-    public static final int ADDITIONALFLAG_TOWNISORDER9;
-    public static final int LOCATIONTYPE_GEOGRAPHICAL_POSITION;
+    public static final int ADDITIONALFLAG_POI_24H = 1;
+    public static final int ADDITIONALFLAG_POI_3D = 2;
+    public static final int ADDITIONALFLAG_POI_PREMIUM = 4;
+    public static final int ADDITIONALFLAG_POI_DIESEL = 8;
+    public static final int ADDITIONALFLAG_FULLPOSTALCODE = 0x8000000;
+    public static final int ADDITIONALFLAG_NEEDEDFORREFINEMENT_TOWNREFINEMENT = 0x10000000;
+    public static final int ADDITIONALFLAG_NEEDEDFORREFINEMENT_ZIPCODE = 0x20000000;
+    public static final int ADDITIONALFLAG_ISSPELLED_ZIPCODE = 0x40000000;
+    public static final int ADDITIONALFLAG_TOWNISORDER9 = Integer.MIN_VALUE;
+    public static final int LOCATIONTYPE_GEOGRAPHICAL_POSITION = 2;
     private final LogChannel logChannel;
     private IAdapterManager manager;
     private IMyLocationAccessorFactory factory;
@@ -31,7 +31,7 @@ public class NaviLocationAccessor {
     }
 
     public void registerAdapterManager(IAdapterManager iAdapterManager) {
-        this.logChannel.log(-2137614336, "NaviLocationAccessor#registerAdapterManager( %1 )", (Object)iAdapterManager);
+        this.logChannel.log(10000000, "NaviLocationAccessor#registerAdapterManager( %1 )", (Object)iAdapterManager);
         this.manager = iAdapterManager;
         this.updateLocationAccessorFactory();
     }
@@ -48,14 +48,14 @@ public class NaviLocationAccessor {
         } else if (this.manager != null) {
             ILocationAccessorFactory iLocationAccessorFactory = (ILocationAccessorFactory)this.manager.getFactory(class$org$dsi$ifc$navigation$util$ILocationAccessorFactory == null ? (class$org$dsi$ifc$navigation$util$ILocationAccessorFactory = NaviLocationAccessor.class$("org.dsi.ifc.navigation.util.ILocationAccessorFactory")) : class$org$dsi$ifc$navigation$util$ILocationAccessorFactory);
             if (iLocationAccessorFactory != null) {
-                this.logChannel.log(-2137614336, "NaviLocationAccessor#updateLocationAccessor() - retrieved ILocationAccessorFactory");
+                this.logChannel.log(10000000, "NaviLocationAccessor#updateLocationAccessor() - retrieved ILocationAccessorFactory");
                 this.factory = new PCLocationAccessorFactory(iLocationAccessorFactory);
             } else {
-                this.logChannel.log(-1601830656, "NaviLocationAccessor#updateLocationAccessor() - no ILocationAccessorFactory registered, using default implementation!");
+                this.logChannel.log(100000, "NaviLocationAccessor#updateLocationAccessor() - no ILocationAccessorFactory registered, using default implementation!");
                 this.factory = new PCLocationAccessorFactory(null);
             }
         } else {
-            this.logChannel.log(-2137614336, "NaviLocationAccessor#updateLocationAccessor() - remove ILocationAccessorFactory");
+            this.logChannel.log(10000000, "NaviLocationAccessor#updateLocationAccessor() - remove ILocationAccessorFactory");
             this.factory = null;
         }
         Util.setLocationAccessorFactory(this.factory);

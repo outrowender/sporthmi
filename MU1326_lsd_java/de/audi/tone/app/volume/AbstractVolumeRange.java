@@ -27,9 +27,9 @@ public abstract class AbstractVolumeRange
 implements RangeListener,
 ChoiceListener,
 IViewSizeListener {
-    protected static final int DUMMY_MODEL_ID;
-    protected static final int DEFAULT_TERMINAL;
-    protected static final int[] NO_CONNECTIONS;
+    protected static final int DUMMY_MODEL_ID = -1;
+    protected static final int DEFAULT_TERMINAL = 0;
+    protected static final int[] NO_CONNECTIONS = new int[0];
     protected final RangeModelApp model;
     final ChoiceModelApp focusModel;
     private final String label;
@@ -45,14 +45,11 @@ IViewSizeListener {
     protected IGreyOutAndPopupHandler greyOutHandler;
     protected IVolumeMapper volumeMapper;
 
-    protected abstract int[] getVolumeConnections() {
-    }
+    protected abstract int[] getVolumeConnections();
 
-    protected abstract String getName() {
-    }
+    protected abstract String getName();
 
-    protected abstract int getID() {
-    }
+    protected abstract int getID();
 
     protected AbstractVolumeRange(VolumeRangeManager volumeRangeManager, int n, int n2, int n3) {
         this(volumeRangeManager, n, n2);
@@ -78,7 +75,7 @@ IViewSizeListener {
     }
 
     protected void registerService(Object object) {
-        this.env.lcMain.log(-2137614336, "%1.registerService] %2", (Object)this.label, object);
+        this.env.lcMain.log(10000000, "%1.registerService] %2", (Object)this.label, object);
         try {
             this.getSamplePlayer().registerService(object);
         }
@@ -89,12 +86,12 @@ IViewSizeListener {
     }
 
     protected void deregisterService(Object object) {
-        this.env.lcMain.log(-2137614336, "%1.deregisterService] %2", (Object)this.label, object);
+        this.env.lcMain.log(10000000, "%1.deregisterService] %2", (Object)this.label, object);
         this.getSamplePlayer().deregisterService(object);
     }
 
     protected void init() {
-        this.env.lcMain.log(-2137614336, "%1.init]", (Object)this.label);
+        this.env.lcMain.log(10000000, "%1.init]", (Object)this.label);
         if (this.connection != 0) {
             this.dsiSound.getMenuVolumeRange(0, this.connection);
             this.dsiSound.getVolume(0, this.connection);
@@ -102,7 +99,7 @@ IViewSizeListener {
     }
 
     protected final void setForegroundConnection(int n) {
-        this.env.lcMain.log(-2137614336, "%1.setForegroundConnection() conn:%2", (Object)this.label, (long)n);
+        this.env.lcMain.log(10000000, "%1.setForegroundConnection() conn:%2", (Object)this.label, (long)n);
         this.connection = n;
     }
 
@@ -116,7 +113,7 @@ IViewSizeListener {
 
     protected void setMedialPosition(int n) {
         if (n != this.model.getMedialPosition()) {
-            this.env.lcDSI.log(-2137614336, "%1.setMedialPosition] pos:%2", (Object)this.label, (long)n);
+            this.env.lcDSI.log(10000000, "%1.setMedialPosition] pos:%2", (Object)this.label, (long)n);
             this.model.setMedialPosition(n);
         }
     }
@@ -126,7 +123,7 @@ IViewSizeListener {
     }
 
     protected void entered() {
-        this.env.lcHMI.log(-2137614336, "%1.entered]", (Object)this.label);
+        this.env.lcHMI.log(10000000, "%1.entered]", (Object)this.label);
         this.active = true;
         this.focused = true;
         this.setEnableOnOffToDDSMapping(true);
@@ -135,7 +132,7 @@ IViewSizeListener {
     }
 
     protected void left() {
-        this.env.lcHMI.log(-2137614336, "%1.left]", (Object)this.label);
+        this.env.lcHMI.log(10000000, "%1.left]", (Object)this.label);
         this.active = false;
         this.focused = false;
         this.releaseMenuConnection();
@@ -152,11 +149,11 @@ IViewSizeListener {
 
     void updateValue(int n) {
         int n2 = this.volumeMapper.mapVolume2Model(n);
-        if (n2 == 128) {
-            this.env.lcDSI.log(-2137614336, "%1.updateValue] value:%2 mapped:not found! Do not update model", (Object)this.label, (long)n);
+        if (n2 == Integer.MIN_VALUE) {
+            this.env.lcDSI.log(10000000, "%1.updateValue] value:%2 mapped:not found! Do not update model", (Object)this.label, (long)n);
             return;
         }
-        this.env.lcDSI.log(-2137614336, "%1.updateValue] value:%2 mapped:%3", (Object)this.label, (long)n, (long)n2);
+        this.env.lcDSI.log(10000000, "%1.updateValue] value:%2 mapped:%3", (Object)this.label, (long)n, (long)n2);
         this.model.setValue(n2);
     }
 
@@ -164,7 +161,7 @@ IViewSizeListener {
         int n3 = this.volumeMapper.mapModelVolumeRangeMin(n);
         int n4 = this.volumeMapper.mapModelVolumeRangeMax(n2);
         if (n3 != this.model.getMinimum() || n4 != this.model.getMaximum()) {
-            this.env.lcDSI.log(-2137614336, "%1.updateLimits] min:%2 max:%3", (Object)this.label, (long)n3, (long)n4);
+            this.env.lcDSI.log(10000000, "%1.updateLimits] min:%2 max:%3", (Object)this.label, (long)n3, (long)n4);
             this.model.setLimits(n3, n4, 1);
         }
     }
@@ -178,7 +175,7 @@ IViewSizeListener {
     }
 
     protected void audible(boolean bl) {
-        this.env.lcMain.log(-2137614336, "%1.audible] audible:%2 active:%3", (Object)this.label, (Object)String.valueOf(bl), (Object)String.valueOf(this.active));
+        this.env.lcMain.log(10000000, "%1.audible] audible:%2 active:%3", (Object)this.label, (Object)String.valueOf(bl), (Object)String.valueOf(this.active));
         if (bl) {
             if (this.active) {
                 this.getSamplePlayer().play();
@@ -188,9 +185,8 @@ IViewSizeListener {
         }
     }
 
-    @Override
     public void decrement(int n, int n2, int n3) {
-        this.env.lcHMI.log(-2137614336, "%1.decrement] steps:%2 HT:%3", (Object)this.label, (long)n2, (long)n3);
+        this.env.lcHMI.log(10000000, "%1.decrement] steps:%2 HT:%3", (Object)this.label, (long)n2, (long)n3);
         this.decrease(n3, n2);
     }
 
@@ -200,9 +196,8 @@ IViewSizeListener {
         this.dsiSound.decreaseVolume(n, 2, n4);
     }
 
-    @Override
     public void increment(int n, int n2, int n3) {
-        this.env.lcHMI.log(-2137614336, "%1.increment] steps:%2 HT:%3", (Object)this.label, (long)n2, (long)n3);
+        this.env.lcHMI.log(10000000, "%1.increment] steps:%2 HT:%3", (Object)this.label, (long)n2, (long)n3);
         this.increase(n3, n2);
     }
 
@@ -220,49 +215,44 @@ IViewSizeListener {
         this.greyOutHandler.updateActiveConnection(n, n2);
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
-        this.env.lcHMI.log(-2137614336, "%1.keyTyped] model:%2 HT:%3", (Object)this.label, (long)n, (long)n3);
+        this.env.lcHMI.log(10000000, "%1.keyTyped] model:%2 HT:%3", (Object)this.label, (long)n, (long)n3);
         this.model.fireEvent(n3);
     }
 
-    @Override
     public void keyLongTyped(int n, int n2, int n3) {
     }
 
-    @Override
     public final void keyPressed(int n, int n2, int n3) {
     }
 
-    @Override
     public final void keyReleased(int n, int n2, int n3) {
     }
 
     protected void setEnableOnOffToDDSMapping(boolean bl) {
-        this.env.lcHMI.log(-2137614336, "[AbstractVolumeRange.setEnableOnOffToDDSMapping] [%2] enable:%1", bl, (Object)this.label);
+        this.env.lcHMI.log(10000000, "[AbstractVolumeRange.setEnableOnOffToDDSMapping] [%2] enable:%1", bl, (Object)this.label);
         this.enableOnOffToDDSMapping = bl;
     }
 
-    @Override
     public void itemSelected(int n, int n2, int n3, int n4) {
-        this.env.lcHMI.log(-2137614336, "[AbstractVolumeRange.itemSelected] modelID:%1, itemID:%2", (long)n, (long)n2);
+        this.env.lcHMI.log(10000000, "[AbstractVolumeRange.itemSelected] modelID:%1, itemID:%2", (long)n, (long)n2);
         if (n == this.focusModel.getID() && this.active) {
-            this.env.lcHMI.log(-2137614336, "[AbstractVolumeRange.itemSelected] active:%1, already focused:%2", this.active, this.focused);
+            this.env.lcHMI.log(10000000, "[AbstractVolumeRange.itemSelected] active:%1, already focused:%2", this.active, this.focused);
             if (DrawerFocusUtil.isFocusGained(n2)) {
                 if (DrawerFocusUtil.isMainArea(n2) && this.focused) {
-                    this.env.lcHMI.log(-2137614336, "[AbstractVolumeRange.itemSelected] already focused - return");
+                    this.env.lcHMI.log(10000000, "[AbstractVolumeRange.itemSelected] already focused - return");
                     return;
                 }
                 if (this.greyOutHandler.getGreyOutState() == 1) {
-                    this.env.lcHMI.log(-2137614336, "[AbstractVolumeRange.itemSelected] announcement still active - return");
+                    this.env.lcHMI.log(10000000, "[AbstractVolumeRange.itemSelected] announcement still active - return");
                     return;
                 }
-                this.env.lcHMI.log(-2137614336, "[AbstractVolumeRange.itemSelected] [%1], focus gained ", (Object)this.label);
+                this.env.lcHMI.log(10000000, "[AbstractVolumeRange.itemSelected] [%1], focus gained ", (Object)this.label);
                 this.focused = true;
                 if (this.isSmallstage) {
-                    this.env.lcHMI.log(-2137614336, "[AbstractVolumeRange.itemSelected]  isSmallStage:%1 ", this.isSmallstage);
+                    this.env.lcHMI.log(10000000, "[AbstractVolumeRange.itemSelected]  isSmallStage:%1 ", this.isSmallstage);
                 } else {
-                    this.env.lcHMI.log(-2137614336, "[AbstractVolumeRange.itemSelected] [%1], focus gained and big Stage", (Object)this.label);
+                    this.env.lcHMI.log(10000000, "[AbstractVolumeRange.itemSelected] [%1], focus gained and big Stage", (Object)this.label);
                     this.setEnableOnOffToDDSMapping(true);
                     this.greyOutHandler.updateActiveConnection(this.audioService.getActiveConnection(0), 0);
                     this.requestMenuConnection();
@@ -270,30 +260,28 @@ IViewSizeListener {
                 }
             } else if (DrawerFocusUtil.isFocusLost(n2)) {
                 if (DrawerFocusUtil.isReasonReInit(n2)) {
-                    this.env.lcHMI.log(-2137614336, "[AbstractVolumeRange.itemSelected] partial popup, ignored drawerstate:%1", (long)n2);
+                    this.env.lcHMI.log(10000000, "[AbstractVolumeRange.itemSelected] partial popup, ignored drawerstate:%1", (long)n2);
                     return;
                 }
-                this.env.lcHMI.log(-2137614336, "[AbstractVolumeRange.itemSelected] [%1], focus lost", (Object)this.label);
+                this.env.lcHMI.log(10000000, "[AbstractVolumeRange.itemSelected] [%1], focus lost", (Object)this.label);
                 this.focused = false;
                 this.setEnableOnOffToDDSMapping(false);
                 this.releaseMenuConnection();
                 this.volMenuManager.menuDrawerUnfocused(this.getID());
             } else {
-                this.env.lcHMI.log(-2137614336, "[AbstractVolumeRange.itemSelected] ignore drawerstate:%1", (long)n2);
+                this.env.lcHMI.log(10000000, "[AbstractVolumeRange.itemSelected] ignore drawerstate:%1", (long)n2);
             }
         }
     }
 
-    @Override
     public void itemFocused(int n, int n2, int n3, int n4) {
     }
 
-    @Override
     public void viewSizeChanged(int n) {
-        this.env.lcHMI.log(-2137614336, "%1.viewSizeChanged] called", (Object)this.label);
+        this.env.lcHMI.log(10000000, "%1.viewSizeChanged] called", (Object)this.label);
         if (this.active) {
             if (n == 1) {
-                this.env.lcHMI.log(-2137614336, "%1.viewSizeChanged] newViewSize:%2, small stage", (Object)this.label, (long)n);
+                this.env.lcHMI.log(10000000, "%1.viewSizeChanged] newViewSize:%2, small stage", (Object)this.label, (long)n);
                 this.isSmallstage = true;
                 this.setEnableOnOffToDDSMapping(false);
                 this.releaseMenuConnection();
@@ -303,7 +291,7 @@ IViewSizeListener {
                 if (this.focused) {
                     this.setEnableOnOffToDDSMapping(true);
                     this.greyOutHandler.updateActiveConnection(this.audioService.getActiveConnection(0), 0);
-                    this.env.lcHMI.log(-2137614336, "%1.viewSizeChanged] newViewSize:%2, big stage", (Object)this.label, (long)n);
+                    this.env.lcHMI.log(10000000, "%1.viewSizeChanged] newViewSize:%2, big stage", (Object)this.label, (long)n);
                     this.requestMenuConnection();
                     this.volMenuManager.menuDrawerFocused(this.getID());
                 }
@@ -332,7 +320,7 @@ IViewSizeListener {
             this.limitVolumeToHmiLimits();
             this.audioService.requestAndFadeToConnection(0, this.connection);
         } else {
-            this.env.lcMain.log(-2137614336, "%1.requestMenuConnection] connection:%2 not requested", (Object)this.label, (long)this.connection);
+            this.env.lcMain.log(10000000, "%1.requestMenuConnection] connection:%2 not requested", (Object)this.label, (long)this.connection);
         }
     }
 
@@ -340,7 +328,7 @@ IViewSizeListener {
         if (this.connection != 0) {
             this.audioService.releaseConnection(0, this.connection);
         } else {
-            this.env.lcMain.log(-2137614336, "%1.releaseMenuConnection] connection:%2 undefined", (Object)this.label, (long)this.connection);
+            this.env.lcMain.log(10000000, "%1.releaseMenuConnection] connection:%2 undefined", (Object)this.label, (long)this.connection);
         }
     }
 
@@ -366,10 +354,6 @@ IViewSizeListener {
 
     protected void setVolumeMapper(IVolumeMapper iVolumeMapper) {
         this.volumeMapper = iVolumeMapper;
-    }
-
-    static {
-        NO_CONNECTIONS = new int[0];
     }
 }
 

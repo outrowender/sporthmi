@@ -4,7 +4,6 @@
 package de.audi.tuner.ifc;
 
 public interface IPowerEvent {
-    default public void notifyPowerEvent(int n, int n2) {
-    }
+    public void notifyPowerEvent(int var1, int var2);
 }
 

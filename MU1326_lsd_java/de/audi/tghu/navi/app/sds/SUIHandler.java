@@ -3,7 +3,7 @@
  */
 package de.audi.tghu.navi.app.sds;
 
-import de.audi.atip.interapp.NaviService$NaviSUIDetails;
+import de.audi.atip.interapp.NaviService;
 import de.audi.atip.log.LogChannel;
 import de.audi.tghu.navi.app.sds.ISUIModelAccess;
 
@@ -16,9 +16,9 @@ public class SUIHandler {
         this.logChannel = logChannel;
     }
 
-    public byte fillNaviSUIList(NaviService$NaviSUIDetails[] naviService$NaviSUIDetailsArray) {
-        this.logChannel.log(-2137614336, "SUIHandler#fillNaviSUIList()");
-        return this.modelAccess.fillNaviSUIList(naviService$NaviSUIDetailsArray);
+    public byte fillNaviSUIList(NaviService.NaviSUIDetails[] naviSUIDetailsArray) {
+        this.logChannel.log(10000000, "SUIHandler#fillNaviSUIList()");
+        return this.modelAccess.fillNaviSUIList(naviSUIDetailsArray);
     }
 }
 

@@ -19,7 +19,6 @@ extends AbstractHMIActivator {
         super(17, "SWDL", System.getProperty("variant.skin", "EvoHighScale"), new SWDLModelBank());
     }
 
-    @Override
     protected synchronized AbstractScreenFactory getScreenFactory() {
         if (this.instance == null) {
             this.instance = new SWDLScreenFactory(this.getFramework());
@@ -27,7 +26,6 @@ extends AbstractHMIActivator {
         return this.instance;
     }
 
-    @Override
     public HMIConditionBank getConditionBank() {
         if (this.conditionBank == null) {
             this.conditionBank = new SWDLConditionBank((SWDLScreenFactory)this.getScreenFactory());

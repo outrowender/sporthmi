@@ -13,187 +13,126 @@ import org.dsi.ifc.map.ViewPort;
 
 public interface IDSIMapViewerControlListener
 extends DSIListener {
-    default public void updateReady(boolean bl) {
-    }
+    public void updateReady(boolean var1);
 
-    default public void updateCurrentViewType(int n) {
-    }
+    public void updateCurrentViewType(int var1);
 
-    default public void updateDayNightView(boolean bl) {
-    }
+    public void updateDayNightView(boolean var1);
 
-    default public void updateViewScreenViewPort(Rect rect) {
-    }
+    public void updateViewScreenViewPort(Rect var1);
 
-    default public void updateViewScreenViewPortMaximum(Rect rect) {
-    }
+    public void updateViewScreenViewPortMaximum(Rect var1);
 
-    default public void updateViewVisible(boolean bl) {
-    }
+    public void updateViewVisible(boolean var1);
 
-    default public void updateViewFreeze(boolean bl) {
-    }
+    public void updateViewFreeze(boolean var1);
 
-    default public void updateZoomLevel(float f2) {
-    }
+    public void updateZoomLevel(float var1);
 
-    default public void updateZoomList(float[] fArray) {
-    }
+    public void updateZoomList(float[] var1);
 
-    default public void updateZoomListIndex(int n) {
-    }
+    public void updateZoomListIndex(int var1);
 
-    default public void updateMapRotation(short s) {
-    }
+    public void updateMapRotation(short var1);
 
-    default public void updateMapPosition(NavLocationWgs84 navLocationWgs84) {
-    }
+    public void updateMapPosition(NavLocationWgs84 var1);
 
-    default public void updateMapOrientation(int n) {
-    }
+    public void updateMapOrientation(int var1);
 
-    default public void updateCarPosition(Point point) {
-    }
+    public void updateCarPosition(Point var1);
 
-    default public void updateTmcVisible(boolean bl) {
-    }
+    public void updateTmcVisible(boolean var1);
 
-    default public void updateMapMode(int n) {
-    }
+    public void updateMapMode(int var1);
 
-    default public void updateSelectedPoi(PosInfo posInfo) {
-    }
+    public void updateSelectedPoi(PosInfo var1);
 
-    default public void updateSpeedAndFlowVisible(boolean bl) {
-    }
+    public void updateSpeedAndFlowVisible(boolean var1);
 
-    default public void updateAvailableRoutes(AvailableRoute[] availableRouteArray) {
-    }
+    public void updateAvailableRoutes(AvailableRoute[] var1);
 
-    default public void updateViewPort(ViewPort viewPort) {
-    }
+    public void updateViewPort(ViewPort var1);
 
-    default public void updateSoftJumpEnabled(boolean bl) {
-    }
+    public void updateSoftJumpEnabled(boolean var1);
 
-    default public void updateSoftRotationEnabled(boolean bl) {
-    }
+    public void updateSoftRotationEnabled(boolean var1);
 
-    default public void updateSoftTiltEnabled(boolean bl) {
-    }
+    public void updateSoftTiltEnabled(boolean var1);
 
-    default public void updateSoftZoomEnabled(boolean bl) {
-    }
+    public void updateSoftZoomEnabled(boolean var1);
 
-    default public void updateSoftJumpRunning(boolean bl) {
-    }
+    public void updateSoftJumpRunning(boolean var1);
 
-    default public void updateSoftRotationRunning(boolean bl) {
-    }
+    public void updateSoftRotationRunning(boolean var1);
 
-    default public void updateSoftTiltRunning(boolean bl) {
-    }
+    public void updateSoftTiltRunning(boolean var1);
 
-    default public void updateSoftZoomRunning(boolean bl) {
-    }
+    public void updateSoftZoomRunning(boolean var1);
 
-    default public void updateRouteCalcModeEnabled(boolean bl) {
-    }
+    public void updateRouteCalcModeEnabled(boolean var1);
 
-    default public void configureFlags(long[] lArray) {
-    }
+    public void configureFlags(long[] var1);
 
-    default public void getInfoForPosition(PosInfo[] posInfoArray) {
-    }
+    public void getInfoForPosition(PosInfo[] var1);
 
-    default public void getNumberOfPOIs(long l) {
-    }
+    public void getNumberOfPOIs(long var1);
 
-    default public void unpackPOIContainerResult(boolean bl) {
-    }
+    public void unpackPOIContainerResult(boolean var1);
 
-    default public void updateCurrentLanduseStyle(int n) {
-    }
+    public void updateCurrentLanduseStyle(int var1);
 
-    default public void updateCurrentMetricSystem(int n) {
-    }
+    public void updateCurrentMetricSystem(int var1);
 
-    default public void setViewFocusOnBlockResult(int n) {
-    }
+    public void setViewFocusOnBlockResult(int var1);
 
-    default public void startToDrawNewRectangleInMapResult(int n, NavLocationWgs84 navLocationWgs84, NavLocationWgs84 navLocationWgs842) {
-    }
+    public void startToDrawNewRectangleInMapResult(int var1, NavLocationWgs84 var2, NavLocationWgs84 var3);
 
-    default public void setSouthWestCornerOfRectangleInMapResult(int n, NavLocationWgs84 navLocationWgs84) {
-    }
+    public void setSouthWestCornerOfRectangleInMapResult(int var1, NavLocationWgs84 var2);
 
-    default public void setNorthEastCornerOfRectangleInMapResult(int n, NavLocationWgs84 navLocationWgs84) {
-    }
+    public void setNorthEastCornerOfRectangleInMapResult(int var1, NavLocationWgs84 var2);
 
-    default public void finishDrawRectangleInMapResult(int n, NavLocationWgs84 navLocationWgs84, NavLocationWgs84 navLocationWgs842) {
-    }
+    public void finishDrawRectangleInMapResult(int var1, NavLocationWgs84 var2, NavLocationWgs84 var3);
 
-    default public void updateCityModelMode(int n) {
-    }
+    public void updateCityModelMode(int var1);
 
-    default public void displayRemainingRangeOfVehicleResult(boolean bl) {
-    }
+    public void displayRemainingRangeOfVehicleResult(boolean var1);
 
-    default public void touchApproachResult(boolean bl) {
-    }
+    public void touchApproachResult(boolean var1);
 
-    default public void setBrandIconStyleResult(int n) {
-    }
+    public void setBrandIconStyleResult(int var1);
 
-    default public void setGuidanceSymbolResult(int n) {
-    }
+    public void setGuidanceSymbolResult(int var1);
 
-    default public void setHOVLaneVisibilityResult(int n) {
-    }
+    public void setHOVLaneVisibilityResult(int var1);
 
-    default public void rbGetIDOfSelectedSegmentResult(long l, int n) {
-    }
+    public void rbGetIDOfSelectedSegmentResult(long var1, int var3);
 
-    default public void rbGetRRDToSelectedSegmentResult(long l, int n, int n2) {
-    }
+    public void rbGetRRDToSelectedSegmentResult(long var1, int var3, int var4);
 
-    default public void setTollRoadHighLightingResult(boolean bl, int n) {
-    }
+    public void setTollRoadHighLightingResult(boolean var1, int var2);
 
-    default public void setMountainPeakMarkerResult(boolean bl, int n) {
-    }
+    public void setMountainPeakMarkerResult(boolean var1, int var2);
 
-    default public void setViewFocusOnCombinedRouteListElementsResult(int n) {
-    }
+    public void setViewFocusOnCombinedRouteListElementsResult(int var1);
 
-    default public void suspendMapViewerResult(int n) {
-    }
+    public void suspendMapViewerResult(int var1);
 
-    default public void wakeupMapViewerResult(int n) {
-    }
+    public void wakeupMapViewerResult(int var1);
 
-    default public void isDetailedMapMaterialAvailable(NavLocationWgs84 navLocationWgs84, boolean bl) {
-    }
+    public void isDetailedMapMaterialAvailable(NavLocationWgs84 var1, boolean var2);
 
-    default public void updateMapViewerRunLevel(int n) {
-    }
+    public void updateMapViewerRunLevel(int var1);
 
-    default public void updateMapViewerSuspensionSupported(int n) {
-    }
+    public void updateMapViewerSuspensionSupported(int var1);
 
-    default public void updateMapViewerSuspensionAndWakeUpProgress(int n) {
-    }
+    public void updateMapViewerSuspensionAndWakeUpProgress(int var1);
 
-    default public void updateAvailableCountryOverviews(String[] stringArray) {
-    }
+    public void updateAvailableCountryOverviews(String[] var1);
 
-    default public void updateGeneralPoiVisibility(boolean bl) {
-    }
+    public void updateGeneralPoiVisibility(boolean var1);
 
-    default public void updateHorizonMarkerVisibility(boolean bl) {
-    }
+    public void updateHorizonMarkerVisibility(boolean var1);
 
-    default public void updateEhCategoryVisibility(int[] nArray) {
-    }
+    public void updateEhCategoryVisibility(int[] var1);
 }
 

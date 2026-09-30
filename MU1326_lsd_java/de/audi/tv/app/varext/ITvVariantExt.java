@@ -8,15 +8,12 @@ import de.audi.atip.hmi.modelaccess.ChoiceModelApp;
 import de.audi.atip.hmi.modelaccess.SpellerModelApp;
 
 public interface ITvVariantExt {
-    public static final int VIRTUALBUTTON_NONE;
+    public static final int VIRTUALBUTTON_NONE = -1;
 
-    default public int getVirtualButtonModelId(int n) {
-    }
+    public int getVirtualButtonModelId(int var1);
 
-    default public SpellerModelApp getParentalRatingPasswordSpeller(IHMIServiceApp iHMIServiceApp) {
-    }
+    public SpellerModelApp getParentalRatingPasswordSpeller(IHMIServiceApp var1);
 
-    default public ChoiceModelApp getSdisForcedNavigationChoice(IHMIServiceApp iHMIServiceApp) {
-    }
+    public ChoiceModelApp getSdisForcedNavigationChoice(IHMIServiceApp var1);
 }
 

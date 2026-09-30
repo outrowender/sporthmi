@@ -6,7 +6,6 @@ package de.audi.tuner.app.gracenote;
 import de.audi.atip.hmi.model.HMIResourceLocator;
 import de.audi.atip.log.LogChannel;
 import de.audi.tuner.app.TunerBasics;
-import de.audi.tuner.app.gracenote.CoverArtHandler$1;
 import de.audi.tuner.app.gracenote.IGracenoteRequest;
 import de.audi.tuner.app.gracenote.IGracenoteResponse;
 import de.audi.tuner.ifc.ISimpleTuner;
@@ -15,11 +14,16 @@ import org.dsi.ifc.media.CoverartInfo;
 
 public class CoverArtHandler
 implements IGracenoteResponse {
-    private static final int NO_JOB;
+    private static final int NO_JOB = -1;
     private final LogChannel log;
     private HMIResourceLocator coverArt = ISimpleTuner.EMPTY_RL;
     private final Object mutex = new Object();
-    private IGracenoteRequest gracenote = new CoverArtHandler$1(this);
+    private IGracenoteRequest gracenote = new IGracenoteRequest(){
+
+        public int gracenoteRequest(CoverartInfo coverartInfo, IGracenoteResponse iGracenoteResponse) {
+            return 0;
+        }
+    };
     private CoverartInfo gracenoteRequest = new CoverartInfo();
     private int requestId = -1;
 
@@ -72,9 +76,8 @@ implements IGracenoteResponse {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public boolean setCoverArt(int n, ResourceLocator resourceLocator) {
-        this.log.log(-2137614336, "[CoverArtManager.setCoverArt] %1", (Object)resourceLocator);
+        this.log.log(10000000, "[CoverArtManager.setCoverArt] %1", (Object)resourceLocator);
         Object object = this.mutex;
         synchronized (object) {
             String string;

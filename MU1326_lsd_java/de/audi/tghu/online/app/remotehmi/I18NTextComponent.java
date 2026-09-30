@@ -7,9 +7,9 @@ import de.audi.atip.hmi.HMIService;
 import de.audi.atip.log.LogChannel;
 import de.audi.remotehmi.RemoteHMIAction;
 import de.audi.remotehmi.textconstants.ITextConstantsConverter;
+import de.audi.tghu.online.app.remotehmi.AbstractCommandHandler;
 import de.audi.tghu.online.app.remotehmi.AbstractRemoteHMIComponent;
-import de.audi.tghu.online.app.remotehmi.I18NTextComponent$1;
-import de.audi.tghu.online.app.remotehmi.RemoteHMIDSIAccess$IRemoteHMIDSIListener;
+import de.audi.tghu.online.app.remotehmi.RemoteHMIDSIAccess;
 import de.audi.tghu.online.app.remotehmi.RemoteHMIService;
 import java.lang.reflect.Field;
 import java.util.HashMap;
@@ -17,7 +17,7 @@ import java.util.Map;
 
 public class I18NTextComponent
 extends AbstractRemoteHMIComponent
-implements RemoteHMIDSIAccess$IRemoteHMIDSIListener,
+implements RemoteHMIDSIAccess.IRemoteHMIDSIListener,
 ITextConstantsConverter {
     public static int REMOTEHMI_TEXT = 1;
     private boolean dsiReady = false;
@@ -29,13 +29,16 @@ ITextConstantsConverter {
         this.fields = fieldArray;
     }
 
-    @Override
     public void init(LogChannel logChannel, RemoteHMIService remoteHMIService) {
         super.init(logChannel, remoteHMIService);
-        this.remoteHmiService.addCommandHandler(249689349, new I18NTextComponent$1(this, "i18n-ready"));
+        this.remoteHmiService.addCommandHandler(100000014, new AbstractCommandHandler("i18n-ready"){
+
+            public void indicateCommand(int n, Object object) {
+                I18NTextComponent.this.refresh();
+            }
+        });
     }
 
-    @Override
     public void remoteHmiDsiReady() {
         this.dsiReady = true;
         if (this.pendingAction != null) {
@@ -59,17 +62,20 @@ ITextConstantsConverter {
     }
 
     private RemoteHMIAction generateFields(HMIService hMIService) {
-        RemoteHMIAction remoteHMIAction = new RemoteHMIAction(-124151808);
+        RemoteHMIAction remoteHMIAction = new RemoteHMIAction(0x9899F8);
         this.currentTexts.clear();
         if (this.fields != null && this.fields.length > 0) {
-            for (Field field : this.fields) {
+            int n = this.fields.length;
+            for (int i2 = 0; i2 < n; ++i2) {
+                Field field = this.fields[i2];
                 String string = field.getName();
                 try {
                     Object object;
-                    int n = field.getType().isArray() ? (((int[])(object = (int[])field.get(null))).length == 1 ? object[0] : -1) : field.getInt(null);
-                    object = hMIService.getText(n);
+                    int n2 = field.getType().isArray() ? (((int[])(object = (int[])field.get(null))).length == 1 ? object[0] : -1) : field.getInt(null);
+                    object = hMIService.getText(n2);
                     remoteHMIAction.getParameters().putString(string, (String)object);
                     this.currentTexts.put(string, object);
+                    continue;
                 }
                 catch (IllegalArgumentException illegalArgumentException) {
                     this.logChannel.log(10000, "I18NTextComponent#generateFields(): IllegalArgumentException %1 for field %2", (Object)illegalArgumentException, (Object)field.getName());
@@ -85,12 +91,11 @@ ITextConstantsConverter {
         return null;
     }
 
-    @Override
     public String getText(String string) {
         String string2 = "";
         string2 = (String)this.currentTexts.get(string);
         if (string2 == null || string2.length() == 0) {
-            return new StringBuffer().append("Text constant '").append(string).append("' could not be replaced!").toString();
+            return "Text constant '" + string + "' could not be replaced!";
         }
         return string2;
     }

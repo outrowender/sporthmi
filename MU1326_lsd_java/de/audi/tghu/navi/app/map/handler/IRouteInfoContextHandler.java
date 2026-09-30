@@ -6,61 +6,42 @@ package de.audi.tghu.navi.app.map.handler;
 import de.audi.tghu.navi.app.map.instances.MinorMap;
 
 public interface IRouteInfoContextHandler {
-    default public void setMinorMap(MinorMap minorMap) {
-    }
+    public void setMinorMap(MinorMap var1);
 
-    default public void cleanup() {
-    }
+    public void cleanup();
 
-    default public void handleCurrentRouteInfoContext() {
-    }
+    public void handleCurrentRouteInfoContext();
 
-    default public boolean isManeuverViewVisible() {
-    }
+    public boolean isManeuverViewVisible();
 
-    default public boolean isRouteInfoAllowedToFadeIn() {
-    }
+    public boolean isRouteInfoAllowedToFadeIn();
 
-    default public void signalManeuverViewActive() {
-    }
+    public void signalManeuverViewActive();
 
-    default public void signalMapHidden() {
-    }
+    public void signalMapHidden();
 
-    default public void signalMapInMapInoperable() {
-    }
+    public void signalMapInMapInoperable();
 
-    default public void signalRouteInfoHidden() {
-    }
+    public void signalRouteInfoHidden();
 
-    default public void updateDisplayContext(int n) {
-    }
+    public void updateDisplayContext(int var1);
 
-    default public void updateDistanceToNextManeuver(String string) {
-    }
+    public void updateDistanceToNextManeuver(String var1);
 
-    default public void updateManoeuvreViewsAvailable(short[] sArray) {
-    }
+    public void updateManoeuvreViewsAvailable(short[] var1);
 
-    default public void updateMapInMapViewVisibleAndUnfrozen(boolean bl, boolean bl2) {
-    }
+    public void updateMapInMapViewVisibleAndUnfrozen(boolean var1, boolean var2);
 
-    default public boolean isManeuverViewAvailable() {
-    }
+    public boolean isManeuverViewAvailable();
 
-    default public boolean isManeuverViewRequested() {
-    }
+    public boolean isManeuverViewRequested();
 
-    default public void updateDistanceToNextManeuver(int n, int n2) {
-    }
+    public void updateDistanceToNextManeuver(int var1, int var2);
 
-    default public void fillModelsAccordingToLayerVisibility() {
-    }
+    public void fillModelsAccordingToLayerVisibility();
 
-    default public boolean isOffroadModeActive() {
-    }
+    public boolean isOffroadModeActive();
 
-    default public void signalCompassHidden() {
-    }
+    public void signalCompassHidden();
 }
 

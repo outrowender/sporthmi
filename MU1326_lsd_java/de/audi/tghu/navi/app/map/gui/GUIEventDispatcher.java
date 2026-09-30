@@ -55,71 +55,71 @@ implements GUIEventListener {
 
     private void init(NavigationEnv navigationEnv) {
         this.mScreenLayout = navigationEnv.getListModel(176);
-        navigationEnv.getChoiceModel(1058801152).setChoiceListener(this);
-        navigationEnv.getChoiceModel(1058801152).forceUpdate(true);
-        navigationEnv.getVirtualButtonModel(1075578368).setVirtualButtonListener(this);
-        navigationEnv.getVirtualButtonModel(404817408).setVirtualButtonListener(this);
-        navigationEnv.getChoiceModel(991692288).setChoiceListener(this);
-        navigationEnv.getChoiceModel(890963456).setChoiceListener(this);
+        navigationEnv.getChoiceModel(400447).setChoiceListener(this);
+        navigationEnv.getChoiceModel(400447).forceUpdate(true);
+        navigationEnv.getVirtualButtonModel(400448).setVirtualButtonListener(this);
+        navigationEnv.getVirtualButtonModel(401688).setVirtualButtonListener(this);
+        navigationEnv.getChoiceModel(400443).setChoiceListener(this);
+        navigationEnv.getChoiceModel(400181).setChoiceListener(this);
         this.registerAlternativeRouteSelectionListener(navigationEnv);
-        navigationEnv.getChoiceModel(1646003712).setChoiceListener(this);
-        navigationEnv.getRangeModel(1545340416).setRangeListener(this);
+        navigationEnv.getChoiceModel(400482).setChoiceListener(this);
+        navigationEnv.getRangeModel(400476).setRangeListener(this);
         this.mMagnificationMetric = new Distance(0.0f, 1, 4);
-        navigationEnv.getMetricsModel(1528563200).setMetric(this.mMagnificationMetric);
-        navigationEnv.getRangeModel(35522048).setRangeListener(this);
-        navigationEnv.getRangeModel(1813775872).setRangeListener(this);
-        navigationEnv.getButtonModel(1595672064).setButtonListener(this);
-        navigationEnv.getButtonModel(1612449280).setButtonListener(this);
-        navigationEnv.getButtonModel(1746667008).setButtonListener(this);
-        navigationEnv.getButtonModel(1109132800).setButtonListener(this);
-        navigationEnv.getButtonModel(1109132800).setStatus(0);
-        navigationEnv.getButtonModel(1411319296).setButtonListener(this);
-        navigationEnv.getChoiceModel(-1742928384).setButtonListener(this);
+        navigationEnv.getMetricsModel(400475).setMetric(this.mMagnificationMetric);
+        navigationEnv.getRangeModel(400898).setRangeListener(this);
+        navigationEnv.getRangeModel(400492).setRangeListener(this);
+        navigationEnv.getButtonModel(400479).setButtonListener(this);
+        navigationEnv.getButtonModel(400480).setButtonListener(this);
+        navigationEnv.getButtonModel(400488).setButtonListener(this);
+        navigationEnv.getButtonModel(400450).setButtonListener(this);
+        navigationEnv.getButtonModel(400450).setStatus(0);
+        navigationEnv.getButtonModel(401236).setButtonListener(this);
+        navigationEnv.getChoiceModel(400792).setButtonListener(this);
         this.doInitETAModels();
         this.mHeight = new Distance(0.0f, 1);
-        navigationEnv.getMetricsModel(1981548032).setMetric(this.mHeight);
-        navigationEnv.getChoiceModel(-1742928384).setChoiceListener(this);
-        navigationEnv.getButtonModel(-1759705600).setButtonListener(this);
-        navigationEnv.getRangeModel(-752679424).setRangeListener(this);
-        this.mMixedListControllerChoice = navigationEnv.getChoiceModel(1578894848);
+        navigationEnv.getMetricsModel(400502).setMetric(this.mHeight);
+        navigationEnv.getChoiceModel(400792).setChoiceListener(this);
+        navigationEnv.getButtonModel(400791).setButtonListener(this);
+        navigationEnv.getRangeModel(402387).setRangeListener(this);
+        this.mMixedListControllerChoice = navigationEnv.getChoiceModel(400478);
         this.mMixedListControllerChoice.setChoiceListener(this);
         this.mMixedListControllerChoice.forceUpdate(true);
         this.mMixedListControllerChoice.setValue(2);
         this.mMixedListControllerChoice.setStatus(0);
         navigationEnv.getChoiceModel(0, 168).setChoiceListener(this);
         navigationEnv.getChoiceModel(1, 168).setChoiceListener(this);
-        this.mToolTip = navigationEnv.getListModel(1243350528);
+        this.mToolTip = navigationEnv.getListModel(400458);
         this.mToolTip.setMaxColumns(11);
         this.mToolTip.setMaxRows(1);
         this.mToolTip.addRow(new ListCell[]{new TextListCell(""), IntegerListCell.create(0), IntegerListCell.create(0), IntegerListCell.create(0), IntegerListCell.create(0), IntegerListCell.create(0), IntegerListCell.create(0), IntegerListCell.create(0), IntegerListCell.create(0), IntegerListCell.create(0), IntegerListCell.create(0)});
         this.mModelGroup = new ModelGroup();
-        this.mModelGroup.add(navigationEnv.getMetricsModel(1947993600));
-        this.mModelGroup.add(navigationEnv.getMetricsModel(1964770816));
-        this.mModelGroup.add(navigationEnv.getListModel(1562117632));
+        this.mModelGroup.add(navigationEnv.getMetricsModel(400500));
+        this.mModelGroup.add(navigationEnv.getMetricsModel(400501));
+        this.mModelGroup.add(navigationEnv.getListModel(400477));
         this.mModelGroup.add(this.mMixedListControllerChoice);
         this.mMagnificationModelGroup = new ModelGroup();
-        this.mMagnificationModelGroup.add(navigationEnv.getRangeModel(1545340416));
-        this.mMagnificationModelGroup.add(navigationEnv.getMetricsModel(1528563200));
+        this.mMagnificationModelGroup.add(navigationEnv.getRangeModel(400476));
+        this.mMagnificationModelGroup.add(navigationEnv.getMetricsModel(400475));
         this.initSBRS();
-        navigationEnv.getChoiceModel(2015102464).setChoiceListener(this);
-        navigationEnv.getChoiceModel(1998325248).setChoiceListener(this);
-        this.mLoggingWindow = navigationEnv.getLabelModel(1763575296);
-        navigationEnv.getVirtualButtonModel(1813906944).setVirtualButtonListener(this);
-        navigationEnv.getVirtualButtonModel(-904002048).setVirtualButtonListener(this);
-        navigationEnv.getVirtualButtonModel(1965098496).setVirtualButtonListener(this);
-        navigationEnv.getChoiceModel(-1742666240).setButtonListener(this);
+        navigationEnv.getChoiceModel(400504).setChoiceListener(this);
+        navigationEnv.getChoiceModel(400503).setChoiceListener(this);
+        this.mLoggingWindow = navigationEnv.getLabelModel(401001);
+        navigationEnv.getVirtualButtonModel(401004).setVirtualButtonListener(this);
+        navigationEnv.getVirtualButtonModel(401098).setVirtualButtonListener(this);
+        navigationEnv.getVirtualButtonModel(401781).setVirtualButtonListener(this);
+        navigationEnv.getChoiceModel(401816).setButtonListener(this);
     }
 
     protected void registerAlternativeRouteSelectionListener(NavigationEnv navigationEnv) {
-        navigationEnv.getListModel(1125910016).setListListener(this);
+        navigationEnv.getListModel(400451).setListListener(this);
     }
 
     private void doInitETAModels() {
         this.mDistance = new Distance(0.0f, 1);
         this.mEta = new DateMetric(new Date(), 1);
         this.mRtt = new DateMetric(new Date(), 3);
-        MetricsModelApp metricsModelApp = this.env.getMetricsModel(1947993600);
-        MetricsModelApp metricsModelApp2 = this.env.getMetricsModel(1964770816);
+        MetricsModelApp metricsModelApp = this.env.getMetricsModel(400500);
+        MetricsModelApp metricsModelApp2 = this.env.getMetricsModel(400501);
         metricsModelApp.setMetric(this.mDistance);
         metricsModelApp.getMetric().setMetricValid(false);
         metricsModelApp2.setMetric(this.mEta);
@@ -180,7 +180,6 @@ implements GUIEventListener {
         return this.mLoggingWindow;
     }
 
-    @Override
     public void touchPadPositionMoved(int n, int n2, int n3, int n4, int n5, int n6) {
         Iterator iterator = this.iterator();
         while (iterator.hasNext()) {
@@ -193,15 +192,12 @@ implements GUIEventListener {
         }
     }
 
-    @Override
     public void touchPadReleased(int n, int n2, int n3) {
     }
 
-    @Override
     public void touchPadPressed(int n, int n2, int n3) {
     }
 
-    @Override
     public void touchScreenMoved(int n, int n2, int n3, int n4, int n5, int n6) {
         Iterator iterator = this.iterator();
         while (iterator.hasNext()) {
@@ -214,7 +210,6 @@ implements GUIEventListener {
         }
     }
 
-    @Override
     public void touchScreenPressed(int n, int n2, int n3, int n4) {
         Iterator iterator = this.iterator();
         while (iterator.hasNext()) {
@@ -227,7 +222,6 @@ implements GUIEventListener {
         }
     }
 
-    @Override
     public void touchScreenLongPressed(int n, int n2, int n3, int n4) {
         Iterator iterator = this.iterator();
         while (iterator.hasNext()) {
@@ -240,7 +234,6 @@ implements GUIEventListener {
         }
     }
 
-    @Override
     public void touchScreenReleased(int n, int n2, int n3, int n4) {
         Iterator iterator = this.iterator();
         while (iterator.hasNext()) {
@@ -253,7 +246,6 @@ implements GUIEventListener {
         }
     }
 
-    @Override
     public void touchScreenDoubleClick(int n, int n2, int n3, int n4) {
         Iterator iterator = this.iterator();
         while (iterator.hasNext()) {
@@ -266,7 +258,6 @@ implements GUIEventListener {
         }
     }
 
-    @Override
     public void touchScreenPinch(int n, float f2, int n2, int n3, int n4) {
         Iterator iterator = this.iterator();
         while (iterator.hasNext()) {
@@ -279,7 +270,6 @@ implements GUIEventListener {
         }
     }
 
-    @Override
     public void touchScreenRotate(int n, short s, int n2) {
         Iterator iterator = this.iterator();
         while (iterator.hasNext()) {
@@ -292,7 +282,6 @@ implements GUIEventListener {
         }
     }
 
-    @Override
     public void stickN(int n, int n2) {
         Iterator iterator = this.iterator();
         while (iterator.hasNext()) {
@@ -305,7 +294,6 @@ implements GUIEventListener {
         }
     }
 
-    @Override
     public void stickNW(int n, int n2) {
         Iterator iterator = this.iterator();
         while (iterator.hasNext()) {
@@ -318,7 +306,6 @@ implements GUIEventListener {
         }
     }
 
-    @Override
     public void stickW(int n, int n2) {
         Iterator iterator = this.iterator();
         while (iterator.hasNext()) {
@@ -331,7 +318,6 @@ implements GUIEventListener {
         }
     }
 
-    @Override
     public void stickSW(int n, int n2) {
         Iterator iterator = this.iterator();
         while (iterator.hasNext()) {
@@ -344,7 +330,6 @@ implements GUIEventListener {
         }
     }
 
-    @Override
     public void stickS(int n, int n2) {
         Iterator iterator = this.iterator();
         while (iterator.hasNext()) {
@@ -357,7 +342,6 @@ implements GUIEventListener {
         }
     }
 
-    @Override
     public void stickSE(int n, int n2) {
         Iterator iterator = this.iterator();
         while (iterator.hasNext()) {
@@ -370,7 +354,6 @@ implements GUIEventListener {
         }
     }
 
-    @Override
     public void stickE(int n, int n2) {
         Iterator iterator = this.iterator();
         while (iterator.hasNext()) {
@@ -383,7 +366,6 @@ implements GUIEventListener {
         }
     }
 
-    @Override
     public void stickNE(int n, int n2) {
         Iterator iterator = this.iterator();
         while (iterator.hasNext()) {
@@ -396,7 +378,6 @@ implements GUIEventListener {
         }
     }
 
-    @Override
     public void stickIdle(int n, int n2) {
         Iterator iterator = this.iterator();
         while (iterator.hasNext()) {
@@ -409,7 +390,6 @@ implements GUIEventListener {
         }
     }
 
-    @Override
     public void itemReleased(int n, int n2, int n3, int n4) {
         Iterator iterator = this.iterator();
         while (iterator.hasNext()) {
@@ -422,7 +402,6 @@ implements GUIEventListener {
         }
     }
 
-    @Override
     public void itemFocused(int n, int n2, int n3, int n4) {
         Iterator iterator = this.iterator();
         while (iterator.hasNext()) {
@@ -435,7 +414,6 @@ implements GUIEventListener {
         }
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3) {
         Iterator iterator = this.iterator();
         while (iterator.hasNext()) {
@@ -448,7 +426,6 @@ implements GUIEventListener {
         }
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3) {
         Iterator iterator = this.iterator();
         while (iterator.hasNext()) {
@@ -461,7 +438,6 @@ implements GUIEventListener {
         }
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
         Iterator iterator = this.iterator();
         while (iterator.hasNext()) {
@@ -474,11 +450,9 @@ implements GUIEventListener {
         }
     }
 
-    @Override
     public void keyLongTyped(int n, int n2, int n3) {
     }
 
-    @Override
     public void itemSelected(int n, int n2, int n3, int n4) {
         switch (n) {
             default: 
@@ -494,7 +468,6 @@ implements GUIEventListener {
         }
     }
 
-    @Override
     public void decrement(int n, int n2, int n3) {
         Iterator iterator = this.iterator();
         while (iterator.hasNext()) {
@@ -507,7 +480,6 @@ implements GUIEventListener {
         }
     }
 
-    @Override
     public void increment(int n, int n2, int n3) {
         Iterator iterator = this.iterator();
         while (iterator.hasNext()) {
@@ -522,9 +494,9 @@ implements GUIEventListener {
     }
 
     protected void initSBRS() {
-        this.env.getListModel(1125910016).beginTransaction();
-        this.env.getListModel(1125910016).clear();
-        this.env.getListModel(1125910016).setMaxColumns(13);
+        this.env.getListModel(400451).beginTransaction();
+        this.env.getListModel(400451).clear();
+        this.env.getListModel(400451).setMaxColumns(13);
         for (int i2 = 0; i2 < 3; ++i2) {
             ListCell[] listCellArray = new ListCell[13];
             listCellArray[0] = IntegerListCell.create(-1);
@@ -532,13 +504,13 @@ implements GUIEventListener {
             listCellArray[5] = IntegerListCell.create(0);
             listCellArray[6] = IntegerListCell.create(0);
             listCellArray[7] = IntegerListCell.create(0);
-            this.env.getListModel(1125910016).addRow(listCellArray);
+            this.env.getListModel(400451).addRow(listCellArray);
         }
-        this.env.getListModel(1125910016).endTransaction();
+        this.env.getListModel(400451).endTransaction();
     }
 
     public int getSemiDynID() {
-        return 1125910016;
+        return 400451;
     }
 }
 

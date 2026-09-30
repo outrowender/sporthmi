@@ -3,13 +3,13 @@
  */
 package de.dreisoft.lsd.benchmark.mmi3g;
 
+import de.dreisoft.lsd.ServiceInfo;
 import de.dreisoft.lsd.benchmark.mmi3g.BenchmarkTestService;
 import de.dreisoft.lsd.benchmark.mmi3g.MMI3gBenchmarkSuite;
-import de.dreisoft.lsd.benchmark.mmi3g.WildcardBenchmarkSuite$DummyServiceTrackerCustomizer;
-import de.dreisoft.lsd.benchmark.mmi3g.WildcardBenchmarkSuite$Suite;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.Filter;
 import org.osgi.framework.InvalidSyntaxException;
+import org.osgi.framework.ServiceReference;
 import org.osgi.framework.ServiceRegistration;
 import org.osgi.util.tracker.ServiceTracker;
 import org.osgi.util.tracker.ServiceTrackerCustomizer;
@@ -23,10 +23,9 @@ extends MMI3gBenchmarkSuite {
     }
 
     public static WildcardBenchmarkSuite getInstance() {
-        return WildcardBenchmarkSuite$Suite.instance;
+        return Suite.instance;
     }
 
-    @Override
     public void runTests() {
         System.out.println(new StringBuffer().append("run ").append(this.name).append(" tests").toString());
         if (bundle != null) {
@@ -47,7 +46,7 @@ extends MMI3gBenchmarkSuite {
             }
             this.setStartTag(6, n3, string);
             for (n2 = 0; n2 < n3; ++n2) {
-                serviceTrackerArray[n2] = new ServiceTracker(bundleContext, filter, (ServiceTrackerCustomizer)new WildcardBenchmarkSuite$DummyServiceTrackerCustomizer(this, new StringBuffer().append(string).append(" no").append(n2).toString(), false));
+                serviceTrackerArray[n2] = new ServiceTracker(bundleContext, filter, (ServiceTrackerCustomizer)new DummyServiceTrackerCustomizer(new StringBuffer().append(string).append(" no").append(n2).toString(), false));
             }
             this.setEndTag(6, n3, string);
             this.setStartTag(7, n3, string);
@@ -67,7 +66,7 @@ extends MMI3gBenchmarkSuite {
             }
             serviceTrackerArray = new ServiceTracker[25];
             for (n = 0; n < 25; ++n) {
-                serviceTrackerArray[n] = new ServiceTracker(bundleContext, filter, (ServiceTrackerCustomizer)new WildcardBenchmarkSuite$DummyServiceTrackerCustomizer(this, new StringBuffer().append("tracker no").append(n).toString(), false));
+                serviceTrackerArray[n] = new ServiceTracker(bundleContext, filter, (ServiceTrackerCustomizer)new DummyServiceTrackerCustomizer(new StringBuffer().append("tracker no").append(n).toString(), false));
                 serviceTrackerArray[n].open();
             }
             n3 = 1 * SAMPLE_MULTIPLIER;
@@ -95,6 +94,40 @@ extends MMI3gBenchmarkSuite {
         }
         catch (ClassNotFoundException classNotFoundException) {
             throw new NoClassDefFoundError().initCause(classNotFoundException);
+        }
+    }
+
+    private static class Suite {
+        public static WildcardBenchmarkSuite instance = new WildcardBenchmarkSuite();
+
+        private Suite() {
+        }
+    }
+
+    private class DummyServiceTrackerCustomizer
+    implements ServiceTrackerCustomizer {
+        private final String name;
+        private final boolean setTags;
+
+        public DummyServiceTrackerCustomizer(String string, boolean bl) {
+            this.name = string;
+            this.setTags = bl;
+        }
+
+        public Object addingService(ServiceReference serviceReference) {
+            ServiceInfo serviceInfo = (ServiceInfo)serviceReference;
+            serviceInfo.getServiceInterfaces();
+            long l = serviceInfo.getServiceID();
+            if (this.setTags) {
+                WildcardBenchmarkSuite.this.setTag(8, new StringBuffer().append(this.name).append(": service s").append(l).append(" added").toString());
+            }
+            return null;
+        }
+
+        public void modifiedService(ServiceReference serviceReference, Object object) {
+        }
+
+        public void removedService(ServiceReference serviceReference, Object object) {
         }
     }
 }

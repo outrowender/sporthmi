@@ -56,7 +56,6 @@ extends SpellerContext {
         return this.spellerType;
     }
 
-    @Override
     public void reset() {
         super.reset();
         this.poiContext = null;
@@ -65,7 +64,6 @@ extends SpellerContext {
         this.childrenAvailable = false;
     }
 
-    @Override
     public String printStatus() {
         Buffer buffer = new Buffer();
         buffer.append(this).append('\n');

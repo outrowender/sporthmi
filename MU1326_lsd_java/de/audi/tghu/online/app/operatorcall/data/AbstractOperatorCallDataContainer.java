@@ -38,8 +38,7 @@ public abstract class AbstractOperatorCallDataContainer {
     private final int maxNumberOfPoisPerCall;
     private final int maxNumberOfCalls;
 
-    protected abstract AbstractHistoryCallData createNewHistoryCallData(OperatorCallResult[] operatorCallResultArray, String string, Date date) {
-    }
+    protected abstract AbstractHistoryCallData createNewHistoryCallData(OperatorCallResult[] var1, String var2, Date var3);
 
     public AbstractOperatorCallDataContainer(String string, IFrameworkAccess iFrameworkAccess, NavigationHandler navigationHandler, IntelliDestOperatorCallDataProvider intelliDestOperatorCallDataProvider, boolean bl, boolean bl2, int n, int n2) {
         this.serviceTypeName = string;
@@ -60,12 +59,12 @@ public abstract class AbstractOperatorCallDataContainer {
     }
 
     public void savePhoneData(String string, String[] stringArray, int n) {
-        this.logChannel.log(1078071040, "AbstractOperatorCallDataContainer#savePhoneData: entered (%1)", (Object)this.getServiceTypeName());
+        this.logChannel.log(1000000, "AbstractOperatorCallDataContainer#savePhoneData: entered (%1)", (Object)this.getServiceTypeName());
         this.phoneData.savePhoneData(string, stringArray, n);
     }
 
     public void resetPhoneData() {
-        this.logChannel.log(1078071040, "AbstractOperatorCallDataContainer#resetPhoneData entered (%1)", (Object)this.getServiceTypeName());
+        this.logChannel.log(1000000, "AbstractOperatorCallDataContainer#resetPhoneData entered (%1)", (Object)this.getServiceTypeName());
         this.phoneData.resetPhoneData();
     }
 
@@ -132,7 +131,7 @@ public abstract class AbstractOperatorCallDataContainer {
     }
 
     public OperatorCallResult getPOIForSDS(int n) {
-        this.logChannel.log(1078071040, "AbstractOperatorCallDataContainer#getPOIForSDS: internal sdsCallindex = %1, gui poiIndex = %2", (long)this.sdsCallIndex, (long)n);
+        this.logChannel.log(1000000, "AbstractOperatorCallDataContainer#getPOIForSDS: internal sdsCallindex = %1, gui poiIndex = %2", (long)this.sdsCallIndex, (long)n);
         if (this.sdsCallIndex < 0 || this.sdsCallIndex >= this.calls.size()) {
             return null;
         }
@@ -153,10 +152,10 @@ public abstract class AbstractOperatorCallDataContainer {
     }
 
     public void setCallIndexForSDS(int n) {
-        this.logChannel.log(1078071040, "AbstractOperatorCallDataContainer#setCallIndexForSDS: called with gui index = %1", (long)n);
+        this.logChannel.log(1000000, "AbstractOperatorCallDataContainer#setCallIndexForSDS: called with gui index = %1", (long)n);
         int n2 = this.sdsCallIndex;
         this.sdsCallIndex = this.getInternalHistoryCallIndex(n);
-        this.logChannel.log(1078071040, "AbstractOperatorCallDataContainer#setCallIndexForSDS: internal sdsCallIndex: %1 -> %2", (long)n2, (long)this.sdsCallIndex);
+        this.logChannel.log(1000000, "AbstractOperatorCallDataContainer#setCallIndexForSDS: internal sdsCallIndex: %1 -> %2", (long)n2, (long)this.sdsCallIndex);
     }
 
     public ArrayList getDataFromPersistence() {
@@ -230,7 +229,7 @@ public abstract class AbstractOperatorCallDataContainer {
 
     private int getInternalHistoryCallIndex(int n) {
         int n2 = this.calls.size() - 1 - n;
-        this.logChannel.log(-2137614336, "AbstractOperatorCallDataContainer#getInternalHistoryCallIndex: return internal index of history call = %1", (long)n2);
+        this.logChannel.log(10000000, "AbstractOperatorCallDataContainer#getInternalHistoryCallIndex: return internal index of history call = %1", (long)n2);
         return n2;
     }
 
@@ -255,7 +254,7 @@ public abstract class AbstractOperatorCallDataContainer {
     }
 
     public AbstractHistoryCallListRow[] getAllHistoryCallGUIListsInIntervall(int n, int n2) {
-        this.logChannel.log(-2137614336, "AbstractOperatorCallDataContainer#getAllHistoryCallGUIListsInIntervall: startIndex = %1, length = %2", (long)n, (long)n2);
+        this.logChannel.log(10000000, "AbstractOperatorCallDataContainer#getAllHistoryCallGUIListsInIntervall: startIndex = %1, length = %2", (long)n, (long)n2);
         int n3 = this.calls.size() - 1 - n;
         int n4 = Math.max(0, n3 - n2);
         ArrayList arrayList = new ArrayList(this.calls.subList(n4, n3));
@@ -282,11 +281,11 @@ public abstract class AbstractOperatorCallDataContainer {
     }
 
     public OperatorCallResult[] modifyResultsToValidResults(OperatorCallResult[] operatorCallResultArray) {
-        this.logChannel.log(1078071040, "AbstractOperatorCallDataContainer#modifyResultsToValidResults: maxNumberOfPoisPerCall = %1", (long)this.maxNumberOfPoisPerCall);
+        this.logChannel.log(1000000, "AbstractOperatorCallDataContainer#modifyResultsToValidResults: maxNumberOfPoisPerCall = %1", (long)this.maxNumberOfPoisPerCall);
         int n = operatorCallResultArray.length;
         int n2 = Math.min(this.maxNumberOfPoisPerCall, n);
         if (n2 == this.maxNumberOfPoisPerCall) {
-            this.logChannel.log(-1601830656, "AbstractOperatorCallDataContainer#modifyResultsToValidResults: too many pois were downloaded for this call (%1). The max number of pois should not exceed %2. Saving only the first %2 number of pois. ", (long)n, (long)this.maxNumberOfPoisPerCall);
+            this.logChannel.log(100000, "AbstractOperatorCallDataContainer#modifyResultsToValidResults: too many pois were downloaded for this call (%1). The max number of pois should not exceed %2. Saving only the first %2 number of pois. ", (long)n, (long)this.maxNumberOfPoisPerCall);
         }
         OperatorCallResult[] operatorCallResultArray2 = new OperatorCallResultAdapted[n2];
         for (int i2 = 0; i2 < n2; ++i2) {

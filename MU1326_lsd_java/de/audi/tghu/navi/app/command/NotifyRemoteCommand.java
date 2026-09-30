@@ -14,29 +14,27 @@ import org.dsi.ifc.navigation.Route;
 
 public class NotifyRemoteCommand
 extends DelayCommand {
-    public static final long MAX_WAIT_DELAY;
-    private static final int[] NAV_ATTRIBUTES;
+    public static final long MAX_WAIT_DELAY = 30000L;
+    private static final int[] NAV_ATTRIBUTES = new int[]{57, 75, 11, 23, Util.useDSIUpdateBapManeuverInformation() ? 106 : 76, 25, 54, 38, 84, 28, 29};
     private boolean rgActiveReported;
     private boolean rmPersistentRouteReported;
     private boolean soPosPositionReported;
 
     public NotifyRemoteCommand() {
-        super(0);
+        super(30000L);
     }
 
-    @Override
     public long getTimeout() {
         return -1L;
     }
 
-    @Override
     public void execute() {
         NavigationStartup navigationStartup = this.navigation.getNavigationStartup();
         if (navigationStartup.isNotificationSet()) {
-            this.logger.log(1078071040, "NotifyRemoteCommand#execute() - notification already set.");
+            this.logger.log(1000000, "NotifyRemoteCommand#execute() - notification already set.");
             this.getCommandList().commandFinished();
         } else {
-            this.logger.log(-2137614336, "NotifyRemoteCommand#execute() - calling setNotification( %1 ) and starting wait timer..", (long)NAV_ATTRIBUTES.length);
+            this.logger.log(10000000, "NotifyRemoteCommand#execute() - calling setNotification( %1 ) and starting wait timer..", (long)NAV_ATTRIBUTES.length);
             this.getDSINavigation().setNotification(NAV_ATTRIBUTES, (DSIListener)this.getDispatcher());
             navigationStartup.setNotificationSet(true);
             super.execute();
@@ -52,12 +50,11 @@ extends DelayCommand {
         }
     }
 
-    @Override
     public void fireTimer(Timer timer) {
-        this.logger.log(-2137614336, "NotifyRemoteCommand#fireTimer()");
+        this.logger.log(10000000, "NotifyRemoteCommand#fireTimer()");
         if (timer == this.timer) {
             String string = this.printNotificationStatus();
-            this.logger.log(-1601830656, "NotifyRestCommand#fireTimer() - Still waiting for some notifications after %2ms! %1 ", (Object)string, (long)0);
+            this.logger.log(100000, "NotifyRestCommand#fireTimer() - Still waiting for some notifications after %2ms! %1 ", (Object)string, 30000L);
             System.err.println("NotifyRemoteCommand#fireTimer() - Still waiting for some notifications after 30000ms!");
             System.err.println(string);
         }
@@ -67,29 +64,22 @@ extends DelayCommand {
         return new Buffer().append("rgActiveReported: ").append(this.rgActiveReported).append("\n\t").append("rmPersistentRouteReported: ").append(this.rmPersistentRouteReported).append("\n\t").append("soPosPositionReported: ").append(this.soPosPositionReported).toString();
     }
 
-    @Override
     public void updateRmPersistentRoute(Route route) {
         super.updateRmPersistentRoute(route);
         this.rmPersistentRouteReported = true;
         this.checkFinished();
     }
 
-    @Override
     public void updateRgActive(boolean bl) {
         super.updateRgActive(bl);
         this.rgActiveReported = true;
         this.checkFinished();
     }
 
-    @Override
     public void updateSoPosPosition(PosPosition posPosition) {
         super.updateSoPosPosition(posPosition);
         this.soPosPositionReported = true;
         this.checkFinished();
-    }
-
-    static {
-        NAV_ATTRIBUTES = new int[]{57, 75, 11, 23, Util.useDSIUpdateBapManeuverInformation() ? 106 : 76, 25, 54, 38, 84, 28, 29};
     }
 }
 

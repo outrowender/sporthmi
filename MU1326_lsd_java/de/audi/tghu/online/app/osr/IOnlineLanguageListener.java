@@ -4,7 +4,6 @@
 package de.audi.tghu.online.app.osr;
 
 public interface IOnlineLanguageListener {
-    default public void setLanguage(String string) {
-    }
+    public void setLanguage(String var1);
 }
 

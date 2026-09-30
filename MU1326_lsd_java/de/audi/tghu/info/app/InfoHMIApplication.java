@@ -10,7 +10,6 @@ import de.audi.atip.i18n.I18NTarget;
 import de.audi.atip.i18n.Language;
 import de.audi.atip.log.LogChannel;
 import de.audi.tghu.info.app.InfoEnv;
-import de.audi.tghu.info.app.InfoHMIApplication$1;
 import de.audi.tghu.info.app.tmc.AppTMC;
 import de.audi.tghu.info.app.tmc.readout.AppTMCReadOut;
 
@@ -30,30 +29,26 @@ I18NTarget {
         this.logger = logChannel;
     }
 
-    @Override
     public int getId() {
         return 5;
     }
 
-    @Override
     public ButtonModelApp getVirtualButton(int n) {
         switch (n) {
             case 0: {
-                return this.env.getButtonModel(-912193792);
+                return this.env.getButtonModel(500169);
             }
             case 1: {
-                return this.env.getButtonModel(-945748224);
+                return this.env.getButtonModel(500167);
             }
         }
         return null;
     }
 
-    @Override
     public void popupHidden(int n, int n2) {
         this.tmcApp.popupRemoved(n, n2);
     }
 
-    @Override
     public void popupRemoved(int n, int n2) {
         this.tmcApp.popupRemoved(n, n2);
         if (n == this.xUrgentPopUpId) {
@@ -61,28 +56,22 @@ I18NTarget {
         }
     }
 
-    @Override
     public void popupVisible(int n, int n2) {
         this.tmcApp.popupVisible(n, n2);
     }
 
-    @Override
     public void screenHidden(int n, int n2) {
     }
 
-    @Override
     public void screenVisible(int n, int n2) {
     }
 
-    @Override
     public void screenFadedOut(int n, int n2) {
     }
 
-    @Override
     public void screenConnected(int n, int n2) {
     }
 
-    @Override
     public void setLanguage(Language language) {
         this.tmcApp.setLanguage(language);
     }
@@ -92,7 +81,12 @@ I18NTarget {
     }
 
     public void showPartialPopup() {
-        this.env.getFramework().getHMIService().getEventDispatcher().postEvent(new RunnableEvent(false, new InfoHMIApplication$1(this)));
+        this.env.getFramework().getHMIService().getEventDispatcher().postEvent(new RunnableEvent(false, new Runnable(){
+
+            public void run() {
+                InfoHMIApplication.this.env.getFramework().getHmiServiceApp().showPartialPopup(0, InfoHMIApplication.this.xUrgentPopUpId);
+            }
+        }));
     }
 
     public void removePopup() {
@@ -101,14 +95,6 @@ I18NTarget {
 
     public void setXUrgentPopupId(int n) {
         this.xUrgentPopUpId = n;
-    }
-
-    static /* synthetic */ int access$000(InfoHMIApplication infoHMIApplication) {
-        return infoHMIApplication.xUrgentPopUpId;
-    }
-
-    static /* synthetic */ InfoEnv access$100(InfoHMIApplication infoHMIApplication) {
-        return infoHMIApplication.env;
     }
 }
 

@@ -14,18 +14,18 @@ import org.dsi.ifc.global.NavLocation;
 
 public class AddressInputUtil {
     private static final String CLASS_NAME = Util.getClassNameFromPackageName(class$de$audi$tghu$navi$app$di$AddressInputUtil == null ? (class$de$audi$tghu$navi$app$di$AddressInputUtil = AddressInputUtil.class$("de.audi.tghu.navi.app.di.AddressInputUtil")) : class$de$audi$tghu$navi$app$di$AddressInputUtil);
-    public static final int NEW_SEARCH_AREA_CONTEXT_STATUS_LOCATION_INCOMPLETE;
-    public static final int NEW_SEARCH_AREA_CONTEXT_STATUS_LOCATION_COMPLETE;
-    public static final int NEW_SEARCH_AREA_CONTEXT_POI;
-    public static final int NEW_SEARCH_AREA_CONTEXT_ONLINE_POI;
-    public static final int NEW_SEARCH_AREA_CONTEXT_REMOTE_HMI;
+    public static final int NEW_SEARCH_AREA_CONTEXT_STATUS_LOCATION_INCOMPLETE = 0;
+    public static final int NEW_SEARCH_AREA_CONTEXT_STATUS_LOCATION_COMPLETE = 1;
+    public static final int NEW_SEARCH_AREA_CONTEXT_POI = 0;
+    public static final int NEW_SEARCH_AREA_CONTEXT_ONLINE_POI = 1;
+    public static final int NEW_SEARCH_AREA_CONTEXT_REMOTE_HMI = 2;
     static /* synthetic */ Class class$de$audi$tghu$navi$app$di$AddressInputUtil;
 
     public static boolean useHousenumberFreetextSpeller(NavigationEnv navigationEnv) {
         boolean bl = false;
         if (navigationEnv != null) {
             bl = navigationEnv.getContainer().refinementCriterionAvailable(136);
-            navigationEnv.getAddressInputLogChannel().log(-2137614336, "%1#useHousenumberFreetextSpeller - useFreetextSpeller=%2", (Object)CLASS_NAME, (Object)Boolean.toString(bl));
+            navigationEnv.getAddressInputLogChannel().log(10000000, "%1#useHousenumberFreetextSpeller - useFreetextSpeller=%2", (Object)CLASS_NAME, (Object)Boolean.toString(bl));
         }
         return bl;
     }
@@ -37,7 +37,7 @@ public class AddressInputUtil {
             string = object.toString();
         }
         if (navigationEnv != null) {
-            navigationEnv.getAddressInputLogChannel().log(-2137614336, "%1#getLatestCharFromCommandList - extractedChar=%2", (Object)CLASS_NAME, (Object)string);
+            navigationEnv.getAddressInputLogChannel().log(10000000, "%1#getLatestCharFromCommandList - extractedChar=%2", (Object)CLASS_NAME, (Object)string);
         }
         return string;
     }
@@ -45,9 +45,9 @@ public class AddressInputUtil {
     public static void setNewSearchAreaContextChoiceStatus(NavigationEnv navigationEnv, int n) {
         if (navigationEnv != null) {
             if (n == 0 || n == 1) {
-                navigationEnv.getChoiceModel(-199162368).setStatus(n);
+                navigationEnv.getChoiceModel(401908).setStatus(n);
             } else {
-                navigationEnv.getAddressInputLogChannel().log(-1601830656, "%1#setNewSearchAreaContextChoiceStatus - received invalid status=%2", (Object)CLASS_NAME, (long)n);
+                navigationEnv.getAddressInputLogChannel().log(100000, "%1#setNewSearchAreaContextChoiceStatus - received invalid status=%2", (Object)CLASS_NAME, (long)n);
             }
         }
     }
@@ -55,16 +55,16 @@ public class AddressInputUtil {
     public static void setNewSearchAreaContextChoiceValue(NavigationEnv navigationEnv, int n) {
         if (navigationEnv != null) {
             if (n == 0 || n == 1 || n == 2) {
-                navigationEnv.getChoiceModel(-199162368).setValue(n);
+                navigationEnv.getChoiceModel(401908).setValue(n);
             } else {
-                navigationEnv.getAddressInputLogChannel().log(-1601830656, "%1#setNewSearchAreaContextChoiceValue - received invalid value=%2", (Object)CLASS_NAME, (long)n);
+                navigationEnv.getAddressInputLogChannel().log(100000, "%1#setNewSearchAreaContextChoiceValue - received invalid value=%2", (Object)CLASS_NAME, (long)n);
             }
         }
     }
 
     public static int getNewSearchAreaContextChoiceValue(NavigationEnv navigationEnv) {
         if (navigationEnv != null) {
-            return navigationEnv.getChoiceModel(-199162368).getValue();
+            return navigationEnv.getChoiceModel(401908).getValue();
         }
         return -1;
     }
@@ -82,23 +82,23 @@ public class AddressInputUtil {
         String string = AddressInputUtil.getCurrentLanguageCode(navigationEnv);
         String string2 = null;
         if (Util.isHURegionCN() || Util.isHURegionTW()) {
-            logChannel.log(-2137614336, "%1#formatCompleteCityNameAsia - Region is CN/TW", (Object)CLASS_NAME);
+            logChannel.log(10000000, "%1#formatCompleteCityNameAsia - Region is CN/TW", (Object)CLASS_NAME);
             string2 = AddressInputUtil.formatCompleteCityNameCn(navigationEnv, navLocation, string, logChannel);
         } else if (Util.isHURegionJP()) {
-            logChannel.log(-2137614336, "%1#formatCompleteCityNameAsia - Region is JP", (Object)CLASS_NAME);
+            logChannel.log(10000000, "%1#formatCompleteCityNameAsia - Region is JP", (Object)CLASS_NAME);
             string2 = AddressInputUtil.formatCompleteCityNameJp(navigationEnv, navLocation, string, logChannel);
         } else if (Util.isHURegionKR()) {
-            logChannel.log(-2137614336, "%1#formatCompleteCityNameAsia - Region is KR", (Object)CLASS_NAME);
+            logChannel.log(10000000, "%1#formatCompleteCityNameAsia - Region is KR", (Object)CLASS_NAME);
             string2 = AddressInputUtil.formatCompleteCityNameKr(navigationEnv, navLocation, string, logChannel);
         } else {
-            logChannel.log(-1601830656, "%1#formatCompleteCityNameAsia - no valid HU region found!", (Object)CLASS_NAME);
+            logChannel.log(100000, "%1#formatCompleteCityNameAsia - no valid HU region found!", (Object)CLASS_NAME);
         }
-        logChannel.log(-2137614336, "%1#formatCompleteCityNameAsia - returning '%2'", (Object)CLASS_NAME, (Object)string2);
+        logChannel.log(10000000, "%1#formatCompleteCityNameAsia - returning '%2'", (Object)CLASS_NAME, (Object)string2);
         return string2;
     }
 
     private static String formatCompleteCityNameCn(NavigationEnv navigationEnv, NavLocation navLocation, String string, LogChannel logChannel) {
-        logChannel.log(-2137614336, "%1#formatCompleteCityName - currentLanguageCode=%2", (Object)CLASS_NAME, (Object)string);
+        logChannel.log(10000000, "%1#formatCompleteCityName - currentLanguageCode=%2", (Object)CLASS_NAME, (Object)string);
         if ("zh_CN".equals(string) || "zh_HK".equals(string) || "zh_TW".equals(string)) {
             return AddressInputUtil.formatCompleteCityNameForChineseLanguage(navLocation, logChannel);
         }
@@ -113,9 +113,9 @@ public class AddressInputUtil {
         String string4 = iMyLocationAccessor.getState();
         boolean bl = iMyLocationAccessor.isTownOrder9();
         int n = iMyLocationAccessor.getAdditionalFlags();
-        logChannel.log(-2137614336, new StringBuffer().append(CLASS_NAME).append("#formatCompleteCityNameForChineseLanguage - values -> town=%1, townRefinement=%2, state=%3, isTownOrder9=%4").toString(), (Object)string2, (Object)string3, (Object)string4, (Object)Boolean.toString(bl));
-        logChannel.log(-2137614336, "%1#formatCompleteCityNameForChineseLanguage - additionalFlags=%2", (Object)CLASS_NAME, (long)n);
-        if (!bl && n == 2) {
+        logChannel.log(10000000, new StringBuffer().append(CLASS_NAME).append("#formatCompleteCityNameForChineseLanguage - values -> town=%1, townRefinement=%2, state=%3, isTownOrder9=%4").toString(), (Object)string2, (Object)string3, (Object)string4, (Object)Boolean.toString(bl));
+        logChannel.log(10000000, "%1#formatCompleteCityNameForChineseLanguage - additionalFlags=%2", (Object)CLASS_NAME, (long)n);
+        if (!bl && n == 0x2000000) {
             string = string2;
         } else {
             Buffer buffer = new Buffer();
@@ -131,7 +131,7 @@ public class AddressInputUtil {
             }
             string = buffer.toString();
         }
-        logChannel.log(-2137614336, "%1#formatCompleteCityNameForChineseLanguage - returning '%2'", (Object)CLASS_NAME, (Object)string);
+        logChannel.log(10000000, "%1#formatCompleteCityNameForChineseLanguage - returning '%2'", (Object)CLASS_NAME, (Object)string);
         return string;
     }
 
@@ -143,9 +143,9 @@ public class AddressInputUtil {
         String string4 = iMyLocationAccessor.getState();
         boolean bl = iMyLocationAccessor.isTownOrder9();
         int n = iMyLocationAccessor.getAdditionalFlags();
-        logChannel.log(-2137614336, new StringBuffer().append(CLASS_NAME).append("#formatCompleteCityNameForCnEnglishLanguage - values -> town=%1, townRefinement=%2, state=%3, isTownOrder9=%4").toString(), (Object)string2, (Object)string3, (Object)string4, (Object)Boolean.toString(bl));
-        logChannel.log(-2137614336, "%1#formatCompleteCityNameForCnEnglishLanguage - additionalFlags=%2", (Object)CLASS_NAME, (long)n);
-        if (!bl && n == 2) {
+        logChannel.log(10000000, new StringBuffer().append(CLASS_NAME).append("#formatCompleteCityNameForCnEnglishLanguage - values -> town=%1, townRefinement=%2, state=%3, isTownOrder9=%4").toString(), (Object)string2, (Object)string3, (Object)string4, (Object)Boolean.toString(bl));
+        logChannel.log(10000000, "%1#formatCompleteCityNameForCnEnglishLanguage - additionalFlags=%2", (Object)CLASS_NAME, (long)n);
+        if (!bl && n == 0x2000000) {
             string = string2;
         } else {
             Buffer buffer = new Buffer();
@@ -161,12 +161,12 @@ public class AddressInputUtil {
             }
             string = buffer.toString();
         }
-        logChannel.log(-2137614336, "%1#formatCompleteCityNameForCnEnglishLanguage - returning '%2'", (Object)CLASS_NAME, (Object)string);
+        logChannel.log(10000000, "%1#formatCompleteCityNameForCnEnglishLanguage - returning '%2'", (Object)CLASS_NAME, (Object)string);
         return string;
     }
 
     private static String formatCompleteCityNameJp(NavigationEnv navigationEnv, NavLocation navLocation, String string, LogChannel logChannel) {
-        logChannel.log(-2137614336, "%1#formatCompleteCityNameJp - currentLanguageCode=%2", (Object)CLASS_NAME, (Object)string);
+        logChannel.log(10000000, "%1#formatCompleteCityNameJp - currentLanguageCode=%2", (Object)CLASS_NAME, (Object)string);
         return AddressFormatter.formatOneLine(navLocation, navigationEnv).getFirstLineAsText();
     }
 
@@ -179,7 +179,7 @@ public class AddressInputUtil {
     }
 
     private static String formatCompleteCityNameKr(NavigationEnv navigationEnv, NavLocation navLocation, String string, LogChannel logChannel) {
-        logChannel.log(-2137614336, "%1#formatCompleteCityNameKr - currentLanguageCode=%2", (Object)CLASS_NAME, (Object)string);
+        logChannel.log(10000000, "%1#formatCompleteCityNameKr - currentLanguageCode=%2", (Object)CLASS_NAME, (Object)string);
         return AddressFormatter.formatOneLine(navLocation, navigationEnv).getFirstLineAsText();
     }
 

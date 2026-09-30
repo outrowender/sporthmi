@@ -7,13 +7,13 @@ import de.audi.tghu.navi.app.NavigationEnv;
 import org.dsi.ifc.trafficregulation.TrafficSignInformation;
 
 public class TrafficUtil {
-    public static final int NO_SIGN;
-    public static final int TYPE_TRAFFIC_SIGN;
-    public static final int TYPE_ADDITIONAL_SIGN;
-    public static final int TYPE_WARNING_SIGN;
+    public static final int NO_SIGN = -1;
+    public static final int TYPE_TRAFFIC_SIGN = 0;
+    public static final int TYPE_ADDITIONAL_SIGN = 1;
+    public static final int TYPE_WARNING_SIGN = 2;
 
     public static boolean isTrafficRegulationInfoEnabled(NavigationEnv navigationEnv) {
-        return navigationEnv.getChoiceModel(-1591933440).getValue() == 1;
+        return navigationEnv.getChoiceModel(400801).getValue() == 1;
     }
 
     public static int retrieveCurrentSignID(TrafficSignInformation trafficSignInformation) {

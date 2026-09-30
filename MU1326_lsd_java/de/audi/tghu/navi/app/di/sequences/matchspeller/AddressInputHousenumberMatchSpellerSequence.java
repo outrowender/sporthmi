@@ -22,9 +22,8 @@ extends AddressInputHousenumberMatchSpellerSimpleSequence {
         super(iCommandListFactory, navigationEnv, iMatchspellerModelAccess, iPreviewMap, spellerStack, iAddressInputManager);
     }
 
-    @Override
     public CommandList getStartCommandList() {
-        this.logChannel.log(-2137614336, "%1#getStartCommandList", (Object)this.CLASS_NAME);
+        this.logChannel.log(10000000, "%1#getStartCommandList", (Object)this.CLASS_NAME);
         CommandList commandList = this.commandListFactory.createCommandList();
         commandList.add(new ModelStartCommand(this.modelAccess));
         commandList.add(super.getStartCommandList());

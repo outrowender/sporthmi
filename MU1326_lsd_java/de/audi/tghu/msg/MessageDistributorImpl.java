@@ -22,15 +22,14 @@ implements MsgDistributor {
         this.logChannel = this.framework.getLogChannel("Fw.Message.Main");
     }
 
-    @Override
     public void sendMessage(int n) {
-        this.logChannel.log(1078071040, "MessageDistributorImpl.sendMessage(msgType=%1)", (long)n);
+        this.logChannel.log(1000000, "MessageDistributorImpl.sendMessage(msgType=%1)", (long)n);
         ListIterator listIterator = this.listeners.listIterator();
         MsgListener msgListener = null;
         while (listIterator.hasNext()) {
             try {
                 msgListener = (MsgListener)listIterator.next();
-                this.logChannel.log(-2137614336, "MessageDistributorImpl.sendMessage: Send message to listener %1!", (Object)msgListener);
+                this.logChannel.log(10000000, "MessageDistributorImpl.sendMessage: Send message to listener %1!", (Object)msgListener);
                 msgListener.processMsg(n);
             }
             catch (Exception exception) {
@@ -40,7 +39,7 @@ implements MsgDistributor {
     }
 
     synchronized void addListener(MsgListener msgListener) {
-        this.logChannel.log(1078071040, "MessageDistributorImpl.addListener(listener=%1)", (Object)msgListener);
+        this.logChannel.log(1000000, "MessageDistributorImpl.addListener(listener=%1)", (Object)msgListener);
         if (msgListener == null) {
             return;
         }
@@ -50,7 +49,7 @@ implements MsgDistributor {
     }
 
     synchronized void removeListener(MsgListener msgListener) {
-        this.logChannel.log(1078071040, "MessageDistributorImpl.removeListener(listener=%1)", (Object)msgListener);
+        this.logChannel.log(1000000, "MessageDistributorImpl.removeListener(listener=%1)", (Object)msgListener);
         if (msgListener == null) {
             return;
         }

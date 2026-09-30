@@ -20,38 +20,32 @@ implements ChoiceListener {
         navigationEnv.getChoiceModel(n).setChoiceListener(this);
     }
 
-    @Override
     public void itemSelected(int n, int n2, int n3, int n4) {
         if (n == this.choiceModel) {
             int n5 = this.alternativeRouteState.getAlternativeRouteState() == 0 ? 1 : 0;
             this.alternativeRouteState.setAlternativeRouteState(n5);
         } else {
-            this.env.getLogChannel().log(-2137614336, "AlternativeRouteChoiceModelListener#itemSelected - Not a valid ModelID");
+            this.env.getLogChannel().log(10000000, "AlternativeRouteChoiceModelListener#itemSelected - Not a valid ModelID");
         }
         this.env.fireModelEvent(n, n4);
     }
 
-    @Override
     public void itemFocused(int n, int n2, int n3, int n4) {
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
-        this.env.getLogChannel().log(-2137614336, "AlternativeRouteChoiceModelListener#keyTyped");
+        this.env.getLogChannel().log(10000000, "AlternativeRouteChoiceModelListener#keyTyped");
     }
 
-    @Override
     public void keyLongTyped(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3) {
-        this.env.getLogChannel().log(-2137614336, "AlternativeRouteChoiceModelListener#keyPressed");
+        this.env.getLogChannel().log(10000000, "AlternativeRouteChoiceModelListener#keyPressed");
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3) {
-        this.env.getLogChannel().log(-2137614336, "AlternativeRouteChoiceModelListener#keyReleased");
+        this.env.getLogChannel().log(10000000, "AlternativeRouteChoiceModelListener#keyReleased");
     }
 }
 

@@ -6,9 +6,8 @@ package de.audi.tghu.navi.app.command;
 import de.audi.tghu.command.CommandList;
 import de.audi.tghu.command.ICommandListFactory;
 import de.audi.tghu.navi.app.CityHistory;
-import de.audi.tghu.navi.app.command.AddStreetAndCityToHistoryCommand$1;
-import de.audi.tghu.navi.app.command.AddStreetAndCityToHistoryCommand$2;
 import de.audi.tghu.navi.app.command.NavCommand;
+import de.audi.tghu.navi.app.command.sds.LIStripLocationCommand;
 import org.dsi.ifc.global.NavLocation;
 
 public class AddStreetAndCityToHistoryCommand
@@ -25,24 +24,44 @@ extends NavCommand {
         this.hasStreets = bl;
     }
 
-    @Override
     public void execute() {
         CommandList commandList = this.commandListFactory.createCommandList();
-        commandList.add(new AddStreetAndCityToHistoryCommand$1(this, new StringBuffer().append(this.CLASS_NAME).append("#getSelectListElementCommandList Strip city and add to history").toString()));
-        commandList.add(new AddStreetAndCityToHistoryCommand$2(this, new StringBuffer().append(this.CLASS_NAME).append("#getSelectListElementCommandList Strip Street and add to history").toString()));
+        commandList.add(new NavCommand(new StringBuffer().append(this.CLASS_NAME).append("#getSelectListElementCommandList Strip city and add to history").toString()){
+
+            public void execute() {
+                if (this.dsiResponseContainer.getLiCurrentLD().isPositionValid()) {
+                    CommandList commandList = AddStreetAndCityToHistoryCommand.this.commandListFactory.createCommandList();
+                    commandList.add(new NavCommand(new StringBuffer().append(this.CLASS_NAME).append("#getSelectListElementCommandList add striped location to history").toString()){
+
+                        public void execute() {
+                            this.getCommandList().commandFinishedWithPostSequence(AddStreetAndCityToHistoryCommand.this.cityHistory.addLastCityCommandList(this.dsiResponseContainer.getLiCurrentLD(), AddStreetAndCityToHistoryCommand.this.hasStreets));
+                        }
+                    });
+                    this.getCommandList().commandFinishedWithPostSequence(commandList);
+                } else {
+                    this.getCommandList().commandFinished();
+                }
+            }
+        });
+        commandList.add(new NavCommand(new StringBuffer().append(this.CLASS_NAME).append("#getSelectListElementCommandList Strip Street and add to history").toString()){
+
+            public void execute() {
+                if (this.dsiResponseContainer.getLiCurrentLD().isPositionValid()) {
+                    CommandList commandList = AddStreetAndCityToHistoryCommand.this.commandListFactory.createCommandList();
+                    commandList.add(new LIStripLocationCommand(this.dsiResponseContainer.getLiCurrentLD(), 14));
+                    commandList.add(new NavCommand(new StringBuffer().append(this.CLASS_NAME).append("#getSelectListElementCommandList add stiped location to history").toString()){
+
+                        public void execute() {
+                            this.getCommandList().commandFinishedWithPostSequence(AddStreetAndCityToHistoryCommand.this.cityHistory.addLastStreetCommandList((NavLocation)this.getCommandList().get("STRIPPED_LOCATION")));
+                        }
+                    });
+                    this.getCommandList().commandFinishedWithPostSequence(commandList);
+                } else {
+                    this.getCommandList().commandFinished();
+                }
+            }
+        });
         this.getCommandList().commandFinishedWithPostSequence(commandList);
-    }
-
-    static /* synthetic */ ICommandListFactory access$000(AddStreetAndCityToHistoryCommand addStreetAndCityToHistoryCommand) {
-        return addStreetAndCityToHistoryCommand.commandListFactory;
-    }
-
-    static /* synthetic */ boolean access$200(AddStreetAndCityToHistoryCommand addStreetAndCityToHistoryCommand) {
-        return addStreetAndCityToHistoryCommand.hasStreets;
-    }
-
-    static /* synthetic */ CityHistory access$300(AddStreetAndCityToHistoryCommand addStreetAndCityToHistoryCommand) {
-        return addStreetAndCityToHistoryCommand.cityHistory;
     }
 }
 

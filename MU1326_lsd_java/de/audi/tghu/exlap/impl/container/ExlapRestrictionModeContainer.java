@@ -12,14 +12,13 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Map$Entry;
 import org.dsi.ifc.has.HASDataContainer;
 import org.dsi.ifc.has.HASDataElement;
 
 public class ExlapRestrictionModeContainer
 extends AbstractContainer {
-    private static final int CONTAINER_ID_EXLAP_RESTRICTION_MODE;
-    private static final int ELEMENT_ID_MODE;
+    private static final int CONTAINER_ID_EXLAP_RESTRICTION_MODE = 38;
+    private static final int ELEMENT_ID_MODE = 77;
     private Map map = new HashMap();
 
     public ExlapRestrictionModeContainer(ExlapRestrictionModeEnumeration exlapRestrictionModeEnumeration) {
@@ -45,14 +44,12 @@ extends AbstractContainer {
         return (ExlapRestrictionModeEnumeration)this.map.get(new Integer(77));
     }
 
-    @Override
     public List createContainer(int n, int n2, int n3) {
         ArrayList arrayList = new ArrayList();
         arrayList.add(new HASDataContainer(38, n2, n, this.createElements(), n3));
         return arrayList;
     }
 
-    @Override
     public HASDataContainer[] createContainer() {
         List list = this.createContainer(-1, 1, -1);
         return (HASDataContainer[])list.toArray(new HASDataContainer[list.size()]);
@@ -63,11 +60,11 @@ extends AbstractContainer {
         HASDataElement[] hASDataElementArray = new HASDataElement[this.map.size()];
         Iterator iterator = this.map.entrySet().iterator();
         while (iterator.hasNext()) {
-            Map$Entry map$Entry = (Map$Entry)iterator.next();
-            if (map$Entry.getValue() == null) continue;
-            switch ((Integer)map$Entry.getKey()) {
+            Map.Entry entry = (Map.Entry)iterator.next();
+            if (entry.getValue() == null) continue;
+            switch ((Integer)entry.getKey()) {
                 case 77: {
-                    hASDataElementArray[n++] = new IntegerElement(77, ((ExlapRestrictionModeEnumeration)map$Entry.getValue()).ordinal());
+                    hASDataElementArray[n++] = new IntegerElement(77, ((ExlapRestrictionModeEnumeration)entry.getValue()).ordinal());
                     break;
                 }
             }
@@ -75,20 +72,19 @@ extends AbstractContainer {
         return hASDataElementArray;
     }
 
-    @Override
     public void toString(StringWriter stringWriter) {
         stringWriter.write("ExlapRestrictionModeContainer(");
         Iterator iterator = this.map.entrySet().iterator();
         while (iterator.hasNext()) {
-            Map$Entry map$Entry = (Map$Entry)iterator.next();
-            switch ((Integer)map$Entry.getKey()) {
+            Map.Entry entry = (Map.Entry)iterator.next();
+            switch ((Integer)entry.getKey()) {
                 case 77: {
-                    if (map$Entry.getValue() == null) {
+                    if (entry.getValue() == null) {
                         stringWriter.write("mode(ExlapRestrictionModeEnumeration)=null");
                         break;
                     }
                     stringWriter.write("mode(ExlapRestrictionModeEnumeration)='");
-                    stringWriter.write(map$Entry.getValue().toString());
+                    stringWriter.write(entry.getValue().toString());
                     stringWriter.write("'");
                     break;
                 }
@@ -99,7 +95,6 @@ extends AbstractContainer {
         stringWriter.write(")");
     }
 
-    @Override
     protected Object clone() {
         ExlapRestrictionModeContainer exlapRestrictionModeContainer = new ExlapRestrictionModeContainer(this);
         return exlapRestrictionModeContainer;

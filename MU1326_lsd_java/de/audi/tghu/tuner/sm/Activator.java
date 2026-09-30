@@ -9,7 +9,6 @@ import de.audi.tghu.tuner.sm.TunerSMMActions;
 
 public class Activator
 extends AbstractSMMActivator {
-    @Override
     public void init() {
         this.smmList = new TunerSMM[8];
         if (this.framework.isFrontMU()) {

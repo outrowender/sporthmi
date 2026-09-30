@@ -7,7 +7,6 @@ import de.audi.atip.hmi.model.DefaultButtonListener;
 import de.audi.atip.hmi.model.list.BaseListModelApp;
 import de.audi.atip.hmi.model.list.EvoListRow;
 import de.audi.atip.hmi.modelaccess.ButtonModelApp;
-import de.audi.tuner.app.sdars.seek.AbstractListControllerButtonHandler$IMarkableRow;
 import de.audi.tuner.app.sdars.seek.SelectedTeamRow;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +36,6 @@ extends DefaultButtonListener {
         this.updateControllerButtons();
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
         if (n == this.markAllButtonId.getID()) {
             this.setAllEntriesMarked(true);
@@ -63,14 +61,13 @@ extends DefaultButtonListener {
         ArrayList arrayList = new ArrayList(n);
         for (int i2 = 0; i2 < this.list.getLength(); ++i2) {
             EvoListRow evoListRow = this.list.getRow(i2);
-            if (!((AbstractListControllerButtonHandler$IMarkableRow)((Object)evoListRow)).isMarkingCheckboxSelected()) continue;
+            if (!((IMarkableRow)((Object)evoListRow)).isMarkingCheckboxSelected()) continue;
             arrayList.add(evoListRow);
         }
         return arrayList;
     }
 
-    protected abstract void deleteMarkedRows(List list) {
-    }
+    protected abstract void deleteMarkedRows(List var1);
 
     private void updateControllerButtons() {
         int n = this.list.getLength() - this.markedEntryCount;
@@ -81,9 +78,15 @@ extends DefaultButtonListener {
 
     public void toggleRow(int n) {
         EvoListRow evoListRow = this.list.getRow(n);
-        this.markedEntryCount += ((AbstractListControllerButtonHandler$IMarkableRow)((Object)evoListRow)).toggleMarkCheckbox();
+        this.markedEntryCount += ((IMarkableRow)((Object)evoListRow)).toggleMarkCheckbox();
         this.list.setRow(n, evoListRow);
         this.updateControllerButtons();
+    }
+
+    public static interface IMarkableRow {
+        public int toggleMarkCheckbox();
+
+        public boolean isMarkingCheckboxSelected();
     }
 }
 

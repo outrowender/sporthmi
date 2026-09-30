@@ -18,64 +18,60 @@ implements INavigationInputModeManager {
     private NavigationInputModeManager() {
     }
 
-    @Override
     public void setInputMode(int n, NavigationEnv navigationEnv) {
         LogChannel logChannel = navigationEnv.getLogChannel();
         if (logChannel.isDebug2()) {
-            logChannel.log(14808325, "NavigationInputModeManager#setInputMode(%1)", (long)n);
+            logChannel.log(100000000, "NavigationInputModeManager#setInputMode(%1)", (long)n);
         }
-        navigationEnv.getChoiceModel(1579091456).setValue(n);
+        navigationEnv.getChoiceModel(401246).setValue(n);
         this.currentInputMode = n;
     }
 
-    @Override
     public int getInputMode() {
         return this.currentInputMode;
     }
 
-    @Override
     public void setSdsActiveStatus(boolean bl) {
         this.isSdsActive = bl;
     }
 
-    @Override
     public boolean isSdsActive() {
         return this.isSdsActive;
     }
 
-    @Override
     public void setTpegPOIActive(boolean bl) {
         this.isTpegPOIActive = bl;
     }
 
-    @Override
     public boolean isTpegPOIActive() {
         return this.isTpegPOIActive;
     }
 
-    @Override
     public int getSdsDestinationType() {
         return this.sdsDestinationType;
     }
 
-    @Override
     public void setSdsDestinationType(int n) {
         this.sdsDestinationType = n;
     }
 
-    @Override
     public void resetSDSDestinationType() {
         this.sdsDestinationType = -1;
     }
 
-    @Override
     public boolean isNavigationActive() {
         return this.isNavigationActive;
     }
 
-    @Override
     public void setNavigationActive(boolean bl) {
         this.isNavigationActive = bl;
+    }
+
+    public static class InputModeManagerHolder {
+        public static final INavigationInputModeManager INSTANCE = new NavigationInputModeManager();
+
+        private InputModeManagerHolder() {
+        }
     }
 }
 

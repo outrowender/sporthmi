@@ -10,13 +10,12 @@ import de.audi.atip.log.LogChannel;
 import de.audi.tghu.command.CommandList;
 import de.audi.tghu.command.ICommandListFactory;
 import de.audi.tghu.navi.app.NavigationEnv;
+import de.audi.tghu.navi.app.command.poi.online.AbstractOnlineSearchCommand;
 import de.audi.tghu.navi.app.command.poi.online.OnlineSDSSearchStartCommand;
 import de.audi.tghu.navi.app.command.poi.online.OnlineSDSSearchVoiceDataAvailableCommand;
 import de.audi.tghu.navi.app.command.poi.online.OnlineSDSSearchVoiceSearchActiveCommand;
 import de.audi.tghu.navi.app.command.poi.online.OnlineSearchSetLanguageCommand;
 import de.audi.tghu.navi.app.poi.online.IOnlineSearchForm;
-import de.audi.tghu.navi.app.poi.online.OnlineSDSSearchSequence$1;
-import de.audi.tghu.navi.app.poi.online.OnlineSDSSearchSequence$2;
 import de.audi.tghu.navi.app.poi.online.OnlineSearchSequence;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
@@ -47,13 +46,12 @@ implements NaviSDSPOIOnlineService {
     }
 
     public void setLanguage(Language language) {
-        this.logChannel.log(1078071040, "OnlineSDSSearchSequence#setLanguage: %1", (Object)language);
+        this.logChannel.log(1000000, "OnlineSDSSearchSequence#setLanguage: %1", (Object)language);
         CommandList commandList = this.commandListFactory.createCommandList();
         commandList.add(new OnlineSearchSetLanguageCommand(this.logChannel, language));
         commandList.execute("OnlineSDSSearchSequence#setLanguage");
     }
 
-    @Override
     public byte poiOnlineSearchInit(boolean bl, int n, String string) {
         if (this.onlineSearchSequence == null) {
             this.logChannel.log(10000, "OnlineSDSSearchSequence#poiOnlineSearchInit() - OnlineSearchService is null");
@@ -73,9 +71,15 @@ implements NaviSDSPOIOnlineService {
         this.setSearchCanceled(false);
         this.form.setResultLengthValue(4160, 0, 0);
         this.blockDUM(false);
-        this.logChannel.log(1078071040, "OnlineSDSSearchSequence#poiOnlineSearchInit() - calling poiVoiceSearchActive, oneshot=%1", bl);
+        this.logChannel.log(1000000, "OnlineSDSSearchSequence#poiOnlineSearchInit() - calling poiVoiceSearchActive, oneshot=%1", bl);
         CommandList commandList = this.commandListFactory.createCommandList();
-        commandList.setErrorCommand(new OnlineSDSSearchSequence$1(this, this.logChannel, this.form, this.onlineSearchSequence.getSearchContext()));
+        commandList.setErrorCommand(new AbstractOnlineSearchCommand(this.logChannel, this.form, this.onlineSearchSequence.getSearchContext()){
+
+            public void execute() {
+                OnlineSDSSearchSequence.this.indicateError(46);
+                this.form.setResultLengthValue(4160, 0, 2);
+            }
+        });
         commandList.add(new OnlineSDSSearchVoiceSearchActiveCommand(this.logChannel));
         NavLocation navLocation = this.onlineSearchSequence.getSearchContext().getSearchArea().getNavLocation();
         if (navLocation == null) {
@@ -84,11 +88,11 @@ implements NaviSDSPOIOnlineService {
         }
         int n2 = navLocation.latitude;
         int n3 = navLocation.longitude;
-        this.logChannel.log(-2137614336, "OnlineSDSSearchSequence#poiOnlineSearchInit() - calling poiStartVoiceSelection with lat=%1 and lon=%2", (long)n2, (long)n3);
+        this.logChannel.log(10000000, "OnlineSDSSearchSequence#poiOnlineSearchInit() - calling poiStartVoiceSelection with lat=%1 and lon=%2", (long)n2, (long)n3);
         commandList.add(new OnlineSDSSearchStartCommand(this.logChannel, n2, n3, bl, this.form));
         this.setLastSDSSearchIsOneshot(bl);
         if (bl) {
-            this.logChannel.log(-2137614336, "OnlineSDSSearchSequence#poiOnlineSearchInit() - oneshot, calling poiRawVoiceDataAvailable, path is %1, format is %2", (Object)string, (Object)Integer.toString(n));
+            this.logChannel.log(10000000, "OnlineSDSSearchSequence#poiOnlineSearchInit() - oneshot, calling poiRawVoiceDataAvailable, path is %1, format is %2", (Object)string, (Object)Integer.toString(n));
             commandList.add(new OnlineSDSSearchVoiceDataAvailableCommand(this.logChannel, this.form, this.onlineSearchSequence.getSearchContext(), this, string, n, true));
         }
         commandList.execute("OnlineSDSSearchSequence#poiOnlineSearchInit");
@@ -103,13 +107,12 @@ implements NaviSDSPOIOnlineService {
         return this.lastSDSSearchIsOneshot;
     }
 
-    @Override
     public byte poiOnlineVoiceDataAvailable(String string, int n) {
         if (this.onlineSearchSequence == null) {
             this.logChannel.log(10000, "OnlineSDSSearchSequence#poiOnlineVoiceDataAvailable() - OnlineSearchService is null");
             return 1;
         }
-        this.logChannel.log(1078071040, "OnlineSDSSearchSequence#poiOnlineVoiceDataAvailable() - calling poiOnlineVoiceDataAvailable(%1, %2)", (Object)string, (Object)Integer.toString(n));
+        this.logChannel.log(1000000, "OnlineSDSSearchSequence#poiOnlineVoiceDataAvailable() - calling poiOnlineVoiceDataAvailable(%1, %2)", (Object)string, (Object)Integer.toString(n));
         if (this.dsi == null) {
             this.logChannel.log(10000, "OnlineSDSSearchSequence#poiOnlineVoiceDataAvailable() - DSIPoiOnlineSearch is null");
             return 1;
@@ -117,13 +120,19 @@ implements NaviSDSPOIOnlineService {
         this.setSearchCanceled(false);
         CommandList commandList = this.commandListFactory.createCommandList();
         commandList.add(new OnlineSDSSearchVoiceDataAvailableCommand(this.logChannel, this.form, this.onlineSearchSequence.getSearchContext(), this, string, n, true));
-        commandList.setErrorCommand(new OnlineSDSSearchSequence$2(this, this.logChannel, this.form, this.onlineSearchSequence.getSearchContext()));
+        commandList.setErrorCommand(new AbstractOnlineSearchCommand(this.logChannel, this.form, this.onlineSearchSequence.getSearchContext()){
+
+            public void execute() {
+                OnlineSDSSearchSequence.this.indicateError(46);
+                this.form.setResultLengthValue(4160, 0, 2);
+            }
+        });
         commandList.execute("OnlineSDSSearchSequence#poiOnlineVoiceDataAvailable");
         return 0;
     }
 
     public void setNaviSDSPOIOnlineServiceListener(NaviSDSPOIOnlineServiceListener naviSDSPOIOnlineServiceListener) {
-        this.logChannel.log(-2137614336, "OnlineSDSSearchSequence#poiOnlineVoiceDataAvailable() - got instance %1", (Object)naviSDSPOIOnlineServiceListener);
+        this.logChannel.log(10000000, "OnlineSDSSearchSequence#poiOnlineVoiceDataAvailable() - got instance %1", (Object)naviSDSPOIOnlineServiceListener);
         this.sdsServiceListener = naviSDSPOIOnlineServiceListener;
     }
 
@@ -144,13 +153,13 @@ implements NaviSDSPOIOnlineService {
         String string = "";
         if (poiOnlineSearchValuelist.recognitionList != null && poiOnlineSearchValuelist.recognitionList.length > 0 && poiOnlineSearchValuelist.recognitionList[0].recognizedTerm != null) {
             string = poiOnlineSearchValuelist.recognitionList[0].recognizedTerm;
-            this.logChannel.log(1078071040, "OnlineSDSSearchSequence#poiValueList() - search term '%1' found", (Object)string);
+            this.logChannel.log(1000000, "OnlineSDSSearchSequence#poiValueList() - search term '%1' found", (Object)string);
             String string2 = null;
             try {
                 string2 = URLDecoder.decode(string, "UTF-8");
             }
             catch (UnsupportedEncodingException unsupportedEncodingException) {
-                this.logChannel.log(1078071040, "OnlineSDSSearchSequence#poiValueList() - could not decode recognizedTerm %1", (Object)string);
+                this.logChannel.log(1000000, "OnlineSDSSearchSequence#poiValueList() - could not decode recognizedTerm %1", (Object)string);
             }
             if (string2 != null && string2.length() > 0) {
                 string2 = string;
@@ -158,12 +167,11 @@ implements NaviSDSPOIOnlineService {
             this.form.setSearchTextLabel(string2);
             this.form.addToSearchHistorySDS(string2);
         } else {
-            this.logChannel.log(-1601830656, "OnlineSDSSearchSequence#poiValueList() - no recognized term found in valuelist");
+            this.logChannel.log(100000, "OnlineSDSSearchSequence#poiValueList() - no recognized term found in valuelist");
         }
         this.sdsServiceListener.updatePOIOnlineSearchResults((byte)0, string, stringArray);
     }
 
-    @Override
     public byte poiOnlineSearchCancel() {
         return 0;
     }
@@ -218,7 +226,7 @@ implements NaviSDSPOIOnlineService {
     }
 
     private void notifySetSearchAreaResult(boolean bl) {
-        this.logChannel.log(1078071040, "OnlineSDSSearchSequence#notifySetSearchAreaResult(%1)", bl);
+        this.logChannel.log(1000000, "OnlineSDSSearchSequence#notifySetSearchAreaResult(%1)", bl);
         if (this.sdsServiceListener == null) {
             this.logChannel.log(10000, "OnlineSDSSearchSequence#notifySetSearchAreaResult(): no SDS service listener");
             return;
@@ -226,9 +234,8 @@ implements NaviSDSPOIOnlineService {
         this.sdsServiceListener.poiOnlineSetSearchAreaResult(bl ? (byte)0 : 1);
     }
 
-    @Override
     public void poiOnlineSetSearchArea(byte by) {
-        this.logChannel.log(1078071040, "OnlineSDSSearchSequence#poiOnlineSetSearchArea(%1)", (long)by);
+        this.logChannel.log(1000000, "OnlineSDSSearchSequence#poiOnlineSetSearchArea(%1)", (long)by);
         try {
             if (this.onlineSearchSequence == null) {
                 this.logChannel.log(10000, "OnlineSDSSearchSequence#poiOnlineSetSearchArea(): onlineSearchSequence is null");
@@ -244,7 +251,7 @@ implements NaviSDSPOIOnlineService {
             } else if (by == 2) {
                 NavLocation navLocation = this.env.getContainer().getLiCurrentLD();
                 if (navLocation == null) {
-                    this.logChannel.log(1078071040, "OnlineSDSSearchSequence#poiOnlineSetSearchArea(%1): location is null", (long)by);
+                    this.logChannel.log(1000000, "OnlineSDSSearchSequence#poiOnlineSetSearchArea(%1): location is null", (long)by);
                     bl = false;
                 } else {
                     bl = this.onlineSearchSequence.setSearchArea(3, navLocation);
@@ -257,9 +264,8 @@ implements NaviSDSPOIOnlineService {
         }
     }
 
-    @Override
     public void markCurrentPOIUsedFor(byte by) {
-        this.logChannel.log(1078071040, "OnlineSDSSearchSequence#markCurrentPOIUsedFor(%1)", (long)by);
+        this.logChannel.log(1000000, "OnlineSDSSearchSequence#markCurrentPOIUsedFor(%1)", (long)by);
         int n = -1;
         switch (by) {
             case 3: {
@@ -281,15 +287,13 @@ implements NaviSDSPOIOnlineService {
         this.onlineSearchSequence.markCurrentResultUsedFor(n);
     }
 
-    @Override
     public void poiOnlineSearchDidYouMean() {
-        this.logChannel.log(1078071040, "OnlineSDSSearchSequence#poiOnlineSearchDidYouMean()");
+        this.logChannel.log(1000000, "OnlineSDSSearchSequence#poiOnlineSearchDidYouMean()");
         this.form.startSearchWithSpellingSuggestion();
     }
 
-    @Override
     public int getCurrentPOIOnlineListSize() {
-        this.logChannel.log(1078071040, "OnlineSDSSearchSequence#getCurrentPOIOnlineListSize()");
+        this.logChannel.log(1000000, "OnlineSDSSearchSequence#getCurrentPOIOnlineListSize()");
         PoiOnlineSearchValuelist poiOnlineSearchValuelist = this.onlineSearchSequence.getCurrentPOIOnlineList();
         if (poiOnlineSearchValuelist == null) {
             return 0;
@@ -301,42 +305,39 @@ implements NaviSDSPOIOnlineService {
         return poiOnlineSearchValuelistElementArray.length;
     }
 
-    @Override
     public void resetCurrentPOIOnlineList() {
-        this.logChannel.log(1078071040, "OnlineSDSSearchSequence#resetCurrentPOIOnlineList: clearing result list");
+        this.logChannel.log(1000000, "OnlineSDSSearchSequence#resetCurrentPOIOnlineList: clearing result list");
         this.form.clearResultList();
     }
 
     public void setDSIPoiOnlineSearch(DSIPoiOnlineSearch dSIPoiOnlineSearch) {
-        this.logChannel.log(1078071040, "OnlineSDSSearchSequence#poiOnlineSearchInit() - setting DSI to %1", (Object)dSIPoiOnlineSearch);
+        this.logChannel.log(1000000, "OnlineSDSSearchSequence#poiOnlineSearchInit() - setting DSI to %1", (Object)dSIPoiOnlineSearch);
         this.dsi = dSIPoiOnlineSearch;
     }
 
-    @Override
     public void poiOnlineShowList(byte by) {
-        this.logChannel.log(1078071040, "OnlineSDSSearchSequence#poiOnlineShowList() - list type %1", (long)by);
+        this.logChannel.log(1000000, "OnlineSDSSearchSequence#poiOnlineShowList() - list type %1", (long)by);
         if (by == 0) {
             this.form.showList(0);
         } else if (by == 1) {
             this.form.showList(1);
         } else if (by == 2) {
             if (this.isDUMBlocked) {
-                this.logChannel.log(1078071040, "OnlineSDSSearchSequence#poiOnlineShowList() - DUM is blocked, not showing PP");
+                this.logChannel.log(1000000, "OnlineSDSSearchSequence#poiOnlineShowList() - DUM is blocked, not showing PP");
                 return;
             }
-            this.logChannel.log(1078071040, "OnlineSDSSearchSequence#poiOnlineShowList() - clearing list -> show PP");
+            this.logChannel.log(1000000, "OnlineSDSSearchSequence#poiOnlineShowList() - clearing list -> show PP");
             this.form.clearResultList();
         } else {
             this.logChannel.log(10000, "OnlineSDSSearchSequence#poiOnlineShowList() - invalid param %1", (long)by);
         }
     }
 
-    @Override
     public void selectDestination(int n) {
     }
 
     public void blockDUM(boolean bl) {
-        this.logChannel.log(1078071040, "OnlineSDSSearchSequence#blockDUM() - %1 DUM", (Object)(bl ? "blocking" : "unblocking"));
+        this.logChannel.log(1000000, "OnlineSDSSearchSequence#blockDUM() - %1 DUM", (Object)(bl ? "blocking" : "unblocking"));
         this.isDUMBlocked = bl;
     }
 

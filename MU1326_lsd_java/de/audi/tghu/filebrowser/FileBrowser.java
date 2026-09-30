@@ -33,16 +33,15 @@ DSIFileBrowserListener {
         super(fileBrowserManager, n, path, bl);
     }
 
-    @Override
     public final synchronized Path chdir(Path path) {
         DSIFileBrowser dSIFileBrowser = this.getDSI();
         if (dSIFileBrowser != null) {
             this.responded = false;
-            this.getLogDSI().log(1078071040, "-> changeFolder(%2,%1)", (Object)path, (long)this.getSession());
+            this.getLogDSI().log(1000000, "-> changeFolder(%2,%1)", (Object)path, (long)this.getSession());
             dSIFileBrowser.changeFolder(this.getSession(), path);
             this.selectedFileCount = 0;
             try {
-                super.wait(0);
+                this.wait(5000L);
                 if (!this.responded) {
                     this.getLog().log(10000, "changeFolder(%2, %1) timed out!", (Object)path, (long)this.getSession());
                 }
@@ -55,20 +54,18 @@ DSIFileBrowserListener {
         return this.pwd();
     }
 
-    @Override
     public synchronized int getSelectedFileCount() {
         return this.selectedFileCount;
     }
 
-    @Override
     public final synchronized int getFileCount() {
         DSIFileBrowser dSIFileBrowser = this.getDSI();
         if (dSIFileBrowser != null) {
             this.responded = false;
-            this.getLogDSI().log(1078071040, "-> getFileCount(%1)", (long)this.getSession());
+            this.getLogDSI().log(1000000, "-> getFileCount(%1)", (long)this.getSession());
             dSIFileBrowser.getFileCount(this.getSession());
             try {
-                super.wait(0);
+                this.wait(5000L);
                 if (!this.responded) {
                     this.getLog().log(10000, "getFileCount( %1 ) timed out!", (long)this.getSession());
                 }
@@ -80,20 +77,18 @@ DSIFileBrowserListener {
         return this.totalFileCount;
     }
 
-    @Override
     public void getFileCountWithFileTypeFilterResult(int n, int n2, int n3, int n4) {
     }
 
-    @Override
     public final synchronized BrowsedFileSet getFiles(int n, int n2) {
         this.resultFileSet = null;
         DSIFileBrowser dSIFileBrowser = this.getDSI();
         if (dSIFileBrowser != null) {
             this.responded = false;
-            this.getLogDSI().log(1078071040, "-> getViewWindow(%1,%2,%3)", (long)this.getSession(), (long)n, (long)n2);
+            this.getLogDSI().log(1000000, "-> getViewWindow(%1,%2,%3)", (long)this.getSession(), (long)n, (long)n2);
             dSIFileBrowser.getViewWindow(this.getSession(), n2, n);
             try {
-                super.wait(0);
+                this.wait(5000L);
                 if (!this.responded) {
                     this.getLog().log(10000, "getViewWindow( %1, %2, %3 ) timed out!", (long)this.getSession(), (long)n, (long)n2);
                 }
@@ -106,16 +101,15 @@ DSIFileBrowserListener {
         return this.resultFileSet;
     }
 
-    @Override
     public final synchronized ResourceLocator[] getResourceLocators(int n, int n2) {
         this.resultResources = null;
         DSIFileBrowser dSIFileBrowser = this.getDSI();
         if (dSIFileBrowser != null) {
             this.responded = false;
-            this.getLogDSI().log(1078071040, "-> getResourceLocatorWindow(%1,%2,%3)", (long)this.getSession(), (long)n, (long)n2);
+            this.getLogDSI().log(1000000, "-> getResourceLocatorWindow(%1,%2,%3)", (long)this.getSession(), (long)n, (long)n2);
             dSIFileBrowser.getResourceLocatorWindow(this.getSession(), n2, n);
             try {
-                super.wait(0);
+                this.wait(20000L);
                 if (!this.responded) {
                     this.getLog().log(10000, "getResourceLocatorWindow( %1, %2, %3 ) timed out!", (long)this.getSession(), (long)n, (long)n2);
                 }
@@ -128,15 +122,14 @@ DSIFileBrowserListener {
         return this.resultResources;
     }
 
-    @Override
     public final synchronized boolean selectFile(BrowsedFile browsedFile, boolean bl) {
         DSIFileBrowser dSIFileBrowser = this.getDSI();
         if (dSIFileBrowser != null) {
             this.responded = false;
-            this.getLogDSI().log(1078071040, "-> setSelectionSingle(%3,%1,%2)", (Object)browsedFile, bl ? 1L : 0L, (long)this.getSession());
+            this.getLogDSI().log(1000000, "-> setSelectionSingle(%3,%1,%2)", (Object)browsedFile, bl ? 1L : 0L, (long)this.getSession());
             dSIFileBrowser.setSelectionSingle(this.getSession(), browsedFile, bl);
             try {
-                super.wait(0);
+                this.wait(5000L);
                 if (!this.responded) {
                     this.getLog().log(10000, "setSelectionSingle(%2, %1) timed out!", (Object)browsedFile, (long)this.getSession());
                 }
@@ -153,7 +146,6 @@ DSIFileBrowserListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public PreviewInfo[] getFilesWithPreviews(int n, int n2, BrowsedFileSet browsedFileSet) {
         if (0 > n) {
             throw new IllegalArgumentException("IllegalOffset");
@@ -171,14 +163,14 @@ DSIFileBrowserListener {
                 this.resultFileSet = null;
                 this.resultPreviewInfo = null;
                 this.responded = false;
-                this.getLogDSI().log(1078071040, "[FileBrowser].getFilesWithPreviews(): -> getViewWindowWithPreviews(%1,%2,%3)", (long)this.getSession(), (long)n2, (long)n);
+                this.getLogDSI().log(1000000, "[FileBrowser].getFilesWithPreviews(): -> getViewWindowWithPreviews(%1,%2,%3)", (long)this.getSession(), (long)n2, (long)n);
                 dSIFileBrowser.getViewWindowWithPreviews(this.getSession(), n2, n);
                 try {
-                    super.wait(0);
+                    this.wait(5000L);
                 }
                 catch (InterruptedException interruptedException) {
                     Thread.interrupted();
-                    this.getLogDSI().log(-1601830656, "[FileBrowser].getFilesWithPreviews(): interrupted; session=%1", (long)this.getSession(), (Throwable)interruptedException);
+                    this.getLogDSI().log(100000, "[FileBrowser].getFilesWithPreviews(): interrupted; session=%1", (long)this.getSession(), (Throwable)interruptedException);
                 }
                 if (!this.responded) {
                     this.getLogDSI().log(10000, "[FileBrowser].getFilesWithPreviews(): timeout; session=%1", (long)this.getSession());
@@ -200,7 +192,6 @@ DSIFileBrowserListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void changeFolderResult(int n, int n2, Path path) {
         FileBrowser fileBrowser = this;
         synchronized (fileBrowser) {
@@ -208,14 +199,13 @@ DSIFileBrowserListener {
                 this.responded = true;
                 this.setCurrentPath(path);
             }
-            super.notifyAll();
+            this.notifyAll();
         }
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void getFileCountResult(int n, int n2, int n3) {
         FileBrowser fileBrowser = this;
         synchronized (fileBrowser) {
@@ -223,14 +213,13 @@ DSIFileBrowserListener {
                 this.responded = true;
                 this.totalFileCount = n3;
             }
-            super.notifyAll();
+            this.notifyAll();
         }
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void getResourceLocatorWindowResult(int n, int n2, int n3, ResourceLocator[] resourceLocatorArray, int n4) {
         FileBrowser fileBrowser = this;
         synchronized (fileBrowser) {
@@ -238,22 +227,19 @@ DSIFileBrowserListener {
                 this.responded = true;
                 this.resultResources = resourceLocatorArray;
             }
-            super.notifyAll();
+            this.notifyAll();
         }
     }
 
-    @Override
     public void getResourceLocatorsResult(int n, int n2, ResourceLocator[] resourceLocatorArray) {
     }
 
-    @Override
     public void getSelectedFilesResult(int n, int n2, int n3) {
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void getViewWindowResult(int n, int n2, int n3, BrowsedFileSet browsedFileSet, int n4) {
         FileBrowser fileBrowser = this;
         synchronized (fileBrowser) {
@@ -261,14 +247,13 @@ DSIFileBrowserListener {
                 this.responded = true;
                 this.resultFileSet = browsedFileSet;
             }
-            super.notifyAll();
+            this.notifyAll();
         }
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void indicateSelectionResult(int n, int n2, int n3) {
         FileBrowser fileBrowser = this;
         synchronized (fileBrowser) {
@@ -276,58 +261,47 @@ DSIFileBrowserListener {
                 this.responded = true;
                 this.selectedFileCount = n3;
             }
-            super.notifyAll();
+            this.notifyAll();
         }
     }
 
-    @Override
     public void setFileExtensionFilterResult(int n, int n2) {
     }
 
-    @Override
     public void setFileTypeFilterResult(int n, int n2) {
     }
 
-    @Override
     public void setFileTypeActiveResult(int n) {
     }
 
-    @Override
     public void setLanguageResult(int n, String string) {
     }
 
-    @Override
     public void spellerResult(int n, int n2, String string, String string2) {
     }
 
-    @Override
     public void validateSpellerCharsResult(int n, int n2, String string, String string2) {
     }
 
-    @Override
     public void startResult(int n, int n2, Path path) {
     }
 
-    @Override
     public void asyncException(int n, String string, int n2) {
     }
 
-    @Override
     public synchronized void getViewWindowWithPreviewsResult(int n, int n2, int n3, BrowsedFileSet browsedFileSet, PreviewInfo[] previewInfoArray, int n4) {
         if (0 == n2 && n == this.getSession()) {
-            this.getLogDSI().log(1078071040, "[FileBrowser].getViewWindowWithPreviewsResult(): <- got files with previews; session=%1", (long)this.getSession());
+            this.getLogDSI().log(1000000, "[FileBrowser].getViewWindowWithPreviewsResult(): <- got files with previews; session=%1", (long)this.getSession());
             this.responded = true;
             this.resultPreviewInfo = previewInfoArray;
             this.resultFileSet = browsedFileSet;
         }
-        super.notifyAll();
+        this.notifyAll();
     }
 
-    @Override
     public void createPreviewImageResult(ResourceLocator resourceLocator, ResourceLocator resourceLocator2, int n) {
     }
 
-    @Override
     public void cancelPreviewCreationResult(int n) {
     }
 }

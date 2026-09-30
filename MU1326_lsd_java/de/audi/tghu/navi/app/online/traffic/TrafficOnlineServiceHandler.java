@@ -14,8 +14,8 @@ import org.dsi.ifc.online.OSRServiceState;
 
 public class TrafficOnlineServiceHandler
 implements IOnlineServiceListener {
-    public static final String APP_ID_VZO_LGI_TRACKER;
-    public static final String APP_ID_VZO_LGI_DOWNLOAD;
+    public static final String APP_ID_VZO_LGI_TRACKER = "ncfstracker";
+    public static final String APP_ID_VZO_LGI_DOWNLOAD = "ncfsdownload";
     protected final LogChannel logChannel;
     private IOnlineService service;
     private String appID;
@@ -27,7 +27,7 @@ implements IOnlineServiceListener {
     }
 
     public void setService(IOnlineService iOnlineService, int n) {
-        this.logChannel.log(-2137614336, "TrafficOnlineServiceHandler[%1]#setService %2", (Object)this.appID, (Object)iOnlineService);
+        this.logChannel.log(10000000, "TrafficOnlineServiceHandler[%1]#setService %2", (Object)this.appID, (Object)iOnlineService);
         this.service = iOnlineService;
         if (iOnlineService != null) {
             try {
@@ -35,23 +35,23 @@ implements IOnlineServiceListener {
                 this.setState(n);
             }
             catch (Exception exception) {
-                this.logChannel.log(-2137614336, "TrafficOnlineServiceHandler[%1]#setService ERROR=%2", (Object)this.appID, (Throwable)exception);
+                this.logChannel.log(10000000, "TrafficOnlineServiceHandler[%1]#setService ERROR=%2", (Object)this.appID, (Throwable)exception);
             }
         }
     }
 
     public void setState(int n) {
-        this.logChannel.log(-2137614336, "TrafficOnlineServiceHandler[%1]#setState %2", (Object)this.appID, (long)n);
+        this.logChannel.log(10000000, "TrafficOnlineServiceHandler[%1]#setState %2", (Object)this.appID, (long)n);
         if (this.service != null) {
             try {
                 this.service.setOnlineApplicationState(n, this);
                 this.state = n;
             }
             catch (Exception exception) {
-                this.logChannel.log(-2137614336, "TrafficOnlineServiceHandler[%1]#setState ERROR=%2", (Object)this.appID, (Throwable)exception);
+                this.logChannel.log(10000000, "TrafficOnlineServiceHandler[%1]#setState ERROR=%2", (Object)this.appID, (Throwable)exception);
             }
         } else {
-            this.logChannel.log(-2137614336, "TrafficOnlineServiceHandler[%1]#setState no service availble", (Object)this.appID);
+            this.logChannel.log(10000000, "TrafficOnlineServiceHandler[%1]#setState no service availble", (Object)this.appID);
         }
     }
 
@@ -63,41 +63,33 @@ implements IOnlineServiceListener {
         return this.appID;
     }
 
-    @Override
     public void getOnlineApplicationResponse(OSRApplication oSRApplication) {
-        this.logChannel.log(14808325, "TrafficOnlineServiceHandler[%1]#getOnlineApplicationResponse %2", (Object)this.appID, (long)oSRApplication.getState());
+        this.logChannel.log(100000000, "TrafficOnlineServiceHandler[%1]#getOnlineApplicationResponse %2", (Object)this.appID, (long)oSRApplication.getState());
     }
 
-    @Override
     public void activateLicenseResponse(int n) {
-        this.logChannel.log(14808325, "TrafficOnlineServiceHandler[%1]#activateLicenseResponse %2", (Object)this.appID, (long)n);
+        this.logChannel.log(100000000, "TrafficOnlineServiceHandler[%1]#activateLicenseResponse %2", (Object)this.appID, (long)n);
     }
 
-    @Override
     public void getLicenseInformationResult(OSRLicense[] oSRLicenseArray) {
-        this.logChannel.log(14808325, "TrafficOnlineServiceHandler[%1]#getLicenseInformationResult length: %2", (Object)this.appID, oSRLicenseArray != null ? (long)oSRLicenseArray.length : 0L);
+        this.logChannel.log(100000000, "TrafficOnlineServiceHandler[%1]#getLicenseInformationResult length: %2", (Object)this.appID, oSRLicenseArray != null ? (long)oSRLicenseArray.length : 0L);
     }
 
-    @Override
     public void getReminderStatusResult(int n) {
-        this.logChannel.log(14808325, "TrafficOnlineServiceHandler[%1]#getReminderStatusResult %2", (Object)this.appID, (long)n);
+        this.logChannel.log(100000000, "TrafficOnlineServiceHandler[%1]#getReminderStatusResult %2", (Object)this.appID, (long)n);
     }
 
-    @Override
     public void setReminderStateResponse(int n) {
-        this.logChannel.log(14808325, "TrafficOnlineServiceHandler[%1]#setReminderStateResponse %2", (Object)this.appID, (long)n);
+        this.logChannel.log(100000000, "TrafficOnlineServiceHandler[%1]#setReminderStateResponse %2", (Object)this.appID, (long)n);
     }
 
-    @Override
     public void updateApplicationState(OSRNotifyProperties[] oSRNotifyPropertiesArray) {
-        this.logChannel.log(14808325, "TrafficOnlineServiceHandler[%1]#updateApplicationState length: %2", (Object)this.appID, oSRNotifyPropertiesArray != null ? (long)oSRNotifyPropertiesArray.length : 0L);
+        this.logChannel.log(100000000, "TrafficOnlineServiceHandler[%1]#updateApplicationState length: %2", (Object)this.appID, oSRNotifyPropertiesArray != null ? (long)oSRNotifyPropertiesArray.length : 0L);
     }
 
-    @Override
     public void updateServiceState(OnlineServiceListState onlineServiceListState) {
     }
 
-    @Override
     public void getPreCheckResult(OSRServiceState oSRServiceState) {
     }
 }

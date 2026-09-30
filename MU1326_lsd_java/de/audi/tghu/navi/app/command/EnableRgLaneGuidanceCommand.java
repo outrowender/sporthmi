@@ -13,9 +13,8 @@ extends NavCommand {
         this.enable = bl;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(1078071040, "EnableRgLaneGuidanceCommand#execute() - calling enableRgLaneGuidance( %1 ) ", this.enable);
+        this.logger.log(1000000, "EnableRgLaneGuidanceCommand#execute() - calling enableRgLaneGuidance( %1 ) ", this.enable);
         this.getDSINavigation().enableRgLaneGuidance(this.enable);
         this.getCommandList().commandFinished();
     }

@@ -9,7 +9,9 @@ import de.audi.atip.audio.NullAudioFocusManager;
 import de.audi.atip.interapp.audio.drawer.AudioDrawerContext;
 import de.audi.atip.interapp.audio.drawer.NullAudioDrawerContext;
 import de.audi.atip.log.LogChannel;
-import de.audi.tv.app.audio.AudioFocusClient$Properties;
+import de.audi.atip.utils.reactive.properties.Property;
+import de.audi.atip.utils.reactive.properties.PropertyFactory;
+import de.audi.atip.utils.reactive.properties.ReadOnlyProperty;
 import de.audi.tv.app.audio.IAudioListener;
 import de.audi.tv.app.base.TVEnv;
 
@@ -21,7 +23,7 @@ implements IAudioFocusClient {
     private final IAudioListener audioFocusListener;
     private boolean[] audioFocus = new boolean[8];
     private boolean isFirstAudioFocusUpdate = true;
-    private final AudioFocusClient$Properties myProperties;
+    private final Properties myProperties;
 
     public AudioFocusClient(TVEnv tVEnv, LogChannel logChannel, IAudioListener iAudioListener) {
         this.log = logChannel;
@@ -69,38 +71,58 @@ implements IAudioFocusClient {
         }
     }
 
-    @Override
     public synchronized void updateAudioFocus(int n, int n2) {
-        this.log.log(-2137614336, "[AudioFocusClient.updateAudioFocus] terminal %1 app %2", (long)n, (long)n2);
+        this.log.log(10000000, "[AudioFocusClient.updateAudioFocus] terminal %1 app %2", (long)n, (long)n2);
         if (n2 == 38) {
             this.setAudioFocus(true, n);
             if (n == 0) {
                 this.audioFocusListener.onMuGotTvAudioFocus(this.isFirstAudioFocusUpdate);
-                AudioFocusClient$Properties.access$000(this.myProperties).accept(new Boolean(true));
+                this.myProperties.writeableMuHasTvAudioFocus().accept(new Boolean(true));
                 this.audioDrawerContext.setContext(AudioDrawerContext.SOURCE_TV, AudioDrawerContext.SOURCE_AUDIO_STATE_ACTIVE);
                 this.isFirstAudioFocusUpdate = false;
             } else {
                 this.audioFocusListener.onSdisGotTvAudioFocus();
-                AudioFocusClient$Properties.access$100(this.myProperties).accept(new Boolean(true));
+                this.myProperties.writeableSdisHasTvAudioFocus().accept(new Boolean(true));
             }
         } else {
             this.setAudioFocus(false, n);
             if (n == 0) {
                 this.audioFocusListener.onMuLostTvAudioFocus();
-                AudioFocusClient$Properties.access$000(this.myProperties).accept(new Boolean(false));
+                this.myProperties.writeableMuHasTvAudioFocus().accept(new Boolean(false));
                 this.audioDrawerContext.setContext(AudioDrawerContext.SOURCE_TV, AudioDrawerContext.SOURCE_AUDIO_STATE_INACTIVE);
                 this.isFirstAudioFocusUpdate = false;
             } else {
                 this.audioFocusListener.onSdisLostTvAudioFocus();
-                AudioFocusClient$Properties.access$100(this.myProperties).accept(new Boolean(false));
+                this.myProperties.writeableSdisHasTvAudioFocus().accept(new Boolean(false));
             }
         }
     }
 
     public void activateTVAudio(int n) {
         if (!this.hasAudioFocus(n)) {
-            this.log.log(-2137614336, "[AudioFocusClient.activateTVAudio] request audio focus for terminal %1", (long)n);
+            this.log.log(10000000, "[AudioFocusClient.activateTVAudio] request audio focus for terminal %1", (long)n);
             this.manager.setActiveAudioApp(n, 38);
+        }
+    }
+
+    /*
+     * This class specifies class file version 49.0 but uses Java 6 signatures.  Assumed Java 6.
+     */
+    public static class Properties {
+        public final ReadOnlyProperty<Boolean> muHasTvAudioFocus;
+        public final ReadOnlyProperty<Boolean> sdisHasTvAudioFocus;
+
+        public Properties(PropertyFactory propertyFactory) {
+            this.muHasTvAudioFocus = propertyFactory.createProperty("AudioFocusClient.muHasTvAudioFocus", new Boolean(false));
+            this.sdisHasTvAudioFocus = propertyFactory.createProperty("AudioFocusClient.sdisHasTvAudioFocus", new Boolean(false));
+        }
+
+        private Property<Boolean> writeableMuHasTvAudioFocus() {
+            return (Property)this.muHasTvAudioFocus;
+        }
+
+        private Property<Boolean> writeableSdisHasTvAudioFocus() {
+            return (Property)this.sdisHasTvAudioFocus;
         }
     }
 }

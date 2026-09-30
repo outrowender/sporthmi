@@ -19,7 +19,6 @@ extends AbstractHMIActivator {
         super(4, "Navi", System.getProperty("variant.skin", "EvoHighScale"), new NaviModelBank());
     }
 
-    @Override
     protected synchronized AbstractScreenFactory getScreenFactory() {
         if (this.instance == null) {
             this.instance = new NaviScreenFactory(this.getFramework());
@@ -27,7 +26,6 @@ extends AbstractHMIActivator {
         return this.instance;
     }
 
-    @Override
     public HMIConditionBank getConditionBank() {
         if (this.conditionBank == null) {
             this.conditionBank = new NaviConditionBank((NaviScreenFactory)this.getScreenFactory());

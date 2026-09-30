@@ -19,15 +19,13 @@ extends AbstractOSRCommand {
         this.propertyList = oSRApplicationPropertiesArray;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "[ORSSetApplicationPropertiesCommand#execute] enter");
+        this.logger.log(10000000, "[ORSSetApplicationPropertiesCommand#execute] enter");
         this.getDSI().setApplicationProperties(this.applicationId, this.propertyList);
     }
 
-    @Override
     public void getOnlineApplicationResponse(OSRApplication oSRApplication) {
-        this.logger.log(-2137614336, "[ORSSetApplicationPropertiesCommand#getOnlineApplicationResponse] application:%1", (Object)(oSRApplication != null ? oSRApplication.getId() : null));
+        this.logger.log(10000000, "[ORSSetApplicationPropertiesCommand#getOnlineApplicationResponse] application:%1", (Object)(oSRApplication != null ? oSRApplication.getId() : null));
         if (oSRApplication != null) {
             super.getOnlineApplicationResponse(oSRApplication);
             this.checkReminderResponse(oSRApplication);
@@ -36,11 +34,11 @@ extends AbstractOSRCommand {
     }
 
     private void checkReminderResponse(OSRApplication oSRApplication) {
-        this.logger.log(-2137614336, "[ORSSetApplicationPropertiesCommand#getOnlineApplicationResponse]");
+        this.logger.log(10000000, "[ORSSetApplicationPropertiesCommand#getOnlineApplicationResponse]");
         int n = OnlineServiceRegistrationHelper.getReminderStatus(this.propertyList, this.logger);
         int n2 = OnlineServiceRegistrationHelper.getReminderStatus(oSRApplication, this.logger);
         if (n != n2) {
-            this.logger.log(-1601830656, "[ORSSetApplicationPropertiesCommand#getOnlineApplicationResponse] - different reminder state expected! current %1, expected %2", (long)n2, (long)n);
+            this.logger.log(100000, "[ORSSetApplicationPropertiesCommand#getOnlineApplicationResponse] - different reminder state expected! current %1, expected %2", (long)n2, (long)n);
         }
     }
 

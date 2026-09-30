@@ -27,7 +27,6 @@ extends AbstractSwdlListHandler {
         return this.selectionManager;
     }
 
-    @Override
     public ListCell[] getNewRow() {
         ListCell[] listCellArray = new ListCell[]{new IntegerListCell(-1, 99), new TextListCell("")};
         return listCellArray;
@@ -58,7 +57,6 @@ extends AbstractSwdlListHandler {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public ISwdlListItem getEntry(int n) {
         Object object = this.syncObj;
         synchronized (object) {

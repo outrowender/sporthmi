@@ -18,39 +18,32 @@ implements IMapPartialPopupHandler {
         return this.logger;
     }
 
-    @Override
     public void showPopupSemidynBlockMain() {
-        this.getLogger().log(-2137614336, "DefaultMapPartialPopupHandler#showPopupSemidynBlockMain() - not initiated, method in DefaultMapPartialPopupHandler is called!");
+        this.getLogger().log(10000000, "DefaultMapPartialPopupHandler#showPopupSemidynBlockMain() - not initiated, method in DefaultMapPartialPopupHandler is called!");
     }
 
-    @Override
     public void showPopupSemidynBetterMain() {
-        this.getLogger().log(-2137614336, "DefaultMapPartialPopupHandler#showPopupSemidynBetterMain() - not initiated, method in DefaultMapPartialPopupHandler is called!");
+        this.getLogger().log(10000000, "DefaultMapPartialPopupHandler#showPopupSemidynBetterMain() - not initiated, method in DefaultMapPartialPopupHandler is called!");
     }
 
-    @Override
     public void showPopupGoogleOfflineNoCache() {
-        this.getLogger().log(-2137614336, "DefaultMapPartialPopupHandler#showPopupGoogleOfflineNoCache() - not initiated, method in DefaultMapPartialPopupHandler is called!");
+        this.getLogger().log(10000000, "DefaultMapPartialPopupHandler#showPopupGoogleOfflineNoCache() - not initiated, method in DefaultMapPartialPopupHandler is called!");
     }
 
-    @Override
     public void hidePopupSemidynBlockMain() {
-        this.getLogger().log(-2137614336, "DefaultMapPartialPopupHandler#hidePopupSemidynBlockMain() - not initiated, method in DefaultMapPartialPopupHandler is called!");
+        this.getLogger().log(10000000, "DefaultMapPartialPopupHandler#hidePopupSemidynBlockMain() - not initiated, method in DefaultMapPartialPopupHandler is called!");
     }
 
-    @Override
     public void hidePopupSemidynBetterMain() {
-        this.getLogger().log(-2137614336, "DefaultMapPartialPopupHandler#hidePopupSemidynBetterMain() - not initiated, method in DefaultMapPartialPopupHandler is called!");
+        this.getLogger().log(10000000, "DefaultMapPartialPopupHandler#hidePopupSemidynBetterMain() - not initiated, method in DefaultMapPartialPopupHandler is called!");
     }
 
-    @Override
     public void showPopupTrafficeNoticeMap(boolean bl) {
-        this.getLogger().log(-2137614336, "DefaultMapPartialPopupHandler#showPopupTrafficeNoticeMap() - not initiated, method in DefaultMapPartialPopupHandler is called!");
+        this.getLogger().log(10000000, "DefaultMapPartialPopupHandler#showPopupTrafficeNoticeMap() - not initiated, method in DefaultMapPartialPopupHandler is called!");
     }
 
-    @Override
     public void showOnlineTrafficWarningPPU(boolean bl) {
-        this.getLogger().log(-2137614336, "DefaultMapPartialPopupHandler#showOnlineTrafficWarningPPU() - not initiated, method in DefaultMapPartialPopupHandler is called!");
+        this.getLogger().log(10000000, "DefaultMapPartialPopupHandler#showOnlineTrafficWarningPPU() - not initiated, method in DefaultMapPartialPopupHandler is called!");
     }
 }
 

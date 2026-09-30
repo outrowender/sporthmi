@@ -15,14 +15,12 @@ implements BundleActivator {
     private IFacadeFactory factory = null;
     static /* synthetic */ Class class$de$audi$tghu$dsi$IFacadeFactory;
 
-    @Override
-    public void start(BundleContext bundleContext) {
+    public void start(BundleContext bundleContext) throws Exception {
         this.factory = new HighFacadeFactory();
         this.sregFactory = bundleContext.registerService((class$de$audi$tghu$dsi$IFacadeFactory == null ? (class$de$audi$tghu$dsi$IFacadeFactory = Activator.class$("de.audi.tghu.dsi.IFacadeFactory")) : class$de$audi$tghu$dsi$IFacadeFactory).getName(), (Object)this.factory, null);
     }
 
-    @Override
-    public void stop(BundleContext bundleContext) {
+    public void stop(BundleContext bundleContext) throws Exception {
         if (this.sregFactory != null) {
             this.sregFactory.unregister();
         }

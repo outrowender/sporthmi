@@ -3,8 +3,6 @@
  */
 package de.audi.tuner.app;
 
-import de.audi.tuner.app.StringDisplayability$Result;
-
 public class StringDisplayability {
     private final int[] charArr = new int[2048];
 
@@ -18,7 +16,7 @@ public class StringDisplayability {
         }
     }
 
-    public StringDisplayability$Result check(String string) {
+    public Result check(String string) {
         int n = 0;
         int n2 = 0;
         char[] cArray = string.toCharArray();
@@ -31,7 +29,17 @@ public class StringDisplayability {
             }
             ++n2;
         }
-        return new StringDisplayability$Result(cArray.length, n, n2, null);
+        return new Result(cArray.length, n, n2);
+    }
+
+    public static class Result {
+        public final int length;
+        public final int numNotDisplayable;
+
+        private Result(int n, int n2, int n3) {
+            this.length = n;
+            this.numNotDisplayable = n3;
+        }
     }
 }
 

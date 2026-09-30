@@ -11,9 +11,8 @@ public class OSRSetNotificationCommand
 extends AbstractOSRCommand {
     private static final int[] OSR_ATTRIBUTES = new int[]{1, 5, 3, 4, 6};
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "ORSSetNotificationCommand#execute() - call method setNotification( %1 )", (Object)OSR_ATTRIBUTES);
+        this.logger.log(10000000, "ORSSetNotificationCommand#execute() - call method setNotification( %1 )", (Object)OSR_ATTRIBUTES);
         this.getDSI().setNotification(OSR_ATTRIBUTES, (DSIListener)this.application.getDSIListener());
         this.getCommandList().commandFinished();
     }

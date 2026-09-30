@@ -11,7 +11,6 @@ import de.audi.tghu.navi.app.addressinput.CmdNaviPreviewMapUpdate;
 import de.audi.tghu.navi.app.addressinput.IAddressInputForm;
 import de.audi.tghu.navi.app.addressinput.IMatchspellerModelAccess;
 import de.audi.tghu.navi.app.addressinput.asia.AbstractMatchspellerInputSequenceAsia;
-import de.audi.tghu.navi.app.addressinput.asia.WardInputSequence$1;
 import de.audi.tghu.navi.app.addressinput.commands.LIStartSpellerCommand;
 import de.audi.tghu.navi.app.addressinput.commands.LispSelectListItemByIdent;
 import de.audi.tghu.navi.app.addressinput.commands.ModelSelectListElementCommand;
@@ -19,6 +18,9 @@ import de.audi.tghu.navi.app.addressinput.commands.UpdateAddressInputFormScreenM
 import de.audi.tghu.navi.app.addressinput.country.SetBackupLocationForAddressInputFormCommand;
 import de.audi.tghu.navi.app.command.NavCommand;
 import de.audi.tghu.navi.app.li.SpellerStack;
+import de.audi.tghu.navi.app.sds.NotifySDSCommand;
+import de.audi.tghu.navi.app.util.Util;
+import org.dsi.ifc.global.NavLocation;
 
 public class WardInputSequence
 extends AbstractMatchspellerInputSequenceAsia {
@@ -29,25 +31,35 @@ extends AbstractMatchspellerInputSequenceAsia {
         this.naviServiceListener = naviServiceListener;
     }
 
-    @Override
     protected NavCommand getStartSpellerCommand() {
         return new LIStartSpellerCommand(152, false, false, false);
     }
 
-    @Override
     public CommandList getSelectElementByIdentifierCommandList(String string) {
         CommandList commandList = this.commandListFactory.createCommandList();
         commandList.add(new LispSelectListItemByIdent(string));
-        commandList.add(new WardInputSequence$1(this, "Check if ward was selected or if southside removed the ward"));
+        commandList.add(new NavCommand("Check if ward was selected or if southside removed the ward"){
+
+            public void execute() {
+                NavLocation navLocation = this.dsiResponseContainer.getLiCurrentLD();
+                if (Util.isEmpty(Util.getLocationAccessor(navLocation).getWard())) {
+                    this.getCommandList().commandFinishedWithPostCommand(new NotifySDSCommand(WardInputSequence.this.naviServiceListener){
+
+                        public void call() {
+                            this.getCommandList().put("[SDS_Command_List_Invalid]", new Boolean(true));
+                            this.getCommandList().commandFinished();
+                        }
+                    });
+                } else {
+                    this.getCommandList().commandFinished();
+                }
+            }
+        });
         commandList.add(new ModelSelectListElementCommand(this.modelAccess));
         commandList.add(new UpdateAddressInputFormScreenModelsCommand(this.modelAccess));
         commandList.add(new SetBackupLocationForAddressInputFormCommand(this.addressInputForm));
         commandList.add(new CmdNaviPreviewMapUpdate(this.previewMap, 1, null, null));
         return commandList;
-    }
-
-    static /* synthetic */ NaviServiceListener access$000(WardInputSequence wardInputSequence) {
-        return wardInputSequence.naviServiceListener;
     }
 }
 

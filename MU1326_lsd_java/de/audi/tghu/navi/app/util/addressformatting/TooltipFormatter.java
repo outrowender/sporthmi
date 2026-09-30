@@ -3,15 +3,15 @@
  */
 package de.audi.tghu.navi.app.util.addressformatting;
 
+import de.audi.atip.log.LogChannel;
 import de.audi.tghu.navi.app.NavigationEnv;
 import de.audi.tghu.navi.app.favorite.IFavorite;
 import de.audi.tghu.navi.app.map.AbstractMap;
+import de.audi.tghu.navi.app.util.LocationFormatter;
 import de.audi.tghu.navi.app.util.Util;
 import de.audi.tghu.navi.app.util.addressformatting.AbstractTooltipFormatter;
 import de.audi.tghu.navi.app.util.addressformatting.DefaultTooltipFormatter;
 import de.audi.tghu.navi.app.util.addressformatting.ITooltipFormatter;
-import de.audi.tghu.navi.app.util.addressformatting.ITooltipFormatter$TooltipFormatterEnvironment;
-import de.audi.tghu.navi.app.util.addressformatting.TooltipFormatter$TooltipFormatterEnvironmentImpl;
 import de.audi.tghu.navi.app.util.addressformatting.audi.tooltip.TooltipFormatterCNTWEnglish;
 import de.audi.tghu.navi.app.util.addressformatting.audi.tooltip.TooltipFormatterCNTWNative;
 import de.audi.tghu.navi.app.util.addressformatting.audi.tooltip.TooltipFormatterJPEnglish;
@@ -29,14 +29,14 @@ public class TooltipFormatter
 implements ITooltipFormatter {
     private final NavigationEnv navigationEnv;
     private final AbstractMap map;
-    private final ITooltipFormatter$TooltipFormatterEnvironment env;
+    private final ITooltipFormatter.TooltipFormatterEnvironment env;
     private boolean isNativeAsianLanguage;
     private ITooltipFormatter tooltipFormatter;
 
     public TooltipFormatter(NavigationEnv navigationEnv, AbstractMap abstractMap) {
         this.navigationEnv = navigationEnv;
         this.map = abstractMap;
-        this.env = new TooltipFormatter$TooltipFormatterEnvironmentImpl(this, null);
+        this.env = new TooltipFormatterEnvironmentImpl();
         this.isNativeAsianLanguage = this.isNativeAsianLanguage();
         this.tooltipFormatter = this.createTooltipFormatter();
     }
@@ -109,77 +109,78 @@ implements ITooltipFormatter {
         return abstractTooltipFormatter;
     }
 
-    @Override
     public String formatPOI(NavLocation navLocation) {
         return this.getInstance().formatPOI(navLocation);
     }
 
-    @Override
     public String formatPOIStack(NavLocation navLocation, int n) {
         return this.getInstance().formatPOIStack(navLocation, n);
     }
 
-    @Override
     public String formatPOI3D(NavLocation navLocation) {
         return this.getInstance().formatPOI3D(navLocation);
     }
 
-    @Override
     public String formatOnlinePOI(PoiOnlineSearchValuelistElement poiOnlineSearchValuelistElement, NavLocation navLocation) {
         return this.getInstance().formatOnlinePOI(poiOnlineSearchValuelistElement, navLocation);
     }
 
-    @Override
     public String formatPicNavLocation(NavLocation navLocation) {
         return this.getInstance().formatPicNavLocation(navLocation);
     }
 
-    @Override
     public String formatFavorite(IFavorite iFavorite) {
         return this.getInstance().formatFavorite(iFavorite);
     }
 
-    @Override
     public String formatAdbEntry(AdbEntry adbEntry, int n) {
         return this.getInstance().formatAdbEntry(adbEntry, n);
     }
 
-    @Override
     public String formatLocation(NavLocation navLocation) {
         return this.getInstance().formatLocation(navLocation);
     }
 
-    @Override
     public String formatHomeLocation(NavLocation navLocation) {
         return this.getInstance().formatHomeLocation(navLocation);
     }
 
-    @Override
     public String formatBuilding(NavLocation navLocation) {
         return this.getInstance().formatBuilding(navLocation);
     }
 
-    @Override
     public String formatTMC(TmcMessage tmcMessage) {
         return this.getInstance().formatTMC(tmcMessage);
     }
 
-    @Override
     public String formatTMC(TmcListElement tmcListElement) {
         return this.getInstance().formatTMC(tmcListElement);
     }
 
-    @Override
     public String formatFallback(NavLocation navLocation) {
         return this.getInstance().formatFallback(navLocation);
     }
 
-    static /* synthetic */ NavigationEnv access$000(TooltipFormatter tooltipFormatter) {
-        return tooltipFormatter.navigationEnv;
-    }
+    private class TooltipFormatterEnvironmentImpl
+    implements ITooltipFormatter.TooltipFormatterEnvironment {
+        private TooltipFormatterEnvironmentImpl() {
+        }
 
-    static /* synthetic */ AbstractMap access$100(TooltipFormatter tooltipFormatter) {
-        return tooltipFormatter.map;
+        public LogChannel getLogChannel() {
+            return TooltipFormatter.this.navigationEnv.getMapMainLogChannel();
+        }
+
+        public NavLocation getNavLocation(byte[] byArray) {
+            return ((TooltipFormatter)TooltipFormatter.this).map.locationSerializer.streamToLocation(byArray);
+        }
+
+        public boolean hasIcon(NavLocation navLocation) {
+            return LocationFormatter.getIconResourceID(TooltipFormatter.this.map.getIconHandler(), navLocation) != -1;
+        }
+
+        public float getZoomLevel() {
+            return TooltipFormatter.this.map.getZoomHandler().getZoom();
+        }
     }
 }
 

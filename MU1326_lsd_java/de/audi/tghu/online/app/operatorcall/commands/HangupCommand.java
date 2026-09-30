@@ -20,7 +20,6 @@ extends AbstractCommand {
         this.telHandler = telephoneHandler;
     }
 
-    @Override
     public void execute() {
         this.telHandler.hangUp();
     }

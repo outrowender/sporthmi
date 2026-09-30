@@ -9,10 +9,8 @@ import de.audi.tghu.navi.app.map.AbstractMap;
 import de.audi.tghu.navi.app.map.IContext;
 
 public interface IContextFactory {
-    default public IContext createContext(int n, AbstractMap abstractMap, IconHandler iconHandler) {
-    }
+    public IContext createContext(int var1, AbstractMap var2, IconHandler var3);
 
-    default public IContext createNullContext(LogChannel logChannel) {
-    }
+    public IContext createNullContext(LogChannel var1);
 }
 

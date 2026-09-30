@@ -4,8 +4,7 @@
 package de.audi.tghu.navi.app.map.utils;
 
 import de.audi.atip.base.IFrameworkAccess;
-import de.audi.atip.hmi.intercommunication.MixedListConstants$LaneGuidance;
-import de.audi.atip.hmi.intercommunication.MixedListConstants$TollGateInfo;
+import de.audi.atip.hmi.intercommunication.MixedListConstants;
 import de.audi.atip.hmi.model.BaseListRow;
 import de.audi.atip.hmi.model.IconCell;
 import de.audi.atip.hmi.model.ListCell;
@@ -36,14 +35,14 @@ import org.dsi.ifc.online.PoiOnlineSearchValuelistElement;
 import org.dsi.ifc.organizer.AddressData;
 
 public class MapUtils {
-    public static final int MAP_ADDITIONAL_INFOS_OFF;
-    public static final int MAP_ADDITIONAL_INFOS_OVERVIEW;
-    public static final int MAP_ADDITIONAL_INFOS_ROUTEINFO;
-    public static final String UNRELIABLE_ETA;
+    public static final int MAP_ADDITIONAL_INFOS_OFF = 0;
+    public static final int MAP_ADDITIONAL_INFOS_OVERVIEW = 1;
+    public static final int MAP_ADDITIONAL_INFOS_ROUTEINFO = 2;
+    public static final String UNRELIABLE_ETA = "-";
 
     public static int searchUserFlag(PosInfo posInfo, MapUserFlag[] mapUserFlagArray, NavigationEnv navigationEnv) {
         if (posInfo == null || mapUserFlagArray == null) {
-            navigationEnv.getMapMainLogChannel().log(-2137614336, "MapUtils#searchUserFlag(): info or userFlags is null!");
+            navigationEnv.getMapMainLogChannel().log(10000000, "MapUtils#searchUserFlag(): info or userFlags is null!");
             return -1;
         }
         long l = posInfo.getObjectId();
@@ -56,7 +55,7 @@ public class MapUtils {
 
     public static int searchUserFlag(PosInfo posInfo, MapFlag[] mapFlagArray, NavigationEnv navigationEnv) {
         if (posInfo == null || mapFlagArray == null) {
-            navigationEnv.getMapMainLogChannel().log(-2137614336, "MapUtils#searchUserFlag(): info or userFlags is null!");
+            navigationEnv.getMapMainLogChannel().log(10000000, "MapUtils#searchUserFlag(): info or userFlags is null!");
             return -1;
         }
         long l = posInfo.getObjectId();
@@ -193,7 +192,7 @@ public class MapUtils {
                 break;
             }
             default: {
-                navigationEnv.getMapMainLogChannel().log(-1601830656, "MapUtils#contextToHMIServiceID() - invalid context: %1, rendererID: %2, terminalID: %3", (long)n, (long)n2, (long)n3);
+                navigationEnv.getMapMainLogChannel().log(100000, "MapUtils#contextToHMIServiceID() - invalid context: %1, rendererID: %2, terminalID: %3", (long)n, (long)n2, (long)n3);
                 n4 = n3 == 1 ? (n2 == 3 ? 72 : 76) : (n2 == 0 ? 10 : 16);
             }
         }
@@ -248,7 +247,7 @@ public class MapUtils {
                 break;
             }
             default: {
-                navigationEnv.getMapMainLogChannel().log(-1601830656, "MapUtils#hmiServiceIDToContext() - invalid hmiServiceID: %1, terminalID: %2", (long)n, (long)n2);
+                navigationEnv.getMapMainLogChannel().log(100000, "MapUtils#hmiServiceIDToContext() - invalid hmiServiceID: %1, terminalID: %2", (long)n, (long)n2);
                 n3 = n2 == 1 ? 8 : 0;
             }
         }
@@ -295,7 +294,7 @@ public class MapUtils {
                 break;
             }
             default: {
-                string = new StringBuffer().append("UNKNOWN_").append(n).toString();
+                string = "UNKNOWN_" + n;
             }
         }
         return string;
@@ -388,7 +387,7 @@ public class MapUtils {
                     n3 = 1;
                     break;
                 }
-                navigationEnv.getMapMainLogChannel().log(-2137614336, "MapUtils#convertMapTypeIndex unknown orientation: %1", (long)n2);
+                navigationEnv.getMapMainLogChannel().log(10000000, "MapUtils#convertMapTypeIndex unknown orientation: %1", (long)n2);
                 n3 = -1;
                 break;
             }
@@ -401,7 +400,7 @@ public class MapUtils {
                 break;
             }
             default: {
-                navigationEnv.getMapMainLogChannel().log(-2137614336, "MapUtils#convertMapTypeIndex unknown map type: %1", (long)n);
+                navigationEnv.getMapMainLogChannel().log(10000000, "MapUtils#convertMapTypeIndex unknown map type: %1", (long)n);
                 n3 = -1;
             }
         }
@@ -882,13 +881,13 @@ public class MapUtils {
             }
             if (listCell instanceof ObjectListCell) {
                 object = ((ObjectListCell)listCell).value;
-                if (object instanceof MixedListConstants$TollGateInfo) {
-                    if (((MixedListConstants$TollGateInfo)object).getTollGateTypes() == null) continue;
+                if (object instanceof MixedListConstants.TollGateInfo) {
+                    if (((MixedListConstants.TollGateInfo)object).getTollGateTypes() == null) continue;
                     buffer.append(" [").append(i2).append(']');
                     buffer.append("TollGateInfo");
                     continue;
                 }
-                if (!(object instanceof MixedListConstants$LaneGuidance) || ((MixedListConstants$LaneGuidance)object).getDirectionArrow() == null) continue;
+                if (!(object instanceof MixedListConstants.LaneGuidance) || ((MixedListConstants.LaneGuidance)object).getDirectionArrow() == null) continue;
                 buffer.append(" [").append(i2).append(']');
                 buffer.append(object);
                 continue;

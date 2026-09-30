@@ -3,12 +3,12 @@
  */
 package de.audi.tghu.navi.app.map.context;
 
-import de.audi.atip.log.LogChannel;
+import de.audi.atip.timer.Timer;
+import de.audi.atip.timer.TimerListener;
 import de.audi.tghu.navi.app.NavigationEnv;
 import de.audi.tghu.navi.app.map.AbstractMap;
 import de.audi.tghu.navi.app.map.GUIInterface;
 import de.audi.tghu.navi.app.map.context.CtxFreeMap;
-import de.audi.tghu.navi.app.map.context.CtxScrollOnRoute$InfoTimer;
 import de.audi.tghu.navi.app.map.dsi.IMapRequest;
 import de.audi.tghu.navi.app.util.Util;
 import org.dsi.ifc.global.NavLocationWgs84;
@@ -16,12 +16,12 @@ import org.dsi.ifc.navigation.PosPosition;
 
 public class CtxScrollOnRoute
 extends CtxFreeMap {
-    private static final String TIMER_INFO;
-    private static final String TIMER_CCP_CHANGED;
-    private static final String TIMER_DDS_CHANGED;
-    private static final long DELAY_INFO_TIMER;
-    private static final long DELAY_CCP_CHANGED_TIMER;
-    private static final long DELAY_DDS_CHANGED_TIMER;
+    private static final String TIMER_INFO = "infoTimer";
+    private static final String TIMER_CCP_CHANGED = "ccpChangeTimer";
+    private static final String TIMER_DDS_CHANGED = "ddsChangeTimer";
+    private static final long DELAY_INFO_TIMER = 250L;
+    private static final long DELAY_CCP_CHANGED_TIMER = 10000L;
+    private static final long DELAY_DDS_CHANGED_TIMER = 2000L;
     private int distanceToDest = 0;
     private NavLocationWgs84 mapPosition = null;
     private int distanceToCCP = 0;
@@ -29,42 +29,40 @@ extends CtxFreeMap {
     public CtxScrollOnRoute(NavigationEnv navigationEnv, AbstractMap abstractMap) {
         super(navigationEnv, abstractMap);
         if (this.container.sInfoTimer == null) {
-            this.container.sInfoTimer = new CtxScrollOnRoute$InfoTimer(this, "infoTimer", 0);
+            this.container.sInfoTimer = new InfoTimer(TIMER_INFO, 250L);
         }
         if (this.container.sCcpChangeTimer == null) {
-            this.container.sCcpChangeTimer = new CtxScrollOnRoute$InfoTimer(this, "ccpChangeTimer", 0);
+            this.container.sCcpChangeTimer = new InfoTimer(TIMER_CCP_CHANGED, 10000L);
         }
         if (this.container.sDdsChangeTimer == null) {
-            this.container.sDdsChangeTimer = new CtxScrollOnRoute$InfoTimer(this, "ddsChangeTimer", 0);
+            this.container.sDdsChangeTimer = new InfoTimer(TIMER_DDS_CHANGED, 2000L);
         }
     }
 
     private void cancelAllTimer() {
-        this.getLogChannel().log(-2137614336, "CtxScrollOnRoute#cancelAllTimer()");
-        CtxScrollOnRoute$InfoTimer.access$400(this.getInfoTimer());
-        CtxScrollOnRoute$InfoTimer.access$400(this.getCcpChangeTimer());
-        CtxScrollOnRoute$InfoTimer.access$400(this.getDdsChangeTimer());
+        this.getLogChannel().log(10000000, "CtxScrollOnRoute#cancelAllTimer()");
+        this.getInfoTimer().cancel();
+        this.getCcpChangeTimer().cancel();
+        this.getDdsChangeTimer().cancel();
     }
 
-    @Override
     public synchronized void cleanup() {
         super.cleanup();
         this.cancelAllTimer();
     }
 
-    private CtxScrollOnRoute$InfoTimer getInfoTimer() {
-        return (CtxScrollOnRoute$InfoTimer)this.container.sInfoTimer;
+    private InfoTimer getInfoTimer() {
+        return (InfoTimer)this.container.sInfoTimer;
     }
 
-    private CtxScrollOnRoute$InfoTimer getCcpChangeTimer() {
-        return (CtxScrollOnRoute$InfoTimer)this.container.sCcpChangeTimer;
+    private InfoTimer getCcpChangeTimer() {
+        return (InfoTimer)this.container.sCcpChangeTimer;
     }
 
-    private CtxScrollOnRoute$InfoTimer getDdsChangeTimer() {
-        return (CtxScrollOnRoute$InfoTimer)this.container.sDdsChangeTimer;
+    private InfoTimer getDdsChangeTimer() {
+        return (InfoTimer)this.container.sDdsChangeTimer;
     }
 
-    @Override
     public void enter() {
         super.enter();
         this.shutdownAdditionalInfos();
@@ -86,7 +84,7 @@ extends CtxFreeMap {
         GUIInterface gUIInterface = this.naviMap.getGuiInterface();
         int n = gUIInterface.getScreenHeight();
         if (this.getSetupMapType() == 2) {
-            n = (int)((float)n * 42047);
+            n = (int)((float)n * 1.28125f);
         }
         int n2 = gUIInterface.getScreenWidth() >> 1;
         int n3 = n >> 1;
@@ -96,25 +94,22 @@ extends CtxFreeMap {
         this.distanceToDest = 0;
     }
 
-    @Override
     public void exit() {
         super.exit();
         this.cancelAllTimer();
     }
 
-    @Override
     public void exitMapScreen() {
         super.exitMapScreen();
-        this.getLogChannel().log(-2137614336, "CtxScrollOnRoute#exitMapScreen(): forceContext to cScrollOnRoute (%1)", (long)0);
+        this.getLogChannel().log(10000000, "CtxScrollOnRoute#exitMapScreen(): forceContext to cScrollOnRoute (%1)", 17L);
         this.naviMap.forceContext(17);
     }
 
-    @Override
     public void updateMapPosition(NavLocationWgs84 navLocationWgs84) {
-        this.getLogChannel().log(-2137614336, "CtxScrollOnRoute#updateMapPosition()");
+        this.getLogChannel().log(10000000, "CtxScrollOnRoute#updateMapPosition()");
         super.updateMapPosition(navLocationWgs84);
         this.mapPosition = navLocationWgs84;
-        CtxScrollOnRoute$InfoTimer.access$500(this.getInfoTimer());
+        this.getInfoTimer().restart();
         this.updateRRDPopup();
     }
 
@@ -131,24 +126,20 @@ extends CtxFreeMap {
         }
     }
 
-    @Override
     public void updateDestDistance(int n) {
-        this.getLogChannel().log(-2137614336, "CtxScrollOnRoute#updateDestDistance() - distance: %1, distanceToDest: %2", (long)n, (long)this.distanceToDest);
+        this.getLogChannel().log(10000000, "CtxScrollOnRoute#updateDestDistance() - distance: %1, distanceToDest: %2", (long)n, (long)this.distanceToDest);
         if (!this.getDdsChangeTimer().isRunning() && !this.getCcpChangeTimer().isRunning() && this.distanceToDest != n) {
-            CtxScrollOnRoute$InfoTimer.access$500(this.getCcpChangeTimer());
+            this.getCcpChangeTimer().restart();
         }
         this.distanceToDest = n;
     }
 
-    @Override
     public void joystick(int n, int n2) {
     }
 
-    @Override
     public void touchPadPositionMoved(int n, int n2, int n3, int n4, int n5) {
     }
 
-    @Override
     public void keyTyped(int n, int n2) {
         switch (n) {
             case 400492: {
@@ -163,7 +154,6 @@ extends CtxFreeMap {
         }
     }
 
-    @Override
     public void keyPressed(int n, int n2) {
         switch (n) {
             case 400492: {
@@ -181,20 +171,18 @@ extends CtxFreeMap {
         }
     }
 
-    @Override
     public void keyReleased(int n, int n2) {
         super.keyReleased(n, n2);
-        if (n == 1813775872) {
+        if (n == 400492) {
             this.naviMap.getGuiInterface().setScrollOnRoutePressed(false);
             this.naviMap.switchToContext(12);
         }
     }
 
-    @Override
     public void increment(int n, int n2) {
-        if (n == 1813775872) {
+        if (n == 400492) {
             int n3;
-            this.getLogChannel().log(-2137614336, "CtxScrollOnRoute#increment() - steps: %1", (long)n2);
+            this.getLogChannel().log(10000000, "CtxScrollOnRoute#increment() - steps: %1", (long)n2);
             boolean bl = n2 > 0;
             int n4 = n3 = bl ? n2 : -n2;
             if (bl) {
@@ -206,23 +194,21 @@ extends CtxFreeMap {
                     this.naviMap.getMVRequest().rbSelectPreviousSegment();
                 }
             }
-            CtxScrollOnRoute$InfoTimer.access$400(this.getCcpChangeTimer());
-            CtxScrollOnRoute$InfoTimer.access$500(this.getDdsChangeTimer());
+            this.getCcpChangeTimer().cancel();
+            this.getDdsChangeTimer().restart();
             this.naviMap.getGuiInterface().setScrollAlongRouteDirectionAndDistanceVisible(false);
         }
         super.increment(n, n2);
     }
 
-    @Override
     public void rbGetIDOfSelectedSegmentResult(long l) {
-        this.getLogChannel().log(-2137614336, "CtxScrollOnRoute#rbGetIDOfSelectedSegmentResult() - segmentUid: %1", l);
+        this.getLogChannel().log(10000000, "CtxScrollOnRoute#rbGetIDOfSelectedSegmentResult() - segmentUid: %1", l);
         super.rbGetIDOfSelectedSegmentResult(l);
         this.naviMap.getMVRequest().rbGetRRDToSelectedSegment(l);
     }
 
-    @Override
     public void rbGetRRDToSelectedSegmentResult(long l, int n) {
-        this.getLogChannel().log(-2137614336, "CtxScrollOnRoute#rbGetRRDToSelectedSegmentResult() - segmentUid: %1, rrdToSegment: %2", l, (long)n);
+        this.getLogChannel().log(10000000, "CtxScrollOnRoute#rbGetRRDToSelectedSegmentResult() - segmentUid: %1, rrdToSegment: %2", l, (long)n);
         super.rbGetRRDToSelectedSegmentResult(l, n);
         this.distanceToCCP = n;
         if (n <= 0) {
@@ -234,24 +220,45 @@ extends CtxFreeMap {
     }
 
     protected void requestIdOfSelectedSegment() {
-        this.getLogChannel().log(-2137614336, "CtxScrollOnRoute#requestIdOfSelectedSegment()");
+        this.getLogChannel().log(10000000, "CtxScrollOnRoute#requestIdOfSelectedSegment()");
         this.naviMap.getMVRequest().rbGetIDOfSelectedSegment();
     }
 
-    static /* synthetic */ LogChannel access$000(CtxScrollOnRoute ctxScrollOnRoute) {
-        return ctxScrollOnRoute.getLogChannel();
-    }
+    private final class InfoTimer
+    implements TimerListener {
+        private final Timer mTimer;
 
-    static /* synthetic */ LogChannel access$100(CtxScrollOnRoute ctxScrollOnRoute) {
-        return ctxScrollOnRoute.getLogChannel();
-    }
+        InfoTimer(String string, long l) {
+            this.mTimer = new Timer(string, l, true, this);
+        }
 
-    static /* synthetic */ LogChannel access$200(CtxScrollOnRoute ctxScrollOnRoute) {
-        return ctxScrollOnRoute.getLogChannel();
-    }
+        private void restart() {
+            CtxScrollOnRoute.this.getLogChannel().log(10000000, "CtxScrollOnRoute#InfoTimer#restart() - restart %1", (Object)this.mTimer.getName());
+            this.mTimer.restart();
+        }
 
-    static /* synthetic */ LogChannel access$300(CtxScrollOnRoute ctxScrollOnRoute) {
-        return ctxScrollOnRoute.getLogChannel();
+        private void cancel() {
+            CtxScrollOnRoute.this.getLogChannel().log(10000000, "CtxScrollOnRoute#InfoTimer#cancel() - cancel %1", (Object)this.mTimer.getName());
+            this.mTimer.cancel();
+        }
+
+        public void fireTimer(Timer timer) {
+            CtxScrollOnRoute.this.getLogChannel().log(10000000, "CtxScrollOnRoute#InfoTimer#fireTimer() - %1 fired", (Object)timer.getName());
+            if (timer.getName().equals(CtxScrollOnRoute.TIMER_INFO)) {
+                CtxScrollOnRoute.this.requestInfoForPosition(true);
+            } else if (timer.getName().equals(CtxScrollOnRoute.TIMER_CCP_CHANGED) || timer.getName().equals(CtxScrollOnRoute.TIMER_DDS_CHANGED)) {
+                CtxScrollOnRoute.this.requestIdOfSelectedSegment();
+            } else {
+                CtxScrollOnRoute.this.getLogChannel().log(100000, "CtxScrollOnRoute#InfoTimer#fireTimer() - unknown timer: %1", (Object)timer.getName());
+            }
+        }
+
+        public void cancelTimer(Timer timer) {
+        }
+
+        public boolean isRunning() {
+            return this.mTimer.isRunning();
+        }
     }
 }
 

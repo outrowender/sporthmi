@@ -11,7 +11,6 @@ extends NavCommand {
     private boolean liValueListResponded;
     private boolean lispUpdateSpellerResultResponded;
 
-    @Override
     public void execute() {
         if (this.dsiResponseContainer.isLispIsUndoAvailable()) {
             this.getDSINavigation().lispUndoCharacter();
@@ -20,7 +19,6 @@ extends NavCommand {
         }
     }
 
-    @Override
     public void liValueList(LIValueList lIValueList, long l) {
         this.dsiResponseContainer.setLiValueList(lIValueList, l);
         this.liValueListResponded = true;
@@ -33,9 +31,8 @@ extends NavCommand {
         }
     }
 
-    @Override
     public void lispUpdateSpellerResult(String string, int n, boolean bl, boolean bl2, String string2, int n2, int n3, boolean bl3, boolean bl4, int n4, long l) {
-        this.logger.log(-2137614336, "LISPUndoCharacterCommand#lispUpdateSpellerResult - lispCurrentInput=%1, lispValidCharacters=%2", (Object)string, (Object)string2);
+        this.logger.log(10000000, "LISPUndoCharacterCommand#lispUpdateSpellerResult - lispCurrentInput=%1, lispValidCharacters=%2", (Object)string, (Object)string2);
         this.dsiResponseContainer.setLispUpdateSpellerResult(string, n, bl, bl2, string2, n2, n3, bl3, bl4, n4);
         if (l == 0L) {
             this.lispUpdateSpellerResultResponded = true;

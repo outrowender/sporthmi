@@ -9,8 +9,8 @@ import de.audi.tghu.swdl.app.customer.uota.PkgNode;
 abstract class AbstractPkgListRow
 extends EvoListRow {
     PkgNode node;
-    static final int ENABLED;
-    static final int DISABLED;
+    static final int ENABLED = 1;
+    static final int DISABLED = 0;
 
     AbstractPkgListRow(PkgNode pkgNode, int n) {
         super(pkgNode.getRowId(), n);
@@ -34,7 +34,6 @@ extends EvoListRow {
         return this.node;
     }
 
-    abstract void setValues() {
-    }
+    abstract void setValues();
 }
 

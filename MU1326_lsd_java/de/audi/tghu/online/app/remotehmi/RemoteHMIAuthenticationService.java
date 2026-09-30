@@ -31,11 +31,9 @@ IRemoteHMIAuthenticationProvider {
         return this.portalAuthenticationService;
     }
 
-    @Override
     public void deletePairingCode() {
     }
 
-    @Override
     public void validatePairingCodeResult(boolean bl, int n, int n2) {
         Iterator iterator = this.listeners.iterator();
         while (iterator.hasNext()) {
@@ -52,11 +50,9 @@ IRemoteHMIAuthenticationProvider {
         this.listeners.remove(iRemoteHMIAuthenticationProviderListener);
     }
 
-    @Override
     public void validateCredentialsResult(boolean bl, int n, int n2) {
     }
 
-    @Override
     public void loginResult(int n) {
     }
 }

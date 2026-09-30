@@ -6,10 +6,8 @@ package de.audi.tghu.navi.app.di.sequences.disambiguation;
 import de.audi.tghu.navi.app.di.sequences.disambiguation.LocationDisambiguationWrapper;
 
 public interface ILocationDisambiguatorPopupHandler {
-    default public void startPopupHandling(LocationDisambiguationWrapper locationDisambiguationWrapper) {
-    }
+    public void startPopupHandling(LocationDisambiguationWrapper var1);
 
-    default public void startPopupHandlingForSds(LocationDisambiguationWrapper locationDisambiguationWrapper) {
-    }
+    public void startPopupHandlingForSds(LocationDisambiguationWrapper var1);
 }
 

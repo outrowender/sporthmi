@@ -25,15 +25,13 @@ implements DSIMapViewerManeuverViewListener {
         super(logChannel);
     }
 
-    @Override
     public String getName() {
         return "MVResponseManeuverView";
     }
 
-    @Override
     public void updateManoeuvreViewsAvailable(short[] sArray, int n) {
         if (n == 1) {
-            this.getLogger().log(-2137614336, "MVResponseManeuverView#updateManoeuvreViewsAvailable() - [%1]", (Object)MapUtils.toString(sArray));
+            this.getLogger().log(10000000, "MVResponseManeuverView#updateManoeuvreViewsAvailable() - [%1]", (Object)MapUtils.toString(sArray));
             this.mManoeuvreViewsAvailable = sArray;
             this.getActiveContext().updateManoeuvreViewsAvailable(sArray);
         }
@@ -44,10 +42,9 @@ implements DSIMapViewerManeuverViewListener {
         return this.mManoeuvreViewsAvailable;
     }
 
-    @Override
     public void updateManoeuvreViewActive(int n, int n2) {
         if (n2 == 1) {
-            this.getLogger().log(-2137614336, "MVResponseManeuverView#updateManoeuvreViewActive() - View = %1", (long)n);
+            this.getLogger().log(10000000, "MVResponseManeuverView#updateManoeuvreViewActive() - View = %1", (long)n);
             this.mManoeuvreViewActive = n;
             this.naviMap.getActiveContext().updateManoeuvreViewActive(n);
             this.getMap().getNaviInterface().getClusterService().updateManoeuvreViewActive(n);
@@ -59,21 +56,18 @@ implements DSIMapViewerManeuverViewListener {
         return this.mManoeuvreViewActive;
     }
 
-    @Override
     public void asyncException(int n, String string, int n2) {
         this.getLogger().log(10000, "MVResponseManeuverView#asyncException(): code = %2, msg = %1, type = %3", (Object)string, (long)n, (long)n2);
     }
 
-    @Override
     public void resetMemberVariables() {
         this.mManoeuvreViewsAvailable = null;
         this.mManoeuvreViewActive = 255;
     }
 
-    @Override
     public void updateBapExitViewId(int n, int n2) {
         if (n2 == 1) {
-            this.getLogger().log(-2137614336, "MVResponseManeuverView#updateBapExitViewId() - exitViewId = %1", (long)n);
+            this.getLogger().log(10000000, "MVResponseManeuverView#updateBapExitViewId() - exitViewId = %1", (long)n);
             this.iExitViewId = n;
             this.naviMap.getNaviInterface().getClusterService().updateExitView(n);
         }

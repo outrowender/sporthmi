@@ -13,9 +13,8 @@ extends NavCommand {
         this.metricsSystem = n;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(1078071040, "ETCSetMetricSystemCommand#execute() - calling etcSetMetricSystem( %1 ) ", (long)this.metricsSystem);
+        this.logger.log(1000000, "ETCSetMetricSystemCommand#execute() - calling etcSetMetricSystem( %1 ) ", (long)this.metricsSystem);
         this.getDSINavigation().etcSetMetricSystem(this.metricsSystem);
         this.getCommandList().commandFinished();
     }

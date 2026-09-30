@@ -18,7 +18,6 @@ extends NavSimpleCall {
         this.dsiNavigationManager = dSINavigationManager;
     }
 
-    @Override
     public void execute() {
         if (this.dsiNavigationManager == null) {
             this.logger.log(10000, "RequestAudioTriggerCall#execute() - dsiNavigationManager is null %1", (Object)this.dsiNavigationManager);
@@ -28,7 +27,7 @@ extends NavSimpleCall {
             this.logger.log(10000, "RequestAudioTriggerCall#execute() - dsiNavigation is null");
             return;
         }
-        this.logger.log(-2137614336, "RequestAudioTriggerCall#execute() - calling requestAudioTrigger( %1 )", (long)this.audioMode);
+        this.logger.log(10000000, "RequestAudioTriggerCall#execute() - calling requestAudioTrigger( %1 )", (long)this.audioMode);
         this.dsiNavigationManager.getDSINavigation(0).requestAudioTrigger(this.audioMode);
     }
 }

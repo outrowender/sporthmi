@@ -9,31 +9,31 @@ public class PoiScreensCore {
     }
 
     public static int getPreviewMapActiveChoiceModel() {
-        return -1591867904;
+        return 401057;
     }
 
     public static int getPetrolStationSufficChoiceModel() {
-        return -14940672;
+        return 400639;
     }
 
     public static int getFuelWarningRecommendationChoiceModel() {
-        return -233110016;
+        return 400370;
     }
 
     public static int getPoiFuelWarningScreenButtonYESModel() {
-        return -249887232;
+        return 400369;
     }
 
     public static int getPoiFuelWarningScreenButtonNOModel() {
-        return -266664448;
+        return 400368;
     }
 
     public static int getPoiFuelWarningScreenListModel() {
-        return -954137088;
+        return 401863;
     }
 
     public static int getPoiFuelWarningRouteActiveChoice() {
-        return -14940672;
+        return 400639;
     }
 }
 

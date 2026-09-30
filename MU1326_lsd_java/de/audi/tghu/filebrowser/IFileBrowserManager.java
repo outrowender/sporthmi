@@ -13,34 +13,24 @@ import org.dsi.ifc.filebrowser.Path;
 import org.dsi.ifc.global.ResourceLocator;
 
 public interface IFileBrowserManager {
-    default public IFileBrowser open(Path path, String[] stringArray) {
-    }
+    public IFileBrowser open(Path var1, String[] var2);
 
-    default public void close(int n) {
-    }
+    public void close(int var1);
 
-    default public void resetModels(IFileBrowserModelAccess iFileBrowserModelAccess) {
-    }
+    public void resetModels(IFileBrowserModelAccess var1);
 
-    default public DSIFileBrowser getDSI() {
-    }
+    public DSIFileBrowser getDSI();
 
-    default public void createPreviewImage(ResourceLocator resourceLocator, int n, int n2, DSIFileBrowserListener dSIFileBrowserListener) {
-    }
+    public void createPreviewImage(ResourceLocator var1, int var2, int var3, DSIFileBrowserListener var4);
 
-    default public ResourceLocator createPreviewImage(ResourceLocator resourceLocator, int n, int n2) {
-    }
+    public ResourceLocator createPreviewImage(ResourceLocator var1, int var2, int var3);
 
-    default public void cancelPreviewCreation() {
-    }
+    public void cancelPreviewCreation();
 
-    default public void deleteAllPreviewFiles() {
-    }
+    public void deleteAllPreviewFiles();
 
-    default public IModelFileBrowser open(Path path, String[] stringArray, IFileBrowserModelAccess iFileBrowserModelAccess) {
-    }
+    public IModelFileBrowser open(Path var1, String[] var2, IFileBrowserModelAccess var3);
 
-    default public IModelFileBrowser open(Path path, String[] stringArray, IFileBrowserModelAccess iFileBrowserModelAccess, IEvoFileListRowBuilder iEvoFileListRowBuilder) {
-    }
+    public IModelFileBrowser open(Path var1, String[] var2, IFileBrowserModelAccess var3, IEvoFileListRowBuilder var4);
 }
 

@@ -27,10 +27,9 @@ ServiceTrackerCustomizer {
     private CommSink commSink;
     private BundleContext bc;
     private ServiceTracker commSinkTracker;
-    private static final int[] logLevelValues = new int[]{0, 1000, 10000, -1601830656, 1078071040, -2137614336, 14808325};
+    private static final int[] logLevelValues = new int[]{0, 1000, 10000, 100000, 1000000, 10000000, 100000000};
     static /* synthetic */ Class class$de$audi$atip$log$LogSink;
 
-    @Override
     public void start(BundleContext bundleContext) {
         this.bc = bundleContext;
         if (System.getProperty("os.name").indexOf("QNX") >= 0) {
@@ -58,7 +57,6 @@ ServiceTrackerCustomizer {
         this.commSinkTracker.open();
     }
 
-    @Override
     public void stop(BundleContext bundleContext) {
         if (this.commSinkTracker != null) {
             this.commSinkTracker.close();
@@ -128,7 +126,6 @@ ServiceTrackerCustomizer {
         return hashMap;
     }
 
-    @Override
     public Object addingService(ServiceReference serviceReference) {
         Object object = this.bc.getService(serviceReference);
         if (object instanceof TraceFrontend) {
@@ -143,11 +140,9 @@ ServiceTrackerCustomizer {
         return null;
     }
 
-    @Override
     public void modifiedService(ServiceReference serviceReference, Object object) {
     }
 
-    @Override
     public void removedService(ServiceReference serviceReference, Object object) {
         if (object instanceof TraceFrontend) {
             this.unregisterCommSink();

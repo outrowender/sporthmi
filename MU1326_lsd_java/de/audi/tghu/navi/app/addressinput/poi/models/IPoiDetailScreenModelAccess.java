@@ -8,7 +8,6 @@ import org.dsi.ifc.global.NavLocation;
 
 public interface IPoiDetailScreenModelAccess
 extends IPoiScreenOnStart {
-    default public void onUpdateLocation(NavLocation navLocation) {
-    }
+    public void onUpdateLocation(NavLocation var1);
 }
 

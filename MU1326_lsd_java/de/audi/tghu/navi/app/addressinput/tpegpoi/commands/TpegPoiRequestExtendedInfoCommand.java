@@ -20,18 +20,16 @@ extends NavCommand {
         this.location = null;
     }
 
-    @Override
     public void execute() {
         if (this.location == null) {
             this.location = this.dsiResponseContainer.getLiCurrentLD();
         }
-        this.logger.log(1078071040, "TpegPoiRequestExtendedInfoCommand#execute() calling poiRequestExtendedInfo with location = %1", (Object)LocationFormatter.formatLocationShort(this.location));
+        this.logger.log(1000000, "TpegPoiRequestExtendedInfoCommand#execute() calling poiRequestExtendedInfo with location = %1", (Object)LocationFormatter.formatLocationShort(this.location));
         this.getDSINavigation().poiRequestExtendedInfo(this.location);
     }
 
-    @Override
     public void poiRequestExtendedInfoResult(PoiExtendedInfo poiExtendedInfo, boolean bl) {
-        this.logger.log(1078071040, "TpegPoiRequestExtendedInfoCommand#poiRequestExtendedInfoResult() extendedInfo = %1, success = %2", (Object)poiExtendedInfo, (Object)Boolean.toString(bl));
+        this.logger.log(1000000, "TpegPoiRequestExtendedInfoCommand#poiRequestExtendedInfoResult() extendedInfo = %1, success = %2", (Object)poiExtendedInfo, (Object)Boolean.toString(bl));
         if (bl) {
             this.dsiResponseContainer.setPoiExtendedInfo(poiExtendedInfo);
             this.getCommandList().commandFinished();

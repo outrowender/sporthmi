@@ -4,12 +4,12 @@
 package de.audi.tuner.app.sdars;
 
 import de.audi.tuner.app.TunerAudioMgmt;
-import de.audi.tuner.app.sdars.SDARSVolumeLockHandler$DsiUpListener;
 import de.audi.tuner.app.sdars.dsi.SDARSDsiUpInfo;
 import de.esolutions.fw.util.commons.Buffer;
+import org.dsi.ifc.sdars.ServiceStatus3;
 
 class SDARSVolumeLockHandler {
-    final SDARSDsiUpInfo dsiUpListener = new SDARSVolumeLockHandler$DsiUpListener(this, null);
+    final SDARSDsiUpInfo dsiUpListener = new DsiUpListener();
     private int selectStationStatus = 1;
     private final TunerAudioMgmt audio;
     private int detectedDevice = 0;
@@ -35,35 +35,31 @@ class SDARSVolumeLockHandler {
         }
     }
 
-    static /* synthetic */ int access$100(SDARSVolumeLockHandler sDARSVolumeLockHandler) {
-        return sDARSVolumeLockHandler.selectStationStatus;
-    }
+    private class DsiUpListener
+    extends SDARSDsiUpInfo {
+        private DsiUpListener() {
+        }
 
-    static /* synthetic */ int access$102(SDARSVolumeLockHandler sDARSVolumeLockHandler, int n) {
-        sDARSVolumeLockHandler.selectStationStatus = n;
-        return sDARSVolumeLockHandler.selectStationStatus;
-    }
+        public void selectStationStatus(int n) {
+            if (n != SDARSVolumeLockHandler.this.selectStationStatus) {
+                SDARSVolumeLockHandler.this.selectStationStatus = n;
+                SDARSVolumeLockHandler.this.updateVolumeLock();
+            }
+        }
 
-    static /* synthetic */ void access$200(SDARSVolumeLockHandler sDARSVolumeLockHandler) {
-        sDARSVolumeLockHandler.updateVolumeLock();
-    }
+        public void updateDetectedDevice(int n) {
+            if (n != SDARSVolumeLockHandler.this.detectedDevice) {
+                SDARSVolumeLockHandler.this.detectedDevice = n;
+                SDARSVolumeLockHandler.this.updateVolumeLock();
+            }
+        }
 
-    static /* synthetic */ int access$300(SDARSVolumeLockHandler sDARSVolumeLockHandler) {
-        return sDARSVolumeLockHandler.detectedDevice;
-    }
-
-    static /* synthetic */ int access$302(SDARSVolumeLockHandler sDARSVolumeLockHandler, int n) {
-        sDARSVolumeLockHandler.detectedDevice = n;
-        return sDARSVolumeLockHandler.detectedDevice;
-    }
-
-    static /* synthetic */ int access$400(SDARSVolumeLockHandler sDARSVolumeLockHandler) {
-        return sDARSVolumeLockHandler.audioStatus;
-    }
-
-    static /* synthetic */ int access$402(SDARSVolumeLockHandler sDARSVolumeLockHandler, int n) {
-        sDARSVolumeLockHandler.audioStatus = n;
-        return sDARSVolumeLockHandler.audioStatus;
+        public void updateServiceStatus3(ServiceStatus3 serviceStatus3) {
+            if (serviceStatus3.audioStatus != SDARSVolumeLockHandler.this.audioStatus) {
+                SDARSVolumeLockHandler.this.audioStatus = serviceStatus3.audioStatus;
+                SDARSVolumeLockHandler.this.updateVolumeLock();
+            }
+        }
     }
 }
 

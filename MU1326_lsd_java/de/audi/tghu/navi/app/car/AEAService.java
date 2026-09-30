@@ -8,15 +8,15 @@ import de.audi.atip.interapp.car.AudiEnergyAssistService;
 import de.audi.atip.interapp.car.AudiEnergyAssistStateListener;
 import de.audi.atip.log.LogChannel;
 import de.audi.tghu.navi.app.NavigationEnv;
-import de.audi.tghu.navi.app.car.AEAService$1;
+import de.audi.tghu.navi.app.map.gui.SimpleChoiceListener;
 
 public class AEAService
 implements AudiEnergyAssistStateListener {
     private NavigationEnv env;
     private LogChannel logger;
-    public static final int AEA_NOT_AVAILABLE;
-    public static final int AEA_ENABLED;
-    public static final int AEA_DISABLED;
+    public static final int AEA_NOT_AVAILABLE = 0;
+    public static final int AEA_ENABLED = 1;
+    public static final int AEA_DISABLED = 2;
     private int mAEAAvailable = 1;
     private int aeaState = -1;
     private AudiEnergyAssistService aeaService;
@@ -25,8 +25,24 @@ implements AudiEnergyAssistStateListener {
     public AEAService(NavigationEnv navigationEnv) {
         this.logger = navigationEnv.getLogChannel("App.Map.Main");
         this.env = navigationEnv;
-        this.chkAudiEnergyAssist = navigationEnv.getChoiceModel(1059194368);
-        this.chkAudiEnergyAssist.setChoiceListener(new AEAService$1(this));
+        this.chkAudiEnergyAssist = navigationEnv.getChoiceModel(401983);
+        this.chkAudiEnergyAssist.setChoiceListener(new SimpleChoiceListener(){
+
+            public void itemSelected(int n, int n2, int n3, int n4) {
+                AEAService.this.getLogger().log(10000000, "AEAService<ChoiceListener>#itemSelected() - itemID:%1", (long)n2);
+                AEAService.this.chkAudiEnergyAssist.setValue(n2);
+                if (AEAService.this.aeaService != null) {
+                    try {
+                        AEAService.this.aeaService.setAEASystemActive(n2 == 1);
+                    }
+                    catch (Exception exception) {
+                        AEAService.this.getLogger().log(10000, "AEAService<ChoiceListener>#itemSelected() - ERROR=%1", (Throwable)exception);
+                    }
+                } else {
+                    AEAService.this.getLogger().log(10000000, "AEAService<ChoiceListener>#itemSelected() - Audi Energy Service is not available");
+                }
+            }
+        });
         this.updateAEAAvailable(1);
     }
 
@@ -35,7 +51,7 @@ implements AudiEnergyAssistStateListener {
     }
 
     public void setAudiEnergyAssistService(AudiEnergyAssistService audiEnergyAssistService) {
-        this.getLogger().log(-2137614336, "AEAService#setAudiEnergyAssistService() - %1", (Object)audiEnergyAssistService);
+        this.getLogger().log(10000000, "AEAService#setAudiEnergyAssistService() - %1", (Object)audiEnergyAssistService);
         this.aeaService = audiEnergyAssistService;
         if (this.aeaService != null) {
             try {
@@ -50,7 +66,7 @@ implements AudiEnergyAssistStateListener {
     }
 
     public void cleanup() {
-        this.getLogger().log(-2137614336, "AEAService#cleanup()");
+        this.getLogger().log(10000000, "AEAService#cleanup()");
         this.mAEAAvailable = -1;
         if (this.aeaService != null) {
             try {
@@ -62,9 +78,8 @@ implements AudiEnergyAssistStateListener {
         }
     }
 
-    @Override
     public synchronized void updateAEAAvailable(int n) {
-        this.getLogger().log(-2137614336, "AEAService#updateAEAAvailable( %1 )", (long)n);
+        this.getLogger().log(10000000, "AEAService#updateAEAAvailable( %1 )", (long)n);
         this.mAEAAvailable = n;
         this.refreshModel();
         if (this.isAvailable()) {
@@ -72,25 +87,23 @@ implements AudiEnergyAssistStateListener {
         }
     }
 
-    @Override
     public synchronized void updateAEASystemActive(boolean bl) {
-        this.getLogger().log(-2137614336, "AEAService#updateAEASystemActive( %1 )", bl);
+        this.getLogger().log(10000000, "AEAService#updateAEASystemActive( %1 )", bl);
     }
 
-    @Override
     public synchronized void updateAEASystemState(int n) {
-        this.getLogger().log(-2137614336, "AEAService#updateAEASystemState( %1 )", (long)n);
+        this.getLogger().log(10000000, "AEAService#updateAEASystemState( %1 )", (long)n);
         this.aeaState = n;
         this.refreshModel();
     }
 
     private void refreshModel() {
-        ChoiceModelApp choiceModelApp = this.env.getChoiceModel(1059194368);
+        ChoiceModelApp choiceModelApp = this.env.getChoiceModel(401983);
         choiceModelApp.setStatus(0);
     }
 
     public void activeService(boolean bl) {
-        this.getLogger().log(-2137614336, "AEAService#activeService( %1 )", bl);
+        this.getLogger().log(10000000, "AEAService#activeService( %1 )", bl);
         if (this.aeaService != null) {
             try {
                 this.aeaService.setAEASystemActive(bl);
@@ -99,28 +112,16 @@ implements AudiEnergyAssistStateListener {
                 this.getLogger().log(10000, "AEAService#activeService() - ERROR=%1", (Throwable)exception);
             }
         } else {
-            this.getLogger().log(-2137614336, "AEAService#activeService() - Audi Energy Service is not available");
+            this.getLogger().log(10000000, "AEAService#activeService() - Audi Energy Service is not available");
         }
     }
 
     public boolean isActive() {
-        return this.env.getChoiceModel(1059194368).getStatus() != 0;
+        return this.env.getChoiceModel(401983).getStatus() != 0;
     }
 
     public boolean isAvailable() {
         return this.mAEAAvailable == 0;
-    }
-
-    static /* synthetic */ LogChannel access$000(AEAService aEAService) {
-        return aEAService.getLogger();
-    }
-
-    static /* synthetic */ ChoiceModelApp access$100(AEAService aEAService) {
-        return aEAService.chkAudiEnergyAssist;
-    }
-
-    static /* synthetic */ AudiEnergyAssistService access$200(AEAService aEAService) {
-        return aEAService.aeaService;
     }
 }
 

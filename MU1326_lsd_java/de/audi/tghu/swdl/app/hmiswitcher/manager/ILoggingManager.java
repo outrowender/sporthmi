@@ -4,34 +4,24 @@
 package de.audi.tghu.swdl.app.hmiswitcher.manager;
 
 public interface ILoggingManager {
-    default public void doGetHistory() {
-    }
+    public void doGetHistory();
 
-    default public void updateHistory(String[] stringArray, int[] nArray) {
-    }
+    public void updateHistory(String[] var1, int[] var2);
 
-    default public void setUpdate(int n) {
-    }
+    public void setUpdate(int var1);
 
-    default public void updateGeneralInformation(boolean bl, String string, String string2, boolean bl2, String string3, int n, int[] nArray, boolean bl3, int n2) {
-    }
+    public void updateGeneralInformation(boolean var1, String var2, String var3, boolean var4, String var5, int var6, int[] var7, boolean var8, int var9);
 
-    default public void doGetUnusualEvents() {
-    }
+    public void doGetUnusualEvents();
 
-    default public void updateUnusualEvents(String[] stringArray, String[] stringArray2) {
-    }
+    public void updateUnusualEvents(String[] var1, String[] var2);
 
-    default public void doGetUnusualEvent(int n) {
-    }
+    public void doGetUnusualEvent(int var1);
 
-    default public void updateUnusualEvent(String string, int n, String string2, String string3, String string4, byte by, int n2) {
-    }
+    public void updateUnusualEvent(String var1, int var2, String var3, String var4, String var5, byte var6, int var7);
 
-    default public void selectHistory(int n) {
-    }
+    public void selectHistory(int var1);
 
-    default public void selectUnusualEvent(int n) {
-    }
+    public void selectUnusualEvent(int var1);
 }
 

@@ -15,15 +15,13 @@ extends NavCommand {
         this.negativePopup = n2;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(1078071040, "AsiaAdjustCCPPositionCommand#execute() call rgSwitchToNextPossibleRoad");
+        this.logger.log(1000000, "AsiaAdjustCCPPositionCommand#execute() call rgSwitchToNextPossibleRoad");
         this.getDSINavigation().rgSwitchToNextPossibleRoad();
     }
 
-    @Override
     public void rgSwitchToNextPossibleRoadResult(boolean bl) {
-        this.logger.log(1078071040, "AsiaAdjustCCPPositionCommand#rgSwitchToNextPossibleRoadResult( %1 )", bl);
+        this.logger.log(1000000, "AsiaAdjustCCPPositionCommand#rgSwitchToNextPossibleRoadResult( %1 )", bl);
         int n = bl ? this.positivePopup : this.negativePopup;
         this.env.getHMIService().getChoiceModel(n).setValue(0);
         this.env.getHMIService().getChoiceModel(n).setValue(1);

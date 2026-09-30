@@ -49,19 +49,17 @@ implements IScreenManager {
     }
 
     public String toString() {
-        return new StringBuffer().append("ScreenManager[").append(this.getTerminalID()).append("]").toString();
+        return "ScreenManager[" + this.getTerminalID() + "]";
     }
 
     int getTerminalID() {
         return this.terminalID;
     }
 
-    @Override
     public boolean isCluster() {
         return this.getTerminalContext().isCluster();
     }
 
-    @Override
     public Screen getScreen(IScreenData iScreenData) {
         if (iScreenData != null && iScreenData.isScreenIDValid()) {
             Screen screen = iScreenData.getScreen();
@@ -74,19 +72,16 @@ implements IScreenManager {
         return null;
     }
 
-    @Override
     public IScreenData getTargetScreenData() {
         IScreenData iScreenData = this.isScreenChangePending() ? this.getPendingScreenData() : this.getCurrentScreenData();
-        this.lcHMIService.log(-2137614336, "ScreenManager.getTargetScreenData(): targetScreenID = %1", (long)iScreenData.getId());
+        this.lcHMIService.log(10000000, "ScreenManager.getTargetScreenData(): targetScreenID = %1", (long)iScreenData.getId());
         return iScreenData;
     }
 
-    @Override
     public IScreenData getCurrentScreenData() {
         return this.currentScreenData;
     }
 
-    @Override
     public void setCurrentScreenData(IScreenData iScreenData) {
         this.currentScreenData = iScreenData;
     }
@@ -95,20 +90,17 @@ implements IScreenManager {
         return this.getScreen(this.getCurrentScreenData());
     }
 
-    @Override
     public int getCurrentScreenId() {
         IScreenData iScreenData = this.getCurrentScreenData();
         return iScreenData != null ? iScreenData.getId() : -1;
     }
 
-    @Override
     public IScreenData getCurrentConnectedScreenData() {
         return this.currentConnectedScreenData;
     }
 
-    @Override
     public void setCurrentConnectedScreenData(IScreenData iScreenData) {
-        this.lcHMIServiceMain.log(14808325, "ScreenManager().setCurrentConnectedScreenData(%1)", (Object)iScreenData);
+        this.lcHMIServiceMain.log(100000000, "ScreenManager().setCurrentConnectedScreenData(%1)", (Object)iScreenData);
         this.currentConnectedScreenData = iScreenData;
         Screen screen = this.getScreen(iScreenData);
         if (iScreenData == null) {
@@ -119,24 +111,20 @@ implements IScreenManager {
         }
     }
 
-    @Override
     public void clearCurrentConnectedScreenData() {
         this.previousConnectedScreenData = this.currentConnectedScreenData;
         this.setCurrentConnectedScreenData(null);
     }
 
-    @Override
     public Screen getCurrentConnectedScreen() {
         return this.getScreen(this.getCurrentConnectedScreenData());
     }
 
-    @Override
     public int getCurrentConnectedScreenId() {
         IScreenData iScreenData = this.getCurrentConnectedScreenData();
         return iScreenData != null ? iScreenData.getId() : -1;
     }
 
-    @Override
     public void lockCurrentConnectedScreen(boolean bl) {
         Screen screen = this.getCurrentConnectedScreen();
         if (screen != null) {
@@ -144,43 +132,35 @@ implements IScreenManager {
         }
     }
 
-    @Override
     public IScreenData getPendingScreenData() {
         return this.nextScreenData;
     }
 
-    @Override
     public Screen getPendingScreen() {
         return this.getScreen(this.getPendingScreenData());
     }
 
-    @Override
     public int getPendingScreenId() {
         IScreenData iScreenData = this.getPendingScreenData();
         return iScreenData != null ? iScreenData.getId() : -1;
     }
 
-    @Override
     public void setPendingScreenChange(IScreenData iScreenData) {
         this.nextScreenData = iScreenData;
     }
 
-    @Override
     public void clearPendingScreenChange() {
         this.setPendingScreenChange(null);
     }
 
-    @Override
     public boolean isScreenChangePending() {
         return this.getPendingScreenData() != null && this.getPendingScreenData().getId() != -1;
     }
 
-    @Override
     public boolean isCurrentConnectedScreen(int n) {
         return this.getCurrentConnectedScreenId() == n;
     }
 
-    @Override
     public boolean isCurrentScreen(int n) {
         return this.getCurrentScreenId() == n;
     }
@@ -189,7 +169,6 @@ implements IScreenManager {
         return this.getPendingScreenId() == n;
     }
 
-    @Override
     public ITerminalContext getTerminalContext() {
         return this.terminalContext;
     }
@@ -198,12 +177,10 @@ implements IScreenManager {
         return this.fwHMI;
     }
 
-    @Override
     public IFrameworkAccess getFramework() {
         return this.getTerminalContext().getFramework();
     }
 
-    @Override
     public EventDispatcherAdmin getEventDispatcherAdmin() {
         return this.getHMIService().getEventDispatcherAdmin();
     }
@@ -212,7 +189,6 @@ implements IScreenManager {
         return this.getTerminalContext().getHmiTerminal();
     }
 
-    @Override
     public void logToInfotainmentRecorder(int n) {
         InfotainmentRecorder infotainmentRecorder = this.getFramework().getInfotainmentrecorder();
         if (infotainmentRecorder != null) {
@@ -220,30 +196,27 @@ implements IScreenManager {
         }
     }
 
-    @Override
     public void showScreen(IScreenData iScreenData) {
         this.screenChangeUnit.showScreen(iScreenData);
     }
 
-    @Override
     public boolean isClusterAnScreenHidden(Screen screen) {
         return this.isCluster() && screen.getEventProcessing() == 1;
     }
 
-    @Override
     public void removePartialPopups(int n, int[] nArray) {
         boolean bl = false;
         if (nArray.length > 0 && nArray[0] == -2) {
-            this.lcHMIServicePopup.log(-2137614336, "ScreenChangeManager#removePartialPopups remove all popups from screendata");
+            this.lcHMIServicePopup.log(10000000, "ScreenChangeManager#removePartialPopups remove all popups from screendata");
             this.removePartialPopupFromScreenData(n, -2);
         } else {
             for (int i2 = 0; i2 < nArray.length; ++i2) {
                 bl = this.removePartialPopupFromScreenData(n, nArray[i2]);
                 if (bl) {
-                    this.lcHMIServicePopup.log(-2137614336, "ScreenChangeManager#removePartialPopups popup with id %1 has been removed from screendata");
+                    this.lcHMIServicePopup.log(10000000, "ScreenChangeManager#removePartialPopups popup with id %1 has been removed from screendata");
                 }
                 if (bl) continue;
-                this.lcHMIServicePopup.log(-1601830656, "ScreenChangeManager#removePartialPopups popup with id %1 was not part of screendata", (long)nArray[i2]);
+                this.lcHMIServicePopup.log(100000, "ScreenChangeManager#removePartialPopups popup with id %1 was not part of screendata", (long)nArray[i2]);
             }
         }
         if (this.isCurrentConnectedScreen(n)) {
@@ -251,7 +224,6 @@ implements IScreenManager {
         }
     }
 
-    @Override
     public void showPartialPopups(int n, int[] nArray) {
         if (this.isCurrentConnectedScreen(n)) {
             this.getCurrentConnectedScreenData().setPartialPopups(nArray);
@@ -261,11 +233,10 @@ implements IScreenManager {
         } else if (this.isPendingScreen(n)) {
             this.getPendingScreenData().setPartialPopups(nArray);
         } else {
-            this.lcHMIService.log(-1601830656, "ScreenManager.showPartialPopups(): screenId %1 not found!", (long)n);
+            this.lcHMIService.log(100000, "ScreenManager.showPartialPopups(): screenId %1 not found!", (long)n);
         }
     }
 
-    @Override
     public void refresh() {
         Screen screen = this.getCurrentConnectedScreen();
         if (screen != null) {
@@ -273,12 +244,11 @@ implements IScreenManager {
             if (this.logRepaintCause == null) {
                 this.logRepaintCause = this.getFramework().getLogChannel("Fw.Widgets.RepaintCause");
             }
-            this.logRepaintCause.log(-2137614336, "ScreenManager#refresh: paint screen: %1", (Object)screen);
+            this.logRepaintCause.log(10000000, "ScreenManager#refresh: paint screen: %1", (Object)screen);
             screen.paint();
         }
     }
 
-    @Override
     public void dump(PrintStream printStream, String string) {
         printStream.print(string);
         printStream.print("Current Screen: ");
@@ -294,47 +264,38 @@ implements IScreenManager {
         printStream.println(this.screenChangeUnit.getScreenChangeState());
     }
 
-    @Override
     public IModelConnectService getModelConnectService() {
         return this.modelConnectService;
     }
 
-    @Override
     public void setFallbackScreen(Screen screen) {
         this.fallbackScreenData = new ScreenData(screen.getID(), false, false, null, false, screen, null, 0, -1, -1, false, -1, null, -1L, -1L, 0, 0, 0, null);
     }
 
-    @Override
     public IScreenData getFallbackScreenData() {
         return this.fallbackScreenData;
     }
 
-    @Override
     public boolean isScreenAvailable() {
         return this.getCurrentScreenData() != null && this.getCurrentScreenData().isScreenIDValid() || this.getPendingScreenData() != null && this.getPendingScreenData().isScreenIDValid();
     }
 
-    @Override
     public void setScreenChangeUnit(IScreenChangeManager iScreenChangeManager) {
         this.screenChangeUnit = iScreenChangeManager;
     }
 
-    @Override
     public IScreenChangeManager getScreenChangeUnit() {
         return this.screenChangeUnit;
     }
 
-    @Override
     public boolean isScreenChangeAnimationRunning(int n) {
         return this.getScreenChangeUnit().getScreenChangeState() != 0;
     }
 
-    @Override
     public IScreenData getPreviousConnectedScreenData() {
         return this.previousConnectedScreenData;
     }
 
-    @Override
     public boolean removePartialPopupFromScreenData(int n, int n2) {
         int n3;
         int[] nArray;

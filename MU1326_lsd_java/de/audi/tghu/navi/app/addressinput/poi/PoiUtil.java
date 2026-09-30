@@ -44,7 +44,7 @@ public class PoiUtil {
     }
 
     public static NavLocation getLocation(PoiSearchArea poiSearchArea, NavigationEnv navigationEnv) {
-        navigationEnv.getPOILogChannel().log(-2137614336, "PoiUtil#getLocation() - searchContext: %1", (long)poiSearchArea.getSearchContext());
+        navigationEnv.getPOILogChannel().log(10000000, "PoiUtil#getLocation() - searchContext: %1", (long)poiSearchArea.getSearchContext());
         NavLocation navLocation = null;
         switch (poiSearchArea.getSearchContext()) {
             case 0: {
@@ -80,7 +80,7 @@ public class PoiUtil {
                 navLocation = null;
             }
         }
-        navigationEnv.getPOILogChannel().log(-2137614336, "PoiUtil#getLocation() - location: %1", (Object)navLocation);
+        navigationEnv.getPOILogChannel().log(10000000, "PoiUtil#getLocation() - location: %1", (Object)navLocation);
         return navLocation;
     }
 
@@ -93,27 +93,27 @@ public class PoiUtil {
 
     public static void callPoi(NavLocation navLocation, NavigationEnv navigationEnv, ICommandListFactory iCommandListFactory, ITelService iTelService) {
         LogChannel logChannel = navigationEnv.getPOILogChannel();
-        logChannel.log(-2137614336, "PoiUtil#callPoi - location=%1", (Object)navLocation);
+        logChannel.log(10000000, "PoiUtil#callPoi - location=%1", (Object)navLocation);
         CallPhoneNumberSequence callPhoneNumberSequence = new CallPhoneNumberSequence(iCommandListFactory);
         callPhoneNumberSequence.start(logChannel, navLocation, iTelService);
     }
 
     public static void callPoi(LIValueListElement lIValueListElement, NavigationEnv navigationEnv, ICommandListFactory iCommandListFactory, ITelService iTelService) {
         LogChannel logChannel = navigationEnv.getPOILogChannel();
-        logChannel.log(-2137614336, "PoiUtil#callPoi - liValueListElement=%1", (Object)lIValueListElement);
+        logChannel.log(10000000, "PoiUtil#callPoi - liValueListElement=%1", (Object)lIValueListElement);
         CallPhoneNumberSequence callPhoneNumberSequence = new CallPhoneNumberSequence(iCommandListFactory);
         callPhoneNumberSequence.start(logChannel, lIValueListElement, iTelService);
     }
 
     public static boolean checkIfPoiIsCallable(NavLocation navLocation, NavigationEnv navigationEnv) {
         LogChannel logChannel = navigationEnv.getPOILogChannel();
-        logChannel.log(-2137614336, "PoiUtil#checkIfPoiIsCallable for location=%1", (Object)LocationFormatter.formatLocationShort(navLocation));
+        logChannel.log(10000000, "PoiUtil#checkIfPoiIsCallable for location=%1", (Object)LocationFormatter.formatLocationShort(navLocation));
         String string = LocationFormatter.getPhoneNumber(navLocation);
         if (Util.isEmpty(string)) {
-            logChannel.log(-2137614336, "PoiUtil#checkIfPoiIsCallable - location has NO phonenumber");
+            logChannel.log(10000000, "PoiUtil#checkIfPoiIsCallable - location has NO phonenumber");
             return false;
         }
-        logChannel.log(-2137614336, "PoiUtil#checkIfPoiIsCallable - location has phonenumber %1", (Object)string);
+        logChannel.log(10000000, "PoiUtil#checkIfPoiIsCallable - location has phonenumber %1", (Object)string);
         return true;
     }
 

@@ -48,27 +48,26 @@ extends a {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public final void a(int n) {
         if (this.C != null) {
             try {
                 this.C.flush();
                 this.C.close();
                 if (this.w) {
-                    de.eso.a.d.b.c(new StringBuffer().append("Deleting binary file ").append(this.D).toString());
+                    de.eso.a.d.b.c("Deleting binary file " + this.D);
                     if (!this.D.delete()) {
-                        de.eso.a.d.b.d(new StringBuffer().append("Error deleting the binary file ").append(this.D).toString());
+                        de.eso.a.d.b.d("Error deleting the binary file " + this.D);
                     }
                     this.D = null;
                 } else if (this.D != null) {
-                    de.eso.a.d.b.c(new StringBuffer().append("Closed file ").append(this.D).toString());
+                    de.eso.a.d.b.c("Closed file " + this.D);
                     this.r.a(this.D, n);
                 } else {
                     de.eso.a.d.b.d("Binary file was null!");
                 }
             }
             catch (IOException iOException) {
-                de.eso.a.d.b.d(new StringBuffer().append("Error reading binary file ").append(this.D).toString());
+                de.eso.a.d.b.d("Error reading binary file " + this.D);
             }
             finally {
                 this.C = null;
@@ -82,7 +81,7 @@ extends a {
             try {
                 boolean bl;
                 if (!E.exists() && !(bl = E.mkdirs())) {
-                    de.eso.a.d.b.d(new StringBuffer().append("Could not access binary temp dir ").append(E.getAbsolutePath()).toString());
+                    de.eso.a.d.b.d("Could not access binary temp dir " + E.getAbsolutePath());
                     this.w = true;
                     return;
                 }
@@ -93,12 +92,12 @@ extends a {
                 this.w = false;
                 this.v = 0L;
                 String string2 = this.o == null ? "rfc_file" : this.o.getName();
-                this.D = File.createTempFile(new StringBuffer().append("vcard_").append(string2).append("_").append(this.x).toString(), string, E);
+                this.D = File.createTempFile("vcard_" + string2 + "_" + this.x, string, E);
                 this.C = new BufferedOutputStream(new FileOutputStream(this.D));
-                de.eso.a.d.b.c(new StringBuffer().append("Writing binary content to :").append(this.D.getAbsolutePath()).toString());
+                de.eso.a.d.b.c("Writing binary content to :" + this.D.getAbsolutePath());
             }
             catch (Exception exception) {
-                de.eso.a.d.b.d(new StringBuffer().append("Error opening temp file for binary rfc content: ").append(exception.getMessage()).toString());
+                de.eso.a.d.b.d("Error opening temp file for binary rfc content: " + exception.getMessage());
                 this.w = true;
             }
         }
@@ -107,7 +106,7 @@ extends a {
                 return;
             }
             if (this.v > de.eso.a.b.a.d()) {
-                de.eso.a.d.b.d(new StringBuffer().append("Writing to binary file exceeded quota of ").append(de.eso.a.b.a.d()).append(" bytes. Deleting partly written file.").toString());
+                de.eso.a.d.b.d("Writing to binary file exceeded quota of " + de.eso.a.b.a.d() + " bytes. Deleting partly written file.");
                 this.w = true;
             }
             try {
@@ -120,7 +119,6 @@ extends a {
         }
     }
 
-    @Override
     public final void a(byte by) {
         this.z = true;
         if ("PHOTO".equalsIgnoreCase(this.x)) {
@@ -130,7 +128,6 @@ extends a {
         }
     }
 
-    @Override
     public void b(String string) {
         this.B = this.r.g();
         if (this.B) {

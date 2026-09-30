@@ -24,64 +24,44 @@ import org.dsi.ifc.sdars.DSISDARSSeekListener;
 
 public interface ISDARSTuner
 extends ISimpleTuner {
-    default public void selectStation(StationInfoExt stationInfoExt, int n) {
-    }
+    public void selectStation(StationInfoExt var1, int var2);
 
-    default public void sdarsSelected(StationInfoExt stationInfoExt, int n) {
-    }
+    public void sdarsSelected(StationInfoExt var1, int var2);
 
-    default public SDARSAdvisoryHandler getAdvisoryHandler() {
-    }
+    public SDARSAdvisoryHandler getAdvisoryHandler();
 
-    default public SDARSStatusManager getStatusManager() {
-    }
+    public SDARSStatusManager getStatusManager();
 
-    default public PdtInfoHandler getPdtHandler() {
-    }
+    public PdtInfoHandler getPdtHandler();
 
-    default public DSISDARSSeekListener getSeekListener() {
-    }
+    public DSISDARSSeekListener getSeekListener();
 
-    default public SDARSEPGHandler getSdarsEpgHandler() {
-    }
+    public SDARSEPGHandler getSdarsEpgHandler();
 
-    default public AlertHandler getAlertHandler() {
-    }
+    public AlertHandler getAlertHandler();
 
-    default public StationInfoExt getActiveStation() {
-    }
+    public StationInfoExt getActiveStation();
 
-    default public void setPhoneService(ITelService iTelService) {
-    }
+    public void setPhoneService(ITelService var1);
 
-    default public IPrevNext getPrevNextHandler() {
-    }
+    public IPrevNext getPrevNextHandler();
 
-    default public void setHmiReady() {
-    }
+    public void setHmiReady();
 
-    default public TunerActionProxyListener[] getActionProxyListeners() {
-    }
+    public TunerActionProxyListener[] getActionProxyListeners();
 
-    default public IUpdateListener getUpdateListener(IMemoryList iMemoryList) {
-    }
+    public IUpdateListener getUpdateListener(IMemoryList var1);
 
-    default public void initSeek() {
-    }
+    public void initSeek();
 
-    default public IDoTagging getTagging() {
-    }
+    public IDoTagging getTagging();
 
-    default public TunerObjectContainer getNextChannelByGenre(short s) {
-    }
+    public TunerObjectContainer getNextChannelByGenre(short var1);
 
-    default public SDARSManTune getManualTuneHandler() {
-    }
+    public SDARSManTune getManualTuneHandler();
 
-    default public SDARSDSISeekDownManager getDsiSeekDownManager() {
-    }
+    public SDARSDSISeekDownManager getDsiSeekDownManager();
 
-    default public SDARSStationDescriptions getSdarsStationDescriptions() {
-    }
+    public SDARSStationDescriptions getSdarsStationDescriptions();
 }
 

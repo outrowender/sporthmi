@@ -10,7 +10,7 @@ import de.audi.tghu.navi.app.li.SpellerStack;
 import de.audi.tghu.navi.app.util.Util;
 
 public class TpegPOIBaseSequence {
-    protected final String CLASS_NAME = Util.getClassNameFromPackageName(super.getClass());
+    protected final String CLASS_NAME = Util.getClassNameFromPackageName(this.getClass());
     protected final NavigationEnv env;
     protected final LogChannel logChannel;
     protected final ICommandListFactory commandListFactory;

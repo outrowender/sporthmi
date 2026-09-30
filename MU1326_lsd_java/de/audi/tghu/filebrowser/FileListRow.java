@@ -13,7 +13,7 @@ import org.dsi.ifc.filebrowser.BrowsedFile;
 
 public class FileListRow
 extends ListRow {
-    private static final int OFFSET_SELECTED;
+    private static final int OFFSET_SELECTED = 2;
     private final BrowsedFile file;
     private final int offset;
 
@@ -44,12 +44,10 @@ extends ListRow {
         return this.offset;
     }
 
-    @Override
     public final boolean equals(Object object) {
         return object instanceof FileListRow && this.getId() == ((FileListRow)object).getId();
     }
 
-    @Override
     public final int hashCode() {
         return (int)this.getId();
     }

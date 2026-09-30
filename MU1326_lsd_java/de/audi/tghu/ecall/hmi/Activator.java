@@ -19,7 +19,6 @@ extends AbstractHMIActivator {
         super(33, "Ecall", System.getProperty("variant.skin", "EvoHighScale"), new EcallModelBank());
     }
 
-    @Override
     protected synchronized AbstractScreenFactory getScreenFactory() {
         if (this.instance == null) {
             this.instance = new EcallScreenFactory(this.getFramework());
@@ -27,7 +26,6 @@ extends AbstractHMIActivator {
         return this.instance;
     }
 
-    @Override
     public HMIConditionBank getConditionBank() {
         if (this.conditionBank == null) {
             this.conditionBank = new EcallConditionBank((EcallScreenFactory)this.getScreenFactory());

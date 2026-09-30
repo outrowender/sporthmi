@@ -6,31 +6,22 @@ package de.audi.tghu.swdl.app.list;
 import de.audi.atip.hmi.model.BaseListRow;
 
 public interface ISwdlListItem {
-    default public int getId() {
-    }
+    public int getId();
 
-    default public boolean getSelectable() {
-    }
+    public boolean getSelectable();
 
-    default public void setSelectable(boolean bl) {
-    }
+    public void setSelectable(boolean var1);
 
-    default public ISwdlListItem getChild(int n) {
-    }
+    public ISwdlListItem getChild(int var1);
 
-    default public ISwdlListItem[] getChildren() {
-    }
+    public ISwdlListItem[] getChildren();
 
-    default public ISwdlListItem getParent() {
-    }
+    public ISwdlListItem getParent();
 
-    default public void setChildren(ISwdlListItem[] iSwdlListItemArray) {
-    }
+    public void setChildren(ISwdlListItem[] var1);
 
-    default public void select(int n) {
-    }
+    public void select(int var1);
 
-    default public void updateListRow(BaseListRow baseListRow) {
-    }
+    public void updateListRow(BaseListRow var1);
 }
 

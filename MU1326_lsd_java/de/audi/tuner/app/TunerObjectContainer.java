@@ -20,14 +20,14 @@ import org.dsi.ifc.global.ResourceLocator;
 
 public class TunerObjectContainer
 implements Serializable {
-    private static final long serialVersionUID;
-    public static final int TYPE_UNKNOWN;
-    public static final int TYPE_AMFM_SERVICE;
-    public static final int TYPE_SDARS_SERVICE;
-    public static final int TYPE_DAB_STATION;
-    public static final int TYPE_UNI_STATION;
-    public static final int TYPE_TV_STATION;
-    public static final TunerObjectContainer EMPTY_CONTAINER;
+    private static final long serialVersionUID = 5327078046367180179L;
+    public static final int TYPE_UNKNOWN = -1;
+    public static final int TYPE_AMFM_SERVICE = 3;
+    public static final int TYPE_SDARS_SERVICE = 5;
+    public static final int TYPE_DAB_STATION = 6;
+    public static final int TYPE_UNI_STATION = 7;
+    public static final int TYPE_TV_STATION = 8;
+    public static final TunerObjectContainer EMPTY_CONTAINER = new TunerObjectContainer();
     private final int type;
     private final Object data;
     private long listId = 0L;
@@ -88,7 +88,7 @@ implements Serializable {
         } else if (object instanceof TVStation) {
             this.type = 8;
         } else {
-            throw new IllegalArgumentException(new StringBuffer().append("Unknown parameter: ").append(object).toString());
+            throw new IllegalArgumentException("Unknown parameter: " + object);
         }
         this.data = object;
     }
@@ -147,7 +147,7 @@ implements Serializable {
                 return 8;
             }
         }
-        throw new IllegalArgumentException(new StringBuffer().append("Can't match type ").append(this.getType()).append(" to component ID!").toString());
+        throw new IllegalArgumentException("Can't match type " + this.getType() + " to component ID!");
     }
 
     public boolean equals(Object object) {
@@ -437,10 +437,6 @@ implements Serializable {
                 throw new IllegalArgumentException();
             }
         }
-    }
-
-    static {
-        EMPTY_CONTAINER = new TunerObjectContainer();
     }
 }
 

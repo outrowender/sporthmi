@@ -30,7 +30,7 @@ public class RouteCriteriaInterAppService {
 
     public void setRouteOptionDynamic(int n, NaviServiceListener naviServiceListener) {
         int n2;
-        this.logChannel.log(-2137614336, "RouteCriteriaInterAppService#setRouteOptionDynamic( %1 )", (long)n);
+        this.logChannel.log(10000000, "RouteCriteriaInterAppService#setRouteOptionDynamic( %1 )", (long)n);
         if (n == 0) {
             n2 = 3;
         } else if (n == 1) {
@@ -38,7 +38,7 @@ public class RouteCriteriaInterAppService {
         } else if (n == 2) {
             n2 = 6;
         } else {
-            this.logChannel.log(-1601830656, "RouteCriteriaInterAppService#setRouteOptionDynamic( %1 ) - type is invalid!", (long)n);
+            this.logChannel.log(100000, "RouteCriteriaInterAppService#setRouteOptionDynamic( %1 ) - type is invalid!", (long)n);
             n2 = 3;
         }
         this.routeCriteriaSequence.finishSequence();
@@ -54,49 +54,49 @@ public class RouteCriteriaInterAppService {
     }
 
     public void setTrailer(boolean bl) {
-        this.env.getChoiceModel(1981875712).setValue(bl ? 1 : 0);
+        this.env.getChoiceModel(401782).setValue(bl ? 1 : 0);
         this.routeCriteriaSequence.finishSequence();
         this.routeCriteriaSequence.startSequence();
     }
 
     public void setRouteProfile(int n) {
         int n2;
-        this.env.getLogChannel().log(-2137614336, "RouteCriteriaInterAppService#setRouteProfile - type: %1", (long)n);
+        this.env.getLogChannel().log(10000000, "RouteCriteriaInterAppService#setRouteProfile - type: %1", (long)n);
         int n3 = -1;
         switch (n) {
             case 2: {
                 n2 = 7;
-                this.env.getChoiceModel(1025312256).setValue(0);
+                this.env.getChoiceModel(400701).setValue(0);
                 break;
             }
             case 0: {
                 n2 = 0;
                 if ((Util.isHURegionJP() || Util.isHURegionKR()) && !Util.isPorsche(this.env.getFramework())) {
-                    this.env.getChoiceModel(1025312256).setValue(5);
+                    this.env.getChoiceModel(400701).setValue(5);
                     break;
                 }
-                this.env.getChoiceModel(1025312256).setValue(1);
+                this.env.getChoiceModel(400701).setValue(1);
                 break;
             }
             case 1: {
                 n2 = 1;
-                this.env.getChoiceModel(1025312256).setValue(2);
+                this.env.getChoiceModel(400701).setValue(2);
                 break;
             }
             case 3: {
                 n2 = 5;
                 n3 = 2;
-                this.env.getChoiceModel(1025312256).setValue(4);
+                this.env.getChoiceModel(400701).setValue(4);
                 break;
             }
             case 4: {
                 n2 = 5;
                 n3 = 1;
-                this.env.getChoiceModel(1025312256).setValue(3);
+                this.env.getChoiceModel(400701).setValue(3);
                 break;
             }
             default: {
-                this.env.getLogChannel().log(-1601830656, "RouteCriteriaInterAppService#setRouteProfile - invalid type", (long)n);
+                this.env.getLogChannel().log(100000, "RouteCriteriaInterAppService#setRouteProfile - invalid type", (long)n);
                 return;
             }
         }

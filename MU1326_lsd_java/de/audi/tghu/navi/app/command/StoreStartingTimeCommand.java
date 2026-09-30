@@ -7,12 +7,11 @@ import de.audi.tghu.navi.app.command.NavCommand;
 
 public class StoreStartingTimeCommand
 extends NavCommand {
-    public static final String STARTING_TIME_KEY;
+    public static final String STARTING_TIME_KEY = "STARTING_TIME_KEY";
 
-    @Override
     public void execute() {
         long l = this.env.getFramework().getKombiTime();
-        this.getCommandList().put("STARTING_TIME_KEY", new Long(l));
+        this.getCommandList().put(STARTING_TIME_KEY, new Long(l));
         this.getCommandList().commandFinished();
     }
 }

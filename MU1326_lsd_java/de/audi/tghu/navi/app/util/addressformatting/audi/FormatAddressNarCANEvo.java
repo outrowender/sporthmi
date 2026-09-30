@@ -17,7 +17,6 @@ extends FormatAddressNarEvo {
         super(navigationEnv);
     }
 
-    @Override
     protected LocationFormattingResponse asTwoLines(LocationFormattingRequest locationFormattingRequest) {
         if (!locationFormattingRequest.contactOrFavoriteName.isEmpty()) {
             return this.formatContactOrFavorite(locationFormattingRequest);
@@ -37,7 +36,6 @@ extends FormatAddressNarEvo {
         return this.formatFullAddress(locationFormattingRequest);
     }
 
-    @Override
     protected LocationFormattingResponse asSingleLine(LocationFormattingRequest locationFormattingRequest) {
         if (locationFormattingRequest.city.isEmpty()) {
             return this.formatGeoCoordinateAddress(locationFormattingRequest);
@@ -183,7 +181,7 @@ extends FormatAddressNarEvo {
             locationFormattingResponse.appendToFirstLine(locationFormattingRequest.zip);
         }
         GeoMetric geoMetric = new GeoMetric(Integer.parseInt(locationFormattingRequest.latitude.formattedText), Integer.parseInt(locationFormattingRequest.longitude.formattedText));
-        locationFormattingResponse.appendToSecondLine(new FormattedHighlightedText(new StringBuffer().append(geoMetric.formatLatitude()).append(", ").append(geoMetric.formatLongitude()).toString()));
+        locationFormattingResponse.appendToSecondLine(new FormattedHighlightedText(geoMetric.formatLatitude() + ", " + geoMetric.formatLongitude()));
         return locationFormattingResponse;
     }
 }

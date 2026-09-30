@@ -13,9 +13,8 @@ extends NavCommand {
         this.etcDemoModeSpeed = l;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(1078071040, "ETCSetDemoModeSpeed#execute() - calling etcSetDemoModeSpeed( %1 ) ", this.etcDemoModeSpeed);
+        this.logger.log(1000000, "ETCSetDemoModeSpeed#execute() - calling etcSetDemoModeSpeed( %1 ) ", this.etcDemoModeSpeed);
         this.getDSINavigation().etcSetDemoModeSpeed(this.etcDemoModeSpeed);
         this.getCommandList().commandFinished();
     }

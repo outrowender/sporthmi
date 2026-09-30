@@ -14,12 +14,10 @@ implements IRadioInterappService {
         super(logChannel, "IRadioInterappService");
     }
 
-    @Override
     public void tuneStation(long l) {
         this.log();
     }
 
-    @Override
     public void selectBand(int n) {
         this.log();
     }

@@ -23,7 +23,6 @@ import de.audi.atip.metrics.DateMetric;
 import de.audi.tghu.navi.app.NavigationEnv;
 import de.audi.tghu.navi.app.map.IMapPropertyProvider;
 import de.audi.tghu.navi.app.map.IView;
-import de.audi.tghu.navi.app.map.gui.MainMapView$TooltipRow;
 import de.audi.tghu.navi.app.map.handler.selection.MapItemSelectionInfo;
 import de.audi.tghu.navi.app.util.Util;
 import de.esolutions.fw.util.commons.Buffer;
@@ -53,18 +52,18 @@ implements IView {
         this.env = navigationEnv;
         this.mapPropertyProvider = iMapPropertyProvider;
         this.mTooltipModels = new ModelGroup();
-        this.mTooltip = navigationEnv.getBaseListModel(-719387136);
-        this.mTooltip.append(new MainMapView$TooltipRow());
+        this.mTooltip = navigationEnv.getBaseListModel(401365);
+        this.mTooltip.append(new TooltipRow());
         this.mTooltip.setStatus(0);
-        this.mPicNavResLocator = navigationEnv.getResourceLocatorModel(2048656896);
+        this.mPicNavResLocator = navigationEnv.getResourceLocatorModel(400506);
         this.mTooltipModels.add(this.mTooltip);
         this.mTooltipModels.add(this.mPicNavResLocator);
-        this.mLeftDrawerState = navigationEnv.getChoiceModel(-115407360);
-        this.mOptMenuRubberband = navigationEnv.getButtonModel(-98630144);
-        this.mBtnShowAltRoute = navigationEnv.getButtonModel(1897661952);
-        this.mHasTrafficDelay = navigationEnv.getChoiceModel(975177216);
-        this.mTrafficDelay = navigationEnv.getMetricsModel(991954432);
-        this.mFocusedInfo = navigationEnv.getPropertyModel(-1893726720);
+        this.mLeftDrawerState = navigationEnv.getChoiceModel(401401);
+        this.mOptMenuRubberband = navigationEnv.getButtonModel(401402);
+        this.mBtnShowAltRoute = navigationEnv.getButtonModel(400497);
+        this.mHasTrafficDelay = navigationEnv.getChoiceModel(401466);
+        this.mTrafficDelay = navigationEnv.getMetricsModel(401467);
+        this.mFocusedInfo = navigationEnv.getPropertyModel(401551);
         this.mRouteCriterionBox = this.createListModelAppWithDefaultRouteBriefingIcons();
         this.mTollInfoBoxJP = Util.isHURegionJP() ? this.createListModelDefaultTollJP() : null;
         this.parkingAtThisLocationProperty = this.mapPropertyProvider.getDestParkingAtThisLocation();
@@ -81,8 +80,8 @@ implements IView {
 
     public void showToolTip(String string) {
         if (string != null && string.trim().length() > 0) {
-            this.getLogger().log(14808325, "MainMapView#showToolTip() - %1", (Object)string);
-            this.mTooltip.setRow(0, MainMapView$TooltipRow.createTextOnly(string));
+            this.getLogger().log(100000000, "MainMapView#showToolTip() - %1", (Object)string);
+            this.mTooltip.setRow(0, TooltipRow.createTextOnly(string));
             this.mTooltip.setStatus(1);
             this.mTooltipModels.flush();
         } else {
@@ -92,15 +91,15 @@ implements IView {
 
     public void showToolTip(String string, boolean bl, String string2, int n) {
         if (string != null && string.trim().length() > 0) {
-            this.getLogger().log(14808325, "MainMapView#showToolTip() - %1", (Object)string);
+            this.getLogger().log(100000000, "MainMapView#showToolTip() - %1", (Object)string);
             if (bl) {
-                this.mTooltip.setRow(0, MainMapView$TooltipRow.createStack(string));
+                this.mTooltip.setRow(0, TooltipRow.createStack(string));
             } else if (n > 0) {
-                this.mTooltip.setRow(0, MainMapView$TooltipRow.createPOI(string, n));
+                this.mTooltip.setRow(0, TooltipRow.createPOI(string, n));
             } else if (!Util.isEmpty(string2)) {
-                this.mTooltip.setRow(0, MainMapView$TooltipRow.createOnline(string));
+                this.mTooltip.setRow(0, TooltipRow.createOnline(string));
             } else {
-                this.mTooltip.setRow(0, MainMapView$TooltipRow.createTextOnly(string));
+                this.mTooltip.setRow(0, TooltipRow.createTextOnly(string));
             }
             this.mTooltip.setStatus(1);
             this.mTooltipModels.flush();
@@ -110,7 +109,7 @@ implements IView {
     }
 
     public void showToolTipTMC(MapItemSelectionInfo mapItemSelectionInfo) {
-        this.getLogger().log(14808325, "MainMapView#showToolTipTMC, selectedValue is: (%1)", (Object)mapItemSelectionInfo);
+        this.getLogger().log(100000000, "MainMapView#showToolTipTMC, selectedValue is: (%1)", (Object)mapItemSelectionInfo);
         ExtRenderingInfo extRenderingInfo = mapItemSelectionInfo.tmc_roadSignInfo;
         String string = mapItemSelectionInfo.textDescriptionSingleLine;
         String string2 = mapItemSelectionInfo.tmc_roadNr;
@@ -120,28 +119,28 @@ implements IView {
             iconCell = new IconCell(new HMIResourceLocator(extRenderingInfo.getResourceId()), string2, extRenderingInfo.getFontReference(), extRenderingInfo.getFontSize(), extRenderingInfo.getFontColor(), extRenderingInfo.getDeltaX(), extRenderingInfo.getDeltaY());
         }
         IconCell iconCell2 = new IconCell(new HMIResourceLocator(n));
-        this.mTooltip.setRow(0, MainMapView$TooltipRow.createTMC(string, iconCell, iconCell2));
+        this.mTooltip.setRow(0, TooltipRow.createTMC(string, iconCell, iconCell2));
         this.mTooltip.setStatus(1);
         this.mTooltipModels.flush();
     }
 
     public void showToolTipPicNav(String string, ResourceLocator resourceLocator) {
-        this.getLogger().log(14808325, "MainMapView#showToolTipPicNav()");
-        this.mTooltip.setRow(0, MainMapView$TooltipRow.createPicNav(string));
+        this.getLogger().log(100000000, "MainMapView#showToolTipPicNav()");
+        this.mTooltip.setRow(0, TooltipRow.createPicNav(string));
         this.mTooltip.setStatus(1);
         this.mPicNavResLocator.setResourceLocator(resourceLocator.getId(), resourceLocator.getUrl());
         this.mTooltipModels.flush();
     }
 
     public void hideToolTip() {
-        this.getLogger().log(-2137614336, "MainMapView#hideToolTip() - isTooltipVisible = %1", this.isTooltipVisible());
-        this.mTooltip.setRow(0, MainMapView$TooltipRow.createEmpty());
+        this.getLogger().log(10000000, "MainMapView#hideToolTip() - isTooltipVisible = %1", this.isTooltipVisible());
+        this.mTooltip.setRow(0, TooltipRow.createEmpty());
         this.mTooltip.setStatus(0);
         this.mTooltipModels.flush();
     }
 
     public void setLeftSideVisible(boolean bl) {
-        this.getLogger().log(-2137614336, "MainMapView#setLeftSideVisible( %1 )", bl);
+        this.getLogger().log(10000000, "MainMapView#setLeftSideVisible( %1 )", bl);
         this.mLeftDrawerState.setValue(bl ? 1 : 0);
     }
 
@@ -162,7 +161,7 @@ implements IView {
                 this.mTrafficDelay.setMetric(null);
                 this.mHasTrafficDelay.setValue(0);
             }
-        } else if (l >= 0) {
+        } else if (l >= 240000L) {
             this.mTrafficDelay.setMetric(new DateMetric(new Date(l), this.mapPropertyProvider.getPrefferedDelayFormat()));
             this.mHasTrafficDelay.setValue(l > 0L ? 1 : 2);
         } else {
@@ -172,7 +171,7 @@ implements IView {
     }
 
     private ListCell[] getDefaultRouteBriefingOptions() {
-        this.getLogger().log(-2137614336, "MainMapView#getDefaultRouteBriefingOptions()");
+        this.getLogger().log(10000000, "MainMapView#getDefaultRouteBriefingOptions()");
         IntegerListCell integerListCell = IntegerListCell.create(0);
         ListCell[] listCellArray = new ListCell[11];
         listCellArray[0] = integerListCell;
@@ -190,8 +189,8 @@ implements IView {
     }
 
     private ListModelApp createListModelAppWithRouteBriefingIcons(ListCell[] listCellArray) {
-        this.getLogger().log(-2137614336, "MainMapView#createListModelAppWithRouteBriefingIcons()");
-        ListModelApp listModelApp = this.env.getListModel(1579025920);
+        this.getLogger().log(10000000, "MainMapView#createListModelAppWithRouteBriefingIcons()");
+        ListModelApp listModelApp = this.env.getListModel(400990);
         listModelApp.clear();
         listModelApp.setMaxColumns(11);
         listModelApp.addRow(listCellArray);
@@ -204,7 +203,7 @@ implements IView {
 
     public void setRouteCriteriaIcons(int n, boolean bl, boolean bl2, boolean bl3, boolean bl4, boolean bl5, boolean bl6, boolean bl7, boolean bl8, boolean bl9, boolean bl10) {
         Buffer buffer = new Buffer().append("reroutingType:").append(n).append(", ferry:").append(bl2).append(", motorail:").append(bl3).append(", avoid freeway:").append(bl4).append(", vignette:").append(bl5).append(", tollroad:").append(bl6).append(", avoid timeRestricted:").append(bl7).append(", seasonallyRestricted:").append(bl8).append(", enableTrailerMode:").append(bl9).append(", HOVLanes:").append(bl10);
-        this.getLogger().log(-2137614336, "MainMapView#setRouteCriteriaIcons() - %1", (Object)buffer.toString());
+        this.getLogger().log(10000000, "MainMapView#setRouteCriteriaIcons() - %1", (Object)buffer.toString());
         IntegerListCell integerListCell = IntegerListCell.create(1);
         IntegerListCell integerListCell2 = IntegerListCell.create(0);
         this.mRouteCriterionBox.beginTransaction();
@@ -223,8 +222,8 @@ implements IView {
     }
 
     private BaseListModelApp createListModelDefaultTollJP() {
-        this.getLogger().log(-2137614336, "MainMapView#createListModelDefaultTollJP()");
-        BaseListModelApp baseListModelApp = this.env.getBaseListModel(807536128);
+        this.getLogger().log(10000000, "MainMapView#createListModelDefaultTollJP()");
+        BaseListModelApp baseListModelApp = this.env.getBaseListModel(401968);
         baseListModelApp.removeAll();
         baseListModelApp.setStatus(0);
         EvoListRow evoListRow = new EvoListRow(0L, 4);
@@ -237,7 +236,7 @@ implements IView {
     }
 
     public boolean updateTollInfoJP(CalculatedRouteListElement calculatedRouteListElement) {
-        this.getLogger().log(1078071040, "MainMapView#updateTollInfoJP()");
+        this.getLogger().log(1000000, "MainMapView#updateTollInfoJP()");
         if (this.mTollInfoBoxJP == null) {
             return false;
         }
@@ -247,7 +246,7 @@ implements IView {
             this.mTollInfoBoxJP.removeAll();
             String string = Util.getMotorwayEntryExit(this.getLogger(), calculatedRouteListElement, 1, "");
             String string2 = Util.getMotorwayEntryExit(this.getLogger(), calculatedRouteListElement, 2, "");
-            this.getLogger().log(1078071040, "MainMapView#updateTollInfoJP() - exitName: %1, entranceName: %2", (Object)string2, (Object)string);
+            this.getLogger().log(1000000, "MainMapView#updateTollInfoJP() - exitName: %1, entranceName: %2", (Object)string2, (Object)string);
             EvoListRow evoListRow = new EvoListRow(calculatedRouteListElement.tollLength, 4);
             evoListRow.setText(0, string);
             evoListRow.setText(1, string2);
@@ -266,7 +265,7 @@ implements IView {
             this.mTollInfoBoxJP.setStatus(1);
             return true;
         }
-        this.getLogger().log(-2137614336, "MainMapView#updateTollInfoJP() - hide toll info box.");
+        this.getLogger().log(10000000, "MainMapView#updateTollInfoJP() - hide toll info box.");
         this.mTollInfoBoxJP.setStatus(0);
         this.mTollInfoBoxJP.removeAll();
         return false;
@@ -275,10 +274,10 @@ implements IView {
     public void setFocusedProperty(int n) {
         int[] nArray;
         if (this.mapPropertyProvider == null) {
-            this.getLogger().log(-1601830656, "MainMapView#setFocusedProperty( %1 ) - no mapPropertyProvider", (long)n);
+            this.getLogger().log(100000, "MainMapView#setFocusedProperty( %1 ) - no mapPropertyProvider", (long)n);
             return;
         }
-        this.getLogger().log(-2137614336, "MainMapView#setFocusedProperty( %1 )", (long)n);
+        this.getLogger().log(10000000, "MainMapView#setFocusedProperty( %1 )", (long)n);
         int n2 = -1;
         boolean bl = false;
         switch (n) {
@@ -329,8 +328,67 @@ implements IView {
     }
 
     public void setOptionIconVisible(boolean bl) {
-        this.getLogger().log(-2137614336, "MainMapView#setOptionIconVisible( %1 )", bl);
-        this.env.getChoiceModel(421594624).setValue(bl ? 0 : 1);
+        this.getLogger().log(10000000, "MainMapView#setOptionIconVisible( %1 )", bl);
+        this.env.getChoiceModel(401689).setValue(bl ? 0 : 1);
+    }
+
+    public static class TooltipRow
+    extends EvoListRow {
+        public static TooltipRow createTextOnly(String string) {
+            return new TooltipRow(0, string, null, null, null, -1);
+        }
+
+        public static TooltipRow createStack(String string) {
+            return new TooltipRow(0, string, null, null, null, 2);
+        }
+
+        public static TooltipRow createPOI(String string, int n) {
+            HMIResourceLocator hMIResourceLocator = new HMIResourceLocator(n);
+            return new TooltipRow(1, string, hMIResourceLocator, null, null, -1);
+        }
+
+        public static TooltipRow createOnline(String string) {
+            return new TooltipRow(0, string, null, null, null, 1);
+        }
+
+        public static TooltipRow createTMC(String string, IconCell iconCell, IconCell iconCell2) {
+            TooltipRow tooltipRow = new TooltipRow(2, string, null, null, null, -1);
+            tooltipRow.setIconCell(3, iconCell);
+            tooltipRow.setIconCell(4, iconCell2);
+            return tooltipRow;
+        }
+
+        public static TooltipRow createPicNav(String string) {
+            return new TooltipRow(3, string, null, null, null, -1);
+        }
+
+        public static TooltipRow createEmpty() {
+            return new TooltipRow();
+        }
+
+        protected TooltipRow(EvoListRow evoListRow) {
+            super(evoListRow);
+            this.setInteger(0, evoListRow.getInteger(0));
+            this.setText(1, evoListRow.getText(1));
+            this.setIconCell(2, (IconCell)evoListRow.getCell(2));
+            this.setIconCell(3, (IconCell)evoListRow.getCell(3));
+            this.setIconCell(4, (IconCell)evoListRow.getCell(4));
+            this.setInteger(5, evoListRow.getInteger(5));
+        }
+
+        protected TooltipRow() {
+            this(-1, "", null, null, null, -1);
+        }
+
+        protected TooltipRow(int n, String string, HMIResourceLocator hMIResourceLocator, HMIResourceLocator hMIResourceLocator2, HMIResourceLocator hMIResourceLocator3, int n2) {
+            super(0L, 6);
+            this.setInteger(0, n);
+            this.setText(1, string);
+            this.setIconCell(2, new IconCell(hMIResourceLocator));
+            this.setIconCell(3, new IconCell(hMIResourceLocator2));
+            this.setIconCell(4, new IconCell(hMIResourceLocator3));
+            this.setInteger(5, n2);
+        }
     }
 }
 

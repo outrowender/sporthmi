@@ -8,14 +8,14 @@ import de.audi.tghu.online.app.remotehmi.MediaSubEntryPointsContainer;
 import de.audi.tghu.online.app.remotehmi.RemoteHMIContext;
 
 public class EntryPoint {
-    public static final int ENTRY_POINT_ID_NONE;
-    public static final int ENTRY_POINT_AUDI_CONNECT;
-    public static final int ENTRY_POINT_DESTINATION;
-    public static final int ENTRY_POINT_MAP;
-    public static final int ENTRY_POINT_MEDIA;
-    public static final int ENTRY_POINT_OPERATOR;
-    public static final int ENTRY_POINT_PHONE;
-    public static final int ENTRY_POINT_MEDIA_SUBENTRIES_RANGE;
+    public static final int ENTRY_POINT_ID_NONE = -1;
+    public static final int ENTRY_POINT_AUDI_CONNECT = 1;
+    public static final int ENTRY_POINT_DESTINATION = 2;
+    public static final int ENTRY_POINT_MAP = 3;
+    public static final int ENTRY_POINT_MEDIA = 4;
+    public static final int ENTRY_POINT_OPERATOR = 5;
+    public static final int ENTRY_POINT_PHONE = 6;
+    public static final int ENTRY_POINT_MEDIA_SUBENTRIES_RANGE = 10;
     private int appStatus = 0;
     private RemoteHMIContext currentContext;
     private String nameOfContextToBeStarted;
@@ -33,7 +33,7 @@ public class EntryPoint {
     }
 
     public void setCurrentContext(RemoteHMIContext remoteHMIContext) {
-        this.logChannel.log(1078071040, "EntryPoint#setCurrentContext: called for context %1", (Object)remoteHMIContext);
+        this.logChannel.log(1000000, "EntryPoint#setCurrentContext: called for context %1", (Object)remoteHMIContext);
         this.currentContext = remoteHMIContext;
     }
 

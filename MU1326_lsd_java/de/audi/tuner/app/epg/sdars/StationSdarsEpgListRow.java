@@ -10,9 +10,9 @@ import de.audi.tuner.app.sdars.StationInfoExt;
 
 public class StationSdarsEpgListRow
 extends AbstractSdarsEpgListRow {
-    private static final int INDEX_CHANNEL_NUMBER;
-    private static final int INDEX_CHANNEL_NAME;
-    public static final int STATION_COL_COUNT;
+    private static final int INDEX_CHANNEL_NUMBER = 1;
+    private static final int INDEX_CHANNEL_NAME = 2;
+    public static final int STATION_COL_COUNT = 3;
 
     public StationSdarsEpgListRow(StationInfoExt stationInfoExt) {
         this(stationInfoExt, 3);
@@ -32,22 +32,18 @@ extends AbstractSdarsEpgListRow {
         super(stationSdarsEpgListRow);
     }
 
-    @Override
     public EvoListRow copy() {
         return new StationSdarsEpgListRow(this);
     }
 
-    @Override
     public boolean representsStation() {
         return true;
     }
 
-    @Override
     public boolean representsProgram() {
         return false;
     }
 
-    @Override
     public int getActionForSelection(int n) {
         return 3;
     }

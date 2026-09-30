@@ -6,10 +6,8 @@ package de.audi.tghu.navi.app.car.kombi;
 import de.audi.tghu.navi.app.car.kombi.ICarKombiObserver;
 
 public interface ICarKombiEventsProvider {
-    default public void registerListener(ICarKombiObserver iCarKombiObserver) {
-    }
+    public void registerListener(ICarKombiObserver var1);
 
-    default public void unregisterListener(ICarKombiObserver iCarKombiObserver) {
-    }
+    public void unregisterListener(ICarKombiObserver var1);
 }
 

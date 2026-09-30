@@ -13,7 +13,6 @@ implements BundleActivator {
     BasicBenchmarkSuite basicSuite = BasicBenchmarkSuite.getInstance();
     private BundleContext bundleContext;
 
-    @Override
     public void start(BundleContext bundleContext) {
         this.bundleContext = bundleContext;
         MMI3gBenchmarkSuite.setBundle(this);
@@ -21,7 +20,6 @@ implements BundleActivator {
         MMI3gBenchmarkSuite.bundleStarted();
     }
 
-    @Override
     public void stop(BundleContext bundleContext) {
         this.bundleContext = null;
     }

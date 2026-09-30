@@ -7,25 +7,18 @@ import de.audi.tv.app.lists.AbstractTVStationRow;
 import org.dsi.ifc.tvtuner.ServiceInfo;
 
 public interface ITVListsListener {
-    default public void updateFavoritesListSize(int n) {
-    }
+    public void updateFavoritesListSize(int var1);
 
-    default public void updateStationList() {
-    }
+    public void updateStationList();
 
-    default public void updateFavoritesList() {
-    }
+    public void updateFavoritesList();
 
-    default public void updateSelectedStation(AbstractTVStationRow abstractTVStationRow) {
-    }
+    public void updateSelectedStation(AbstractTVStationRow var1);
 
-    default public void favoriteAdded() {
-    }
+    public void favoriteAdded();
 
-    default public void favoritesCleared() {
-    }
+    public void favoritesCleared();
 
-    default public void addFavoriteRequested(ServiceInfo serviceInfo) {
-    }
+    public void addFavoriteRequested(ServiceInfo var1);
 }
 

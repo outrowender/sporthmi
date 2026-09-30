@@ -37,7 +37,7 @@ public abstract class AbstractStationList {
             n = 0;
         }
         ServiceInfo serviceInfo = ((AbstractTVStationRow)this.stationList.getRow((int)n)).service;
-        this.env.lcHMI.log(-2137614336, "[%1.setNextService] new index: %3, new service: %2", (Object)this.listName, (Object)serviceInfo, (long)n);
+        this.env.lcHMI.log(10000000, "[%1.setNextService] new index: %3, new service: %2", (Object)this.listName, (Object)serviceInfo, (long)n);
         this.dsi.changeService(serviceInfo, true);
         this.stationList.fireEvent(0);
     }
@@ -48,7 +48,7 @@ public abstract class AbstractStationList {
             n = this.stationList.getLength() - 1;
         }
         ServiceInfo serviceInfo = ((AbstractTVStationRow)this.stationList.getRow((int)n)).service;
-        this.env.lcHMI.log(-2137614336, "[%1.setPrevService] new index: %3, new service: %2", (Object)this.listName, (Object)serviceInfo, (long)n);
+        this.env.lcHMI.log(10000000, "[%1.setPrevService] new index: %3, new service: %2", (Object)this.listName, (Object)serviceInfo, (long)n);
         this.dsi.changeService(serviceInfo, true);
         this.stationList.fireEvent(0);
     }
@@ -80,11 +80,11 @@ public abstract class AbstractStationList {
     }
 
     protected void updateErrorIcon() {
-        this.env.lcMain.log(-2137614336, "[%1.updateErrorIcon]", (Object)this.listName);
+        this.env.lcMain.log(10000000, "[%1.updateErrorIcon]", (Object)this.listName);
         this.removeErrorIcon();
         SelectedItem selectedItem = this.stationList.getSelected();
         if (selectedItem == null) {
-            this.env.lcMain.log(1078071040, "[%1.updateErrorIcon] No selected entry found!", (Object)this.listName);
+            this.env.lcMain.log(1000000, "[%1.updateErrorIcon] No selected entry found!", (Object)this.listName);
             return;
         }
         AbstractTVStationRow abstractTVStationRow = (AbstractTVStationRow)this.stationList.getRow(selectedItem.getIndex());

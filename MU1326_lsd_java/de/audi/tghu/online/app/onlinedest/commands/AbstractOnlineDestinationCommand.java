@@ -29,7 +29,6 @@ ADBHMIAppServiceListener {
         super(null, string);
     }
 
-    @Override
     public void setCommandList(ICommandList iCommandList) {
         super.setCommandList(iCommandList);
         if (!(iCommandList instanceof OnlineDestinationCommandList)) {
@@ -66,23 +65,18 @@ ADBHMIAppServiceListener {
         return this.application.getModelHandler().getDownloadResult();
     }
 
-    @Override
     public void downloadAddressListResult(PortalADBEntry[] portalADBEntryArray, int n, int n2) {
     }
 
-    @Override
     public void stopActionResult(int n) {
     }
 
-    @Override
     public void updateEntries(int n, int n2) {
     }
 
-    @Override
     public void responseParseVCards(int n, AdbEntry[] adbEntryArray) {
     }
 
-    @Override
     public void responseInsertEntry(int n) {
     }
 }

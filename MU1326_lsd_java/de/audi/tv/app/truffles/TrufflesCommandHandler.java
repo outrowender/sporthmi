@@ -3,23 +3,26 @@
  */
 package de.audi.tv.app.truffles;
 
-import de.audi.tv.app.truffles.SearchGUI$PerformQueryCmd;
-import de.audi.tv.app.truffles.TrufflesCommandHandler$1;
-import de.audi.tv.app.truffles.TrufflesCommandHandler$ITrufflesCommand;
+import de.audi.tv.app.truffles.SearchGUI;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedList;
 
 public class TrufflesCommandHandler {
-    private final Comparator commandComperator = new TrufflesCommandHandler$1(this);
-    private LinkedList commandList = new LinkedList();
-    private TrufflesCommandHandler$ITrufflesCommand cmd = null;
+    private final Comparator commandComperator = new Comparator(){
 
-    synchronized void add(TrufflesCommandHandler$ITrufflesCommand trufflesCommandHandler$ITrufflesCommand) {
-        if (!this.commandList.isEmpty() && this.commandList.getLast() instanceof SearchGUI$PerformQueryCmd && trufflesCommandHandler$ITrufflesCommand instanceof SearchGUI$PerformQueryCmd) {
+        public int compare(Object object, Object object2) {
+            return ((ITrufflesCommand)object).getPriority() - ((ITrufflesCommand)object2).getPriority();
+        }
+    };
+    private LinkedList commandList = new LinkedList();
+    private ITrufflesCommand cmd = null;
+
+    synchronized void add(ITrufflesCommand iTrufflesCommand) {
+        if (!this.commandList.isEmpty() && this.commandList.getLast() instanceof SearchGUI.PerformQueryCmd && iTrufflesCommand instanceof SearchGUI.PerformQueryCmd) {
             this.commandList.removeLast();
         }
-        this.commandList.add(trufflesCommandHandler$ITrufflesCommand);
+        this.commandList.add(iTrufflesCommand);
         Collections.sort(this.commandList, this.commandComperator);
     }
 
@@ -33,16 +36,25 @@ public class TrufflesCommandHandler {
                 this.cmd = null;
                 return false;
             }
-            this.cmd = (TrufflesCommandHandler$ITrufflesCommand)this.commandList.removeFirst();
+            this.cmd = (ITrufflesCommand)this.commandList.removeFirst();
         }
         this.cmd.execute();
-        return !(this.cmd instanceof SearchGUI$PerformQueryCmd);
+        return !(this.cmd instanceof SearchGUI.PerformQueryCmd);
     }
 
     boolean runCommands() {
         while (this.runCommand()) {
         }
-        return this.cmd instanceof SearchGUI$PerformQueryCmd;
+        return this.cmd instanceof SearchGUI.PerformQueryCmd;
+    }
+
+    public static interface ITrufflesCommand {
+        public static final int PRIO_INVALIDATE = 0;
+        public static final int PRIO_QUERY = 1;
+
+        public int getPriority();
+
+        public void execute();
     }
 }
 

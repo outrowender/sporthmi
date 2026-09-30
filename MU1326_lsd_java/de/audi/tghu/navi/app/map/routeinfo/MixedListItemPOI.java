@@ -5,7 +5,7 @@ package de.audi.tghu.navi.app.map.routeinfo;
 
 import de.audi.atip.hmi.model.TextListCell;
 import de.audi.tghu.navi.app.map.routeinfo.MixedListItem;
-import de.audi.tghu.navi.app.map.routeinfo.RouteInfoHandler$TravelData;
+import de.audi.tghu.navi.app.map.routeinfo.RouteInfoHandler;
 import de.audi.tghu.navi.app.map.routeinfo.RouteInfoHelper;
 import de.audi.tghu.navi.app.map.utils.MixedListRow;
 import de.esolutions.fw.util.commons.Buffer;
@@ -16,21 +16,19 @@ extends MixedListItem {
     private NavPoiInfo mNavPoiInfo;
     private int[] iconIDs = new int[0];
 
-    public MixedListItemPOI(NavPoiInfo navPoiInfo, RouteInfoHandler$TravelData routeInfoHandler$TravelData, MixedListRow mixedListRow, long l, long l2, RouteInfoHelper routeInfoHelper) {
+    public MixedListItemPOI(NavPoiInfo navPoiInfo, RouteInfoHandler.TravelData travelData, MixedListRow mixedListRow, long l, long l2, RouteInfoHelper routeInfoHelper) {
         this.helper = routeInfoHelper;
         this.mNavPoiInfo = navPoiInfo;
         this.mMixedListRow = mixedListRow;
         this.iconIDs = this.mMixedListRow.updateValuesForPOI(this.mNavPoiInfo);
         this.mFormat = routeInfoHelper.getDefaultFormat(navPoiInfo);
-        this.init(navPoiInfo, routeInfoHandler$TravelData, l, l2);
+        this.init(navPoiInfo, travelData, l, l2);
     }
 
-    @Override
     public int[] getIconIDs() {
         return this.iconIDs;
     }
 
-    @Override
     public boolean updateDistanceToCar(long l) {
         super.updateDistanceToCar(l);
         String string = this.helper.formatDistString(this.getDistanceToCar());
@@ -41,7 +39,6 @@ extends MixedListItem {
         return false;
     }
 
-    @Override
     public boolean updateRttToCar(long l) {
         super.updateRttToCar(l);
         String string = this.mMixedListRow.getText(13);
@@ -53,12 +50,10 @@ extends MixedListItem {
         return false;
     }
 
-    @Override
     public Object getEvent() {
         return this.mNavPoiInfo;
     }
 
-    @Override
     public int getDestinationIndex() {
         return this.mNavPoiInfo.destinationIndex;
     }

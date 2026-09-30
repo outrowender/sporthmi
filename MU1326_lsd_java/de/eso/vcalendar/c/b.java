@@ -15,19 +15,16 @@ implements de.eso.a.a.b {
         this.a = a2;
     }
 
-    @Override
     public void a(List list) {
         if (list != null && list.size() > 0) {
             de.eso.vcalendar.c.a.a(this.a, (d)list.get(0));
         }
     }
 
-    @Override
     public int a() {
         return 1;
     }
 
-    @Override
     public int b() {
         return 1;
     }

@@ -3,7 +3,10 @@
  */
 package de.audi.tuner.app.sdars.seek;
 
+import de.audi.atip.hmi.model.DefaultButtonListener;
+import de.audi.atip.hmi.model.DefaultOptionListener;
 import de.audi.atip.hmi.model.list.BaseListModelApp;
+import de.audi.atip.hmi.model.list.DefaultBaseListModelListener;
 import de.audi.atip.hmi.model.list.EvoListRow;
 import de.audi.atip.hmi.modelaccess.ButtonModelApp;
 import de.audi.atip.hmi.modelaccess.LabelModelApp;
@@ -15,18 +18,10 @@ import de.audi.tuner.app.TunerModels;
 import de.audi.tuner.app.Utilities;
 import de.audi.tuner.app.ap.TunerActionProxyListener;
 import de.audi.tuner.app.sdars.dsi.SDARSDSISeekDownManager;
+import de.audi.tuner.app.sdars.dsi.SDARSDsiUpInfo;
+import de.audi.tuner.app.sdars.seek.AbstractListControllerButtonHandler;
 import de.audi.tuner.app.sdars.seek.AbstractSeekListSizeRistrictionHandler;
 import de.audi.tuner.app.sdars.seek.AbstractTeamRow;
-import de.audi.tuner.app.sdars.seek.GameHandler$ActionProxy;
-import de.audi.tuner.app.sdars.seek.GameHandler$ButtonListener;
-import de.audi.tuner.app.sdars.seek.GameHandler$DsiUpListener;
-import de.audi.tuner.app.sdars.seek.GameHandler$LeagueListModelListener;
-import de.audi.tuner.app.sdars.seek.GameHandler$ManageAlertsButtonListener;
-import de.audi.tuner.app.sdars.seek.GameHandler$OptionModelListener;
-import de.audi.tuner.app.sdars.seek.GameHandler$SelectedTeamListModelListener;
-import de.audi.tuner.app.sdars.seek.GameHandler$SelectedTeamsControllerButtonHandler;
-import de.audi.tuner.app.sdars.seek.GameHandler$TeamListControllerButtonListener;
-import de.audi.tuner.app.sdars.seek.GameHandler$TeamListModelListener;
 import de.audi.tuner.app.sdars.seek.LeagueRow;
 import de.audi.tuner.app.sdars.seek.SelectedTeamRow;
 import de.audi.tuner.app.sdars.seek.TeamRow;
@@ -41,13 +36,14 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import org.dsi.ifc.sdars.LeagueEntry;
 import org.dsi.ifc.sdars.SeekEntry;
 import org.dsi.ifc.sdars.TeamEntry;
 
 public class GameHandler {
-    public final GameHandler$DsiUpListener dsiUpListener = new GameHandler$DsiUpListener(this, null);
-    public final TunerActionProxyListener actionProxy = new GameHandler$ActionProxy(this, null);
+    public final DsiUpListener dsiUpListener = new DsiUpListener();
+    public final TunerActionProxyListener actionProxy = new ActionProxy();
     private final SDARSDSISeekDownManager dsiSeek;
     private final TunerModels models;
     private final ITunerVariantExt varExt;
@@ -64,7 +60,7 @@ public class GameHandler {
     private final HashMap seekIdToSeekEntryForSelectedTeam = new HashMap(50);
     private final HashMap sessionSeekIdToSeekEntryForSelectedTeam = new HashMap(50);
     private final AbstractSeekListSizeRistrictionHandler sizeRestriction;
-    private final GameHandler$SelectedTeamsControllerButtonHandler selectedTeamsListController;
+    private final SelectedTeamsControllerButtonHandler selectedTeamsListController;
 
     public GameHandler(TunerBasics tunerBasics, LanguageManager languageManager, SDARSDSISeekDownManager sDARSDSISeekDownManager, ITunerVariantExt iTunerVariantExt, AbstractSeekListSizeRistrictionHandler abstractSeekListSizeRistrictionHandler) {
         this.langMngr = languageManager;
@@ -73,23 +69,23 @@ public class GameHandler {
         this.varExt = iTunerVariantExt;
         this.sizeRestriction = abstractSeekListSizeRistrictionHandler;
         TunerModels tunerModels = tunerBasics.getModels();
-        this.leagueList = tunerModels.getBaseListModel(2106065152);
-        this.teamList = tunerModels.getBaseListModel(-2071461632);
-        this.selectedTeamList = tunerModels.getBaseListModel(-2121793280);
-        this.manageAlertsButton = tunerModels.getButtonModel(713621760);
-        this.leagueLabel = tunerModels.getLabelModel(1485308160);
+        this.leagueList = tunerModels.getBaseListModel(100477);
+        this.teamList = tunerModels.getBaseListModel(100484);
+        this.selectedTeamList = tunerModels.getBaseListModel(100481);
+        this.manageAlertsButton = tunerModels.getButtonModel(100650);
+        this.leagueLabel = tunerModels.getLabelModel(100440);
         this.initNewEditingSession();
-        this.manageAlertsButton.setButtonListener(new GameHandler$ManageAlertsButtonListener(this, null));
-        this.leagueList.setListener(new GameHandler$LeagueListModelListener(this, null));
-        this.teamList.setListener(new GameHandler$TeamListModelListener(this, null));
-        this.selectedTeamList.setListener(new GameHandler$SelectedTeamListModelListener(this, null));
-        tunerModels.getButtonModel(864616704).setButtonListener(new GameHandler$ButtonListener(this, null));
-        GameHandler$TeamListControllerButtonListener gameHandler$TeamListControllerButtonListener = new GameHandler$TeamListControllerButtonListener(this, null);
-        tunerModels.getButtonModel(-1668742912).setButtonListener(gameHandler$TeamListControllerButtonListener);
-        tunerModels.getButtonModel(-1685520128).setButtonListener(gameHandler$TeamListControllerButtonListener);
-        OptionModelApp optionModelApp = tunerModels.getOptionModel(831062272);
-        optionModelApp.setListener(new GameHandler$OptionModelListener(this, null), this.selectedTeamList.getID());
-        this.selectedTeamsListController = new GameHandler$SelectedTeamsControllerButtonHandler(this.selectedTeamList, tunerModels.getButtonModel(-896990976), tunerModels.getButtonModel(-880213760), tunerModels.getButtonModel(-913768192), sDARSDSISeekDownManager, iTunerVariantExt);
+        this.manageAlertsButton.setButtonListener(new ManageAlertsButtonListener());
+        this.leagueList.setListener(new LeagueListModelListener());
+        this.teamList.setListener(new TeamListModelListener());
+        this.selectedTeamList.setListener(new SelectedTeamListModelListener());
+        tunerModels.getButtonModel(100659).setButtonListener(new ButtonListener());
+        TeamListControllerButtonListener teamListControllerButtonListener = new TeamListControllerButtonListener();
+        tunerModels.getButtonModel(100764).setButtonListener(teamListControllerButtonListener);
+        tunerModels.getButtonModel(100763).setButtonListener(teamListControllerButtonListener);
+        OptionModelApp optionModelApp = tunerModels.getOptionModel(100657);
+        optionModelApp.setListener(new OptionModelListener(), this.selectedTeamList.getID());
+        this.selectedTeamsListController = new SelectedTeamsControllerButtonHandler(this.selectedTeamList, tunerModels.getButtonModel(100810), tunerModels.getButtonModel(100811), tunerModels.getButtonModel(100809), sDARSDSISeekDownManager, iTunerVariantExt);
     }
 
     private void onManageAlertsButtonPressed(int n) {
@@ -158,7 +154,7 @@ public class GameHandler {
         for (int i3 = 0; i3 < intList.size(); ++i3) {
             this.dsiSeek.manageSeek2(3, intList.get(i3), intList2.get(i3), 3);
         }
-        this.models.getChoiceModel(1216938240).setValue(0);
+        this.models.getChoiceModel(100680).setValue(0);
     }
 
     /*
@@ -183,18 +179,18 @@ public class GameHandler {
             this.dsiSeek.manageSeek2(3, n3, n4, 3);
             optionModelApp.fireEvent(n2);
             int n5 = this.selectedTeamList.getLength() == 0 ? 0 : 1;
-            this.models.getChoiceModel(1216938240).setValue(n5);
+            this.models.getChoiceModel(100680).setValue(n5);
         }
     }
 
     private void updateSessionAddCounter(int n) {
-        LabelModelApp labelModelApp = this.models.getLabelModel(-1349975808);
+        LabelModelApp labelModelApp = this.models.getLabelModel(100783);
         int n2 = Integer.parseInt(labelModelApp.getText()) + n;
         labelModelApp.setText(String.valueOf(n2));
     }
 
     private void initNewEditingSession() {
-        this.models.getLabelModel(-1349975808).setText("0");
+        this.models.getLabelModel(100783).setText("0");
         this.sessionSeekIdToSeekEntryForSelectedTeam.clear();
         this.sessionSeekIdToSeekEntryForSelectedTeam.putAll(this.seekIdToSeekEntryForSelectedTeam);
     }
@@ -248,7 +244,7 @@ public class GameHandler {
         this.updateSelectedTeamList();
         this.updateTeamList();
         this.updateLeagueList();
-        this.models.getChoiceModel(1216938240).setValue(bl ? 1 : 0);
+        this.models.getChoiceModel(100680).setValue(bl ? 1 : 0);
     }
 
     /*
@@ -366,76 +362,175 @@ public class GameHandler {
         }
     }
 
-    static /* synthetic */ void access$900(GameHandler gameHandler, LeagueEntry[] leagueEntryArray) {
-        gameHandler.onDSILeagues(leagueEntryArray);
+    private class ActionProxy
+    extends TunerActionProxyListener {
+        private ActionProxy() {
+        }
+
+        public void tunerSDARSManageAlertsLeft() {
+            GameHandler.this.onSMTunerSDARSManageAlertsLeft();
+        }
     }
 
-    static /* synthetic */ void access$1000(GameHandler gameHandler, TeamEntry[] teamEntryArray) {
-        gameHandler.onDSITeamsOfLeague(teamEntryArray);
+    private class DsiUpListener
+    extends SDARSDsiUpInfo {
+        private DsiUpListener() {
+        }
+
+        public void leagues(LeagueEntry[] leagueEntryArray) {
+            GameHandler.this.onDSILeagues(leagueEntryArray);
+        }
+
+        public void teamsOfLeague(TeamEntry[] teamEntryArray) {
+            GameHandler.this.onDSITeamsOfLeague(teamEntryArray);
+        }
+
+        public void updateSeekList(SeekEntry[] seekEntryArray) {
+            GameHandler.this.onDSIUpdateSeekList(seekEntryArray);
+        }
+
+        public void updateAvailability(int n) {
+            if (n == 1) {
+                GameHandler.this.leagueList.fireEvent(0);
+                GameHandler.this.teamList.fireEvent(0);
+            }
+        }
     }
 
-    static /* synthetic */ void access$1100(GameHandler gameHandler, SeekEntry[] seekEntryArray) {
-        gameHandler.onDSIUpdateSeekList(seekEntryArray);
+    private class ButtonListener
+    extends DefaultButtonListener {
+        private ButtonListener() {
+        }
+
+        public void keyTyped(int n, int n2, int n3) {
+            GameHandler.this.onButtonClearGameAlertsTyped();
+        }
     }
 
-    static /* synthetic */ BaseListModelApp access$1200(GameHandler gameHandler) {
-        return gameHandler.leagueList;
+    private class OptionModelListener
+    extends DefaultOptionListener {
+        private OptionModelListener() {
+        }
+
+        public void keyTyped(int n, int n2, int n3, int n4, int n5) {
+            GameHandler.this.onOptionDeleteCurrentGameAlert(GameHandler.this.models.getOptionModel(n), n3, n5);
+        }
     }
 
-    static /* synthetic */ BaseListModelApp access$1300(GameHandler gameHandler) {
-        return gameHandler.teamList;
+    private class TeamListModelListener
+    extends DefaultBaseListModelListener {
+        private TeamListModelListener() {
+        }
+
+        public void itemSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
+            GameHandler.this.onTeamListItemSelected(n2, (TeamRow)evoListRow);
+        }
     }
 
-    static /* synthetic */ void access$1400(GameHandler gameHandler, int n) {
-        gameHandler.onManageAlertsButtonPressed(n);
+    private class LeagueListModelListener
+    extends DefaultBaseListModelListener {
+        private LeagueListModelListener() {
+        }
+
+        public void itemSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
+            GameHandler.this.onLeagueListItemSelected((LeagueRow)evoListRow, n4);
+        }
+
+        public void itemLongSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
+            GameHandler.this.onLeagueListItemLongSelected(n2, (LeagueRow)evoListRow);
+        }
     }
 
-    static /* synthetic */ void access$1500(GameHandler gameHandler, LeagueRow leagueRow, int n) {
-        gameHandler.onLeagueListItemSelected(leagueRow, n);
+    private class ManageAlertsButtonListener
+    extends DefaultButtonListener {
+        private ManageAlertsButtonListener() {
+        }
+
+        public void keyReleased(int n, int n2, int n3) {
+            GameHandler.this.onManageAlertsButtonPressed(n3);
+        }
     }
 
-    static /* synthetic */ void access$1600(GameHandler gameHandler, int n, LeagueRow leagueRow) {
-        gameHandler.onLeagueListItemLongSelected(n, leagueRow);
+    private class SelectedTeamListModelListener
+    extends DefaultBaseListModelListener {
+        private SelectedTeamListModelListener() {
+        }
+
+        public void itemSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
+            GameHandler.this.onSelectedTeamListItemSelected(n2, (SelectedTeamRow)evoListRow);
+        }
     }
 
-    static /* synthetic */ void access$1700(GameHandler gameHandler, int n, TeamRow teamRow) {
-        gameHandler.onTeamListItemSelected(n, teamRow);
+    private class TeamListControllerButtonListener
+    extends DefaultButtonListener {
+        private TeamListControllerButtonListener() {
+        }
+
+        public void keyTyped(int n, int n2, int n3) {
+            switch (n) {
+                case 100764: {
+                    this.setAllEntriesSelected(true);
+                    break;
+                }
+                case 100763: {
+                    this.setAllEntriesSelected(false);
+                    break;
+                }
+            }
+        }
+
+        private void setAllEntriesSelected(boolean bl) {
+            int n = GameHandler.this.teamList.getLength() - GameHandler.this.selectedTeams;
+            if (bl && n > GameHandler.this.sizeRestriction.getRemainingSpace(3)) {
+                GameHandler.this.varExt.showPartialPopup(18);
+            } else {
+                int n2 = bl ? 1 : 3;
+                int n3 = bl ? n : GameHandler.this.selectedTeams;
+                int n4 = bl ? 1 : 0;
+                int[] nArray = new int[n3];
+                int[] nArray2 = new int[n3];
+                int n5 = 0;
+                for (int i2 = 0; i2 < GameHandler.this.teamList.getLength(); ++i2) {
+                    TeamRow teamRow = (TeamRow)GameHandler.this.teamList.getRow(i2);
+                    if (teamRow.getActivationCheckBox() == n4) continue;
+                    nArray[n5] = teamRow.getTeamID();
+                    nArray2[n5] = teamRow.getLeagueId();
+                    ++n5;
+                }
+                GameHandler.this.dsiSeek.bulkManageSeek2(3, nArray, nArray2, n2);
+            }
+        }
     }
 
-    static /* synthetic */ void access$1800(GameHandler gameHandler, int n, SelectedTeamRow selectedTeamRow) {
-        gameHandler.onSelectedTeamListItemSelected(n, selectedTeamRow);
-    }
+    private static class SelectedTeamsControllerButtonHandler
+    extends AbstractListControllerButtonHandler {
+        private final SDARSDSISeekDownManager dsiSeek;
+        private final ITunerVariantExt variantExt;
 
-    static /* synthetic */ void access$1900(GameHandler gameHandler) {
-        gameHandler.onSMTunerSDARSManageAlertsLeft();
-    }
+        public SelectedTeamsControllerButtonHandler(BaseListModelApp baseListModelApp, ButtonModelApp buttonModelApp, ButtonModelApp buttonModelApp2, ButtonModelApp buttonModelApp3, SDARSDSISeekDownManager sDARSDSISeekDownManager, ITunerVariantExt iTunerVariantExt) {
+            super(baseListModelApp, buttonModelApp, buttonModelApp2, buttonModelApp3);
+            this.dsiSeek = sDARSDSISeekDownManager;
+            this.variantExt = iTunerVariantExt;
+        }
 
-    static /* synthetic */ void access$2000(GameHandler gameHandler) {
-        gameHandler.onButtonClearGameAlertsTyped();
-    }
-
-    static /* synthetic */ TunerModels access$2100(GameHandler gameHandler) {
-        return gameHandler.models;
-    }
-
-    static /* synthetic */ void access$2200(GameHandler gameHandler, OptionModelApp optionModelApp, int n, int n2) {
-        gameHandler.onOptionDeleteCurrentGameAlert(optionModelApp, n, n2);
-    }
-
-    static /* synthetic */ int access$2300(GameHandler gameHandler) {
-        return gameHandler.selectedTeams;
-    }
-
-    static /* synthetic */ AbstractSeekListSizeRistrictionHandler access$2400(GameHandler gameHandler) {
-        return gameHandler.sizeRestriction;
-    }
-
-    static /* synthetic */ ITunerVariantExt access$2500(GameHandler gameHandler) {
-        return gameHandler.varExt;
-    }
-
-    static /* synthetic */ SDARSDSISeekDownManager access$2600(GameHandler gameHandler) {
-        return gameHandler.dsiSeek;
+        public void deleteMarkedRows(List list) {
+            int n = this.list.getLength();
+            int[] nArray = new int[list.size()];
+            int[] nArray2 = new int[list.size()];
+            int n2 = 0;
+            Iterator iterator = list.iterator();
+            while (iterator.hasNext()) {
+                SelectedTeamRow selectedTeamRow = (SelectedTeamRow)iterator.next();
+                nArray[n2] = selectedTeamRow.getTeamID();
+                nArray2[n2] = selectedTeamRow.getLeagueId();
+                ++n2;
+            }
+            this.dsiSeek.bulkManageSeek2(3, nArray, nArray2, 3);
+            this.variantExt.showPartialPopup(4);
+            if (n == list.size()) {
+                this.list.fireEvent(0);
+            }
+        }
     }
 }
 

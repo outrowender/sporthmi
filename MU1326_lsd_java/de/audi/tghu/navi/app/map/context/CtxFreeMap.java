@@ -6,15 +6,15 @@ package de.audi.tghu.navi.app.map.context;
 import de.audi.tghu.command.CommandList;
 import de.audi.tghu.navi.app.NavigationEnv;
 import de.audi.tghu.navi.app.PicNavNaviInterfaceImpl;
+import de.audi.tghu.navi.app.command.NavCommand;
 import de.audi.tghu.navi.app.map.AbstractMap;
 import de.audi.tghu.navi.app.map.GUIInterface;
-import de.audi.tghu.navi.app.map.context.CtxFreeMap$1;
 import de.audi.tghu.navi.app.map.context.CtxShown;
 import de.audi.tghu.navi.app.map.context.HasPosInfo;
 import de.audi.tghu.navi.app.map.dsi.IMapRequest;
 import de.audi.tghu.navi.app.map.gui.ToolTipTimer;
 import de.audi.tghu.navi.app.map.handler.selection.MapItemSelectionInfo;
-import de.audi.tghu.navi.app.map.handler.selection.MapSelectionHandler$IMapSelectionListener;
+import de.audi.tghu.navi.app.map.handler.selection.MapSelectionHandler;
 import de.audi.tghu.navi.app.map.utils.MapEnv;
 import de.audi.tghu.navi.app.map.utils.MapPin;
 import de.audi.tghu.navi.app.map.utils.MapUtils;
@@ -35,8 +35,8 @@ import org.dsi.ifc.tmc.TmcMessage;
 public abstract class CtxFreeMap
 extends CtxShown
 implements HasPosInfo,
-MapSelectionHandler$IMapSelectionListener {
-    protected static final float CROSSHAIRS_3D_HEIGHT_FACTOR;
+MapSelectionHandler.IMapSelectionListener {
+    protected static final float CROSSHAIRS_3D_HEIGHT_FACTOR = 1.28125f;
     private int mOptMenuModelIDPending = -1;
     private boolean mTouchPadTapped = false;
     protected boolean bUserHasSelectedOnMap = false;
@@ -46,7 +46,6 @@ MapSelectionHandler$IMapSelectionListener {
         super(navigationEnv, abstractMap);
     }
 
-    @Override
     public synchronized void cleanup() {
         super.cleanup();
         this.cancelTooltipTimer();
@@ -63,22 +62,20 @@ MapSelectionHandler$IMapSelectionListener {
         return this.getMap().getGuiInterface().getTooltipTimer();
     }
 
-    @Override
     public void enter() {
         super.enter();
         this.naviMap.cancelOverviewMapTimer();
-        this.setToolTipDelay(0);
+        this.setToolTipDelay(500L);
         this.joystick(0, -1);
         this.naviMap.getGuiInterface().setSideBarRotaryIcon(2);
         this.getMapSelectionHandler().clear();
         int n = this.naviMap.getOldActiveContextIndex();
-        this.getLogChannel().log(-2137614336, "CtxFreeMap#enter: oldContext = %1", (long)n);
+        this.getLogChannel().log(10000000, "CtxFreeMap#enter: oldContext = %1", (long)n);
         if (n != 12 && n != 17 && this.naviMap.getmLastForcedContext() != 17) {
             this.container.sNeedToSetScrollOnRoutePosition = true;
         }
     }
 
-    @Override
     public void exit() {
         super.exit();
         ToolTipTimer toolTipTimer = this.getToolTipTimer();
@@ -89,7 +86,6 @@ MapSelectionHandler$IMapSelectionListener {
         this.validateMapPosition(true);
     }
 
-    @Override
     public void updateViewFreeze(boolean bl) {
         super.updateViewFreeze(bl);
         if (!bl) {
@@ -105,17 +101,14 @@ MapSelectionHandler$IMapSelectionListener {
         this.getMapSelectionHandler().requestInfoForScreenPosition(n, point);
     }
 
-    @Override
     public void updateInfoForPosition(PosInfo[] posInfoArray) {
         this.getMapSelectionHandler().updateInfoForPosition(posInfoArray, this.container.sJoystickIdle);
     }
 
-    @Override
     public void updateTmcMessage(TmcMessage tmcMessage) {
         this.getMapSelectionHandler().updateTmcMessage(tmcMessage);
     }
 
-    @Override
     public void updateOnlineResultFlagDetails(int n) {
         this.getMapSelectionHandler().updateOnlineResultFlagDetails(n);
     }
@@ -127,7 +120,6 @@ MapSelectionHandler$IMapSelectionListener {
         }
     }
 
-    @Override
     public void updateZoomListIndex(int n) {
         super.updateZoomListIndex(n);
         this.getSetup().setSavedZoomListIndex(n, true);
@@ -136,7 +128,6 @@ MapSelectionHandler$IMapSelectionListener {
         }
     }
 
-    @Override
     public void updateMapOrientation(int n) {
         super.updateMapOrientation(n);
         if (this.container.sJoystickIdle && !this.getViewFreeze()) {
@@ -144,12 +135,11 @@ MapSelectionHandler$IMapSelectionListener {
         }
     }
 
-    @Override
     public void joystick(int n, int n2) {
         super.joystick(n, n2);
-        if (n != 404817408) {
+        if (n != 401688) {
             this.selectionModelId = n;
-            this.getLogChannel().log(-2137614336, "CtxFreeMap#joystick( modelID = %1, dir = %2 )", (long)n, (long)n2);
+            this.getLogChannel().log(10000000, "CtxFreeMap#joystick( modelID = %1, dir = %2 )", (long)n, (long)n2);
             if (n2 >= 0 && !this.getSDSDialogActive()) {
                 this.scrollMapStart(n2);
             } else {
@@ -159,10 +149,10 @@ MapSelectionHandler$IMapSelectionListener {
     }
 
     protected void scrollMapStart(int n) {
-        this.getLogChannel().log(-1601830656, "CtxFreeMap#scrollMapStart( %1 )", (long)n);
+        this.getLogChannel().log(100000, "CtxFreeMap#scrollMapStart( %1 )", (long)n);
         IMapRequest iMapRequest = this.naviMap.getMVRequest();
         if (n < 0 || n > 359) {
-            this.getLogChannel().log(-1601830656, "CtxFreeMap#scrollMapStart() - Invalid direction: %1", (long)n);
+            this.getLogChannel().log(100000, "CtxFreeMap#scrollMapStart() - Invalid direction: %1", (long)n);
             return;
         }
         this.naviMap.getGuiInterface().setSideBarRotaryIcon(2);
@@ -178,7 +168,7 @@ MapSelectionHandler$IMapSelectionListener {
     }
 
     protected void scrollMapStop(boolean bl) {
-        this.getLogChannel().log(-2137614336, "CtxFreeMap#scrollMapStop( %1 )", bl);
+        this.getLogChannel().log(10000000, "CtxFreeMap#scrollMapStop( %1 )", bl);
         if (!this.container.sJoystickIdle) {
             IMapRequest iMapRequest = this.naviMap.getMVRequest();
             iMapRequest.stopScrollToDirection();
@@ -191,7 +181,6 @@ MapSelectionHandler$IMapSelectionListener {
         }
     }
 
-    @Override
     public void touchPadPositionMoved(int n, int n2, int n3, int n4, int n5) {
         boolean bl;
         boolean bl2 = bl = n2 == 1;
@@ -212,7 +201,7 @@ MapSelectionHandler$IMapSelectionListener {
     }
 
     private void startScrolling() {
-        this.getLogChannel().log(1078071040, "CtxFreeMap#startScrolling()");
+        this.getLogChannel().log(1000000, "CtxFreeMap#startScrolling()");
         this.naviMap.getGuiInterface().setSideBarRotaryIcon(2);
         this.getMapSelectionHandler().cancelSelection();
         this.getGUI().setFocusedProperty(-1);
@@ -223,34 +212,31 @@ MapSelectionHandler$IMapSelectionListener {
         this.validateMapPosition(false);
     }
 
-    @Override
     public void screenHidden() {
         super.screenHidden();
         this.joystick(0, -1);
     }
 
-    @Override
     public void screenVisible() {
         super.screenVisible();
         if (this.determineSetup3DCityModelMode() != 0) {
-            this.getLogChannel().log(1078071040, "CtxFreeMap#screenVisible(): restoring city model (3D buildings) = %1 ", (long)this.determineSetup3DCityModelMode());
+            this.getLogChannel().log(1000000, "CtxFreeMap#screenVisible(): restoring city model (3D buildings) = %1 ", (long)this.determineSetup3DCityModelMode());
             this.naviMap.getMVRequest().setCityModelMode(this.determineSetup3DCityModelMode());
         }
         if (this.getSetup3DLandmarks()) {
-            this.getLogChannel().log(1078071040, "CtxFreeMap#screenVisible(): restoring landmarks = true");
+            this.getLogChannel().log(1000000, "CtxFreeMap#screenVisible(): restoring landmarks = true");
             this.naviMap.getMVRequest().setLandmarksVisible(true);
         }
     }
 
-    @Override
     public void itemSelected(int n, int n2, int n3, int n4) {
         super.itemSelected(n, n2, n3, n4);
-        this.getLogChannel().log(1078071040, "CtxFreeMap#itemSelected() - modelID: %1, itemID: %2", (long)n, (long)n2);
-        if (n == 1058801152 && n2 == 3) {
+        this.getLogChannel().log(1000000, "CtxFreeMap#itemSelected() - modelID: %1, itemID: %2", (long)n, (long)n2);
+        if (n == 400447 && n2 == 3) {
             this.naviMap.getMVRequest().setCityModelMode(this.determineSetup3DCityModelMode());
             this.naviMap.getMVRequest().setLandmarksVisible(this.getSetup3DLandmarks());
             this.naviMap.switchToAShownContext();
-        } else if (n == 991692288 || n == 890963456) {
+        } else if (n == 400443 || n == 400181) {
             if (n2 == -1) {
                 this.scrollMapStop(true);
             } else {
@@ -259,7 +245,6 @@ MapSelectionHandler$IMapSelectionListener {
         }
     }
 
-    @Override
     public void keyTyped(int n, int n2) {
         switch (n) {
             case 400181: 
@@ -274,7 +259,6 @@ MapSelectionHandler$IMapSelectionListener {
         }
     }
 
-    @Override
     public void keyReleased(int n, int n2) {
         super.keyReleased(n, n2);
         switch (n) {
@@ -286,7 +270,6 @@ MapSelectionHandler$IMapSelectionListener {
         }
     }
 
-    @Override
     public void keyPressed(int n, int n2) {
         super.keyPressed(n, n2);
         switch (n) {
@@ -299,7 +282,7 @@ MapSelectionHandler$IMapSelectionListener {
             case 400479: {
                 this.naviMap.getNaviInterface().resetEditInputMode();
                 this.mTouchPadTapped = n2 == 10906 || n2 == 10907;
-                this.getLogChannel().log(-2137614336, "CtxFreeMap#keyPressed() - mTouchPadTapped: %1 - keyID: %2", this.mTouchPadTapped, (long)n2);
+                this.getLogChannel().log(10000000, "CtxFreeMap#keyPressed() - mTouchPadTapped: %1 - keyID: %2", this.mTouchPadTapped, (long)n2);
                 if (this.getMapSelectionHandler().getActiveInfoListIndex() >= 0) {
                     this.switchToFollowUpScreen(n);
                     break;
@@ -324,7 +307,7 @@ MapSelectionHandler$IMapSelectionListener {
         Object object2;
         MapItemSelectionInfo mapItemSelectionInfo = this.getMapSelectionHandler().getSelectedValue();
         if (mapItemSelectionInfo == null) {
-            this.getLogChannel().log(-1601830656, "CtxFreeMap#switchToFollowUpScreen() - no selected value");
+            this.getLogChannel().log(100000, "CtxFreeMap#switchToFollowUpScreen() - no selected value");
             return;
         }
         PosInfo posInfo = mapItemSelectionInfo.posInfo;
@@ -334,22 +317,22 @@ MapSelectionHandler$IMapSelectionListener {
         boolean bl = false;
         boolean bl2 = false;
         boolean bl3 = false;
-        this.getLogChannel().log(1078071040, "CtxFreeMap#switchToFollowUpScreen() - infoType = %1", (long)n2);
+        this.getLogChannel().log(1000000, "CtxFreeMap#switchToFollowUpScreen() - infoType = %1", (long)n2);
         block2 : switch (n2) {
             case 1: 
             case 2: {
-                this.getLogChannel().log(-2137614336, "CtxFreeMap#switchToFollowUpScreen() - POSITIONINFOTYPE_POI");
+                this.getLogChannel().log(10000000, "CtxFreeMap#switchToFollowUpScreen() - POSITIONINFOTYPE_POI");
                 break;
             }
             case 3: {
-                this.getLogChannel().log(-2137614336, "CtxFreeMap#switchToFollowUpScreen() - POSITIONINFOTYPE_POI_CONTAINER");
+                this.getLogChannel().log(10000000, "CtxFreeMap#switchToFollowUpScreen() - POSITIONINFOTYPE_POI_CONTAINER");
                 bl = true;
                 break;
             }
             case 5: {
                 MapFlag[] mapFlagArray = this.naviMap.getMapFlagHandler().getPins();
                 int n3 = MapUtils.searchUserFlag(posInfo, mapFlagArray, this.env);
-                this.getLogChannel().log(-2137614336, "CtxFreeMap#switchToFollowUpScreen() - POSITIONINFOTYPE_PERSONAL_DEST: index = %1", (long)n3);
+                this.getLogChannel().log(10000000, "CtxFreeMap#switchToFollowUpScreen() - POSITIONINFOTYPE_PERSONAL_DEST: index = %1", (long)n3);
                 if (mapFlagArray == null || n3 < 0) break;
                 if (((MapPin)mapFlagArray[n3]).type == 3 || ((MapPin)mapFlagArray[n3]).type == 2) {
                     object2 = this.getOnlinePOIResultList();
@@ -360,14 +343,14 @@ MapSelectionHandler$IMapSelectionListener {
                                 string = mapItemSelectionInfo.Url;
                                 break block2;
                             }
-                            this.getLogChannel().log(-1601830656, "CtxFreeMap#switchToFollowUpScreen() - oprl is null");
+                            this.getLogChannel().log(100000, "CtxFreeMap#switchToFollowUpScreen() - oprl is null");
                             break block2;
                         }
                         case 28: {
                             navLocation = null;
                             object = this.getMap().getNaviInterface().getNaviOnlineService().getListener();
                             if (object != null) {
-                                this.getLogChannel().log(-2137614336, "CtxFreeMap#switchToFollowUpScreen() - setting index %1 at naviOnlineServiceListener ", (long)((MapPin)mapFlagArray[n3]).index);
+                                this.getLogChannel().log(10000000, "CtxFreeMap#switchToFollowUpScreen() - setting index %1 at naviOnlineServiceListener ", (long)((MapPin)mapFlagArray[n3]).index);
                                 try {
                                     object.indicateSelectedMapFlag(((MapPin)mapFlagArray[n3]).index);
                                 }
@@ -376,7 +359,7 @@ MapSelectionHandler$IMapSelectionListener {
                                 }
                                 return;
                             }
-                            this.getLogChannel().log(-1601830656, "CtxFreeMap#switchToFollowUpScreen() - naviOnlineServiceListener is null");
+                            this.getLogChannel().log(100000, "CtxFreeMap#switchToFollowUpScreen() - naviOnlineServiceListener is null");
                             break block2;
                         }
                     }
@@ -412,65 +395,76 @@ MapSelectionHandler$IMapSelectionListener {
                 break;
             }
             case 9: {
-                this.getLogChannel().log(-2137614336, "CtxFreeMap#switchToFollowUpScreen() - POSITIONINFOTYPE_PICTURE_DESTINATION");
+                this.getLogChannel().log(10000000, "CtxFreeMap#switchToFollowUpScreen() - POSITIONINFOTYPE_PICTURE_DESTINATION");
                 navLocation = mapItemSelectionInfo.navLocationPicNavTransformed;
                 this.naviMap.getGuiInterface().setMapFollowUpPicNavImage(PicNavNaviInterfaceImpl.getPictureFromPicNavLocationStatic(navLocation));
                 bl2 = true;
                 break;
             }
             case 8: {
-                this.getLogChannel().log(-2137614336, "CtxFreeMap#switchToFollowUpScreen() - POSITIONINFOTYPE_XT_REPRESENTATION");
+                this.getLogChannel().log(10000000, "CtxFreeMap#switchToFollowUpScreen() - POSITIONINFOTYPE_XT_REPRESENTATION");
                 navLocation = mapItemSelectionInfo.navLocationXtResolved;
                 string = mapItemSelectionInfo.Url;
                 bl2 = false;
                 break;
             }
             case 4: {
-                this.getLogChannel().log(-2137614336, "CtxFreeMap#switchToFollowUpScreen() - POSITIONINFOTYPE_TMC_MESSAGE");
+                this.getLogChannel().log(10000000, "CtxFreeMap#switchToFollowUpScreen() - POSITIONINFOTYPE_TMC_MESSAGE");
                 bl3 = true;
                 break;
             }
             case 11: {
-                this.getLogChannel().log(-2137614336, "CtxFreeMap#switchToFollowUpScreen() - POSITIONINFOTYPE_XT_REPRESENTATION");
+                this.getLogChannel().log(10000000, "CtxFreeMap#switchToFollowUpScreen() - POSITIONINFOTYPE_XT_REPRESENTATION");
                 navLocation = mapItemSelectionInfo.navLocationPoiOnboardGoogle;
                 bl2 = false;
                 break;
             }
             default: {
-                this.getLogChannel().log(-2137614336, "CtxFreeMap#switchToFollowUpScreen() - POSITIONINFOTYPE_UNKNOWN");
+                this.getLogChannel().log(10000000, "CtxFreeMap#switchToFollowUpScreen() - POSITIONINFOTYPE_UNKNOWN");
             }
         }
-        this.getLogChannel().log(-2137614336, "CtxFreeMap#switchToFollowUpScreen() - loc = %1", (Object)LocationFormatter.formatLocationShort(navLocation));
+        this.getLogChannel().log(10000000, "CtxFreeMap#switchToFollowUpScreen() - loc = %1", (Object)LocationFormatter.formatLocationShort(navLocation));
         if (navLocation != null) {
             int n4;
             Util.setGeoPosFlagOnLocation(navLocation, true);
             if (bl) {
                 n4 = 1;
-                this.env.getChoiceModel(-668989952).setValue(0);
+                this.env.getChoiceModel(401624).setValue(0);
             } else if (n2 == 8 && !Util.isEmpty(mapItemSelectionInfo.Url)) {
                 n4 = 0;
-                this.env.getChoiceModel(-668989952).setValue(1);
+                this.env.getChoiceModel(401624).setValue(1);
             } else if (n2 == 4) {
                 n4 = 2;
-                this.env.getChoiceModel(-668989952).setValue(0);
+                this.env.getChoiceModel(401624).setValue(0);
             } else if (n2 == 5 && !Util.isEmpty(string)) {
                 n4 = 0;
-                this.env.getChoiceModel(-668989952).setValue(1);
+                this.env.getChoiceModel(401624).setValue(1);
             } else {
                 n4 = 0;
-                this.env.getChoiceModel(-668989952).setValue(0);
+                this.env.getChoiceModel(401624).setValue(0);
             }
             this.naviMap.getGuiInterface().setOptMenuType(n4);
             if (bl) {
                 this.getMap().getNaviInterface().startPoiStackSequence(navLocation);
             } else if (bl2) {
-                NavLocation navLocation2 = navLocation;
+                final NavLocation navLocation2 = navLocation;
                 object2 = string;
                 object = this.getMap().getNaviInterface().createCommandList();
-                ((CommandList)object).add(new CtxFreeMap$1(this, "NaviInterface#resolveMapLocation", navLocation2, (String)object2));
+                ((CommandList)object).add(new NavCommand("NaviInterface#resolveMapLocation", (String)object2){
+                    private final /* synthetic */ String val$url1;
+                    {
+                        this.val$url1 = string2;
+                        super(string);
+                    }
+
+                    public void execute() {
+                        this.navigation.getNaviMapConnector().showMapDestination(navLocation2, this.val$url1);
+                        this.getCommandList().commandFinished();
+                    }
+                });
                 ((CommandList)object).execute("CtxFreeMap#switchToFollowUpScreen()");
             } else if (!bl3) {
-                this.getLogChannel().log(-2137614336, "CtxFreeMap#switchToFollowUpScreen() - startDestinationDetails");
+                this.getLogChannel().log(10000000, "CtxFreeMap#switchToFollowUpScreen() - startDestinationDetails");
                 this.getMap().getNaviInterface().startDestinationDetails(navLocation);
             }
             if (Util.isPreviewMapPresent(this.env.getFramework())) {
@@ -478,18 +472,17 @@ MapSelectionHandler$IMapSelectionListener {
             }
             this.naviMap.getGuiInterface().fireModelEvent(n);
         } else {
-            this.getLogChannel().log(-1601830656, "CtxFreeMap#switchToFollowUpScreen() - failed to switch to followup - loc is null!");
+            this.getLogChannel().log(100000, "CtxFreeMap#switchToFollowUpScreen() - failed to switch to followup - loc is null!");
             if (bl3) {
                 this.naviMap.getGuiInterface().setOptMenuType(2);
-                this.env.getChoiceModel(-668989952).setValue(0);
+                this.env.getChoiceModel(401624).setValue(0);
                 this.naviMap.getGuiInterface().fireModelEvent(n);
             }
         }
     }
 
-    @Override
     public void increment(int n, int n2) {
-        this.getLogChannel().log(-2137614336, "CtxFreeMap#increment() - modelID: %1, steps: %2", (long)n, (long)n2);
+        this.getLogChannel().log(10000000, "CtxFreeMap#increment() - modelID: %1, steps: %2", (long)n, (long)n2);
         super.increment(n, n2);
         this.cancelTooltipTimer();
         this.getMapSelectionHandler().clear();
@@ -503,7 +496,6 @@ MapSelectionHandler$IMapSelectionListener {
         }
     }
 
-    @Override
     public void updateViewPort(ViewPort viewPort) {
         super.updateViewPort(viewPort);
     }
@@ -530,7 +522,6 @@ MapSelectionHandler$IMapSelectionListener {
         return MapUtils.searchUserFlag(posInfo, mapFlagArray, this.env);
     }
 
-    @Override
     public PosInfo[] getInfoList() {
         return this.getMap().getMVResponseControl().getInfoList();
     }
@@ -540,27 +531,24 @@ MapSelectionHandler$IMapSelectionListener {
         if (this.getMapSelectionHandler().getSelectedValue() != null && (navLocation = this.getMapSelectionHandler().getSelectedValue().getLocationTransformed()) != null && navLocation.longitude != 0 && navLocation.latitude != 0) {
             this.container.sFocusedPosition = navLocation;
         }
-        this.getLogChannel().log(-2137614336, "CtxFreeMap#switchToFollowUpScreen() - bUserHasSelectedOnMap = %1, selected = %2", this.bUserHasSelectedOnMap, (Object)this.getMapSelectionHandler().getSelectedValue());
+        this.getLogChannel().log(10000000, "CtxFreeMap#switchToFollowUpScreen() - bUserHasSelectedOnMap = %1, selected = %2", this.bUserHasSelectedOnMap, (Object)this.getMapSelectionHandler().getSelectedValue());
         if (this.bUserHasSelectedOnMap && this.getMapSelectionHandler().getSelectedValue() != null) {
             this.switchToFollowUpScreen(this.selectionModelId);
             this.bUserHasSelectedOnMap = false;
         }
     }
 
-    @Override
     protected void onDDSClicked() {
-        this.getLogChannel().log(-2137614336, "CtxFreeMap#onDDSClicked()");
+        this.getLogChannel().log(10000000, "CtxFreeMap#onDDSClicked()");
     }
 
-    @Override
     protected void onHKBackClicked() {
-        this.getLogChannel().log(-2137614336, "CtxFreeMap#onHKBackClicked()");
+        this.getLogChannel().log(10000000, "CtxFreeMap#onHKBackClicked()");
     }
 
-    @Override
     public void onSelectionChanged(MapItemSelectionInfo mapItemSelectionInfo) {
         NavLocation navLocation;
-        this.getLogChannel().log(-2137614336, "CtxFreeMap#onSelectionChanged() - %1", (Object)mapItemSelectionInfo);
+        this.getLogChannel().log(10000000, "CtxFreeMap#onSelectionChanged() - %1", (Object)mapItemSelectionInfo);
         this.validateMapPosition(true);
         if (mapItemSelectionInfo != null && (navLocation = mapItemSelectionInfo.getLocationTransformed()) != null && navLocation.longitude != 0 && navLocation.latitude != 0) {
             this.container.sFocusedPosition = navLocation;
@@ -568,21 +556,20 @@ MapSelectionHandler$IMapSelectionListener {
             this.container.sFocusedRotation = this.getMapRotation();
         }
         if (this.bUserHasSelectedOnMap) {
-            this.getLogChannel().log(-2137614336, "CtxFreeMap#onSelectionChanged() - selection detected, switch to follow screen");
+            this.getLogChannel().log(10000000, "CtxFreeMap#onSelectionChanged() - selection detected, switch to follow screen");
             this.switchToFollowUpScreen();
         } else {
-            this.getLogChannel().log(-2137614336, "CtxFreeMap#onSelectionChanged() - show tooltip");
+            this.getLogChannel().log(10000000, "CtxFreeMap#onSelectionChanged() - show tooltip");
             this.getMap().getMapTooltip().show(mapItemSelectionInfo);
             this.getGUI().setFocusedProperty(mapItemSelectionInfo.posInfo.eInfoType);
         }
     }
 
     protected void validateMapPosition(boolean bl) {
-        this.getLogChannel().log(-2137614336, "CtxFreeMap#validateMapPosition( %1 )", bl);
-        this.env.getChoiceModel(1562510848).setValue(bl ? 0 : 1);
+        this.getLogChannel().log(10000000, "CtxFreeMap#validateMapPosition( %1 )", bl);
+        this.env.getChoiceModel(402013).setValue(bl ? 0 : 1);
     }
 
-    @Override
     protected void hideBetterRoutePopup() {
         this.getGUI().hidePopupBetterRouteAvailable();
     }

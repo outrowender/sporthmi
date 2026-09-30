@@ -28,11 +28,11 @@ import de.audi.atip.utils.dispatching.DispatcherBaseAdapter;
 import de.audi.atip.utils.dispatching.IDispatcher;
 import de.audi.atip.utils.reactive.bindings.ModelBindings;
 import de.audi.atip.utils.reactive.bindings.SilentModelBindings;
+import de.audi.atip.utils.reactive.properties.AcceptHook;
+import de.audi.atip.utils.reactive.properties.LoggingPropertyFactory;
 import de.audi.atip.utils.reactive.properties.PropertyFactory;
 import de.audi.tv.app.base.IConfiguration;
 import de.audi.tv.app.base.PropertyBank;
-import de.audi.tv.app.base.TVEnv$1;
-import de.audi.tv.app.base.TVEnv$TvLoggingPropertyFactory;
 import de.audi.tv.app.interapp.ITVRowFactory;
 import de.audi.tv.app.varext.DefaultTvVariantExt;
 import de.audi.tv.app.varext.ITvVariantExt;
@@ -57,7 +57,24 @@ public class TVEnv {
     final LogChannel lcSDS;
     private ITVRowFactory rowFactory = null;
     private ITvVariantExt varExt = new DefaultTvVariantExt();
-    private IConfiguration configuration = new TVEnv$1(this);
+    private IConfiguration configuration = new IConfiguration(){
+
+        public int getDisplaySettingMinValue() {
+            throw new UnsupportedOperationException("[TVEnv.configuration] No configuration registered!");
+        }
+
+        public int getDisplaySettingMaxValue() {
+            throw new UnsupportedOperationException("[TVEnv.configuration] No configuration registered!");
+        }
+
+        public int getDisplaySettingStepWidth() {
+            throw new UnsupportedOperationException("[TVEnv.configuration] No configuration registered!");
+        }
+
+        public boolean hasAV() {
+            throw new UnsupportedOperationException("[TVEnv.configuration] No configuration registered!");
+        }
+    };
     private final SimpleIntObjectMap internalModels = new SimpleIntObjectMap();
 
     public TVEnv(IFrameworkAccess iFrameworkAccess) {
@@ -71,7 +88,7 @@ public class TVEnv {
         this.lcCmd = iFrameworkAccess.getLogChannel("App.TV.Cmd");
         this.lcTruffles = iFrameworkAccess.getLogChannel("App.TV.Truffles");
         this.lcSDS = iFrameworkAccess.getLogChannel("App.TV.SDS");
-        this.propertyFactory = new TVEnv$TvLoggingPropertyFactory(this, this.lcMain, -2137614336);
+        this.propertyFactory = new TvLoggingPropertyFactory(this.lcMain, 10000000);
         this.properties = new PropertyBank(this.propertyFactory);
         this.modelBindings = SilentModelBindings.create();
         this.dispatchBase = iFrameworkAccess.getDispatcherManager().createDispatcher("TV", new JobLogger(this.lcCmd));
@@ -201,6 +218,19 @@ public class TVEnv {
 
     protected IDispatcher wrapDispatcher(DispatcherBase dispatcherBase) {
         return new DispatcherBaseAdapter(dispatcherBase);
+    }
+
+    private class TvLoggingPropertyFactory
+    extends LoggingPropertyFactory {
+        protected TvLoggingPropertyFactory(final LogChannel logChannel, final int n) {
+            super(new AcceptHook<Object>(){
+
+                @Override
+                public void onAccept(String string, Object object) {
+                    logChannel.log(n, "[TvProperty %1.onAccept] %2", (Object)string, object);
+                }
+            });
+        }
     }
 }
 

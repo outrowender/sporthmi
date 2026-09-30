@@ -36,60 +36,48 @@ SpellerListener {
     }
 
     private void initListeners() {
-        this.importAllToAdbButton = this.env.getButtonModel(-1289681408);
+        this.importAllToAdbButton = this.env.getButtonModel(401843);
         this.importAllToAdbButton.setButtonListener(this);
-        this.contactsList = this.env.getBaseListModel(1696663040);
+        this.contactsList = this.env.getBaseListModel(401765);
         this.contactsList.setListener(this);
-        this.speller = this.env.getSpellerModel(-551483904);
+        this.speller = this.env.getSpellerModel(401887);
         this.speller.setSpellerListener(this);
     }
 
-    @Override
-    public abstract void itemSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
-    }
+    public abstract void itemSelected(EvoListRow var1, int var2, int var3, int var4, int var5);
 
-    @Override
     public void keyPressed(int n, int n2, int n3) {
-        this.logChannel.log(14808325, "%1#keyPressed - modelID=%2, keyID=%3", (Object)CLASS_NAME, (long)n, (long)n2);
+        this.logChannel.log(100000000, "%1#keyPressed - modelID=%2, keyID=%3", (Object)CLASS_NAME, (long)n, (long)n2);
         this.myAudiImporter.saveInAddressBook();
         this.env.fireModelEvent(n, n3);
     }
 
-    @Override
     public void textChanged(int n, String string, char c2, int n2) {
-        this.logChannel.log(-2137614336, "%1#textChanged - text=%2", (Object)CLASS_NAME, (Object)string);
+        this.logChannel.log(10000000, "%1#textChanged - text=%2", (Object)CLASS_NAME, (Object)string);
         this.myAudiImporter.startSearch(string);
     }
 
-    @Override
     public void itemFocused(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
     }
 
-    @Override
     public void itemReleased(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
     }
 
-    @Override
     public void itemLongSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyLongTyped(int n, int n2, int n3) {
     }
 
-    @Override
     public void focusedCharacter(int n, char c2, int n2) {
     }
 
-    @Override
     public void commandPressed(int n, int n2, int n3) {
     }
 

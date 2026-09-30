@@ -13,6 +13,7 @@ import de.audi.tghu.navi.app.addressinput.IMatchspellerModelAccess;
 import de.audi.tghu.navi.app.addressinput.commands.AddressInputRequestValueListByIndexCommand;
 import de.audi.tghu.navi.app.addressinput.commands.GetLastCityHistoryEntryCommand;
 import de.audi.tghu.navi.app.addressinput.commands.LISPRequestValueListByListIndexCommand;
+import de.audi.tghu.navi.app.addressinput.commands.LISetCurrentLDCommand;
 import de.audi.tghu.navi.app.addressinput.commands.LIStartSpellerCommand;
 import de.audi.tghu.navi.app.addressinput.commands.ModelSelectListElementCommand;
 import de.audi.tghu.navi.app.addressinput.commands.ModelStartCommand;
@@ -20,13 +21,14 @@ import de.audi.tghu.navi.app.addressinput.commands.ModelUpdateSpellerAndResultLi
 import de.audi.tghu.navi.app.addressinput.commands.UpdateAddressInputFormScreenModelsCommand;
 import de.audi.tghu.navi.app.addressinput.country.SetBackupLocationForAddressInputFormCommand;
 import de.audi.tghu.navi.app.command.LISPCancelSpellerCommand;
+import de.audi.tghu.navi.app.command.NavCommand;
 import de.audi.tghu.navi.app.command.sds.LIStripLocationCommand;
 import de.audi.tghu.navi.app.di.IAddressInputManager;
 import de.audi.tghu.navi.app.di.sequences.matchspeller.AddressInputCityZipSequence;
-import de.audi.tghu.navi.app.di.sequences.matchspeller.AddressInputCityZipSequenceAsia$1;
 import de.audi.tghu.navi.app.guidance.Vehicle;
 import de.audi.tghu.navi.app.li.SpellerStack;
 import de.audi.tghu.navi.app.util.Util;
+import org.dsi.ifc.global.NavLocation;
 import org.dsi.ifc.navigation.LICityHistoryEntry;
 
 public class AddressInputCityZipSequenceAsia
@@ -37,7 +39,6 @@ extends AddressInputCityZipSequence {
         super(iCommandListFactory, navigationEnv, iMatchspellerModelAccess, iPreviewMap, spellerStack, iAddressInputManager, cityHistory);
     }
 
-    @Override
     public CommandList getStartCommandList() {
         CommandList commandList = this.commandListFactory.createCommandList();
         commandList.add(new ModelStartCommand(this.modelAccess));
@@ -61,12 +62,21 @@ extends AddressInputCityZipSequence {
         return commandList;
     }
 
-    @Override
     public CommandList getSelectHistoryElementCommandList(LICityHistoryEntry lICityHistoryEntry) {
         CommandList commandList = this.commandListFactory.createCommandList();
         commandList.put("selectedElement", lICityHistoryEntry);
         commandList.add(new GetLastCityHistoryEntryCommand(lICityHistoryEntry));
-        commandList.add(new AddressInputCityZipSequenceAsia$1(this, new StringBuffer().append(this.CLASS_NAME).append("#getSelectHistoryElementCommandList - get history location from command list context").toString()));
+        commandList.add(new NavCommand(this.CLASS_NAME + "#getSelectHistoryElementCommandList - get history location from command list context"){
+
+            public void execute() {
+                Object object = this.getCommandList().get("NavLocation from History");
+                if (object instanceof NavLocation) {
+                    this.getCommandList().commandFinishedWithPostCommand(new LISetCurrentLDCommand((NavLocation)object));
+                } else {
+                    this.getCommandList().commandAborted("unexpected Object");
+                }
+            }
+        });
         commandList.add(new ModelSelectListElementCommand(this.modelAccess));
         commandList.add(new UpdateAddressInputFormScreenModelsCommand(this.modelAccess));
         commandList.add(new CmdNaviPreviewMapUpdate(this.previewMap, true, 1, null, null));
@@ -74,9 +84,8 @@ extends AddressInputCityZipSequence {
         return commandList;
     }
 
-    @Override
     public void requestNextResultListWindow(int n, int n2) {
-        this.logChannel.log(-2137614336, "%1#requestNextResultListWindow(), anchorIndex = %2, requestID = %3", (Object)this.CLASS_NAME, (long)n, (long)n2);
+        this.logChannel.log(10000000, "%1#requestNextResultListWindow(), anchorIndex = %2, requestID = %3", (Object)this.CLASS_NAME, (long)n, (long)n2);
         CommandList commandList = this.commandListFactory.createCommandList(1);
         if (Util.isPorsche(this.env.getFramework()) || Util.isPorscheGen2(this.env.getFramework()) || Util.isBentley(this.env.getFramework())) {
             commandList.add(new AddressInputRequestValueListByIndexCommand(n, true));
@@ -90,7 +99,7 @@ extends AddressInputCityZipSequence {
             commandList.add(new LISPRequestValueListByListIndexCommand(n - n3, true));
             commandList.add(new ModelUpdateSpellerAndResultListCommand(this.modelAccess, n2, n));
         }
-        commandList.execute(new StringBuffer().append(this.CLASS_NAME).append("#requestNextResultListWindows").toString());
+        commandList.execute(this.CLASS_NAME + "#requestNextResultListWindows");
     }
 
     public static void setIsCityCenterSelected(boolean bl) {

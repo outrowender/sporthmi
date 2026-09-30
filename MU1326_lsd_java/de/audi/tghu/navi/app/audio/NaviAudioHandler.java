@@ -30,9 +30,8 @@ implements INaviAudioHandler {
         this.audioStateMachine = audioStateMachine;
     }
 
-    @Override
     public void setWavePlayer(WavePlayer wavePlayer) {
-        this.logChannel.log(-2137614336, "NaviAudioHandler#setWavePlayer( %1 )", (Object)wavePlayer);
+        this.logChannel.log(10000000, "NaviAudioHandler#setWavePlayer( %1 )", (Object)wavePlayer);
         if (wavePlayer != null) {
             this.wavePlayer = wavePlayer.getSystemTonePlayer();
             try {
@@ -49,9 +48,8 @@ implements INaviAudioHandler {
         }
     }
 
-    @Override
     public void audioConnectionFadedIn() {
-        this.logChannel.log(-2137614336, "NaviAudioHandler#audioConnectionFadedIn() - isBeepToneRequested: %1, isBeepTonePlaying: %2", this.isBeepToneRequested, this.isBeepTonePlaying);
+        this.logChannel.log(10000000, "NaviAudioHandler#audioConnectionFadedIn() - isBeepToneRequested: %1, isBeepTonePlaying: %2", this.isBeepToneRequested, this.isBeepTonePlaying);
         if (this.isBeepToneRequested && !this.isBeepTonePlaying) {
             this.isBeepToneRequested = false;
             this.isBeepTonePlaying = true;
@@ -65,11 +63,10 @@ implements INaviAudioHandler {
         }
     }
 
-    @Override
     public void requestBeepTone(int n, int n2) {
         this.audioConnectionType = n;
         this.toneID = n2;
-        this.logChannel.log(-2137614336, "NaviAudioHandler#requestBeepTone() - isBeepToneRequested: %1, isBeepTonePlaying: %2", this.isBeepToneRequested, this.isBeepTonePlaying);
+        this.logChannel.log(10000000, "NaviAudioHandler#requestBeepTone() - isBeepToneRequested: %1, isBeepTonePlaying: %2", this.isBeepToneRequested, this.isBeepTonePlaying);
         if (!this.isBeepTonePlaying) {
             this.isBeepToneRequested = true;
             try {
@@ -82,12 +79,11 @@ implements INaviAudioHandler {
         }
     }
 
-    @Override
     public void state(int n) {
-        this.logChannel.log(-2137614336, "NaviAudioHandler#state( status: %2 ) - isBeepTonePlaying: %1", this.isBeepTonePlaying, (long)n);
+        this.logChannel.log(10000000, "NaviAudioHandler#state( status: %2 ) - isBeepTonePlaying: %1", this.isBeepTonePlaying, (long)n);
         try {
             boolean bl = this.audioStateMachine.getAudioManagement().isActive(this.audioConnectionType);
-            this.logChannel.log(-2137614336, "NaviAudioHandler#state() - isStreetViewAudioConnectionActive: %1", bl);
+            this.logChannel.log(10000000, "NaviAudioHandler#state() - isStreetViewAudioConnectionActive: %1", bl);
             if (n != 0) {
                 if (bl) {
                     this.audioStateMachine.getAudioManagement().releaseConnection(this.audioConnectionType);
@@ -101,11 +97,9 @@ implements INaviAudioHandler {
         }
     }
 
-    @Override
     public void playToneInfo(int n) {
     }
 
-    @Override
     public boolean isBeepTonePlaying() {
         return this.isBeepTonePlaying;
     }

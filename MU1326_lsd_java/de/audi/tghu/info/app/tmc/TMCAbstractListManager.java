@@ -16,32 +16,24 @@ import de.audi.tghu.command.CommandList;
 import de.audi.tghu.command.CommandListManager;
 import de.audi.tghu.info.app.InfoEnv;
 import de.audi.tghu.info.app.tmc.AppTMC;
-import de.audi.tghu.info.app.tmc.TMCAbstractListManager$1;
-import de.audi.tghu.info.app.tmc.TMCAbstractListManager$10;
-import de.audi.tghu.info.app.tmc.TMCAbstractListManager$2;
-import de.audi.tghu.info.app.tmc.TMCAbstractListManager$3;
-import de.audi.tghu.info.app.tmc.TMCAbstractListManager$4;
-import de.audi.tghu.info.app.tmc.TMCAbstractListManager$5;
-import de.audi.tghu.info.app.tmc.TMCAbstractListManager$6;
-import de.audi.tghu.info.app.tmc.TMCAbstractListManager$7;
-import de.audi.tghu.info.app.tmc.TMCAbstractListManager$8;
-import de.audi.tghu.info.app.tmc.TMCAbstractListManager$9;
 import de.audi.tghu.info.app.tmc.TMCAbstractListRow;
 import de.audi.tghu.info.app.tmc.TMCAbstractListRowBuilder;
 import de.audi.tghu.info.app.tmc.TMCConst;
 import de.audi.tghu.info.app.tmc.commands.RequestBoundingRectangleCommand;
 import de.audi.tghu.info.app.tmc.commands.RequestMessageIdsForListElement;
 import de.audi.tghu.info.app.tmc.commands.RequestWindowCommand;
+import de.audi.tghu.info.app.tmc.commands.TMCCommand;
 import de.audi.tghu.info.app.tmc.commands.TMCDefaultErrorCommand;
 import java.util.ArrayList;
+import org.dsi.ifc.global.NavRectangle;
 import org.dsi.ifc.tmc.TmcListElement;
 import org.dsi.ifc.tmc.TmcMessage;
 
 public abstract class TMCAbstractListManager
 implements TiledListModelListener {
-    public static final int DEFAULT_REQUEST_ID;
-    public static final int WINDOW_CHANGED_REQUEST_ID;
-    public static final int WINDOW_FOR_TMC_NEXT_BUTTON_ID;
+    public static final int DEFAULT_REQUEST_ID = -1;
+    public static final int WINDOW_CHANGED_REQUEST_ID = -2;
+    public static final int WINDOW_FOR_TMC_NEXT_BUTTON_ID = -3;
     protected final InfoEnv env;
     protected final AppTMC appTmc;
     protected final TMCAbstractListRowBuilder rowBuilder;
@@ -49,12 +41,12 @@ implements TiledListModelListener {
     protected BaseListModelApp listModelDetails;
     protected final ChoiceModelApp triggerLeaveDetailsScreenChoice;
     protected final ChoiceModelApp showInMapAvailableChoice;
-    public static final int SHOW_IN_MAP_AVAILABLE;
-    public static final int SHOW_IN_MAP_NOT_AVAILABLE;
+    public static final int SHOW_IN_MAP_AVAILABLE = 1;
+    public static final int SHOW_IN_MAP_NOT_AVAILABLE = 0;
     protected final LogChannel lc;
     protected int lastMessageRouteState = -1;
     protected String lastMessageUrgentStatus = "UNKNOWN";
-    public static final int ENTERING_TMC_PREVIEWMAP_BUTTON;
+    public static final int ENTERING_TMC_PREVIEWMAP_BUTTON = 500233;
     protected long openedAnchorId = -1L;
     protected volatile int focusedRow = -1;
     private boolean shouldShowOpenAnimation = false;
@@ -63,7 +55,7 @@ implements TiledListModelListener {
     protected WidgetFocusAdvice lastWidgetFocusAdvice;
     private boolean tmcScreenShown = false;
     private final BaseListModelApp trafficEventsOnRouteList;
-    private static String LOGCLASS;
+    private static String LOGCLASS = "TMCAbstractListManager";
 
     public TMCAbstractListManager(InfoEnv infoEnv, AppTMC appTMC, TiledListModelApp tiledListModelApp, TMCAbstractListRowBuilder tMCAbstractListRowBuilder) {
         this.lc = infoEnv.getLogChannel();
@@ -71,29 +63,23 @@ implements TiledListModelListener {
         this.appTmc = appTMC;
         this.listModel = tiledListModelApp;
         this.rowBuilder = tMCAbstractListRowBuilder;
-        this.triggerLeaveDetailsScreenChoice = infoEnv.getChoiceModel(-459208960);
-        this.showInMapAvailableChoice = infoEnv.getChoiceModel(-291436800);
+        this.triggerLeaveDetailsScreenChoice = infoEnv.getChoiceModel(500196);
+        this.showInMapAvailableChoice = infoEnv.getChoiceModel(500206);
         this.listModel.setListener(this);
-        this.trafficEventsOnRouteList = infoEnv.getBaseListModel(27395840);
+        this.trafficEventsOnRouteList = infoEnv.getBaseListModel(500225);
     }
 
-    protected abstract void onTmcWindowResult(TmcListElement tmcListElement, TMCAbstractListRow tMCAbstractListRow) {
-    }
+    protected abstract void onTmcWindowResult(TmcListElement var1, TMCAbstractListRow var2);
 
-    protected abstract void onUpdateEventsTotal() {
-    }
+    protected abstract void onUpdateEventsTotal();
 
-    protected abstract void onTmcWindowChanged() {
-    }
+    protected abstract void onTmcWindowChanged();
 
-    protected abstract void anchorMessageVanished(int n, int n2) {
-    }
+    protected abstract void anchorMessageVanished(int var1, int var2);
 
-    protected abstract void loadNextDetailsScreen() {
-    }
+    protected abstract void loadNextDetailsScreen();
 
-    public abstract void fillDetailScreen(TmcMessage tmcMessage) {
-    }
+    public abstract void fillDetailScreen(TmcMessage var1);
 
     public void fillDetailScreen(TmcMessage tmcMessage, int n) {
         this.fillDetailScreen(tmcMessage);
@@ -111,13 +97,41 @@ implements TiledListModelListener {
         return null;
     }
 
-    public CommandList tmcWindowResult(TmcListElement[] tmcListElementArray, int n, int n2, int n3, BaseListModelApp baseListModelApp) {
+    public CommandList tmcWindowResult(final TmcListElement[] tmcListElementArray, int n, final int n2, int n3, final BaseListModelApp baseListModelApp) {
         if (n != n3 && n2 != -3) {
             this.anchorMessageVanished(n, n3);
         }
         CommandListManager commandListManager = this.appTmc.getCmdListManager();
         CommandList commandList = new CommandList(commandListManager);
-        commandList.add(new TMCAbstractListManager$1(this, this.appTmc, this.lc, "TMCAbstractListManager#tmcWindowResult", tmcListElementArray, baseListModelApp, n2));
+        commandList.add(new TMCCommand(this.appTmc, this.lc, "TMCAbstractListManager#tmcWindowResult"){
+
+            public void execute() {
+                TMCAbstractListManager.this.lc.log(10000000, "TMCAbstractListManager#tmcWindowResult - execute");
+                EvoListRow[] evoListRowArray = new TMCAbstractListRow[tmcListElementArray.length];
+                for (int i2 = 0; i2 < tmcListElementArray.length; ++i2) {
+                    TMCAbstractListRow tMCAbstractListRow;
+                    if (tmcListElementArray[i2].hasChild) {
+                        tMCAbstractListRow = TMCAbstractListManager.this.rowBuilder.buildParentNodeListRow(tmcListElementArray[i2], TMCAbstractListManager.this.getOpenedAnchorId());
+                        if (TMCAbstractListManager.this.shouldShowOpenAnimation && tmcListElementArray[i2].getUID() == TMCAbstractListManager.this.getOpenedAnchorId()) {
+                            TMCAbstractListManager.this.showOpenAnimation(tmcListElementArray, i2);
+                        }
+                    } else {
+                        tMCAbstractListRow = TMCAbstractListManager.this.rowBuilder.buildSimpleListRow(tmcListElementArray[i2]);
+                    }
+                    evoListRowArray[i2] = tMCAbstractListRow;
+                    TMCAbstractListManager.this.onTmcWindowResult(tmcListElementArray[i2], (TMCAbstractListRow)evoListRowArray[i2]);
+                }
+                baseListModelApp.setRows(n2, tmcListElementArray[0].getPositionInCompleteList() - 1, evoListRowArray);
+                TMCAbstractListManager.this.listModel.update(baseListModelApp);
+                if (n2 == -3) {
+                    TMCAbstractListManager.this.loadNextDetailsScreen();
+                }
+                if (n2 == -2) {
+                    TMCAbstractListManager.this.onTmcWindowChanged();
+                }
+                this.getCommandList().commandFinished();
+            }
+        });
         return commandList;
     }
 
@@ -136,10 +150,32 @@ implements TiledListModelListener {
         this.shouldShowOpenAnimation = false;
     }
 
-    protected void parentNodeSelected(TMCAbstractListRow tMCAbstractListRow) {
+    protected void parentNodeSelected(final TMCAbstractListRow tMCAbstractListRow) {
         CommandListManager commandListManager = this.appTmc.getCmdListManager();
         CommandList commandList = new CommandList(commandListManager);
-        commandList.add(new TMCAbstractListManager$2(this, this.appTmc, this.lc, "TMCAbstractListManager#parentNodeSelected", tMCAbstractListRow));
+        commandList.add(new TMCCommand(this.appTmc, this.lc, "TMCAbstractListManager#parentNodeSelected"){
+
+            public void execute() {
+                TMCAbstractListManager.this.lc.log(10000000, "TMCAbstractListManager#parentNodeSelected - execute");
+                if (tMCAbstractListRow.getTmcListElement().getUID() == TMCAbstractListManager.this.getOpenedAnchorId()) {
+                    TMCAbstractListManager.this.setOpenedAnchorId(-1L);
+                    int n = TMCAbstractListManager.this.listModel.getLength();
+                    TMCAbstractListManager.this.listModel.removeAndClose(tMCAbstractListRow.getTmcListElement().getUID(), tMCAbstractListRow.getTmcListElement().numberOfMessagesInNode);
+                    TMCAbstractListManager.this.listModel.setLength(n);
+                } else {
+                    TMCAbstractListRow tMCAbstractListRow2;
+                    if (TMCAbstractListManager.this.getOpenedAnchorId() != -1L && (tMCAbstractListRow2 = (TMCAbstractListRow)TMCAbstractListManager.this.listModel.getRowByUniqueID(TMCAbstractListManager.this.getOpenedAnchorId())) != null) {
+                        int n = TMCAbstractListManager.this.listModel.getLength();
+                        TMCAbstractListManager.this.listModel.removeAndClose(tMCAbstractListRow2.getTmcListElement().getUID(), tMCAbstractListRow2.getTmcListElement().numberOfMessagesInNode);
+                        TMCAbstractListManager.this.listModel.setLength(n);
+                    }
+                    TMCAbstractListManager.this.setOpenedAnchorId(tMCAbstractListRow.getTmcListElement().getUID());
+                    TMCAbstractListManager.this.shouldShowOpenAnimation = true;
+                }
+                long[] lArray = TMCAbstractListManager.this.getSurroundingAnchorIds(tMCAbstractListRow.getTmcListElement().getUID());
+                this.getCommandList().commandFinishedWithPostCommand(TMCAbstractListManager.this.getRequestWindowCommand(lArray, TMCAbstractListManager.this.getOpenedAnchorId(), -1, TMCConst.WINDOW_REQUEST_SIZE));
+            }
+        });
         commandList.setErrorCommand(new TMCDefaultErrorCommand(this.appTmc, this.lc));
         commandListManager.execute(commandList);
     }
@@ -148,7 +184,7 @@ implements TiledListModelListener {
         TMCAbstractListRow tMCAbstractListRow = (TMCAbstractListRow)this.listModel.getRow(n + 1);
         if (tMCAbstractListRow == null) {
             if (this.lc.isDebug2()) {
-                this.lc.log(14808325, "TMCAbstractListManager#isNextNodeAvailable nextRow == null");
+                this.lc.log(100000000, "TMCAbstractListManager#isNextNodeAvailable nextRow == null");
             }
             return false;
         }
@@ -156,19 +192,19 @@ implements TiledListModelListener {
             TMCAbstractListRow tMCAbstractListRow2 = (TMCAbstractListRow)this.listModel.getRow(n + 2);
             if (tMCAbstractListRow2 == null) {
                 if (this.lc.isDebug2()) {
-                    this.lc.log(14808325, "TMCAbstractListManager#isNextNodeAvailable childNode == null");
+                    this.lc.log(100000000, "TMCAbstractListManager#isNextNodeAvailable childNode == null");
                 }
                 return false;
             }
             if (tMCAbstractListRow2.getTmcListElement().parentID != tMCAbstractListRow.getTmcListElement().uID) {
                 if (this.lc.isDebug2()) {
-                    this.lc.log(14808325, "TMCAbstractListManager#isNextNodeAvailable childNode.parentID != nextRow.uID");
+                    this.lc.log(100000000, "TMCAbstractListManager#isNextNodeAvailable childNode.parentID != nextRow.uID");
                 }
                 return false;
             }
         }
         if (this.lc.isDebug2()) {
-            this.lc.log(14808325, "TMCAbstractListManager#isNextNodeAvailable return true");
+            this.lc.log(100000000, "TMCAbstractListManager#isNextNodeAvailable return true");
         }
         return true;
     }
@@ -191,18 +227,31 @@ implements TiledListModelListener {
     }
 
     protected void focusPreviewMapOnParentNode(long l) {
-        this.lc.log(-2137614336, "TMCAbstractListManager#focusPreviewMapOnParentNode %1", l);
+        this.lc.log(10000000, "TMCAbstractListManager#focusPreviewMapOnParentNode %1", l);
         if (this.appTmc.isDSITmcReady() && this.appTmc.isNavigationOperable()) {
             RequestMessageIdsForListElement requestMessageIdsForListElement = new RequestMessageIdsForListElement(this.appTmc, this.lc, l);
             RequestBoundingRectangleCommand requestBoundingRectangleCommand = new RequestBoundingRectangleCommand(this.appTmc, this.lc);
-            TMCAbstractListManager$3 tMCAbstractListManager$3 = new TMCAbstractListManager$3(this, this.appTmc, this.lc, "TMCAbstractListManager#focusPreviewMapOnParentNode SHOW_IN_MAP_AVAILABLE");
-            TMCAbstractListManager$4 tMCAbstractListManager$4 = new TMCAbstractListManager$4(this, this.appTmc, this.lc, "TMCAbstractListManager#focusPreviewMapOnParentNode focus previewmap");
+            TMCCommand tMCCommand = new TMCCommand(this.appTmc, this.lc, "TMCAbstractListManager#focusPreviewMapOnParentNode SHOW_IN_MAP_AVAILABLE"){
+
+                public void execute() {
+                    TMCAbstractListManager.this.showInMapAvailableChoice.setValue(1);
+                    this.getCommandList().commandFinished();
+                }
+            };
+            TMCCommand tMCCommand2 = new TMCCommand(this.appTmc, this.lc, "TMCAbstractListManager#focusPreviewMapOnParentNode focus previewmap"){
+
+                public void execute() {
+                    NavRectangle navRectangle = TMCAbstractListManager.this.appTmc.getResponseContainer().getRectangle();
+                    TMCAbstractListManager.this.appTmc.getPreviewMap().setPreviewTrafficInfoTmcEvents(this.tmcApp.getResponseContainer().getChildrenTrafficEvents(), navRectangle, 13, null, null);
+                    this.getCommandList().commandFinished();
+                }
+            };
             CommandListManager commandListManager = this.appTmc.getCmdListManager();
             CommandList commandList = new CommandList(commandListManager);
             commandList.add(requestMessageIdsForListElement);
             commandList.add(requestBoundingRectangleCommand);
-            commandList.add(tMCAbstractListManager$3);
-            commandList.add(tMCAbstractListManager$4);
+            commandList.add(tMCCommand);
+            commandList.add(tMCCommand2);
             commandListManager.execute(commandList);
         }
     }
@@ -211,18 +260,49 @@ implements TiledListModelListener {
         this.setPreviewTrafficInfoTmcEvent(tmcMessage, 13, true);
     }
 
-    protected void setPreviewTrafficInfoTmcEvent(TmcMessage tmcMessage, int n, boolean bl) {
+    protected void setPreviewTrafficInfoTmcEvent(final TmcMessage tmcMessage, final int n, final boolean bl) {
         if (null == tmcMessage) {
-            this.lc.log(-1601830656, "TMCAbstractListManager#setPreviewTrafficInfoTmcEvent() - TmcMessage is null");
+            this.lc.log(100000, "TMCAbstractListManager#setPreviewTrafficInfoTmcEvent() - TmcMessage is null");
             return;
         }
         CommandListManager commandListManager = this.appTmc.getCmdListManager();
         CommandList commandList = new CommandList(commandListManager);
         if (!tmcMessage.isHasGeoPos()) {
-            commandList.add(new TMCAbstractListManager$5(this, this.appTmc, this.lc, "TMCAbstractListManager#setPreviewTrafficInfoTmcEvent SHOW_IN_MAP_NOT_AVAILABLE"));
+            commandList.add(new TMCCommand(this.appTmc, this.lc, "TMCAbstractListManager#setPreviewTrafficInfoTmcEvent SHOW_IN_MAP_NOT_AVAILABLE"){
+
+                public void execute() {
+                    TMCAbstractListManager.this.showInMapAvailableChoice.setValue(0);
+                    TMCAbstractListManager.this.handleShowInMapNotAvailable();
+                    this.getCommandList().commandFinished();
+                }
+            });
         } else {
-            commandList.add(new TMCAbstractListManager$6(this, this.appTmc, this.lc, "TMCAbstractListManager#setPreviewTrafficInfoTmcEvent SHOW_IN_MAP_AVAILABLE", tmcMessage));
-            commandList.add(new TMCAbstractListManager$7(this, this.appTmc, this.lc, "TMCAbstractListManager#setPreviewTrafficInfoTmcEvent focus previewmap", bl, tmcMessage, n));
+            commandList.add(new TMCCommand(this.appTmc, this.lc, "TMCAbstractListManager#setPreviewTrafficInfoTmcEvent SHOW_IN_MAP_AVAILABLE"){
+
+                public void execute() {
+                    TMCAbstractListManager.this.showInMapAvailableChoice.setValue(1);
+                    TMCAbstractListManager.this.appTmc.getTMCHandler().getBoundingRectangle(new long[]{tmcMessage.getMessageID()});
+                }
+
+                public void getBoundingRectangleForTrafficMessagesResult(NavRectangle navRectangle) {
+                    TMCAbstractListManager.this.appTmc.getResponseContainer().setRectangle(navRectangle);
+                    this.getCommandList().commandFinished();
+                }
+            });
+            commandList.add(new TMCCommand(this.appTmc, this.lc, "TMCAbstractListManager#setPreviewTrafficInfoTmcEvent focus previewmap"){
+
+                public void execute() {
+                    NavRectangle navRectangle = TMCAbstractListManager.this.appTmc.getResponseContainer().getRectangle();
+                    if (!bl) {
+                        TMCAbstractListManager.this.appTmc.getPreviewMap().setPreviewMapPositionRefreshAllowed(false);
+                    }
+                    TMCAbstractListManager.this.appTmc.getPreviewMap().setPreviewTrafficInfoTmcEvents(new long[]{tmcMessage.getMessageID()}, navRectangle, n, null, null);
+                    if (!bl) {
+                        TMCAbstractListManager.this.appTmc.getPreviewMap().setPreviewMapPositionRefreshAllowed(true);
+                    }
+                    this.getCommandList().commandFinished();
+                }
+            });
         }
         commandListManager.execute(commandList);
     }
@@ -234,7 +314,13 @@ implements TiledListModelListener {
     protected void focusPreviewMapOnCCP() {
         CommandListManager commandListManager = this.appTmc.getCmdListManager();
         CommandList commandList = new CommandList(commandListManager);
-        commandList.add(new TMCAbstractListManager$8(this, this.appTmc, this.lc, "TMCAbstractListManager#focusPreviewMapOnCCP"));
+        commandList.add(new TMCCommand(this.appTmc, this.lc, "TMCAbstractListManager#focusPreviewMapOnCCP"){
+
+            public void execute() {
+                TMCAbstractListManager.this.appTmc.getPreviewMap().setPreviewAreaAroundCCP(13);
+                this.getCommandList().commandFinished();
+            }
+        });
         commandListManager.execute(commandList);
     }
 
@@ -246,7 +332,7 @@ implements TiledListModelListener {
         for (int i2 = 0; i2 < lArray.length; ++i2) {
             nArray[i2] = (int)lArray[i2];
             if ((long)nArray[i2] == lArray[i2]) continue;
-            this.lc.log(-1601830656, "TMCAbstractListManager#castLongToIntArray() - cast warning: 'long' input (%1) does not equal 'int' result (%2)", (Object)lArray, (Object)nArray);
+            this.lc.log(100000, "TMCAbstractListManager#castLongToIntArray() - cast warning: 'long' input (%1) does not equal 'int' result (%2)", (Object)lArray, (Object)nArray);
         }
         return nArray;
     }
@@ -300,22 +386,60 @@ implements TiledListModelListener {
         return -1L;
     }
 
-    public void updateDistanceAndDirection(int n) {
+    public void updateDistanceAndDirection(final int n) {
         CommandListManager commandListManager = this.appTmc.getCmdListManager();
         CommandList commandList = new CommandList(commandListManager);
-        commandList.add(new TMCAbstractListManager$9(this, this.appTmc, this.lc, "TMCAbstractListManager#updateDistanceAndDirection", n));
+        commandList.add(new TMCCommand(this.appTmc, this.lc, "TMCAbstractListManager#updateDistanceAndDirection"){
+
+            public void execute() {
+                TMCAbstractListManager.this.lc.log(10000000, "%1#updateDistanceAndDirection(distCarToFinalDest:%1) execute", (Object)LOGCLASS, (long)n);
+                BaseListModelApp baseListModelApp = TMCAbstractListManager.this.listModel.getCopy();
+                for (int i2 = 0; i2 < baseListModelApp.getLength(); ++i2) {
+                    TMCAbstractListRow tMCAbstractListRow = (TMCAbstractListRow)baseListModelApp.getRow(i2);
+                    if (tMCAbstractListRow == null || tMCAbstractListRow.getTmcListElement().hasChild) continue;
+                    tMCAbstractListRow.updateDistanceAndDireciton(n, TMCAbstractListManager.this.rowBuilder.getDirectionArrow(tMCAbstractListRow.getTmcListElement().getMessage()), TMCAbstractListManager.this.rowBuilder.getAirDistance(tMCAbstractListRow.getTmcListElement().getMessage()));
+                    baseListModelApp.setRow(i2, tMCAbstractListRow);
+                }
+                TMCAbstractListManager.this.listModel.update(baseListModelApp);
+                baseListModelApp = TMCAbstractListManager.this.listModelDetails.getCopy();
+                TMCAbstractListRow tMCAbstractListRow = null;
+                for (int i3 = 0; i3 < baseListModelApp.getLength(); ++i3) {
+                    TMCAbstractListRow tMCAbstractListRow2 = (TMCAbstractListRow)baseListModelApp.getRow(i3);
+                    long l = (long)n - tMCAbstractListRow2.getTmcListElement().getMessage().distanceToEvent;
+                    if (tMCAbstractListRow2.isLayoutOnRoute() && l < 0L) {
+                        tMCAbstractListRow = tMCAbstractListRow2;
+                        continue;
+                    }
+                    tMCAbstractListRow2.updateDistanceAndDireciton(n, TMCAbstractListManager.this.rowBuilder.getDirectionArrow(tMCAbstractListRow2.getTmcListElement().getMessage()), TMCAbstractListManager.this.rowBuilder.getAirDistance(tMCAbstractListRow2.getTmcListElement().getMessage()));
+                    baseListModelApp.setRow(i3, tMCAbstractListRow2);
+                }
+                if (tMCAbstractListRow != null) {
+                    baseListModelApp.remove(tMCAbstractListRow);
+                }
+                TMCAbstractListManager.this.listModelDetails.update(baseListModelApp);
+                this.getCommandList().commandFinished();
+            }
+        });
         commandListManager.execute(commandList);
     }
 
-    public void updateEventsTotal(int n) {
+    public void updateEventsTotal(final int n) {
         CommandListManager commandListManager = this.appTmc.getCmdListManager();
         CommandList commandList = new CommandList(commandListManager);
-        commandList.add(new TMCAbstractListManager$10(this, this.appTmc, this.lc, "TMCAbstractListManager#updateEventsTotal", n));
+        commandList.add(new TMCCommand(this.appTmc, this.lc, "TMCAbstractListManager#updateEventsTotal"){
+
+            public void execute() {
+                TMCAbstractListManager.this.lc.log(10000000, "%1#setListLength(%2) execute", (Object)LOGCLASS, (long)n);
+                TMCAbstractListManager.this.listModel.setLength(n);
+                TMCAbstractListManager.this.onUpdateEventsTotal();
+                this.getCommandList().commandFinished();
+            }
+        });
         commandListManager.execute(commandList);
     }
 
     public void tmcWindowChanged() {
-        this.lc.log(-2137614336, "%1#tmcWindowChanged", (Object)LOGCLASS);
+        this.lc.log(10000000, "%1#tmcWindowChanged", (Object)LOGCLASS);
         TMCAbstractListRow tMCAbstractListRow = (TMCAbstractListRow)this.listModel.getRow(this.focusedRow);
         long l = -1L;
         if (tMCAbstractListRow != null) {
@@ -347,9 +471,8 @@ implements TiledListModelListener {
         return (TMCAbstractListRow)this.listModel.getRowByUniqueID(this.lastSelectedNodeId);
     }
 
-    @Override
     public void requestItems(int n, int n2, int n3, int n4, int n5) {
-        this.lc.log(-2137614336, "[TMCAbstractListManager#requestItems] - requestID = %1, startIndex = %2, length = %3", (long)n3, (long)n, (long)n2);
+        this.lc.log(10000000, "[TMCAbstractListManager#requestItems] - requestID = %1, startIndex = %2, length = %3", (long)n3, (long)n, (long)n2);
         long l = this.findLastKnownAnchor((TMCAbstractListRow)this.listModel.getRow(n), n);
         long[] lArray = this.getSurroundingAnchorIds(l);
         CommandListManager commandListManager = this.appTmc.getCmdListManager();
@@ -358,31 +481,27 @@ implements TiledListModelListener {
         commandListManager.execute(commandList);
     }
 
-    @Override
     public void itemReleased(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
         if (this.lc.isDebug2()) {
-            this.lc.log(14808325, "%1#itemReleased", (Object)LOGCLASS);
+            this.lc.log(100000000, "%1#itemReleased", (Object)LOGCLASS);
         }
     }
 
-    @Override
     public void itemSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
         if (this.lc.isDebug2()) {
-            this.lc.log(14808325, "%1#itemSelected", (Object)LOGCLASS);
+            this.lc.log(100000000, "%1#itemSelected", (Object)LOGCLASS);
         }
     }
 
-    @Override
     public void itemFocused(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
         if (this.lc.isDebug2()) {
-            this.lc.log(14808325, "%1#itemFocused", (Object)LOGCLASS);
+            this.lc.log(100000000, "%1#itemFocused", (Object)LOGCLASS);
         }
     }
 
-    @Override
     public void unrequestItems(int n, int n2, int n3, int n4) {
         if (this.lc.isDebug2()) {
-            this.lc.log(14808325, "%1#unrequestItems", (Object)LOGCLASS);
+            this.lc.log(100000000, "%1#unrequestItems", (Object)LOGCLASS);
         }
     }
 
@@ -415,27 +534,6 @@ implements TiledListModelListener {
 
     public boolean isTmcScreenShown() {
         return this.tmcScreenShown;
-    }
-
-    static /* synthetic */ boolean access$000(TMCAbstractListManager tMCAbstractListManager) {
-        return tMCAbstractListManager.shouldShowOpenAnimation;
-    }
-
-    static /* synthetic */ void access$100(TMCAbstractListManager tMCAbstractListManager, TmcListElement[] tmcListElementArray, int n) {
-        tMCAbstractListManager.showOpenAnimation(tmcListElementArray, n);
-    }
-
-    static /* synthetic */ boolean access$002(TMCAbstractListManager tMCAbstractListManager, boolean bl) {
-        tMCAbstractListManager.shouldShowOpenAnimation = bl;
-        return tMCAbstractListManager.shouldShowOpenAnimation;
-    }
-
-    static /* synthetic */ String access$200() {
-        return LOGCLASS;
-    }
-
-    static {
-        LOGCLASS = "TMCAbstractListManager";
     }
 }
 

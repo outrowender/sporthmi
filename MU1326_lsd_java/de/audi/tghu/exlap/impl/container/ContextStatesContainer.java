@@ -15,7 +15,7 @@ import org.dsi.ifc.has.HASDataElement;
 
 public class ContextStatesContainer
 extends AbstractContainer {
-    private static final int CONTAINER_ID_CONTEXT_STATES;
+    private static final int CONTAINER_ID_CONTEXT_STATES = 0x1000001;
     private List states;
 
     public ContextStatesContainer() {
@@ -49,7 +49,6 @@ extends AbstractContainer {
         return this.states;
     }
 
-    @Override
     public List createContainer(int n, int n2, int n3) {
         ArrayList arrayList = new ArrayList();
         int n4 = n2 + 1;
@@ -58,7 +57,7 @@ extends AbstractContainer {
             Iterator iterator = this.states.iterator();
             while (iterator.hasNext()) {
                 ContextStateContainer contextStateContainer = (ContextStateContainer)iterator.next();
-                List list = contextStateContainer.createContainer(n2, n4, 0x2000001);
+                List list = contextStateContainer.createContainer(n2, n4, 0x1000002);
                 n4 += list.size();
                 arrayList.addAll(list);
             }
@@ -66,13 +65,11 @@ extends AbstractContainer {
         return arrayList;
     }
 
-    @Override
     public HASDataContainer[] createContainer() {
         List list = this.createContainer(-1, 1, -1);
         return (HASDataContainer[])list.toArray(new HASDataContainer[list.size()]);
     }
 
-    @Override
     public void toString(StringWriter stringWriter) {
         stringWriter.write("ContextStatesContainer(");
         if (this.states != null) {
@@ -88,7 +85,6 @@ extends AbstractContainer {
         stringWriter.write(")");
     }
 
-    @Override
     protected Object clone() {
         ContextStatesContainer contextStatesContainer = new ContextStatesContainer(this);
         return contextStatesContainer;

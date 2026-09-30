@@ -4,87 +4,60 @@
 package de.audi.tghu.swdl.app.hmiswitcher.manager;
 
 public interface IDeviceInfoManager {
-    public static final int ID_NONE;
+    public static final int ID_NONE = -1;
 
-    default public boolean checkAccessType(int n) {
-    }
+    public boolean checkAccessType(int var1);
 
-    default public boolean isStateView() {
-    }
+    public boolean isStateView();
 
-    default public boolean isStandardSelection() {
-    }
+    public boolean isStandardSelection();
 
-    default public void doGetDevices(int n, String string, boolean bl) {
-    }
+    public void doGetDevices(int var1, String var2, boolean var3);
 
-    default public void doGetModules(int n) {
-    }
+    public void doGetModules(int var1);
 
-    default public void updateDeviceList(String[] stringArray, int[] nArray, boolean bl) {
-    }
+    public void updateDeviceList(String[] var1, int[] var2, boolean var3);
 
-    default public void updateInfoFilePath(String string, String string2) {
-    }
+    public void updateInfoFilePath(String var1, String var2);
 
-    default public void updateModuleList(String[] stringArray, int[] nArray, short[] sArray) {
-    }
+    public void updateModuleList(String[] var1, int[] var2, short[] var3);
 
-    default public void setIsNoExclusiveBoloUpdate(boolean bl) {
-    }
+    public void setIsNoExclusiveBoloUpdate(boolean var1);
 
-    default public void setIsDataModule(boolean bl) {
-    }
+    public void setIsDataModule(boolean var1);
 
-    default public void updateFileList(String[] stringArray) {
-    }
+    public void updateFileList(String[] var1);
 
-    default public void setTargetVersions(long[] lArray) {
-    }
+    public void setTargetVersions(long[] var1);
 
-    default public void setVersions(long[] lArray) {
-    }
+    public void setVersions(long[] var1);
 
-    default public void doSelectFile(int n) {
-    }
+    public void doSelectFile(int var1);
 
-    default public void updateFileDetails(String string) {
-    }
+    public void updateFileDetails(String var1);
 
-    default public void setAdditionalInfo(int[] nArray) {
-    }
+    public void setAdditionalInfo(int[] var1);
 
-    default public void updateErrors(String string) {
-    }
+    public void updateErrors(String var1);
 
-    default public void updateSummary(String string) {
-    }
+    public void updateSummary(String var1);
 
-    default public void leaveSummaryChanged() {
-    }
+    public void leaveSummaryChanged();
 
-    default public int getCurrentDeviceId() {
-    }
+    public int getCurrentDeviceId();
 
-    default public int[] getAllDeviceIds() {
-    }
+    public int[] getAllDeviceIds();
 
-    default public int getCurrentModuleId() {
-    }
+    public int getCurrentModuleId();
 
-    default public void doSelectDevice(int n) {
-    }
+    public void doSelectDevice(int var1);
 
-    default public void doSelectModule(int n) {
-    }
+    public void doSelectModule(int var1);
 
-    default public void doGetFileInfos() {
-    }
+    public void doGetFileInfos();
 
-    default public void doGetFileInfoPath(int n) {
-    }
+    public void doGetFileInfoPath(int var1);
 
-    default public void checkModulesDowngrade() {
-    }
+    public void checkModulesDowngrade();
 }
 

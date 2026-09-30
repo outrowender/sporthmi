@@ -5,7 +5,7 @@ package de.audi.tghu.exlap;
 
 public class ExlapException
 extends RuntimeException {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = 1L;
 
     public ExlapException(String string, Throwable throwable) {
         super(string, throwable);

@@ -13,9 +13,8 @@ extends NavCommand {
         this.enable = bl;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(1078071040, "EnableRgPoiInfoCommand#execute() - calling enableRgPoiInfo( %1 ) ", this.enable);
+        this.logger.log(1000000, "EnableRgPoiInfoCommand#execute() - calling enableRgPoiInfo( %1 ) ", this.enable);
         if (this.getDSINavigation() != null) {
             this.getDSINavigation().enableRgPoiInfo(this.enable);
         }

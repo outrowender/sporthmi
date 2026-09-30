@@ -15,19 +15,16 @@ extends CtxOnlineResults {
         super(navigationEnv, abstractMap);
     }
 
-    @Override
     public void enter() {
         super.enter();
         this.updateCrossHairsBoundingBox();
     }
 
-    @Override
     protected void showLogo(boolean bl) {
     }
 
-    @Override
     public MapPin[] getDynamicPins() {
-        this.getLogChannel().log(-2137614336, "CtxOperatorCallResults#getDynamicPins()");
+        this.getLogChannel().log(10000000, "CtxOperatorCallResults#getDynamicPins()");
         if (this.container.operatorCallResultLocation == null) {
             this.getLogChannel().log(10000, "CtxOperatorCallResults#getDynamicPins() - no location specified");
             return new MapPin[0];
@@ -36,9 +33,8 @@ extends CtxOnlineResults {
         return new MapPin[]{mapPin};
     }
 
-    @Override
     protected void processResultFlags(IMapRequest iMapRequest) {
-        this.getLogChannel().log(-2137614336, "CtxOperatorCallResults#processResultFlags() - container.operatorCallResultLocation: %1", (Object)this.container.operatorCallResultLocation);
+        this.getLogChannel().log(10000000, "CtxOperatorCallResults#processResultFlags() - container.operatorCallResultLocation: %1", (Object)this.container.operatorCallResultLocation);
         if (this.container.operatorCallResultLocation != null) {
             iMapRequest.setMapPosition(this.container.operatorCallResultLocation);
         } else {
@@ -46,9 +42,8 @@ extends CtxOnlineResults {
         }
     }
 
-    @Override
     protected void onDDSClicked() {
-        this.getLogChannel().log(-2137614336, "CtxOnCtxOperatorCallResults#onDDSClicked()");
+        this.getLogChannel().log(10000000, "CtxOnCtxOperatorCallResults#onDDSClicked()");
     }
 }
 

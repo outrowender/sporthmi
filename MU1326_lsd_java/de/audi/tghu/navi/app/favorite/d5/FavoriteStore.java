@@ -7,12 +7,12 @@ import de.audi.tghu.command.CommandList;
 import de.audi.tghu.command.ICommandListFactory;
 import de.audi.tghu.navi.app.NavigationEnv;
 import de.audi.tghu.navi.app.command.LocationToStreamCommand;
+import de.audi.tghu.navi.app.command.NavCommand;
 import de.audi.tghu.navi.app.favorite.FavoriteLocationFormatDummy;
 import de.audi.tghu.navi.app.favorite.IFavoriteLocationFormat;
 import de.audi.tghu.navi.app.favorite.d5.FavoriteIndex;
 import de.audi.tghu.navi.app.favorite.d5.FavoriteLocation;
 import de.audi.tghu.navi.app.favorite.d5.FavoriteObserver;
-import de.audi.tghu.navi.app.favorite.d5.FavoriteStore$NotifyObserversCommand;
 import de.audi.tghu.navi.app.favorite.d5.NotifyTrufflesCommand;
 import de.audi.tghu.navi.app.favorite.d5.PersistFavoritesListCommand;
 import de.audi.tghu.navi.app.favorite.d5.PersistNavLocationCommand;
@@ -81,7 +81,7 @@ public class FavoriteStore {
                 this.logException(classNotFoundException);
             }
         }
-        this.env.getLogChannel().log(-2137614336, "%1#loadFavoriteIndex() - %2", (Object)CLASS_NAME, favoriteIndex);
+        this.env.getLogChannel().log(10000000, "%1#loadFavoriteIndex() - %2", (Object)CLASS_NAME, favoriteIndex);
         return favoriteIndex;
     }
 
@@ -111,7 +111,7 @@ public class FavoriteStore {
         commandList2.add(new PersistNavLocationCommand(n));
         commandList2.add(new PersistFavoritesListCommand(this.favorites));
         commandList2.add(new NotifyTrufflesCommand(this.provider));
-        commandList2.add(new FavoriteStore$NotifyObserversCommand(this));
+        commandList2.add(new NotifyObserversCommand());
         commandList2.add(commandList);
         return commandList2;
     }
@@ -121,7 +121,7 @@ public class FavoriteStore {
         CommandList commandList = this.factory.createCommandList(1);
         commandList.add(new PersistFavoritesListCommand(this.favorites));
         commandList.add(new NotifyTrufflesCommand(this.provider));
-        commandList.add(new FavoriteStore$NotifyObserversCommand(this));
+        commandList.add(new NotifyObserversCommand());
         commandList.execute("Commandlist to reset favorites");
     }
 
@@ -147,7 +147,7 @@ public class FavoriteStore {
             commandList.add(new PersistNavLocationCommand(favoriteLocation.getKey()));
             commandList.add(new PersistFavoritesListCommand(this.favorites));
             commandList.add(new NotifyTrufflesCommand(this.provider));
-            commandList.add(new FavoriteStore$NotifyObserversCommand(this));
+            commandList.add(new NotifyObserversCommand());
         }
         return commandList;
     }
@@ -180,7 +180,7 @@ public class FavoriteStore {
         CommandList commandList = this.factory.createCommandList(1);
         commandList.add(new PersistFavoritesListCommand(this.favorites));
         commandList.add(new NotifyTrufflesCommand(this.provider));
-        commandList.add(new FavoriteStore$NotifyObserversCommand(this));
+        commandList.add(new NotifyObserversCommand());
         commandList.execute("Commandlist to delete favorite from index");
     }
 
@@ -217,8 +217,16 @@ public class FavoriteStore {
         }
     }
 
-    static /* synthetic */ void access$000(FavoriteStore favoriteStore) {
-        favoriteStore.notifyObservers();
+    private class NotifyObserversCommand
+    extends NavCommand {
+        public NotifyObserversCommand() {
+            super("notify observers");
+        }
+
+        public void execute() {
+            FavoriteStore.this.notifyObservers();
+            this.getCommandList().commandFinished();
+        }
     }
 }
 

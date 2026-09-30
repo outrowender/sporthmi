@@ -17,16 +17,14 @@ extends AbstractStationConsistencyCheck {
         this.psFreeze = iPSFreezeDB;
     }
 
-    @Override
     public AMFMStation[] checkList(AMFMStation[] aMFMStationArray) {
         for (int i2 = 0; i2 < aMFMStationArray.length; ++i2) {
             aMFMStationArray[i2] = this.adjustStationContent(aMFMStationArray[i2], false);
-            this.logger.amfmDeepDebug.log(-2137614336, "%2: %1", (Object)aMFMStationArray[i2], (long)i2);
+            this.logger.amfmDeepDebug.log(10000000, "%2: %1", (Object)aMFMStationArray[i2], (long)i2);
         }
         return aMFMStationArray;
     }
 
-    @Override
     public AMFMStation checkStation(AMFMStation aMFMStation) {
         return this.adjustStationContent(aMFMStation, true);
     }

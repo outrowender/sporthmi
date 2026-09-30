@@ -16,15 +16,13 @@ extends NavCommand {
         this.combinedRouteListElement = combinedRouteListElement;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "RequestRMLPOIInformationCommand#execute - calling requestPOIInformation( %1 )", this.combinedRouteListElement.getUid());
+        this.logger.log(10000000, "RequestRMLPOIInformationCommand#execute - calling requestPOIInformation( %1 )", this.combinedRouteListElement.getUid());
         this.getDSICombinedRouteList().requestPOIInformation(this.combinedRouteListElement.getUid());
     }
 
-    @Override
     public void poiInformationResult(NavPoiInfo navPoiInfo, int n) {
-        this.logger.log(-2137614336, "RequestRMLPOIInformationCommand#poiInformationResult()");
+        this.logger.log(10000000, "RequestRMLPOIInformationCommand#poiInformationResult()");
         if (n == 0) {
             NavLocation[] navLocationArray = navPoiInfo.getPoiLocations();
             if (navLocationArray != null && navLocationArray.length > 0) {

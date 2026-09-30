@@ -3,34 +3,33 @@
  */
 package de.audi.tv.app.util;
 
-import de.audi.tv.app.util.InnerClassInflator$Expandable;
-import de.audi.tv.app.util.InnerClassInflator$HierarchyBuilder;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 
 public class InnerClassInflator {
-    private final InnerClassInflator$HierarchyBuilder builder;
+    private final HierarchyBuilder builder;
     private final Object enclosingObject;
 
-    public InnerClassInflator(InnerClassInflator$HierarchyBuilder hierarchyBuilder, Object object) {
+    public InnerClassInflator(HierarchyBuilder hierarchyBuilder, Object object) {
         this.builder = hierarchyBuilder;
         this.enclosingObject = object;
     }
 
-    public void inflate() {
+    public void inflate() throws IllegalArgumentException, SecurityException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
         Iterator iterator = InnerClassInflator.getInnerStates(this.enclosingObject.getClass()).iterator();
         while (iterator.hasNext()) {
             Class clazz = (Class)iterator.next();
             Object object = InnerClassInflator.instantiateInnerClass(this.enclosingObject, clazz);
             this.builder.add(object);
-            InnerClassInflator$Expandable innerClassInflator$Expandable = new InnerClassInflator$Expandable(this, object);
-            innerClassInflator$Expandable.expand();
+            Expandable expandable = new Expandable(object);
+            expandable.expand();
         }
     }
 
-    private static Object instantiateInnerClass(Object object, Class clazz) {
+    private static Object instantiateInnerClass(Object object, Class clazz) throws IllegalArgumentException, SecurityException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
         return clazz.getDeclaredConstructor(new Class[]{object.getClass()}).newInstance(new Object[]{object});
     }
 
@@ -40,16 +39,29 @@ public class InnerClassInflator {
         return arrayList;
     }
 
-    static /* synthetic */ Collection access$000(Class clazz) {
-        return InnerClassInflator.getInnerStates(clazz);
+    private class Expandable {
+        private final Object object;
+
+        Expandable(Object object) {
+            this.object = object;
+        }
+
+        public void expand() throws IllegalArgumentException, SecurityException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
+            Iterator iterator = InnerClassInflator.getInnerStates(this.object.getClass()).iterator();
+            while (iterator.hasNext()) {
+                Class clazz = (Class)iterator.next();
+                Object object = InnerClassInflator.instantiateInnerClass(this.object, clazz);
+                InnerClassInflator.this.builder.add(object, this.object);
+                Expandable expandable = new Expandable(object);
+                expandable.expand();
+            }
+        }
     }
 
-    static /* synthetic */ Object access$100(Object object, Class clazz) {
-        return InnerClassInflator.instantiateInnerClass(object, clazz);
-    }
+    public static interface HierarchyBuilder {
+        public void add(Object var1);
 
-    static /* synthetic */ InnerClassInflator$HierarchyBuilder access$200(InnerClassInflator innerClassInflator) {
-        return innerClassInflator.builder;
+        public void add(Object var1, Object var2);
     }
 }
 

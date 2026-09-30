@@ -19,11 +19,11 @@ public class SatelliteMapsMediator {
     private final NavigationEnv env;
     private final MapManager mapManager;
     private LogChannel logger;
-    private static final int ENTER_MAP_STATE_NOT_ENTERED;
+    private static final int ENTER_MAP_STATE_NOT_ENTERED = -1;
     private volatile int enterMapState = -1;
-    private static final int ENTER_MAP_STATE_LICENSE_FAIL;
-    private static final int ENTER_MAP_STATE_OK;
-    private static final int ENTER_MAP_STATE_SHOW_CLUSTER_MAP;
+    private static final int ENTER_MAP_STATE_LICENSE_FAIL = 0;
+    private static final int ENTER_MAP_STATE_OK = 1;
+    private static final int ENTER_MAP_STATE_SHOW_CLUSTER_MAP = 2;
     private volatile boolean isGEBlocked = false;
     private volatile boolean routeCalcActive = false;
     private ISatelliteMapsMediatorFSM mmuSatellitemapsmanagerFSM = ISatelliteMapsMediatorFSM.NULL_SATELLITES_MANAGAER_FSM;
@@ -50,15 +50,15 @@ public class SatelliteMapsMediator {
 
     private void hackModel() {
         this.mapManager.getMapMain().getGuiInterface().setGEGreyOutOption(false);
-        this.env.getChoiceModel(505349632).setValue(1);
-        this.env.getChoiceModel(18613760).setValue(2);
+        this.env.getChoiceModel(401182).setValue(1);
+        this.env.getChoiceModel(400385).setValue(2);
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
     public void onMapRepresentationChanged(int n, int n2) {
-        this.logger.log(1078071040, "SatelliteMapsMediator#onMapRepresentationChanged() - mapRepresentation: %1, oldRepresentation: %2", (long)n, (long)n2);
+        this.logger.log(1000000, "SatelliteMapsMediator#onMapRepresentationChanged() - mapRepresentation: %1, oldRepresentation: %2", (long)n, (long)n2);
         Object object = this.mapManager.getMutexSwitchToContext();
         synchronized (object) {
             if (Util.isGoogleEarthPresent(this.env.getFramework())) {
@@ -74,9 +74,9 @@ public class SatelliteMapsMediator {
      * WARNING - Removed try catching itself - possible behaviour change.
      */
     public void onSatMapBlockingBitChanged(boolean bl) {
-        this.logger.log(1078071040, "SatelliteMapsMediator2#onSatMapBlockingBitChanged() - isGEBlocked: %1", bl);
+        this.logger.log(1000000, "SatelliteMapsMediator2#onSatMapBlockingBitChanged() - isGEBlocked: %1", bl);
         if (this.mapManager.getMapMain() == null) {
-            this.logger.log(-1601830656, "SatelliteMapsMediator2#onSatMapBlockingBitChanged() - map main is null, cancel");
+            this.logger.log(100000, "SatelliteMapsMediator2#onSatMapBlockingBitChanged() - map main is null, cancel");
             return;
         }
         Object object = this.mapManager.getMutexSwitchToContext();
@@ -87,7 +87,7 @@ public class SatelliteMapsMediator {
     }
 
     public void resetEnterMapState() {
-        this.logger.log(-2137614336, "SatelliteMapsMediator#resetEnterMapState() ");
+        this.logger.log(10000000, "SatelliteMapsMediator#resetEnterMapState() ");
         this.enterMapState = -1;
     }
 
@@ -95,52 +95,52 @@ public class SatelliteMapsMediator {
      * WARNING - Removed try catching itself - possible behaviour change.
      */
     public void refreshActiveMapStyle(boolean bl) {
-        this.logger.log(1078071040, "SatelliteMapsMediator#refreshActiveMapStyle() - current enterMapState: %1", (long)this.enterMapState);
-        this.logger.log(1078071040, "SatelliteMapsMediator#refreshActiveMapStyle() - triggeredByGeBlockingBit: %1 ", bl);
+        this.logger.log(1000000, "SatelliteMapsMediator#refreshActiveMapStyle() - current enterMapState: %1", (long)this.enterMapState);
+        this.logger.log(1000000, "SatelliteMapsMediator#refreshActiveMapStyle() - triggeredByGeBlockingBit: %1 ", bl);
         if (!Util.isGoogleEarthPresent(this.env.getFramework())) {
-            this.logger.log(1078071040, "SatelliteMapsMediator#refreshActiveMapStyle() - GE not present - ignore!");
+            this.logger.log(1000000, "SatelliteMapsMediator#refreshActiveMapStyle() - GE not present - ignore!");
             return;
         }
         if (this.routeCalcActive && !bl) {
-            this.logger.log(-1601830656, "SatelliteMapsMediator#refreshActiveMapStyle() - route calculation currently active - ignore!");
+            this.logger.log(100000, "SatelliteMapsMediator#refreshActiveMapStyle() - route calculation currently active - ignore!");
             return;
         }
         Object object = this.mapManager.getMutexSwitchToContext();
         synchronized (object) {
             boolean bl2 = this.mapManager.getMapMain().getSetup().getMapRepresentation() == 1;
             boolean bl3 = false;
-            this.logger.log(1078071040, "SatelliteMapsMediator#refreshActiveMapStyle() - isSetupGE: %1,  isGEBlocked: %2 ", bl2, this.isGEBlocked);
+            this.logger.log(1000000, "SatelliteMapsMediator#refreshActiveMapStyle() - isSetupGE: %1,  isGEBlocked: %2 ", bl2, this.isGEBlocked);
             if (Util.isClusterMapAvailable(this.env.getFramework()) && this.enterMapState == -1) {
                 boolean bl4;
                 boolean bl5 = bl4 = this.mapManager.getGoogleMapLicenseHandler().getPersistedLicenseState() == 1;
                 if (this.mapManager.getMapInterface().validateGELicenseState(bl4) && this.mapManager.getMapKombi().getActiveContext() instanceof IVisibleContext) {
-                    this.logger.log(1078071040, "SatelliteMapsMediator#refreshActiveMapStyle() - adjusted enterMapState for cluster map ");
+                    this.logger.log(1000000, "SatelliteMapsMediator#refreshActiveMapStyle() - adjusted enterMapState for cluster map ");
                     this.enterMapState = 2;
                 }
             }
             if (this.enterMapState == 1) {
                 bl3 = bl2 && !this.isGEBlocked;
-                this.logger.log(1078071040, "SatelliteMapsMediator#refreshActiveMapStyle() -ENTER_MAP_STATE_OK ");
+                this.logger.log(1000000, "SatelliteMapsMediator#refreshActiveMapStyle() -ENTER_MAP_STATE_OK ");
             } else if (this.enterMapState == 2) {
                 if (bl2 && !this.isGEBlocked) {
                     bl3 = true;
                 }
-                this.logger.log(1078071040, "SatelliteMapsMediator#refreshActiveMapStyle() -ENTER_MAP_STATE_SHOW_CLUSTER_MAP ");
+                this.logger.log(1000000, "SatelliteMapsMediator#refreshActiveMapStyle() -ENTER_MAP_STATE_SHOW_CLUSTER_MAP ");
             } else if (this.enterMapState == -1) {
                 bl3 = false;
-                this.logger.log(1078071040, "SatelliteMapsMediator#refreshActiveMapStyle() - ENTER_MAP_STATE_NOT_ENTERED ");
+                this.logger.log(1000000, "SatelliteMapsMediator#refreshActiveMapStyle() - ENTER_MAP_STATE_NOT_ENTERED ");
             } else {
                 bl3 = false;
                 if (bl2) {
                     this.mapManager.restoreBackupMapRepresentationForStandardMap();
-                    this.logger.log(1078071040, "SatelliteMapsMediator#refreshActiveMapStyle() - not licensed ");
+                    this.logger.log(1000000, "SatelliteMapsMediator#refreshActiveMapStyle() - not licensed ");
                     return;
                 }
             }
             if (bl) {
                 // empty if block
             }
-            this.logger.log(1078071040, "SatelliteMapsMediator#refreshActiveMapStyle() - GOING To CHANGE STATE ");
+            this.logger.log(1000000, "SatelliteMapsMediator#refreshActiveMapStyle() - GOING To CHANGE STATE ");
             this.getMmuSatellitemapsmanagerFSM().setMapStyle(bl3 ? 1 : 0, bl);
             this.getKombiSatellitemapsmanagerFSM().setMapStyle(bl3 ? 1 : 0, bl);
         }
@@ -150,7 +150,7 @@ public class SatelliteMapsMediator {
      * WARNING - Removed try catching itself - possible behaviour change.
      */
     public void onEnterOnlineMap(boolean bl) {
-        this.logger.log(1078071040, "SatelliteMapsMediator#onEnterOnlineMap() - licenseStatus: %1 ", bl);
+        this.logger.log(1000000, "SatelliteMapsMediator#onEnterOnlineMap() - licenseStatus: %1 ", bl);
         Object object = this.mapManager.getMutexSwitchToContext();
         synchronized (object) {
             if (!bl) {
@@ -167,7 +167,7 @@ public class SatelliteMapsMediator {
      * WARNING - Removed try catching itself - possible behaviour change.
      */
     public void onRouteCalcActiveStateChanged(boolean bl) {
-        this.logger.log(1078071040, "SatelliteMapsMediator#onRouteCalcActiveStateChanged( %1 ) - was %2 ", bl, this.routeCalcActive);
+        this.logger.log(1000000, "SatelliteMapsMediator#onRouteCalcActiveStateChanged( %1 ) - was %2 ", bl, this.routeCalcActive);
         if (this.routeCalcActive != bl) {
             Object object = this.mapManager.getMutexSwitchToContext();
             synchronized (object) {
@@ -180,7 +180,7 @@ public class SatelliteMapsMediator {
     }
 
     public void updateMapStyle(int n, int n2) {
-        this.logger.log(1078071040, "SatelliteMapsMediator#updateMapStyle(instance %1 confirmedmapStyle %2) disableupdate %3 ", (long)n, (long)n2, this.disableUpdates);
+        this.logger.log(1000000, "SatelliteMapsMediator#updateMapStyle(instance %1 confirmedmapStyle %2) disableupdate %3 ", (long)n, (long)n2, this.disableUpdates);
         if (this.disableUpdates) {
             return;
         }

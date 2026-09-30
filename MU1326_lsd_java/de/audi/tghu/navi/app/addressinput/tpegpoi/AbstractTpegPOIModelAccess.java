@@ -8,7 +8,7 @@ import de.audi.tghu.navi.app.NavigationEnv;
 import de.audi.tghu.navi.app.util.Util;
 
 public abstract class AbstractTpegPOIModelAccess {
-    protected final String CLASS_NAME = Util.getClassNameFromPackageName(super.getClass());
+    protected final String CLASS_NAME = Util.getClassNameFromPackageName(this.getClass());
     protected final NavigationEnv env;
     protected final LogChannel logChannel;
 

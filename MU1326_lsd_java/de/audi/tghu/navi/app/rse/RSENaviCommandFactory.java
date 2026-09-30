@@ -17,9 +17,8 @@ extends AbstractRSECommandFactory {
         RSENaviCommandFactory.setLog(navigationEnv.getRSELogChannel());
     }
 
-    @Override
     protected AbstractRSECommand getRSECommand(int n) {
-        log.log(-2137614336, "RSENaviCommandFactory#getRSECommand( %1 )", (long)n);
+        log.log(10000000, "RSENaviCommandFactory#getRSECommand( %1 )", (long)n);
         RSENaviCommand rSENaviCommand = null;
         switch (n) {
             case 1281: {
@@ -31,7 +30,7 @@ extends AbstractRSECommandFactory {
                 break;
             }
             default: {
-                log.log(-1601830656, "RSENaviCommandFactory#getRSECommand() - unsupported command id: %1", (long)n);
+                log.log(100000, "RSENaviCommandFactory#getRSECommand() - unsupported command id: %1", (long)n);
             }
         }
         return rSENaviCommand;

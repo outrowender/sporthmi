@@ -23,7 +23,7 @@ import de.audi.tghu.navi.app.util.Util;
 
 public class MinorMap
 extends AbstractMap {
-    private static final String NAME;
+    private static final String NAME = "MinorMap";
     private boolean bMinorMapInitiated = false;
     private int iLastMapMode = 0;
 
@@ -36,18 +36,16 @@ extends AbstractMap {
         }
     }
 
-    @Override
     protected void cleanup() {
         super.cleanup();
     }
 
-    @Override
     public String getName() {
-        return "MinorMap";
+        return NAME;
     }
 
     public String toString() {
-        return "MinorMap";
+        return NAME;
     }
 
     public IRouteInfo getRouteInfo() {
@@ -61,18 +59,17 @@ extends AbstractMap {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void initDSI() {
         Object object = this.getMutexSwitchToContext();
         synchronized (object) {
             if (this.isMapDSIReady()) {
                 if (!this.bMinorMapInitiated) {
-                    this.sMapLogChannel.log(1078071040, "%1#init() - Map DSI is ready. Starting initialization...", (Object)this);
+                    this.sMapLogChannel.log(1000000, "%1#init() - Map DSI is ready. Starting initialization...", (Object)this);
                     this.bMinorMapInitiated = true;
                     this.switchToContext(24);
                 }
             } else if (this.bMinorMapInitiated) {
-                this.sMapLogChannel.log(-1601830656, "%1#init() - Map DSIs is failed! %1 is not operable any more!", (Object)this);
+                this.sMapLogChannel.log(100000, "%1#init() - Map DSIs is failed! %1 is not operable any more!", (Object)this);
                 this.bMinorMapInitiated = false;
             }
         }
@@ -82,50 +79,44 @@ extends AbstractMap {
         return this.getMapLogChannel();
     }
 
-    @Override
     public void hide() {
-        this.getLogger().log(-2137614336, "MinorMap#hide()");
+        this.getLogger().log(10000000, "MinorMap#hide()");
         this.switchToContext(31);
     }
 
     public void showMapInMap(int n) {
         if (MapEnv.force2UsePreviewMapForTest()) {
-            this.getLogger().log(1078071040, "%1#showMapInMap() - force to show PreviewMap for test", (Object)this);
+            this.getLogger().log(1000000, "%1#showMapInMap() - force to show PreviewMap for test", (Object)this);
             this.showPreviewMap();
             return;
         }
-        this.getMapLogChannel().log(-2137614336, "%1#showMapInMap()", (Object)this.getName());
+        this.getMapLogChannel().log(10000000, "%1#showMapInMap()", (Object)this.getName());
         this.iLastMapMode = n;
         CtxMapInMapShown ctxMapInMapShown = (CtxMapInMapShown)this.getCtx(29);
         ctxMapInMapShown.setMapMode(n);
         this.switchToContext(29);
     }
 
-    @Override
     public void showPreviewMap() {
         if (!Util.isPreviewMapPresent(this.env.getFramework())) {
-            this.getLogger().log(14808325, "%1#showPreviewMap() - Preview map not available!", (Object)this);
+            this.getLogger().log(100000000, "%1#showPreviewMap() - Preview map not available!", (Object)this);
             return;
         }
         this.switchToContext(30);
     }
 
-    @Override
     public void forceHiddenContextRefresh() {
-        this.getLogger().log(-2137614336, "MinorMap#forceContextRefresh() - unexpected call");
+        this.getLogger().log(10000000, "MinorMap#forceContextRefresh() - unexpected call");
     }
 
-    @Override
     public boolean isStdMapInitiated() {
         return this.bMinorMapInitiated;
     }
 
-    @Override
     protected ChoiceModelApp getActiveRendererChoice() {
         return null;
     }
 
-    @Override
     public void switchToHiddenContext() {
         this.switchToContext(31);
     }

@@ -22,30 +22,27 @@ extends RSEManager {
         super(navigationEnv);
     }
 
-    @Override
     protected void setListeners() {
-        this.env.getButtonModel(605881856).setButtonListener(this);
-        this.env.getButtonModel(589104640).setButtonListener(this);
+        this.env.getButtonModel(400676).setButtonListener(this);
+        this.env.getButtonModel(400675).setButtonListener(this);
     }
 
-    @Override
     public void decodeLocationStream(byte[] byArray, Criteria criteria) {
-        this.logChannel.log(-2137614336, "RSEFrontManager#decodeLocationStream( %1, %2 )", (Object)byArray, (Object)criteria);
+        this.logChannel.log(10000000, "RSEFrontManager#decodeLocationStream( %1, %2 )", (Object)byArray, (Object)criteria);
     }
 
     private void handleTransferedLocation(NavLocation navLocation, Criteria criteria) {
-        this.logChannel.log(-2137614336, "RSEFrontManager#handleTransferedLocation( %1, %2 )", (Object)LocationFormatter.formatLocationShort(navLocation), (Object)criteria);
+        this.logChannel.log(10000000, "RSEFrontManager#handleTransferedLocation( %1, %2 )", (Object)LocationFormatter.formatLocationShort(navLocation), (Object)criteria);
         if (navLocation != null && navLocation.isPositionValid()) {
             this.transferedLocation = navLocation;
             this.transferedCriteria = criteria;
         } else {
-            this.logChannel.log(-1601830656, "RSEFrontManager#handleTransferedLocation() - failed to handle transfered location. Location is not navigable!");
+            this.logChannel.log(100000, "RSEFrontManager#handleTransferedLocation() - failed to handle transfered location. Location is not navigable!");
         }
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3) {
-        this.logChannel.log(-2137614336, "RSEFrontManager#keyPressed( %1 )", (long)n);
+        this.logChannel.log(10000000, "RSEFrontManager#keyPressed( %1 )", (long)n);
         switch (n) {
             case 400676: {
                 this.env.fireTranslatedSMEvent(n3, 1);
@@ -58,42 +55,38 @@ extends RSEManager {
                 break;
             }
             default: {
-                this.logChannel.log(-1601830656, "RSEFrontManager#keyPressed() - unknown model id: %1!", (long)n);
+                this.logChannel.log(100000, "RSEFrontManager#keyPressed() - unknown model id: %1!", (long)n);
             }
         }
     }
 
     private void startRSEGuidance(int n) {
-        this.logChannel.log(-2137614336, "RSEFrontManager#startRSEGuidance() - transferedCriteria: %1", (Object)this.transferedCriteria);
+        this.logChannel.log(10000000, "RSEFrontManager#startRSEGuidance() - transferedCriteria: %1", (Object)this.transferedCriteria);
     }
 
-    @Override
     public void setRSEConnection(AbstractRSEConnection abstractRSEConnection) {
         super.setRSEConnection(abstractRSEConnection);
         if (abstractRSEConnection != null) {
-            this.logChannel.log(-2137614336, "RSEFrontManager#setRSEConnection() - connection established to rear unit. Sync criteria..");
+            this.logChannel.log(10000000, "RSEFrontManager#setRSEConnection() - connection established to rear unit. Sync criteria..");
         }
     }
 
-    @Override
     public void syncCriteria(Criteria criteria) {
-        this.logChannel.log(-2137614336, "RSEFrontManager#syncCriteria( %1 )", (Object)criteria);
+        this.logChannel.log(10000000, "RSEFrontManager#syncCriteria( %1 )", (Object)criteria);
         if (criteria != null) {
             this.sendCommand(new RSESyncCriteria(criteria));
         } else {
-            this.logChannel.log(-1601830656, "RSEFrontManager#syncCriteria() - failed to sync criteria. Criteria is null!");
+            this.logChannel.log(100000, "RSEFrontManager#syncCriteria() - failed to sync criteria. Criteria is null!");
         }
     }
 
-    @Override
     public CommandList prepareLocationTransfer(NavLocation navLocation, boolean bl) {
-        this.logChannel.log(-1601830656, "RSEFrontManager#prepareLocationTransfer() - location transfer not supported on front unit!");
+        this.logChannel.log(100000, "RSEFrontManager#prepareLocationTransfer() - location transfer not supported on front unit!");
         return null;
     }
 
-    @Override
     public CommandList prepareRouteTransfer(Route route) {
-        this.logChannel.log(-1601830656, "RSEFrontManager#prepareLocationTransfer() - route transfer not supported on front unit!");
+        this.logChannel.log(100000, "RSEFrontManager#prepareLocationTransfer() - route transfer not supported on front unit!");
         return null;
     }
 }

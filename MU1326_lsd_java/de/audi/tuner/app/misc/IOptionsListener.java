@@ -4,7 +4,6 @@
 package de.audi.tuner.app.misc;
 
 public interface IOptionsListener {
-    default public void amFmViewChanged(int n) {
-    }
+    public void amFmViewChanged(int var1);
 }
 

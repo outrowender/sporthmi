@@ -14,76 +14,52 @@ import de.audi.tghu.online.app.standard.IMobileKeyLicenseListener;
 import de.audi.tghu.online.app.standard.PrivacyFeatureStorageAccess;
 
 public interface IStandardController {
-    default public void init() {
-    }
+    public void init();
 
-    default public void initiateHmiJump() {
-    }
+    public void initiateHmiJump();
 
-    default public void changeApplicationState(boolean bl) {
-    }
+    public void changeApplicationState(boolean var1);
 
-    default public void setEniServiceOnline(ENIServiceOnline eNIServiceOnline) {
-    }
+    public void setEniServiceOnline(ENIServiceOnline var1);
 
-    default public ENIServiceOnlineListener getEniServiceListener() {
-    }
+    public ENIServiceOnlineListener getEniServiceListener();
 
-    default public void setRemoteHmiService(RemoteHMIService remoteHMIService) {
-    }
+    public void setRemoteHmiService(RemoteHMIService var1);
 
-    default public void onServiceList(Service[] serviceArray) {
-    }
+    public void onServiceList(Service[] var1);
 
-    default public void onUserList(User[] userArray) {
-    }
+    public void onUserList(User[] var1);
 
-    default public void onMonitorings(int n, int n2, int n3) {
-    }
+    public void onMonitorings(int var1, int var2, int var3);
 
-    default public void triggerMainUserSetUsingVehiclePINResponse(int n, int n2) {
-    }
+    public void triggerMainUserSetUsingVehiclePINResponse(int var1, int var2);
 
-    default public void triggerMainUserResetResponse(boolean bl) {
-    }
+    public void triggerMainUserResetResponse(boolean var1);
 
-    default public void triggerUpdateUserListResponse(boolean bl) {
-    }
+    public void triggerUpdateUserListResponse(boolean var1);
 
-    default public void setMainUser(String string, String string2) {
-    }
+    public void setMainUser(String var1, String var2);
 
-    default public void resetMainUser() {
-    }
+    public void resetMainUser();
 
-    default public void setLicenseCollectionService(LicenseCollectionService licenseCollectionService) {
-    }
+    public void setLicenseCollectionService(LicenseCollectionService var1);
 
-    default public void setServiceListenerDelegate(IBAPServiceListener iBAPServiceListener) {
-    }
+    public void setServiceListenerDelegate(IBAPServiceListener var1);
 
-    default public Object getPowerManagerListener() {
-    }
+    public Object getPowerManagerListener();
 
-    default public void triggerUpdateUserlist() {
-    }
+    public void triggerUpdateUserlist();
 
-    default public void triggerPrivacyMode(boolean bl) {
-    }
+    public void triggerPrivacyMode(boolean var1);
 
-    default public void triggerSubmitChangesToBackend() {
-    }
+    public void triggerSubmitChangesToBackend();
 
-    default public void clearAuthentication() {
-    }
+    public void clearAuthentication();
 
-    default public LicenseCollectionService getLicenseCollectionService() {
-    }
+    public LicenseCollectionService getLicenseCollectionService();
 
-    default public void setPrivacyModeFeatureAvailable(boolean bl, PrivacyFeatureStorageAccess privacyFeatureStorageAccess) {
-    }
+    public void setPrivacyModeFeatureAvailable(boolean var1, PrivacyFeatureStorageAccess var2);
 
-    default public void setMobileKeyLicenseListener(IMobileKeyLicenseListener iMobileKeyLicenseListener) {
-    }
+    public void setMobileKeyLicenseListener(IMobileKeyLicenseListener var1);
 }
 

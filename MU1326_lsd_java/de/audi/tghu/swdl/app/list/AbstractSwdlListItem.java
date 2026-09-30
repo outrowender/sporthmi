@@ -9,7 +9,7 @@ import de.esolutions.fw.util.commons.Buffer;
 
 abstract class AbstractSwdlListItem
 implements ISwdlListItem {
-    public static final int SWDL_LIST_ITEM_LAYOUT_DEFAULT;
+    public static final int SWDL_LIST_ITEM_LAYOUT_DEFAULT = 0;
     private int id;
     private String name;
     private boolean selectable;
@@ -25,7 +25,6 @@ implements ISwdlListItem {
         this.layout = 0;
     }
 
-    @Override
     public int getId() {
         return this.id;
     }
@@ -34,12 +33,10 @@ implements ISwdlListItem {
         this.id = n;
     }
 
-    @Override
     public boolean getSelectable() {
         return this.selectable;
     }
 
-    @Override
     public final void setSelectable(boolean bl) {
         this.selectable = bl;
     }
@@ -52,22 +49,18 @@ implements ISwdlListItem {
         this.layout = n;
     }
 
-    @Override
     public ISwdlListItem getParent() {
         return this.parent;
     }
 
-    @Override
     public ISwdlListItem[] getChildren() {
         return this.children;
     }
 
-    @Override
     public void setChildren(ISwdlListItem[] iSwdlListItemArray) {
         this.children = iSwdlListItemArray != null ? iSwdlListItemArray : new ISwdlListItem[0];
     }
 
-    @Override
     public ISwdlListItem getChild(int n) {
         ISwdlListItem iSwdlListItem = null;
         if (n < this.getChildren().length && n >= 0) {
@@ -84,13 +77,9 @@ implements ISwdlListItem {
         this.name = string;
     }
 
-    @Override
-    public abstract void select(int n) {
-    }
+    public abstract void select(int var1);
 
-    @Override
-    public abstract void updateListRow(BaseListRow baseListRow) {
-    }
+    public abstract void updateListRow(BaseListRow var1);
 
     public String toString() {
         Buffer buffer = new Buffer();

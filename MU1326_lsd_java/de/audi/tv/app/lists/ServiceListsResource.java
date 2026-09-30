@@ -3,23 +3,21 @@
  */
 package de.audi.tv.app.lists;
 
+import de.audi.atip.hmi.model.DefaultOptionListener;
 import de.audi.atip.hmi.model.list.SelectedItem;
 import de.audi.atip.log.LogChannel;
 import de.audi.tv.app.base.TVEnv;
+import de.audi.tv.app.base.TVEventDefaultListener;
 import de.audi.tv.app.cmd.ITVCmdManager;
 import de.audi.tv.app.cmd.TVCmdManager;
 import de.audi.tv.app.cmd.TVCommandList;
 import de.audi.tv.app.dsi.DSICallListener;
+import de.audi.tv.app.dsi.DefaultTVListener;
 import de.audi.tv.app.lists.AbstractTVStationRow;
 import de.audi.tv.app.lists.EmptyStationList;
 import de.audi.tv.app.lists.IServiceListsResource;
 import de.audi.tv.app.lists.IStationList;
 import de.audi.tv.app.lists.LogoList;
-import de.audi.tv.app.lists.ServiceListsResource$OptionListener;
-import de.audi.tv.app.lists.ServiceListsResource$SelectServiceListener;
-import de.audi.tv.app.lists.ServiceListsResource$SelectedServiceDebouncedListener;
-import de.audi.tv.app.lists.ServiceListsResource$SettingListener;
-import de.audi.tv.app.lists.ServiceListsResource$TVListenerImpl;
 import de.audi.tv.app.lists.StationMapper;
 import de.audi.tv.app.lists.favorites.EmptyFavoritesList;
 import de.audi.tv.app.lists.favorites.IFavoriteActionHandler;
@@ -34,11 +32,11 @@ import org.dsi.ifc.tvtuner.ServiceInfo;
 public class ServiceListsResource
 implements IServiceListsResource,
 IFavoriteActionHandler {
-    public static final int TV_FULLSCREEN_ID;
+    public static final int TV_FULLSCREEN_ID = 2;
     private IStationList stationList = new EmptyStationList();
     private IFavoritesList favoritesList = new EmptyFavoritesList();
     private final LogoList logoList;
-    public final ISettingListener settingListener = new ServiceListsResource$SettingListener(this, null);
+    public final ISettingListener settingListener = new SettingListener();
     private ServiceInfo[] favoritesToAdd = new ServiceInfo[0];
     private ServiceInfo[] favoritesToRemove = new ServiceInfo[0];
     private ServiceInfo[] updatedServices = new ServiceInfo[0];
@@ -49,9 +47,9 @@ IFavoriteActionHandler {
     private final LogChannel log;
     private final StationMapper mapper;
     private final TVEnv env;
-    public final ServiceListsResource$TVListenerImpl tvListener = new ServiceListsResource$TVListenerImpl(this, null);
-    public final DSICallListener selectServiceListener = new ServiceListsResource$SelectServiceListener(this, null);
-    public final ServiceListsResource$SelectedServiceDebouncedListener selectionListener = new ServiceListsResource$SelectedServiceDebouncedListener(this, null);
+    public final TVListenerImpl tvListener = new TVListenerImpl();
+    public final DSICallListener selectServiceListener = new SelectServiceListener();
+    public final SelectedServiceDebouncedListener selectionListener = new SelectedServiceDebouncedListener();
 
     public ServiceListsResource(TVEnv tVEnv, TVCmdManager tVCmdManager, StationMapper stationMapper, LogoList logoList) {
         this.env = tVEnv;
@@ -67,10 +65,10 @@ IFavoriteActionHandler {
 
     public void registerFavoritesList(IFavoritesList iFavoritesList) {
         this.favoritesList = iFavoritesList;
-        this.log.log(1078071040, "[ServiceListsResource.registerFavoritesList] loading favorites from memory.");
-        ServiceListsResource$OptionListener serviceListsResource$OptionListener = new ServiceListsResource$OptionListener(this, null);
-        this.env.getOptionModel(1890330368).setListener(serviceListsResource$OptionListener, 1085024000);
-        this.env.getOptionModel(1890330368).setCustomIDListener(serviceListsResource$OptionListener, 2);
+        this.log.log(1000000, "[ServiceListsResource.registerFavoritesList] loading favorites from memory.");
+        OptionListener optionListener = new OptionListener();
+        this.env.getOptionModel(2600048).setListener(optionListener, 2600000);
+        this.env.getOptionModel(2600048).setCustomIDListener(optionListener, 2);
         TVCommandList tVCommandList = this.cmdManager.createCmdList(0);
         tVCommandList.add(this.cmdManager.createLoadFavoritesCmd(this));
         tVCommandList.add(this.cmdManager.createSetFavoritesCmd(this, this.mapper));
@@ -80,7 +78,7 @@ IFavoriteActionHandler {
     public void registerFavoritesList(IFavoritesList iFavoritesList, ServiceInfo[] serviceInfoArray) {
         this.favoritesList = iFavoritesList;
         this.setFavoritesToAdd(serviceInfoArray);
-        this.log.log(1078071040, "[ServiceListsResource.registerFavoritesList] loading given favorites.");
+        this.log.log(1000000, "[ServiceListsResource.registerFavoritesList] loading given favorites.");
         TVCommandList tVCommandList = this.cmdManager.createCmdList(0);
         tVCommandList.add(this.cmdManager.createSetFavoritesCmd(this, this.mapper));
         this.cmdManager.enqueue(tVCommandList);
@@ -89,7 +87,6 @@ IFavoriteActionHandler {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public ServiceInfo[] getNewFavorites() {
         ServiceListsResource serviceListsResource = this;
         synchronized (serviceListsResource) {
@@ -102,7 +99,6 @@ IFavoriteActionHandler {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public ServiceInfo[] getOldFavorites() {
         ServiceListsResource serviceListsResource = this;
         synchronized (serviceListsResource) {
@@ -115,7 +111,6 @@ IFavoriteActionHandler {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public ServiceInfo[] getNewServiceList() {
         ServiceListsResource serviceListsResource = this;
         synchronized (serviceListsResource) {
@@ -125,14 +120,12 @@ IFavoriteActionHandler {
         }
     }
 
-    @Override
     public void setFavorites(ServiceInfo[] serviceInfoArray, long[] lArray) {
         SelectedItem selectedItem = this.stationList.getSelected();
         long l = selectedItem != null ? selectedItem.getUniqueID() : -1L;
         this.favoritesList.setFavorites(serviceInfoArray, lArray, l);
     }
 
-    @Override
     public void addFavorite(ServiceInfo serviceInfo, long l) {
         SelectedItem selectedItem = this.stationList.getSelected();
         long l2 = selectedItem != null ? selectedItem.getUniqueID() : -1L;
@@ -143,29 +136,24 @@ IFavoriteActionHandler {
         }
     }
 
-    @Override
     public void clearFavorites() {
         this.favoritesList.clearList(false);
     }
 
-    @Override
     public void removeFavorite(ServiceInfo serviceInfo, long l) {
         this.favoritesList.removeService(l);
     }
 
-    @Override
     public void markFavorites(long[] lArray) {
         this.stationList.markFavorites(lArray);
         this.logoList.addFavoriteNamePids(this.mapper.getNamePidForUniqueIds(lArray));
     }
 
-    @Override
     public void unmarkFavorites(long[] lArray) {
         this.stationList.unmarkFavorites(lArray);
         this.logoList.removeFavoriteNamePids(this.mapper.getNamePidForUniqueIds(lArray));
     }
 
-    @Override
     public long[] getFavoritesIDs() {
         long[] lArray = this.favoritesList.getFavoritesIDs();
         ArrayList arrayList = new ArrayList(lArray.length);
@@ -182,7 +170,6 @@ IFavoriteActionHandler {
         return lArray2;
     }
 
-    @Override
     public void loadFavoritesFromMemory() {
         ServiceInfo[] serviceInfoArray = this.favoritesList.getServicesFromMemory();
         ArrayList arrayList = new ArrayList();
@@ -193,7 +180,6 @@ IFavoriteActionHandler {
         this.setFavoritesToAdd((ServiceInfo[])arrayList.toArray(new ServiceInfo[arrayList.size()]));
     }
 
-    @Override
     public List createNewStationList(ServiceInfo[] serviceInfoArray, long[] lArray, long[] lArray2) {
         ArrayList arrayList = new ArrayList(serviceInfoArray.length);
         AbstractTVStationRow abstractTVStationRow = this.stationList.getTmpStation();
@@ -214,7 +200,6 @@ IFavoriteActionHandler {
         return arrayList;
     }
 
-    @Override
     public void setStationList(List list) {
         this.stationList.setStationList(list, this.favoritesList);
     }
@@ -222,7 +207,6 @@ IFavoriteActionHandler {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public ProgramInfo getSelectedProgram() {
         ServiceListsResource serviceListsResource = this;
         synchronized (serviceListsResource) {
@@ -232,7 +216,6 @@ IFavoriteActionHandler {
         }
     }
 
-    @Override
     public void setSelectedProgram(ProgramInfo programInfo) {
         if (programInfo != null) {
             boolean bl = this.favoritesList.updateSelectedProgram(programInfo);
@@ -243,7 +226,6 @@ IFavoriteActionHandler {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public ServiceInfo getSelectedService() {
         ServiceListsResource serviceListsResource = this;
         synchronized (serviceListsResource) {
@@ -253,7 +235,6 @@ IFavoriteActionHandler {
         }
     }
 
-    @Override
     public void setSelectedService(ServiceInfo serviceInfo) {
         if (serviceInfo != null) {
             boolean bl = this.favoritesList.updateSelectedService(serviceInfo);
@@ -261,7 +242,6 @@ IFavoriteActionHandler {
         }
     }
 
-    @Override
     public void updateLogoList(LogoInfo[] logoInfoArray) {
         this.stationList.updateStationLogos(logoInfoArray);
         this.favoritesList.updateStationLogos(logoInfoArray);
@@ -335,45 +315,41 @@ IFavoriteActionHandler {
 
     public void handleDeleteFavorite(ServiceInfo serviceInfo) {
         this.setFavoritesToRemove(new ServiceInfo[]{serviceInfo});
-        this.log.log(1078071040, "[ServiceListsResource.handleDeleteFavorite] removing favorite: %1", (Object)serviceInfo);
+        this.log.log(1000000, "[ServiceListsResource.handleDeleteFavorite] removing favorite: %1", (Object)serviceInfo);
         TVCommandList tVCommandList = this.cmdManager.createCmdList(0);
         tVCommandList.add(this.cmdManager.createRemoveFavoriteCmd(this, this.mapper));
         this.cmdManager.enqueue(tVCommandList);
     }
 
-    @Override
     public void handleDeleteFavorite(int n) {
         ServiceInfo serviceInfo = this.favoritesList.getServiceByIndex(n);
         this.handleDeleteFavorite(serviceInfo);
     }
 
-    @Override
     public void handleAddFavorite(int n) {
         AbstractTVStationRow abstractTVStationRow = this.stationList.getRowByIndex(n);
         if (null != abstractTVStationRow) {
             ServiceInfo serviceInfo = abstractTVStationRow.service;
             this.handleAddFavorite(serviceInfo);
         } else {
-            this.log.log(-1601830656, "[ServiceListsResource.handleAddFavorite] Cannot find row for targetRowIndex %1", (long)n);
+            this.log.log(100000, "[ServiceListsResource.handleAddFavorite] Cannot find row for targetRowIndex %1", (long)n);
         }
     }
 
-    @Override
     public void handleAddFavorite(ServiceInfo serviceInfo) {
         if (serviceInfo != null) {
             this.setFavoritesToAdd(new ServiceInfo[]{serviceInfo});
-            this.log.log(1078071040, "[ServiceListsResource.handleAddFavorite] adding favorite: %1", (Object)serviceInfo);
+            this.log.log(1000000, "[ServiceListsResource.handleAddFavorite] adding favorite: %1", (Object)serviceInfo);
             TVCommandList tVCommandList = this.cmdManager.createCmdList(0);
             tVCommandList.add(this.cmdManager.createAddFavoriteCmd(this, this.mapper));
             this.cmdManager.enqueue(tVCommandList);
         } else {
-            this.log.log(-1601830656, "[ServiceListsResource.handleAddFavorite] Favorite to add was null");
+            this.log.log(100000, "[ServiceListsResource.handleAddFavorite] Favorite to add was null");
         }
     }
 
-    @Override
     public void handleDeleteAllFavorites() {
-        this.log.log(1078071040, "[ServiceListsResource.handleDeleteAllFavorites] removing all favorites");
+        this.log.log(1000000, "[ServiceListsResource.handleDeleteAllFavorites] removing all favorites");
         ServiceInfo[] serviceInfoArray = this.favoritesList.getServices();
         ArrayList arrayList = new ArrayList();
         for (int i2 = 0; i2 < serviceInfoArray.length; ++i2) {
@@ -386,37 +362,78 @@ IFavoriteActionHandler {
         this.cmdManager.enqueue(tVCommandList);
     }
 
-    static /* synthetic */ LogChannel access$500(ServiceListsResource serviceListsResource) {
-        return serviceListsResource.log;
+    private class OptionListener
+    extends DefaultOptionListener {
+        private OptionListener() {
+        }
+
+        public void keyTyped(int n, int n2, int n3, int n4, int n5) {
+            ServiceListsResource.this.log.log(1000000, "[ServiceListsResource.OptionListener.keyTyped] %1, %2, %3", (long)n2, (long)n3, (long)n4);
+            if (n4 == 2) {
+                SelectedItem selectedItem = ServiceListsResource.this.stationList.getSelected();
+                if (selectedItem != null) {
+                    ServiceListsResource.this.handleAddFavorite(selectedItem.getIndex());
+                }
+            } else if (n == 2600048) {
+                ServiceListsResource.this.handleAddFavorite(n3);
+            }
+        }
     }
 
-    static /* synthetic */ IStationList access$600(ServiceListsResource serviceListsResource) {
-        return serviceListsResource.stationList;
+    private class TVListenerImpl
+    extends DefaultTVListener {
+        private TVListenerImpl() {
+        }
+
+        public void updateServiceList(ServiceInfo[] serviceInfoArray) {
+            ServiceListsResource.this.setUpdatedServices(serviceInfoArray);
+            TVCommandList tVCommandList = ServiceListsResource.this.cmdManager.createCmdList(0);
+            tVCommandList.add(ServiceListsResource.this.cmdManager.createUpdateStationListCmd(ServiceListsResource.this, ServiceListsResource.this.mapper));
+            ServiceListsResource.this.cmdManager.enqueue(tVCommandList);
+        }
+
+        public void updateLogoList(LogoInfo[] logoInfoArray) {
+        }
     }
 
-    static /* synthetic */ void access$700(ServiceListsResource serviceListsResource, ServiceInfo[] serviceInfoArray) {
-        serviceListsResource.setUpdatedServices(serviceInfoArray);
+    private class SettingListener
+    extends ISettingListener.Stub {
+        private SettingListener() {
+        }
+
+        public void updateStationListSorting(int n) {
+            ServiceListsResource.this.stationListSorting = n;
+        }
     }
 
-    static /* synthetic */ ITVCmdManager access$800(ServiceListsResource serviceListsResource) {
-        return serviceListsResource.cmdManager;
+    private class SelectServiceListener
+    extends DSICallListener {
+        private SelectServiceListener() {
+        }
+
+        public void selectService(ServiceInfo serviceInfo, boolean bl) {
+            ServiceListsResource.this.setService(serviceInfo);
+            TVCommandList tVCommandList = ServiceListsResource.this.cmdManager.createCmdList(0);
+            tVCommandList.add(ServiceListsResource.this.cmdManager.createUpdateSelectedStationCmd(ServiceListsResource.this, false));
+            ServiceListsResource.this.cmdManager.enqueue(tVCommandList);
+        }
+
+        public void enableServiceLinking(boolean bl) {
+            ServiceListsResource.this.stationList.updateServiceLinking(bl);
+        }
     }
 
-    static /* synthetic */ StationMapper access$900(ServiceListsResource serviceListsResource) {
-        return serviceListsResource.mapper;
-    }
+    private class SelectedServiceDebouncedListener
+    extends TVEventDefaultListener {
+        private SelectedServiceDebouncedListener() {
+        }
 
-    static /* synthetic */ void access$1000(ServiceListsResource serviceListsResource, ProgramInfo programInfo) {
-        serviceListsResource.setProgram(programInfo);
-    }
-
-    static /* synthetic */ void access$1100(ServiceListsResource serviceListsResource, ServiceInfo serviceInfo) {
-        serviceListsResource.setService(serviceInfo);
-    }
-
-    static /* synthetic */ int access$1202(ServiceListsResource serviceListsResource, int n) {
-        serviceListsResource.stationListSorting = n;
-        return serviceListsResource.stationListSorting;
+        public void onSelectedServiceDebounced(ProgramInfo programInfo) {
+            ServiceListsResource.this.setProgram(programInfo);
+            TVCommandList tVCommandList = ServiceListsResource.this.cmdManager.createCmdList(0);
+            tVCommandList.add(ServiceListsResource.this.cmdManager.createUpdateSelectedStationCmd(ServiceListsResource.this, true));
+            ServiceListsResource.this.cmdManager.enqueue(tVCommandList);
+        }
     }
 }
 

@@ -11,28 +11,21 @@ import de.audi.atip.log.LogChannel;
 import de.audi.tghu.command.CommandList;
 import de.audi.tghu.navi.app.IconHandler;
 import de.audi.tghu.navi.app.NavigationEnv;
+import de.audi.tghu.navi.app.command.NavCommand;
 import de.audi.tghu.navi.app.map.AbstractMap;
 import de.audi.tghu.navi.app.map.IContext;
 import de.audi.tghu.navi.app.map.IMapContent;
 import de.audi.tghu.navi.app.map.MapDataContainer;
 import de.audi.tghu.navi.app.map.gui.IAsiaMapContentView;
 import de.audi.tghu.navi.app.map.gui.IMapContentView;
+import de.audi.tghu.navi.app.map.gui.SimpleBaseListModelListener;
 import de.audi.tghu.navi.app.map.gui.SimpleButtonListener;
 import de.audi.tghu.navi.app.map.gui.SimpleChoiceListener;
 import de.audi.tghu.navi.app.map.handler.ISetupHandler;
 import de.audi.tghu.navi.app.map.handler.WeatherLicenseHandler;
 import de.audi.tghu.navi.app.map.impl.ContentListItem;
-import de.audi.tghu.navi.app.map.impl.ContentListItem$ContentListRowWrapper;
 import de.audi.tghu.navi.app.map.impl.ItemList;
-import de.audi.tghu.navi.app.map.impl.MapContentSyncHandler$1;
-import de.audi.tghu.navi.app.map.impl.MapContentSyncHandler$2;
-import de.audi.tghu.navi.app.map.impl.MapContentSyncHandler$3;
-import de.audi.tghu.navi.app.map.impl.MapContentSyncHandler$4;
-import de.audi.tghu.navi.app.map.impl.MapContentSyncHandler$5;
-import de.audi.tghu.navi.app.map.impl.MapContentSyncHandler$6;
-import de.audi.tghu.navi.app.map.impl.MapContentSyncHandler$7;
-import de.audi.tghu.navi.app.map.impl.MapContentSyncHandler$8;
-import de.audi.tghu.navi.app.poi.POICategoryManager$POICategoriesObserver;
+import de.audi.tghu.navi.app.poi.POICategoryManager;
 import de.audi.tghu.navi.app.poi.PoiCategoryTree;
 import de.audi.tghu.navi.app.poi.PoiCategoryTreeBuilder;
 import de.audi.tghu.navi.app.util.Util;
@@ -45,13 +38,13 @@ import org.dsi.ifc.map.LayerProperty;
 import org.dsi.ifc.navigation.Category;
 
 public class MapContentSyncHandler
-implements POICategoryManager$POICategoriesObserver,
+implements POICategoryManager.POICategoriesObserver,
 IMapContent {
-    public static final int LIST_MAIN;
-    public static final int LIST_PPOI;
-    public static final int LIST_MAX;
-    private static final int ENABLED;
-    private static final int DISABLED;
+    public static final int LIST_MAIN = 0;
+    public static final int LIST_PPOI = 1;
+    public static final int LIST_MAX = 2;
+    private static final int ENABLED = 1;
+    private static final int DISABLED = 0;
     protected final NavigationEnv env;
     protected final IconHandler iconHandler;
     private final LogChannel mGUILogChannel;
@@ -69,14 +62,71 @@ IMapContent {
     private ContentListItem[] mStaticItems = null;
     private boolean poiVisibilityReceived = false;
     private PoiCategoryTree onboardPoiCategoryTree;
-    final SimpleButtonListener asiaRemoveAllPoiListener = new MapContentSyncHandler$1(this);
+    final SimpleButtonListener asiaRemoveAllPoiListener = new SimpleButtonListener(){
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void keyPressed(int n, int n2, int n3) {
+            Object object = MapContentSyncHandler.this.listMainLock;
+            synchronized (object) {
+                MapContentSyncHandler.this.checkAll(false);
+            }
+        }
+    };
     final SimpleChoiceListener asiaMapContentListener = this.createItemSelectionHandler();
 
     protected SimpleChoiceListener createItemSelectionHandler() {
-        return new MapContentSyncHandler$2(this);
+        return new SimpleChoiceListener(){
+
+            public void itemSelected(int n, int n2, int n3, int n4) {
+                MapContentSyncHandler.this.getLogger().log(1000000, "MapContentSyncHandler#itemSelected() - modelID:%1, itemID:%2", (long)n, (long)n2);
+                MapContentSyncHandler.this.env.getChoiceModel(n).setValue(n2);
+                switch (n) {
+                    case 401834: 
+                    case 402138: {
+                        MapContentSyncHandler.this.naviMap.getSetup().setProperty(5, n2);
+                        MapContentSyncHandler.this.refreshAsiaTrafficFlow();
+                        MapContentSyncHandler.this.refreshAsiaOptions();
+                        break;
+                    }
+                    case 401831: 
+                    case 402137: {
+                        MapContentSyncHandler.this.naviMap.getSetup().setProperty(0, n2);
+                        MapContentSyncHandler.this.naviMap.getActiveContext().showTMC(MapContentSyncHandler.this.naviMap.getSetup().getTMCSymbols(0));
+                        break;
+                    }
+                    case 401832: {
+                        MapContentSyncHandler.this.naviMap.getSetup().setProperty(1, n2);
+                        break;
+                    }
+                    case 401833: 
+                    case 402143: {
+                        MapContentSyncHandler.this.naviMap.getSetup().setProperty(2, n2);
+                        MapContentSyncHandler.this.refreshAsiaTrafficFlow();
+                        MapContentSyncHandler.this.refreshAsiaOptions();
+                        break;
+                    }
+                    case 401836: 
+                    case 402142: {
+                        MapContentSyncHandler.this.naviMap.getSetup().setProperty(4, n2);
+                        MapContentSyncHandler.this.naviMap.getMapFlagHandler().refresh(true);
+                        break;
+                    }
+                    case 402154: 
+                    case 402155: {
+                        MapContentSyncHandler.this.naviMap.getSetup().setProperty(6, n2);
+                        break;
+                    }
+                    default: {
+                        MapContentSyncHandler.this.getLogger().log(100000, "MapContentSyncHandler#itemSelected() - unhandeled Model:%1", (long)n);
+                    }
+                }
+            }
+        };
     }
 
-    public MapContentSyncHandler(NavigationEnv navigationEnv, IconHandler iconHandler, AbstractMap abstractMap, IMapContentView iMapContentView, IAsiaMapContentView iAsiaMapContentView) {
+    public MapContentSyncHandler(final NavigationEnv navigationEnv, IconHandler iconHandler, AbstractMap abstractMap, IMapContentView iMapContentView, IAsiaMapContentView iAsiaMapContentView) {
         this.env = navigationEnv;
         this.iconHandler = iconHandler;
         this.naviMap = abstractMap;
@@ -90,11 +140,56 @@ IMapContent {
         this.flushMainList();
         this.mItemList[1] = new ItemList(1);
         this.flushPPOIList();
-        iMapContentView.getCheckAllStandard().setChoiceListener(new MapContentSyncHandler$3(this, navigationEnv));
-        this.mapContentView.getStandardList().setListener(new MapContentSyncHandler$4(this));
-        this.mapContentView.getStandardListLevel2().setListener(new MapContentSyncHandler$5(this));
-        this.mapContentView.getStandardListLevel3().setListener(new MapContentSyncHandler$6(this));
-        this.mapContentView.getPPOIList().setListener(new MapContentSyncHandler$7(this));
+        iMapContentView.getCheckAllStandard().setChoiceListener(new SimpleChoiceListener(){
+
+            public void itemSelected(int n, int n2, int n3, int n4) {
+                int n5 = 1 - navigationEnv.getChoiceModel(n).getValue();
+                navigationEnv.getChoiceModel(n).setValue(n5);
+                MapContentSyncHandler.this.checkAll(n5 == 1);
+            }
+        });
+        this.mapContentView.getStandardList().setListener(new SimpleBaseListModelListener(){
+
+            /*
+             * WARNING - Removed try catching itself - possible behaviour change.
+             */
+            public void itemSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
+                Object object = MapContentSyncHandler.this.listMainLock;
+                synchronized (object) {
+                    MapContentSyncHandler.this.onClickListItem(0, MapContentSyncHandler.this.mapContentView.getStandardList(), n2);
+                }
+            }
+        });
+        this.mapContentView.getStandardListLevel2().setListener(new SimpleBaseListModelListener(){
+
+            /*
+             * WARNING - Removed try catching itself - possible behaviour change.
+             */
+            public void itemSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
+                Object object = MapContentSyncHandler.this.listMainLock;
+                synchronized (object) {
+                    MapContentSyncHandler.this.onClickOnboardPoiItem((int)evoListRow.getUniqueID(), MapContentSyncHandler.this.mapContentView.getStandardListLevel2());
+                }
+            }
+        });
+        this.mapContentView.getStandardListLevel3().setListener(new SimpleBaseListModelListener(){
+
+            /*
+             * WARNING - Removed try catching itself - possible behaviour change.
+             */
+            public void itemSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
+                Object object = MapContentSyncHandler.this.listMainLock;
+                synchronized (object) {
+                    MapContentSyncHandler.this.onClickOnboardPoiItem((int)evoListRow.getUniqueID(), MapContentSyncHandler.this.mapContentView.getStandardListLevel3());
+                }
+            }
+        });
+        this.mapContentView.getPPOIList().setListener(new SimpleBaseListModelListener(){
+
+            public void itemSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
+                MapContentSyncHandler.this.onClickListItem(1, MapContentSyncHandler.this.mapContentView.getPPOIList(), n2);
+            }
+        });
         if (Util.isHURegionAsia()) {
             this.setAsiaMapContentListeners();
         }
@@ -128,15 +223,15 @@ IMapContent {
     private void refreshPOIVisibility(int[] nArray) {
         int n;
         if (nArray == null) {
-            this.getLogger().log(-2137614336, "MapContentSyncHandler#refreshPOIVisibility() - visiblePoiIDs = null");
+            this.getLogger().log(10000000, "MapContentSyncHandler#refreshPOIVisibility() - visiblePoiIDs = null");
             return;
         }
         if (this.onboardPoiCategoryTree == null || this.onboardPoiCategoryTree.isEmpty()) {
-            this.getLogger().log(-2137614336, "MapContentSyncHandler#refreshPOIVisibility() - no poi categories received yet");
+            this.getLogger().log(10000000, "MapContentSyncHandler#refreshPOIVisibility() - no poi categories received yet");
             return;
         }
         int n2 = nArray == null ? 0 : nArray.length;
-        this.getLogger().log(-2137614336, "MapContentSyncHandler#refreshPOIVisibility() - length = %1", (long)n2);
+        this.getLogger().log(10000000, "MapContentSyncHandler#refreshPOIVisibility() - length = %1", (long)n2);
         Object object = this.onboardPoiCategoryTree.iterator();
         while (object.hasNext()) {
             n = 0;
@@ -176,11 +271,11 @@ IMapContent {
         Iterator iterator = list.iterator();
         while (iterator.hasNext()) {
             EvoListRow evoListRow = (EvoListRow)iterator.next();
-            if (!(evoListRow instanceof ContentListItem$ContentListRowWrapper)) {
+            if (!(evoListRow instanceof ContentListItem.ContentListRowWrapper)) {
                 this.getLogger().log(10000, "MapContentSyncHandler#refreshItemListModel don't update, row is not an instance of ContentListRowWrapper");
                 return;
             }
-            ContentListItem contentListItem = ((ContentListItem$ContentListRowWrapper)evoListRow).item;
+            ContentListItem contentListItem = ((ContentListItem.ContentListRowWrapper)evoListRow).item;
             baseListModelApp2.append(contentListItem.toEvoListRow());
         }
         baseListModelApp.update(baseListModelApp2);
@@ -222,20 +317,18 @@ IMapContent {
         return this.mStaticItems;
     }
 
-    @Override
     public void onChangedMapRenderer() {
         if (!this.factoryReset) {
-            this.getLogger().log(-2137614336, "MapContentSyncHandler#onChangedMapRenderer()");
+            this.getLogger().log(10000000, "MapContentSyncHandler#onChangedMapRenderer()");
             this.refresh();
             this.setPOIVisibility(true);
         } else {
-            this.getLogger().log(-2137614336, "MapContentSyncHandler#onChangedMapRenderer() - don't take old settings");
+            this.getLogger().log(10000000, "MapContentSyncHandler#onChangedMapRenderer() - don't take old settings");
             this.refresh();
             this.factoryReset = false;
         }
     }
 
-    @Override
     public void refresh() {
         this.refreshStaticPart();
         this.refreshPOIState();
@@ -247,11 +340,11 @@ IMapContent {
     }
 
     public void refreshAsiaOptions() {
-        this.getLogger().log(-2137614336, "MapContentSyncHandler#refreshAsiaOptions()");
+        this.getLogger().log(10000000, "MapContentSyncHandler#refreshAsiaOptions()");
         ISetupHandler iSetupHandler = this.naviMap.getSetup();
         this.asiaMapContentView.getTrafficEventIcons().setValue(iSetupHandler.getProperty(0));
         this.asiaMapContentView.getTrafficEventNotice().setValue(iSetupHandler.getProperty(1));
-        this.getLogger().log(-2137614336, "MapContentSyncHandler#refreshAsiaOptions() - %1", (long)iSetupHandler.getProperty(2));
+        this.getLogger().log(10000000, "MapContentSyncHandler#refreshAsiaOptions() - %1", (long)iSetupHandler.getProperty(2));
         this.asiaMapContentView.getUncrowdedRoad().setValue(iSetupHandler.getProperty(2));
         int n = this.mapTrafficFlowToItemID(iSetupHandler.getProperty(5));
         this.asiaMapContentView.getTrafficFlow().setValue(n);
@@ -292,7 +385,7 @@ IMapContent {
         boolean bl = iSetupHandler.getSpeedAndFlowFreeflow(0);
         boolean bl2 = iSetupHandler.getSpeedAndFlowCongestions(0);
         int n = iSetupHandler.getProperty(5);
-        this.getLogger().log(-2137614336, "MapContentSyncHandler#refreshAsiaTrafficFlow() - showFreeflow=%1, showCongestions=%2, roadClass=%3", (Object)bl, (Object)bl2, (long)n);
+        this.getLogger().log(10000000, "MapContentSyncHandler#refreshAsiaTrafficFlow() - showFreeflow=%1, showCongestions=%2, roadClass=%3", (Object)bl, (Object)bl2, (long)n);
         IContext iContext = this.naviMap.getActiveContext();
         iContext.showSpeedAndFlowFreeflow(bl);
         iContext.showSpeedAndFlowCongestions(bl2);
@@ -302,15 +395,14 @@ IMapContent {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void processCategories(int n, Category[] categoryArray) {
         int n2;
         int n3 = n2 = categoryArray == null ? 0 : categoryArray.length;
         if (n2 <= 0) {
-            this.getLogger().log(-2137614336, "MapContentSyncHandler#processCategories() - length: %1, mapStyle: %2 - ignore empty list", (long)n2, (long)n);
+            this.getLogger().log(10000000, "MapContentSyncHandler#processCategories() - length: %1, mapStyle: %2 - ignore empty list", (long)n2, (long)n);
             return;
         }
-        this.getLogger().log(-2137614336, "MapContentSyncHandler#processCategories() - length: %1, mapStyle: %2", (long)n2, (long)n);
+        this.getLogger().log(10000000, "MapContentSyncHandler#processCategories() - length: %1, mapStyle: %2", (long)n2, (long)n);
         Buffer buffer = new Buffer();
         this.mItemList[1].clear();
         PoiCategoryTreeBuilder poiCategoryTreeBuilder = new PoiCategoryTreeBuilder(this.getLogger());
@@ -328,7 +420,7 @@ IMapContent {
             poiCategoryTreeBuilder.add(ContentListItem.createPOIItem(n5, n4, string, categoryArray[i2].isParent(), categoryArray[i2].getParentId(), this.isParentPoisAvailable));
         }
         if (this.getLogger().isDebug2()) {
-            this.getLogger().log(14808325, "MapContentSyncHandler#processCategories() - Categories:%1%2", (Object)Formatter.LINE_SEPARATOR, (Object)buffer.toString());
+            this.getLogger().log(100000000, "MapContentSyncHandler#processCategories() - Categories:%1%2", (Object)Formatter.LINE_SEPARATOR, (Object)buffer.toString());
         }
         this.onboardPoiCategoryTree = poiCategoryTreeBuilder.build();
         Object object = this.listMainLock;
@@ -398,23 +490,48 @@ IMapContent {
         return bl;
     }
 
-    @Override
     public void backupDynamicPOIVisibilityAndHide() {
         CommandList commandList = null;
         commandList = this.naviMap.getNaviInterface().createCommandList();
         if (this.naviMap.getSetup().getPoiVisibleUid() == null) {
             commandList.add(this.naviMap.getNaviInterface().getPOICategoryManager().fetchPOICategories(0));
         }
-        commandList.add(new MapContentSyncHandler$8(this, "backupDynamicPOIVisibilityAndHide"));
+        commandList.add(new NavCommand("backupDynamicPOIVisibilityAndHide"){
+
+            public void execute() {
+                int[] nArray = MapContentSyncHandler.this.naviMap.getSetup().getPoiVisibleUid();
+                boolean[] blArray = MapContentSyncHandler.this.naviMap.getSetup().getPoiVisibleStatus();
+                MapContentSyncHandler.this.getLogger().log(10000000, "MapContentSyncHandler#backupDynamicPOIVisibilityAndHide(): uidOrig: %1, visibilityOrig: %2", nArray == null ? 0L : (long)nArray.length, blArray == null ? 0L : (long)blArray.length);
+                if (nArray != null && blArray != null) {
+                    int[] nArray2 = new int[nArray.length];
+                    boolean[] blArray2 = new boolean[blArray.length];
+                    for (int i2 = 0; i2 < nArray.length; ++i2) {
+                        nArray2[i2] = nArray[i2];
+                        blArray2[i2] = false;
+                    }
+                    MapContentSyncHandler.this.getLogger().log(10000000, "Context#performPoiTypeVisibilityBackup( %3 ): sSetupPoiVisibleUid.length: %1, sBackupPoiVisibleUid.length: %2", nArray == null ? 0L : (long)nArray.length, ((MapContentSyncHandler)MapContentSyncHandler.this).container.sBackupPoiVisibleUid == null ? 0L : (long)((MapContentSyncHandler)MapContentSyncHandler.this).container.sBackupPoiVisibleUid.length);
+                    ((MapContentSyncHandler)MapContentSyncHandler.this).container.sPoiTypeVisibilityDirty = true;
+                    if (((MapContentSyncHandler)MapContentSyncHandler.this).container.sBackupPoiVisibleUid == null) {
+                        ((MapContentSyncHandler)MapContentSyncHandler.this).container.sBackupPoiVisibleUid = new int[nArray.length];
+                        System.arraycopy((Object)nArray, 0, (Object)((MapContentSyncHandler)MapContentSyncHandler.this).container.sBackupPoiVisibleUid, 0, nArray.length);
+                    }
+                    if (((MapContentSyncHandler)MapContentSyncHandler.this).container.sBackupPoiVisibleStatus == null) {
+                        ((MapContentSyncHandler)MapContentSyncHandler.this).container.sBackupPoiVisibleStatus = new boolean[blArray.length];
+                        System.arraycopy((Object)blArray, 0, (Object)((MapContentSyncHandler)MapContentSyncHandler.this).container.sBackupPoiVisibleStatus, 0, blArray.length);
+                    }
+                    MapContentSyncHandler.this.naviMap.getMVRequest().ehSetCategoryVisibility(MapContentSyncHandler.this.naviMap.getCurrentMapStyle(), nArray2, blArray2);
+                }
+                this.getCommandList().commandFinished();
+            }
+        });
         commandList.execute("MapContentSyncHandler#backupDynamicPOIVisibilityAndHide()");
     }
 
-    @Override
     public void restoreDynamicPOIVisibility() {
         if (this.container.sPoiTypeVisibilityDirty) {
             int[] nArray = this.naviMap.getSetup().getPoiVisibleUid();
             boolean[] blArray = this.naviMap.getSetup().getPoiVisibleStatus();
-            this.getLogger().log(-2137614336, "MapContentSyncHandler#restoreDynamicPOIVisibility(): sSetupPoiVisibleUid.length: %1, sBackupPoiVisibleUid.length: %2", nArray == null ? 0L : (long)nArray.length, this.container.sBackupPoiVisibleUid == null ? 0L : (long)this.container.sBackupPoiVisibleUid.length);
+            this.getLogger().log(10000000, "MapContentSyncHandler#restoreDynamicPOIVisibility(): sSetupPoiVisibleUid.length: %1, sBackupPoiVisibleUid.length: %2", nArray == null ? 0L : (long)nArray.length, this.container.sBackupPoiVisibleUid == null ? 0L : (long)this.container.sBackupPoiVisibleUid.length);
             this.container.sPoiTypeVisibilityDirty = false;
             if (this.container.sBackupPoiVisibleUid != null) {
                 nArray = this.container.sBackupPoiVisibleUid;
@@ -431,11 +548,10 @@ IMapContent {
         }
     }
 
-    @Override
     public void setPOIVisibility(boolean bl) {
-        this.getLogger().log(-2137614336, "MapContentSyncHandler#setPoiVisiblity() - persistent: %1 ", bl);
+        this.getLogger().log(10000000, "MapContentSyncHandler#setPoiVisiblity() - persistent: %1 ", bl);
         if (this.mItemList[0].size() == 0 && this.mItemList[1].size() == 0) {
-            this.getLogger().log(-2137614336, "MapContentSyncHandler#setPoiVisiblity() - not initialized - return ");
+            this.getLogger().log(10000000, "MapContentSyncHandler#setPoiVisiblity() - not initialized - return ");
             return;
         }
         ItemList itemList = this.onboardPoiCategoryTree.getLeafs();
@@ -449,19 +565,17 @@ IMapContent {
             blArray[i2] = contentListItem.checked;
         }
         if (this.getLogger().isDebug2()) {
-            this.getLogger().log(14808325, "MapContentSyncHandler#setPoiVisiblity() - %1", (Object)this.onboardPoiCategoryTree.toString());
+            this.getLogger().log(100000000, "MapContentSyncHandler#setPoiVisiblity() - %1", (Object)this.onboardPoiCategoryTree.toString());
         }
         this.naviMap.getSetup().setPoiVisible(nArray, blArray, bl);
     }
 
-    @Override
     public synchronized int[] getPoiVisibility() {
         return this.mVisibleCategoryIDs;
     }
 
-    @Override
     public void initializeSystemLayers(int[] nArray, int[] nArray2, boolean bl) {
-        this.getLogger().log(-2137614336, "MapContentSyncHandler#initializeSystemLayers() - systemLayerIDs: %1, persistedSystemLayerAvailable: %2", (Object)nArray, (Object)nArray2);
+        this.getLogger().log(10000000, "MapContentSyncHandler#initializeSystemLayers() - systemLayerIDs: %1, persistedSystemLayerAvailable: %2", (Object)nArray, (Object)nArray2);
         this.storedSystemLayerIDs = nArray == null ? new int[]{} : nArray;
         this.storedSystemLayerAvailable = nArray2 == null ? new int[]{} : nArray2;
     }
@@ -469,7 +583,6 @@ IMapContent {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public int[] getSystemLayers() {
         MapContentSyncHandler mapContentSyncHandler = this;
         synchronized (mapContentSyncHandler) {
@@ -480,7 +593,6 @@ IMapContent {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public int[] getSystemLayersAvailable() {
         MapContentSyncHandler mapContentSyncHandler = this;
         synchronized (mapContentSyncHandler) {
@@ -489,7 +601,7 @@ IMapContent {
     }
 
     public void checkAll(boolean bl) {
-        this.getLogger().log(-2137614336, "MapContentSyncHandler#checkAll( %1 )", bl);
+        this.getLogger().log(10000000, "MapContentSyncHandler#checkAll( %1 )", bl);
         boolean bl2 = false;
         for (int i2 = 0; i2 < this.mItemList.length; ++i2) {
             for (int i3 = 0; i3 < this.mItemList[i2].size(); ++i3) {
@@ -516,7 +628,7 @@ IMapContent {
         this.flushAllLists();
         this.naviMap.getSetup().saveState();
         if (bl2) {
-            this.getLogger().log(-2137614336, "MapContentSyncHandler#checkAll() - weather item was changed! ");
+            this.getLogger().log(10000000, "MapContentSyncHandler#checkAll() - weather item was changed! ");
             object = this.naviMap.getMapManager().getWeatherLicenseHandler();
             if (bl) {
                 ((WeatherLicenseHandler)object).onWeatherCheckboxSelected(this);
@@ -539,15 +651,15 @@ IMapContent {
             case 1: {
                 contentListItem = this.mItemList[n].getItem(n2);
                 if (contentListItem != null) break;
-                this.getLogger().log(-1601830656, "MapContentSyncHandler#onClickListItem() - invalid index %1 of list %2", (long)n2, (long)n);
+                this.getLogger().log(100000, "MapContentSyncHandler#onClickListItem() - invalid index %1 of list %2", (long)n2, (long)n);
                 return;
             }
             default: {
-                this.getLogger().log(-1601830656, "MapContentSyncHandler#onClickListItem() - unknown list type : %1", (long)n);
+                this.getLogger().log(100000, "MapContentSyncHandler#onClickListItem() - unknown list type : %1", (long)n);
                 return;
             }
         }
-        this.getLogger().log(-2137614336, "MapContentSyncHandler#onClickListItem() - click: %2, enabled: %1 ", contentListItem.enabled, (Object)contentListItem);
+        this.getLogger().log(10000000, "MapContentSyncHandler#onClickListItem() - click: %2, enabled: %1 ", contentListItem.enabled, (Object)contentListItem);
         if (!contentListItem.enabled) {
             return;
         }
@@ -577,10 +689,10 @@ IMapContent {
         } else if (n == 0 || n == 1) {
             this.setPOIVisibility(true);
         } else {
-            this.getLogger().log(-1601830656, "MapContentSyncHandler#onClickListItem() - unexpected call");
+            this.getLogger().log(100000, "MapContentSyncHandler#onClickListItem() - unexpected call");
         }
         if (bl) {
-            this.getLogger().log(1078071040, "MapContentSyncHandler#onClickListItem() - deactivate weather in map", 0L);
+            this.getLogger().log(1000000, "MapContentSyncHandler#onClickListItem() - deactivate weather in map", 0L);
             try {
                 weatherLicenseHandler.deactivateWeather();
             }
@@ -591,11 +703,11 @@ IMapContent {
     }
 
     private void onClickOnboardPoiItem(int n, BaseListModelApp baseListModelApp) {
-        ContentListItem contentListItem = ((ContentListItem$ContentListRowWrapper)baseListModelApp.getRowByUniqueID((long)((long)n))).item;
+        ContentListItem contentListItem = ((ContentListItem.ContentListRowWrapper)baseListModelApp.getRowByUniqueID((long)((long)n))).item;
         if (contentListItem.isParent) {
             this.handleParentPoi(contentListItem, baseListModelApp);
         } else {
-            this.getLogger().log(1078071040, "MapContentSyncHandler#onClickOnboardPoiItem() - selected item=%1", (Object)contentListItem);
+            this.getLogger().log(1000000, "MapContentSyncHandler#onClickOnboardPoiItem() - selected item=%1", (Object)contentListItem);
             contentListItem.checked = !contentListItem.checked;
             this.onboardPoiCategoryTree.setItemChecked(contentListItem.rowID, contentListItem.checked);
             baseListModelApp.setRow(baseListModelApp.getIndexForUniqueID(n), contentListItem.toEvoListRow());
@@ -607,16 +719,16 @@ IMapContent {
         BaseListModelApp baseListModelApp2;
         LabelModelApp labelModelApp;
         if (baseListModelApp == this.mapContentView.getStandardList()) {
-            labelModelApp = this.env.getLabelModel(975504896);
+            labelModelApp = this.env.getLabelModel(402746);
             baseListModelApp2 = this.mapContentView.getStandardListLevel2();
         } else if (baseListModelApp == this.mapContentView.getStandardListLevel2()) {
-            labelModelApp = this.env.getLabelModel(992282112);
+            labelModelApp = this.env.getLabelModel(402747);
             baseListModelApp2 = this.mapContentView.getStandardListLevel3();
         } else {
             this.getLogger().log(10000, "MapContentSyncHandler#handleParentPoi no followup list found for BaseListModelApp %1", (long)baseListModelApp.getID());
             return;
         }
-        this.getLogger().log(1078071040, "MapContentSyncHandler#handleParentPoi parentpoi(%2) selected in list %1", (Object)Integer.toString(baseListModelApp.getID()), (Object)contentListItem.text);
+        this.getLogger().log(1000000, "MapContentSyncHandler#handleParentPoi parentpoi(%2) selected in list %1", (Object)Integer.toString(baseListModelApp.getID()), (Object)contentListItem.text);
         ItemList itemList = this.onboardPoiCategoryTree.getSubCategoriesOf(contentListItem.rowID);
         labelModelApp.setText(contentListItem.text);
         this.flush(itemList, baseListModelApp2);
@@ -624,7 +736,7 @@ IMapContent {
     }
 
     private void refreshCheckAll(boolean bl) {
-        this.getLogger().log(-2137614336, "MapContentSyncHandler#refreshCheckAll( %1 )", bl);
+        this.getLogger().log(10000000, "MapContentSyncHandler#refreshCheckAll( %1 )", bl);
         this.mapContentView.getCheckAllStandard().setValue(bl ? 1 : 0);
     }
 
@@ -633,7 +745,7 @@ IMapContent {
             for (int i3 = 0; i3 < this.mItemList[i2].size(); ++i3) {
                 ContentListItem contentListItem = this.mItemList[i2].getItem(i3);
                 if (contentListItem.checked) continue;
-                this.getLogger().log(14808325, "MapContentSyncHandler#areAllEnabledItemsChecked() - List[%2] %1", (Object)contentListItem, (long)i2);
+                this.getLogger().log(100000000, "MapContentSyncHandler#areAllEnabledItemsChecked() - List[%2] %1", (Object)contentListItem, (long)i2);
                 return false;
             }
         }
@@ -644,7 +756,7 @@ IMapContent {
         boolean bl = Util.isLockFeatureNavMapAdvancedMapEnabled(this.env) && this.naviMap.getNaviInterface().isFeatureToBeLocked();
         boolean bl2 = !bl;
         Buffer buffer = new Buffer();
-        this.getLogger().log(-2137614336, "MapContentSyncHandler#refreshStaticPart() - are3DModelsAllowed: %1", bl2);
+        this.getLogger().log(10000000, "MapContentSyncHandler#refreshStaticPart() - are3DModelsAllowed: %1", bl2);
         for (int i2 = 0; i2 < this.mItemList[0].size(); ++i2) {
             ContentListItem contentListItem = this.mItemList[0].getItem(i2);
             if (!contentListItem.isStatic) continue;
@@ -656,12 +768,12 @@ IMapContent {
             buffer.append("rowID=").append(contentListItem.rowID).append(", checked=").append(contentListItem.checked).append(Formatter.LINE_SEPARATOR);
         }
         if (buffer.length() > 0 && this.getLogger().isDebug2()) {
-            this.getLogger().log(14808325, "MapContentSyncHandler#refreshStaticPart() - Static categories:%1%2", (Object)Formatter.LINE_SEPARATOR, (Object)buffer.toString());
+            this.getLogger().log(100000000, "MapContentSyncHandler#refreshStaticPart() - Static categories:%1%2", (Object)Formatter.LINE_SEPARATOR, (Object)buffer.toString());
         }
     }
 
     private void checkStaticItem(ContentListItem contentListItem, boolean bl) {
-        this.getLogger().log(-2137614336, "MapContentSyncHandler#checkStaticItem() - rowID: %2, persistent: %1", bl, (long)contentListItem.rowID);
+        this.getLogger().log(10000000, "MapContentSyncHandler#checkStaticItem() - rowID: %2, persistent: %1", bl, (long)contentListItem.rowID);
         int n = contentListItem.rowID;
         boolean bl2 = contentListItem.checked;
         int n2 = 0;
@@ -729,14 +841,13 @@ IMapContent {
                 break;
             }
             default: {
-                this.getLogger().log(-2137614336, "MapContentSyncHandler#checkStaticItem() invalid staticRowID: %1", (long)n);
+                this.getLogger().log(10000000, "MapContentSyncHandler#checkStaticItem() invalid staticRowID: %1", (long)n);
             }
         }
     }
 
-    @Override
     public boolean toggleTMC() {
-        this.getLogger().log(-2137614336, "MapContentSyncHandler#toggleTMC()");
+        this.getLogger().log(10000000, "MapContentSyncHandler#toggleTMC()");
         ContentListItem contentListItem = this.mItemList[0].getItem(true, 2);
         if (contentListItem != null) {
             contentListItem.checked = !contentListItem.checked;
@@ -755,13 +866,12 @@ IMapContent {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updateEhCategoryVisibility(int[] nArray) {
         if (nArray == null) {
-            this.getLogger().log(-2137614336, "MapContentSyncHandler#updateEhCategoryVisibility( null )");
+            this.getLogger().log(10000000, "MapContentSyncHandler#updateEhCategoryVisibility( null )");
             return;
         }
-        this.getLogger().log(-2137614336, "MapContentSyncHandler#updateEhCategoryVisibility( ) - length = %1", (long)nArray.length);
+        this.getLogger().log(10000000, "MapContentSyncHandler#updateEhCategoryVisibility( ) - length = %1", (long)nArray.length);
         Object object = this.listMainLock;
         synchronized (object) {
             this.poiVisibilityReceived = true;
@@ -774,7 +884,7 @@ IMapContent {
     }
 
     private void flush(ItemList itemList, BaseListModelApp baseListModelApp) {
-        this.getLogger().log(14808325, "MapContentSyncHandler#flush() - itemList.ID:%1, modelID:%2", (long)itemList.ID, (long)baseListModelApp.getID());
+        this.getLogger().log(100000000, "MapContentSyncHandler#flush() - itemList.ID:%1, modelID:%2", (long)itemList.ID, (long)baseListModelApp.getID());
         BaseListModelApp baseListModelApp2 = baseListModelApp.getEmptyCopy();
         EvoListRow[] evoListRowArray = new EvoListRow[itemList.size()];
         for (int i2 = 0; i2 < itemList.size(); ++i2) {
@@ -790,18 +900,18 @@ IMapContent {
     }
 
     private void flushAllLists() {
-        this.getLogger().log(-2137614336, "MapContentSyncHandler#flushAllLists()");
+        this.getLogger().log(10000000, "MapContentSyncHandler#flushAllLists()");
         this.flush(this.mItemList[0], this.mapContentView.getStandardList());
         this.flush(this.mItemList[1], this.mapContentView.getPPOIList());
     }
 
     private void flushMainList() {
-        this.getLogger().log(-2137614336, "MapContentSyncHandler#flushMainList()");
+        this.getLogger().log(10000000, "MapContentSyncHandler#flushMainList()");
         this.flush(this.mItemList[0], this.mapContentView.getStandardList());
     }
 
     private void flushPPOIList() {
-        this.getLogger().log(-2137614336, "MapContentSyncHandler#flushPPOIList()");
+        this.getLogger().log(10000000, "MapContentSyncHandler#flushPPOIList()");
         this.flush(this.mItemList[1], this.mapContentView.getPPOIList());
     }
 
@@ -829,22 +939,20 @@ IMapContent {
             if (bl) {
                 if (buttonModelApp.getStatus() != 1) {
                     buttonModelApp.setStatus(1);
-                    this.getLogger().log(14808325, "MapContentSyncHandler#enableRemoveAllPOIBtn() ENABLED");
+                    this.getLogger().log(100000000, "MapContentSyncHandler#enableRemoveAllPOIBtn() ENABLED");
                 }
             } else if (buttonModelApp.getStatus() != 0) {
                 buttonModelApp.setStatus(0);
-                this.getLogger().log(14808325, "MapContentSyncHandler#enableRemoveAllPOIBtn() DISABLED");
+                this.getLogger().log(100000000, "MapContentSyncHandler#enableRemoveAllPOIBtn() DISABLED");
             }
         }
     }
 
-    @Override
     public void resetSettings() {
-        this.getLogger().log(-2137614336, "MapContentSyncHandler#resetSettings()");
+        this.getLogger().log(10000000, "MapContentSyncHandler#resetSettings()");
         this.factoryReset = true;
     }
 
-    @Override
     public boolean isWeatherInMapSelected() {
         boolean bl = false;
         ContentListItem[] contentListItemArray = this.getStaticItems();
@@ -858,9 +966,8 @@ IMapContent {
         return bl;
     }
 
-    @Override
     public void checkWeatherInMap(boolean bl, boolean bl2, boolean bl3) {
-        this.getLogger().log(-2137614336, "MapContentSyncHandler#checkWeatherInMap() - check: %1, enable: %2 ", bl, bl2);
+        this.getLogger().log(10000000, "MapContentSyncHandler#checkWeatherInMap() - check: %1, enable: %2 ", bl, bl2);
         ContentListItem contentListItem = this.mItemList[0].getItem(true, 8);
         if (contentListItem != null) {
             contentListItem.checked = bl;
@@ -875,7 +982,6 @@ IMapContent {
         }
     }
 
-    @Override
     public String getName() {
         if (this.naviMap != null) {
             Buffer buffer = new Buffer(50);
@@ -887,24 +993,22 @@ IMapContent {
         return this.toString();
     }
 
-    @Override
     public void jumpToInclude() {
-        this.getLogger().log(-2137614336, "MapContentSyncHandler#jumpToInclude() ");
+        this.getLogger().log(10000000, "MapContentSyncHandler#jumpToInclude() ");
         int n = this.mapContentView.getStandardList().getID();
         this.env.fireModelEvent(n, 0);
     }
 
-    @Override
     public void activateDeactivateWeatherInMap(boolean bl) {
-        this.getLogger().log(-2137614336, "MapContentSyncHandler#activateDeactivateWeatherInMap()");
+        this.getLogger().log(10000000, "MapContentSyncHandler#activateDeactivateWeatherInMap()");
         WeatherLicenseHandler weatherLicenseHandler = this.naviMap.getMapManager().getWeatherLicenseHandler();
         if (bl && null != weatherLicenseHandler) {
-            this.getLogger().log(-2137614336, "MapContentSyncHandler#activateDeactivateWeatherInMap() - ACTIVATE");
+            this.getLogger().log(10000000, "MapContentSyncHandler#activateDeactivateWeatherInMap() - ACTIVATE");
             weatherLicenseHandler.onWeatherCheckboxSelected(this);
             return;
         }
         if (!bl && null != weatherLicenseHandler) {
-            this.getLogger().log(-2137614336, "MapContentSyncHandler#activateDeactivateWeatherInMap() - DEACTIVATE");
+            this.getLogger().log(10000000, "MapContentSyncHandler#activateDeactivateWeatherInMap() - DEACTIVATE");
             try {
                 weatherLicenseHandler.disableWeatherInMapApp();
             }
@@ -914,28 +1018,10 @@ IMapContent {
         }
     }
 
-    @Override
     public void updateAvailableLayers(LayerProperty[] layerPropertyArray) {
     }
 
-    @Override
     public void updateVisibleLayers(int[] nArray) {
-    }
-
-    static /* synthetic */ Object access$000(MapContentSyncHandler mapContentSyncHandler) {
-        return mapContentSyncHandler.listMainLock;
-    }
-
-    static /* synthetic */ IMapContentView access$100(MapContentSyncHandler mapContentSyncHandler) {
-        return mapContentSyncHandler.mapContentView;
-    }
-
-    static /* synthetic */ void access$200(MapContentSyncHandler mapContentSyncHandler, int n, BaseListModelApp baseListModelApp) {
-        mapContentSyncHandler.onClickOnboardPoiItem(n, baseListModelApp);
-    }
-
-    static /* synthetic */ MapDataContainer access$300(MapContentSyncHandler mapContentSyncHandler) {
-        return mapContentSyncHandler.container;
     }
 }
 

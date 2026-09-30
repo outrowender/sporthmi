@@ -20,11 +20,10 @@ implements FilenameFilter {
         this.b = false;
     }
 
-    @Override
     public boolean accept(File file, String string) {
         if (this.a >= 500) {
             if (!this.b) {
-                de.eso.a.d.b.d(new StringBuffer().append("Too much vcardFiles in directory. Omitting the rest of ").append(de.eso.vcard.a.c.a(this.c)).toString());
+                de.eso.a.d.b.d("Too much vcardFiles in directory. Omitting the rest of " + de.eso.vcard.a.c.a(this.c));
             }
             this.b = true;
             return false;

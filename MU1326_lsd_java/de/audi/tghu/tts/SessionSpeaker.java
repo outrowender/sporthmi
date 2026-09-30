@@ -11,10 +11,10 @@ import de.audi.tghu.tts.DSITTSCaller;
 public class SessionSpeaker
 extends AbstractSpeaker
 implements TTSSessionBasedService {
-    protected static final byte STATUS_INACTIVE;
-    protected static final byte STATUS_STARTING;
-    protected static final byte STATUS_ACTIVE;
-    protected static final byte STATUS_STOPPING;
+    protected static final byte STATUS_INACTIVE = 0;
+    protected static final byte STATUS_STARTING = 1;
+    protected static final byte STATUS_ACTIVE = 2;
+    protected static final byte STATUS_STOPPING = 3;
     protected byte sessionStatus = 0;
     protected final Object statusMutex = new Object();
     protected volatile boolean isRestartSessionTriggered = false;
@@ -22,53 +22,49 @@ implements TTSSessionBasedService {
     public SessionSpeaker(boolean bl, LogChannel logChannel, DSITTSCaller dSITTSCaller, int n, short s) {
         super(bl, logChannel, dSITTSCaller, n, s);
         this.sessionPauseHandling = bl ? 2 : 3;
-        this.logCh.log(-2137614336, "[SessionSpeaker#ctor] Called.");
+        this.logCh.log(10000000, "[SessionSpeaker#ctor] Called.");
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void speakImpl(String string) {
-        this.logCh.log(-2137614336, "[SessionSpeaker#speak] Called, text: %1", (Object)string);
+        this.logCh.log(10000000, "[SessionSpeaker#speak] Called, text: %1", (Object)string);
         Object object = this.statusMutex;
         synchronized (object) {
             if (this.getSessionStatus() != 2) {
-                this.logCh.log(-2137614336, "[SessionSpeaker#speak] Session is stopped, do nothing.");
+                this.logCh.log(10000000, "[SessionSpeaker#speak] Session is stopped, do nothing.");
                 return;
             }
         }
         this.ttsService.speak(string);
     }
 
-    @Override
     public void pause() {
-        this.logCh.log(-2137614336, "[SessionSpeaker#pause] Called.");
+        this.logCh.log(10000000, "[SessionSpeaker#pause] Called.");
         this.ttsService.pause();
     }
 
-    @Override
     public void resume() {
-        this.logCh.log(-2137614336, "[SessionSpeaker#resume] Called.");
+        this.logCh.log(10000000, "[SessionSpeaker#resume] Called.");
         this.ttsService.resume();
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void startSession() {
-        this.logCh.log(-2137614336, "[SessionSpeaker#startSession] Called.");
+        this.logCh.log(10000000, "[SessionSpeaker#startSession] Called.");
         Object object = this.statusMutex;
         synchronized (object) {
             byte by = this.getSessionStatus();
             if (by == 3) {
                 this.setRestartSessionFlag(true);
-                this.logCh.log(-2137614336, "[SessionSpeaker#startSession] Session is being stopped or currently starting (%1) -> NOP!", (long)by);
+                this.logCh.log(10000000, "[SessionSpeaker#startSession] Session is being stopped or currently starting (%1) -> NOP!", (long)by);
                 return;
             }
             if (by == 1 || by == 2) {
-                this.logCh.log(-2137614336, "[SessionSpeaker#startSession] Session is already starting/started (%1)-> NOP!", (long)by);
+                this.logCh.log(10000000, "[SessionSpeaker#startSession] Session is already starting/started (%1)-> NOP!", (long)by);
                 return;
             }
             this.setSessionStatus((byte)1);
@@ -79,13 +75,12 @@ implements TTSSessionBasedService {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void sessionStarted() {
-        this.logCh.log(-2137614336, "[SessionSpeaker#sessionStarted] Called.");
+        this.logCh.log(10000000, "[SessionSpeaker#sessionStarted] Called.");
         Object object = this.statusMutex;
         synchronized (object) {
             if (this.getSessionStatus() == 3) {
-                this.logCh.log(-2137614336, "[SessionSpeaker#stopSession] Session is stopping -> NOP!");
+                this.logCh.log(10000000, "[SessionSpeaker#stopSession] Session is stopping -> NOP!");
                 return;
             }
             this.setSessionStatus((byte)2);
@@ -96,30 +91,28 @@ implements TTSSessionBasedService {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void stopSession() {
-        this.logCh.log(-2137614336, "[SessionSpeaker#stopSession] Called.");
+        this.logCh.log(10000000, "[SessionSpeaker#stopSession] Called.");
         Object object = this.statusMutex;
         synchronized (object) {
             this.setRestartSessionFlag(false);
             if (this.getSessionStatus() == 3 || this.getSessionStatus() == 0) {
-                this.logCh.log(-2137614336, "[SessionSpeaker#stopSession] Session already stopped/stopping -> NOP!");
+                this.logCh.log(10000000, "[SessionSpeaker#stopSession] Session already stopped/stopping -> NOP!");
                 return;
             }
             this.setSessionStatus((byte)3);
         }
-        this.logCh.log(-2137614336, "[SessionSpeaker#stopSession] Abort speaking before stopping session.");
+        this.logCh.log(10000000, "[SessionSpeaker#stopSession] Abort speaking before stopping session.");
         this.abortSpeaking();
         this.ttsService.stopSession();
     }
 
-    @Override
     public void sessionStopped() {
-        this.logCh.log(-2137614336, "[SessionSpeaker#sessionStopped] Called.");
+        this.logCh.log(10000000, "[SessionSpeaker#sessionStopped] Called.");
         this.setSessionStatus((byte)0);
         super.sessionStopped();
         if (this.resetRestartSessionTriggered()) {
-            this.logCh.log(-2137614336, "[SessionSpeaker#sessionStopped] -> restarting session");
+            this.logCh.log(10000000, "[SessionSpeaker#sessionStopped] -> restarting session");
             this.startSession();
         }
     }
@@ -129,7 +122,7 @@ implements TTSSessionBasedService {
     }
 
     protected void setSessionStatus(byte by) {
-        this.logCh.log(-2137614336, "[SessionSpeaker#setSessionStatus] Called -> new value=%1", (long)by);
+        this.logCh.log(10000000, "[SessionSpeaker#setSessionStatus] Called -> new value=%1", (long)by);
         this.sessionStatus = by;
     }
 
@@ -151,9 +144,8 @@ implements TTSSessionBasedService {
         this.isRestartSessionTriggered = bl;
     }
 
-    @Override
     public void sessionResumed() {
-        this.logCh.log(-2137614336, "[SessionSpeaker#sessionResumed] Called.");
+        this.logCh.log(10000000, "[SessionSpeaker#sessionResumed] Called.");
         this.setSessionStatus((byte)2);
         super.sessionResumed();
         if (this.sessionPauseHandling == 2) {
@@ -161,20 +153,17 @@ implements TTSSessionBasedService {
         }
     }
 
-    @Override
     public void playTone(int n) {
         this.ttsService.playTone(n);
     }
 
-    @Override
     public void notifySDSDialogStarted() {
-        this.logCh.log(-2137614336, "[SessionSpeaker#notifySDSDialogStarted] Called -> stop session");
+        this.logCh.log(10000000, "[SessionSpeaker#notifySDSDialogStarted] Called -> stop session");
         this.stopSession();
     }
 
-    @Override
     public void volumeOnOffPressed(int n) {
-        this.logCh.log(-2137614336, "[SessionSpeaker#volumeOnOffPressed] Called.");
+        this.logCh.log(10000000, "[SessionSpeaker#volumeOnOffPressed] Called.");
         if (n == -1) {
             return;
         }

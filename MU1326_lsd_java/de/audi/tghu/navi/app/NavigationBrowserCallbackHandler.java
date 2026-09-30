@@ -17,73 +17,58 @@ implements IBrowserCallbackHandler {
         this.logChannel = logChannel;
     }
 
-    @Override
     public void updateScrollbarX(int n, int n2, int n3, int n4) {
     }
 
-    @Override
     public void updateScrollbarY(int n, int n2, int n3, int n4) {
     }
 
-    @Override
     public void updateBrowserStateBusy(boolean bl) {
-        this.logChannel.log(1078071040, "NavigationBrowserCallbackHandler#updateBrowserStateBusy busy=%1", bl);
+        this.logChannel.log(1000000, "NavigationBrowserCallbackHandler#updateBrowserStateBusy busy=%1", bl);
         int n = bl ? 0 : 1;
-        this.env.getChoiceModel(371525120).setStatus(n);
+        this.env.getChoiceModel(402710).setStatus(n);
     }
 
-    @Override
     public boolean scrollDown(int n) {
         return false;
     }
 
-    @Override
     public boolean scrollUp(int n) {
         return false;
     }
 
-    @Override
     public void indicateBrowserStateNotFound() {
     }
 
-    @Override
     public void indicateBrowserStateComplete() {
     }
 
-    @Override
     public void indicateBrowserStateTimeout() {
     }
 
-    @Override
     public void javascriptAlert(String string) {
     }
 
-    @Override
     public boolean press() {
         return false;
     }
 
-    @Override
     public boolean indicateEfiUrl(String string) {
         return false;
     }
 
-    @Override
     public void belowLowerThreshold(int n) {
     }
 
-    @Override
     public void exceedsUpperThreshold(int n) {
     }
 
-    @Override
     public void indicateBoardbookAvailable(boolean bl) {
     }
 
-    @Override
     public void updateBrowserState(int n) {
-        int n2 = this.env.getChoiceModel(1747125760).getValue();
-        this.logChannel.log(1078071040, "NavigationBrowserCallbackHandler#updateBrowserState browserState : %1 currentHMIState: %2", (long)n, (long)n2);
+        int n2 = this.env.getChoiceModel(402280).getValue();
+        this.logChannel.log(1000000, "NavigationBrowserCallbackHandler#updateBrowserState browserState : %1 currentHMIState: %2", (long)n, (long)n2);
         int n3 = -1;
         if (n == 0) {
             n3 = 1;
@@ -93,15 +78,14 @@ implements IBrowserCallbackHandler {
             n3 = 0;
         }
         if (n3 >= 0) {
-            this.logChannel.log(1078071040, "NavigationBrowserCallbackHandler#updateBrowserState hmiState chnaged to %1", (long)n3);
-            this.env.getChoiceModel(1747125760).setValue(n3);
+            this.logChannel.log(1000000, "NavigationBrowserCallbackHandler#updateBrowserState hmiState chnaged to %1", (long)n3);
+            this.env.getChoiceModel(402280).setValue(n3);
         }
     }
 
-    @Override
     public void virtualButtonBack() {
         int n = 0;
-        this.env.getChoiceModel(1747125760).setValue(n);
+        this.env.getChoiceModel(402280).setValue(n);
     }
 }
 

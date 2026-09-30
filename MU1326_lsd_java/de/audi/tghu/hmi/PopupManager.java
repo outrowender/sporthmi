@@ -11,12 +11,11 @@ import de.audi.atip.hmi.view.IPopupManager;
 import de.audi.atip.hmi.view.IScreenChangeManager;
 import de.audi.atip.hmi.view.IScreenData;
 import de.audi.atip.hmi.view.IScreenManager;
+import de.audi.atip.hmi.view.IShowPopupRunnable;
 import de.audi.atip.hmi.view.ITerminalContext;
 import de.audi.atip.hmi.view.Screen;
 import de.audi.atip.hmi.view.ScreenData;
 import de.audi.atip.log.LogChannel;
-import de.audi.tghu.hmi.PopupManager$1;
-import de.audi.tghu.hmi.PopupManager$ShowPopupRunnable;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +38,6 @@ implements IPopupManager {
         this.logPopup = logChannel;
     }
 
-    @Override
     public void dump(PrintStream printStream, String string) {
         if (this.ignorePopups) {
             printStream.println("ignore popus");
@@ -60,7 +58,6 @@ implements IPopupManager {
         return this.popups;
     }
 
-    @Override
     public boolean isPopupVisible() {
         return this.popupVisible;
     }
@@ -77,16 +74,14 @@ implements IPopupManager {
         return this.getScreenManager().getScreen(iScreenData);
     }
 
-    @Override
     public void callbackPopupRemoved(int n, int n2) {
         if (!this.isInPopupList(n2)) {
             this.getTerminalContext().callbackPopupRemoved(n, n2);
         } else {
-            this.logPopup.log(-2137614336, "PopupManager.callbackPopupRemoved(): avoiding popupRemoved (popup still active)!");
+            this.logPopup.log(10000000, "PopupManager.callbackPopupRemoved(): avoiding popupRemoved (popup still active)!");
         }
     }
 
-    @Override
     public boolean popupAvailable() {
         return !this.popups.isEmpty();
     }
@@ -95,7 +90,6 @@ implements IPopupManager {
         return (ScreenData)this.popups.get(n);
     }
 
-    @Override
     public IScreenData getCurrentPopup() {
         return this.popupAvailable() ? this.getPopupData(0) : null;
     }
@@ -104,12 +98,10 @@ implements IPopupManager {
         return this.popupAvailable() ? this.getCurrentPopup() : null;
     }
 
-    @Override
     public int getCurrentPopupID() {
         return this.popupAvailable() ? this.getCurrentPopup().getPopupId() : -1;
     }
 
-    @Override
     public int getCurrentPopupPriority() {
         return this.popupAvailable() ? this.getCurrentPopup().getPopupPriority() : -1;
     }
@@ -122,7 +114,6 @@ implements IPopupManager {
         return this.getCurrentPopupScreen() == screen;
     }
 
-    @Override
     public boolean isInPopupList(int n) {
         for (int i2 = 0; i2 < this.popups.size(); ++i2) {
             if (((IScreenData)this.popups.get(i2)).getPopupId() != n) continue;
@@ -172,44 +163,42 @@ implements IPopupManager {
         this.popups.remove(iScreenData);
     }
 
-    @Override
     public void replacePopupScreen(int n, IScreenData iScreenData) {
-        this.logPopup.log(-2137614336, "PopupManager.replacePopupScreen(screenId1=%2, newPopupData=%1) called", (Object)iScreenData, (long)n);
+        this.logPopup.log(10000000, "PopupManager.replacePopupScreen(screenId1=%2, newPopupData=%1) called", (Object)iScreenData, (long)n);
         if (n == iScreenData.getId()) {
             if (iScreenData.isReinit() && this.screenManager.isCurrentConnectedScreen(iScreenData.getId())) {
                 this.screenChangeUnit.reinitScreen(iScreenData, true);
             } else {
-                this.logPopup.log(-2137614336, "PopupManager.replacePopupScreen: no reinit for screen %1", (long)iScreenData.getId());
+                this.logPopup.log(10000000, "PopupManager.replacePopupScreen: no reinit for screen %1", (long)iScreenData.getId());
             }
             return;
         }
         Screen screen = this.getScreenManager().getScreen(iScreenData);
         if (screen != null) {
-            this.logPopup.log(-2137614336, "PopupManager.replacePopupScreen(): newScreen == %1", (Object)screen);
+            this.logPopup.log(10000000, "PopupManager.replacePopupScreen(): newScreen == %1", (Object)screen);
             this.insertIntoPopupList(new ScreenData((ScreenData)iScreenData));
             this.removePopupScreen(n, iScreenData.isAnimated(), false);
         } else {
-            this.logPopup.log(-2137614336, "PopupManager.replacePopupScreen(): new Screen %1 not found", (long)iScreenData.getId());
+            this.logPopup.log(10000000, "PopupManager.replacePopupScreen(): new Screen %1 not found", (long)iScreenData.getId());
         }
-        this.logPopup.log(-2137614336, "PopupManager.replacePopupScreen() finished");
+        this.logPopup.log(10000000, "PopupManager.replacePopupScreen() finished");
     }
 
     IScreenData getTargetScreenData() {
         IScreenData iScreenData = this.popupAvailable() && !this.isLogicalPopup(this.getCurrentPopup()) ? this.getCurrentPopupScreenData() : this.getScreenManager().getTargetScreenData();
-        this.logPopup.log(-2137614336, "PopupManager.getTargetScreenData(): targetScreenData = %1", (Object)iScreenData);
+        this.logPopup.log(10000000, "PopupManager.getTargetScreenData(): targetScreenData = %1", (Object)iScreenData);
         return iScreenData;
     }
 
-    @Override
     public void showPopupScreen(IScreenData iScreenData) {
-        this.logPopup.log(-2137614336, "PopupManager.showPopupScreen(popupId = %1, priority == %2) called ...", (long)iScreenData.getPopupId(), (long)iScreenData.getPopupPriority());
+        this.logPopup.log(10000000, "PopupManager.showPopupScreen(popupId = %1, priority == %2) called ...", (long)iScreenData.getPopupId(), (long)iScreenData.getPopupPriority());
         Screen screen = this.screenManager.getScreen(iScreenData);
         if (screen != null) {
             this.showPopupScreenImpl(iScreenData);
         } else {
-            this.logPopup.log(-1601830656, "PopupManager.showPopupScreen(screenId = %1), no popup available", (long)iScreenData.getId());
+            this.logPopup.log(100000, "PopupManager.showPopupScreen(screenId = %1), no popup available", (long)iScreenData.getId());
         }
-        this.logPopup.log(-2137614336, "PopupManager.showPopupScreen(id = %1), finished ", (long)iScreenData.getId());
+        this.logPopup.log(10000000, "PopupManager.showPopupScreen(id = %1), finished ", (long)iScreenData.getId());
     }
 
     private void showPopupScreenImpl(IScreenData iScreenData) {
@@ -221,12 +210,12 @@ implements IPopupManager {
         this.insertIntoPopupList(iScreenData);
         if (this.hasHighestPriority(this.getScreen(iScreenData))) {
             this.screenChangeUnit.showHighestPrioPopup(iScreenData);
-            this.logPopup.log(-2137614336, "PopupManager.showPopupScreenImpl has highest prio: %1", (long)iScreenData.getPopupId());
-            this.logPopup.log(-2137614336, "PopupManager.showPopupScreenImpl is logical popup: %1", this.isLogicalPopup(iScreenData));
+            this.logPopup.log(10000000, "PopupManager.showPopupScreenImpl has highest prio: %1", (long)iScreenData.getPopupId());
+            this.logPopup.log(10000000, "PopupManager.showPopupScreenImpl is logical popup: %1", this.isLogicalPopup(iScreenData));
             if (this.isLogicalPopup(iScreenData)) {
                 this.getPPManager().checkPriosAgainstFullScreenPopup();
                 if (iScreenData2 == null) {
-                    this.logPopup.log(-2137614336, "PopupManager.showPopupScreenImpl before notify connected");
+                    this.logPopup.log(10000000, "PopupManager.showPopupScreenImpl before notify connected");
                     this.screenChangeUnit.notifyScreenConnected(iScreenData.getScreen());
                 }
             }
@@ -238,27 +227,25 @@ implements IPopupManager {
             if (this.isLogicalPopup(iScreenData)) {
                 this.screenChangeUnit.notifyScreenFadedOut(iScreenData.getScreen());
             }
-            this.logPopup.log(-2137614336, "PopupManager.showPopupScreenImpl(): not highest priority --> stored ");
+            this.logPopup.log(10000000, "PopupManager.showPopupScreenImpl(): not highest priority --> stored ");
             this.callBackPopupHidden(iScreenData);
         }
     }
 
-    @Override
     public void callBackPopupHidden(IScreenData iScreenData) {
         this.getTerminalContext().callbackPopupHidden(iScreenData.getId(), iScreenData.getPopupId());
     }
 
-    @Override
     public void removePopupScreen(int n, boolean bl, boolean bl2) {
-        this.logPopup.log(-2137614336, "PopupManager.removePopupScreenImpl(id == %2) called; animated = %1 ", bl, (long)n);
+        this.logPopup.log(10000000, "PopupManager.removePopupScreenImpl(id == %2) called; animated = %1 ", bl, (long)n);
         IScreenData iScreenData = this.getFromPopupList(n);
         if (iScreenData != null) {
-            this.logPopup.log(-2137614336, "PopupManager.removePopupScreenImpl(): popupScreen.Id == %1, popupScreen.getPopupId == %2", (long)iScreenData.getId(), (long)iScreenData.getPopupId());
+            this.logPopup.log(10000000, "PopupManager.removePopupScreenImpl(): popupScreen.Id == %1, popupScreen.getPopupId == %2", (long)iScreenData.getId(), (long)iScreenData.getPopupId());
             if (this.getScreenManager().getCurrentConnectedScreen() == this.getScreen(iScreenData)) {
                 this.screenManager.getCurrentConnectedScreenData().setNotify(bl2);
                 this.screenChangeUnit.removeCurrentConnectedPopup(iScreenData);
             } else {
-                this.logPopup.log(-2137614336, "PopupManager.removePopupScreenImpl(): popupScreen != currentConnectedScreen ");
+                this.logPopup.log(10000000, "PopupManager.removePopupScreenImpl(): popupScreen != currentConnectedScreen ");
                 boolean bl3 = false;
                 if (iScreenData == this.getCurrentPopup()) {
                     bl3 = true;
@@ -275,12 +262,11 @@ implements IPopupManager {
                 }
             }
         } else {
-            this.logPopup.log(-2137614336, "PopupManager.removePopupScreenImpl(): Screen (%1) not found ", (long)n);
+            this.logPopup.log(10000000, "PopupManager.removePopupScreenImpl(): Screen (%1) not found ", (long)n);
         }
-        this.logPopup.log(-2137614336, "PopupManager.removePopupScreenImpl(id = %1), finished ", (long)n);
+        this.logPopup.log(10000000, "PopupManager.removePopupScreenImpl(id = %1), finished ", (long)n);
     }
 
-    @Override
     public void removePartialPopupsFromPopup(int n, int n2, int[] nArray) {
         this.showOrRemovePartialPopupsForPopup(n, n2, nArray, false);
     }
@@ -300,11 +286,10 @@ implements IPopupManager {
                 }
             }
         } else {
-            this.logPopup.log(-1601830656, "PopupManager.showOrRemovePartialPopupsForPopup %1 not found in popups!", (long)n);
+            this.logPopup.log(100000, "PopupManager.showOrRemovePartialPopupsForPopup %1 not found in popups!", (long)n);
         }
     }
 
-    @Override
     public void showPartialPopupsForPopup(int n, int n2, int[] nArray) {
         this.showOrRemovePartialPopupsForPopup(n, n2, nArray, true);
     }
@@ -322,7 +307,7 @@ implements IPopupManager {
     }
 
     private int getModuleId(int n) {
-        return n / -1601830656;
+        return n / 100000;
     }
 
     private boolean isPopupsEnabled(int n) {
@@ -331,9 +316,9 @@ implements IPopupManager {
 
     private void showPopupImpl(int n) {
         if (this.isPopupsEnabled(n)) {
-            this.postRunnable(new PopupManager$ShowPopupRunnable(this, n, this.getTerminalContext().getTerminalID()));
+            this.postRunnable(new ShowPopupRunnable(n, this.getTerminalContext().getTerminalID()));
         } else {
-            this.logPopup.log(-2137614336, "PopupManager.showPopup: popup ignored");
+            this.logPopup.log(10000000, "PopupManager.showPopup: popup ignored");
         }
     }
 
@@ -341,28 +326,34 @@ implements IPopupManager {
         this.framework.getHMIService().getEventDispatcher().postEvent(new RunnableEvent(runnable));
     }
 
-    @Override
     public void showPopup(int n) {
-        this.logPopup.log(-2137614336, "PopupManager.showPopup(popupId = %1, terminalId = %2) called", (long)n, (long)this.getTerminalContext().getTerminalID());
+        this.logPopup.log(10000000, "PopupManager.showPopup(popupId = %1, terminalId = %2) called", (long)n, (long)this.getTerminalContext().getTerminalID());
         this.showPopupImpl(n);
-        this.logPopup.log(-2137614336, "PopupManager.showPopup(popupId = %1, terminalId = %2) finished", (long)n, (long)this.getTerminalContext().getTerminalID());
+        this.logPopup.log(10000000, "PopupManager.showPopup(popupId = %1, terminalId = %2) finished", (long)n, (long)this.getTerminalContext().getTerminalID());
     }
 
-    private void removePopupImpl(int n) {
-        this.postRunnable(new PopupManager$1(this, n));
+    private void removePopupImpl(final int n) {
+        this.postRunnable(new Runnable(){
+
+            public void run() {
+                PopupManager.this.logPopup.log(10000000, "RemovePopupRunnable: calling SMI.stopPopup(%1) ", (long)n);
+                PopupManager.this.framework.getSMInterpreter().stopPopup(PopupManager.this.getTerminalContext().getTerminalID(), n);
+            }
+
+            public String toString() {
+                return new StringBuffer().append("RemovePopupRunnable(terminal: ").append(PopupManager.this.getTerminalContext().getTerminalID()).append(" popupId: ").append(n).append(")").toString();
+            }
+        });
     }
 
-    @Override
     public void removePopup(int n) {
-        this.logPopup.log(-2137614336, "PopupManager.removePopup(popupId=%1, terminalId=%2)", (long)n, (long)this.getTerminalContext().getTerminalID());
+        this.logPopup.log(10000000, "PopupManager.removePopup(popupId=%1, terminalId=%2)", (long)n, (long)this.getTerminalContext().getTerminalID());
         this.removePopupImpl(n);
     }
 
-    @Override
     public void setPopupKeyConsuptionStrategy(IPopupKeyConsuptionStrategy iPopupKeyConsuptionStrategy) {
     }
 
-    @Override
     public boolean removeCurrentPopup() {
         int n = this.getCurrentPopupID();
         if (n >= 0) {
@@ -372,26 +363,22 @@ implements IPopupManager {
         return false;
     }
 
-    @Override
     public void disablePopups(int n) {
-        this.logPopup.log(-2137614336, "PopupManager.disablePopups(%1)", (long)n);
+        this.logPopup.log(10000000, "PopupManager.disablePopups(%1)", (long)n);
         this.ignorePopups = true;
         this.moduleExemptedFromIgnorePopups = n;
     }
 
-    @Override
     public void enablePopups() {
-        this.logPopup.log(-2137614336, "PopupManager.enablePopups()");
+        this.logPopup.log(10000000, "PopupManager.enablePopups()");
         this.ignorePopups = false;
         this.moduleExemptedFromIgnorePopups = -1;
     }
 
-    @Override
     public boolean isLogicalPopup(IScreenData iScreenData) {
         return false;
     }
 
-    @Override
     public IPartialPopupManager getPPManager() {
         if (this.ppManager == null) {
             this.ppManager = this.framework.getHMITerminalRegistry().getTerminal(this.getTerminalContext().getTerminalID()).getPartialPopupManager();
@@ -399,9 +386,29 @@ implements IPopupManager {
         return this.ppManager;
     }
 
-    @Override
     public void processPopupQuit(int n) {
         this.removeCurrentPopup();
+    }
+
+    public class ShowPopupRunnable
+    implements Runnable,
+    IShowPopupRunnable {
+        final int popupId;
+        final int terminalId;
+
+        ShowPopupRunnable(int n, int n2) {
+            this.popupId = n;
+            this.terminalId = n2;
+        }
+
+        public void run() {
+            PopupManager.this.logPopup.log(10000000, "ShowPopupRunnable: calling SMI.startPopup(%1) ", (long)this.popupId);
+            PopupManager.this.framework.getSMInterpreter().startPopup(this.terminalId, this.popupId);
+        }
+
+        public String toString() {
+            return new StringBuffer().append("ShowPopupRunnable(terminal: ").append(this.terminalId).append(" popupId: ").append(this.popupId).append(")").toString();
+        }
     }
 }
 

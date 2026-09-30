@@ -23,9 +23,8 @@ implements ISamplePlayer {
         this.ringTonePlayer = new NullRingTonePlayer(toneEnv.lcMain);
     }
 
-    @Override
     public void registerService(Object object) {
-        this.env.lcMain.log(-2137614336, "[RingtoneSamplePlayer.registerService] %1", object);
+        this.env.lcMain.log(10000000, "[RingtoneSamplePlayer.registerService] %1", object);
         if (object instanceof PhoneService) {
             this.phoneService = (PhoneService)object;
         } else if (object instanceof RingTonePlayer) {
@@ -33,9 +32,8 @@ implements ISamplePlayer {
         }
     }
 
-    @Override
     public void deregisterService(Object object) {
-        this.env.lcMain.log(1078071040, "[RingtoneSamplePlayer.deregisterService] %1", object);
+        this.env.lcMain.log(1000000, "[RingtoneSamplePlayer.deregisterService] %1", object);
         if (object instanceof PhoneService) {
             this.phoneService = new NullPhoneService(this.env.lcMain);
         } else if (object instanceof WavePlayer) {
@@ -43,9 +41,8 @@ implements ISamplePlayer {
         }
     }
 
-    @Override
     public void play() {
-        this.env.lcMain.log(-2137614336, "[RingtoneSamplePlayer.start]");
+        this.env.lcMain.log(10000000, "[RingtoneSamplePlayer.start]");
         boolean bl = this.phoneService.isDefaultRingingActive();
         if (bl) {
             this.ringTonePlayer.playDefault(1);
@@ -55,9 +52,8 @@ implements ISamplePlayer {
         }
     }
 
-    @Override
     public void stop() {
-        this.env.lcMain.log(-2137614336, "[RingtoneSamplePlayer.stop]");
+        this.env.lcMain.log(10000000, "[RingtoneSamplePlayer.stop]");
         this.ringTonePlayer.abort();
     }
 }

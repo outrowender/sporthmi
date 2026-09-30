@@ -15,31 +15,22 @@ import de.audi.tghu.exlap.impl.container.TrackInfoContainer;
 
 public interface ExlapMediaListener
 extends ExlapListener {
-    default public void updateCurrentTrackInfo(TrackInfoContainer trackInfoContainer) {
-    }
+    public void updateCurrentTrackInfo(TrackInfoContainer var1);
 
-    default public void updateMediaPlayInfo(MediaPlayInfoContainer mediaPlayInfoContainer) {
-    }
+    public void updateMediaPlayInfo(MediaPlayInfoContainer var1);
 
-    default public void updateMediaPlayMode(MediaPlayModeContainer mediaPlayModeContainer) {
-    }
+    public void updateMediaPlayMode(MediaPlayModeContainer var1);
 
-    default public void updateAvailableMediaSources(MediaSourcesContainer mediaSourcesContainer) {
-    }
+    public void updateAvailableMediaSources(MediaSourcesContainer var1);
 
-    default public void updateMediaBrowserList(ListStateContainer listStateContainer) {
-    }
+    public void updateMediaBrowserList(ListStateContainer var1);
 
-    default public void updateMediaBrowserFollowMode(FollowModeContainer followModeContainer) {
-    }
+    public void updateMediaBrowserFollowMode(FollowModeContainer var1);
 
-    default public void updateMediaBrowserFolder(MediaBrowserPathContainer mediaBrowserPathContainer) {
-    }
+    public void updateMediaBrowserFolder(MediaBrowserPathContainer var1);
 
-    default public void updateCurrentTrackPath(MediaBrowserPathContainer mediaBrowserPathContainer) {
-    }
+    public void updateCurrentTrackPath(MediaBrowserPathContainer var1);
 
-    default public void updateAppConnectDevice(AppConnectDeviceContainer appConnectDeviceContainer) {
-    }
+    public void updateAppConnectDevice(AppConnectDeviceContainer var1);
 }
 

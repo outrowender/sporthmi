@@ -29,10 +29,9 @@ extends CommandList {
         return this.application;
     }
 
-    @Override
     public ICommandList add(Command command) {
         LogChannel logChannel = this.application.getLogChannelCL();
-        logChannel.log(1078071040, "ORSCommandList#addCommand: %1", (Object)command.getName());
+        logChannel.log(1000000, "ORSCommandList#addCommand: %1", (Object)command.getName());
         return super.add(command);
     }
 

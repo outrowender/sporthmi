@@ -19,7 +19,6 @@ extends BaseLogEntryImpl {
         this.msgID = n2;
     }
 
-    @Override
     public String getTemplate() {
         if (this.template == null) {
             this.template = LogExtractorFactory.getInstance().getMsg(this.msgID, this.logLevel);

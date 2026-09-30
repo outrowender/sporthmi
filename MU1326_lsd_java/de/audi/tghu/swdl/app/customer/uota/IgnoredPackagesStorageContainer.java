@@ -11,6 +11,7 @@ import de.audi.tghu.swdl.app.customer.uota.UotaPkgInfoWrapper;
 import de.esolutions.fw.util.commons.StringUtils;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -20,13 +21,13 @@ import java.util.StringTokenizer;
 class IgnoredPackagesStorageContainer
 extends AbstractStorageDataContainer {
     private final BaseUpdateOverTheAirController uotaController;
-    private static final char PKG_IDS_DELIMETER;
-    private static final char PKG_ID_PARTS_DELIMETER;
-    private static final int P_VERSION_LENGTH;
-    static final String INCORRECT_P_VERSION;
-    private static final int CONTAINER_VERSION;
-    private static final int RELEASE_PACKAGE_ID;
-    private static final int RELEASE_PACKAGE_WITHOUT_LICENSE_ID;
+    private static final char PKG_IDS_DELIMETER = ',';
+    private static final char PKG_ID_PARTS_DELIMETER = '_';
+    private static final int P_VERSION_LENGTH = 4;
+    static final String INCORRECT_P_VERSION = "-1";
+    private static final int CONTAINER_VERSION = 2;
+    private static final int RELEASE_PACKAGE_ID = 0;
+    private static final int RELEASE_PACKAGE_WITHOUT_LICENSE_ID = -1;
     private Map ignoredReleasePackagesMap;
 
     IgnoredPackagesStorageContainer(BaseUpdateOverTheAirController baseUpdateOverTheAirController) {
@@ -51,7 +52,7 @@ extends AbstractStorageDataContainer {
     synchronized void updateInstalledPackageIds(String string) {
         String string2;
         if (string.length() <= 0) {
-            this.getLogUota().log(1078071040, "[IgnoredPackagesStorageContainer].updateInstalledPackageIds(): reset installed package IDs!");
+            this.getLogUota().log(1000000, "[IgnoredPackagesStorageContainer].updateInstalledPackageIds(): reset installed package IDs!");
             this.getUotaController().getSwdlEnv().getStorageManager().setString(257, 5007, "");
             return;
         }
@@ -60,7 +61,7 @@ extends AbstractStorageDataContainer {
         if (stringArray.length > 0) {
             String string3 = this.getPVersion(stringArray[0]);
             String string4 = this.getPVersion(string);
-            if ("-1".equals(string4)) {
+            if (INCORRECT_P_VERSION.equals(string4)) {
                 this.getLogUota().log(10000, "[IgnoredPackagesStorageContainer].updateInstalledPackageVersions(): incorrect packageID:%1", (Object)string);
                 return;
             }
@@ -84,12 +85,12 @@ extends AbstractStorageDataContainer {
     }
 
     String getPVersionOfInstalledPackages() {
-        this.getLogUota().log(-2137614336, "[IgnoredPackagesStorageContainer].getPVersionOfInstalledPackages()");
+        this.getLogUota().log(10000000, "[IgnoredPackagesStorageContainer].getPVersionOfInstalledPackages()");
         String[] stringArray = this.getInstalledPackageIDs();
         if (stringArray.length > 0) {
             return this.getPVersion(stringArray[0]);
         }
-        return "-1";
+        return INCORRECT_P_VERSION;
     }
 
     synchronized int getNumberOfInstalledPackages() {
@@ -102,7 +103,7 @@ extends AbstractStorageDataContainer {
         if (stringArray.length > 0) {
             for (int i2 = 0; i2 < stringArray.length; ++i2) {
                 String string2 = this.getPVersion(stringArray[i2]);
-                if ("-1".equals(string2) || string2.compareTo(string) < 0) continue;
+                if (INCORRECT_P_VERSION.equals(string2) || string2.compareTo(string) < 0) continue;
                 ++n;
             }
         }
@@ -117,15 +118,15 @@ extends AbstractStorageDataContainer {
         }
         if (n > 0 && (string2 = string.substring(0, n)).length() > 4) {
             String string3 = string2.substring(string2.length() - 4);
-            this.getLogUota().log(-2137614336, "[IgnoredPackagesStorageContainer].getPVersion(%1): %2", (Object)string, (Object)string3);
+            this.getLogUota().log(10000000, "[IgnoredPackagesStorageContainer].getPVersion(%1): %2", (Object)string, (Object)string3);
             return string3;
         }
         this.getLogUota().log(10000, "[IgnoredPackagesStorageContainer].getPVersions(%1): incorrect format of a package ID!", (Object)string);
-        return "-1";
+        return INCORRECT_P_VERSION;
     }
 
     synchronized String[] getInstalledPackageIDs() {
-        this.getLogUota().log(-2137614336, "[IgnoredPackagesStorageContainer].getInstalledPackageIDs()");
+        this.getLogUota().log(10000000, "[IgnoredPackagesStorageContainer].getInstalledPackageIDs()");
         String string = this.getUotaController().getSwdlEnv().getStorageManager().getString(257, 5007, "");
         if (string.length() > 0) {
             String[] stringArray;
@@ -152,7 +153,7 @@ extends AbstractStorageDataContainer {
             this.getLogUota().log(10000, "[IgnoredPackagesStorageContainer].addToIgnoreList(): Ignoring packages without reading the ignore list!");
             return;
         }
-        this.getLogUota().log(1078071040, "[IgnoredPackagesStorageContainer].addToIgnoreList(): Adding to ignore list: %1", (Object)uotaPkgInfoWrapper);
+        this.getLogUota().log(1000000, "[IgnoredPackagesStorageContainer].addToIgnoreList(): Adding to ignore list: %1", (Object)uotaPkgInfoWrapper);
         this.ignoredReleasePackagesMap.put(uotaPkgInfoWrapper.getPkgId(), uotaPkgInfoWrapper.getReleaseVersion());
     }
 
@@ -165,17 +166,17 @@ extends AbstractStorageDataContainer {
             this.getLogUota().log(10000, "[IgnoredPackagesStorageContainer].addReleaseVersionToIgnoreList(): Ignoring packages without reading the ignore list!");
             return;
         }
-        this.getLogUota().log(1078071040, "[IgnoredPackagesStorageContainer].addReleaseVersionToIgnoreList(): Adding release to ignore list: %1", (Object)string);
+        this.getLogUota().log(1000000, "[IgnoredPackagesStorageContainer].addReleaseVersionToIgnoreList(): Adding release to ignore list: %1", (Object)string);
         this.ignoredReleasePackagesMap.put(Integer.toString(bl ? 0 : -1), string);
         this.storeIgnoredPackagesToPersistence();
     }
 
     synchronized boolean isReleaseIgnoredByUser(UotaPkgInfoWrapper uotaPkgInfoWrapper) {
         String string;
-        this.getLogUota().log(-2137614336, "[IgnoredPackagesStorageContainer].isReleaseIgnoredByUser(%1)", (Object)uotaPkgInfoWrapper);
+        this.getLogUota().log(10000000, "[IgnoredPackagesStorageContainer].isReleaseIgnoredByUser(%1)", (Object)uotaPkgInfoWrapper);
         if (null != this.ignoredReleasePackagesMap && null != (string = (String)this.ignoredReleasePackagesMap.get(Integer.toString(uotaPkgInfoWrapper.isLicenseAvailable() ? 0 : -1))) && string.length() > 0) {
             boolean bl = uotaPkgInfoWrapper.getReleaseVersion().compareTo(string) <= 0;
-            this.getLogUota().log(-2137614336, "[IgnoredPackagesStorageContainer] ignored release version is %1, package release version is %2,  ignore=%3", (Object)string, (Object)uotaPkgInfoWrapper.getReleaseVersion(), (Object)new Boolean(bl));
+            this.getLogUota().log(10000000, "[IgnoredPackagesStorageContainer] ignored release version is %1, package release version is %2,  ignore=%3", (Object)string, (Object)uotaPkgInfoWrapper.getReleaseVersion(), (Object)new Boolean(bl));
             return bl;
         }
         return false;
@@ -183,28 +184,28 @@ extends AbstractStorageDataContainer {
 
     synchronized boolean isUpdatePackageIgnoredByUser(UotaPkgInfoWrapper uotaPkgInfoWrapper) {
         String string;
-        this.getLogUota().log(-2137614336, "[IgnoredPackagesStorageContainer].isUpdatePackageIgnoredByUser(%1)", (Object)uotaPkgInfoWrapper);
+        this.getLogUota().log(10000000, "[IgnoredPackagesStorageContainer].isUpdatePackageIgnoredByUser(%1)", (Object)uotaPkgInfoWrapper);
         if (null != this.ignoredReleasePackagesMap && null != (string = (String)this.ignoredReleasePackagesMap.get(uotaPkgInfoWrapper.getPkgId())) && string.length() > 0) {
             boolean bl = uotaPkgInfoWrapper.getReleaseVersion().compareTo(string) <= 0;
-            this.getLogUota().log(-2137614336, "[IgnoredPackagesStorageContainer] ignored package version is %1, current package version is %2,  ignore=%3", (Object)string, (Object)uotaPkgInfoWrapper.getReleaseVersion(), (Object)new Boolean(bl));
+            this.getLogUota().log(10000000, "[IgnoredPackagesStorageContainer] ignored package version is %1, current package version is %2,  ignore=%3", (Object)string, (Object)uotaPkgInfoWrapper.getReleaseVersion(), (Object)new Boolean(bl));
             return bl;
         }
         return false;
     }
 
     synchronized boolean isHighestReleaseAlreadyIsntalled(UotaPkgInfoWrapper uotaPkgInfoWrapper) {
-        this.getLogUota().log(-2137614336, "[IgnoredPackagesStorageContainer].isReleaseAlreadyIntalled(%1)", (Object)uotaPkgInfoWrapper);
+        this.getLogUota().log(10000000, "[IgnoredPackagesStorageContainer].isReleaseAlreadyIntalled(%1)", (Object)uotaPkgInfoWrapper);
         return uotaPkgInfoWrapper.getReleaseVersion().compareTo(this.getUotaController().getSwdlEnv().getStorageManager().getString(257, 7, "")) <= 0;
     }
 
     synchronized void cleanUpAlreadyInstalledHighestRelease() {
-        this.getLogUota().log(-2137614336, "[IgnoredPackagesStorageContainer].cleanUpAlreadyInstalledHighestRelease()");
+        this.getLogUota().log(10000000, "[IgnoredPackagesStorageContainer].cleanUpAlreadyInstalledHighestRelease()");
         this.getUotaController().getSwdlEnv().getStorageManager().setString(257, 7, "");
     }
 
     synchronized void storeIgnoredPackagesToPersistence() {
         if (null == this.ignoredReleasePackagesMap) {
-            this.getLogUota().log(-1601830656, "[IgnoredPackagesStorageContainer].storeIgnoredPackagesToPersistence(): Write requested but no read performed before. Ignoring request!");
+            this.getLogUota().log(100000, "[IgnoredPackagesStorageContainer].storeIgnoredPackagesToPersistence(): Write requested but no read performed before. Ignoring request!");
         } else {
             this.serializeAndWrite();
         }
@@ -216,22 +217,22 @@ extends AbstractStorageDataContainer {
     }
 
     private void readIgnoredPackagesFromPersistence() {
-        this.getLogUota().log(-2137614336, "[IgnoredPackagesStorageContainer].readIgnoredPackagesFromPersistence()");
+        this.getLogUota().log(10000000, "[IgnoredPackagesStorageContainer].readIgnoredPackagesFromPersistence()");
         if (null == this.ignoredReleasePackagesMap) {
             this.readAndDeserialize();
         } else {
-            this.getLogUota().log(-2137614336, "[IgnoredPackagesStorageContainer].readIgnoredPackagesFromPersistence(): Data already read from persistence. Ignoring request!");
+            this.getLogUota().log(10000000, "[IgnoredPackagesStorageContainer].readIgnoredPackagesFromPersistence(): Data already read from persistence. Ignoring request!");
         }
     }
 
     void cleanupIgnoredPackages() {
-        this.getLogUota().log(-1601830656, "[IgnoredPackagesStorageContainer].cleanupIgnoredPackages(): Cleanup of persisted data requested!");
+        this.getLogUota().log(100000, "[IgnoredPackagesStorageContainer].cleanupIgnoredPackages(): Cleanup of persisted data requested!");
         this.ignoredReleasePackagesMap = new HashMap();
         this.serializeAndWrite();
     }
 
     void removeFromIgnoredPackage(int n) {
-        this.getLogUota().log(-1601830656, "[IgnoredPackagesStorageContainer].removeFromIgnoredPackage(): Removing pkg %2 from the ignored list!", (long)n);
+        this.getLogUota().log(100000, "[IgnoredPackagesStorageContainer].removeFromIgnoredPackage(): Removing pkg %2 from the ignored list!", (long)n);
         this.readIgnoredPackagesFromPersistence();
         if (null != this.ignoredReleasePackagesMap) {
             this.ignoredReleasePackagesMap.remove(Integer.toString(n));
@@ -239,38 +240,33 @@ extends AbstractStorageDataContainer {
         }
     }
 
-    @Override
     protected void handleCRC32Error() {
         this.getLogUota().log(10000, "[IgnoredPackagesStorageContainer].handleCRC32Error(): Failed to read user selection!");
         this.ignoredReleasePackagesMap = new HashMap();
     }
 
-    @Override
     protected void handleStorageReadError(Exception exception) {
         if (exception instanceof ValueMissingException) {
-            this.getLogUota().log(1078071040, "[IgnoredPackagesStorageContainer].handleStorageReadError(): No ignored packages persisted yet!");
+            this.getLogUota().log(1000000, "[IgnoredPackagesStorageContainer].handleStorageReadError(): No ignored packages persisted yet!");
         } else {
             this.getLogUota().log(10000, "[IgnoredPackagesStorageContainer].handleStorageReadError(): Failed to read user selection!");
         }
         this.ignoredReleasePackagesMap = new HashMap();
     }
 
-    @Override
     protected void convertContainer(int n, int n2, DataInputStream dataInputStream) {
     }
 
-    @Override
-    protected void serialize(DataOutputStream dataOutputStream) {
+    protected void serialize(DataOutputStream dataOutputStream) throws IOException {
         if (null == this.ignoredReleasePackagesMap) {
-            this.getLogUota().log(-1601830656, "[IgnoredPackagesStorageContainer].serialize(): Null ignoredReleasePackagesMap, nothing to persist!");
+            this.getLogUota().log(100000, "[IgnoredPackagesStorageContainer].serialize(): Null ignoredReleasePackagesMap, nothing to persist!");
             return;
         }
         this.serializeStringArray(this.mapToArray(), dataOutputStream);
     }
 
-    @Override
-    protected void deserialize(DataInputStream dataInputStream) {
-        this.getLogUota().log(-2137614336, "[IgnoredPackagesStorageContainer].deserialize(): Reading the user ignored release/packages from persistence");
+    protected void deserialize(DataInputStream dataInputStream) throws IOException {
+        this.getLogUota().log(10000000, "[IgnoredPackagesStorageContainer].deserialize(): Reading the user ignored release/packages from persistence");
         String[] stringArray = this.deserializeStringArray(dataInputStream);
         if (stringArray != null) {
             this.ignoredReleasePackagesMap = new HashMap(stringArray.length / 2);
@@ -283,7 +279,7 @@ extends AbstractStorageDataContainer {
                 this.getLogUota().log(10000, "[IgnoredPackagesStorageContainer].deserialize(): the IgnoredPackagesStorageContainer is corrupted!");
             }
         } else {
-            this.getLogUota().log(-2137614336, "[IgnoredPackagesStorageContainer].deserialize(): the string array is not exist!");
+            this.getLogUota().log(10000000, "[IgnoredPackagesStorageContainer].deserialize(): the string array is not exist!");
         }
     }
 
@@ -297,7 +293,7 @@ extends AbstractStorageDataContainer {
 
     private String[] mapToArray() {
         String[] stringArray = new String[]{};
-        this.getLogUota().log(-2137614336, "[IgnoredPackagesStorageContainer].mapToArray(): convert ignoredReleasePackagesMap to a string array");
+        this.getLogUota().log(10000000, "[IgnoredPackagesStorageContainer].mapToArray(): convert ignoredReleasePackagesMap to a string array");
         if (null != this.ignoredReleasePackagesMap && this.ignoredReleasePackagesMap.size() > 0) {
             stringArray = new String[this.ignoredReleasePackagesMap.size() * 2];
             int n = 0;
@@ -309,7 +305,7 @@ extends AbstractStorageDataContainer {
                 stringArray[n++] = string2;
             }
         }
-        this.getLogUota().log(-2137614336, "[IgnoredPackagesStorageContainer].mapToArray(): array length=%1", (long)stringArray.length);
+        this.getLogUota().log(10000000, "[IgnoredPackagesStorageContainer].mapToArray(): array length=%1", (long)stringArray.length);
         return stringArray;
     }
 }

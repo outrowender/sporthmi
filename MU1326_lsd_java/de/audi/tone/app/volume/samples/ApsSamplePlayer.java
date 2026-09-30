@@ -18,29 +18,25 @@ implements ISamplePlayer {
         this.listener = new NullToneServiceListener(logChannel, "ToneServiceListener");
     }
 
-    @Override
     public void play() {
-        this.lc.log(-2137614336, "[ApsSamplePlayer.play]");
+        this.lc.log(10000000, "[ApsSamplePlayer.play]");
         this.listener.updateApsEntertainmentLoweringComboboxState(1);
     }
 
-    @Override
     public void stop() {
-        this.lc.log(-2137614336, "[ApsSamplePlayer.stop]");
+        this.lc.log(10000000, "[ApsSamplePlayer.stop]");
         this.listener.updateApsEntertainmentLoweringComboboxState(0);
     }
 
-    @Override
     public void registerService(Object object) {
         if (object instanceof ToneServiceListener) {
-            this.lc.log(-2137614336, "[ApsSamplePlayer.registerService] service  registered: %1", object);
+            this.lc.log(10000000, "[ApsSamplePlayer.registerService] service  registered: %1", object);
             this.listener = (ToneServiceListener)object;
         } else {
-            this.lc.log(-2137614336, "[ApsSamplePlayer.registerService] service not registered: %1", object);
+            this.lc.log(10000000, "[ApsSamplePlayer.registerService] service not registered: %1", object);
         }
     }
 
-    @Override
     public void deregisterService(Object object) {
         if (object instanceof ToneServiceListener) {
             this.listener = new NullToneServiceListener(this.lc, "ToneServiceListener");

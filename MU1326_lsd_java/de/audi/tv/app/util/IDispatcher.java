@@ -4,7 +4,6 @@
 package de.audi.tv.app.util;
 
 public interface IDispatcher {
-    default public void execute(Runnable runnable) {
-    }
+    public void execute(Runnable var1);
 }
 

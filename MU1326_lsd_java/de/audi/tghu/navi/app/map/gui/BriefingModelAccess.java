@@ -17,22 +17,20 @@ implements IBriefingModelAccess {
     private final ListModelApp listModelApp;
 
     public BriefingModelAccess(NavigationEnv navigationEnv, IRouteBriefingOptionRowBuilder iRouteBriefingOptionRowBuilder) {
-        navigationEnv.getLogChannel().log(-2137614336, "[RouteBriefing] BriefingModelAccess#BriefingModelAccess()");
+        navigationEnv.getLogChannel().log(10000000, "[RouteBriefing] BriefingModelAccess#BriefingModelAccess()");
         this.env = navigationEnv;
         this.routeBriefingRowBuilder = iRouteBriefingOptionRowBuilder;
-        this.listModelApp = navigationEnv.getListModel(1579025920);
+        this.listModelApp = navigationEnv.getListModel(400990);
         this.listModelApp.setMaxColumns(iRouteBriefingOptionRowBuilder.getColumnCount());
     }
 
-    @Override
     public void onStart() {
-        this.env.getLogChannel().log(-2137614336, "[RouteBriefing] BriefingModelAccess#onStart()");
+        this.env.getLogChannel().log(10000000, "[RouteBriefing] BriefingModelAccess#onStart()");
         this.listModelApp.clear();
     }
 
-    @Override
     public void onUpdateOptionsList(IRouteCriteria iRouteCriteria) {
-        this.env.getLogChannel().log(-2137614336, "[RouteBriefing] BriefingModelAccess#onUpdateOptionsList( %1 )", (Object)iRouteCriteria);
+        this.env.getLogChannel().log(10000000, "[RouteBriefing] BriefingModelAccess#onUpdateOptionsList( %1 )", (Object)iRouteCriteria);
         this.listModelApp.clear();
         if (iRouteCriteria == null) {
             return;
@@ -42,7 +40,7 @@ implements IBriefingModelAccess {
             this.listModelApp.addRow(listCellArray);
         }
         catch (Exception exception) {
-            this.env.getLogChannel().log(-2137614336, exception.getMessage());
+            this.env.getLogChannel().log(10000000, exception.getMessage());
         }
     }
 }

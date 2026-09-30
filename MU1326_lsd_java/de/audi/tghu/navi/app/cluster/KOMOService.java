@@ -33,7 +33,7 @@ DSIKOMOGfxStreamSinkListener {
     private KOMOCaller komoCaller;
     private boolean isFadeOut;
     private ClusterKDKHandler clusterKDKHandler;
-    public static final int INVALID_DTM_UNIT;
+    public static final int INVALID_DTM_UNIT = 255;
 
     public static int convertTimeFormatToKOMO(int n) {
         switch (n) {
@@ -62,7 +62,7 @@ DSIKOMOGfxStreamSinkListener {
     public static KOMOTime convertDurationToKOMO(long l) {
         KOMOTime kOMOTime = new KOMOTime();
         if (l >= 0L) {
-            int n = (int)(l / 0);
+            int n = (int)(l / 1000L);
             int n2 = n / 60;
             kOMOTime.hour = (short)(n2 / 60);
             kOMOTime.min = (short)(n2 % 60);
@@ -80,17 +80,17 @@ DSIKOMOGfxStreamSinkListener {
     }
 
     public void setDSIKOMONavInfo(DSIKOMONavInfo dSIKOMONavInfo) {
-        this.logChannel.log(1078071040, "KOMOService#setDSIKOMONavInfo( %1 )", (Object)dSIKOMONavInfo);
+        this.logChannel.log(1000000, "KOMOService#setDSIKOMONavInfo( %1 )", (Object)dSIKOMONavInfo);
         this.komoCaller.setDSIKOMONavInfo(dSIKOMONavInfo, this);
     }
 
     public void setDSIKOMOView(DSIKOMOView dSIKOMOView) {
-        this.logChannel.log(1078071040, "KOMOService#setDSIKOMOView( %1 )", (Object)dSIKOMOView);
+        this.logChannel.log(1000000, "KOMOService#setDSIKOMOView( %1 )", (Object)dSIKOMOView);
         this.komoCaller.setDSIKOMOView(dSIKOMOView, this);
     }
 
     public void setDSIKOMOGfxStreamSink(DSIKOMOGfxStreamSink dSIKOMOGfxStreamSink) {
-        this.logChannel.log(1078071040, "KOMOService#setDSIKOMOGfxStreamSink( %1 )", (Object)dSIKOMOGfxStreamSink);
+        this.logChannel.log(1000000, "KOMOService#setDSIKOMOGfxStreamSink( %1 )", (Object)dSIKOMOGfxStreamSink);
         this.komoCaller.setDSIKOMOGfxStreamSink(dSIKOMOGfxStreamSink, this);
     }
 
@@ -103,7 +103,7 @@ DSIKOMOGfxStreamSinkListener {
     }
 
     public void setDistanceToNextManeuver(long l, int n, boolean bl) {
-        this.logChannel.log(-2137614336, "KOMOService#setDistanceToNextManeuver() - distance: %1, unit: %2, validity: %3", l, (long)n, bl);
+        this.logChannel.log(10000000, "KOMOService#setDistanceToNextManeuver() - distance: %1, unit: %2, validity: %3", l, (long)n, bl);
         this.komoCaller.setDistanceToNextManeuver(l, n, bl);
     }
 
@@ -139,7 +139,7 @@ DSIKOMOGfxStreamSinkListener {
     }
 
     public void setDistanceToDestination(long l, int n, boolean bl) {
-        this.logChannel.log(14808325, "KOMOService#setDistanceToDestination() - distance: %1, unit: %2, validity: %3", l, (long)n, bl);
+        this.logChannel.log(100000000, "KOMOService#setDistanceToDestination() - distance: %1, unit: %2, validity: %3", l, (long)n, bl);
         this.komoCaller.setDistanceToDestination(l, n, bl);
     }
 
@@ -148,7 +148,7 @@ DSIKOMOGfxStreamSinkListener {
     }
 
     public void enableKomoView(boolean bl) {
-        this.logChannel.log(1078071040, "KOMOService#enableKomoView() - enable: %1", bl);
+        this.logChannel.log(1000000, "KOMOService#enableKomoView() - enable: %1", bl);
         this.komoCaller.enableKomoView(bl);
     }
 
@@ -162,14 +162,13 @@ DSIKOMOGfxStreamSinkListener {
 
     public void setRouteInfo(RouteInfoElement[] routeInfoElementArray) {
         if (this.logChannel.isDebug2()) {
-            this.logChannel.log(14808325, "KOMOService#setRouteInfoElement( %1 )", (Object)Arrays.asList(routeInfoElementArray));
+            this.logChannel.log(100000000, "KOMOService#setRouteInfoElement( %1 )", (Object)Arrays.asList(routeInfoElementArray));
         }
         this.komoCaller.setRouteInfo(routeInfoElementArray);
     }
 
-    @Override
     public void asyncException(int n, String string, int n2) {
-        this.logChannel.log(-2137614336, "KOMOService#asyncException( %2, %1, %3 )", (Object)string, (long)n, (long)n2);
+        this.logChannel.log(10000000, "KOMOService#asyncException( %2, %1, %3 )", (Object)string, (long)n, (long)n2);
     }
 
     public String toString() {
@@ -179,55 +178,48 @@ DSIKOMOGfxStreamSinkListener {
         return buffer.toString();
     }
 
-    @Override
     public void updateGfxState(int n, int n2) {
         if (n2 == 1) {
-            this.logChannel.log(1078071040, "KOMOService#updateGfxState( %1 )", (long)n);
+            this.logChannel.log(1000000, "KOMOService#updateGfxState( %1 )", (long)n);
             this.service.getClusterViewMode().setGFXAvailable(n == 1);
         }
     }
 
-    @Override
     public void updateRequestSync(int n, int n2) {
         if (n2 == 1) {
-            this.logChannel.log(1078071040, "KOMOService#updateRequestSync( %1 )", (long)n);
+            this.logChannel.log(1000000, "KOMOService#updateRequestSync( %1 )", (long)n);
             if (n == 1) {
                 this.service.reSyncKOMO();
             }
         }
     }
 
-    @Override
     public void updateDataRate(int n, int n2) {
         if (n2 == 1) {
-            this.logChannel.log(1078071040, "KOMOService#updateDataRate( %1 )", (long)n);
+            this.logChannel.log(1000000, "KOMOService#updateDataRate( %1 )", (long)n);
             this.service.getClusterViewMode().setDataRate(n);
             this.service.setKOMODataRate(n);
         }
     }
 
-    @Override
     public void setFGLayerResult(int n) {
-        this.logChannel.log(-2137614336, "KOMOService#setFGLayerResult( %1 )", (long)n);
+        this.logChannel.log(10000000, "KOMOService#setFGLayerResult( %1 )", (long)n);
     }
 
-    @Override
     public void fadeInResult() {
-        this.logChannel.log(-2137614336, "KOMOService#fadeInResult( %1 )");
+        this.logChannel.log(10000000, "KOMOService#fadeInResult( %1 )");
     }
 
-    @Override
     public void fadeOutResult() {
-        this.logChannel.log(-2137614336, "KOMOService#fadeOutResult( %1 )");
+        this.logChannel.log(10000000, "KOMOService#fadeOutResult( %1 )");
         this.service.getClusterViewMode().fadeOutFinished();
     }
 
-    @Override
     public void updateKomoViewEnabled(boolean bl, int n) {
         if (n == 1) {
-            this.logChannel.log(1078071040, "KOMOService#updateKomoViewEnabled( %1 )", bl);
+            this.logChannel.log(1000000, "KOMOService#updateKomoViewEnabled( %1 )", bl);
             if (!bl && Util.isClusterMapMOSTAlwaysOn()) {
-                this.logChannel.log(1078071040, "KOMOService#updateKomoViewEnabled() - override for always-on!");
+                this.logChannel.log(1000000, "KOMOService#updateKomoViewEnabled() - override for always-on!");
                 bl = true;
             }
             this.service.getClusterViewMode().setKOMOViewEnabled(bl);
@@ -235,58 +227,50 @@ DSIKOMOGfxStreamSinkListener {
         }
     }
 
-    @Override
     public void updateVisibility(boolean bl, int n) {
         if (n == 1) {
-            this.logChannel.log(1078071040, "KOMOService#updateVisibility( %1 )", bl);
+            this.logChannel.log(1000000, "KOMOService#updateVisibility( %1 )", bl);
             this.service.getClusterViewMode().setKOMOViewVisible(bl);
             this.clusterKDKHandler.updateKOMOViewVisible(bl);
         }
     }
 
-    @Override
     public void setCurrentStreetResult(int n) {
-        this.logChannel.log(-2137614336, "KOMOService#setCurrentStreetResult( %1 )", (long)n);
+        this.logChannel.log(10000000, "KOMOService#setCurrentStreetResult( %1 )", (long)n);
     }
 
-    @Override
     public void setTurnToStreetResult(int n) {
-        this.logChannel.log(-2137614336, "KOMOService#setTurnToStreetResult( %1 )", (long)n);
+        this.logChannel.log(10000000, "KOMOService#setTurnToStreetResult( %1 )", (long)n);
     }
 
-    @Override
     public void setCityNameResult(int n) {
-        this.logChannel.log(-2137614336, "KOMOService#setCityNameResult( %1 )", (long)n);
+        this.logChannel.log(10000000, "KOMOService#setCityNameResult( %1 )", (long)n);
     }
 
-    @Override
     public void setSemiDynRouteResult(int n) {
-        this.logChannel.log(-2137614336, "KOMOService#setSemiDynRouteResult( %1 )", (long)n);
+        this.logChannel.log(10000000, "KOMOService#setSemiDynRouteResult( %1 )", (long)n);
     }
 
-    @Override
     public void setTrafficOffsetResult(int n) {
-        this.logChannel.log(-2137614336, "KOMOService#setTrafficOffsetResult( %1 )", (long)n);
+        this.logChannel.log(10000000, "KOMOService#setTrafficOffsetResult( %1 )", (long)n);
     }
 
-    @Override
     public void setRgSelectResult(int n) {
-        this.logChannel.log(-2137614336, "KOMOService#setRgSelectResult( %1 )", (long)n);
+        this.logChannel.log(10000000, "KOMOService#setRgSelectResult( %1 )", (long)n);
     }
 
-    @Override
     public void setCapabilitiesResult(int n) {
-        this.logChannel.log(-2137614336, "KOMOService#setCapabilitiesResult( %1 )", (long)n);
+        this.logChannel.log(10000000, "KOMOService#setCapabilitiesResult( %1 )", (long)n);
     }
 
     protected void doFadeIn(int n) {
-        this.logChannel.log(-2137614336, "KOMOService#doFadeIn( %1 )", (long)n);
+        this.logChannel.log(10000000, "KOMOService#doFadeIn( %1 )", (long)n);
         this.isFadeOut = false;
         this.komoCaller.fadeIn(n, 0, 0);
     }
 
     protected void doFadeOut(int n) {
-        this.logChannel.log(-2137614336, "KOMOService#doFadeOut( %1 )", (long)n);
+        this.logChannel.log(10000000, "KOMOService#doFadeOut( %1 )", (long)n);
         this.isFadeOut = true;
         this.komoCaller.fadeOut(n);
     }
@@ -295,27 +279,23 @@ DSIKOMOGfxStreamSinkListener {
         return this.isFadeOut;
     }
 
-    @Override
     public void komoViewResult(int n) {
-        this.logChannel.log(-2137614336, "KOMOService#komoViewResult( %1 )", (long)n);
+        this.logChannel.log(10000000, "KOMOService#komoViewResult( %1 )", (long)n);
     }
 
-    @Override
     public void updateCurrentKomoViewType(int n, int n2) {
         if (n2 == 1) {
-            this.logChannel.log(-2137614336, "KOMOService#updateCurrentKomoViewType( %1 )", (long)n);
+            this.logChannel.log(10000000, "KOMOService#updateCurrentKomoViewType( %1 )", (long)n);
         }
     }
 
-    @Override
     public void setMapScaleResult(int n, int n2, boolean[] blArray, int n3, int n4, boolean[] blArray2, boolean bl) {
-        this.logChannel.log(-2137614336, "KOMOService#setMapScaleResult() - deprecated");
+        this.logChannel.log(10000000, "KOMOService#setMapScaleResult() - deprecated");
     }
 
-    @Override
     public void setMapScale(int n, int n2, boolean[] blArray, int n3, int n4, int n5) {
         Buffer buffer = new Buffer().append(n).append(", ").append(n2).append(", [").append(MapUtils.toString(blArray)).append("], ").append(n3).append(", ").append(n4).append(", ").append(n5);
-        this.logChannel.log(-2137614336, "KOMOService#setMapScale( %1 )", (Object)buffer);
+        this.logChannel.log(10000000, "KOMOService#setMapScale( %1 )", (Object)buffer);
     }
 }
 

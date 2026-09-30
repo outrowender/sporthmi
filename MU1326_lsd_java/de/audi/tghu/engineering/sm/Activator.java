@@ -10,7 +10,6 @@ import de.audi.tghu.engineering.sm.EngineeringSMMActions;
 
 public class Activator
 extends AbstractSMMActivator {
-    @Override
     public void init() {
         this.smmList = new EngineeringSMM[8];
         if (this.framework.isFrontMU()) {

@@ -10,13 +10,10 @@ import de.audi.tuner.ifc.listener.MessageListener;
 
 public interface ITunerDABGUIHandler
 extends ITunerGUIHandler {
-    default public void setSyncLinkState(DabReceptionStatus dabReceptionStatus) {
-    }
+    public void setSyncLinkState(DabReceptionStatus var1);
 
-    default public MessageListener getMessageListener() {
-    }
+    public MessageListener getMessageListener();
 
-    default public TunerObjectContainer[] getStationListHierarchical() {
-    }
+    public TunerObjectContainer[] getStationListHierarchical();
 }
 

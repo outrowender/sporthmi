@@ -23,12 +23,12 @@ import de.audi.tghu.navi.app.dsi.DSINavigationManager;
 public final class AudioStateMachine
 implements AudioManagement,
 HMIAudioServiceListener {
-    public static final int STATE_CONNECTION_STOPPED;
-    public static final int STATE_WAIT_FOR_CONNECTION_STARTED;
-    public static final int STATE_WAIT_FOR_CONNECTION_FADEDIN;
-    public static final int STATE_CONNECTION_FADEDIN;
-    public static final int STATE_WAIT_FOR_CONNECTION_STOPPED;
-    private static final int STATE_COUNT;
+    public static final int STATE_CONNECTION_STOPPED = 0;
+    public static final int STATE_WAIT_FOR_CONNECTION_STARTED = 1;
+    public static final int STATE_WAIT_FOR_CONNECTION_FADEDIN = 2;
+    public static final int STATE_CONNECTION_FADEDIN = 3;
+    public static final int STATE_WAIT_FOR_CONNECTION_STOPPED = 4;
+    private static final int STATE_COUNT = 5;
     private final NavigationEnv env;
     private final DSINavigationManager dsiNavigationManager;
     private LogChannel logChannel;
@@ -74,7 +74,7 @@ HMIAudioServiceListener {
      */
     public void setAudioManagement(HMIAudioService hMIAudioService) {
         if (this.logChannel.isDebug2()) {
-            this.logChannel.log(14808325, "AudioStateMachine#setAudioManagement() - %1 ", (Object)hMIAudioService);
+            this.logChannel.log(100000000, "AudioStateMachine#setAudioManagement() - %1 ", (Object)hMIAudioService);
         }
         this.audioManagement = hMIAudioService;
         if (hMIAudioService != null) {
@@ -127,7 +127,7 @@ HMIAudioServiceListener {
     public void goTo(int n) {
         AudioStateMachine audioStateMachine = this;
         synchronized (audioStateMachine) {
-            this.logChannel.log(-2137614336, "AudioStateMachine#goTo() - %1 -> %2 ", (Object)this.audioStates[this.currentState], (Object)this.audioStates[n]);
+            this.logChannel.log(10000000, "AudioStateMachine#goTo() - %1 -> %2 ", (Object)this.audioStates[this.currentState], (Object)this.audioStates[n]);
             this.currentState = n;
         }
     }
@@ -145,7 +145,6 @@ HMIAudioServiceListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updateAudioRequest(int n) {
         if (n == 3) {
             this.lastAnnouncementTimestamp = this.env.getFramework().getMonotonicTime();
@@ -160,7 +159,6 @@ HMIAudioServiceListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void fadedIn(int n, int n2) {
         AudioStateMachine audioStateMachine = this;
         synchronized (audioStateMachine) {
@@ -174,7 +172,6 @@ HMIAudioServiceListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void pauseConnection(int n, int n2) {
         AudioStateMachine audioStateMachine = this;
         synchronized (audioStateMachine) {
@@ -185,7 +182,6 @@ HMIAudioServiceListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void startConnection(int n, int n2) {
         AudioStateMachine audioStateMachine = this;
         synchronized (audioStateMachine) {
@@ -196,7 +192,6 @@ HMIAudioServiceListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void stopConnection(int n, int n2) {
         AudioStateMachine audioStateMachine = this;
         synchronized (audioStateMachine) {
@@ -207,7 +202,6 @@ HMIAudioServiceListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void errorConnection(int n, int n2, int n3) {
         AudioStateMachine audioStateMachine = this;
         synchronized (audioStateMachine) {
@@ -215,7 +209,6 @@ HMIAudioServiceListener {
         }
     }
 
-    @Override
     public void updateAMAvailable(boolean bl) {
     }
 
@@ -231,25 +224,24 @@ HMIAudioServiceListener {
     public void setAutoRepeatMode(boolean bl) {
         this.autoRepeatMode = bl;
         if (bl && this.getLastAnnouncementHandler() != null) {
-            this.logChannel.log(-2137614336, "AudioStateMachine#setAutoRepeatMode( %1 ) - repeat last announcement", bl);
+            this.logChannel.log(10000000, "AudioStateMachine#setAutoRepeatMode( %1 ) - repeat last announcement", bl);
             this.getLastAnnouncementHandler().repeatLastAnnouncementSimple(0);
         } else {
-            this.logChannel.log(-2137614336, "AudioStateMachine#setAutoRepeatMode( %1 ) - abort announcement", bl);
+            this.logChannel.log(10000000, "AudioStateMachine#setAutoRepeatMode( %1 ) - abort announcement", bl);
             this.audioTrigger(false);
         }
     }
 
     public void audioTrigger(boolean bl) {
-        this.logChannel.log(-2137614336, "AudioStateMachine#audioTrigger( %1 )", bl);
+        this.logChannel.log(10000000, "AudioStateMachine#audioTrigger( %1 )", bl);
         RequestAudioTriggerCall requestAudioTriggerCall = new RequestAudioTriggerCall(this.env, this.dsiNavigationManager, bl ? 0 : 2);
         requestAudioTriggerCall.execute("AudioStateMachine#audioTrigger");
     }
 
     public void responseAudioTrigger(int n) {
-        this.logChannel.log(-2137614336, "DefaultDSINavigationMainHandler#responseAudioTrigger( %1 )", (long)n);
+        this.logChannel.log(10000000, "DefaultDSINavigationMainHandler#responseAudioTrigger( %1 )", (long)n);
     }
 
-    @Override
     public void updateVolumeLock(int n, int n2, boolean bl) {
     }
 }

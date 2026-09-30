@@ -3,31 +3,28 @@
  */
 package de.audi.tghu.navi.app.map;
 
-import de.audi.tghu.navi.app.map.IAdditionalInfo$ChangeListener;
-
 public interface IAdditionalInfo {
-    public static final int AI_KDK;
-    public static final int AI_RouteInfoBox;
-    public static final int AI_Compass;
-    public static final int ST_Inactive;
-    public static final int ST_ShowKDK;
-    public static final int ST_ShowRouteInfoBox;
-    public static final int ST_ShowCompass;
-    public static final int ST_RequestingKDK;
+    public static final int AI_KDK = 0;
+    public static final int AI_RouteInfoBox = 1;
+    public static final int AI_Compass = 2;
+    public static final int ST_Inactive = 0;
+    public static final int ST_ShowKDK = 1;
+    public static final int ST_ShowRouteInfoBox = 2;
+    public static final int ST_ShowCompass = 3;
+    public static final int ST_RequestingKDK = 4;
 
-    default public void show(boolean bl, boolean bl2) {
-    }
+    public void show(boolean var1, boolean var2);
 
-    default public void show(int n, boolean bl, boolean bl2) {
-    }
+    public void show(int var1, boolean var2, boolean var3);
 
-    default public void refresh(int n) {
-    }
+    public void refresh(int var1);
 
-    default public int getState() {
-    }
+    public int getState();
 
-    default public void addListener(ChangeListener changeListener) {
+    public void addListener(ChangeListener var1);
+
+    public static interface ChangeListener {
+        public void onChangedAdditionalInfo(int var1);
     }
 }
 

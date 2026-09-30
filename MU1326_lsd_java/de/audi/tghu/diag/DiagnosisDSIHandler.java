@@ -10,7 +10,6 @@ import de.audi.atip.log.LogChannel;
 import de.audi.atip.timer.Timer;
 import de.audi.atip.timer.TimerListener;
 import de.audi.tghu.diag.DiagnosisApp;
-import de.audi.tghu.diag.DiagnosisDSIHandler$1;
 import org.dsi.ifc.base.DSIListener;
 import org.dsi.ifc.diagnose.DSIDiagnoseSystem;
 import org.dsi.ifc.diagnose.DSIDiagnoseSystemListener;
@@ -36,17 +35,16 @@ TimerListener {
     }
 
     public void setDSIDiagnoseSystem(DSIDiagnoseSystem dSIDiagnoseSystem) {
-        this.lc.log(-2137614336, "setDSIDiagnoseSystem: dsi=%1", (Object)dSIDiagnoseSystem);
+        this.lc.log(10000000, "setDSIDiagnoseSystem: dsi=%1", (Object)dSIDiagnoseSystem);
         this.diagDSI = dSIDiagnoseSystem;
         this.diagDSI.setNotification(new int[]{20}, (DSIListener)this);
     }
 
     public void setNaviService(NaviService naviService) {
-        this.lc.log(-2137614336, "setNaviService: naviInterAppService=%1", (Object)naviService);
+        this.lc.log(10000000, "setNaviService: naviInterAppService=%1", (Object)naviService);
         this.naviInterAppService = naviService;
     }
 
-    @Override
     public void asyncException(int n, String string, int n2) {
         this.lc.log(10000, "errorCode=%2, errorMsg=%1, requestType=%3", (Object)string, (long)n, (long)n2);
     }
@@ -60,7 +58,7 @@ TimerListener {
     }
 
     public void deleteMemory() {
-        this.lc.log(-2137614336, "deleteMemory");
+        this.lc.log(10000000, "deleteMemory");
         this.fw.getInfotainmentrecorder().logInit();
         this.fw.getStorageMgr().startReset2FactorySettings();
         this.sendMessage(30);
@@ -80,14 +78,14 @@ TimerListener {
     }
 
     private void startDiagMode() {
-        this.lc.log(-2137614336, "startDiagMode");
+        this.lc.log(10000000, "startDiagMode");
         this.sendMessage(43);
         this.app.startDiagSession();
         this.lastmodeAudio = this.fw.getLastmodeHandler().getLastmodeAudio(-2);
     }
 
     private void stopDiagMode() {
-        this.lc.log(-2137614336, "stopDiagMode");
+        this.lc.log(10000000, "stopDiagMode");
         this.sendMessage(44);
         this.restoreSourceSwitch();
         this.removeTestPicPopup();
@@ -111,7 +109,7 @@ TimerListener {
     }
 
     public void updateSourceSwitch(int n) {
-        this.lc.log(-2137614336, "sourceSwitch=%1", (long)n);
+        this.lc.log(10000000, "sourceSwitch=%1", (long)n);
         try {
             switch (n) {
                 case 0: 
@@ -166,7 +164,7 @@ TimerListener {
     }
 
     public void updateTestPictureDisplay(int n) {
-        this.lc.log(-2137614336, "testPictureDisplay=%1", (long)n);
+        this.lc.log(10000000, "testPictureDisplay=%1", (long)n);
         if (n >= 0 && n <= 9) {
             if (this.fw.isFrontMU()) {
                 this.fw.getHMIService().getChoiceModel(103).setValue(n);
@@ -184,22 +182,20 @@ TimerListener {
     }
 
     public void updatePmlPassword(boolean bl) {
-        this.lc.log(-2137614336, "pmlPassword=%1", bl);
+        this.lc.log(10000000, "pmlPassword=%1", bl);
         this.app.performAction(9, bl);
     }
 
-    @Override
     public void updateDiagnosticValueChanged(int n, long l, int n2) {
         if (n2 == 1) {
-            this.lc.log(-2137614336, "updateDiagnosticValueChanged(namespace=%1, key=%2)", (long)n, l);
+            this.lc.log(10000000, "updateDiagnosticValueChanged(namespace=%1, key=%2)", (long)n, l);
             this.app.updateDiagnosticValueChanged(n, l);
         }
     }
 
-    @Override
     public void requestRoutine(int n, int n2, int n3, int[] nArray) {
-        this.lc.log(-2137614336, "requestRoutine(msgId=%1, routine=%2, action=%3", (long)n, (long)n2, (long)n3);
-        this.lc.log(-2137614336, "               options=%1)", (Object)nArray);
+        this.lc.log(10000000, "requestRoutine(msgId=%1, routine=%2, action=%3", (long)n, (long)n2, (long)n3);
+        this.lc.log(10000000, "               options=%1)", (Object)nArray);
         if (this.diagDSI == null) {
             this.lc.log(10000, "requestRoutine() DSIDiagnoseSystem not tracked yet!!!");
             return;
@@ -240,19 +236,32 @@ TimerListener {
         }
     }
 
-    private void resultRoutine(int n) {
-        int n2 = 0;
+    private void resultRoutine(final int n) {
+        long l = 10000L;
         if (n == 1) {
-            n2 = 0;
+            l = 3000L;
         }
-        Timer timer = new Timer("resultRoutine", n2, true, new DiagnosisDSIHandler$1(this, n));
+        Timer timer = new Timer("resultRoutine", l, true, new TimerListener(){
+
+            public void fireTimer(Timer timer) {
+                DiagnosisDSIHandler.this.lc.log(10000000, "Timer::resultRoutine # msgId=0 # routine=%2", (long)n);
+                if (n == 0) {
+                    DiagnosisDSIHandler.this.deleteMemoryActive = false;
+                } else if (n == 1) {
+                    DiagnosisDSIHandler.this.deletePMLPasswordActive = false;
+                }
+                DiagnosisDSIHandler.this.diagDSI.resultRoutine(0, n, 3, 2, 0);
+            }
+
+            public void cancelTimer(Timer timer) {
+            }
+        });
         timer.start();
     }
 
-    @Override
     public void requestActuatorTest(int n, int n2, int n3, int n4, int[] nArray) {
-        this.lc.log(-2137614336, "requestActuatorTest(msgId=%1, test=%2, action=%3", (long)n, (long)n2, (long)n3);
-        this.lc.log(-2137614336, "                    timing=%2, params=%1)", (Object)nArray, (long)n4);
+        this.lc.log(10000000, "requestActuatorTest(msgId=%1, test=%2, action=%3", (long)n, (long)n2, (long)n3);
+        this.lc.log(10000000, "                    timing=%2, params=%1)", (Object)nArray, (long)n4);
         if (this.diagDSI == null) {
             this.lc.log(10000, "DSIDiagnoseSystem not tracked yet!!!");
             return;
@@ -270,11 +279,11 @@ TimerListener {
                         break;
                     }
                     if (nArray[0] == 10 || nArray[0] == 20 || !this.isSourceCoded(nArray[0])) {
-                        this.lc.log(-2137614336, "ACTUATOR_SOURCE_SWITCH::HMIRESPONSE_REQUEST_OUT_OF_RANGE");
+                        this.lc.log(10000000, "ACTUATOR_SOURCE_SWITCH::HMIRESPONSE_REQUEST_OUT_OF_RANGE");
                         this.diagDSI.acknowledgeActuatorTest(n, n2, n3, n4, nArray, 4);
                         break;
                     }
-                    this.lc.log(-2137614336, "ACTUATOR_SOURCE_SWITCH::HMIRESPONSE_OK");
+                    this.lc.log(10000000, "ACTUATOR_SOURCE_SWITCH::HMIRESPONSE_OK");
                     this.diagDSI.acknowledgeActuatorTest(n, n2, n3, n4, nArray, 0);
                     this.updateSourceSwitch(nArray[0]);
                     break;
@@ -389,31 +398,11 @@ TimerListener {
         }
     }
 
-    @Override
     public void fireTimer(Timer timer) {
         this.removeTestPicPopup();
     }
 
-    @Override
     public void cancelTimer(Timer timer) {
-    }
-
-    static /* synthetic */ LogChannel access$000(DiagnosisDSIHandler diagnosisDSIHandler) {
-        return diagnosisDSIHandler.lc;
-    }
-
-    static /* synthetic */ boolean access$102(DiagnosisDSIHandler diagnosisDSIHandler, boolean bl) {
-        diagnosisDSIHandler.deleteMemoryActive = bl;
-        return diagnosisDSIHandler.deleteMemoryActive;
-    }
-
-    static /* synthetic */ boolean access$202(DiagnosisDSIHandler diagnosisDSIHandler, boolean bl) {
-        diagnosisDSIHandler.deletePMLPasswordActive = bl;
-        return diagnosisDSIHandler.deletePMLPasswordActive;
-    }
-
-    static /* synthetic */ DSIDiagnoseSystem access$300(DiagnosisDSIHandler diagnosisDSIHandler) {
-        return diagnosisDSIHandler.diagDSI;
     }
 }
 

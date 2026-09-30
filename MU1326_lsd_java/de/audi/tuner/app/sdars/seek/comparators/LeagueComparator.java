@@ -15,7 +15,6 @@ implements Comparator {
         this.langMngr = languageManager;
     }
 
-    @Override
     public int compare(Object object, Object object2) {
         if (object == null) {
             return -1;

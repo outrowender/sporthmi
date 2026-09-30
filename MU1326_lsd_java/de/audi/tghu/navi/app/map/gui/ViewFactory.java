@@ -3,6 +3,8 @@
  */
 package de.audi.tghu.navi.app.map.gui;
 
+import de.audi.atip.hmi.model.list.BaseListModelApp;
+import de.audi.atip.hmi.modelaccess.ChoiceModelApp;
 import de.audi.tghu.navi.app.NavigationEnv;
 import de.audi.tghu.navi.app.map.IMapPartialPopupHandler;
 import de.audi.tghu.navi.app.map.IMapPropertyProvider;
@@ -12,8 +14,6 @@ import de.audi.tghu.navi.app.map.gui.MainMapView;
 import de.audi.tghu.navi.app.map.gui.MapOptionView;
 import de.audi.tghu.navi.app.map.gui.MapSetupView;
 import de.audi.tghu.navi.app.map.gui.SemidynRGView;
-import de.audi.tghu.navi.app.map.gui.ViewFactory$1;
-import de.audi.tghu.navi.app.map.gui.ViewFactory$2;
 import de.audi.tghu.navi.app.map.gui.views.AsiaMapContentView;
 import de.audi.tghu.navi.app.map.gui.views.AsiaMapContentViewCluster;
 import de.audi.tghu.navi.app.map.gui.views.RouteBriefingView;
@@ -21,8 +21,8 @@ import de.audi.tghu.navi.app.map.gui.views.RubberbandView;
 import de.audi.tghu.navi.app.util.Util;
 
 public class ViewFactory {
-    public static final int GOOGLE_3D_CITY_MODEL_NOT_VISIBLE;
-    public static final int GOOGLE_3D_CITY_MODEL_VISIBLE;
+    public static final int GOOGLE_3D_CITY_MODEL_NOT_VISIBLE = 0;
+    public static final int GOOGLE_3D_CITY_MODEL_VISIBLE = 1;
     protected final NavigationEnv env;
     private final IMapPropertyProvider mapPropertyProvider;
     protected IMapPartialPopupHandler mapPartialPopupHandler;
@@ -42,12 +42,70 @@ public class ViewFactory {
     }
 
     public IMapContentView createMapContentViewMain() {
-        this.env.getChoiceModel(1797391872).setValue(Util.isGoogle3dCityModelAvailable() ? 1 : 0);
-        return new ViewFactory$1(this);
+        this.env.getChoiceModel(402027).setValue(Util.isGoogle3dCityModelAvailable() ? 1 : 0);
+        return new IMapContentView(){
+
+            public BaseListModelApp getStandardList() {
+                return ViewFactory.this.env.getBaseListModel(401352);
+            }
+
+            public BaseListModelApp getStandardListLevel2() {
+                return ViewFactory.this.env.getBaseListModel(402748);
+            }
+
+            public BaseListModelApp getStandardListLevel3() {
+                return ViewFactory.this.env.getBaseListModel(402749);
+            }
+
+            public ChoiceModelApp getCheckAllStandard() {
+                return ViewFactory.this.env.getChoiceModel(400787);
+            }
+
+            public BaseListModelApp getKMLLayersList() {
+                return ViewFactory.this.env.getBaseListModel(402571);
+            }
+
+            public BaseListModelApp getPPOIList() {
+                return ViewFactory.this.env.getBaseListModel(401350);
+            }
+
+            public void setMyAudiAvailable(boolean bl) {
+                ViewFactory.this.env.getChoiceModel(401575).setValue(bl ? 1 : 0);
+            }
+        };
     }
 
     public IMapContentView createMapContentViewCluster() {
-        return new ViewFactory$2(this);
+        return new IMapContentView(){
+
+            public BaseListModelApp getStandardList() {
+                return ViewFactory.this.env.getBaseListModel(401128);
+            }
+
+            public BaseListModelApp getStandardListLevel2() {
+                return ViewFactory.this.env.getBaseListModel(402750);
+            }
+
+            public BaseListModelApp getStandardListLevel3() {
+                return ViewFactory.this.env.getBaseListModel(402751);
+            }
+
+            public ChoiceModelApp getCheckAllStandard() {
+                return ViewFactory.this.env.getChoiceModel(401127);
+            }
+
+            public BaseListModelApp getKMLLayersList() {
+                return ViewFactory.this.env.getBaseListModel(401349);
+            }
+
+            public BaseListModelApp getPPOIList() {
+                return ViewFactory.this.env.getBaseListModel(401351);
+            }
+
+            public void setMyAudiAvailable(boolean bl) {
+                ViewFactory.this.env.getChoiceModel(401576).setValue(bl ? 1 : 0);
+            }
+        };
     }
 
     public IAsiaMapContentView createAsiaMapContentView() {

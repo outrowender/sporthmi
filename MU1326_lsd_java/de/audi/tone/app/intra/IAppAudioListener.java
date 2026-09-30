@@ -4,15 +4,13 @@
 package de.audi.tone.app.intra;
 
 public interface IAppAudioListener {
-    public static final int CONN_FADEDIN;
-    public static final int CONN_PAUSED;
-    public static final int CONN_STARTED;
-    public static final int CONN_STOPPED;
+    public static final int CONN_FADEDIN = 0;
+    public static final int CONN_PAUSED = 4;
+    public static final int CONN_STARTED = 2;
+    public static final int CONN_STOPPED = 5;
 
-    default public void updateConnectionStatus(int n, int n2, int n3) {
-    }
+    public void updateConnectionStatus(int var1, int var2, int var3);
 
-    default public void updateAMAvailable(boolean bl) {
-    }
+    public void updateAMAvailable(boolean var1);
 }
 

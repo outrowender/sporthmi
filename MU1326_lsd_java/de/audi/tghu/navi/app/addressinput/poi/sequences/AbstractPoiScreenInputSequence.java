@@ -12,8 +12,8 @@ import de.audi.tghu.navi.app.addressinput.commands.HidePreviewMapCommand;
 import de.audi.tghu.navi.app.addressinput.commands.LISPGetLocationFromLIValueListElementCommand;
 import de.audi.tghu.navi.app.addressinput.poi.IPoiManager;
 import de.audi.tghu.navi.app.addressinput.poi.searcharea.PoiSearchArea;
-import de.audi.tghu.navi.app.addressinput.poi.sequences.AbstractPoiScreenInputSequence$1;
 import de.audi.tghu.navi.app.command.CmdNaviPreviewMapPrepare;
+import de.audi.tghu.navi.app.command.NavCommand;
 import de.audi.tghu.navi.app.li.SpellerStack;
 import de.audi.tghu.navi.app.li.sc.SpellerContext;
 import de.audi.tghu.navi.app.util.Util;
@@ -30,7 +30,7 @@ public abstract class AbstractPoiScreenInputSequence {
     protected final SpellerContext spellerContext;
     protected final LogChannel logChannel;
     protected final IPoiManager poiManager;
-    protected final String CLASS_NAME = Util.getClassNameFromPackageName(super.getClass());
+    protected final String CLASS_NAME = Util.getClassNameFromPackageName(this.getClass());
     private boolean isSpellerOpen;
 
     public AbstractPoiScreenInputSequence(ICommandListFactory iCommandListFactory, PoiSearchArea poiSearchArea, NavigationEnv navigationEnv, SpellerStack spellerStack, SpellerContext spellerContext, IPoiManager iPoiManager) {
@@ -43,8 +43,7 @@ public abstract class AbstractPoiScreenInputSequence {
         this.poiManager = iPoiManager;
     }
 
-    public abstract CommandList getStartCommandList() {
-    }
+    public abstract CommandList getStartCommandList();
 
     public int getSpellerContextId() {
         return this.spellerContext.getContextID();
@@ -57,7 +56,7 @@ public abstract class AbstractPoiScreenInputSequence {
     }
 
     public void hidePreviewMap(IPreviewMap iPreviewMap) {
-        this.logChannel.log(-2137614336, "%1#hidePreviewMap() - enter", (Object)this.CLASS_NAME);
+        this.logChannel.log(10000000, "%1#hidePreviewMap() - enter", (Object)this.CLASS_NAME);
         CommandList commandList = this.commandListFactory.createCommandList();
         commandList.add(new HidePreviewMapCommand(iPreviewMap));
         commandList.execute("AbstractPoiScreenInputSequence hidePreviewMap");
@@ -69,15 +68,21 @@ public abstract class AbstractPoiScreenInputSequence {
     }
 
     public CmdNaviPreviewMapPrepare preparePreviewMap(IPreviewMap iPreviewMap, LIValueListElement[] lIValueListElementArray) {
-        this.logChannel.log(-2137614336, "%1#preparePreviewMap() - enter", (Object)this.CLASS_NAME);
+        this.logChannel.log(10000000, "%1#preparePreviewMap() - enter", (Object)this.CLASS_NAME);
         if (!this.isSpellerOpen()) {
             CommandList commandList = this.commandListFactory.createCommandList(1);
-            NavLocation[] navLocationArray = new NavLocation[lIValueListElementArray.length];
+            final NavLocation[] navLocationArray = new NavLocation[lIValueListElementArray.length];
             for (int i2 = 0; i2 < lIValueListElementArray.length; ++i2) {
-                int n = i2;
+                final int n = i2;
                 LIValueListElement lIValueListElement = lIValueListElementArray[i2];
                 commandList.add(new LISPGetLocationFromLIValueListElementCommand(lIValueListElement));
-                commandList.add(new AbstractPoiScreenInputSequence$1(this, new StringBuffer().append(this.CLASS_NAME).append(" - Getting NavLocation").toString(), navLocationArray, n));
+                commandList.add(new NavCommand(this.CLASS_NAME + " - Getting NavLocation"){
+
+                    public void execute() {
+                        navLocationArray[n] = this.dsiResponseContainer.getSelectedLocation();
+                        this.getCommandList().commandFinished();
+                    }
+                });
             }
             return this.focusPreviewMap(commandList, iPreviewMap, navLocationArray);
         }
@@ -90,10 +95,10 @@ public abstract class AbstractPoiScreenInputSequence {
         }
         NavLocationWgs84 navLocationWgs84 = Util.navLocationToWgs84(this.poiSearchArea.getLocation());
         int n = this.poiSearchArea.getSearchContext();
-        this.logChannel.log(-2137614336, "%1#focusPreviewMap() - searchContext: %2", (Object)this.CLASS_NAME, (long)n);
+        this.logChannel.log(10000000, "%1#focusPreviewMap() - searchContext: %2", (Object)this.CLASS_NAME, (long)n);
         CmdNaviPreviewMapPrepare cmdNaviPreviewMapPrepare = new CmdNaviPreviewMapPrepare(iPreviewMap, navLocationArray, navLocationWgs84, n);
         commandList.add(cmdNaviPreviewMapPrepare);
-        commandList.execute(new StringBuffer().append(this.CLASS_NAME).append("#preparePreviewMap").toString());
+        commandList.execute(this.CLASS_NAME + "#preparePreviewMap");
         return cmdNaviPreviewMapPrepare;
     }
 

@@ -14,12 +14,10 @@ extends AbstractIStationInfoComparatorAndIndexer {
         super(languageManager, false);
     }
 
-    @Override
     protected String getStringUsedForIndexing(StationInfoExt stationInfoExt) {
         return null;
     }
 
-    @Override
     protected int compare(StationInfoExt stationInfoExt, StationInfoExt stationInfoExt2, Collator collator) {
         return stationInfoExt.stationNumber - stationInfoExt2.stationNumber;
     }

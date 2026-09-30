@@ -17,24 +17,21 @@ implements InfoService {
         this.logger = logChannel;
     }
 
-    @Override
     public int getTPInfoAvailable() {
-        this.logger.log(-2137614336, "InfoSdsService#getTPInfoAvailable() ");
+        this.logger.log(10000000, "InfoSdsService#getTPInfoAvailable() ");
         return 0;
     }
 
-    @Override
     public void speakTmcMessages(boolean bl) {
-        this.logger.log(-2137614336, "InfoSdsService#speakTmcMessages() - available: %1", bl);
+        this.logger.log(10000000, "InfoSdsService#speakTmcMessages() - available: %1", bl);
     }
 
-    @Override
     public void speakTIMMessages(boolean bl) {
-        this.logger.log(-2137614336, "InfoSdsService#speakTIMMessages() - available: %1", bl);
+        this.logger.log(10000000, "InfoSdsService#speakTIMMessages() - available: %1", bl);
     }
 
     public void stop() {
-        this.logger.log(-2137614336, "InfoSdsService#stop() ");
+        this.logger.log(10000000, "InfoSdsService#stop() ");
     }
 }
 

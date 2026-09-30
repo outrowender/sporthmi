@@ -21,14 +21,12 @@ extends AddressInputCitySequenceJP {
         super(iCommandListFactory, navigationEnv, iMatchspellerModelAccess, iPreviewMap, spellerStack, iAddressInputManager, cityHistory);
     }
 
-    @Override
     protected int getStripLocationType() {
         return 23;
     }
 
-    @Override
     public void requestNextResultListWindow(int n, int n2) {
-        this.logChannel.log(-2137614336, "%1#requestNextResultListWindow(), anchorIndex = %2, requestID = %3", (Object)this.CLASS_NAME, (long)n, (long)n2);
+        this.logChannel.log(10000000, "%1#requestNextResultListWindow(), anchorIndex = %2, requestID = %3", (Object)this.CLASS_NAME, (long)n, (long)n2);
         CommandList commandList = this.commandListFactory.createCommandList(1);
         int n3 = 0;
         String string = this.env.getContainer().getLispCurrentInput();
@@ -37,7 +35,7 @@ extends AddressInputCitySequenceJP {
         }
         commandList.add(new LISPRequestValueListByListIndexCommand(n - n3, true));
         commandList.add(new ModelUpdateSpellerAndResultListCommand(this.modelAccess, n2, n));
-        commandList.execute(new StringBuffer().append(this.CLASS_NAME).append("#requestNextResultListWindows").toString());
+        commandList.execute(this.CLASS_NAME + "#requestNextResultListWindows");
     }
 }
 

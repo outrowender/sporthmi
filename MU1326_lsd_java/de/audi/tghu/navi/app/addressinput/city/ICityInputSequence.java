@@ -9,16 +9,14 @@ import org.dsi.ifc.navigation.LICityHistoryEntry;
 
 public interface ICityInputSequence
 extends IMatchspellerInputSequence {
-    public static final int CRITERIA_UNDEFINED;
-    public static final int CRITERIA_CITY_ONLY;
-    public static final int CRITERIA_ZIP_ONLY;
-    public static final int CRITERIA_CITY_ZIP;
-    public static final int CRITERIA_CITY_ZIP_LICENSEPLATE;
+    public static final int CRITERIA_UNDEFINED = -1;
+    public static final int CRITERIA_CITY_ONLY = 1;
+    public static final int CRITERIA_ZIP_ONLY = 2;
+    public static final int CRITERIA_CITY_ZIP = 3;
+    public static final int CRITERIA_CITY_ZIP_LICENSEPLATE = 4;
 
-    default public void selectHistoryElement(LICityHistoryEntry lICityHistoryEntry, boolean bl) {
-    }
+    public void selectHistoryElement(LICityHistoryEntry var1, boolean var2);
 
-    default public void showHistoryLocationInPreviewMap(IPreviewMap iPreviewMap, LICityHistoryEntry lICityHistoryEntry) {
-    }
+    public void showHistoryLocationInPreviewMap(IPreviewMap var1, LICityHistoryEntry var2);
 }
 

@@ -3,26 +3,22 @@
  */
 package de.audi.tghu.navi.app.map.routeinfo;
 
-import de.audi.atip.hmi.intercommunication.MixedListConstants$LaneArrow;
-import de.audi.atip.hmi.intercommunication.MixedListConstants$LaneArrowCombined;
-import de.audi.atip.hmi.intercommunication.MixedListConstants$LaneGuidance;
+import de.audi.atip.hmi.intercommunication.MixedListConstants;
 import de.audi.atip.log.LogChannel;
-import de.audi.tghu.navi.app.map.routeinfo.LaneGuidanceWrapper$ColumnIndexGenerateStrategy;
-import de.audi.tghu.navi.app.map.routeinfo.LaneGuidanceWrapper$ColumnIndexGenerator;
 import java.util.ArrayList;
 import org.dsi.ifc.navigation.NavLaneGuidanceData;
 
 public class LaneGuidanceWrapper {
-    private static final short RIGHT_TURN_ARROW_MASK;
-    private static final short LEFT_TURN_ARROW_MASK;
-    private static final short U_TURN_ARROW_MASK;
-    private static final short MINIMUM_ARROW_VALUE;
-    private static final short MAXIMUM_ARROW_VALUE;
-    private static final short bit_mask_1;
+    private static final short RIGHT_TURN_ARROW_MASK = 62;
+    private static final short LEFT_TURN_ARROW_MASK = 3968;
+    private static final short U_TURN_ARROW_MASK = 64;
+    private static final short MINIMUM_ARROW_VALUE = 0;
+    private static final short MAXIMUM_ARROW_VALUE = 4096;
+    private static final short bit_mask_1 = 1;
     private NavLaneGuidanceData[] navLaneGuidanceData = null;
-    private MixedListConstants$LaneGuidance laneGuidance = null;
+    private MixedListConstants.LaneGuidance laneGuidance = null;
     private LogChannel log = null;
-    private LaneGuidanceWrapper$ColumnIndexGenerateStrategy columnIndexGenerator = new LaneGuidanceWrapper$ColumnIndexGenerator(this, null);
+    private ColumnIndexGenerateStrategy columnIndexGenerator = new ColumnIndexGenerator();
 
     public LaneGuidanceWrapper(LogChannel logChannel, NavLaneGuidanceData[] navLaneGuidanceDataArray) {
         this.log = logChannel;
@@ -77,7 +73,7 @@ public class LaneGuidanceWrapper {
         return super.hashCode();
     }
 
-    public MixedListConstants$LaneGuidance toLaneGuidance() {
+    public MixedListConstants.LaneGuidance toLaneGuidance() {
         if (this.laneGuidance == null) {
             this.laneGuidance = this.makeLaneGuidance();
         }
@@ -88,77 +84,77 @@ public class LaneGuidanceWrapper {
         return this.navLaneGuidanceData;
     }
 
-    private MixedListConstants$LaneGuidance makeLaneGuidance() {
+    private MixedListConstants.LaneGuidance makeLaneGuidance() {
         if (this.navLaneGuidanceData == null || this.navLaneGuidanceData.length == 0) {
-            this.log.log(1078071040, "LaneGuidanceWrapper#makeLaneGuidance(): NavLaneGuidanceData[] is null or length is empty!");
+            this.log.log(1000000, "LaneGuidanceWrapper#makeLaneGuidance(): NavLaneGuidanceData[] is null or length is empty!");
             return null;
         }
-        MixedListConstants$LaneArrowCombined[] mixedListConstants$LaneArrowCombinedArray = new MixedListConstants$LaneArrowCombined[this.navLaneGuidanceData.length];
+        MixedListConstants.LaneArrowCombined[] laneArrowCombinedArray = new MixedListConstants.LaneArrowCombined[this.navLaneGuidanceData.length];
         for (int i2 = 0; i2 < this.navLaneGuidanceData.length; ++i2) {
             if (this.navLaneGuidanceData[i2] == null) {
-                mixedListConstants$LaneArrowCombinedArray[i2] = new MixedListConstants$LaneArrowCombined(1, 0);
-                mixedListConstants$LaneArrowCombinedArray[i2].arrows = null;
+                laneArrowCombinedArray[i2] = new MixedListConstants.LaneArrowCombined(1, 0);
+                laneArrowCombinedArray[i2].arrows = null;
                 continue;
             }
             byte by = this.navLaneGuidanceData[i2].guidanceInfo;
-            MixedListConstants$LaneArrowCombined mixedListConstants$LaneArrowCombined = new MixedListConstants$LaneArrowCombined(1, by);
-            mixedListConstants$LaneArrowCombined.arrows = this.makeArrows(this.navLaneGuidanceData[i2]);
-            mixedListConstants$LaneArrowCombined.hasBlueArrow = this.navLaneGuidanceData[i2].laneType > 0 && this.navLaneGuidanceData[i2].laneType < 4096;
-            mixedListConstants$LaneArrowCombinedArray[i2] = mixedListConstants$LaneArrowCombined;
+            MixedListConstants.LaneArrowCombined laneArrowCombined = new MixedListConstants.LaneArrowCombined(1, by);
+            laneArrowCombined.arrows = this.makeArrows(this.navLaneGuidanceData[i2]);
+            laneArrowCombined.hasBlueArrow = this.navLaneGuidanceData[i2].laneType > 0 && this.navLaneGuidanceData[i2].laneType < 4096;
+            laneArrowCombinedArray[i2] = laneArrowCombined;
         }
-        MixedListConstants$LaneGuidance mixedListConstants$LaneGuidance = new MixedListConstants$LaneGuidance();
-        mixedListConstants$LaneGuidance.setDirectionArrow(this.filterLaneCell(mixedListConstants$LaneArrowCombinedArray));
-        return mixedListConstants$LaneGuidance;
+        MixedListConstants.LaneGuidance laneGuidance = new MixedListConstants.LaneGuidance();
+        laneGuidance.setDirectionArrow(this.filterLaneCell(laneArrowCombinedArray));
+        return laneGuidance;
     }
 
-    private MixedListConstants$LaneArrowCombined[] filterLaneCell(MixedListConstants$LaneArrowCombined[] mixedListConstants$LaneArrowCombinedArray) {
+    private MixedListConstants.LaneArrowCombined[] filterLaneCell(MixedListConstants.LaneArrowCombined[] laneArrowCombinedArray) {
         int n;
-        if (mixedListConstants$LaneArrowCombinedArray == null || mixedListConstants$LaneArrowCombinedArray.length <= 6) {
-            return mixedListConstants$LaneArrowCombinedArray;
+        if (laneArrowCombinedArray == null || laneArrowCombinedArray.length <= 6) {
+            return laneArrowCombinedArray;
         }
         int n2 = -1;
         int n3 = -1;
-        MixedListConstants$LaneArrowCombined[] mixedListConstants$LaneArrowCombinedArray2 = new MixedListConstants$LaneArrowCombined[6];
-        for (n = 0; n < mixedListConstants$LaneArrowCombinedArray.length; ++n) {
-            if (!mixedListConstants$LaneArrowCombinedArray[n].hasBlueArrow) continue;
+        MixedListConstants.LaneArrowCombined[] laneArrowCombinedArray2 = new MixedListConstants.LaneArrowCombined[6];
+        for (n = 0; n < laneArrowCombinedArray.length; ++n) {
+            if (!laneArrowCombinedArray[n].hasBlueArrow) continue;
             n2 = n;
             break;
         }
         if (n2 == -1) {
             for (n = 0; n < 6; ++n) {
-                mixedListConstants$LaneArrowCombinedArray2[n] = mixedListConstants$LaneArrowCombinedArray[n];
+                laneArrowCombinedArray2[n] = laneArrowCombinedArray[n];
             }
-            mixedListConstants$LaneArrowCombinedArray2[mixedListConstants$LaneArrowCombinedArray2.length - 1].arrowType = 0;
-            return mixedListConstants$LaneArrowCombinedArray2;
+            laneArrowCombinedArray2[laneArrowCombinedArray2.length - 1].arrowType = 0;
+            return laneArrowCombinedArray2;
         }
-        for (n = mixedListConstants$LaneArrowCombinedArray.length - 1; n >= 0; --n) {
-            if (!mixedListConstants$LaneArrowCombinedArray[n].hasBlueArrow) continue;
+        for (n = laneArrowCombinedArray.length - 1; n >= 0; --n) {
+            if (!laneArrowCombinedArray[n].hasBlueArrow) continue;
             n3 = n;
             break;
         }
         n = 0;
         int n4 = 0;
-        while (!(n4 >= mixedListConstants$LaneArrowCombinedArray.length || mixedListConstants$LaneArrowCombinedArray[n4].hasBlueArrow || n4 < mixedListConstants$LaneArrowCombinedArray.length - 1 && mixedListConstants$LaneArrowCombinedArray[n4 + 1].hasBlueArrow || mixedListConstants$LaneArrowCombinedArray.length - n4 <= 6 || n3 - n4 + 1 < 6)) {
+        while (!(n4 >= laneArrowCombinedArray.length || laneArrowCombinedArray[n4].hasBlueArrow || n4 < laneArrowCombinedArray.length - 1 && laneArrowCombinedArray[n4 + 1].hasBlueArrow || laneArrowCombinedArray.length - n4 <= 6 || n3 - n4 + 1 < 6)) {
             n = ++n4;
         }
         n4 = n;
-        for (int i2 = 0; n4 < mixedListConstants$LaneArrowCombinedArray.length && i2 < mixedListConstants$LaneArrowCombinedArray2.length; ++n4, ++i2) {
-            mixedListConstants$LaneArrowCombinedArray2[i2] = mixedListConstants$LaneArrowCombinedArray[n4];
+        for (int i2 = 0; n4 < laneArrowCombinedArray.length && i2 < laneArrowCombinedArray2.length; ++n4, ++i2) {
+            laneArrowCombinedArray2[i2] = laneArrowCombinedArray[n4];
             if (i2 == 0 && n4 != 0) {
-                mixedListConstants$LaneArrowCombinedArray2[i2].arrowType = 0;
+                laneArrowCombinedArray2[i2].arrowType = 0;
                 continue;
             }
-            if (i2 != mixedListConstants$LaneArrowCombinedArray2.length - 1 || n4 >= mixedListConstants$LaneArrowCombinedArray.length - 1) continue;
-            mixedListConstants$LaneArrowCombinedArray2[i2].arrowType = 0;
+            if (i2 != laneArrowCombinedArray2.length - 1 || n4 >= laneArrowCombinedArray.length - 1) continue;
+            laneArrowCombinedArray2[i2].arrowType = 0;
         }
-        return mixedListConstants$LaneArrowCombinedArray2;
+        return laneArrowCombinedArray2;
     }
 
-    private MixedListConstants$LaneArrow[] makeArrows(NavLaneGuidanceData navLaneGuidanceData) {
+    private MixedListConstants.LaneArrow[] makeArrows(NavLaneGuidanceData navLaneGuidanceData) {
         boolean bl = navLaneGuidanceData.laneDescription == 0;
         int n = this.columnIndexGenerator.getColumnIndex(navLaneGuidanceData);
         if (n == -1) {
-            this.log.log(-1601830656, "LaneGuidanceWrapper#makeArrows(), failed to get a correct column index, NavLaneGuidanceData: (%1)", (Object)navLaneGuidanceData);
+            this.log.log(100000, "LaneGuidanceWrapper#makeArrows(), failed to get a correct column index, NavLaneGuidanceData: (%1)", (Object)navLaneGuidanceData);
             return null;
         }
         ArrayList arrayList = new ArrayList(3);
@@ -169,7 +165,7 @@ public class LaneGuidanceWrapper {
             this.addArrowToList(arrayList, navLaneGuidanceData.laneType, 1, n, bl);
         }
         if (arrayList.size() > 0) {
-            Object[] objectArray = new MixedListConstants$LaneArrow[arrayList.size()];
+            Object[] objectArray = new MixedListConstants.LaneArrow[arrayList.size()];
             arrayList.toArray(objectArray);
             return objectArray;
         }
@@ -180,13 +176,13 @@ public class LaneGuidanceWrapper {
         int n3 = 0;
         while (s > 0) {
             if ((s & 1) == 1) {
-                MixedListConstants$LaneArrow mixedListConstants$LaneArrow = new MixedListConstants$LaneArrow(n2, n3, n);
-                if (!bl && 0 == mixedListConstants$LaneArrow.directionOfArrow) {
-                    mixedListConstants$LaneArrow.directionOfArrow = 13;
-                } else if (!bl && 6 == mixedListConstants$LaneArrow.directionOfArrow) {
-                    mixedListConstants$LaneArrow.directionOfArrow = 12;
+                MixedListConstants.LaneArrow laneArrow = new MixedListConstants.LaneArrow(n2, n3, n);
+                if (!bl && 0 == laneArrow.directionOfArrow) {
+                    laneArrow.directionOfArrow = 13;
+                } else if (!bl && 6 == laneArrow.directionOfArrow) {
+                    laneArrow.directionOfArrow = 12;
                 }
-                arrayList.add(mixedListConstants$LaneArrow);
+                arrayList.add(laneArrow);
             }
             s = (short)(s >> 1);
             ++n3;
@@ -204,12 +200,78 @@ public class LaneGuidanceWrapper {
         return n;
     }
 
-    static /* synthetic */ int access$100(LaneGuidanceWrapper laneGuidanceWrapper, short s) {
-        return laneGuidanceWrapper.countArrows(s);
+    private class ColumnIndexGenerator
+    implements ColumnIndexGenerateStrategy {
+        private ColumnIndexGenerator() {
+        }
+
+        public int getColumnIndex(NavLaneGuidanceData navLaneGuidanceData) {
+            short s = (short)(navLaneGuidanceData.laneDirection | navLaneGuidanceData.laneType);
+            boolean bl = (s & 0x3E) > 0;
+            boolean bl2 = (s & 0xF80) > 0;
+            boolean bl3 = (s & 0x40) > 0;
+            boolean bl4 = bl2 && !bl;
+            boolean bl5 = !bl2 && bl;
+            boolean bl6 = bl2 && bl;
+            int n = LaneGuidanceWrapper.this.countArrows(navLaneGuidanceData.laneDirection) + LaneGuidanceWrapper.this.countArrows(navLaneGuidanceData.laneType);
+            int n2 = -1;
+            switch (n) {
+                case 1: {
+                    n2 = 0;
+                    break;
+                }
+                case 2: {
+                    if (bl3) {
+                        n2 = 1;
+                        break;
+                    }
+                    if (!bl3 && bl4) {
+                        n2 = 2;
+                        break;
+                    }
+                    if (!bl3 && bl6) {
+                        n2 = 3;
+                        break;
+                    }
+                    if (!bl3 && bl5) {
+                        n2 = 4;
+                        break;
+                    }
+                    LaneGuidanceWrapper.this.log.log(100000, "ColumnIndexGenerator#getColumnIndex(), 2 arrows, failed to get a correct column index, arrow data: laneDirection: (%1) and laneType: (%2)", (long)navLaneGuidanceData.laneDirection, (long)navLaneGuidanceData.laneType);
+                    break;
+                }
+                case 3: {
+                    if (bl3 && (bl4 || bl5)) {
+                        n2 = 5;
+                        break;
+                    }
+                    if (!bl3 && bl4) {
+                        n2 = 6;
+                        break;
+                    }
+                    if (bl6) {
+                        n2 = 7;
+                        break;
+                    }
+                    if (!bl3 && bl5) {
+                        n2 = 8;
+                        break;
+                    }
+                    LaneGuidanceWrapper.this.log.log(100000, "ColumnIndexGenerator#getColumnIndex(), 3 arrows, failed to get a correct column index, arrow data: laneDirection: (%1) and laneType: (%2)", (long)navLaneGuidanceData.laneDirection, (long)navLaneGuidanceData.laneType);
+                    break;
+                }
+                default: {
+                    LaneGuidanceWrapper.this.log.log(100000, "ColumnIndexGenerator#getColumnIndex(), more than 3 arrows or has no arrow, failed to get a correct column index, arrow data: laneDirection: (%1) and laneType: (%2)", (long)navLaneGuidanceData.laneDirection, (long)navLaneGuidanceData.laneType);
+                }
+            }
+            return n2;
+        }
     }
 
-    static /* synthetic */ LogChannel access$200(LaneGuidanceWrapper laneGuidanceWrapper) {
-        return laneGuidanceWrapper.log;
+    private static interface ColumnIndexGenerateStrategy {
+        public static final int INVALID_COL_INDEX = -1;
+
+        public int getColumnIndex(NavLaneGuidanceData var1);
     }
 }
 

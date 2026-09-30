@@ -9,7 +9,6 @@ import de.audi.atip.hmi.event.TouchPadEventListener;
 public interface IPresetInputHandler
 extends TouchPadEventListener,
 KeyListener {
-    default public void presetPopupVisible(boolean bl) {
-    }
+    public void presetPopupVisible(boolean var1);
 }
 

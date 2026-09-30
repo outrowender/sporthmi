@@ -12,8 +12,7 @@ import de.audi.atip.interapp.online.IOnlineServiceListener;
 import de.audi.atip.interapp.online.OnlineServiceListState;
 import de.audi.atip.log.LogChannel;
 import de.audi.tghu.navi.app.NavigationEnv;
-import de.audi.tghu.navi.app.online.traffic.OnlineTrafficHandler$OnlineContentPopupListener;
-import de.audi.tghu.navi.app.online.traffic.OnlineTrafficHandler$OnlineServiceListenerWrapper;
+import de.audi.tghu.navi.app.map.gui.SimpleButtonListener;
 import de.audi.tghu.navi.app.online.traffic.OnlineTrafficPersistanceHelper;
 import de.audi.tghu.navi.app.online.traffic.TrafficOnlineServiceHandler;
 import de.audi.tghu.navi.app.util.Util;
@@ -27,18 +26,18 @@ public class OnlineTrafficHandler
 implements ButtonListener,
 ChoiceListener,
 IOnlineServiceListener {
-    protected final String CLASS_NAME = Util.getClassNameFromPackageName(super.getClass());
+    protected final String CLASS_NAME = Util.getClassNameFromPackageName(this.getClass());
     protected final NavigationEnv env;
     protected final LogChannel logChannel;
     protected IOnlineService service;
-    public static final String SERVICE_ID_ONLINE_TRAFFIC;
+    public static final String SERVICE_ID_ONLINE_TRAFFIC = "service_dsi_onlinetraffic";
     private final IFrameworkAccess framework;
     private OnlineTrafficPersistanceHelper onlineTrafficPersistanceHelper;
-    public static final int ONLINETRAFFIC_CHECKBOX_ON;
-    public static final int ONLINETRAFFIC_CHECKBOX_OFF;
-    public static final int ONLINETRAFFIC_STATUS_VISIBLE;
-    public static final int ONLINETRAFFIC_STATUS_INVISIBLE;
-    public static final int ONLINETRAFFIC_STATUS_DISABLED;
+    public static final int ONLINETRAFFIC_CHECKBOX_ON = 0;
+    public static final int ONLINETRAFFIC_CHECKBOX_OFF = 1;
+    public static final int ONLINETRAFFIC_STATUS_VISIBLE = 0;
+    public static final int ONLINETRAFFIC_STATUS_INVISIBLE = 1;
+    public static final int ONLINETRAFFIC_STATUS_DISABLED = 2;
     private TrafficOnlineServiceHandler vzoLgiTrackerHandler;
     private TrafficOnlineServiceHandler vzoLgiDownloadHandler;
     private final Object mutex;
@@ -57,28 +56,26 @@ IOnlineServiceListener {
     }
 
     private void init() {
-        this.env.getChoiceModel(-769915392).setChoiceListener(this);
-        this.env.getChoiceModel(-769915392).setValue(1);
-        this.env.getChoiceModel(-736360960).setChoiceListener(this);
-        this.env.getButtonModel(-786692608).setButtonListener(this);
-        this.env.getButtonModel(-719583744).setButtonListener(this);
-        this.env.getButtonModel(-249756160).setButtonListener(this);
-        this.env.getButtonModel(-232978944).setButtonListener(this);
-        this.env.getChoiceModel(-669252096).setValue(-1);
+        this.env.getChoiceModel(400594).setChoiceListener(this);
+        this.env.getChoiceModel(400594).setValue(1);
+        this.env.getChoiceModel(400596).setChoiceListener(this);
+        this.env.getButtonModel(400593).setButtonListener(this);
+        this.env.getButtonModel(400597).setButtonListener(this);
+        this.env.getButtonModel(400881).setButtonListener(this);
+        this.env.getButtonModel(400882).setButtonListener(this);
+        this.env.getChoiceModel(400600).setValue(-1);
         this.initOnlineContentPopupListener();
     }
 
     private void initOnlineContentPopupListener() {
-        new OnlineTrafficHandler$OnlineContentPopupListener(this, this.env);
+        new OnlineContentPopupListener(this.env);
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3) {
     }
 
-    @Override
     public void itemSelected(int n, int n2, int n3, int n4) {
-        this.logChannel.log(1078071040, "[OnlineTrafficHandler#itemSelected] model:%1, itemID: %2", (long)n, (long)n2);
+        this.logChannel.log(1000000, "[OnlineTrafficHandler#itemSelected] model:%1, itemID: %2", (long)n, (long)n2);
         switch (n) {
             case 400594: {
                 if (this.service != null) {
@@ -87,11 +84,11 @@ IOnlineServiceListener {
                         break;
                     }
                     if (n2 == 1) {
-                        this.logChannel.log(1078071040, "[OnlineTrafficHandler#itemSelected] changing off > calling setOnlineApplicationState(%1)", 0L);
+                        this.logChannel.log(1000000, "[OnlineTrafficHandler#itemSelected] changing off > calling setOnlineApplicationState(%1)", 0L);
                         this.disableOnlineTrafficSequence(this);
                         break;
                     }
-                    this.logChannel.log(-1601830656, "[OnlineTrafficHandler#itemSelected] unsupported item selected: %1", (long)n2);
+                    this.logChannel.log(100000, "[OnlineTrafficHandler#itemSelected] unsupported item selected: %1", (long)n2);
                     return;
                 }
                 this.logChannel.log(10000, "[OnlineTrafficHandler#itemSelected] no IOnlineService set");
@@ -99,36 +96,32 @@ IOnlineServiceListener {
                 break;
             }
             default: {
-                this.logChannel.log(-1601830656, "[OnlineTrafficHandler#itemSelected] unknown model:%1", (long)n);
+                this.logChannel.log(100000, "[OnlineTrafficHandler#itemSelected] unknown model:%1", (long)n);
             }
         }
     }
 
-    @Override
     public void itemFocused(int n, int n2, int n3, int n4) {
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyLongTyped(int n, int n2, int n3) {
     }
 
     public final void setStatus(boolean bl) {
         ChoiceModelApp choiceModelApp;
         if (this.logChannel.isDebug2()) {
-            this.logChannel.log(14808325, "[%1#setStatus] activation status: %2 ", (Object)this.CLASS_NAME, (Object)bl);
+            this.logChannel.log(100000000, "[%1#setStatus] activation status: %2 ", (Object)this.CLASS_NAME, (Object)bl);
         }
-        if ((choiceModelApp = this.env.getChoiceModel(-769915392)) != null) {
+        if ((choiceModelApp = this.env.getChoiceModel(400594)) != null) {
             int n = choiceModelApp.getStatus();
             int n2 = bl ? 0 : 2;
-            this.logChannel.log(1078071040, "[%1#setStatus] old status: %1, new status: %2 ", (Object)this.CLASS_NAME, (long)n, (long)n2);
+            this.logChannel.log(1000000, "[%1#setStatus] old status: %1, new status: %2 ", (Object)this.CLASS_NAME, (long)n, (long)n2);
             choiceModelApp.setStatus(n2);
         } else {
             this.logChannel.log(10000, "[%1#setStatus] model is null! ", (Object)this.CLASS_NAME);
@@ -136,8 +129,8 @@ IOnlineServiceListener {
     }
 
     public final void setOnlineTrafficCheckBoxState(boolean bl, boolean bl2) {
-        this.logChannel.log(1078071040, "[OnlineTrafficHandler#setState] enable status: %1, persist: %2 ", bl, bl2);
-        ChoiceModelApp choiceModelApp = this.env.getChoiceModel(-769915392);
+        this.logChannel.log(1000000, "[OnlineTrafficHandler#setState] enable status: %1, persist: %2 ", bl, bl2);
+        ChoiceModelApp choiceModelApp = this.env.getChoiceModel(400594);
         if (choiceModelApp != null) {
             choiceModelApp.setValue(bl ? 0 : 1);
         }
@@ -147,7 +140,7 @@ IOnlineServiceListener {
     }
 
     private boolean getState() {
-        ChoiceModelApp choiceModelApp = this.env.getChoiceModel(-769915392);
+        ChoiceModelApp choiceModelApp = this.env.getChoiceModel(400594);
         if (choiceModelApp != null) {
             return choiceModelApp.getValue() == 0;
         }
@@ -156,9 +149,9 @@ IOnlineServiceListener {
 
     public final void setReminderStatus(int n) {
         if (this.logChannel.isDebug2()) {
-            this.logChannel.log(14808325, "[OnlineTrafficHandler#setReminderStatus] status: %1", (long)n);
+            this.logChannel.log(100000000, "[OnlineTrafficHandler#setReminderStatus] status: %1", (long)n);
         }
-        this.env.getChoiceModel(-736360960).setValue(n == 0 ? 1 : 0);
+        this.env.getChoiceModel(400596).setValue(n == 0 ? 1 : 0);
     }
 
     public IOnlineService getService() {
@@ -166,7 +159,7 @@ IOnlineServiceListener {
     }
 
     public void setService(IOnlineService iOnlineService) {
-        this.logChannel.log(-2137614336, "[OnlineTrafficHandler#setService] %1", (Object)iOnlineService);
+        this.logChannel.log(10000000, "[OnlineTrafficHandler#setService] %1", (Object)iOnlineService);
         this.service = iOnlineService;
         if (iOnlineService != null) {
             try {
@@ -182,7 +175,7 @@ IOnlineServiceListener {
                 }
             }
             catch (Exception exception) {
-                this.logChannel.log(-2137614336, "[OnlineTrafficHandler#setService] ERROR=%1", (Throwable)exception);
+                this.logChannel.log(10000000, "[OnlineTrafficHandler#setService] ERROR=%1", (Throwable)exception);
             }
         } else {
             this.setStatus(false);
@@ -198,7 +191,6 @@ IOnlineServiceListener {
         return buffer.toString();
     }
 
-    @Override
     public void getOnlineApplicationResponse(OSRApplication oSRApplication) {
         this.getOnlineApplicationResponse(oSRApplication, false);
     }
@@ -210,7 +202,7 @@ IOnlineServiceListener {
         Object object = this.mutex;
         synchronized (object) {
             if (oSRApplication != null) {
-                this.logChannel.log(1078071040, "[%1#getOnlineApplicationResponse] state: %2 jumpToInclude:%3", (Object)this.CLASS_NAME, (Object)Integer.toString(oSRApplication.getState()), (Object)Boolean.toString(bl));
+                this.logChannel.log(1000000, "[%1#getOnlineApplicationResponse] state: %2 jumpToInclude:%3", (Object)this.CLASS_NAME, (Object)Integer.toString(oSRApplication.getState()), (Object)Boolean.toString(bl));
                 boolean bl2 = this.matchAppState(oSRApplication.getState());
                 this.setOnlineTrafficCheckBoxState(bl2, true);
                 this.setStatus(true);
@@ -218,32 +210,29 @@ IOnlineServiceListener {
                     this.env.fireModelEvent(this.getOnlineTrafficChoiceModel(), 0);
                 }
             } else {
-                this.logChannel.log(-1601830656, "[%1#getOnlineApplicationResponse] app is null!", (Object)this.CLASS_NAME);
+                this.logChannel.log(100000, "[%1#getOnlineApplicationResponse] app is null!", (Object)this.CLASS_NAME);
             }
         }
     }
 
-    @Override
     public void activateLicenseResponse(int n) {
-        this.logChannel.log(-2137614336, "[%1#getOnlineApplicationResponse] state: %2", (Object)this.CLASS_NAME, (long)n);
+        this.logChannel.log(10000000, "[%1#getOnlineApplicationResponse] state: %2", (Object)this.CLASS_NAME, (long)n);
         int n2 = this.matchLicenseActivationState(n);
         if (this.logChannel.isDebug2()) {
-            this.logChannel.log(14808325, "[%1#getOnlineApplicationResponse] matched state %2", (Object)this.CLASS_NAME, (long)n2);
+            this.logChannel.log(100000000, "[%1#getOnlineApplicationResponse] matched state %2", (Object)this.CLASS_NAME, (long)n2);
         }
-        this.env.getChoiceModel(-702806528).setValue(n2);
+        this.env.getChoiceModel(400598).setValue(n2);
     }
 
-    @Override
     public void getLicenseInformationResult(OSRLicense[] oSRLicenseArray) {
-        this.logChannel.log(-2137614336, "[OnlineTrafficHandler#getLicenceInformation] got %1 licences", oSRLicenseArray == null ? 0L : (long)oSRLicenseArray.length);
+        this.logChannel.log(10000000, "[OnlineTrafficHandler#getLicenceInformation] got %1 licences", oSRLicenseArray == null ? 0L : (long)oSRLicenseArray.length);
     }
 
-    @Override
     public void updateApplicationState(OSRNotifyProperties[] oSRNotifyPropertiesArray) {
-        this.logChannel.log(1078071040, "[%1#updateApplicationState] props.length: %2 ", (Object)this.CLASS_NAME, (long)(oSRNotifyPropertiesArray != null ? oSRNotifyPropertiesArray.length : -1));
+        this.logChannel.log(1000000, "[%1#updateApplicationState] props.length: %2 ", (Object)this.CLASS_NAME, (long)(oSRNotifyPropertiesArray != null ? oSRNotifyPropertiesArray.length : -1));
         if (oSRNotifyPropertiesArray != null && this.logChannel.isDebug()) {
             for (int i2 = 0; i2 < oSRNotifyPropertiesArray.length; ++i2) {
-                this.logChannel.log(-2137614336, "[%1#updateApplicationState] props[%2] - priority: %3 reason: %4 ", (Object)this.CLASS_NAME, (Object)new StringBuffer().append(i2).append("").toString(), (Object)new StringBuffer().append(oSRNotifyPropertiesArray[i2].getPriority()).append("").toString(), (long)oSRNotifyPropertiesArray[i2].getReason());
+                this.logChannel.log(10000000, "[%1#updateApplicationState] props[%2] - priority: %3 reason: %4 ", (Object)this.CLASS_NAME, (Object)(i2 + ""), (Object)(oSRNotifyPropertiesArray[i2].getPriority() + ""), (long)oSRNotifyPropertiesArray[i2].getReason());
             }
         }
     }
@@ -251,27 +240,25 @@ IOnlineServiceListener {
     protected void disableService() {
         this.setOnlineTrafficCheckBoxState(false, true);
         if (this.service != null) {
-            this.logChannel.log(1078071040, "%1#disableService() - changing off > calling setOnlineApplicationState(%2) ", (Object)this.CLASS_NAME, 0L);
+            this.logChannel.log(1000000, "%1#disableService() - changing off > calling setOnlineApplicationState(%2) ", (Object)this.CLASS_NAME, 0L);
             this.disableOnlineTrafficSequence(this);
         } else {
             this.logChannel.log(10000, "OnlineTrafficHandler#disableService() - no IOnlineService set");
         }
     }
 
-    @Override
     public void getReminderStatusResult(int n) {
-        this.logChannel.log(-2137614336, "[%1#getReminderStatusResult] reminderStatus: %1", (Object)this.CLASS_NAME, (long)n);
+        this.logChannel.log(10000000, "[%1#getReminderStatusResult] reminderStatus: %1", (Object)this.CLASS_NAME, (long)n);
         this.setReminderStatus(n);
     }
 
-    @Override
     public void setReminderStateResponse(int n) {
-        this.logChannel.log(-2137614336, "[%1#getReminderStatusResult] reminderStatus: %2", (Object)this.CLASS_NAME, (long)n);
+        this.logChannel.log(10000000, "[%1#getReminderStatusResult] reminderStatus: %2", (Object)this.CLASS_NAME, (long)n);
         this.setReminderStatus(n);
     }
 
     public void updateLicenceActive() {
-        this.logChannel.log(1078071040, "[OnlineTrafficHandler#updateLicenceActive] ");
+        this.logChannel.log(1000000, "[OnlineTrafficHandler#updateLicenceActive] ");
     }
 
     private boolean matchAppState(int n) {
@@ -300,7 +287,7 @@ IOnlineServiceListener {
 
     public void resetSettings() {
         if (this.service == null) {
-            this.logChannel.log(-1601830656, "[%1#resetSettings] no IOnlineService set", (Object)this.CLASS_NAME);
+            this.logChannel.log(100000, "[%1#resetSettings] no IOnlineService set", (Object)this.CLASS_NAME);
             this.setStatus(false);
             this.setOnlineTrafficCheckBoxState(!Util.isHURegionCN(), true);
             return;
@@ -313,13 +300,13 @@ IOnlineServiceListener {
     }
 
     public void setOnlineTraffic(boolean bl) {
-        this.logChannel.log(1078071040, "%1#setOnlineTraffic ( %2 )", (Object)this.CLASS_NAME, (Object)bl);
+        this.logChannel.log(1000000, "%1#setOnlineTraffic ( %2 )", (Object)this.CLASS_NAME, (Object)bl);
         if (Util.isOnlineTrafficAlwaysActive(this.env.getFramework())) {
-            this.logChannel.log(1078071040, "OnlineTrafficHandler#setOnlineTraffic - always on: do nothing");
+            this.logChannel.log(1000000, "OnlineTrafficHandler#setOnlineTraffic - always on: do nothing");
             return;
         }
         if (bl == this.getState()) {
-            this.logChannel.log(-2137614336, "%1#setOnlineTraffic - no state change needed, is still %2", (Object)this.CLASS_NAME, (Object)bl);
+            this.logChannel.log(10000000, "%1#setOnlineTraffic - no state change needed, is still %2", (Object)this.CLASS_NAME, (Object)bl);
             return;
         }
         if (bl) {
@@ -335,10 +322,10 @@ IOnlineServiceListener {
     protected void enableOnlineTrafficSequence(IOnlineServiceListener iOnlineServiceListener, boolean bl) {
         Object object = this.mutex;
         synchronized (object) {
-            this.logChannel.log(1078071040, "%1#enableOnlineTrafficSequence jumpToInclude=%2", (Object)this.CLASS_NAME, (Object)new StringBuffer().append(bl).append("").toString());
+            this.logChannel.log(1000000, "%1#enableOnlineTrafficSequence jumpToInclude=%2", (Object)this.CLASS_NAME, (Object)(bl + ""));
             if (this.service != null) {
                 try {
-                    this.service.setOnlineApplicationState(1, new OnlineTrafficHandler$OnlineServiceListenerWrapper(this, this, bl));
+                    this.service.setOnlineApplicationState(1, new OnlineServiceListenerWrapper(this, bl));
                     this.vzoLgiDownloadHandler.setState(1);
                     this.vzoLgiTrackerHandler.setState(1);
                     this.setOnlineTrafficCheckBoxState(true, true);
@@ -353,7 +340,7 @@ IOnlineServiceListener {
     }
 
     protected int getOnlineTrafficChoiceModel() {
-        return -769915392;
+        return 400594;
     }
 
     /*
@@ -363,13 +350,13 @@ IOnlineServiceListener {
         Object object = this.mutex;
         synchronized (object) {
             if (!this.getState()) {
-                this.logChannel.log(1078071040, "[%1#disableOnlineTrafficSequence] service disabled - ignore ", (Object)this.CLASS_NAME);
+                this.logChannel.log(1000000, "[%1#disableOnlineTrafficSequence] service disabled - ignore ", (Object)this.CLASS_NAME);
                 return;
             }
-            this.logChannel.log(-2137614336, "%1#disableOnlineTrafficSequence", (Object)this.CLASS_NAME);
+            this.logChannel.log(10000000, "%1#disableOnlineTrafficSequence", (Object)this.CLASS_NAME);
             if (this.service != null) {
                 try {
-                    this.service.setOnlineApplicationState(0, new OnlineTrafficHandler$OnlineServiceListenerWrapper(this, this, false));
+                    this.service.setOnlineApplicationState(0, new OnlineServiceListenerWrapper(this, false));
                     this.vzoLgiDownloadHandler.setState(0);
                     this.vzoLgiTrackerHandler.setState(0);
                     this.setOnlineTrafficCheckBoxState(false, true);
@@ -393,12 +380,75 @@ IOnlineServiceListener {
         }
     }
 
-    @Override
     public void getPreCheckResult(OSRServiceState oSRServiceState) {
     }
 
-    @Override
     public void updateServiceState(OnlineServiceListState onlineServiceListState) {
+    }
+
+    private class OnlineContentPopupListener
+    extends SimpleButtonListener {
+        private NavigationEnv env;
+        private final int ONLINE_OK_BUTTON_ID;
+        private final int ONLINE_CANCEL_BUTTON_ID;
+        private final int ONLINE_SHOWED_CHOICE_ID;
+
+        public OnlineContentPopupListener(NavigationEnv navigationEnv) {
+            this.ONLINE_OK_BUTTON_ID = 402008;
+            this.ONLINE_CANCEL_BUTTON_ID = 402010;
+            this.ONLINE_SHOWED_CHOICE_ID = 402030;
+            this.env = navigationEnv;
+            navigationEnv.getButtonModel(402008).setButtonListener(this);
+            navigationEnv.getButtonModel(402010).setButtonListener(this);
+        }
+
+        public void keyPressed(int n, int n2, int n3) {
+            OnlineTrafficHandler.this.logChannel.log(10000000, "%1 -- OnlineContentPopupListener#keyPressed(%2, %3, %4)", (Object)OnlineTrafficHandler.this.CLASS_NAME, (Object)new StringBuffer().append(n).append("").toString(), (Object)new StringBuffer().append(n2).append("").toString(), (long)n3);
+            if (n == 402008) {
+                this.env.getChoiceModel(402030).setValue(1);
+                this.env.fireModelEvent(n, n3);
+            } else if (n == 402010) {
+                this.env.getChoiceModel(402030).setValue(0);
+                OnlineTrafficHandler.this.setOnlineTrafficCheckBoxState(false, true);
+                this.env.fireModelEvent(n, n3);
+            }
+        }
+    }
+
+    private class OnlineServiceListenerWrapper
+    implements IOnlineServiceListener {
+        private OnlineTrafficHandler handler;
+        boolean jumpToInclude = false;
+
+        public OnlineServiceListenerWrapper(OnlineTrafficHandler onlineTrafficHandler2, boolean bl) {
+            this.handler = onlineTrafficHandler2;
+            this.jumpToInclude = bl;
+        }
+
+        public void getOnlineApplicationResponse(OSRApplication oSRApplication) {
+            this.handler.getOnlineApplicationResponse(oSRApplication, this.jumpToInclude);
+        }
+
+        public void activateLicenseResponse(int n) {
+        }
+
+        public void getLicenseInformationResult(OSRLicense[] oSRLicenseArray) {
+        }
+
+        public void getReminderStatusResult(int n) {
+        }
+
+        public void setReminderStateResponse(int n) {
+        }
+
+        public void updateApplicationState(OSRNotifyProperties[] oSRNotifyPropertiesArray) {
+        }
+
+        public void getPreCheckResult(OSRServiceState oSRServiceState) {
+        }
+
+        public void updateServiceState(OnlineServiceListState onlineServiceListState) {
+        }
     }
 }
 

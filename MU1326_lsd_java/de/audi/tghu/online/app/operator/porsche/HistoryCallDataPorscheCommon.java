@@ -18,7 +18,6 @@ extends AbstractHistoryCallData {
         super(iFrameworkAccess, navigationHandler, operatorCallResultArray, arrayList, string, date);
     }
 
-    @Override
     protected AbstractHistoryCallListRow createHistoryCallListRow(boolean bl) {
         return new HistoryCallListRowPorscheCommon(this.framework, "call", this.dateTime, bl, this.operatorCallResults.length);
     }

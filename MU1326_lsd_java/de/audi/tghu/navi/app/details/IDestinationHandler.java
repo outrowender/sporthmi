@@ -9,44 +9,32 @@ import org.dsi.ifc.navigation.Route;
 import org.dsi.ifc.online.OperatorCallResult;
 
 public interface IDestinationHandler {
-    public static final int DESTINATIONTYPE_NAVLOCATION;
-    public static final int DESTINATIONTYPE_ROUTE;
-    public static final int DESTINATIONTYPE_NAVSEGMENTID;
+    public static final int DESTINATIONTYPE_NAVLOCATION = 0;
+    public static final int DESTINATIONTYPE_ROUTE = 1;
+    public static final int DESTINATIONTYPE_NAVSEGMENTID = 2;
 
-    default public NavLocation getLocation() {
-    }
+    public NavLocation getLocation();
 
-    default public void setLocation(NavLocation navLocation) {
-    }
+    public void setLocation(NavLocation var1);
 
-    default public Route getRoute() {
-    }
+    public Route getRoute();
 
-    default public void setRoute(Route route) {
-    }
+    public void setRoute(Route var1);
 
-    default public NavSegmentID getSegmentID() {
-    }
+    public NavSegmentID getSegmentID();
 
-    default public void setSegmentID(NavSegmentID navSegmentID) {
-    }
+    public void setSegmentID(NavSegmentID var1);
 
-    default public String getNumber() {
-    }
+    public String getNumber();
 
-    default public void setOperatorCallResult(OperatorCallResult operatorCallResult) {
-    }
+    public void setOperatorCallResult(OperatorCallResult var1);
 
-    default public void setPhoneNumber(String string) {
-    }
+    public void setPhoneNumber(String var1);
 
-    default public int getDestinationType() {
-    }
+    public int getDestinationType();
 
-    default public boolean shouldTransfereToNdf() {
-    }
+    public boolean shouldTransfereToNdf();
 
-    default public void setTransfereToNdf(boolean bl) {
-    }
+    public void setTransfereToNdf(boolean var1);
 }
 

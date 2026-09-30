@@ -10,7 +10,6 @@ import de.audi.atip.interapp.combi.bap.audio.data.CombiBAPCurrentStationInfo;
 import de.audi.atip.interapp.combi.bap.audio.data.CombiBAPPresetListEntry;
 import de.audi.atip.interapp.combi.bap.audio.data.CombiBAPReceptionListEntry;
 import de.audi.atip.interapp.combi.bap.audio.data.MuteState;
-import de.audi.atip.interapp.combi.bap.audio.data.MuteState$Builder;
 import de.audi.atip.log.LogChannel;
 import de.audi.tuner.app.ArtistAndTitlePair;
 import de.audi.tuner.app.PresetIds;
@@ -27,9 +26,6 @@ import de.audi.tuner.app.amfm.AMFMStation;
 import de.audi.tuner.app.amfm.dsi.AMFMDsiUpInfo;
 import de.audi.tuner.app.ap.TunerActionProxyListener;
 import de.audi.tuner.app.combi.CombiBAPIdMapper;
-import de.audi.tuner.app.combi.CombiBAPServiceHandler$1;
-import de.audi.tuner.app.combi.CombiBAPServiceHandler$DsiUpListener;
-import de.audi.tuner.app.combi.CombiBAPServiceHandler$TunerActionProxyListenerExt;
 import de.audi.tuner.app.combi.CombiBAPUtilities;
 import de.audi.tuner.app.dab.DabStation;
 import de.audi.tuner.app.sdars.SDARSAdvisoryHandler;
@@ -52,11 +48,11 @@ import org.dsi.ifc.radio.EnsembleInfo;
 public class CombiBAPServiceHandler
 extends DefaultUpdateListener
 implements IUpdateListener {
-    public final AMFMDsiUpInfo dsiUpListener = new CombiBAPServiceHandler$DsiUpListener(this, null);
-    public final TunerActionProxyListener actionProxyListener = new CombiBAPServiceHandler$TunerActionProxyListenerExt(this, null);
-    private static final boolean STATION_LIST_AVAILABLE;
-    private static final boolean MEMORY_LIST_AVAILABLE;
-    private static final boolean AUTO_UPDATE_FM_LIST;
+    public final AMFMDsiUpInfo dsiUpListener = new DsiUpListener();
+    public final TunerActionProxyListener actionProxyListener = new TunerActionProxyListenerExt();
+    private static final boolean STATION_LIST_AVAILABLE = true;
+    private static final boolean MEMORY_LIST_AVAILABLE = true;
+    private static final boolean AUTO_UPDATE_FM_LIST = true;
     private final boolean autoUpdateAMList;
     private final boolean autoUpdateDABList;
     private boolean autoUpdateSDARSList = false;
@@ -69,11 +65,36 @@ implements IUpdateListener {
     private HMIResourceLocator sdarsDefault = null;
     protected AMFMStation currentAMFMStation = null;
     private boolean dabLongNames = false;
-    private static final boolean sdarsLongNames;
+    private static final boolean sdarsLongNames = false;
     private final LogChannel logger;
     private final TunerModels models;
     private final TunerStatus status;
-    private IMemoryList memory = new CombiBAPServiceHandler$1(this);
+    private IMemoryList memory = new IMemoryList(){
+
+        public boolean isEmpty() {
+            return true;
+        }
+
+        public PresetIds getPresetIds(TunerObjectContainer tunerObjectContainer) {
+            return new PresetIds(0, 0);
+        }
+
+        public TunerObjectContainer[] getList(int[] nArray) {
+            return new TunerObjectContainer[0];
+        }
+
+        public TunerObjectContainer[] getList(int n) {
+            return new TunerObjectContainer[0];
+        }
+
+        public TunerObjectContainer[] getList() {
+            return new TunerObjectContainer[0];
+        }
+
+        public boolean tuneByCombiID(int n, int n2) {
+            return false;
+        }
+    };
     private final CombiBAPIdMapper idMapper;
     private final ITunerVariantExt variantExt;
     private CombiBAPServiceTuner combiService;
@@ -117,7 +138,7 @@ implements IUpdateListener {
     }
 
     public synchronized void setCombiService(CombiBAPServiceTuner combiBAPServiceTuner) {
-        this.logger.log(-2137614336, "[CombiBAPServiceHandler.setCombiService] %1", (Object)combiBAPServiceTuner);
+        this.logger.log(10000000, "[CombiBAPServiceHandler.setCombiService] %1", (Object)combiBAPServiceTuner);
         if (combiBAPServiceTuner == null) {
             this.combiService = new NullCombiBAPServiceTuner(this.logger);
             return;
@@ -156,16 +177,15 @@ implements IUpdateListener {
     }
 
     public void tunerActivated() {
-        this.logger.log(-2137614336, "[CombiBAPServiceHandler.tunerActivated]");
+        this.logger.log(10000000, "[CombiBAPServiceHandler.tunerActivated]");
         this.sendBandList(this.bands);
         this.updatedWaveband(this.models.getActiveTuner());
         this.updatedMemoryList();
     }
 
-    @Override
     public void updatedMemoryList() {
         int n;
-        this.logger.log(-2137614336, "[CombiBAPServiceHandler.updatedMemoryList]");
+        this.logger.log(10000000, "[CombiBAPServiceHandler.updatedMemoryList]");
         CombiBAPCurrentStationInfo combiBAPCurrentStationInfo = null;
         int n2 = this.combiWaveband;
         if (n2 > 0) {
@@ -215,7 +235,7 @@ implements IUpdateListener {
             combiBAPPresetListEntryArray[n] = new CombiBAPPresetListEntry(tunerObjectContainerArray[n].getPresetPos(), tunerObjectContainerArray[n].getPresetPos(), n3, string, n4);
         }
         for (n = 0; n < combiBAPPresetListEntryArray.length; ++n) {
-            this.logger.log(-2137614336, "[CombiBAPServiceHandler.updatedMemoryList] Entry: %1 ", (Object)combiBAPPresetListEntryArray[n].toString());
+            this.logger.log(10000000, "[CombiBAPServiceHandler.updatedMemoryList] Entry: %1 ", (Object)combiBAPPresetListEntryArray[n].toString());
         }
         try {
             this.combiService.updatePresetList(combiBAPPresetListEntryArray);
@@ -225,9 +245,8 @@ implements IUpdateListener {
         }
     }
 
-    @Override
     public void updatedBandList(int[] nArray) {
-        this.logger.log(-2137614336, "[CombiBAPServiceHandler.updatedBandList]");
+        this.logger.log(10000000, "[CombiBAPServiceHandler.updatedBandList]");
         this.bands = nArray;
         this.sendBandList(nArray);
         this.updatedActiveSource(this.combiWaveband);
@@ -250,7 +269,6 @@ implements IUpdateListener {
         }
     }
 
-    @Override
     public void updatedStationList(int n) {
         if (this.sendReceptionList(n)) {
             this.updatedActiveStation(n);
@@ -262,13 +280,13 @@ implements IUpdateListener {
      */
     private boolean sendReceptionList(int n) {
         CombiBAPReceptionListEntry[] combiBAPReceptionListEntryArray;
-        this.logger.log(-2137614336, "[CombiBAPServiceHandler.sendReceptionList] band:%1", (long)n);
+        this.logger.log(10000000, "[CombiBAPServiceHandler.sendReceptionList] band:%1", (long)n);
         if (n != this.models.getActiveTuner()) {
-            this.logger.log(-2137614336, "[CombiBAPServiceHandler.sendReceptionList] band not active tuner (%1)", (long)this.models.getActiveTuner());
+            this.logger.log(10000000, "[CombiBAPServiceHandler.sendReceptionList] band not active tuner (%1)", (long)this.models.getActiveTuner());
             return false;
         }
         if (n != this.combiWaveband) {
-            this.logger.log(-2137614336, "[CombiBAPServiceHandler.sendReceptionList] ignore band -> send bandchange fisrt");
+            this.logger.log(10000000, "[CombiBAPServiceHandler.sendReceptionList] ignore band -> send bandchange fisrt");
             return false;
         }
         ITunerGUIHandler iTunerGUIHandler = TunerProxyManager.getInstance().getActiveTunerGuiHandler();
@@ -317,9 +335,8 @@ implements IUpdateListener {
         return true;
     }
 
-    @Override
     public void updatedWaveband(int n) {
-        this.logger.log(-2137614336, "[CombiBAPServiceHandler.updatedWaveband], band: %1", (long)n);
+        this.logger.log(10000000, "[CombiBAPServiceHandler.updatedWaveband], band: %1", (long)n);
         if (n != 0) {
             if (this.combiWaveband != n) {
                 this.idMapper.reset();
@@ -347,23 +364,21 @@ implements IUpdateListener {
         }
     }
 
-    @Override
     public void updatedActiveList(int n) {
         this.combiService.updatePreferredList(n == 12 ? 2 : 1);
     }
 
-    @Override
     public void updatedActiveInfoState(int n) {
-        this.logger.log(-2137614336, "[CombiBAPServiceHandler.updatedActiveStation] band: %1", (long)n);
+        this.logger.log(10000000, "[CombiBAPServiceHandler.updatedActiveStation] band: %1", (long)n);
         if (n != this.models.getActiveTuner()) {
-            this.logger.log(-2137614336, "[CombiBAPServiceHandler.updatedActiveInfoState] band not active tuner (%1)", (long)this.models.getActiveTuner());
+            this.logger.log(10000000, "[CombiBAPServiceHandler.updatedActiveInfoState] band not active tuner (%1)", (long)this.models.getActiveTuner());
             return;
         }
         try {
             if (n == 7) {
                 boolean bl;
                 SDARSAdvisoryHandler sDARSAdvisoryHandler = TunerProxyManager.getInstance().getSDARSTuner().getAdvisoryHandler();
-                boolean bl2 = bl = this.models.getChoiceModel(981926144).getValue() == 0;
+                boolean bl2 = bl = this.models.getChoiceModel(100154).getValue() == 0;
                 if (sDARSAdvisoryHandler != null) {
                     int n2 = sDARSAdvisoryHandler.getActiveAdvisory();
                     int n3 = CombiBAPUtilities.getBAPInfoStateSDARS(n2);
@@ -383,12 +398,12 @@ implements IUpdateListener {
 
     private CombiBAPCurrentStationInfo getCurrentActiveStation(int n) {
         if (TunerProxyManager.getInstance() == null) {
-            this.logger.log(-2137614336, "[CombiBAPServiceHandler.updatedActiveStation] TunerProxyManager.getInstance is null.");
+            this.logger.log(10000000, "[CombiBAPServiceHandler.updatedActiveStation] TunerProxyManager.getInstance is null.");
             return null;
         }
         ITunerGUIHandler iTunerGUIHandler = TunerProxyManager.getInstance().getActiveTunerGuiHandler();
         if (iTunerGUIHandler == null) {
-            this.logger.log(-2137614336, "[CombiBAPServiceHandler.updatedActiveStation] ITunerGUIHandler is null.");
+            this.logger.log(10000000, "[CombiBAPServiceHandler.updatedActiveStation] ITunerGUIHandler is null.");
             return null;
         }
         CombiBAPCurrentStationInfo combiBAPCurrentStationInfo = this.getCurrentActiveStation(n, iTunerGUIHandler);
@@ -446,20 +461,19 @@ implements IUpdateListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updatedActiveStation(int n) {
-        this.logger.log(-2137614336, "[CombiBAPServiceHandler.updatedActiveStation] band: %1", (long)n);
+        this.logger.log(10000000, "[CombiBAPServiceHandler.updatedActiveStation] band: %1", (long)n);
         if (n != this.models.getActiveTuner()) {
-            this.logger.log(-2137614336, "[CombiBAPServiceHandler.updatedActiveStation] band not active tuner (%1)", (long)this.models.getActiveTuner());
+            this.logger.log(10000000, "[CombiBAPServiceHandler.updatedActiveStation] band not active tuner (%1)", (long)this.models.getActiveTuner());
             return;
         }
         if (n != this.combiWaveband) {
-            this.logger.log(-2137614336, "[CombiBAPServiceHandler.updatedActiveStation] ignore activeStation -> send bandchange fisrt");
+            this.logger.log(10000000, "[CombiBAPServiceHandler.updatedActiveStation] ignore activeStation -> send bandchange fisrt");
             return;
         }
         ITunerGUIHandler iTunerGUIHandler = TunerProxyManager.getInstance().getActiveTunerGuiHandler();
         if (iTunerGUIHandler == null) {
-            this.logger.log(-2137614336, "[CombiBAPServiceHandler.updatedActiveStation] ITunerGUIHandler is null.");
+            this.logger.log(10000000, "[CombiBAPServiceHandler.updatedActiveStation] ITunerGUIHandler is null.");
             return;
         }
         CombiBAPCurrentStationInfo combiBAPCurrentStationInfo = this.getCurrentActiveStation(n, iTunerGUIHandler);
@@ -476,7 +490,7 @@ implements IUpdateListener {
             this.sendReceptionList(n);
         }
         if (combiBAPCurrentStationInfo != null) {
-            this.logger.log(14808325, "[CombiBAPServiceHandler.updatedActiveStation] %1", (Object)combiBAPCurrentStationInfo);
+            this.logger.log(100000000, "[CombiBAPServiceHandler.updatedActiveStation] %1", (Object)combiBAPCurrentStationInfo);
             try {
                 this.combiService.updateCurrentStation(combiBAPCurrentStationInfo);
             }
@@ -493,9 +507,8 @@ implements IUpdateListener {
         }
     }
 
-    @Override
     public void updatedAbortAnnoucementStatus(boolean bl) {
-        this.logger.log(-2137614336, "[CombiBAPServiceHandler.updatedAbortAnnoucementStatus] status:%1", bl);
+        this.logger.log(10000000, "[CombiBAPServiceHandler.updatedAbortAnnoucementStatus] status:%1", bl);
         try {
             this.combiService.cancelAnnouncementResult(CombiBAPUtilities.getBAPAbortAnnouncementStatus(bl));
         }
@@ -504,9 +517,8 @@ implements IUpdateListener {
         }
     }
 
-    @Override
     public void updatedAnnouncementStatus(int n) {
-        this.logger.log(-2137614336, "[CombiBAPServiceHandler.updatedAnnouncementStatus] status:%1", (long)n);
+        this.logger.log(10000000, "[CombiBAPServiceHandler.updatedAnnouncementStatus] status:%1", (long)n);
         int n2 = CombiBAPUtilities.getBAPAnnouncementType(n);
         String string = n2 == 0 ? "" : this.models.getLabelModel(397).getText();
         try {
@@ -517,9 +529,8 @@ implements IUpdateListener {
         }
     }
 
-    @Override
     public void updatedForceStationListUpdateStatus(int n, int n2) {
-        this.logger.log(-2137614336, "[CombiBAPServiceHandler.updatedForceStationListUpdateStatus] band:%1 status:%2", (long)n, (long)n2);
+        this.logger.log(10000000, "[CombiBAPServiceHandler.updatedForceStationListUpdateStatus] band:%1 status:%2", (long)n, (long)n2);
         int n3 = this.models.getActiveTuner();
         try {
             if (n3 == n) {
@@ -538,7 +549,7 @@ implements IUpdateListener {
                     this.listUpdateRunning = false;
                 }
             } else {
-                this.logger.log(-2137614336, "[CombiBAPServiceHandler.updatedForceStationListUpdateStatus] no action! active Tuner is %1 ", (long)n3);
+                this.logger.log(10000000, "[CombiBAPServiceHandler.updatedForceStationListUpdateStatus] no action! active Tuner is %1 ", (long)n3);
             }
         }
         catch (Exception exception) {
@@ -547,7 +558,7 @@ implements IUpdateListener {
     }
 
     void startStationListUpdateResult(boolean bl) {
-        this.logger.log(-2137614336, "[CombiBAPServiceHandler.startStationListUpdateResult] success:%1", bl);
+        this.logger.log(10000000, "[CombiBAPServiceHandler.startStationListUpdateResult] success:%1", bl);
         try {
             if (bl) {
                 this.combiService.startStationListUpdateResult(0);
@@ -561,7 +572,7 @@ implements IUpdateListener {
     }
 
     void cancelStationListUpdateResult(boolean bl) {
-        this.logger.log(-2137614336, "[CombiBAPServiceHandler.cancelStationListUpdateResult] success:%1", bl);
+        this.logger.log(10000000, "[CombiBAPServiceHandler.cancelStationListUpdateResult] success:%1", bl);
         try {
             if (bl) {
                 this.combiService.cancelStationListUpdateResult(0);
@@ -575,7 +586,7 @@ implements IUpdateListener {
     }
 
     private void updatedSeekFrequency(AMFMStation aMFMStation) {
-        this.logger.log(-2137614336, "[CombiBAPServiceHandler.updatedSeekFrequency] status:%1", (Object)aMFMStation);
+        this.logger.log(10000000, "[CombiBAPServiceHandler.updatedSeekFrequency] status:%1", (Object)aMFMStation);
         String string = aMFMStation.getFrequencyString();
         CombiBAPCurrentStationInfo combiBAPCurrentStationInfo = new CombiBAPCurrentStationInfo(string, 68);
         try {
@@ -587,7 +598,7 @@ implements IUpdateListener {
     }
 
     void selectListEntryResult(boolean bl) {
-        this.logger.log(-2137614336, "[CombiBAPServiceHandler.selectListEntryResult] success:%1", bl);
+        this.logger.log(10000000, "[CombiBAPServiceHandler.selectListEntryResult] success:%1", bl);
         try {
             if (bl) {
                 this.combiService.selectListEntryResult(0);
@@ -600,9 +611,8 @@ implements IUpdateListener {
         }
     }
 
-    @Override
     public void updatedSkipResult(boolean bl) {
-        this.logger.log(-2137614336, "[CombiBAPServiceHandler.skipResult] success:%1", bl);
+        this.logger.log(10000000, "[CombiBAPServiceHandler.skipResult] success:%1", bl);
         try {
             this.combiService.skipResult(bl);
         }
@@ -612,7 +622,7 @@ implements IUpdateListener {
     }
 
     void updatedSwitchSourceResult(boolean bl) {
-        this.logger.log(-2137614336, "[CombiBAPServiceHandler.updatedSwitchSourceResult] success:%1", bl);
+        this.logger.log(10000000, "[CombiBAPServiceHandler.updatedSwitchSourceResult] success:%1", bl);
         int n = CombiBAPUtilities.getBAPSwitchSourceResult(bl);
         try {
             this.combiService.switchSourceResult(n);
@@ -643,31 +653,29 @@ implements IUpdateListener {
         }
     }
 
-    @Override
     public void updatedMuteStatus(int n, boolean bl) {
-        this.logger.log(-2137614336, "[CombiBAPServiceHandler.updatedMuteState] band:%2 mute:%1", bl, (long)n);
+        this.logger.log(10000000, "[CombiBAPServiceHandler.updatedMuteState] band:%2 mute:%1", bl, (long)n);
         this.dabMute = n == 5 ? bl : this.dabMute;
         this.uniMute = n == 11 ? bl : this.uniMute;
         this.sdarsMute = n == 7 ? bl : this.sdarsMute;
         this.ibocMute = n == 1 ? bl : this.ibocMute;
         boolean bl2 = this.models.getActiveTuner() == 11 ? this.uniMute : this.dabMute;
-        this.logger.log(-2137614336, "[CombiBAPServiceHandler.updatedMuteState] dab: %1 sdars %2 Iboc %3", this.dabMute, this.sdarsMute, this.ibocMute);
+        this.logger.log(10000000, "[CombiBAPServiceHandler.updatedMuteState] dab: %1 sdars %2 Iboc %3", this.dabMute, this.sdarsMute, this.ibocMute);
         try {
-            MuteState$Builder muteState$Builder = MuteState.builder();
-            muteState$Builder.setDabMutingLowSignal(bl2);
-            muteState$Builder.setSdarsMutingLowSignal(this.sdarsMute);
-            muteState$Builder.setIbocNotInSync(this.ibocMute);
-            muteState$Builder.setIbocMutingLowSignal(this.ibocMute);
-            this.combiService.updateMuteState(muteState$Builder.build());
+            MuteState.Builder builder = MuteState.builder();
+            builder.setDabMutingLowSignal(bl2);
+            builder.setSdarsMutingLowSignal(this.sdarsMute);
+            builder.setIbocNotInSync(this.ibocMute);
+            builder.setIbocMutingLowSignal(this.ibocMute);
+            this.combiService.updateMuteState(builder.build());
         }
         catch (Exception exception) {
             this.logger.log(10000, "%1", (Throwable)exception);
         }
     }
 
-    @Override
     public void updatedSeekStatus(boolean bl) {
-        this.logger.log(-2137614336, "[CombiBAPServiceHandler.updatedSeekStatus] seekRunning:%1", bl);
+        this.logger.log(10000000, "[CombiBAPServiceHandler.updatedSeekStatus] seekRunning:%1", bl);
         try {
             this.combiService.updateSeekStatus(bl);
         }
@@ -680,24 +688,23 @@ implements IUpdateListener {
         }
     }
 
-    @Override
     public void updatedScanStatus(boolean bl) {
-        this.logger.log(-2137614336, "[CombiBAPServiceHandler.updatedScanStatus] scanRunning:%1", bl);
+        this.logger.log(10000000, "[CombiBAPServiceHandler.updatedScanStatus] scanRunning:%1", bl);
         this.sourceState = bl ? 1 : 0;
         this.updatedActiveSourceState(this.sourceState);
     }
 
     private void updateManualTuneActiveStatus(boolean bl) {
-        this.logger.log(-2137614336, "[CombiBAPServiceHandler.updateMnualTuneActiveStatus] manualMode:%1 ", bl);
+        this.logger.log(10000000, "[CombiBAPServiceHandler.updateMnualTuneActiveStatus] manualMode:%1 ", bl);
         if (bl || this.sourceState == 5) {
-            this.logger.log(-2137614336, "[CombiBAPServiceHandler.updateMnualTuneActiveStatus] inform combi");
+            this.logger.log(10000000, "[CombiBAPServiceHandler.updateMnualTuneActiveStatus] inform combi");
             this.sourceState = bl ? 5 : 0;
             this.updatedActiveSourceState(this.sourceState);
         }
     }
 
     private void updatedActiveSourceState(int n) {
-        this.logger.log(-2137614336, "[CombiBAPServiceHandler.updatedActiveSourceState] state:%1", (long)n);
+        this.logger.log(10000000, "[CombiBAPServiceHandler.updatedActiveSourceState] state:%1", (long)n);
         try {
             this.combiService.updateActiveSourceState(n, 0);
         }
@@ -807,7 +814,7 @@ implements IUpdateListener {
             combiBAPReceptionListEntryArray[i2].setAttributes(n4);
             combiBAPReceptionListEntryArray[i2].setCategory(n3);
             combiBAPReceptionListEntryArray[i2].setPresetID(n2);
-            this.logger.log(14808325, "[CombiBAPServiceHandler.createDABList] %2:,%1", (Object)combiBAPReceptionListEntryArray[i2], (long)i2);
+            this.logger.log(100000000, "[CombiBAPServiceHandler.createDABList] %2:,%1", (Object)combiBAPReceptionListEntryArray[i2], (long)i2);
         }
         return combiBAPReceptionListEntryArray;
     }
@@ -826,7 +833,7 @@ implements IUpdateListener {
             combiBAPReceptionListEntryArray[i2].setAttributes(CombiBAPUtilities.getBAPStationAttributes(tunerObjectContainer));
             combiBAPReceptionListEntryArray[i2].setCategory(n3);
             combiBAPReceptionListEntryArray[i2].setPresetID(n);
-            this.logger.log(14808325, "[CombiBAPServiceHandler.createUniList] %2:,%1", (Object)combiBAPReceptionListEntryArray[i2], (long)i2);
+            this.logger.log(100000000, "[CombiBAPServiceHandler.createUniList] %2:,%1", (Object)combiBAPReceptionListEntryArray[i2], (long)i2);
         }
         return combiBAPReceptionListEntryArray;
     }
@@ -844,7 +851,7 @@ implements IUpdateListener {
             combiBAPReceptionListEntryArray[i2].setAttributes(n2);
             combiBAPReceptionListEntryArray[i2].setCategory(0);
             combiBAPReceptionListEntryArray[i2].setPresetID(n);
-            this.logger.log(14808325, "[CombiBAPServiceHandler.createSDARSList] %2: %1", (Object)combiBAPReceptionListEntryArray[i2], (long)i2);
+            this.logger.log(100000000, "[CombiBAPServiceHandler.createSDARSList] %2: %1", (Object)combiBAPReceptionListEntryArray[i2], (long)i2);
         }
         return combiBAPReceptionListEntryArray;
     }
@@ -892,8 +899,8 @@ implements IUpdateListener {
         }
         combiBAPCurrentStationInfo.addAttribute(n2);
         HMIResourceLocator hMIResourceLocator = dabStation.getImage(this.imgType);
-        this.logger.log(1078071040, "[CombiBAPServiceHandler.createDABCurrentStation] ImageType: %1", (long)this.imgType);
-        this.logger.log(1078071040, "[CombiBAPServiceHandler.createDABCurrentStation] ResourceLocator: %1", (Object)hMIResourceLocator.toString());
+        this.logger.log(1000000, "[CombiBAPServiceHandler.createDABCurrentStation] ImageType: %1", (long)this.imgType);
+        this.logger.log(1000000, "[CombiBAPServiceHandler.createDABCurrentStation] ResourceLocator: %1", (Object)hMIResourceLocator.toString());
         hMIResourceLocator = this.checkIfEmpty(hMIResourceLocator, 5);
         combiBAPCurrentStationInfo.setPicture(hMIResourceLocator.getResourceID(), hMIResourceLocator.getResourceURI());
         ArtistAndTitlePair artistAndTitlePair = dabStation.getArtistAndTitlePair();
@@ -1014,12 +1021,28 @@ implements IUpdateListener {
         return ISimpleTuner.EMPTY_RL;
     }
 
-    static /* synthetic */ void access$200(CombiBAPServiceHandler combiBAPServiceHandler, AMFMStation aMFMStation) {
-        combiBAPServiceHandler.updatedSeekFrequency(aMFMStation);
+    private class DsiUpListener
+    extends AMFMDsiUpInfo {
+        private DsiUpListener() {
+        }
+
+        public void updateSeekStation(AMFMStation aMFMStation) {
+            CombiBAPServiceHandler.this.updatedSeekFrequency(aMFMStation);
+        }
     }
 
-    static /* synthetic */ void access$300(CombiBAPServiceHandler combiBAPServiceHandler, boolean bl) {
-        combiBAPServiceHandler.updateManualTuneActiveStatus(bl);
+    private class TunerActionProxyListenerExt
+    extends TunerActionProxyListener {
+        private TunerActionProxyListenerExt() {
+        }
+
+        public void manualTuneEntered() {
+            CombiBAPServiceHandler.this.updateManualTuneActiveStatus(true);
+        }
+
+        public void manualTuneLeft() {
+            CombiBAPServiceHandler.this.updateManualTuneActiveStatus(false);
+        }
     }
 }
 

@@ -35,10 +35,9 @@ MsgListener {
 
     public OnlineServiceCacheWorker(LogChannel logChannel, IStorageAccess iStorageAccess, int n, int n2, int n3, String string) {
         super(logChannel, iStorageAccess, n, n2, n3, string);
-        logChannel.log(14808325, "OnlineServiceCacheWorker for %1 created.", (Object)string);
+        logChannel.log(100000000, "OnlineServiceCacheWorker for %1 created.", (Object)string);
     }
 
-    @Override
     protected void registerWorkerAsServiceListener(Object object) {
         this.iOnlineService = (IOnlineService)object;
         this.iOnlineService.addCallBackListener(this);
@@ -47,12 +46,11 @@ MsgListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
-    public void serialize(DataOutputStream dataOutputStream) {
+    public void serialize(DataOutputStream dataOutputStream) throws IOException {
         Object[] objectArray;
         Object object;
         if (dataOutputStream == null || this.token2License == null) {
-            this.log.log(-1601830656, "OnlineServiceCacheWorker#serialize: dos=%1 or token2License=%2 is null!", (Object)dataOutputStream, (Object)this.token2License);
+            this.log.log(100000, "OnlineServiceCacheWorker#serialize: dos=%1 or token2License=%2 is null!", (Object)dataOutputStream, (Object)this.token2License);
             return;
         }
         Map map = this.token2License;
@@ -66,7 +64,7 @@ MsgListener {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 object = objectArray[i2];
                 if (object == null) {
-                    this.log.log(-1601830656, "OnlineServiceCacheWorker#serialize: token is null!");
+                    this.log.log(100000, "OnlineServiceCacheWorker#serialize: token is null!");
                     continue;
                 }
                 Integer n = (Integer)this.getState((String)object);
@@ -76,8 +74,7 @@ MsgListener {
         }
     }
 
-    @Override
-    public void deserialize(DataInputStream dataInputStream) {
+    public void deserialize(DataInputStream dataInputStream) throws IOException {
         int n = dataInputStream.readInt();
         for (int i2 = 0; i2 < n; ++i2) {
             int n2 = dataInputStream.readInt();
@@ -87,7 +84,7 @@ MsgListener {
         }
     }
 
-    public void deserializeV1(DataInputStream dataInputStream) {
+    public void deserializeV1(DataInputStream dataInputStream) throws IOException {
         int n = dataInputStream.readInt();
         String string = dataInputStream.readUTF();
         if (n != -1) {
@@ -95,31 +92,24 @@ MsgListener {
         }
     }
 
-    @Override
     public void getOnlineApplicationResponse(OSRApplication oSRApplication) {
     }
 
-    @Override
     public void activateLicenseResponse(int n) {
     }
 
-    @Override
     public synchronized void getLicenseInformationResult(OSRLicense[] oSRLicenseArray) {
     }
 
-    @Override
     public void getReminderStatusResult(int n) {
     }
 
-    @Override
     public void setReminderStateResponse(int n) {
     }
 
-    @Override
     public void updateApplicationState(OSRNotifyProperties[] oSRNotifyPropertiesArray) {
     }
 
-    @Override
     public Object getState(String string) {
         Integer n = (Integer)this.token2License.get(string);
         return n != null ? n : new Integer(-1);
@@ -128,17 +118,16 @@ MsgListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updateServiceState(OnlineServiceListState onlineServiceListState) {
-        this.log.log(1078071040, "OnlineServiceCacheWorker#updateServiceState called serviceList %1", (Object)onlineServiceListState);
+        this.log.log(1000000, "OnlineServiceCacheWorker#updateServiceState called serviceList %1", (Object)onlineServiceListState);
         if (!this.serviceListState.equalsIgnorePending(onlineServiceListState)) {
             if (onlineServiceListState.isOnline() || onlineServiceListState.isOffline()) {
                 Object[] objectArray;
                 Object object;
-                this.log.log(1078071040, "OnlineServiceCacheWorker#updateServiceState changed. Refreshing %1", (Object)this.serviceID);
+                this.log.log(1000000, "OnlineServiceCacheWorker#updateServiceState changed. Refreshing %1", (Object)this.serviceID);
                 Map map = this.token2License;
                 synchronized (map) {
-                    this.log.log(1078071040, "OnlineServiceCacheWorker#updateServiceState synchronized getting tokens for %1", (Object)this.serviceID);
+                    this.log.log(1000000, "OnlineServiceCacheWorker#updateServiceState synchronized getting tokens for %1", (Object)this.serviceID);
                     object = this.token2License.keySet();
                     objectArray = new String[object.size()];
                     objectArray = (String[])object.toArray(objectArray);
@@ -146,14 +135,13 @@ MsgListener {
                 for (int i2 = 0; i2 < objectArray.length; ++i2) {
                     object = objectArray[i2];
                     this.iOnlineService.getOnlineApplicationPreCheck(this, (String)object);
-                    this.log.log(1078071040, "OnlineServiceCacheWorker.updateServiceState() SL is available, requesting new license state for %1:%2. SL[%3]", (Object)this.serviceID, object, (Object)onlineServiceListState);
+                    this.log.log(1000000, "OnlineServiceCacheWorker.updateServiceState() SL is available, requesting new license state for %1:%2. SL[%3]", (Object)this.serviceID, object, (Object)onlineServiceListState);
                 }
             }
             this.serviceListState = onlineServiceListState;
         }
     }
 
-    @Override
     public synchronized void getPreCheckResult(OSRServiceState oSRServiceState) {
         int n = 29;
         OSRLicense oSRLicense = null;
@@ -170,15 +158,15 @@ MsgListener {
         if (oSRServiceState.getServiceListEntry() != null) {
             oSRLicense = oSRServiceState.getServiceListEntry().getLicense();
         } else if (n != 18) {
-            this.log.log(-1601830656, "OnlineServiceCacheWorker#getPreCheckResult no license received, errorCode: %1", (long)n);
+            this.log.log(100000, "OnlineServiceCacheWorker#getPreCheckResult no license received, errorCode: %1", (long)n);
         }
-        this.log.log(1078071040, "OnlineServiceCacheWorker#getPreCheckResult service: %2/%3, errorCode: %4, license: %1", (Object)oSRLicense, (Object)this.serviceID, (Object)string, (long)n);
-        this.log.log(1078071040, "OnlineServiceCacheWorker#getPreCheckResult serviceListEntry: %1, errorCode: %2, serviceId=%3, symbolicName=%4", (Object)oSRServiceState.getServiceListEntry(), (Object)Integer.toString(n), (Object)this.serviceID, (Object)string);
+        this.log.log(1000000, "OnlineServiceCacheWorker#getPreCheckResult service: %2/%3, errorCode: %4, license: %1", (Object)oSRLicense, (Object)this.serviceID, (Object)string, (long)n);
+        this.log.log(1000000, "OnlineServiceCacheWorker#getPreCheckResult serviceListEntry: %1, errorCode: %2, serviceId=%3, symbolicName=%4", (Object)oSRServiceState.getServiceListEntry(), (Object)Integer.toString(n), (Object)this.serviceID, (Object)string);
         if (!this.isLicenseCheckRequired(n)) {
             this.forwardPreCheckResult(string, 1);
         } else if (this.isServiceUsable(n)) {
             if (oSRLicense == null) {
-                this.log.log(1078071040, "OnlineServiceCacheWorker#getPreCheckResult token %1 is handled as license free because of null license.", (Object)string);
+                this.log.log(1000000, "OnlineServiceCacheWorker#getPreCheckResult token %1 is handled as license free because of null license.", (Object)string);
                 this.forwardPreCheckResult(string, 1);
             } else {
                 this.forwardPreCheckResult(string, oSRLicense.getState());
@@ -204,12 +192,12 @@ MsgListener {
         Integer n2 = new Integer(n);
         this.token2License.put(string, n2);
         this.serializeAndWrite();
-        this.log.log(1078071040, "OnlineServiceCacheWorker.getPreCheckResult() called. New license state for <%1:%2> is %3", (Object)this.serviceID, (Object)string, (long)n);
+        this.log.log(1000000, "OnlineServiceCacheWorker.getPreCheckResult() called. New license state for <%1:%2> is %3", (Object)this.serviceID, (Object)string, (long)n);
         Object object = this.token2Subscriber;
         synchronized (object) {
             list = (List)this.token2Subscriber.get(string);
             if (list == null) {
-                this.log.log(1078071040, "OnlineServiceCacheWorker.forwardPreCheckResult: No subscriber for serviceID:token %1:%2 are registered", (Object)this.serviceID, (Object)string);
+                this.log.log(1000000, "OnlineServiceCacheWorker.forwardPreCheckResult: No subscriber for serviceID:token %1:%2 are registered", (Object)this.serviceID, (Object)string);
                 return;
             }
             list = new ArrayList(list);
@@ -225,8 +213,7 @@ MsgListener {
         }
     }
 
-    @Override
-    protected void convertContainer(int n, int n2, DataInputStream dataInputStream) {
+    protected void convertContainer(int n, int n2, DataInputStream dataInputStream) throws IOException {
         super.convertContainer(n, n2, dataInputStream);
         if (n == 1 && n2 == this.getContainerVersion()) {
             try {
@@ -241,7 +228,6 @@ MsgListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     protected void registerCacheEventListener(CacheEventListener cacheEventListener) {
         String[] stringArray = null;
         try {
@@ -267,20 +253,19 @@ MsgListener {
         }
     }
 
-    @Override
     public void processMsg(int n) {
-        this.log.log(-2137614336, "OnlineServiceCacheWorker#processMsg(): serviceId = %1, message: %2", (Object)this.serviceID, (long)n);
+        this.log.log(10000000, "OnlineServiceCacheWorker#processMsg(): serviceId = %1, message: %2", (Object)this.serviceID, (long)n);
         if (n != 88 && n != 23) {
-            this.log.log(-2137614336, "OnlineServiceCacheWorker#processMsg(): wrong message type. Do nothing.");
+            this.log.log(10000000, "OnlineServiceCacheWorker#processMsg(): wrong message type. Do nothing.");
             return;
         }
-        this.log.log(1078071040, "OnlineServiceCacheWorker#processMsg(): Received message %1. Resetting persited license states.", (long)n);
-        this.log.log(-2137614336, "OnlineServiceCacheWorker#processMsg(): handle factory reset.");
+        this.log.log(1000000, "OnlineServiceCacheWorker#processMsg(): Received message %1. Resetting persited license states.", (long)n);
+        this.log.log(10000000, "OnlineServiceCacheWorker#processMsg(): handle factory reset.");
         Iterator iterator = this.token2License.keySet().iterator();
         while (iterator.hasNext()) {
             Object object = iterator.next();
             if (!(object instanceof String)) continue;
-            this.log.log(1078071040, "OnlineServiceCacheWorker#processMsg(): Reset persited license for %1", object);
+            this.log.log(1000000, "OnlineServiceCacheWorker#processMsg(): Reset persited license for %1", object);
             this.forwardPreCheckResult((String)object, -1);
         }
     }

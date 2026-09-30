@@ -37,29 +37,29 @@ import java.util.List;
 public class PresetController
 extends PartialPopupController
 implements CacheEventListener {
-    private static final int DEFAULT_ICON_WIDTH;
-    private static LogChannel lc;
-    private static final int INDENTION;
-    private static final int ENTRY_STORED;
-    private static final int ENTRY_NEW;
-    public static final int LAYOUT_INDEX_A_STORED;
-    public static final int LAYOUT_INDEX_A_NEW;
-    public static final int LAYOUT_INDEX_B_STORED;
-    public static final int LAYOUT_INDEX_B_NEW;
-    public static final int LAYOUT_INDEX_C_STORED;
-    public static final int LAYOUT_INDEX_C_NEW;
-    public static final int LAYOUT_INDEX_D_STORED;
-    public static final int LAYOUT_INDEX_D_NEW;
-    public static final int LAYOUT_INDEX_E_STORED;
-    public static final int LAYOUT_INDEX_E_NEW;
-    public static final int LAYOUT_INDEX_F_STORED;
-    public static final int LAYOUT_INDEX_F_NEW;
-    public static final int LAYOUT_INDEX_G_STORED;
-    public static final int LAYOUT_INDEX_G_NEW;
-    public static final int LAYOUT_INDEX_NO_ENTRY_STORED;
-    public static final int LAYOUT_INDEX_NOT_STORABLE;
-    public static final int LAYOUT_INDEX_NOT_STORABLE_MAIN_ENTRY;
-    public static final int LAYOUT_INDEX_NO_APP_REGISTRED;
+    private static final int DEFAULT_ICON_WIDTH = 30;
+    private static LogChannel lc = IWidgetLogChannel.logPreset;
+    private static final int INDENTION = 35;
+    private static final int ENTRY_STORED = 0;
+    private static final int ENTRY_NEW = 1;
+    public static final int LAYOUT_INDEX_A_STORED = 0;
+    public static final int LAYOUT_INDEX_A_NEW = 1;
+    public static final int LAYOUT_INDEX_B_STORED = 2;
+    public static final int LAYOUT_INDEX_B_NEW = 3;
+    public static final int LAYOUT_INDEX_C_STORED = 4;
+    public static final int LAYOUT_INDEX_C_NEW = 5;
+    public static final int LAYOUT_INDEX_D_STORED = 6;
+    public static final int LAYOUT_INDEX_D_NEW = 7;
+    public static final int LAYOUT_INDEX_E_STORED = 8;
+    public static final int LAYOUT_INDEX_E_NEW = 9;
+    public static final int LAYOUT_INDEX_F_STORED = 10;
+    public static final int LAYOUT_INDEX_F_NEW = 11;
+    public static final int LAYOUT_INDEX_G_STORED = 12;
+    public static final int LAYOUT_INDEX_G_NEW = 13;
+    public static final int LAYOUT_INDEX_NO_ENTRY_STORED = 14;
+    public static final int LAYOUT_INDEX_NOT_STORABLE = 15;
+    public static final int LAYOUT_INDEX_NOT_STORABLE_MAIN_ENTRY = 16;
+    public static final int LAYOUT_INDEX_NO_APP_REGISTRED = 17;
     private PresetPopupHeadlineController presetPopupHeadline;
     private ArrayList presetContentContainers = new ArrayList(20);
     private PartialPopupGlassplateController glassPlate = null;
@@ -74,7 +74,6 @@ implements CacheEventListener {
         super(n);
     }
 
-    @Override
     protected void initializeWidget() {
         super.initializeWidget();
         this.presetMngr = ((PresetInputHandler)this.terminal.getPresetPopupHandler()).getPresetManager();
@@ -93,7 +92,7 @@ implements CacheEventListener {
             Object object = cacheHandler.getState(PRESET_SERVICE_ID[0], PRESET_SERVICE_ID[0]);
             if (object instanceof Boolean) {
                 this.isManualGearshiftControl = (Boolean)object;
-                lc.log(1078071040, "PresetController#registerAtAndReadLayoutCache isManualGearshiftControl == %1", this.isManualGearshiftControl);
+                lc.log(1000000, "PresetController#registerAtAndReadLayoutCache isManualGearshiftControl == %1", this.isManualGearshiftControl);
             }
         }
     }
@@ -111,7 +110,7 @@ implements CacheEventListener {
 
     public void presetTouched(int n) {
         if (this.isConnected()) {
-            lc.log(-2137614336, "PresetController#presetTouched presetIndex=%1", (long)n);
+            lc.log(10000000, "PresetController#presetTouched presetIndex=%1", (long)n);
             PresetStorageProvider presetStorageProvider = this.presetMngr.getPresetStorageProvider();
             IPresetPopupData iPresetPopupData = presetStorageProvider.getPersistedPresetPopupData(n);
             if (iPresetPopupData == null || iPresetPopupData.getPreset() == null) {
@@ -137,7 +136,7 @@ implements CacheEventListener {
 
     public void presetLongTouched(int n) {
         if (this.isConnected()) {
-            lc.log(-2137614336, "PresetController#presetLongTouched presetIndex=%1", (long)n);
+            lc.log(10000000, "PresetController#presetLongTouched presetIndex=%1", (long)n);
             IPresetPopupData iPresetPopupData = this.presetMngr.getPresetStorageProvider().getPersistedPresetPopupData(n);
             if (iPresetPopupData == null || iPresetPopupData.getPreset() == null) {
                 Buffer buffer = new Buffer();
@@ -262,7 +261,7 @@ implements CacheEventListener {
                     break;
                 }
                 default: {
-                    lc.log(-1601830656, "PresetPopupController#getCurrentContainerLayout for ENTRY_STORED. Unknown layoutType: %1 for stored entry - return layout no entry stored instead", (Object)iPresetPopupData);
+                    lc.log(100000, "PresetPopupController#getCurrentContainerLayout for ENTRY_STORED. Unknown layoutType: %1 for stored entry - return layout no entry stored instead", (Object)iPresetPopupData);
                     n3 = 14;
                     break;
                 }
@@ -432,7 +431,6 @@ implements CacheEventListener {
         return n;
     }
 
-    @Override
     public void add(AbstractWidget abstractWidget) {
         if (abstractWidget instanceof LayoutContainerController) {
             this.presetContentContainers.add(abstractWidget);
@@ -449,14 +447,12 @@ implements CacheEventListener {
         return this.glassPlate;
     }
 
-    @Override
     public void render(RedrawContext redrawContext) {
         if (this.getRenderer() != null) {
             this.getRenderer().render(redrawContext);
         }
     }
 
-    @Override
     public int show(int n) {
         int n2 = super.show(n);
         if (n2 == 1) {
@@ -465,7 +461,6 @@ implements CacheEventListener {
         return n2;
     }
 
-    @Override
     public int hide(int n) {
         int n2 = super.hide(n);
         if (n2 == 1) {
@@ -494,29 +489,25 @@ implements CacheEventListener {
         }
     }
 
-    @Override
     public String[] getServiceIDs() {
         return PRESET_SERVICE_ID;
     }
 
-    @Override
     public String[] getTokens(String string) {
         return PRESET_SERVICE_ID;
     }
 
-    @Override
     public void updateToken(String string, String string2, Object object) {
         boolean bl;
         if (string.equals(PRESET_SERVICE_ID[0]) && string2.equals(PRESET_SERVICE_ID[0]) && object instanceof Boolean && this.isManualGearshiftControl != (bl = ((Boolean)object).booleanValue())) {
             this.isManualGearshiftControl = bl;
             this.initializeLayout(this.isManualGearshiftControl);
             this.presetPopupHeadline.resetTemplateNode();
-            lc.log(1078071040, "PresetController#updateToken PresetLayout has changed! isManualGearshiftControl == %1", this.isManualGearshiftControl);
+            lc.log(1000000, "PresetController#updateToken PresetLayout has changed! isManualGearshiftControl == %1", this.isManualGearshiftControl);
         }
     }
 
     static {
-        lc = IWidgetLogChannel.logPreset;
         PRESET_SERVICE_ID = new String[]{"service_dsi_presetlayout"};
     }
 }

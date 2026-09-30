@@ -4,26 +4,26 @@
 package de.audi.tghu.fwhmi;
 
 import de.audi.atip.base.IFrameworkAccess;
+import de.audi.atip.hmi.event.ATIPEvent;
 import de.audi.atip.hmi.event.JoystickEvent;
 import de.audi.atip.hmi.event.KeyEvent;
+import de.audi.atip.hmi.event.ModelUpdateEvent;
 import de.audi.atip.hmi.event.TouchEvent;
 import de.audi.atip.log.LogChannel;
-import de.audi.tghu.fwhmi.HMIEventQueue$HKFilter;
-import de.audi.tghu.fwhmi.HMIEventQueue$KombiSyncFilter;
-import de.audi.tghu.fwhmi.HMIEventQueue$LockFilter;
-import de.audi.tghu.fwhmi.HMIEventQueue$ModelUpdateFilter;
-import de.audi.tghu.fwhmi.HMIEventQueue$ScreenChangeDisturbingEventsFilter;
+import de.esolutions.fw.util.commons.job.BaseJobFilter;
+import de.esolutions.fw.util.commons.job.Job;
 import de.esolutions.fw.util.commons.job.TimedJobQueue;
 import java.io.PrintStream;
 import java.util.List;
+import java.util.ListIterator;
 
 final class HMIEventQueue
 extends TimedJobQueue {
-    private final HMIEventQueue$HKFilter hkFilter = new HMIEventQueue$HKFilter(this, null);
-    private final HMIEventQueue$ScreenChangeDisturbingEventsFilter screenChangeDisturbingEventsFilter = new HMIEventQueue$ScreenChangeDisturbingEventsFilter(this, null);
-    private final HMIEventQueue$KombiSyncFilter kombiSyncFilter = new HMIEventQueue$KombiSyncFilter(this, null);
-    private final HMIEventQueue$ModelUpdateFilter modelUpdateFilter = new HMIEventQueue$ModelUpdateFilter(this, null);
-    private final HMIEventQueue$LockFilter lockFilter = new HMIEventQueue$LockFilter(this, null);
+    private final HKFilter hkFilter = new HKFilter();
+    private final ScreenChangeDisturbingEventsFilter screenChangeDisturbingEventsFilter = new ScreenChangeDisturbingEventsFilter();
+    private final KombiSyncFilter kombiSyncFilter = new KombiSyncFilter();
+    private final ModelUpdateFilter modelUpdateFilter = new ModelUpdateFilter();
+    private final LockFilter lockFilter = new LockFilter();
     private final LogChannel log;
     private final boolean isFrontMU;
 
@@ -36,7 +36,6 @@ extends TimedJobQueue {
         }
     }
 
-    @Override
     public synchronized void dump(PrintStream printStream) {
         if (printStream != null) {
             printStream.print("Usage: ");
@@ -48,7 +47,7 @@ extends TimedJobQueue {
             printStream.print("KombiSync Filter: ");
             printStream.println(this.iskombiSyncFilterActive() ? "KOMBI" : "HMI");
             printStream.print("Filtered ModelUpdateEvents: ");
-            printStream.println(HMIEventQueue$ModelUpdateFilter.access$500(this.modelUpdateFilter));
+            printStream.println(this.modelUpdateFilter.getFilteredEvents());
             printStream.println();
             super.dump(printStream);
         }
@@ -176,32 +175,156 @@ extends TimedJobQueue {
         }
     }
 
-    static /* synthetic */ boolean access$600(HMIEventQueue hMIEventQueue, Object object) {
-        return hMIEventQueue.isHardkey(object);
+    private class HKFilter
+    extends BaseJobFilter {
+        private HKFilter() {
+        }
+
+        public void enqueue(Job job, int n) {
+            Object object = job.getPayload();
+            if (HMIEventQueue.this.isHardkey(object)) {
+                HMIEventQueue.this.log.log(10000000, "HMIEventQueue.postEvent(): discarded Hardkey, event =  %1", object);
+            } else {
+                super.enqueue(job, n);
+            }
+        }
+
+        void removeEvents(List list) {
+            ListIterator listIterator = list.listIterator();
+            while (listIterator.hasNext()) {
+                Object object = ((Job)listIterator.next()).getPayload();
+                if (!HMIEventQueue.this.isHardkey(object)) continue;
+                HMIEventQueue.this.log.log(10000000, "HMIEventQueue.blockHardKeys(): discarded Hardkey, event =  %1", object);
+                listIterator.remove();
+            }
+        }
     }
 
-    static /* synthetic */ LogChannel access$700(HMIEventQueue hMIEventQueue) {
-        return hMIEventQueue.log;
+    private class LockFilter
+    extends BaseJobFilter {
+        private LockFilter() {
+        }
+
+        public void enqueue(Job job, int n) {
+            Object object = job.getPayload();
+            if (HMIEventQueue.this.isUserInteraction(object)) {
+                HMIEventQueue.this.log.log(10000000, "HMIEventQueue.postEvent(): discarded user interaction, event =  %1", object);
+            } else {
+                super.enqueue(job, n);
+            }
+        }
+
+        void removeEvents(List list) {
+            ListIterator listIterator = list.listIterator();
+            while (listIterator.hasNext()) {
+                Object object = ((Job)listIterator.next()).getPayload();
+                if (!HMIEventQueue.this.isUserInteraction(object)) continue;
+                HMIEventQueue.this.log.log(10000000, "HMIEventQueue.lockUsage(): discarded user interaction, event =  %1", object);
+                listIterator.remove();
+            }
+        }
     }
 
-    static /* synthetic */ boolean access$800(HMIEventQueue hMIEventQueue, Object object) {
-        return hMIEventQueue.isScreenChangeDisturbing(object);
+    private class KombiSyncFilter
+    extends BaseJobFilter {
+        private KombiSyncFilter() {
+        }
+
+        boolean isKombiSyncKey(Object object) {
+            if (object instanceof JoystickEvent) {
+                return true;
+            }
+            if (object instanceof TouchEvent) {
+                return true;
+            }
+            return HMIEventQueue.this.isSoftKey(object);
+        }
+
+        public void enqueue(Job job, int n) {
+            Object object = job.getPayload();
+            if ((object instanceof KeyEvent || object instanceof TouchEvent) && this.isKombiSyncKey(object)) {
+                HMIEventQueue.this.log.log(10000000, "HMIEventQueue.postEvent(): KombiSync: KOMBI has currently focus for discarded event =  %1", object);
+            } else {
+                super.enqueue(job, n);
+            }
+        }
+
+        void removeEvents(List list) {
+            ListIterator listIterator = list.listIterator();
+            while (listIterator.hasNext()) {
+                Object object = ((Job)listIterator.next()).getPayload();
+                if (!this.isKombiSyncKey(object)) continue;
+                HMIEventQueue.this.log.log(10000000, "HMIEventQueue.blockHardKeys(): discarded Hardkey, event =  %1", object);
+                listIterator.remove();
+            }
+        }
     }
 
-    static /* synthetic */ boolean access$900(HMIEventQueue hMIEventQueue, Object object) {
-        return hMIEventQueue.isSoftKey(object);
+    private class ModelUpdateFilter
+    extends BaseJobFilter {
+        private int filteredEvents = 0;
+
+        private ModelUpdateFilter() {
+        }
+
+        private int getFilteredEvents() {
+            return this.filteredEvents;
+        }
+
+        private boolean isEventNeededInQueue(ModelUpdateEvent modelUpdateEvent) {
+            if (HMIEventQueue.this.getJobs().size() > 0) {
+                ListIterator listIterator = HMIEventQueue.this.getJobs().listIterator(HMIEventQueue.this.getJobs().size());
+                while (listIterator.hasPrevious()) {
+                    ATIPEvent aTIPEvent = (ATIPEvent)((Job)listIterator.previous()).getPayload();
+                    if (!(aTIPEvent instanceof ModelUpdateEvent)) continue;
+                    ModelUpdateEvent modelUpdateEvent2 = (ModelUpdateEvent)aTIPEvent;
+                    int n = modelUpdateEvent.getModelType();
+                    int n2 = modelUpdateEvent2.getModelType();
+                    if (modelUpdateEvent2.getModelId() != modelUpdateEvent.getModelId() && (n != 100 || n2 != 100)) continue;
+                    return !modelUpdateEvent.isRedundantToAlreadyQueuedEvent(modelUpdateEvent2);
+                }
+            }
+            return true;
+        }
+
+        private boolean discardEvent(ModelUpdateEvent modelUpdateEvent) {
+            return !modelUpdateEvent.alwaysPlaceInQueue() && !this.isEventNeededInQueue(modelUpdateEvent);
+        }
+
+        public void enqueue(Job job, int n) {
+            Object object = job.getPayload();
+            if (object instanceof ModelUpdateEvent && this.discardEvent((ModelUpdateEvent)object)) {
+                HMIEventQueue.this.log.log(10000000, "HMIEventQueue do not post modelupdateevent (modelID: %1, is modeltype: %2), information not needed ", (long)((ModelUpdateEvent)object).getModelId(), (long)((ModelUpdateEvent)object).getModelType());
+                ++this.filteredEvents;
+            } else {
+                super.enqueue(job, n);
+            }
+        }
     }
 
-    static /* synthetic */ List access$1000(HMIEventQueue hMIEventQueue) {
-        return hMIEventQueue.getJobs();
-    }
+    private class ScreenChangeDisturbingEventsFilter
+    extends BaseJobFilter {
+        private ScreenChangeDisturbingEventsFilter() {
+        }
 
-    static /* synthetic */ List access$1100(HMIEventQueue hMIEventQueue) {
-        return hMIEventQueue.getJobs();
-    }
+        public void enqueue(Job job, int n) {
+            Object object = job.getPayload();
+            if (HMIEventQueue.this.isScreenChangeDisturbing(object)) {
+                HMIEventQueue.this.log.log(10000000, "HMIEventQueue.postEvent(): discarded screen change disturbing key event =  %1", object);
+            } else {
+                super.enqueue(job, n);
+            }
+        }
 
-    static /* synthetic */ List access$1200(HMIEventQueue hMIEventQueue) {
-        return hMIEventQueue.getJobs();
+        void removeEvents(List list) {
+            ListIterator listIterator = list.listIterator();
+            while (listIterator.hasNext()) {
+                Object object = listIterator.next();
+                if (!(object instanceof KeyEvent) || !HMIEventQueue.this.isScreenChangeDisturbing(object)) continue;
+                HMIEventQueue.this.log.log(10000000, "HMIEventQueue.blockScreenChangeDisturbingKeys(): discarded screen change disturbing key, event = %1", object);
+                listIterator.remove();
+            }
+        }
     }
 }
 

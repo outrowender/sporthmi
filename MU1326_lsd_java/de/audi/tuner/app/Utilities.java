@@ -28,13 +28,13 @@ import org.dsi.ifc.radiodata.RadioStationLogoRequest;
 import org.dsi.ifc.radiodata.RadioStationLogoResponse;
 
 public class Utilities {
-    private static final char LINE_BREAK_DELIMITER;
-    private static final char HEADER_DELIMITER;
-    private static final char SEPARATOR_DELIMITER;
-    public static final char LEFTTORIGHT_DELIMITER;
-    public static final char RIGHTTOLEFT_DELIMITER;
-    private static final String REPLACE_LINE_BREAK;
-    private static final String REPLACE_HEADER;
+    private static final char LINE_BREAK_DELIMITER = '\n';
+    private static final char HEADER_DELIMITER = '\u000b';
+    private static final char SEPARATOR_DELIMITER = '\u001f';
+    public static final char LEFTTORIGHT_DELIMITER = '\u200e';
+    public static final char RIGHTTOLEFT_DELIMITER = '\u200f';
+    private static final String REPLACE_LINE_BREAK = "\n";
+    private static final String REPLACE_HEADER = "\n";
     private static IFrameworkAccess framework;
     private static DateMetric timeMetric;
     private static DateMetric dateMetric;
@@ -67,8 +67,8 @@ public class Utilities {
 
     public static String kHzToMHz(long l) {
         Buffer buffer = new Buffer();
-        long l2 = l / 0;
-        long l3 = l % 0 / 0;
+        long l2 = l / 1000L;
+        long l3 = l % 1000L / 100L;
         buffer.append(l2);
         buffer.append('.');
         buffer.append(l3);
@@ -194,7 +194,7 @@ public class Utilities {
     }
 
     public static AMFMStation[] getTIStations() {
-        return new AMFMStation[]{new AMFMStation("", 0, -1, 0, 3, false, false), new AMFMStation("", 0, -1, 0, 3, false, false)};
+        return new AMFMStation[]{new AMFMStation("", 1620L, -1, 0, 3, false, false), new AMFMStation("", 1629L, -1, 0, 3, false, false)};
     }
 
     public static boolean isEmpty(String string) {
@@ -393,7 +393,7 @@ public class Utilities {
     }
 
     public static int convertPi(int n) {
-        int n2 = (n & 0xF00000) >> 12;
+        int n2 = (n & 0xF000) >> 12;
         if (n2 == 1) {
             n2 = 13;
         } else if (n2 <= 13) {
@@ -502,7 +502,7 @@ public class Utilities {
                 return n2 == 0 ? 15 : 303;
             }
         }
-        throw new IllegalArgumentException(new StringBuffer().append("Wrong band ").append(n).toString());
+        throw new IllegalArgumentException("Wrong band " + n);
     }
 
     public static HMIResourceLocator getFirstNotEmpty(HMIResourceLocator hMIResourceLocator, HMIResourceLocator hMIResourceLocator2) {
@@ -546,7 +546,7 @@ public class Utilities {
 
     public static int getCcByPi(int n) {
         if (n != -1) {
-            n &= 0xF00000;
+            n &= 0xF000;
             n >>= 12;
         }
         return n;
@@ -735,12 +735,12 @@ public class Utilities {
     }
 
     public static boolean isArabicLanguage(TunerModels tunerModels) {
-        return tunerModels.getChoiceModel(1636368640).getValue() == 1;
+        return tunerModels.getChoiceModel(100705).getValue() == 1;
     }
 
     static {
-        timeMetric = new DateMetric(new Date(0), 1);
-        dateMetric = new DateMetric(new Date(0), 0);
+        timeMetric = new DateMetric(new Date(42L), 1);
+        dateMetric = new DateMetric(new Date(42L), 0);
         singlePiMode = true;
     }
 }

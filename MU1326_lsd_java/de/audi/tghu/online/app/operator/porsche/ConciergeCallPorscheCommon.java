@@ -25,7 +25,7 @@ import org.dsi.ifc.online.OperatorCallResult;
 public abstract class ConciergeCallPorscheCommon
 extends AbstractConciergeCall {
     private List results;
-    public static final int ACTIVE_DEVICE_CARPLAY;
+    public static final int ACTIVE_DEVICE_CARPLAY = 1;
 
     public ConciergeCallPorscheCommon(AbstractOperatorCallMain abstractOperatorCallMain, TelephoneHandler telephoneHandler, OperatorCallCommandListManager operatorCallCommandListManager, NavigationHandler navigationHandler, IFrameworkAccess iFrameworkAccess, OperatorCallModelHandlerCommon operatorCallModelHandlerCommon, IntelliDestOperatorCallDataProvider intelliDestOperatorCallDataProvider, OnlinePOICall onlinePOICall, RemoteHMIService remoteHMIService) {
         super(abstractOperatorCallMain, telephoneHandler, operatorCallCommandListManager, navigationHandler, iFrameworkAccess, operatorCallModelHandlerCommon, intelliDestOperatorCallDataProvider, onlinePOICall, remoteHMIService);
@@ -33,16 +33,14 @@ extends AbstractConciergeCall {
         this.getModelHandlerPorsche().setCCPPersistenceState(n);
     }
 
-    @Override
     protected boolean shouldPersistLists() {
         return true;
     }
 
-    @Override
     public final void responseOperatorCallResult(int n, OperatorCallResult[] operatorCallResultArray) {
         int n2;
         this.distributor.setDownloadPoisRunning(false);
-        this.logChannel.log(1078071040, "ConciergeCallPorscheCommon#responseOperatorCallresult resultType: %1, results-length: %2", (long)n, (long)operatorCallResultArray.length);
+        this.logChannel.log(1000000, "ConciergeCallPorscheCommon#responseOperatorCallresult resultType: %1, results-length: %2", (long)n, (long)operatorCallResultArray.length);
         if (n == 1 && operatorCallResultArray.length != 0) {
             this.getData().setNewPoiResults(operatorCallResultArray);
             for (n2 = 0; n2 < operatorCallResultArray.length; ++n2) {
@@ -54,7 +52,6 @@ extends AbstractConciergeCall {
         this.getModelHandler().setDownloadPoiResult(n2);
     }
 
-    @Override
     public void refreshList() {
         if (this.results != null) {
             this.getModelHandlerPorsche().clearAllLists();
@@ -62,13 +59,12 @@ extends AbstractConciergeCall {
         }
     }
 
-    @Override
     public void getDataFromPersistence() {
-        this.logChannel.log(1078071040, "ConciergeCallPorscheCommon#getDataFromPersistence");
+        this.logChannel.log(1000000, "ConciergeCallPorscheCommon#getDataFromPersistence");
         ArrayList arrayList = this.data.getDataFromPersistence();
         this.persistenceLoaded = true;
         List list = this.transformHistoryCalls(arrayList);
-        this.logChannel.log(1078071040, "ConciergeCallPorscheCommon#getDataFromPersistence adding persisted POIs: %1", (long)list.size());
+        this.logChannel.log(1000000, "ConciergeCallPorscheCommon#getDataFromPersistence adding persisted POIs: %1", (long)list.size());
         this.getModelHandlerPorsche().extendResultsListModel(list);
         this.results = list;
     }
@@ -94,7 +90,6 @@ extends AbstractConciergeCall {
         }
     }
 
-    @Override
     public void setCurrentCallStatus(int n) {
         ConciergeCallModelHandlerPorscheCommon conciergeCallModelHandlerPorscheCommon = this.getModelHandlerPorsche();
         conciergeCallModelHandlerPorscheCommon.setCurrentState(n);
@@ -109,7 +104,6 @@ extends AbstractConciergeCall {
         this.getModelHandlerPorsche().setTelService(iTelService);
     }
 
-    @Override
     protected AbstractOperatorCallDataContainer createNewOperatorCallDataContainer(IntelliDestOperatorCallDataProvider intelliDestOperatorCallDataProvider) {
         return new OperatorCallDataContainerPorscheCommon(this.getServiceTypeName(), this.framework, this.naviHandler, intelliDestOperatorCallDataProvider, this.shouldPersistLists(), this.shouldPersistCCP(), this.getMaxNumberOfCalls(), this.getMaxNumberOfPoisPerCall());
     }
@@ -118,13 +112,11 @@ extends AbstractConciergeCall {
         this.getModelHandlerPorsche().setNaviHandler(navigationHandler);
     }
 
-    @Override
     public int getDefaultPermissionToTransmitCcp() {
-        this.logChannel.log(1078071040, "ConciergeCallPorscheCommon#getDefaultPermissionToTransmitCcp()");
+        this.logChannel.log(1000000, "ConciergeCallPorscheCommon#getDefaultPermissionToTransmitCcp()");
         return -1;
     }
 
-    @Override
     public void deleteAllCalls(boolean bl) {
         this.results.clear();
         super.deleteAllCalls(bl);

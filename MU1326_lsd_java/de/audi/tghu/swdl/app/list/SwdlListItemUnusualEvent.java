@@ -10,7 +10,7 @@ import de.audi.tghu.swdl.app.list.ISwdlListItem;
 
 public class SwdlListItemUnusualEvent
 extends AbstractSwdlListItem {
-    private static final String SWDL_CLASS_NAME;
+    private static final String SWDL_CLASS_NAME = "SwdlUnusualEvent";
     private ILoggingManager loggingManager;
     String unusualEvent;
 
@@ -24,20 +24,18 @@ extends AbstractSwdlListItem {
         return this.loggingManager;
     }
 
-    @Override
     public void updateListRow(BaseListRow baseListRow) {
         baseListRow.setInteger(0, this.getId());
         baseListRow.setText(1, this.getName());
         baseListRow.setText(2, this.unusualEvent);
     }
 
-    @Override
     public void select(int n) {
         this.getLoggingManager().selectUnusualEvent(n);
     }
 
     public String getSwdlClassName() {
-        return "SwdlUnusualEvent";
+        return SWDL_CLASS_NAME;
     }
 }
 

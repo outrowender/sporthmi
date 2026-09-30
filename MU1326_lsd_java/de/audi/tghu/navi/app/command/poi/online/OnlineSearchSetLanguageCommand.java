@@ -16,9 +16,8 @@ extends AbstractOnlineSearchCommand {
         this.language = language;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(1078071040, "SetLanguageCommand#execute: calling DSI with language %1", (Object)this.language);
+        this.logger.log(1000000, "SetLanguageCommand#execute: calling DSI with language %1", (Object)this.language);
         this.dsiOnlineSearch.setLanguage(this.language.getHmiCode());
         this.getCommandList().commandFinished();
     }

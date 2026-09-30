@@ -6,13 +6,17 @@ package de.audi.tuner.app.dab.stationlist;
 import de.audi.atip.hmi.model.list.BaseListModelApp;
 import de.audi.atip.hmi.model.list.EvoListRow;
 import de.audi.atip.hmi.model.list.SelectedItem;
+import de.audi.atip.hmi.model.menu.MenuModelListener;
+import de.audi.atip.timer.DefaultTimerListener;
 import de.audi.atip.timer.Timer;
 import de.audi.tuner.app.LanguageManager;
 import de.audi.tuner.app.Logger;
+import de.audi.tuner.app.RadioBaseListModelListener;
 import de.audi.tuner.app.RadioComparators;
 import de.audi.tuner.app.TunerBasics;
 import de.audi.tuner.app.TunerModels;
 import de.audi.tuner.app.TunerObjectContainer;
+import de.audi.tuner.app.TunerProxyManager;
 import de.audi.tuner.app.Utilities;
 import de.audi.tuner.app.dab.DABDsiDownInfo;
 import de.audi.tuner.app.dab.DABDsiUpInfo;
@@ -23,13 +27,6 @@ import de.audi.tuner.app.dab.sortandindex.station.AbstractDabStationComparatorAn
 import de.audi.tuner.app.dab.sortandindex.station.SortAlgoDabGenre;
 import de.audi.tuner.app.dab.sortandindex.station.SortAlgoDabStationName;
 import de.audi.tuner.app.dab.stationlist.AbstractDABListHandler;
-import de.audi.tuner.app.dab.stationlist.DabFlatListHandler$AudiComparator;
-import de.audi.tuner.app.dab.stationlist.DabFlatListHandler$DabComparator;
-import de.audi.tuner.app.dab.stationlist.DabFlatListHandler$DsiDownListener;
-import de.audi.tuner.app.dab.stationlist.DabFlatListHandler$DsiUpListener;
-import de.audi.tuner.app.dab.stationlist.DabFlatListHandler$ListListener;
-import de.audi.tuner.app.dab.stationlist.DabFlatListHandler$PorscheComparator;
-import de.audi.tuner.app.dab.stationlist.DabFlatListHandler$TimerListener;
 import de.audi.tuner.app.dab.stationlist.DabListRow;
 import de.audi.tuner.app.dab.stationlist.RecordSets;
 import de.audi.tuner.app.sortandindex.AlphabeticalIndexRow;
@@ -39,14 +36,15 @@ import de.audi.tuner.ifc.AbstractRadioListRow;
 import de.audi.tuner.ifc.IScanHandler;
 import de.audi.tuner.ifc.IStoreStationHandler;
 import de.audi.tuner.ifc.ITunerVariantExt;
+import de.esolutions.fw.util.commons.SimpleIntObjectMap;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 public class DabFlatListHandler
 extends AbstractDABListHandler {
-    public final DABDsiUpInfo dsiUpListener = new DabFlatListHandler$DsiUpListener(this, null);
-    public final DABDsiDownInfo dsiDownListener = new DabFlatListHandler$DsiDownListener(this, null);
+    public final DABDsiUpInfo dsiUpListener = new DsiUpListener();
+    public final DABDsiDownInfo dsiDownListener = new DsiDownListener();
     private final Logger logger;
     private final List listArray;
     private final DABTuner dabTuner;
@@ -54,7 +52,7 @@ extends AbstractDABListHandler {
     private DabListRow focussedRow = null;
     private DabStation[] allServicesAndComponents = new DabStation[0];
     private AbstractDabStationComparatorAndIndexer comparator;
-    private final DabFlatListHandler$DabComparator servComp;
+    private final DabComparator servComp;
     private final BaseListModelApp listModel;
     private final BaseListModelApp indexListModel;
     private DabStation currentStation;
@@ -78,16 +76,16 @@ extends AbstractDABListHandler {
         this.comparator = new SortAlgoDabStationName(languageManager);
         this.rowFactory = iTunerVariantExt.getListRowFactory();
         this.currentStation = tunerStorage.loadLastDABService();
-        this.listModel = tunerModels.getBaseListModel(0x11880100);
-        this.indexListModel = tunerModels.getBaseListModel(965345536);
+        this.listModel = tunerModels.getBaseListModel(100369);
+        this.indexListModel = tunerModels.getBaseListModel(100921);
         this.recordSets = new RecordSets(this, 0);
-        DabFlatListHandler$ListListener dabFlatListHandler$ListListener = new DabFlatListHandler$ListListener(this, tunerModels, 310903040);
-        this.listModel.setListener(dabFlatListHandler$ListListener);
-        tunerModels.getMenuModel(310903040).setListener(dabFlatListHandler$ListListener);
-        this.servComp = Utilities.isPGen1OrBentley() ? new DabFlatListHandler$PorscheComparator(null) : new DabFlatListHandler$AudiComparator(null);
-        DabFlatListHandler$TimerListener dabFlatListHandler$TimerListener = new DabFlatListHandler$TimerListener(this, null);
-        this.timerTmp = new Timer("timerTmp", 0, true, dabFlatListHandler$TimerListener);
-        this.timerFocus = new Timer("timerFocus", 0, true, dabFlatListHandler$TimerListener);
+        ListListener listListener = new ListListener(tunerModels, 100370);
+        this.listModel.setListener(listListener);
+        tunerModels.getMenuModel(100370).setListener(listListener);
+        this.servComp = Utilities.isPGen1OrBentley() ? new PorscheComparator() : new AudiComparator();
+        TimerListener timerListener = new TimerListener();
+        this.timerTmp = new Timer("timerTmp", 5000L, true, timerListener);
+        this.timerFocus = new Timer("timerFocus", 5000L, true, timerListener);
         this.scanHandler = iScanHandler;
         this.imgType = tunerStorage.loadPreferredImageType();
     }
@@ -240,9 +238,8 @@ extends AbstractDABListHandler {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void highlightItem(DabStation dabStation, DabReceptionStatus dabReceptionStatus) {
-        this.logger.dabList.log(-2137614336, "[DabFlatListHAndler.highlightItem] %1", (Object)dabStation);
+        this.logger.dabList.log(10000000, "[DabFlatListHAndler.highlightItem] %1", (Object)dabStation);
         List list = this.listArray;
         synchronized (list) {
             boolean bl;
@@ -336,14 +333,14 @@ extends AbstractDABListHandler {
             return null;
         }
         int n2 = this.listModel.getSelected().getIndex();
-        this.logger.hmi.log(14808325, "Active index DAB list is: %1 ", (long)n2);
+        this.logger.hmi.log(100000000, "Active index DAB list is: %1 ", (long)n2);
         if (n2 == -1) {
             n2 = 0;
         }
         DabListRow dabListRow = null;
         for (int i2 = 0; i2 < n && dabListRow == null; ++i2) {
             n2 = this.getNextListIndex(bl, n, n2);
-            this.logger.hmi.log(14808325, "Next index is: %1 ", (long)n2);
+            this.logger.hmi.log(100000000, "Next index is: %1 ", (long)n2);
             dabListRow = (DabListRow)this.listModel.getRow(n2);
             if (!dabListRow.isEnsemble()) continue;
             dabListRow = null;
@@ -366,7 +363,6 @@ extends AbstractDABListHandler {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public DabStation getCurrentStation() {
         List list = this.listArray;
         synchronized (list) {
@@ -385,51 +381,172 @@ extends AbstractDABListHandler {
         }
     }
 
-    static /* synthetic */ List access$500(DabFlatListHandler dabFlatListHandler) {
-        return dabFlatListHandler.listArray;
-    }
-
     static /* synthetic */ DabStation[] access$602(DabFlatListHandler dabFlatListHandler, DabStation[] dabStationArray) {
         dabFlatListHandler.allServicesAndComponents = dabStationArray;
         return dabStationArray;
     }
 
-    static /* synthetic */ DabStation[] access$600(DabFlatListHandler dabFlatListHandler) {
-        return dabFlatListHandler.allServicesAndComponents;
+    private class ListListener
+    extends RadioBaseListModelListener
+    implements MenuModelListener {
+        public ListListener(TunerModels tunerModels, int n) {
+            super(tunerModels, n);
+        }
+
+        public void itemSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
+            boolean bl;
+            DabFlatListHandler.this.scanHandler.abortScan();
+            boolean bl2 = bl = n3 == 6;
+            if (bl) {
+                if (DabFlatListHandler.this.longPressHandler != null) {
+                    DabFlatListHandler.this.longPressHandler.prepareStore(n4, ((AbstractRadioListRow)evoListRow).getTOContainer());
+                }
+            } else if (this.isNewSelection(evoListRow, n, n2, n3, n4)) {
+                DabStation dabStation = ((DabListRow)evoListRow).getDabStation();
+                DabStation dabStation2 = DabFlatListHandler.this.dabTuner.getActiveStation();
+                DabStation dabStation3 = RadioComparators.equals(dabStation2, dabStation) ? dabStation2 : dabStation;
+                TunerProxyManager.getInstance().getDABTuner().selectStation(dabStation3, dabStation3.isComponent() ? 3 : 1, n4);
+            }
+        }
+
+        public void itemLongSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
+            DabFlatListHandler.this.scanHandler.abortScan();
+            if (n2 != DabFlatListHandler.this.listModel.getSelected().getIndex()) {
+                DabStation dabStation = ((DabListRow)evoListRow).getDabStation();
+                TunerProxyManager.getInstance().getDABTuner().selectStation(dabStation, 0, n4);
+            }
+            if (DabFlatListHandler.this.longPressHandler != null) {
+                DabFlatListHandler.this.longPressHandler.prepareStore(n4, ((AbstractRadioListRow)evoListRow).getTOContainer());
+            }
+        }
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void itemFocused(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
+            List list = DabFlatListHandler.this.listArray;
+            synchronized (list) {
+                DabFlatListHandler.this.focussedRow = (DabListRow)evoListRow;
+            }
+        }
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void itemFocused(int n, int n2, long l, int n3) {
+            if (n != 100369) {
+                List list = DabFlatListHandler.this.listArray;
+                synchronized (list) {
+                    DabFlatListHandler.this.focussedRow = null;
+                }
+            }
+        }
     }
 
-    static /* synthetic */ void access$700(DabFlatListHandler dabFlatListHandler) {
-        dabFlatListHandler.doListUpdate();
+    private static interface DabComparator {
+        public boolean equals(DabStation var1, DabStation var2);
     }
 
-    static /* synthetic */ IScanHandler access$800(DabFlatListHandler dabFlatListHandler) {
-        return dabFlatListHandler.scanHandler;
+    private class DsiUpListener
+    extends DABDsiUpInfo {
+        private DsiUpListener() {
+        }
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void listUpdate(DabStation[] dabStationArray, DabStation[] dabStationArray2, DabStation[] dabStationArray3) {
+            List list = DabFlatListHandler.this.listArray;
+            synchronized (list) {
+                DabStation[] dabStationArray4 = Utilities.isPGen1OrBentley() ? dabStationArray2 : this.removeDoubleServices(dabStationArray2);
+                DabFlatListHandler.access$602(DabFlatListHandler.this, new DabStation[dabStationArray4.length + dabStationArray3.length]);
+                System.arraycopy((Object)dabStationArray4, 0, (Object)DabFlatListHandler.this.allServicesAndComponents, 0, dabStationArray4.length);
+                System.arraycopy((Object)dabStationArray3, 0, (Object)DabFlatListHandler.this.allServicesAndComponents, dabStationArray4.length, dabStationArray3.length);
+                DabFlatListHandler.this.doListUpdate();
+            }
+        }
+
+        private DabStation[] removeDoubleServices(DabStation[] dabStationArray) {
+            SimpleIntObjectMap simpleIntObjectMap = new SimpleIntObjectMap(dabStationArray.length);
+            for (int i2 = 0; i2 < dabStationArray.length; ++i2) {
+                simpleIntObjectMap.add((int)dabStationArray[i2].service.sID, dabStationArray[i2]);
+            }
+            Object[] objectArray = simpleIntObjectMap.getValues();
+            DabStation[] dabStationArray2 = new DabStation[objectArray.length];
+            for (int i3 = 0; i3 < dabStationArray2.length; ++i3) {
+                dabStationArray2[i3] = (DabStation)objectArray[i3];
+            }
+            return dabStationArray2;
+        }
+
+        public void updateCurrentStation(DabStation dabStation, DabReceptionStatus dabReceptionStatus) {
+            DabFlatListHandler.this.highlightItem(dabStation, dabReceptionStatus);
+        }
     }
 
-    static /* synthetic */ IStoreStationHandler access$900(DabFlatListHandler dabFlatListHandler) {
-        return dabFlatListHandler.longPressHandler;
+    private class TimerListener
+    extends DefaultTimerListener {
+        private TimerListener() {
+        }
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void fireTimer(Timer timer) {
+            if (timer.equals(DabFlatListHandler.this.timerTmp)) {
+                List list = DabFlatListHandler.this.listArray;
+                synchronized (list) {
+                    DabFlatListHandler.this.tmpAddedStations = new ArrayList(0);
+                    DabFlatListHandler.this.doListUpdate();
+                }
+            }
+            List list = DabFlatListHandler.this.listArray;
+            synchronized (list) {
+                DabFlatListHandler.this.doListUpdate();
+            }
+        }
     }
 
-    static /* synthetic */ DABTuner access$1000(DabFlatListHandler dabFlatListHandler) {
-        return dabFlatListHandler.dabTuner;
+    private static class AudiComparator
+    implements DabComparator {
+        private AudiComparator() {
+        }
+
+        public boolean equals(DabStation dabStation, DabStation dabStation2) {
+            if (dabStation == null || dabStation2 == null) {
+                return false;
+            }
+            if (dabStation.isService() && dabStation2.isService()) {
+                return dabStation.service.sID == dabStation2.service.sID;
+            }
+            return RadioComparators.equals(dabStation, dabStation2);
+        }
     }
 
-    static /* synthetic */ BaseListModelApp access$1100(DabFlatListHandler dabFlatListHandler) {
-        return dabFlatListHandler.listModel;
+    private class DsiDownListener
+    extends DABDsiDownInfo {
+        private DsiDownListener() {
+        }
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void preTuneAction(DabStation dabStation, DabReceptionStatus dabReceptionStatus, int n) {
+            List list = DabFlatListHandler.this.listArray;
+            synchronized (list) {
+                DabFlatListHandler.this.highlightItem(dabStation, dabReceptionStatus);
+            }
+        }
     }
 
-    static /* synthetic */ DabListRow access$1202(DabFlatListHandler dabFlatListHandler, DabListRow dabListRow) {
-        dabFlatListHandler.focussedRow = dabListRow;
-        return dabFlatListHandler.focussedRow;
-    }
+    private static class PorscheComparator
+    implements DabComparator {
+        private PorscheComparator() {
+        }
 
-    static /* synthetic */ Timer access$1300(DabFlatListHandler dabFlatListHandler) {
-        return dabFlatListHandler.timerTmp;
-    }
-
-    static /* synthetic */ List access$1402(DabFlatListHandler dabFlatListHandler, List list) {
-        dabFlatListHandler.tmpAddedStations = list;
-        return dabFlatListHandler.tmpAddedStations;
+        public boolean equals(DabStation dabStation, DabStation dabStation2) {
+            return RadioComparators.equals(dabStation, dabStation2);
+        }
     }
 }
 

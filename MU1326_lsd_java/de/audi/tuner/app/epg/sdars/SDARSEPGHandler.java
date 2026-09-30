@@ -3,10 +3,16 @@
  */
 package de.audi.tuner.app.epg.sdars;
 
+import de.audi.atip.hmi.model.DefaultButtonListener;
+import de.audi.atip.hmi.model.DefaultOptionListener;
 import de.audi.atip.hmi.model.list.BaseListModelApp;
+import de.audi.atip.hmi.model.list.DefaultBaseListModelListener;
 import de.audi.atip.hmi.model.list.EvoListRow;
 import de.audi.atip.hmi.model.list.SelectedItem;
+import de.audi.atip.hmi.model.listener.DefaultChoiceListener;
 import de.audi.atip.hmi.modelaccess.ButtonModelApp;
+import de.audi.atip.hmi.modelaccess.ChoiceModelApp;
+import de.audi.atip.hmi.modelaccess.LabelModelApp;
 import de.audi.atip.hmi.modelaccess.OptionModelApp;
 import de.audi.atip.log.LogChannel;
 import de.audi.tuner.app.LanguageManager;
@@ -20,17 +26,7 @@ import de.audi.tuner.app.epg.sdars.AbstractSdarsEpgListRow;
 import de.audi.tuner.app.epg.sdars.EPGShortInfoExt;
 import de.audi.tuner.app.epg.sdars.IEPGAvailibiltyCallback;
 import de.audi.tuner.app.epg.sdars.ProgramSdarsEpgListRow;
-import de.audi.tuner.app.epg.sdars.SDARSEPGHandler$ButtonListener;
-import de.audi.tuner.app.epg.sdars.SDARSEPGHandler$CatFilterListener;
-import de.audi.tuner.app.epg.sdars.SDARSEPGHandler$ChoiceListener;
-import de.audi.tuner.app.epg.sdars.SDARSEPGHandler$ClockTimeZoneOffsetListener;
-import de.audi.tuner.app.epg.sdars.SDARSEPGHandler$DescriptionScreenHelper;
-import de.audi.tuner.app.epg.sdars.SDARSEPGHandler$DsiUpListener;
-import de.audi.tuner.app.epg.sdars.SDARSEPGHandler$EPGAvailibiltyCallbackHelper;
-import de.audi.tuner.app.epg.sdars.SDARSEPGHandler$ListListener;
-import de.audi.tuner.app.epg.sdars.SDARSEPGHandler$NextPrevButtonListener;
-import de.audi.tuner.app.epg.sdars.SDARSEPGHandler$OptionListener;
-import de.audi.tuner.app.sdars.CategoryFilter$ICategoryFilter;
+import de.audi.tuner.app.sdars.CategoryFilter;
 import de.audi.tuner.app.sdars.StationInfoExt;
 import de.audi.tuner.app.sdars.dsi.ISdarsDsiDownManager;
 import de.audi.tuner.app.sdars.dsi.SDARSDsiUpInfo;
@@ -41,6 +37,7 @@ import de.audi.tuner.app.sdars.sortandindex.station.SortAlgoName;
 import de.audi.tuner.app.sdars.sortandindex.station.SortAlgoStNumber;
 import de.audi.tuner.app.sortandindex.AlphabeticalIndexRow;
 import de.audi.tuner.ifc.AbstractListRowFactory;
+import de.audi.tuner.ifc.AbstractRadioListRow;
 import de.audi.tuner.ifc.IScanHandler;
 import de.audi.tuner.ifc.IStoreStationHandler;
 import de.audi.tuner.ifc.ITunerVariantExt;
@@ -54,9 +51,9 @@ import org.dsi.ifc.sdars.EPGDescription;
 import org.dsi.ifc.sdars.EPGProgramInfo;
 
 public class SDARSEPGHandler {
-    public final CategoryFilter$ICategoryFilter catFilterListener = new SDARSEPGHandler$CatFilterListener(this, null);
-    public static final int MAX_PROGRAM_ROWS_IN_ALL_CHANNEL_EPG;
-    public final SDARSDsiUpInfo dsiUpInfo = new SDARSEPGHandler$DsiUpListener(this, null);
+    public final CategoryFilter.ICategoryFilter catFilterListener = new CatFilterListener();
+    public static final int MAX_PROGRAM_ROWS_IN_ALL_CHANNEL_EPG = 2;
+    public final SDARSDsiUpInfo dsiUpInfo = new DsiUpListener();
     private final LogChannel log;
     private final ISdarsDsiDownManager dsiDownManager;
     private final ClockTimeZoneOffsetHandler clockTimeZoneOffsetHandler;
@@ -73,10 +70,10 @@ public class SDARSEPGHandler {
     private final BaseListModelApp sdarsAllStationsEpgList;
     private final BaseListModelApp sdarsAllStationEpgAlphIndexList;
     private final BaseListModelApp sdarsOneStationEpgList;
-    private final SDARSEPGHandler$DescriptionScreenHelper descriptionScreenHelper;
-    private static final int NO_REQUEST_RUNNING;
+    private final DescriptionScreenHelper descriptionScreenHelper;
+    private static final int NO_REQUEST_RUNNING = -1;
     private int latest24hEPGRequestSID = -1;
-    private SDARSEPGHandler$EPGAvailibiltyCallbackHelper epgAvailibilityCallbackHelper = new SDARSEPGHandler$EPGAvailibiltyCallbackHelper();
+    private EPGAvailibiltyCallbackHelper epgAvailibilityCallbackHelper = new EPGAvailibiltyCallbackHelper();
     private final Object mutex = new Object();
     private AbstractIStationInfoComparatorAndIndexer comparator;
     private ButtonModelApp nextEpgButton;
@@ -96,28 +93,28 @@ public class SDARSEPGHandler {
         this.varExt = iTunerVariantExt;
         this.scanHandler = iScanHandler;
         this.comparator = new SortAlgoStNumber(languageManager);
-        this.nextEpgButton = this.models.getButtonModel(1703477504);
-        this.prevEpgButton = this.models.getButtonModel(1720254720);
-        SDARSEPGHandler$NextPrevButtonListener sDARSEPGHandler$NextPrevButtonListener = new SDARSEPGHandler$NextPrevButtonListener(this, null);
-        this.nextEpgButton.setButtonListener(sDARSEPGHandler$NextPrevButtonListener);
-        this.prevEpgButton.setButtonListener(sDARSEPGHandler$NextPrevButtonListener);
-        this.showEpgOfAllStationsButton = this.models.getButtonModel(1334378752);
-        this.showEpgOfFocussedStationOption = this.models.getOptionModel(1317601536);
-        this.sdarsAllStationsEpgList = this.models.getBaseListModel(462029056);
-        this.sdarsAllStationEpgAlphIndexList = this.models.getBaseListModel(998899968);
-        this.sdarsOneStationEpgList = this.models.getBaseListModel(243925248);
-        this.descriptionScreenHelper = new SDARSEPGHandler$DescriptionScreenHelper(tunerBasics);
-        this.clockTimeZoneOffsetHandler.addClockTimeZoneOffsetListener(new SDARSEPGHandler$ClockTimeZoneOffsetListener(this, null));
-        this.showEpgOfAllStationsButton.setButtonListener(new SDARSEPGHandler$ButtonListener(this, null));
-        SDARSEPGHandler$ListListener sDARSEPGHandler$ListListener = new SDARSEPGHandler$ListListener(this, null);
-        this.sdarsAllStationsEpgList.setListener(sDARSEPGHandler$ListListener);
-        this.sdarsOneStationEpgList.setListener(sDARSEPGHandler$ListListener);
-        SDARSEPGHandler$OptionListener sDARSEPGHandler$OptionListener = new SDARSEPGHandler$OptionListener(this, null);
-        this.showEpgOfFocussedStationOption.setListener(sDARSEPGHandler$OptionListener, 2005401856);
-        this.showEpgOfFocussedStationOption.setListener(sDARSEPGHandler$OptionListener, 1938292992);
-        this.showEpgOfFocussedStationOption.setListener(sDARSEPGHandler$OptionListener, 1921515776);
-        SDARSEPGHandler$ChoiceListener sDARSEPGHandler$ChoiceListener = new SDARSEPGHandler$ChoiceListener(this, null);
-        this.models.getChoiceModel(344588544).setChoiceListener(sDARSEPGHandler$ChoiceListener);
+        this.nextEpgButton = this.models.getButtonModel(100709);
+        this.prevEpgButton = this.models.getButtonModel(100710);
+        NextPrevButtonListener nextPrevButtonListener = new NextPrevButtonListener();
+        this.nextEpgButton.setButtonListener(nextPrevButtonListener);
+        this.prevEpgButton.setButtonListener(nextPrevButtonListener);
+        this.showEpgOfAllStationsButton = this.models.getButtonModel(100687);
+        this.showEpgOfFocussedStationOption = this.models.getOptionModel(100686);
+        this.sdarsAllStationsEpgList = this.models.getBaseListModel(100891);
+        this.sdarsAllStationEpgAlphIndexList = this.models.getBaseListModel(100923);
+        this.sdarsOneStationEpgList = this.models.getBaseListModel(100878);
+        this.descriptionScreenHelper = new DescriptionScreenHelper(tunerBasics);
+        this.clockTimeZoneOffsetHandler.addClockTimeZoneOffsetListener(new ClockTimeZoneOffsetListener());
+        this.showEpgOfAllStationsButton.setButtonListener(new ButtonListener());
+        ListListener listListener = new ListListener();
+        this.sdarsAllStationsEpgList.setListener(listListener);
+        this.sdarsOneStationEpgList.setListener(listListener);
+        OptionListener optionListener = new OptionListener();
+        this.showEpgOfFocussedStationOption.setListener(optionListener, 100471);
+        this.showEpgOfFocussedStationOption.setListener(optionListener, 100467);
+        this.showEpgOfFocussedStationOption.setListener(optionListener, 100466);
+        ChoiceListener choiceListener = new ChoiceListener();
+        this.models.getChoiceModel(100884).setChoiceListener(choiceListener);
     }
 
     /*
@@ -150,7 +147,7 @@ public class SDARSEPGHandler {
     }
 
     public void requestEPGDescription(int n, int n2) {
-        this.log.log(-2137614336, "[SDARSEPGHandler.requestEPGDescription] sID:%1 programID:%2", (long)n, (long)n2);
+        this.log.log(10000000, "[SDARSEPGHandler.requestEPGDescription] sID:%1 programID:%2", (long)n, (long)n2);
         StationInfoExt stationInfoExt = new StationInfoExt();
         EPGProgramInfo ePGProgramInfo = new EPGProgramInfo();
         stationInfoExt.sID = n;
@@ -163,7 +160,7 @@ public class SDARSEPGHandler {
      * WARNING - Removed try catching itself - possible behaviour change.
      */
     private void requestEPGDescription(AbstractProgramSdarsEpgListRow abstractProgramSdarsEpgListRow, int n) {
-        this.log.log(-2137614336, "[SDARSEPGHandler.requestEPGDescription] row:%1", (Object)abstractProgramSdarsEpgListRow);
+        this.log.log(10000000, "[SDARSEPGHandler.requestEPGDescription] row:%1", (Object)abstractProgramSdarsEpgListRow);
         Object object = this.mutex;
         synchronized (object) {
             this.descriptionScreenHelper.initFor(abstractProgramSdarsEpgListRow, n, this.curSelectedStation);
@@ -180,7 +177,7 @@ public class SDARSEPGHandler {
             boolean bl = stationInfoExt.subscription == 2;
             boolean bl2 = this.sidToEPGShortInfo[stationInfoExt.sID] != null;
             boolean bl3 = bl ? bl2 : false;
-            this.epgAvailibilityCallbackHelper = new SDARSEPGHandler$EPGAvailibiltyCallbackHelper(iEPGAvailibiltyCallback, stationInfoExt, bl3);
+            this.epgAvailibilityCallbackHelper = new EPGAvailibiltyCallbackHelper(iEPGAvailibiltyCallback, stationInfoExt, bl3);
             return bl3;
         }
     }
@@ -209,7 +206,7 @@ public class SDARSEPGHandler {
      * WARNING - Removed try catching itself - possible behaviour change.
      */
     private void onDSIInformationEPGChannelList(EPGShortInfoExt[] ePGShortInfoExtArray) {
-        SDARSEPGHandler$EPGAvailibiltyCallbackHelper sDARSEPGHandler$EPGAvailibiltyCallbackHelper = null;
+        EPGAvailibiltyCallbackHelper ePGAvailibiltyCallbackHelper = null;
         boolean bl = false;
         Object object = this.mutex;
         synchronized (object) {
@@ -222,14 +219,14 @@ public class SDARSEPGHandler {
                 boolean bl2 = ePGShortInfoExt.epgProgramInfo != null && ePGShortInfoExt.epgProgramInfo.length > 0;
                 this.sidToEPGShortInfo[ePGShortInfoExt.sID] = bl2 ? ePGShortInfoExtArray[i2] : null;
                 if (!this.epgAvailibilityCallbackHelper.isInterestedInEPGAvailibityChangesFor(ePGShortInfoExt.station)) continue;
-                sDARSEPGHandler$EPGAvailibiltyCallbackHelper = this.epgAvailibilityCallbackHelper;
+                ePGAvailibiltyCallbackHelper = this.epgAvailibilityCallbackHelper;
                 boolean bl3 = ePGShortInfoExt.station.subscription == 2;
                 bl = bl3 ? bl2 : false;
             }
             this.updateEPGForAllStations();
         }
-        if (sDARSEPGHandler$EPGAvailibiltyCallbackHelper != null) {
-            sDARSEPGHandler$EPGAvailibiltyCallbackHelper.notifyEPGAvailibity(bl);
+        if (ePGAvailibiltyCallbackHelper != null) {
+            ePGAvailibiltyCallbackHelper.notifyEPGAvailibity(bl);
         }
     }
 
@@ -264,7 +261,7 @@ public class SDARSEPGHandler {
             this.latest24hEPGRequestSID = -1;
         }
         this.sdarsOneStationEpgList.update(baseListModelApp);
-        this.models.getChoiceModel(-1500970752).setValue(1);
+        this.models.getChoiceModel(100774).setValue(1);
     }
 
     /*
@@ -281,7 +278,7 @@ public class SDARSEPGHandler {
      * WARNING - Removed try catching itself - possible behaviour change.
      */
     private void onTimeZoneOffsetChanged(long l) {
-        this.log.log(-2137614336, "[SDARSEPGHandler.onTimeZoneOffsetChanged] offset:%1", l);
+        this.log.log(10000000, "[SDARSEPGHandler.onTimeZoneOffsetChanged] offset:%1", l);
         BaseListModelApp baseListModelApp = this.sdarsAllStationsEpgList.getCopy();
         BaseListModelApp baseListModelApp2 = this.sdarsOneStationEpgList.getCopy();
         SDARSEPGHandler.adjustTimeInformations(baseListModelApp, l);
@@ -295,7 +292,7 @@ public class SDARSEPGHandler {
     }
 
     private void onButtonShowEPGForAllStationsTyped(int n) {
-        this.log.log(-2137614336, "[SDARSEPGHandler.onButtonShowEPGForAllChannelsTyped]");
+        this.log.log(10000000, "[SDARSEPGHandler.onButtonShowEPGForAllChannelsTyped]");
         this.showEpgOfAllStationsButton.fireEvent(n);
     }
 
@@ -339,7 +336,7 @@ public class SDARSEPGHandler {
      * WARNING - Removed try catching itself - possible behaviour change.
      */
     public void onOptionShowEPGForFocussedStationInSDARSStationList(int n, int n2) {
-        this.log.log(-2137614336, "[SDARSEPGHandler.onOptionShowEPGForFocussedStationInSDARSStationList] %1", (long)n);
+        this.log.log(10000000, "[SDARSEPGHandler.onOptionShowEPGForFocussedStationInSDARSStationList] %1", (long)n);
         Object object = this.mutex;
         synchronized (object) {
             if (this.latest24hEPGRequestSID == n) {
@@ -357,7 +354,7 @@ public class SDARSEPGHandler {
         int n5 = abstractSdarsEpgListRow.getActionForSelection(n3);
         switch (n5) {
             case 3: {
-                this.log.log(-2137614336, "[SDARSEPGHandler.onListItemSelectedInSDARSEPGList] station row, sID %2 (%1)", (Object)abstractSdarsEpgListRow, (long)abstractSdarsEpgListRow.station.sID);
+                this.log.log(10000000, "[SDARSEPGHandler.onListItemSelectedInSDARSEPGList] station row, sID %2 (%1)", (Object)abstractSdarsEpgListRow, (long)abstractSdarsEpgListRow.station.sID);
                 this.scanHandler.abortScan();
                 this.dsiDownManager.selectStation(abstractSdarsEpgListRow.station, n4);
                 break;
@@ -370,8 +367,8 @@ public class SDARSEPGHandler {
             case 2: {
                 this.setDetailIndex(n2);
                 AbstractProgramSdarsEpgListRow abstractProgramSdarsEpgListRow = (AbstractProgramSdarsEpgListRow)abstractSdarsEpgListRow;
-                this.log.log(-2137614336, "[SDARSEPGHandler.onListItemSelectedInSDARSEPGList] program row, sID %2, programID %3 (%1)", (Object)abstractProgramSdarsEpgListRow, (long)abstractProgramSdarsEpgListRow.getSID(), (long)abstractProgramSdarsEpgListRow.getProgramID());
-                this.models.getResourceLocatorModel(260702464).setResourceLocator(abstractProgramSdarsEpgListRow.getStation().getStationArt());
+                this.log.log(10000000, "[SDARSEPGHandler.onListItemSelectedInSDARSEPGList] program row, sID %2, programID %3 (%1)", (Object)abstractProgramSdarsEpgListRow, (long)abstractProgramSdarsEpgListRow.getSID(), (long)abstractProgramSdarsEpgListRow.getProgramID());
+                this.models.getResourceLocatorModel(100879).setResourceLocator(abstractProgramSdarsEpgListRow.getStation().getStationArt());
                 this.requestEPGDescription(abstractProgramSdarsEpgListRow, n2);
                 baseListModelApp.fireEvent(n4);
                 this.varExt.showPartialPopup(23);
@@ -392,19 +389,19 @@ public class SDARSEPGHandler {
         if (abstractSdarsEpgListRow != null) {
             this.updateEPGDetailDataFor(abstractSdarsEpgListRow);
         }
-        this.models.getChoiceModel(-1500970752).setValue(selectedItem != null ? 1 : 0);
+        this.models.getChoiceModel(100774).setValue(selectedItem != null ? 1 : 0);
     }
 
     private void updateEPGDetailDataFor(AbstractSdarsEpgListRow abstractSdarsEpgListRow) {
         StationInfoExt stationInfoExt;
         this.detailSdarsStation = stationInfoExt = abstractSdarsEpgListRow.station;
         this.descriptionScreenHelper.setChannelName(stationInfoExt.getFullLabel());
-        this.models.getLabelModel(1602814208).setText(stationInfoExt.getFullLabel());
-        this.models.getLabelModel(227148032).setText(Utilities.getFormatedStationNumber(stationInfoExt.stationNumber));
-        this.models.getLabelModel(-1568079616).setText(stationInfoExt.getFullCategory());
-        this.models.getResourceLocatorModel(260702464).setResourceLocator(stationInfoExt.getStationArt());
+        this.models.getLabelModel(100703).setText(stationInfoExt.getFullLabel());
+        this.models.getLabelModel(100877).setText(Utilities.getFormatedStationNumber(stationInfoExt.stationNumber));
+        this.models.getLabelModel(100770).setText(stationInfoExt.getFullCategory());
+        this.models.getResourceLocatorModel(100879).setResourceLocator(stationInfoExt.getStationArt());
         boolean bl = this.favoriteHandler.isStored(new TunerObjectContainer(stationInfoExt));
-        this.models.getChoiceModel(344588544).setValue(bl ? 1 : 0);
+        this.models.getChoiceModel(100884).setValue(bl ? 1 : 0);
         this.onOptionShowEPGForFocussedStationInSDARSStationList(stationInfoExt.sID, 0);
     }
 
@@ -447,56 +444,200 @@ public class SDARSEPGHandler {
         this.updateEPGForAllStations();
     }
 
-    static /* synthetic */ void access$800(SDARSEPGHandler sDARSEPGHandler, EPGShortInfoExt[] ePGShortInfoExtArray) {
-        sDARSEPGHandler.onDSIInformationEPGChannelList(ePGShortInfoExtArray);
+    private class ListListener
+    extends DefaultBaseListModelListener {
+        private ListListener() {
+        }
+
+        public void itemSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
+            SDARSEPGHandler.this.onListItemSelectedInSDARSEPGList(n, n2, n3, n4);
+        }
+
+        public void itemLongSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
+            if (Utilities.isPGen1OrBentley()) {
+                SDARSEPGHandler.this.onListItemSelectedInSDARSEPGList(n, n2, 1, n4);
+            }
+        }
     }
 
-    static /* synthetic */ void access$900(SDARSEPGHandler sDARSEPGHandler, StationInfoExt stationInfoExt) {
-        sDARSEPGHandler.onDSIUpdateSelectedStation(stationInfoExt);
+    private class DsiUpListener
+    extends SDARSDsiUpInfo {
+        private DsiUpListener() {
+        }
+
+        public void informationEPGChannelList(EPGShortInfoExt[] ePGShortInfoExtArray) {
+            SDARSEPGHandler.this.onDSIInformationEPGChannelList(ePGShortInfoExtArray);
+        }
+
+        public void updateSelectedStation(StationInfoExt stationInfoExt) {
+            SDARSEPGHandler.this.onDSIUpdateSelectedStation(stationInfoExt);
+        }
+
+        public void responseEPG24Hour(EPGShortInfoExt ePGShortInfoExt) {
+            SDARSEPGHandler.this.onDSIResponseEPG24Hour(ePGShortInfoExt);
+        }
+
+        public void responseEPGDescription(EPGDescription ePGDescription) {
+            SDARSEPGHandler.this.onDSIResponseEPGDescription(ePGDescription);
+        }
     }
 
-    static /* synthetic */ void access$1000(SDARSEPGHandler sDARSEPGHandler, EPGShortInfoExt ePGShortInfoExt) {
-        sDARSEPGHandler.onDSIResponseEPG24Hour(ePGShortInfoExt);
+    private class ButtonListener
+    extends DefaultButtonListener {
+        private ButtonListener() {
+        }
+
+        public void keyTyped(int n, int n2, int n3) {
+            SDARSEPGHandler.this.onButtonShowEPGForAllStationsTyped(n3);
+        }
     }
 
-    static /* synthetic */ void access$1100(SDARSEPGHandler sDARSEPGHandler, EPGDescription ePGDescription) {
-        sDARSEPGHandler.onDSIResponseEPGDescription(ePGDescription);
+    private class ChoiceListener
+    extends DefaultChoiceListener {
+        private ChoiceListener() {
+        }
+
+        public void keyPressed(int n, int n2, int n3) {
+            TunerObjectContainer tunerObjectContainer = new TunerObjectContainer(SDARSEPGHandler.this.detailSdarsStation);
+            int n4 = SDARSEPGHandler.this.favoriteHandler.toggleStore(tunerObjectContainer);
+            SDARSEPGHandler.this.models.getChoiceModel(100884).setValue(n4);
+        }
     }
 
-    static /* synthetic */ void access$1200(SDARSEPGHandler sDARSEPGHandler, int n) {
-        sDARSEPGHandler.onButtonShowEPGForAllStationsTyped(n);
+    private class OptionListener
+    extends DefaultOptionListener {
+        private OptionListener() {
+        }
+
+        public void keyTyped(int n, int n2, int n3, int n4, int n5) {
+            AbstractRadioListRow abstractRadioListRow = (AbstractRadioListRow)SDARSEPGHandler.this.models.getBaseListModel(n2).getRow(n3);
+            TunerObjectContainer tunerObjectContainer = abstractRadioListRow.getTOContainer();
+            if (tunerObjectContainer.getType() == 5) {
+                SDARSEPGHandler.this.onOptionShowEPGForFocussedStationInSDARSStationList(tunerObjectContainer.getSDARSService().sID, n5);
+            }
+        }
     }
 
-    static /* synthetic */ StationInfoExt access$1300(SDARSEPGHandler sDARSEPGHandler) {
-        return sDARSEPGHandler.detailSdarsStation;
+    private class CatFilterListener
+    implements CategoryFilter.ICategoryFilter {
+        private CatFilterListener() {
+        }
+
+        public void categoryFilterChanged(boolean[] blArray) {
+            SDARSEPGHandler.this.catFilter = blArray;
+            SDARSEPGHandler.this.updateEPGForAllStations();
+        }
     }
 
-    static /* synthetic */ IStoreStationHandler access$1400(SDARSEPGHandler sDARSEPGHandler) {
-        return sDARSEPGHandler.favoriteHandler;
+    private class NextPrevButtonListener
+    extends DefaultButtonListener {
+        private NextPrevButtonListener() {
+        }
+
+        public void keyPressed(int n, int n2, int n3) {
+            int n4 = n == 100710 ? SDARSEPGHandler.this.detailIndex - 1 : SDARSEPGHandler.this.detailIndex + 1;
+            AbstractProgramSdarsEpgListRow abstractProgramSdarsEpgListRow = (AbstractProgramSdarsEpgListRow)SDARSEPGHandler.this.sdarsOneStationEpgList.getRow(n4);
+            if (abstractProgramSdarsEpgListRow != null) {
+                SDARSEPGHandler.this.setDetailIndex(n4);
+                SDARSEPGHandler.this.requestEPGDescription(abstractProgramSdarsEpgListRow, n4);
+            }
+        }
     }
 
-    static /* synthetic */ TunerModels access$1500(SDARSEPGHandler sDARSEPGHandler) {
-        return sDARSEPGHandler.models;
+    private static class DescriptionScreenHelper {
+        private final LabelModelApp detailLabelStationName;
+        private final LabelModelApp detailLabelPeriod;
+        private final LabelModelApp detailLabelProgramName;
+        private final LabelModelApp detailLabelDescription;
+        private final ChoiceModelApp detailChoiceActiveProgram;
+        private static final int DETAIL_NOT_ACTIVE_PROGRAM = 0;
+        private static final int DETAIL_ACTIVE_PROGRAM = 1;
+        private AbstractProgramSdarsEpgListRow programRowToShowDetailsFor;
+        private StationInfoExt currentSelectedStation;
+        private int programRowIndexToShowDetailsFor;
+
+        public DescriptionScreenHelper(TunerBasics tunerBasics) {
+            TunerModels tunerModels = tunerBasics.getModels();
+            this.detailLabelStationName = tunerModels.getLabelModel(100869);
+            this.detailLabelPeriod = tunerModels.getLabelModel(100691);
+            this.detailLabelProgramName = tunerModels.getLabelModel(100868);
+            this.detailLabelDescription = tunerModels.getLabelModel(100890);
+            this.detailChoiceActiveProgram = tunerModels.getChoiceModel(100766);
+        }
+
+        public void setChannelName(String string) {
+            this.detailLabelStationName.setText(string);
+        }
+
+        public void initFor(AbstractProgramSdarsEpgListRow abstractProgramSdarsEpgListRow, int n, StationInfoExt stationInfoExt) {
+            this.programRowToShowDetailsFor = abstractProgramSdarsEpgListRow;
+            this.programRowIndexToShowDetailsFor = n;
+            this.currentSelectedStation = stationInfoExt;
+            this.setChannelName(abstractProgramSdarsEpgListRow.getChannelName());
+            this.detailLabelPeriod.setText(abstractProgramSdarsEpgListRow.getFormatedPerid());
+            this.detailLabelProgramName.setText(abstractProgramSdarsEpgListRow.getLongProgramName());
+            this.detailLabelDescription.setText("");
+            this.detailChoiceActiveProgram.setValue(0);
+            this.detailLabelDescription.setStatus(0);
+        }
+
+        public void updateEPGDescriptionIfMatches(EPGDescription ePGDescription) {
+            if (this.programRowToShowDetailsFor != null && this.programRowToShowDetailsFor.getSID() == ePGDescription.sID && this.programRowToShowDetailsFor.getProgramID() == ePGDescription.programID) {
+                Buffer buffer = new Buffer(ePGDescription.seriesDescription.length() + ePGDescription.programDescription.length() + 2);
+                if (!Utilities.isEmpty(ePGDescription.seriesDescription)) {
+                    buffer.append(ePGDescription.seriesDescription).append("\n\n");
+                }
+                buffer.append(ePGDescription.programDescription);
+                this.detailLabelDescription.setText(buffer.toString());
+                this.detailLabelDescription.setStatus(1);
+                this.detailChoiceActiveProgram.setValue(this.programRowIndexToShowDetailsFor == 0 && this.currentSelectedStation.getSID() == ePGDescription.sID ? 1 : 0);
+            }
+        }
+
+        public void updateTimeZoneOffset(long l) {
+            if (this.programRowToShowDetailsFor != null) {
+                this.programRowToShowDetailsFor.updateTimesWithTimezoneOffset(l);
+                this.detailLabelPeriod.setText(this.programRowToShowDetailsFor.getFormatedPerid());
+            }
+        }
     }
 
-    static /* synthetic */ BaseListModelApp access$1600(SDARSEPGHandler sDARSEPGHandler) {
-        return sDARSEPGHandler.sdarsOneStationEpgList;
+    private class ClockTimeZoneOffsetListener
+    implements ClockTimeZoneOffsetHandler.IClockTimeZoneOffsetListener {
+        private ClockTimeZoneOffsetListener() {
+        }
+
+        public void offsetChanged(long l) {
+            SDARSEPGHandler.this.onTimeZoneOffsetChanged(l);
+        }
     }
 
-    static /* synthetic */ void access$1700(SDARSEPGHandler sDARSEPGHandler, int n) {
-        sDARSEPGHandler.setDetailIndex(n);
-    }
+    private static class EPGAvailibiltyCallbackHelper {
+        private IEPGAvailibiltyCallback callback = IEPGAvailibiltyCallback.DUMMY;
+        private StationInfoExt interestingStation = new StationInfoExt();
+        private boolean lastReportedValue;
 
-    static /* synthetic */ void access$1800(SDARSEPGHandler sDARSEPGHandler, AbstractProgramSdarsEpgListRow abstractProgramSdarsEpgListRow, int n) {
-        sDARSEPGHandler.requestEPGDescription(abstractProgramSdarsEpgListRow, n);
-    }
+        public EPGAvailibiltyCallbackHelper() {
+            this(IEPGAvailibiltyCallback.DUMMY, new StationInfoExt(), false);
+            this.interestingStation.sID = -1;
+        }
 
-    static /* synthetic */ void access$1900(SDARSEPGHandler sDARSEPGHandler, int n, int n2, int n3, int n4) {
-        sDARSEPGHandler.onListItemSelectedInSDARSEPGList(n, n2, n3, n4);
-    }
+        public EPGAvailibiltyCallbackHelper(IEPGAvailibiltyCallback iEPGAvailibiltyCallback, StationInfoExt stationInfoExt, boolean bl) {
+            this.callback = iEPGAvailibiltyCallback;
+            this.interestingStation = stationInfoExt;
+            this.lastReportedValue = bl;
+        }
 
-    static /* synthetic */ void access$2000(SDARSEPGHandler sDARSEPGHandler, long l) {
-        sDARSEPGHandler.onTimeZoneOffsetChanged(l);
+        public boolean isInterestedInEPGAvailibityChangesFor(StationInfoExt stationInfoExt) {
+            return this.interestingStation.sID == stationInfoExt.sID;
+        }
+
+        public void notifyEPGAvailibity(boolean bl) {
+            if (this.lastReportedValue != bl) {
+                this.lastReportedValue = bl;
+                this.callback.epgAvailibiltyChanged(this.interestingStation, bl);
+            }
+        }
     }
 }
 

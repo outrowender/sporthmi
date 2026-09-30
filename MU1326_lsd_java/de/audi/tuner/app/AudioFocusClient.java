@@ -9,7 +9,6 @@ import de.audi.atip.audio.NullAudioFocusManager;
 import de.audi.atip.interapp.audio.drawer.AudioDrawerContext;
 import de.audi.atip.interapp.audio.drawer.NullAudioDrawerContext;
 import de.audi.tuner.app.AppChangeHandler;
-import de.audi.tuner.app.AudioFocusClient$ActionProxyListener;
 import de.audi.tuner.app.AudioFocusInfo;
 import de.audi.tuner.app.Logger;
 import de.audi.tuner.app.TunerAudioMgmt;
@@ -22,7 +21,7 @@ import de.audi.tuner.app.ap.TunerActionProxyListener;
 
 public class AudioFocusClient
 implements IAudioFocusClient {
-    public final TunerActionProxyListener actionProxyListener = new AudioFocusClient$ActionProxyListener(this);
+    public final TunerActionProxyListener actionProxyListener = new ActionProxyListener();
     private final Logger logger;
     private final TunerModels models;
     private final TunerStatus status;
@@ -66,10 +65,9 @@ implements IAudioFocusClient {
         this.listeners = audioFocusInfoArray;
     }
 
-    @Override
     public void updateAudioFocus(int n, int n2) {
         int n3;
-        this.logger.audio.log(-2137614336, "[AudioFocusClient.updateAudioFocus] terminal %1 app %2", (long)n, (long)n2);
+        this.logger.audio.log(10000000, "[AudioFocusClient.updateAudioFocus] terminal %1 app %2", (long)n, (long)n2);
         AudioFocusInfo[] audioFocusInfoArray = this.listeners;
         for (n3 = 0; n3 < audioFocusInfoArray.length; ++n3) {
             audioFocusInfoArray[n3].updateAudioFocus(n, n2);
@@ -111,22 +109,28 @@ implements IAudioFocusClient {
     public void switchSource(int n, int n2, TunerObjectContainer tunerObjectContainer) {
         TunerObjectContainer tunerObjectContainer2 = tunerObjectContainer = tunerObjectContainer != null ? TunerProxyManager.getInstance().fillMissingName(tunerObjectContainer) : null;
         if (this.status.hasAudioFocus(n)) {
-            this.logger.audio.log(-2137614336, "[AudioFocusClient.switchSource] we have already audiofocus for terminal %1", (long)n);
+            this.logger.audio.log(10000000, "[AudioFocusClient.switchSource] we have already audiofocus for terminal %1", (long)n);
             this.appChange.appChangeToTuner(n, n2, tunerObjectContainer, false);
         } else {
             this.targetBand = n2;
             this.targetToc = tunerObjectContainer;
-            this.logger.audio.log(-2137614336, "[AudioFocusClient.switchSource] request audiofocus for terminal %1", (long)n);
+            this.logger.audio.log(10000000, "[AudioFocusClient.switchSource] request audiofocus for terminal %1", (long)n);
             this.audioFocusManager.setActiveAudioApp(n, 1);
         }
         if (n != 0 && this.status.hasAudioFocus(0)) {
-            this.logger.audio.log(-2137614336, "[AudioFocusClient.switchSource] Joint usecase detected -> switch FU to band %1", (long)n2);
+            this.logger.audio.log(10000000, "[AudioFocusClient.switchSource] Joint usecase detected -> switch FU to band %1", (long)n2);
             this.audio.restoreActiveAudio(n);
         }
     }
 
-    static /* synthetic */ IAudioFocusManager access$000(AudioFocusClient audioFocusClient) {
-        return audioFocusClient.audioFocusManager;
+    class ActionProxyListener
+    extends TunerActionProxyListener {
+        ActionProxyListener() {
+        }
+
+        public void hmiActivatedTuner() {
+            AudioFocusClient.this.audioFocusManager.setActiveAudioApp(0, 1);
+        }
     }
 }
 

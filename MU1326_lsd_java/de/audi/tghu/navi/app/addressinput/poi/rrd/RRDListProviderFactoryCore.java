@@ -21,18 +21,16 @@ implements IRRDListProviderFactory {
         this.navigation = navigation;
     }
 
-    @Override
     public IRRDListProvider getProviderForType(int n, NavigationEnv navigationEnv, IVehicle iVehicle) {
         switch (n) {
             case 3: {
-                this.logChannel.log(-2137614336, "RRDListProviderFactory return a Provider for Listtype = RRD_LISTTYPE_SDS");
+                this.logChannel.log(10000000, "RRDListProviderFactory return a Provider for Listtype = RRD_LISTTYPE_SDS");
                 return new PoiResultRRDListProvider(navigationEnv, 3901, iVehicle);
             }
         }
         return null;
     }
 
-    @Override
     public void cleanUp() {
         this.logChannel = null;
         this.navigation = null;

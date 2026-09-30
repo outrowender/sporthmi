@@ -18,7 +18,6 @@ extends State {
         this.invoker = new ReflectionInvoker(logChannel, this, new MarkerInterfaceSubscriberFindingStrategy());
     }
 
-    @Override
     public boolean processMessage(Message message) {
         if (message.obj != null) {
             this.handled = true;

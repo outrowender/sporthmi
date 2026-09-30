@@ -3,13 +3,13 @@
  */
 package de.audi.tghu.navi.app.map.routeinfo;
 
-import de.audi.atip.hmi.intercommunication.MixedListConstants$TollGateInfo;
+import de.audi.atip.hmi.intercommunication.MixedListConstants;
 import de.audi.atip.hmi.model.IconCell;
 import de.audi.atip.hmi.model.LongListCell;
 import de.audi.atip.hmi.model.TextListCell;
 import de.audi.atip.metrics.DateMetric;
 import de.audi.tghu.navi.app.NavigationEnv;
-import de.audi.tghu.navi.app.map.routeinfo.RouteInfoHandler$TravelData;
+import de.audi.tghu.navi.app.map.routeinfo.RouteInfoHandler;
 import org.dsi.ifc.global.NavLocation;
 import org.dsi.ifc.komoview.ManeuverElement;
 import org.dsi.ifc.navigation.NavLaneGuidanceData;
@@ -19,103 +19,70 @@ import org.dsi.ifc.tmc.TmcMessage;
 import org.dsi.ifc.trafficregulation.RoadClassSpeedInfo;
 
 public interface IRouteInfoHelper {
-    default public IconCell createEmptyIconCell() {
-    }
+    public IconCell createEmptyIconCell();
 
-    default public TextListCell createEmptyTextListCell() {
-    }
+    public TextListCell createEmptyTextListCell();
 
-    default public LongListCell createZeroLongListCell() {
-    }
+    public LongListCell createZeroLongListCell();
 
-    default public void setTravelData(RouteInfoHandler$TravelData routeInfoHandler$TravelData) {
-    }
+    public void setTravelData(RouteInfoHandler.TravelData var1);
 
-    default public long computeDistToFinalDest(long l, int n, RouteInfoHandler$TravelData routeInfoHandler$TravelData) {
-    }
+    public long computeDistToFinalDest(long var1, int var3, RouteInfoHandler.TravelData var4);
 
-    default public long computeRttToFinalDest(long l, int n, RouteInfoHandler$TravelData routeInfoHandler$TravelData) {
-    }
+    public long computeRttToFinalDest(long var1, int var3, RouteInfoHandler.TravelData var4);
 
-    default public long computeWholeDistance(int[] nArray) {
-    }
+    public long computeWholeDistance(int[] var1);
 
-    default public int getDefaultFormat(TurnListElement turnListElement, NavigationEnv navigationEnv) {
-    }
+    public int getDefaultFormat(TurnListElement var1, NavigationEnv var2);
 
-    default public int getDefaultFormat(NavPoiInfo navPoiInfo) {
-    }
+    public int getDefaultFormat(NavPoiInfo var1);
 
-    default public int getDefaultFormat(TmcMessage tmcMessage) {
-    }
+    public int getDefaultFormat(TmcMessage var1);
 
-    default public long getDistToNextDest(Object object) {
-    }
+    public long getDistToNextDest(Object var1);
 
-    default public int getDestinationIndex(Object object) {
-    }
+    public int getDestinationIndex(Object var1);
 
-    default public long getRttToNextDest(Object object) {
-    }
+    public long getRttToNextDest(Object var1);
 
-    default public boolean isTurnElement(int n) {
-    }
+    public boolean isTurnElement(int var1);
 
-    default public boolean isRealTurnElement(org.dsi.ifc.navigation.ManeuverElement maneuverElement) {
-    }
+    public boolean isRealTurnElement(org.dsi.ifc.navigation.ManeuverElement var1);
 
-    default public String determineDisplayName(TurnListElement turnListElement) {
-    }
+    public String determineDisplayName(TurnListElement var1);
 
-    default public String determineExitNumber(TurnListElement turnListElement) {
-    }
+    public String determineExitNumber(TurnListElement var1);
 
-    default public int findSpeedUnitForCountry(String string, RoadClassSpeedInfo[] roadClassSpeedInfoArray) {
-    }
+    public int findSpeedUnitForCountry(String var1, RoadClassSpeedInfo[] var2);
 
-    default public String formatDistString(long l) {
-    }
+    public String formatDistString(long var1);
 
-    default public String formatMillisecond(long l) {
-    }
+    public String formatMillisecond(long var1);
 
-    default public ManeuverElement clone(org.dsi.ifc.navigation.ManeuverElement maneuverElement) {
-    }
+    public ManeuverElement clone(org.dsi.ifc.navigation.ManeuverElement var1);
 
-    default public boolean isWithinHorizon(long l) {
-    }
+    public boolean isWithinHorizon(long var1);
 
-    default public DateMetric createDateMetrics(long l) {
-    }
+    public DateMetric createDateMetrics(long var1);
 
-    default public int getElement(TurnListElement turnListElement, int n) {
-    }
+    public int getElement(TurnListElement var1, int var2);
 
-    default public org.dsi.ifc.navigation.ManeuverElement getManeuverElement(TurnListElement turnListElement, int n) {
-    }
+    public org.dsi.ifc.navigation.ManeuverElement getManeuverElement(TurnListElement var1, int var2);
 
-    default public String getDisplayName(TurnListElement turnListElement) {
-    }
+    public String getDisplayName(TurnListElement var1);
 
-    default public String getDisplayName(NavPoiInfo navPoiInfo) {
-    }
+    public String getDisplayName(NavPoiInfo var1);
 
-    default public String getDisplayName(TmcMessage tmcMessage) {
-    }
+    public String getDisplayName(TmcMessage var1);
 
-    default public MixedListConstants$TollGateInfo getTollGateInfo(NavLaneGuidanceData[] navLaneGuidanceDataArray, int n) {
-    }
+    public MixedListConstants.TollGateInfo getTollGateInfo(NavLaneGuidanceData[] var1, int var2);
 
-    default public String getDestName(int n) {
-    }
+    public String getDestName(int var1);
 
-    default public boolean isFinalDestination(int n) {
-    }
+    public boolean isFinalDestination(int var1);
 
-    default public IconCell createPicNavIconCell(NavLocation navLocation) {
-    }
+    public IconCell createPicNavIconCell(NavLocation var1);
 
-    default public IconCell createTurnRoadIcon(int n, String string) {
-    }
+    public IconCell createTurnRoadIcon(int var1, String var2);
 }
 

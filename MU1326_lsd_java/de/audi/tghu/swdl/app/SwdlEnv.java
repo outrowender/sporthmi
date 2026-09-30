@@ -63,18 +63,18 @@ public final class SwdlEnv {
 
     public void enterSwdl(int n) {
         if (this.framework != null && this.framework.isPGen2() && this.framework.isSimulator()) {
-            this.sleep(0);
+            this.sleep(1500L);
         }
-        this.getLogMain().log(1078071040, "[SwdlEnv] enterSwdl");
+        this.getLogMain().log(1000000, "[SwdlEnv] enterSwdl");
         this.setSwdlHMIActive(true);
-        this.getLogMain().log(-2137614336, "[SwdlEnv] enterSwdl: clear fall through flag");
+        this.getLogMain().log(10000000, "[SwdlEnv] enterSwdl: clear fall through flag");
         this.getSwdlModels().getRSESwdlJoinedChoice().setValue(0);
         this.setEngineeringDownloadActive(true);
         this.sendMessage(8);
     }
 
     public void exitSwdl() {
-        this.getLogMain().log(1078071040, "[SwdlEnv] exitSwdl");
+        this.getLogMain().log(1000000, "[SwdlEnv] exitSwdl");
         this.sendMessage(9);
         this.setEngineeringDownloadActive(false);
         this.setSwdlHMIActive(false);
@@ -182,17 +182,17 @@ public final class SwdlEnv {
     }
 
     public IFSCService getFscService() {
-        this.getLogMain().log(-2137614336, "SwdlEnv gets FscService %1", (Object)this.fscService);
+        this.getLogMain().log(10000000, "SwdlEnv gets FscService %1", (Object)this.fscService);
         return this.fscService;
     }
 
     public void setFscService(IFSCService iFSCService) {
-        this.getLogMain().log(-2137614336, "SwdlEnv sets FscService %1", (Object)iFSCService);
+        this.getLogMain().log(10000000, "SwdlEnv sets FscService %1", (Object)iFSCService);
         this.fscService = iFSCService;
     }
 
     public void setCombiBAPServiceSystem(CombiBAPServiceSystem combiBAPServiceSystem) {
-        this.getLogMain().log(-2137614336, "[SwdlEnv].setCombiBAPServiceSystem(%1)", (Object)combiBAPServiceSystem);
+        this.getLogMain().log(10000000, "[SwdlEnv].setCombiBAPServiceSystem(%1)", (Object)combiBAPServiceSystem);
         this.combiBAPServiceSystem = combiBAPServiceSystem;
         if (null != combiBAPServiceSystem) {
             if (!this.isCustomerDownloadActive()) {
@@ -259,24 +259,24 @@ public final class SwdlEnv {
     }
 
     public void storeDummySwdlInfo() {
-        this.getLogMain().log(1078071040, "[SwdlEnv].storeDummySwdlInfo(): store SWDL_DISPLAY_MEDIA=-1, to display the screen title 'Diagnosis Tester'");
+        this.getLogMain().log(1000000, "[SwdlEnv].storeDummySwdlInfo(): store SWDL_DISPLAY_MEDIA=-1, to display the screen title 'Diagnosis Tester'");
         this.getStorageManager().setString(257, 5003, "-1");
     }
 
     public void storeSwdlInfo(int n, String string) {
-        this.getLogMain().log(-2137614336, "[SwdlEnv].storeSwdlInfo(%2,%1)", (Object)string, (long)n);
+        this.getLogMain().log(10000000, "[SwdlEnv].storeSwdlInfo(%2,%1)", (Object)string, (long)n);
         this.getStorageManager().setString(257, 5003, Integer.toString(n));
         this.getStorageManager().setString(257, 5006, string);
         this.getFramework().getSysConstManager().storeSwdlCopy();
     }
 
     public void cleanSwdlCopy() {
-        this.getLogMain().log(-2137614336, "[SwdlEnv].cleanSwdlCopy()");
+        this.getLogMain().log(10000000, "[SwdlEnv].cleanSwdlCopy()");
         this.getFramework().getSysConstManager().clearSwdlCopy();
     }
 
     public void readSwdlInfo() {
-        this.getLogMain().log(-2137614336, "[SwdlEnv].readSwdlInfo()");
+        this.getLogMain().log(10000000, "[SwdlEnv].readSwdlInfo()");
         String string = this.getStorageManager().getString(257, 5003, "");
         if (string != null && string.length() > 0) {
             this.getSwdlModels().getMediumChoice().setValue(Integer.parseInt(string));
@@ -318,7 +318,7 @@ public final class SwdlEnv {
     }
 
     public void updateCustomerDownloadState(int n, int n2) {
-        this.getLogMain().log(-2137614336, "[SwdlEnv].updateCustomerDownloadState(%1,%2)", (long)n, (long)n2);
+        this.getLogMain().log(10000000, "[SwdlEnv].updateCustomerDownloadState(%1,%2)", (long)n, (long)n2);
         CombiBAPServiceSystem combiBAPServiceSystem = this.combiBAPServiceSystem;
         if (null != combiBAPServiceSystem) {
             combiBAPServiceSystem.updateCustomerDownloadState(n, n2);
@@ -338,7 +338,7 @@ public final class SwdlEnv {
     }
 
     public void setUpdateOverTheAirNotAvailable() {
-        this.getLogMain().log(-2137614336, "[SwdlEnv] setUpdateOverTheAirNotAvailable");
+        this.getLogMain().log(10000000, "[SwdlEnv] setUpdateOverTheAirNotAvailable");
         HMIModelApp hMIModelApp = this.getFramework().getHmiServiceApp().getModelApp(3969);
         if (hMIModelApp instanceof SysConstModelApp) {
             ((SysConstModelApp)hMIModelApp).setValue(0);
@@ -376,7 +376,7 @@ public final class SwdlEnv {
     }
 
     public boolean isUotaUpdateRegionCountRestricted() {
-        return this.getUotaUpdateRegionCount() < -129;
+        return this.getUotaUpdateRegionCount() < Integer.MAX_VALUE;
     }
 
     public boolean isSortingUotaRegionByIsoCode() {
@@ -407,7 +407,7 @@ public final class SwdlEnv {
     }
 
     public static String formatVersion(long l) {
-        String string = l > 0 ? new StringBuffer().append("0x").append(Long.toHexString(l)).toString() : Long.toString(l);
+        String string = l > 9999L ? new StringBuffer().append("0x").append(Long.toHexString(l)).toString() : Long.toString(l);
         return string;
     }
 

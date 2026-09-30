@@ -14,6 +14,7 @@ import de.audi.atip.statemachine.ap.CustDownloadActionProxy;
 import de.audi.atip.statemachine.ap.FrameworkActionProxy;
 import de.audi.atip.statemachine.ap.SettingsActionProxy;
 import de.audi.atip.statemachine.ap.ToneActionProxy;
+import java.util.NoSuchElementException;
 
 public class SettingsSMMActions
 implements SMModuleConstants {
@@ -34,27 +35,27 @@ implements SMModuleConstants {
     public void removeActionProxy(int n, ActionProxy actionProxy) {
         if (actionProxy instanceof CustDownloadActionProxy) {
             this.ap3 = null;
-            this.logChannel.log(-2137614336, "CustDownloadActionProxy Action Proxy removed");
+            this.logChannel.log(10000000, "CustDownloadActionProxy Action Proxy removed");
             return;
         }
         if (actionProxy instanceof FrameworkActionProxy) {
             this.ap2 = null;
-            this.logChannel.log(-2137614336, "FrameworkActionProxy Action Proxy removed");
+            this.logChannel.log(10000000, "FrameworkActionProxy Action Proxy removed");
             return;
         }
         if (actionProxy instanceof ConnectivityActionProxy) {
             this.ap1 = null;
-            this.logChannel.log(-2137614336, "ConnectivityActionProxy Action Proxy removed");
+            this.logChannel.log(10000000, "ConnectivityActionProxy Action Proxy removed");
             return;
         }
         if (actionProxy instanceof SettingsActionProxy) {
             this.ap0 = null;
-            this.logChannel.log(-2137614336, "SettingsActionProxy Action Proxy removed");
+            this.logChannel.log(10000000, "SettingsActionProxy Action Proxy removed");
             return;
         }
         if (actionProxy instanceof ToneActionProxy) {
             this.ap4 = null;
-            this.logChannel.log(-2137614336, "ToneActionProxy Action Proxy removed");
+            this.logChannel.log(10000000, "ToneActionProxy Action Proxy removed");
             return;
         }
     }
@@ -62,27 +63,27 @@ implements SMModuleConstants {
     public ActionProxy addActionProxy(int n, ActionProxy actionProxy) {
         if (actionProxy instanceof CustDownloadActionProxy) {
             this.ap3 = (CustDownloadActionProxy)actionProxy;
-            this.logChannel.log(-2137614336, "CustDownloadActionProxy Action Proxy added");
+            this.logChannel.log(10000000, "CustDownloadActionProxy Action Proxy added");
             return this.ap3;
         }
         if (actionProxy instanceof FrameworkActionProxy) {
             this.ap2 = (FrameworkActionProxy)actionProxy;
-            this.logChannel.log(-2137614336, "FrameworkActionProxy Action Proxy added");
+            this.logChannel.log(10000000, "FrameworkActionProxy Action Proxy added");
             return this.ap2;
         }
         if (actionProxy instanceof ConnectivityActionProxy) {
             this.ap1 = (ConnectivityActionProxy)actionProxy;
-            this.logChannel.log(-2137614336, "ConnectivityActionProxy Action Proxy added");
+            this.logChannel.log(10000000, "ConnectivityActionProxy Action Proxy added");
             return this.ap1;
         }
         if (actionProxy instanceof SettingsActionProxy) {
             this.ap0 = (SettingsActionProxy)actionProxy;
-            this.logChannel.log(-2137614336, "SettingsActionProxy Action Proxy added");
+            this.logChannel.log(10000000, "SettingsActionProxy Action Proxy added");
             return this.ap0;
         }
         if (actionProxy instanceof ToneActionProxy) {
             this.ap4 = (ToneActionProxy)actionProxy;
-            this.logChannel.log(-2137614336, "ToneActionProxy Action Proxy added");
+            this.logChannel.log(10000000, "ToneActionProxy Action Proxy added");
             return this.ap4;
         }
         return null;
@@ -93,7 +94,7 @@ implements SMModuleConstants {
             this.logChannel.log(1000, "Action Proxy 'CustDownloadActionProxy' is causing an exception in call '%1'", (Object)string, (Throwable)nullPointerException);
             throw nullPointerException;
         }
-        this.logChannel.log(1078071040, "Action Proxy 'CustDownloadActionProxy' missing for call '%1'", (Object)string);
+        this.logChannel.log(1000000, "Action Proxy 'CustDownloadActionProxy' missing for call '%1'", (Object)string);
     }
 
     private void catchActionExceptionFrameworkActionProxy(ActionProxy actionProxy, NullPointerException nullPointerException, String string) {
@@ -101,7 +102,7 @@ implements SMModuleConstants {
             this.logChannel.log(1000, "Action Proxy 'FrameworkActionProxy' is causing an exception in call '%1'", (Object)string, (Throwable)nullPointerException);
             throw nullPointerException;
         }
-        this.logChannel.log(1078071040, "Action Proxy 'FrameworkActionProxy' missing for call '%1'", (Object)string);
+        this.logChannel.log(1000000, "Action Proxy 'FrameworkActionProxy' missing for call '%1'", (Object)string);
     }
 
     private void catchActionExceptionConnectivityActionProxy(ActionProxy actionProxy, NullPointerException nullPointerException, String string) {
@@ -109,7 +110,7 @@ implements SMModuleConstants {
             this.logChannel.log(1000, "Action Proxy 'ConnectivityActionProxy' is causing an exception in call '%1'", (Object)string, (Throwable)nullPointerException);
             throw nullPointerException;
         }
-        this.logChannel.log(1078071040, "Action Proxy 'ConnectivityActionProxy' missing for call '%1'", (Object)string);
+        this.logChannel.log(1000000, "Action Proxy 'ConnectivityActionProxy' missing for call '%1'", (Object)string);
     }
 
     private void catchActionExceptionSettingsActionProxy(ActionProxy actionProxy, NullPointerException nullPointerException, String string) {
@@ -117,7 +118,7 @@ implements SMModuleConstants {
             this.logChannel.log(1000, "Action Proxy 'SettingsActionProxy' is causing an exception in call '%1'", (Object)string, (Throwable)nullPointerException);
             throw nullPointerException;
         }
-        this.logChannel.log(1078071040, "Action Proxy 'SettingsActionProxy' missing for call '%1'", (Object)string);
+        this.logChannel.log(1000000, "Action Proxy 'SettingsActionProxy' missing for call '%1'", (Object)string);
     }
 
     private void catchActionExceptionToneActionProxy(ActionProxy actionProxy, NullPointerException nullPointerException, String string) {
@@ -125,7 +126,7 @@ implements SMModuleConstants {
             this.logChannel.log(1000, "Action Proxy 'ToneActionProxy' is causing an exception in call '%1'", (Object)string, (Throwable)nullPointerException);
             throw nullPointerException;
         }
-        this.logChannel.log(1078071040, "Action Proxy 'ToneActionProxy' missing for call '%1'", (Object)string);
+        this.logChannel.log(1000000, "Action Proxy 'ToneActionProxy' missing for call '%1'", (Object)string);
     }
 
     public void execFocusGainedAction(SMServices sMServices, int n) {
@@ -143,7 +144,7 @@ implements SMModuleConstants {
     public void execExitAction(SMServices sMServices, int n) {
         switch (n) {
             case 1100111: {
-                sMServices.removeContext(0);
+                sMServices.removeContext(1711027731L);
                 return;
             }
             case 1100112: {
@@ -171,7 +172,7 @@ implements SMModuleConstants {
                 return;
             }
             case 1100130: {
-                sMServices.removeContext(0);
+                sMServices.removeContext(41420174L);
                 CustDownloadActionProxy custDownloadActionProxy = this.ap3;
                 try {
                     custDownloadActionProxy.swdlCustomerUpdateLeft(this.smm.getTerminalID());
@@ -204,7 +205,7 @@ implements SMModuleConstants {
                 return;
             }
             case 1100148: {
-                sMServices.removeContext(0);
+                sMServices.removeContext(1285098874L);
                 return;
             }
             case 1100157: {
@@ -218,7 +219,7 @@ implements SMModuleConstants {
                 return;
             }
             case 1100165: {
-                sMServices.removeContext(0);
+                sMServices.removeContext(187140678L);
                 return;
             }
             case 1100166: {
@@ -257,7 +258,7 @@ implements SMModuleConstants {
     public void execEnterAction(SMServices sMServices, int n) {
         switch (n) {
             case 1100111: {
-                sMServices.addContext(0);
+                sMServices.addContext(1711027731L);
                 return;
             }
             case 1100112: {
@@ -319,11 +320,11 @@ implements SMModuleConstants {
                     this.catchActionExceptionFrameworkActionProxy(frameworkActionProxy, nullPointerException, "activeApplication");
                 }
                 sMServices.setColor(0);
-                sMServices.pushDrawerIDs(0, 0);
+                sMServices.pushDrawerIDs(1100000L, 1100081L);
                 return;
             }
             case 1100130: {
-                sMServices.addContext(0);
+                sMServices.addContext(41420174L);
                 return;
             }
             case 1100133: {
@@ -353,7 +354,7 @@ implements SMModuleConstants {
                 return;
             }
             case 1100148: {
-                sMServices.addContext(0);
+                sMServices.addContext(1285098874L);
                 return;
             }
             case 1100157: {
@@ -375,7 +376,7 @@ implements SMModuleConstants {
                 return;
             }
             case 1100165: {
-                sMServices.addContext(0);
+                sMServices.addContext(187140678L);
                 return;
             }
             case 1100166: {
@@ -435,7 +436,7 @@ implements SMModuleConstants {
                 return;
             }
             case 1100142: {
-                sMServices.pushDrawerIDs(0, 0);
+                sMServices.pushDrawerIDs(1100000L, 600144L);
                 return;
             }
             case 1100159: {
@@ -463,35 +464,35 @@ implements SMModuleConstants {
                 return;
             }
             case 1100277: {
-                sMServices.showPartialPopup(-20443136);
+                sMServices.showPartialPopup(1100030);
                 return;
             }
             case 1100281: {
-                sMServices.showPartialPopup(784928768);
+                sMServices.showPartialPopup(1100078);
                 return;
             }
             case 1100299: {
-                sMServices.showPartialPopup(-37220352);
+                sMServices.showPartialPopup(1100029);
                 return;
             }
             case 1100306: {
-                sMServices.showPartialPopup(-3665920);
+                sMServices.showPartialPopup(1100031);
                 return;
             }
             case 1100307: {
-                sMServices.showPartialPopup(97062912);
+                sMServices.showPartialPopup(1100037);
                 return;
             }
             case 1100308: {
-                sMServices.showPartialPopup(768151552);
+                sMServices.showPartialPopup(1100077);
                 return;
             }
             case 1100309: {
-                sMServices.showPartialPopup(113840128);
+                sMServices.showPartialPopup(1100038);
                 return;
             }
             case 1100322: {
-                sMServices.showPartialPopup(80285696);
+                sMServices.showPartialPopup(1100036);
                 return;
             }
             case 1100327: {
@@ -501,7 +502,7 @@ implements SMModuleConstants {
             case 1100337: {
                 switch (n2) {
                     case 1: {
-                        sMServices.showPartialPopup(29954048);
+                        sMServices.showPartialPopup(1100033);
                         return;
                     }
                 }
@@ -518,7 +519,7 @@ implements SMModuleConstants {
         }
     }
 
-    public HMIModel getModel(int n) {
+    public HMIModel getModel(int n) throws NoSuchElementException {
         return this.smm.getModel(n);
     }
 }

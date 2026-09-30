@@ -13,27 +13,27 @@ import org.dsi.ifc.navigation.RouteOptions;
 
 public class Criteria
 implements Serializable {
-    private static final long serialVersionUID;
-    private static final int FLAG_DYNAMIC;
-    private static final int FLAG_AVOIDFERRIES;
-    private static final int FLAG_AVOIDMOTORWAYS;
-    private static final int FLAG_AVOIDTOLLROADS;
-    private static final int FLAG_AVOIDTUNNELS;
-    private static final int FLAG_AVOIDCARTRAIN;
-    private static final int FLAG_HYBRIDMODE;
-    private static final int FLAG_SLOPES;
-    private static final int FLAG_LEFTRIGHTTURN;
-    private static final int FLAG_RESIDENTIALAREAHANDLING;
-    private static final int FLAG_TRAILER;
-    private static final int FLAG_BORDER;
-    private static final int FLAG_ECONOMICTURNS;
-    private static final int FLAG_WEIGHTING_NORMAL;
-    private static final int FLAG_WEIGHTING_OPTIMAL;
-    private static final int FLAG_TROLLROADSCOSTPENALTY;
-    private static final int FLAG_SLOPESMAXFACTOR;
-    private static final int FLAG_UNPAVED;
-    private static final int FLAG_IPD;
-    private static final int FLAG_AVOIDHOVLANES;
+    private static final long serialVersionUID = 2863566093575204381L;
+    private static final int FLAG_DYNAMIC = 0;
+    private static final int FLAG_AVOIDFERRIES = 1;
+    private static final int FLAG_AVOIDMOTORWAYS = 2;
+    private static final int FLAG_AVOIDTOLLROADS = 3;
+    private static final int FLAG_AVOIDTUNNELS = 4;
+    private static final int FLAG_AVOIDCARTRAIN = 5;
+    private static final int FLAG_HYBRIDMODE = 6;
+    private static final int FLAG_SLOPES = 7;
+    private static final int FLAG_LEFTRIGHTTURN = 8;
+    private static final int FLAG_RESIDENTIALAREAHANDLING = 9;
+    private static final int FLAG_TRAILER = 10;
+    private static final int FLAG_BORDER = 11;
+    private static final int FLAG_ECONOMICTURNS = 13;
+    private static final int FLAG_WEIGHTING_NORMAL = 14;
+    private static final int FLAG_WEIGHTING_OPTIMAL = 15;
+    private static final int FLAG_TROLLROADSCOSTPENALTY = 16;
+    private static final int FLAG_SLOPESMAXFACTOR = 17;
+    private static final int FLAG_UNPAVED = 18;
+    private static final int FLAG_IPD = 19;
+    private static final int FLAG_AVOIDHOVLANES = 20;
     private int altRouteState;
     private int routeCalculationType;
     private int dailyRestricted;
@@ -269,7 +269,7 @@ implements Serializable {
                     break;
                 }
                 default: {
-                    this.env.getLogChannel().log(-1601830656, "Criteria#initializeRouteOptions() - unknown routeCalculationType: %1", (long)this.getRouteCalculationType());
+                    this.env.getLogChannel().log(100000, "Criteria#initializeRouteOptions() - unknown routeCalculationType: %1", (long)this.getRouteCalculationType());
                 }
             }
             if (Util.isHURegionNAR()) {
@@ -316,7 +316,7 @@ implements Serializable {
                     break;
                 }
                 default: {
-                    this.env.getLogChannel().log(-1601830656, "Criteria#initializeRouteOptions() - unknown seasonRestricted: %1", (long)this.getDailyRestricted());
+                    this.env.getLogChannel().log(100000, "Criteria#initializeRouteOptions() - unknown seasonRestricted: %1", (long)this.getDailyRestricted());
                 }
             }
             switch (this.getSeasonRestricted()) {
@@ -333,7 +333,7 @@ implements Serializable {
                     break;
                 }
                 default: {
-                    this.env.getLogChannel().log(-1601830656, "Criteria#initializeRouteOptions() - unknown seasonRestricted: %1", (long)this.getSeasonRestricted());
+                    this.env.getLogChannel().log(100000, "Criteria#initializeRouteOptions() - unknown seasonRestricted: %1", (long)this.getSeasonRestricted());
                 }
             }
             switch (this.getVignetteType()) {
@@ -354,7 +354,7 @@ implements Serializable {
                     break;
                 }
                 default: {
-                    this.env.getLogChannel().log(-1601830656, "Criteria#initializeRouteOptions() - unknown vignetteType: %1", (long)this.getVignetteType());
+                    this.env.getLogChannel().log(100000, "Criteria#initializeRouteOptions() - unknown vignetteType: %1", (long)this.getVignetteType());
                 }
             }
             int[] nArray = new int[this.getVignetteCountries().length];
@@ -387,7 +387,7 @@ implements Serializable {
             routeOptions.setUnpaved(this.getUnpavedRoads());
             routeOptions.setIpd(this.getIPDData());
         } else {
-            this.env.getLogChannel().log(-2137614336, "Criteria#initializeRouteOptions() - RouteOptions object is null!");
+            this.env.getLogChannel().log(10000000, "Criteria#initializeRouteOptions() - RouteOptions object is null!");
         }
     }
 

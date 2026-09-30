@@ -12,7 +12,7 @@ public class AlertRowEvo
 extends AlertRow {
     public AlertRowEvo(StationInfoExt stationInfoExt, SeekEntry seekEntry, String string, String string2) {
         super(stationInfoExt, seekEntry, string, string2);
-        this.setPropertyCell(8, new PropertyListCell(673103840, new int[0]));
+        this.setPropertyCell(8, new PropertyListCell(-524345816, new int[0]));
     }
 }
 

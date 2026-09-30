@@ -16,7 +16,6 @@ extends QueueWorker {
         super(string, n);
     }
 
-    @Override
     protected void handleQueuedObject(Object object) {
         try {
             de.eso.a.a.a a2 = (de.eso.a.a.a)object;

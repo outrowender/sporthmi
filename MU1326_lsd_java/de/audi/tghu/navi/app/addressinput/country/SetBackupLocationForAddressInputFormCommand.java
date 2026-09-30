@@ -14,7 +14,6 @@ extends NavCommand {
         this.backupLocationHandler = iBackupLocationHandler;
     }
 
-    @Override
     public void execute() {
         if (this.backupLocationHandler == null) {
             this.getCommandList().commandAborted("Backup Location Handler is null");

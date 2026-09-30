@@ -8,6 +8,7 @@ import de.audi.atip.log.LogChannel;
 import de.audi.atip.statemachine.AbstractSMM;
 import de.audi.atip.statemachine.SMModuleConstants;
 import de.audi.atip.statemachine.SMSyncTarget;
+import java.util.NoSuchElementException;
 
 public class TestSupportSMMInitStates
 implements SMModuleConstants {
@@ -37,12 +38,12 @@ implements SMModuleConstants {
     }
 
     private void initStateSuperstateList() {
-        int[] nArray = new int[]{-10, 10429440, 10429440, 10429440, 10429440, 10429440};
+        int[] nArray = new int[]{-10, 2400000, 2400000, 2400000, 2400000, 2400000};
         this.smm.setStateSuperstateList(nArray);
     }
 
     private void initStateDHSList() {
-        int[] nArray = new int[]{-1, 10429440, 43983872, 27206656, 60761088, 77538304};
+        int[] nArray = new int[]{-1, 2400000, 2400002, 2400001, 2400003, 2400004};
         this.smm.setStateDHSList(nArray);
     }
 
@@ -56,17 +57,17 @@ implements SMModuleConstants {
 
     private void initStateTrigger1(int[][] nArray, int[][] nArray2) {
         nArray[0] = new int[]{1};
-        nArray2[0] = new int[]{10429440};
-        nArray[1] = new int[]{10429440, 43983872};
-        nArray2[1] = new int[]{27206656, 94315520};
+        nArray2[0] = new int[]{2400000};
+        nArray[1] = new int[]{2400000, 2400002};
+        nArray2[1] = new int[]{2400001, 2400005};
         nArray[2] = new int[]{1741, 1742};
-        nArray2[2] = new int[]{43983872, 43983872};
-        nArray[3] = new int[]{27206656, 1741, 1742};
-        nArray2[3] = new int[]{60761088, 77538304, 77538304};
-        nArray[4] = new int[]{1741, 1742, 27206656};
-        nArray2[4] = new int[]{111092736, 111092736, 127869952};
+        nArray2[2] = new int[]{2400002, 2400002};
+        nArray[3] = new int[]{2400001, 1741, 1742};
+        nArray2[3] = new int[]{2400003, 2400004, 2400004};
+        nArray[4] = new int[]{1741, 1742, 2400001};
+        nArray2[4] = new int[]{2400006, 2400006, 2400007};
         nArray[5] = nArray[2];
-        nArray2[5] = new int[]{144647168, 144647168};
+        nArray2[5] = new int[]{2400008, 2400008};
     }
 
     private void initStateMediatorList() {
@@ -94,7 +95,7 @@ implements SMModuleConstants {
         this.smm.setSyncTargetList(sMSyncTargetArray);
     }
 
-    public HMIModel getModel(int n) {
+    public HMIModel getModel(int n) throws NoSuchElementException {
         return this.smm.getModel(n);
     }
 }

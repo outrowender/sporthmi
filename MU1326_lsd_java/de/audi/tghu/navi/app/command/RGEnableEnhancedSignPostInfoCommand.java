@@ -13,9 +13,8 @@ extends NavCommand {
         this.enable = bl;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "RGEnableEnhancedSignPostInfoCommand#execute() - calling rgEnableEnhancedSignPostInfo( %1 ) ", this.enable);
+        this.logger.log(10000000, "RGEnableEnhancedSignPostInfoCommand#execute() - calling rgEnableEnhancedSignPostInfo( %1 ) ", this.enable);
         this.getDSINavigation().rgEnableEnhancedSignPostInfo(this.enable);
         this.getCommandList().commandFinished();
     }

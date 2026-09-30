@@ -6,7 +6,6 @@ package de.audi.tghu.navi.app.addressinput.poi;
 import org.dsi.ifc.navigation.LIValueListElement;
 
 public interface IPoiScreenOnElementSelected {
-    default public void onElementSelected(LIValueListElement lIValueListElement) {
-    }
+    public void onElementSelected(LIValueListElement var1);
 }
 

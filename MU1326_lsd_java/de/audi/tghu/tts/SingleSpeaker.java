@@ -16,15 +16,14 @@ implements TTSSingleSpeakService {
 
     public SingleSpeaker(LogChannel logChannel, DSITTSCaller dSITTSCaller, int n, short s) {
         super(logChannel, dSITTSCaller, n, s);
-        this.logCh.log(-2137614336, "[SingleSpeaker#ctor] Called.");
+        this.logCh.log(10000000, "[SingleSpeaker#ctor] Called.");
         this.sessionPauseHandling = 1;
         this.defaultListener = new TTSSingleSpeakerDefaultListener(logChannel, this);
         this.setTTSListener(this.defaultListener);
     }
 
-    @Override
     public void speakImpl(String string) {
-        this.logCh.log(-2137614336, "[SingleSpeaker#speak] Called, text: %1", (Object)string);
+        this.logCh.log(10000000, "[SingleSpeaker#speak] Called, text: %1", (Object)string);
         this.defaultListener.setBufferedText(string);
         this.ttsService.singleSpeak(string);
     }

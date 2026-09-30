@@ -14,9 +14,8 @@ extends DefaultSettingListener {
         this.env = tVEnv;
     }
 
-    @Override
     public void passwordChanged() {
-        this.env.framework.getHmiServiceApp().showPartialPopup(0, 1806444288);
+        this.env.framework.getHmiServiceApp().showPartialPopup(0, 2600043);
     }
 }
 

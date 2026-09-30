@@ -13,7 +13,6 @@ extends MapOptionValidator {
         super(iFrameworkAccess);
     }
 
-    @Override
     public boolean isMapRepresentationValid(int n) {
         switch (n) {
             case 0: {
@@ -29,7 +28,6 @@ extends MapOptionValidator {
         return false;
     }
 
-    @Override
     public boolean isAutoZoomValid(int n) {
         switch (n) {
             case 1: 

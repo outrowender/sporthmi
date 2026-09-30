@@ -4,14 +4,34 @@
 package de.audi.tv.app.tm.handling;
 
 import de.audi.atip.utils.generics.Function;
-import de.audi.atip.utils.reactive.observables.Observables$Combinator;
-import de.audi.tv.app.tm.handling.TerminalAndScreenModeTuple$1;
-import de.audi.tv.app.tm.handling.TerminalAndScreenModeTuple$2;
+import de.audi.atip.utils.reactive.observables.Observables;
 import de.esolutions.fw.util.commons.Buffer;
 
 public class TerminalAndScreenModeTuple {
-    public static final Observables$Combinator TERMINALMODE_SCREENMODE_COMBINATOR = new TerminalAndScreenModeTuple$1();
-    public static final Function EXTRACT_TERMINALMODE_FUNCTION = new TerminalAndScreenModeTuple$2();
+    public static final Observables.Combinator<Integer, Integer, TerminalAndScreenModeTuple> TERMINALMODE_SCREENMODE_COMBINATOR = new Observables.Combinator<Integer, Integer, TerminalAndScreenModeTuple>(){
+
+        @Override
+        public TerminalAndScreenModeTuple combine(Integer n, Integer n2) {
+            return new TerminalAndScreenModeTuple(n, n2);
+        }
+
+        @Override
+        public /* synthetic */ Object combine(Object object, Object object2) {
+            return this.combine((Integer)object, (Integer)object2);
+        }
+    };
+    public static final Function<TerminalAndScreenModeTuple, Integer> EXTRACT_TERMINALMODE_FUNCTION = new Function<TerminalAndScreenModeTuple, Integer>(){
+
+        @Override
+        public Integer apply(TerminalAndScreenModeTuple terminalAndScreenModeTuple) {
+            return new Integer(terminalAndScreenModeTuple.terminalMode);
+        }
+
+        @Override
+        public /* synthetic */ Object apply(Object object) {
+            return this.apply((TerminalAndScreenModeTuple)object);
+        }
+    };
     public final int terminalMode;
     public final int screenMode;
     static /* synthetic */ Class class$de$audi$tv$app$tm$handling$TerminalAndScreenModeTuple;

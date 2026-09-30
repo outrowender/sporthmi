@@ -16,24 +16,24 @@ public class ImportStatusMediator {
     }
 
     void switchToErrorScreen() {
-        this.lc.log(-2137614336, "[ImportStatusMediator.switchToErrorScreen]");
+        this.lc.log(10000000, "[ImportStatusMediator.switchToErrorScreen]");
         this.choiceModel.setStatus(1);
         this.choiceModel.setValue(-1);
     }
 
     void showPPImporting() {
-        this.lc.log(-2137614336, "[ImportStatusMediator.showPPImporting]");
+        this.lc.log(10000000, "[ImportStatusMediator.showPPImporting]");
         this.choiceModel.setStatus(0);
     }
 
     void showPPImportSucccess() {
-        this.lc.log(-2137614336, "[ImportStatusMediator.showPPImportSuccess]");
+        this.lc.log(10000000, "[ImportStatusMediator.showPPImportSuccess]");
         this.choiceModel.setStatus(1);
         this.choiceModel.setValue(0);
     }
 
     void hidePP() {
-        this.lc.log(-2137614336, "[ImportStatusMediator.hidePP]");
+        this.lc.log(10000000, "[ImportStatusMediator.hidePP]");
         this.choiceModel.setStatus(2);
     }
 }

@@ -8,11 +8,11 @@ import de.audi.tghu.command.Command;
 
 public abstract class AbstractTVCommand
 extends Command {
-    public static final int CMD_ADD_FAVORITE;
-    public static final int CMD_REMOVE_FAVORITE;
-    public static final int CMD_SELECT_STATION;
-    public static final int CMD_UPDATE_STATIONS;
-    public static final int CMD_DSI;
+    public static final int CMD_ADD_FAVORITE = 0;
+    public static final int CMD_REMOVE_FAVORITE = 1;
+    public static final int CMD_SELECT_STATION = 2;
+    public static final int CMD_UPDATE_STATIONS = 3;
+    public static final int CMD_DSI = 4;
     private final int cmdType;
 
     public AbstractTVCommand(LogChannel logChannel, int n) {
@@ -21,7 +21,7 @@ extends Command {
     }
 
     protected void commandFinished() {
-        this.logger.log(-2137614336, "[AbstractTVCommand.commandFinished] '%1'", (Object)this);
+        this.logger.log(10000000, "[AbstractTVCommand.commandFinished] '%1'", (Object)this);
         this.commandList.commandFinished();
     }
 

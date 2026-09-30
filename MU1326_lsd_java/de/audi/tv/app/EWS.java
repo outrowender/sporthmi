@@ -3,34 +3,33 @@
  */
 package de.audi.tv.app;
 
+import de.audi.atip.hmi.model.DefaultButtonListener;
 import de.audi.atip.hmi.model.list.BaseListModelApp;
+import de.audi.atip.hmi.model.list.EvoListRow;
+import de.audi.atip.hmi.model.listener.DefaultChoiceListener;
 import de.audi.atip.hmi.modelaccess.ChoiceModelApp;
 import de.audi.atip.hmi.modelaccess.MetricsModelApp;
 import de.audi.atip.log.LogChannel;
 import de.audi.atip.metrics.DateMetric;
 import de.audi.tv.app.BCDTime;
-import de.audi.tv.app.EWS$1;
-import de.audi.tv.app.EWS$2;
-import de.audi.tv.app.EWS$EWSAreaRow;
-import de.audi.tv.app.EWS$PopUpCloseListener;
-import de.audi.tv.app.EWS$SettingListener;
-import de.audi.tv.app.EWS$TVListenerExt;
 import de.audi.tv.app.IEWSListener;
 import de.audi.tv.app.IEWSPopupHandler;
 import de.audi.tv.app.audio.EWSBeepHandler;
 import de.audi.tv.app.base.TVEnv;
 import de.audi.tv.app.dsi.DefaultTVListener;
+import de.audi.tv.app.settings.DefaultSettingListener;
 import de.audi.tv.app.settings.ISettingListener;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 import org.dsi.ifc.tvtuner.EWSInfo;
+import org.dsi.ifc.tvtuner.StartUpConfig;
 
 public class EWS {
     private LinkedList ewsList = new LinkedList();
     private final Object ewsListMutex = new Object();
-    public final DefaultTVListener tvListener = new EWS$TVListenerExt(this, null);
-    public final ISettingListener settingListener = new EWS$SettingListener(this, null);
+    public final DefaultTVListener tvListener = new TVListenerExt();
+    public final ISettingListener settingListener = new SettingListener();
     private final TVEnv env;
     private final EWSBeepHandler beepHandler;
     private final IEWSListener ewsListener;
@@ -42,23 +41,43 @@ public class EWS {
     private volatile boolean isEwsEnabled = true;
     public static final Map AREA_MAPPING = new HashMap();
     public static final Map COUNTRY_MAPPING = new HashMap();
-    public static final int UNKNOWN_AREA;
-    private IEWSPopupHandler popupHandler = new EWS$1(this);
+    public static final int UNKNOWN_AREA = 53;
+    private IEWSPopupHandler popupHandler = new IEWSPopupHandler(){
+
+        public void showPopup() {
+        }
+
+        public void showDetails() {
+        }
+
+        public void showAreaList() {
+        }
+
+        public void hidePopup() {
+        }
+    };
 
     public EWS(TVEnv tVEnv, EWSBeepHandler eWSBeepHandler, IEWSListener iEWSListener) {
         this.env = tVEnv;
         this.log = tVEnv.lcMain;
         this.beepHandler = eWSBeepHandler;
         this.ewsListener = iEWSListener;
-        this.affectedList = tVEnv.getBaseListModel(1638672128);
-        EWS$PopUpCloseListener eWS$PopUpCloseListener = new EWS$PopUpCloseListener(this, null);
-        tVEnv.getButtonModel(-609474816).setButtonListener(eWS$PopUpCloseListener);
-        this.ewsTimeoutChoice = tVEnv.getChoiceModel(-693360896);
-        this.ewsTimeoutChoice.setButtonListener(eWS$PopUpCloseListener);
+        this.affectedList = tVEnv.getBaseListModel(2600033);
+        PopUpCloseListener popUpCloseListener = new PopUpCloseListener();
+        tVEnv.getButtonModel(2600155).setButtonListener(popUpCloseListener);
+        this.ewsTimeoutChoice = tVEnv.getChoiceModel(2600150);
+        this.ewsTimeoutChoice.setButtonListener(popUpCloseListener);
         this.ewsTimeoutChoice.setStatus(0);
-        tVEnv.getButtonModel(-206821632).setButtonListener(eWS$PopUpCloseListener);
-        tVEnv.getButtonModel(-223598848).setButtonListener(eWS$PopUpCloseListener);
-        tVEnv.getChoiceModel(-643029248).setChoiceListener(new EWS$2(this));
+        tVEnv.getButtonModel(2600179).setButtonListener(popUpCloseListener);
+        tVEnv.getButtonModel(2600178).setButtonListener(popUpCloseListener);
+        tVEnv.getChoiceModel(2600153).setChoiceListener(new DefaultChoiceListener(){
+
+            public void keyTyped(int n, int n2, int n3) {
+                EWS.this.log.log(1000000, "[EWS.itemFocused] cancel timeout");
+                EWS.this.ewsTimeoutChoice.setStatus(1);
+                EWS.this.ewsTimeoutChoice.setStatus(0);
+            }
+        });
     }
 
     public void registerPopupHandler(IEWSPopupHandler iEWSPopupHandler) {
@@ -69,7 +88,7 @@ public class EWS {
      * WARNING - Removed try catching itself - possible behaviour change.
      */
     private void setEWSInfoList(EWSInfo[] eWSInfoArray) {
-        this.log.log(1078071040, "[EWS.setEWSInfoList] show 'popup'");
+        this.log.log(1000000, "[EWS.setEWSInfoList] show 'popup'");
         Object object = this.ewsListMutex;
         synchronized (object) {
             for (int i2 = 0; i2 < eWSInfoArray.length; ++i2) {
@@ -85,7 +104,7 @@ public class EWS {
 
     public boolean showNextEWSPopup() {
         if (this.ewsList.isEmpty()) {
-            this.log.log(1078071040, "[EWS.showNextEWSPopup] No EWS info found --> remove 'popup'");
+            this.log.log(1000000, "[EWS.showNextEWSPopup] No EWS info found --> remove 'popup'");
             this.isEwsActive = false;
             this.ewsTimeoutChoice.fireEvent(0);
             this.popupHandler.hidePopup();
@@ -95,31 +114,31 @@ public class EWS {
         this.popupHandler.hidePopup();
         EWSInfo eWSInfo = (EWSInfo)this.ewsList.removeFirst();
         if (eWSInfo.warningTime != null) {
-            this.log.log(-2137614336, "[EWS.showNextEWSPopup] hour:0x%1 minute:0x%2", (long)eWSInfo.warningTime.hour, (long)eWSInfo.warningTime.minute);
+            this.log.log(10000000, "[EWS.showNextEWSPopup] hour:0x%1 minute:0x%2", (long)eWSInfo.warningTime.hour, (long)eWSInfo.warningTime.minute);
         }
-        this.log.log(-2137614336, "[EWS.showNextEWSPopup] warningType:0x%1 affectedArea:0x%2", (long)eWSInfo.warningType, (long)eWSInfo.affectedArea);
+        this.log.log(10000000, "[EWS.showNextEWSPopup] warningType:0x%1 affectedArea:0x%2", (long)eWSInfo.warningType, (long)eWSInfo.affectedArea);
         this.setWarningTime(eWSInfo);
-        this.env.getChoiceModel(1672226560).setValue(eWSInfo.warningPrio);
-        this.env.getChoiceModel(1672226560).setStatus(eWSInfo.warningPrio > 0 ? 1 : 0);
-        this.env.getChoiceModel(1689003776).setValue(eWSInfo.warningSrcClass);
-        this.env.getChoiceModel(1689003776).setStatus(eWSInfo.warningSrcClass > 0 ? 1 : 0);
-        this.env.getChoiceModel(1705780992).setValue(eWSInfo.warningType);
-        this.env.getChoiceModel(1705780992).setStatus(eWSInfo.warningType > 0 ? 1 : 0);
-        this.env.getChoiceModel(1621894912).setValue(eWSInfo.affectedArea);
-        this.env.getChoiceModel(1621894912).setStatus(eWSInfo.affectedArea > 0 ? 1 : 0);
+        this.env.getChoiceModel(2600035).setValue(eWSInfo.warningPrio);
+        this.env.getChoiceModel(2600035).setStatus(eWSInfo.warningPrio > 0 ? 1 : 0);
+        this.env.getChoiceModel(2600036).setValue(eWSInfo.warningSrcClass);
+        this.env.getChoiceModel(2600036).setStatus(eWSInfo.warningSrcClass > 0 ? 1 : 0);
+        this.env.getChoiceModel(2600037).setValue(eWSInfo.warningType);
+        this.env.getChoiceModel(2600037).setStatus(eWSInfo.warningType > 0 ? 1 : 0);
+        this.env.getChoiceModel(2600032).setValue(eWSInfo.affectedArea);
+        this.env.getChoiceModel(2600032).setStatus(eWSInfo.affectedArea > 0 ? 1 : 0);
         String string = eWSInfo.messageText != null ? eWSInfo.messageText : "";
-        this.env.getLabelModel(-1733548288).setText(string);
-        this.env.getLabelModel(-1733548288).setStatus("".equals(string) ? 0 : 1);
+        this.env.getLabelModel(2600088).setText(string);
+        this.env.getLabelModel(2600088).setStatus("".equals(string) ? 0 : 1);
         int n = this.getHMICountryCode(eWSInfo.getOriginCountry());
-        this.env.getChoiceModel(-156489984).setValue(n);
-        this.env.getChoiceModel(-156489984).setStatus(n >= 0 ? 1 : 0);
+        this.env.getChoiceModel(2600182).setValue(n);
+        this.env.getChoiceModel(2600182).setStatus(n >= 0 ? 1 : 0);
         boolean bl = this.setTimeout(eWSInfo.warningPrio);
         BaseListModelApp baseListModelApp = this.affectedList.getEmptyCopy();
         if (eWSInfo.areaCodeListNames != null) {
             for (int i2 = 0; i2 < eWSInfo.areaCodeListNames.length; ++i2) {
                 int n2 = this.getHMIAreaCode(eWSInfo.areaCodeListNames[i2]);
                 if (n2 == 53) continue;
-                baseListModelApp.append(new EWS$EWSAreaRow(this, n2, eWSInfo.areaCodeListNames[i2]));
+                baseListModelApp.append(new EWSAreaRow(n2, eWSInfo.areaCodeListNames[i2]));
             }
         }
         this.affectedList.update(baseListModelApp);
@@ -138,10 +157,10 @@ public class EWS {
 
     private void setWarningTime(EWSInfo eWSInfo) {
         DateMetric dateMetric = BCDTime.getDateMetric(eWSInfo.warningTime);
-        MetricsModelApp metricsModelApp = this.env.getMetricsModel(-659806464);
+        MetricsModelApp metricsModelApp = this.env.getMetricsModel(2600152);
         metricsModelApp.setMetric(dateMetric);
         metricsModelApp.setStatus(dateMetric != null ? 1 : 0);
-        MetricsModelApp metricsModelApp2 = this.env.getMetricsModel(615327488);
+        MetricsModelApp metricsModelApp2 = this.env.getMetricsModel(2600228);
         DateMetric dateMetric2 = BCDTime.getDateMetric(eWSInfo.receivingTime);
         metricsModelApp2.setMetric(dateMetric2);
         metricsModelApp2.setStatus(dateMetric2 != null ? 1 : 0);
@@ -158,7 +177,7 @@ public class EWS {
             }
             case 12: 
             case 14: {
-                this.ewsTimeoutChoice.setValue(1625948160);
+                this.ewsTimeoutChoice.setValue(60000);
                 return true;
             }
         }
@@ -193,9 +212,9 @@ public class EWS {
     private int getHMIAreaCode(String string) {
         Integer n = (Integer)AREA_MAPPING.get(string);
         int n2 = n != null ? n : 53;
-        this.log.log(-2137614336, "[EWS.getHMIAreaCode] %1 --> %2", (Object)string, (long)n2);
+        this.log.log(10000000, "[EWS.getHMIAreaCode] %1 --> %2", (Object)string, (long)n2);
         if (n2 == 53) {
-            this.log.log(-1601830656, "[EWS.getHMIAreaCode] area code %1 is unknown!", (Object)string);
+            this.log.log(100000, "[EWS.getHMIAreaCode] area code %1 is unknown!", (Object)string);
         }
         return n2;
     }
@@ -211,7 +230,7 @@ public class EWS {
             }
         }
         int n2 = (n = (Integer)COUNTRY_MAPPING.get(string2)) != null ? n : -1;
-        this.log.log(-2137614336, "[EWS.getHMICountryCode] %1 --> %2", (Object)string2, (long)n2);
+        this.log.log(10000000, "[EWS.getHMICountryCode] %1 --> %2", (Object)string2, (long)n2);
         return n2;
     }
 
@@ -221,52 +240,10 @@ public class EWS {
     public void onEwsPopupClosed() {
         Object object = this.ewsListMutex;
         synchronized (object) {
-            this.log.log(1078071040, "[EWS.onEwsPopupClosed]");
+            this.log.log(1000000, "[EWS.onEwsPopupClosed]");
             this.ewsList.clear();
             this.showNextEWSPopup();
         }
-    }
-
-    static /* synthetic */ LogChannel access$300(EWS eWS) {
-        return eWS.log;
-    }
-
-    static /* synthetic */ ChoiceModelApp access$400(EWS eWS) {
-        return eWS.ewsTimeoutChoice;
-    }
-
-    static /* synthetic */ Object access$500(EWS eWS) {
-        return eWS.ewsListMutex;
-    }
-
-    static /* synthetic */ IEWSPopupHandler access$600(EWS eWS) {
-        return eWS.popupHandler;
-    }
-
-    static /* synthetic */ boolean access$700(EWS eWS) {
-        return eWS.isEWSAvailable;
-    }
-
-    static /* synthetic */ boolean access$800(EWS eWS) {
-        return eWS.isEwsEnabled;
-    }
-
-    static /* synthetic */ void access$900(EWS eWS, EWSInfo[] eWSInfoArray) {
-        eWS.setEWSInfoList(eWSInfoArray);
-    }
-
-    static /* synthetic */ void access$1000(EWS eWS, int n) {
-        eWS.playWarnTone(n);
-    }
-
-    static /* synthetic */ boolean access$702(EWS eWS, boolean bl) {
-        eWS.isEWSAvailable = bl;
-        return eWS.isEWSAvailable;
-    }
-
-    static /* synthetic */ boolean access$802(EWS eWS, boolean bl) {
-        eWS.isEwsEnabled = bl;
-        return eWS.isEwsEnabled;
     }
 
     static {
@@ -856,6 +833,109 @@ public class EWS {
         COUNTRY_MAPPING.put("TT", new Integer(248));
         COUNTRY_MAPPING.put("PH", new Integer(249));
         COUNTRY_MAPPING.put("XUX", new Integer(-1));
+    }
+
+    private class EWSAreaRow
+    extends EvoListRow {
+        private static final int MAX_COLS = 3;
+        private static final int COL_ID = 0;
+        private static final int COL_STRING_ID = 1;
+        private static final int COL_CURSOR_FIX = 2;
+
+        EWSAreaRow(int n, String string) {
+            super(n, 3);
+            this.setInteger(0, n);
+            this.setText(1, string);
+            this.setInteger(2, 0);
+        }
+
+        private EWSAreaRow(EWSAreaRow eWSAreaRow) {
+            super(eWSAreaRow);
+        }
+
+        public EvoListRow copy() {
+            return new EWSAreaRow(this);
+        }
+    }
+
+    private class TVListenerExt
+    extends DefaultTVListener {
+        private TVListenerExt() {
+        }
+
+        public void updateEWSInfoList(EWSInfo[] eWSInfoArray) {
+            if (EWS.this.isEWSAvailable && EWS.this.isEwsEnabled) {
+                EWS.this.setEWSInfoList(eWSInfoArray);
+                EWS.this.playWarnTone(-1);
+            }
+        }
+
+        public void updateStartUpMUConfig(StartUpConfig startUpConfig) {
+            EWS.this.isEWSAvailable = startUpConfig.ewsAvail;
+        }
+    }
+
+    private class SettingListener
+    extends DefaultSettingListener {
+        private SettingListener() {
+        }
+
+        public void updateEWS(boolean bl) {
+            EWS.this.isEwsEnabled = bl;
+        }
+    }
+
+    private class PopUpCloseListener
+    extends DefaultButtonListener {
+        private PopUpCloseListener() {
+        }
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void keyTyped(int n, int n2, int n3) {
+            switch (n) {
+                case 2600150: {
+                    Object object = EWS.this.ewsListMutex;
+                    synchronized (object) {
+                        if (EWS.this.ewsTimeoutChoice.getStatus() != 0) {
+                            EWS.this.log.log(10000000, "[EWS.PopUpCloseListener.keyPressed] popup closed (timeout)");
+                            EWS.this.ewsTimeoutChoice.setStatus(1);
+                            EWS.this.ewsTimeoutChoice.setStatus(0);
+                            EWS.this.showNextEWSPopup();
+                        }
+                        break;
+                    }
+                }
+                case 2600155: {
+                    Object object = EWS.this.ewsListMutex;
+                    synchronized (object) {
+                        EWS.this.log.log(10000000, "[EWS.PopUpCloseListener.keyPressed] popup closed");
+                        EWS.this.ewsTimeoutChoice.setStatus(1);
+                        EWS.this.ewsTimeoutChoice.setStatus(0);
+                        EWS.this.showNextEWSPopup();
+                        break;
+                    }
+                }
+                case 2600178: {
+                    Object object = EWS.this.ewsListMutex;
+                    synchronized (object) {
+                        EWS.this.popupHandler.showDetails();
+                        break;
+                    }
+                }
+                case 2600179: {
+                    Object object = EWS.this.ewsListMutex;
+                    synchronized (object) {
+                        EWS.this.popupHandler.showAreaList();
+                        break;
+                    }
+                }
+                default: {
+                    throw new IllegalArgumentException("Unsupported modelID");
+                }
+            }
+        }
     }
 }
 

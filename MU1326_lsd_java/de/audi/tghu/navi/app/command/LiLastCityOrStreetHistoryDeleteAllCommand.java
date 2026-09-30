@@ -7,17 +7,16 @@ import de.audi.tghu.navi.app.command.NavCommand;
 
 public class LiLastCityOrStreetHistoryDeleteAllCommand
 extends NavCommand {
-    public static final int TYPE_CITY;
-    public static final int TYPE_STREET;
+    public static final int TYPE_CITY = 0;
+    public static final int TYPE_STREET = 1;
     private int type;
 
     public LiLastCityOrStreetHistoryDeleteAllCommand(int n) {
         this.type = n;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "LiLastCityHistoryDeleteAllCommand#execute() - calling liLastCityHistoryDeleteAll() ");
+        this.logger.log(10000000, "LiLastCityHistoryDeleteAllCommand#execute() - calling liLastCityHistoryDeleteAll() ");
         if (this.type == 0) {
             this.getDSINavigation().liLastCityHistoryDeleteAll();
         } else {
@@ -25,10 +24,9 @@ extends NavCommand {
         }
     }
 
-    @Override
     public void liLastCityAndStreetHistoryResult(long l) {
         if (l == 0L) {
-            this.logger.log(-2137614336, "LiLastCityHistoryDeleteAllCommand#liLastCityAndStreetHistoryResult()");
+            this.logger.log(10000000, "LiLastCityHistoryDeleteAllCommand#liLastCityAndStreetHistoryResult()");
             this.getCommandList().commandFinished();
         } else {
             this.logger.log(10000, "LiLastCityHistoryDeleteAllCommand#liLastCityAndStreetHistoryResult() - commandAborted");

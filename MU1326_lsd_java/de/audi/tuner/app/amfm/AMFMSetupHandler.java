@@ -10,33 +10,31 @@ import de.audi.tuner.app.storage.TunerStorage;
 
 public class AMFMSetupHandler
 extends AbstractSetupHandler {
-    static final int AMFM_SETUP_STATION_SORT_AM_INDEX;
-    static final int AMFM_SETUP_STATION_TRACE_INDEX;
-    static final int AMFM_SETUP_STATION_TRACE_REG_INDEX;
-    static final int AMFM_SETUP_RECP_PREF_MODE_INDEX;
-    static final int AMFM_SETUP_HD_ON_OFF_INDEX;
-    static final int AMFM_SETUP_STATION_NAME_FIXVAR_INDEX;
-    static final int AMFM_SETUP_STATION_NAME_ONOFF_INDEX;
-    static final int AMFM_SETUP_STATION_SORT_FM_INDEX;
-    static final int AMFM_SETUP_HD_ON_OFF_FM_INDEX;
-    static final int AMFM_SETUP_HD_ON_OFF_AM_INDEX;
-    private static final int AMFM_SETUP_SIZE;
+    static final int AMFM_SETUP_STATION_SORT_AM_INDEX = 0;
+    static final int AMFM_SETUP_STATION_TRACE_INDEX = 1;
+    static final int AMFM_SETUP_STATION_TRACE_REG_INDEX = 2;
+    static final int AMFM_SETUP_RECP_PREF_MODE_INDEX = 3;
+    static final int AMFM_SETUP_HD_ON_OFF_INDEX = 4;
+    static final int AMFM_SETUP_STATION_NAME_FIXVAR_INDEX = 5;
+    static final int AMFM_SETUP_STATION_NAME_ONOFF_INDEX = 6;
+    static final int AMFM_SETUP_STATION_SORT_FM_INDEX = 7;
+    static final int AMFM_SETUP_HD_ON_OFF_FM_INDEX = 8;
+    static final int AMFM_SETUP_HD_ON_OFF_AM_INDEX = 9;
+    private static final int AMFM_SETUP_SIZE = 10;
 
     AMFMSetupHandler(Logger logger, TunerStorage tunerStorage) {
         super("AMFM", logger, tunerStorage);
     }
 
-    @Override
     protected int[] loadSetup() {
         return this.storage.loadAMFMSetup();
     }
 
-    @Override
     protected void storeSetup(int[] nArray) {
         if (nArray.length == 10) {
             this.storage.storeAMFMSetup(nArray, true);
         } else {
-            this.logger.main.log(10000, "[AMFMSetupHandler#storeSetup], Not storing setup, wrong size (is %1, expected %2)", (long)nArray.length, (long)0);
+            this.logger.main.log(10000, "[AMFMSetupHandler#storeSetup], Not storing setup, wrong size (is %1, expected %2)", (long)nArray.length, 10L);
         }
     }
 
@@ -54,7 +52,6 @@ extends AbstractSetupHandler {
         return nArray;
     }
 
-    @Override
     protected int[] checkSetupByVariant(int[] nArray) {
         if (nArray.length != 10) {
             nArray = AMFMSetupHandler.getDefaultSetup();

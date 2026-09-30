@@ -10,7 +10,6 @@ import de.audi.tghu.swdl.sm.SWDLSMMActions;
 
 public class Activator
 extends AbstractSMMActivator {
-    @Override
     public void init() {
         this.smmList = new SWDLSMM[8];
         if (this.framework.isFrontMU()) {

@@ -28,10 +28,10 @@ import org.dsi.ifc.map.Rect;
 
 public abstract class PreviewMapHandlerAbstract
 implements IPreviewMap {
-    protected static final int PREVIEW_MAP_MODE_IDLE;
-    protected static final int PREVIEW_MAP_MODE_ACTIVE_MAP_DETAIL_SCREEN;
-    protected static final int PREVIEW_MAP_MODE_ACTIVE_MAP_FULL_SCREEN_WITH_TOOLTIP;
-    protected static final int PREVIEW_MAP_MODE_APPLY_ITEM_BEFORE_SHOWN;
+    protected static final int PREVIEW_MAP_MODE_IDLE = 1;
+    protected static final int PREVIEW_MAP_MODE_ACTIVE_MAP_DETAIL_SCREEN = 2;
+    protected static final int PREVIEW_MAP_MODE_ACTIVE_MAP_FULL_SCREEN_WITH_TOOLTIP = 3;
+    protected static final int PREVIEW_MAP_MODE_APPLY_ITEM_BEFORE_SHOWN = 4;
     protected int previewMapMode = 1;
     protected final NavigationEnv env;
     protected final LogChannel logger;
@@ -62,11 +62,9 @@ implements IPreviewMap {
         return this.mapForPreview;
     }
 
-    public abstract GuiModelAccessForPreviewMapDetailScreenDefault getGuiModelAccessForPreviewMapDetailScreenDefault() {
-    }
+    public abstract GuiModelAccessForPreviewMapDetailScreenDefault getGuiModelAccessForPreviewMapDetailScreenDefault();
 
-    public abstract FactoryPreviewMapStateAbstract getFactoryPreviewMapState() {
-    }
+    public abstract FactoryPreviewMapStateAbstract getFactoryPreviewMapState();
 
     public AbstractMap getMapForFullScreen() {
         return this.mapForPreview;
@@ -78,11 +76,11 @@ implements IPreviewMap {
 
     protected boolean isPreviewMapOperable() {
         if (!this.mapForPreview.getNaviInterface().getOperationManager().isFullyOperable()) {
-            this.logger.log(-2137614336, "PreviewMapHandlerAbstract#isPreviewMapOperable() - not fully operable ");
+            this.logger.log(10000000, "PreviewMapHandlerAbstract#isPreviewMapOperable() - not fully operable ");
             return false;
         }
         if (!this.mapForPreview.getMVRequest().getMVRequestControlActive().isOperable()) {
-            this.logger.log(-2137614336, "PreviewMapHandlerAbstract#isPreviewMapOperable() - MVRequest not fully operable ");
+            this.logger.log(10000000, "PreviewMapHandlerAbstract#isPreviewMapOperable() - MVRequest not fully operable ");
             return false;
         }
         return true;
@@ -90,11 +88,11 @@ implements IPreviewMap {
 
     protected boolean isPreviewMapReady() {
         if (!this.isPreviewMapOperable()) {
-            this.logger.log(-2137614336, "PreviewMapHandlerAbstract#isPreviewMapReady() - not operable ");
+            this.logger.log(10000000, "PreviewMapHandlerAbstract#isPreviewMapReady() - not operable ");
             return false;
         }
         if (this.mapForPreview.getActiveContextIndex() != 30) {
-            this.logger.log(-2137614336, "PreviewMapHandlerAbstract#isPreviewMapReady() - active context: %1 ", (long)this.mapForPreview.getActiveContextIndex());
+            this.logger.log(10000000, "PreviewMapHandlerAbstract#isPreviewMapReady() - active context: %1 ", (long)this.mapForPreview.getActiveContextIndex());
             return false;
         }
         return true;
@@ -105,7 +103,7 @@ implements IPreviewMap {
             this.logger.log(10000, "PreviewMapHandlerAbstract#setFlagsInMap() - wrong size");
             return;
         }
-        this.logger.log(1078071040, "PreviewMapHandlerAbstract#setFlagsInMap() - number of positions: %1, number of styleTypes: %2", navLocationWgs84Array == null ? 0L : (long)n, nArray == null ? 0L : (long)nArray.length);
+        this.logger.log(1000000, "PreviewMapHandlerAbstract#setFlagsInMap() - number of positions: %1, number of styleTypes: %2", navLocationWgs84Array == null ? 0L : (long)n, nArray == null ? 0L : (long)nArray.length);
         int n2 = 28;
         int n3 = navLocationWgs84Array == null ? 0 : n;
         int n4 = nArray == null ? 0 : nArray.length;
@@ -128,7 +126,7 @@ implements IPreviewMap {
     }
 
     protected void mapFreeze() {
-        this.logger.log(-2137614336, "PreviewMapHandlerAbstract#mapFreeze() - freezeAllowed=%1", this.freezeAllowed);
+        this.logger.log(10000000, "PreviewMapHandlerAbstract#mapFreeze() - freezeAllowed=%1", this.freezeAllowed);
         if (this.freezeAllowed) {
             this.unfreezeRequired = true;
             this.mapForPreview.getActiveContext().freezeMap();
@@ -136,7 +134,7 @@ implements IPreviewMap {
     }
 
     protected void mapUnfreeze() {
-        this.logger.log(-2137614336, "PreviewMapHandlerAbstract#mapUnfreeze() - freezeAllowed=%1 unfreezeRequired=%2", this.freezeAllowed, this.unfreezeRequired);
+        this.logger.log(10000000, "PreviewMapHandlerAbstract#mapUnfreeze() - freezeAllowed=%1 unfreezeRequired=%2", this.freezeAllowed, this.unfreezeRequired);
         if (this.freezeAllowed || this.unfreezeRequired) {
             this.unfreezeRequired = false;
             this.mapForPreview.getMVRequest().viewFreeze(false);
@@ -144,88 +142,76 @@ implements IPreviewMap {
     }
 
     protected void mapUnfreezeLevel1() {
-        this.logger.log(-2137614336, "PreviewMapHandlerAbstract#mapUnfreezeLevel1() - freezeAllowed=%1 unfreezeRequired=%2", this.freezeAllowed, this.unfreezeRequired);
+        this.logger.log(10000000, "PreviewMapHandlerAbstract#mapUnfreezeLevel1() - freezeAllowed=%1 unfreezeRequired=%2", this.freezeAllowed, this.unfreezeRequired);
         if (this.freezeAllowed || this.unfreezeRequired) {
             this.unfreezeRequired = false;
             this.mapForPreview.getActiveContext().unfreezeMapLevel1();
         }
     }
 
-    protected abstract int getPreviewMapLayoutIdCurrent() {
-    }
+    protected abstract int getPreviewMapLayoutIdCurrent();
 
-    protected abstract PreviewMapStateAbstract getPreviewMapStateCurrent() {
-    }
+    protected abstract PreviewMapStateAbstract getPreviewMapStateCurrent();
 
-    public abstract void setPreviewMapModeAndFrameRate(int n) {
-    }
+    public abstract void setPreviewMapModeAndFrameRate(int var1);
 
     public PreviewMapEventVisibilities getPreviewMapEventVisibilities() {
         return this.previewMapEventVisibilities;
     }
 
-    @Override
     public void resetEventVisibilities(boolean bl, boolean bl2) {
         this.getPreviewMapEventVisibilities().resetEventVisibilities(bl, bl2);
     }
 
-    @Override
     public void previewMapScreenEntering(int n, int n2, int n3, int n4) {
-        this.logger.log(-2137614336, "PreviewMapHandlerAbstract#previewMapScreenEntering() width=%1, height=%2, offsetX=%3, offsetY=%4", (Object)new Integer(n), (Object)new Integer(n2), (Object)new Integer(n3), (Object)new Integer(n4));
+        this.logger.log(10000000, "PreviewMapHandlerAbstract#previewMapScreenEntering() width=%1, height=%2, offsetX=%3, offsetY=%4", (Object)new Integer(n), (Object)new Integer(n2), (Object)new Integer(n3), (Object)new Integer(n4));
         this.setPreviewMapMode(2);
         this.previewMapScreenEntering(n, n2, n3, n4, false);
     }
 
-    @Override
     public void previewMapScreenEntering(int n, int n2) {
-        this.logger.log(-2137614336, "PreviewMapHandlerAbstract#previewMapScreenEntering() previewMapClientId=%1 previewMapScreenLayoutId=%2", (long)n, (long)n2);
+        this.logger.log(10000000, "PreviewMapHandlerAbstract#previewMapScreenEntering() previewMapClientId=%1 previewMapScreenLayoutId=%2", (long)n, (long)n2);
         this.setPreviewMapMode(2);
     }
 
-    @Override
     public void previewMapScreenApplyItemBeforeShown(int n, int n2) {
         if (this.previewMapMode == 1) {
-            this.logger.log(-2137614336, "PreviewMapHandlerAbstract#previewMapScreenApplyItemBeforeShown() previewMapClientId=%1 previewMapScreenLayoutId=%2 previewMapMode=%3", (long)n, (long)n2, (long)this.previewMapMode);
+            this.logger.log(10000000, "PreviewMapHandlerAbstract#previewMapScreenApplyItemBeforeShown() previewMapClientId=%1 previewMapScreenLayoutId=%2 previewMapMode=%3", (long)n, (long)n2, (long)this.previewMapMode);
             this.setPreviewMapMode(4);
         } else {
-            this.logger.log(-2137614336, "PreviewMapHandlerAbstract#previewMapScreenApplyItemBeforeShown() previewMapClientId=%1 previewMapScreenLayoutId=%2 previewMapMode=%3 apply not possible", (long)n, (long)n2, (long)this.previewMapMode);
+            this.logger.log(10000000, "PreviewMapHandlerAbstract#previewMapScreenApplyItemBeforeShown() previewMapClientId=%1 previewMapScreenLayoutId=%2 previewMapMode=%3 apply not possible", (long)n, (long)n2, (long)this.previewMapMode);
         }
     }
 
-    @Override
     public void previewMapScreenExited() {
-        this.logger.log(-2137614336, "PreviewMapHandlerAbstract#previewMapScreenExited()");
+        this.logger.log(10000000, "PreviewMapHandlerAbstract#previewMapScreenExited()");
         if (this.previewMapMode == 2) {
             this.setPreviewMapMode(1);
         }
     }
 
-    @Override
     public void previewMapFullScreenShowItemSelectedWithToolTip(int n) {
-        this.logger.log(-2137614336, "PreviewMapHandlerAbstract#previewMapFullScreenShowItemSelectedWithToolTip() previewMapClientId=%1", (long)n);
+        this.logger.log(10000000, "PreviewMapHandlerAbstract#previewMapFullScreenShowItemSelectedWithToolTip() previewMapClientId=%1", (long)n);
         this.setPreviewMapMode(3);
     }
 
-    @Override
     public void previewMapFullScreenShowItemInMapWithToolTip() {
-        this.logger.log(-2137614336, "PreviewMapHandlerAbstract#previewMapFullScreenShowItemInMapWithToolTip()");
+        this.logger.log(10000000, "PreviewMapHandlerAbstract#previewMapFullScreenShowItemInMapWithToolTip()");
         this.setPreviewMapMode(3);
     }
 
-    @Override
     public void previewMapFullScreenHidden() {
-        this.logger.log(-2137614336, "PreviewMapHandlerAbstract#previewMapFullScreenHidden() previewMapMode=%1", (long)this.previewMapMode);
+        this.logger.log(10000000, "PreviewMapHandlerAbstract#previewMapFullScreenHidden() previewMapMode=%1", (long)this.previewMapMode);
         if (this.previewMapMode == 3) {
             this.setPreviewMapMode(1);
         }
     }
 
-    @Override
     public void previewMapScreenLayoutRegister(int n, int n2, int n3, int n4, int n5) {
         int n6;
         GuiPreviewMapLayout guiPreviewMapLayout;
         GuiPreviewMapLayout guiPreviewMapLayout2;
-        this.logger.log(-2137614336, new StringBuffer().append("PreviewMapHandlerAbstract#previewMapScreenLayoutRegister() previewMapScreenLayoutId=%1 width=%2 height=%3 offsetX=%4 offsetY=").append(n5).toString(), (Object)new Integer(n), (Object)new Integer(n2), (Object)new Integer(n3), (Object)new Integer(n4));
+        this.logger.log(10000000, "PreviewMapHandlerAbstract#previewMapScreenLayoutRegister() previewMapScreenLayoutId=%1 width=%2 height=%3 offsetX=%4 offsetY=" + n5, (Object)new Integer(n), (Object)new Integer(n2), (Object)new Integer(n3), (Object)new Integer(n4));
         if (this.mapPreviewMapLayouts == null) {
             this.logger.log(10000, "PreviewMapHandlerAbstract#previewMapScreenLayoutRegister() cleanUp was called");
             this.mapPreviewMapLayouts = new HashMap();
@@ -235,7 +221,6 @@ implements IPreviewMap {
         }
     }
 
-    @Override
     public void previewMapScreenErrorUpdateByClientWithDelay() {
         this.logger.log(10000, "PreviewMapHandlerAbstract#previewMapScreenErrorUpdateByClientWithDelay() previewMapClientIdLast=%1", (long)this.getPreviewMapClientIdLast());
     }
@@ -245,7 +230,7 @@ implements IPreviewMap {
     }
 
     protected void refreshPreviewMapLayoutZoomArea() {
-        this.logger.log(-2137614336, "PreviewMapHandlerAbstract#refreshPreviewMapLayoutZoomArea() layoutChanged=%1 previewMapMode=%2", this.isRefreshLayoutNecessary, (long)this.previewMapMode);
+        this.logger.log(10000000, "PreviewMapHandlerAbstract#refreshPreviewMapLayoutZoomArea() layoutChanged=%1 previewMapMode=%2", this.isRefreshLayoutNecessary, (long)this.previewMapMode);
         if (this.previewMapMode == 4 || this.previewMapMode == 2) {
             this.isRefreshLayoutNecessary = false;
             GuiPreviewMapLayout guiPreviewMapLayout = this.getGuiPreviewMapLayoutCurrent();
@@ -275,10 +260,8 @@ implements IPreviewMap {
         }
     }
 
-    abstract GuiPreviewMapLayout getGuiPreviewMapLayoutCurrent() {
-    }
+    abstract GuiPreviewMapLayout getGuiPreviewMapLayoutCurrent();
 
-    @Override
     public Rect getGuiPreviewMapLayoutVisibleAreaCurrent() {
         GuiPreviewMapLayout guiPreviewMapLayout = this.getGuiPreviewMapLayoutCurrent();
         if (guiPreviewMapLayout != null) {
@@ -295,7 +278,7 @@ implements IPreviewMap {
      * WARNING - Removed try catching itself - possible behaviour change.
      */
     protected void setPreviewMapMode(int n) {
-        this.logger.log(-2137614336, "PreviewMapHandlerAbstract#setPreviewMapMode() previewMapModeNew=%1 current=%2", (long)n, (long)this.previewMapMode);
+        this.logger.log(10000000, "PreviewMapHandlerAbstract#setPreviewMapMode() previewMapModeNew=%1 current=%2", (long)n, (long)this.previewMapMode);
         if (this.previewMapMode != n) {
             int n2 = this.previewMapMode;
             this.previewMapMode = n;
@@ -317,10 +300,10 @@ implements IPreviewMap {
                             }
                         }
                         catch (Exception exception) {
-                            this.logger.log(1078071040, "PreviewMapHandlerAbstract#setPreviewMapMode: Exception %1", (Throwable)exception);
+                            this.logger.log(1000000, "PreviewMapHandlerAbstract#setPreviewMapMode: Exception %1", (Throwable)exception);
                         }
                     } else {
-                        this.logger.log(-2137614336, "PreviewMapHandlerAbstract#setPreviewMapMode() - preview map not ready!");
+                        this.logger.log(10000000, "PreviewMapHandlerAbstract#setPreviewMapMode() - preview map not ready!");
                     }
                 }
                 if (n2 == 2) {
@@ -349,11 +332,10 @@ implements IPreviewMap {
         }
     }
 
-    @Override
     public void setPreviewMapCallbackHandler(PreviewMapCallback previewMapCallback) {
-        this.logger.log(1078071040, "PreviewMapHandler#setPreviewMapCallbackHandler()");
+        this.logger.log(1000000, "PreviewMapHandler#setPreviewMapCallbackHandler()");
         if (!this.isPreviewMapOperable()) {
-            this.logger.log(1078071040, "PreviewMapHandler#setPreviewMapCallbackHandler() - preview map not operable!");
+            this.logger.log(1000000, "PreviewMapHandler#setPreviewMapCallbackHandler() - preview map not operable!");
             return;
         }
         this.mapForPreview.getGuiInterface().showPreviewMap(false);
@@ -365,13 +347,11 @@ implements IPreviewMap {
         }
     }
 
-    @Override
     public void hidePreviewMap() {
-        this.logger.log(1078071040, "PreviewMapHandlerAbstract#hidePreviewMap()");
+        this.logger.log(1000000, "PreviewMapHandlerAbstract#hidePreviewMap()");
         this.mapForPreview.getGuiInterface().showPreviewMap(false);
     }
 
-    @Override
     public void setPreviewMapPositionRefreshAllowed(boolean bl) {
         this.mapPositionRefreshAllowed = bl;
     }
@@ -398,31 +378,25 @@ implements IPreviewMap {
         return this.refreshAllowed;
     }
 
-    @Override
     public int getMapContextCorrected(int n) {
         return n;
     }
 
-    @Override
     public void cleanUp() {
         this.mapPreviewMapLayouts = null;
     }
 
-    @Override
     public int getPreviewMapModelHkBackBehavior() {
         return 0;
     }
 
-    @Override
     public void setPreviewMapModelHkBackBehavior(int n) {
     }
 
-    @Override
     public boolean isFullscreenPreviewMapVisible() {
         return this.previewMapMode == 2 || this.previewMapMode == 3;
     }
 
-    @Override
     public boolean isPreviewMapItemArea() {
         PreviewMapStateAbstract previewMapStateAbstract = this.getPreviewMapStateCurrent();
         if (!PreviewMapUtils.isPreviewMapStateValid(previewMapStateAbstract)) {

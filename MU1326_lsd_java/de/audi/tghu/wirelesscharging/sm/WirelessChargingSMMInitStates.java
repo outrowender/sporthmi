@@ -8,6 +8,7 @@ import de.audi.atip.log.LogChannel;
 import de.audi.atip.statemachine.AbstractSMM;
 import de.audi.atip.statemachine.SMModuleConstants;
 import de.audi.atip.statemachine.SMSyncTarget;
+import java.util.NoSuchElementException;
 
 public class WirelessChargingSMMInitStates
 implements SMModuleConstants {
@@ -37,12 +38,12 @@ implements SMModuleConstants {
     }
 
     private void initStateSuperstateList() {
-        int[] nArray = new int[]{-10, 1122054912, -1, 1155609344, -1};
+        int[] nArray = new int[]{-10, 3400002, -1, 3400004, -1};
         this.smm.setStateSuperstateList(nArray);
     }
 
     private void initStateDHSList() {
-        int[] nArray = new int[]{-1, 1105277696, -1, 1122054912, -1};
+        int[] nArray = new int[]{-1, 3400001, -1, 3400002, -1};
         this.smm.setStateDHSList(nArray);
     }
 
@@ -55,12 +56,12 @@ implements SMModuleConstants {
     }
 
     private void initStateTrigger1(int[][] nArray, int[][] nArray2) {
-        nArray[1] = new int[]{1088500480};
-        nArray2[1] = new int[]{1088500480};
+        nArray[1] = new int[]{3400000};
+        nArray2[1] = new int[]{3400000};
         nArray[2] = new int[]{1, 1741, 1742};
-        nArray2[2] = new int[]{1105277696, 1122054912, 1122054912};
+        nArray2[2] = new int[]{3400001, 3400002, 3400002};
         nArray[4] = nArray[2];
-        nArray2[4] = new int[]{1138832128, 1155609344, 1155609344};
+        nArray2[4] = new int[]{3400003, 3400004, 3400004};
     }
 
     private void initStateMediatorList() {
@@ -88,7 +89,7 @@ implements SMModuleConstants {
         this.smm.setSyncTargetList(sMSyncTargetArray);
     }
 
-    public HMIModel getModel(int n) {
+    public HMIModel getModel(int n) throws NoSuchElementException {
         return this.smm.getModel(n);
     }
 }

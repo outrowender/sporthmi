@@ -8,8 +8,6 @@ import de.audi.atip.job.JobLogger;
 import de.audi.atip.log.LogChannel;
 import de.audi.tghu.navi.app.NavigationEnv;
 import de.audi.tghu.navi.app.map.AbstractMap;
-import de.audi.tghu.navi.app.map.handler.CruiseModeHandler$1;
-import de.audi.tghu.navi.app.map.handler.CruiseModeHandler$2;
 import de.audi.tghu.navi.app.map.handler.ICruiseModeHandler;
 import de.audi.tghu.navi.app.util.Util;
 import de.esolutions.fw.util.commons.job.DispatcherBase;
@@ -22,10 +20,15 @@ implements ICruiseModeHandler {
     private boolean isInManoeverzoom = false;
     private int currentContext = 0;
     private final DispatcherBase cruiseModeNotificationDispatcher;
-    private static final int NAVI_CONTEXT;
-    private static final int MAP_CONTEXT;
+    private static final int NAVI_CONTEXT = 5;
+    private static final int MAP_CONTEXT = 39;
     private NaviCruiseModeServiceListener NULL_NOTIFICATIONSERVICE;
-    private NaviCruiseModeServiceListener notificationService = this.NULL_NOTIFICATIONSERVICE = new CruiseModeHandler$1(this);
+    private NaviCruiseModeServiceListener notificationService = this.NULL_NOTIFICATIONSERVICE = new NaviCruiseModeServiceListener(){
+
+        public void updateCruiseMode(boolean bl) {
+            CruiseModeHandler.this.logger.log(10000000, "CruiseModeHandler.NullService#updateCruiseMode( )");
+        }
+    };
     private final NavigationEnv env;
     private final AbstractMap map;
 
@@ -37,9 +40,8 @@ implements ICruiseModeHandler {
         this.map = abstractMap;
     }
 
-    @Override
     public void onEvent(int n, int n2) {
-        this.logger.log(-2137614336, "CruiseModeHandler#onEvent( %1, %2 )", (long)n, (long)n2);
+        this.logger.log(10000000, "CruiseModeHandler#onEvent( %1, %2 )", (long)n, (long)n2);
         switch (n) {
             case 102: {
                 this.currentContext = n2;
@@ -51,8 +53,8 @@ implements ICruiseModeHandler {
             }
         }
         this.determineCruiseMode();
-        this.logger.log(-2137614336, "CruiseModeHandler#onEvent(currentContext %1 )", (long)this.currentContext);
-        this.logger.log(-2137614336, "CruiseModeHandler#onEvent(isInCruiseMode %1, isInManoeverzoom %2)", this.isInCruiseMode, this.isInManoeverzoom);
+        this.logger.log(10000000, "CruiseModeHandler#onEvent(currentContext %1 )", (long)this.currentContext);
+        this.logger.log(10000000, "CruiseModeHandler#onEvent(isInCruiseMode %1, isInManoeverzoom %2)", this.isInCruiseMode, this.isInManoeverzoom);
     }
 
     private boolean isValidApplicationContext(int n) {
@@ -64,7 +66,7 @@ implements ICruiseModeHandler {
 
     private void determineCruiseMode() {
         int n = this.env.getChoiceModel(8).getValue();
-        this.logger.log(-2137614336, "CruiseModeHandler#determineCruiseMode activeApplication = %1", (long)n);
+        this.logger.log(10000000, "CruiseModeHandler#determineCruiseMode activeApplication = %1", (long)n);
         if (this.isValidApplicationContext(n)) {
             switch (this.currentContext) {
                 case 6: 
@@ -120,7 +122,7 @@ implements ICruiseModeHandler {
     }
 
     private void setCruiseMode(boolean bl) {
-        this.logger.log(-2137614336, "CruiseModeHandler#setCruiseMode( %1 )", bl);
+        this.logger.log(10000000, "CruiseModeHandler#setCruiseMode( %1 )", bl);
         if (bl == this.isInCruiseMode) {
             return;
         }
@@ -128,38 +130,31 @@ implements ICruiseModeHandler {
         this.dispatchCruiseModeUpdate(bl);
     }
 
-    private void dispatchCruiseModeUpdate(boolean bl) {
-        this.cruiseModeNotificationDispatcher.execute(new CruiseModeHandler$2(this, bl));
+    private void dispatchCruiseModeUpdate(final boolean bl) {
+        this.cruiseModeNotificationDispatcher.execute(new Runnable(){
+
+            public void run() {
+                CruiseModeHandler.this.notificationService.updateCruiseMode(bl);
+            }
+        });
     }
 
-    @Override
     public boolean isInCruiseMode() {
         return this.isInCruiseMode;
     }
 
-    @Override
     public void setNaviCruiseModeNotificationService(NaviCruiseModeServiceListener naviCruiseModeServiceListener) {
-        this.logger.log(-2137614336, "CruiseModeHandler#setNaviCruiseModeNotificationService(Service %1 )", (Object)naviCruiseModeServiceListener);
+        this.logger.log(10000000, "CruiseModeHandler#setNaviCruiseModeNotificationService(Service %1 )", (Object)naviCruiseModeServiceListener);
         this.notificationService = naviCruiseModeServiceListener != null ? naviCruiseModeServiceListener : this.NULL_NOTIFICATIONSERVICE;
     }
 
-    @Override
     public void cleanup() {
         this.cruiseModeNotificationDispatcher.stop();
         this.notificationService = this.NULL_NOTIFICATIONSERVICE;
     }
 
-    @Override
     public boolean isCenterToCar() {
         return this.isCenterToCar;
-    }
-
-    static /* synthetic */ LogChannel access$000(CruiseModeHandler cruiseModeHandler) {
-        return cruiseModeHandler.logger;
-    }
-
-    static /* synthetic */ NaviCruiseModeServiceListener access$100(CruiseModeHandler cruiseModeHandler) {
-        return cruiseModeHandler.notificationService;
     }
 }
 

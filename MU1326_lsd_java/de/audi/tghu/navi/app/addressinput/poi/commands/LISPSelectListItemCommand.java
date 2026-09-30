@@ -17,24 +17,21 @@ extends NavCommand {
         this.itemIndex = n;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(1078071040, "de.audi.tghu.navi.app.addressinput.poi.commands.LISPSelectListItemCommand#execute() - itemIndex: %1", (long)this.itemIndex);
+        this.logger.log(1000000, "de.audi.tghu.navi.app.addressinput.poi.commands.LISPSelectListItemCommand#execute() - itemIndex: %1", (long)this.itemIndex);
         this.getDSINavigation().lispSelectListItem(this.itemIndex);
     }
 
-    @Override
     public void poiValueList(LIValueList lIValueList, long l) {
-        this.logger.log(1078071040, "de.audi.tghu.navi.app.addressinput.poi.commands.LISPSelectListItemCommand#poiValueList() - lispValueListCount: %1", l);
+        this.logger.log(1000000, "de.audi.tghu.navi.app.addressinput.poi.commands.LISPSelectListItemCommand#poiValueList() - lispValueListCount: %1", l);
         this.dsiResponseContainer.setPOIValueList(lIValueList);
         this.dsiResponseContainer.setPOIValueListCount(l);
         this.poiValueListResponded = true;
         this.checkFinished();
     }
 
-    @Override
     public void liResult(long l) {
-        this.logger.log(1078071040, "de.audi.tghu.navi.app.addressinput.poi.commands.LISPSelectListItemCommand#liResult() - returnCode: %1", l);
+        this.logger.log(1000000, "de.audi.tghu.navi.app.addressinput.poi.commands.LISPSelectListItemCommand#liResult() - returnCode: %1", l);
         if (l == 0L) {
             this.liResultResponded = true;
             this.checkFinished();
@@ -49,7 +46,6 @@ extends NavCommand {
         }
     }
 
-    @Override
     public void liCurrentState(NavLocation navLocation, int[] nArray, int[] nArray2, long l) {
         this.logger.log(10000, "de.audi.tghu.navi.app.addressinput.poi.commands.LISPSelectListItemCommand#liCurrentState() - liCurrentState was called but was not expected for DSI-call lispSelectListItem! Either you are using the wrong command or the southside is sending the wrong answer!");
     }

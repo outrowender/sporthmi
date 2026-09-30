@@ -6,7 +6,6 @@ package de.audi.tuner.util.change;
 import de.audi.tuner.util.change.ChangeEvent;
 
 public interface ChangeListener {
-    default public void stateChanged(ChangeEvent changeEvent) {
-    }
+    public void stateChanged(ChangeEvent var1);
 }
 

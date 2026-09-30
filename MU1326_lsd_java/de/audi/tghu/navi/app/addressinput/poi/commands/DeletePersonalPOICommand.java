@@ -13,15 +13,13 @@ extends NavCommand {
         this.paths = stringArray;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(1078071040, "DeletePersonalPOICommand#execute() - calling deletePersonalPOIDataBases() ");
+        this.logger.log(1000000, "DeletePersonalPOICommand#execute() - calling deletePersonalPOIDataBases() ");
         this.getDSINavigation().deletePersonalPOIDataBases(this.paths);
     }
 
-    @Override
     public void deletePersonalPOIDataBasesResult(int n) {
-        this.logger.log(1078071040, "DeletePersonalPOICommand#deletePersonalPOIDataBasesResult( %1 )", (long)n);
+        this.logger.log(1000000, "DeletePersonalPOICommand#deletePersonalPOIDataBasesResult( %1 )", (long)n);
         if (n == 0) {
             this.getCommandList().commandFinished();
         } else {

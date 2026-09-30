@@ -18,11 +18,11 @@ public class TrafficSignQueue {
      * WARNING - Removed try catching itself - possible behaviour change.
      */
     public void postTrafficSign(TrafficSignInformation trafficSignInformation) {
-        this.logChannel.log(-2137614336, "TrafficSignQueue#postTrafficSign( %1 )", (Object)trafficSignInformation);
+        this.logChannel.log(10000000, "TrafficSignQueue#postTrafficSign( %1 )", (Object)trafficSignInformation);
         TrafficSignQueue trafficSignQueue = this;
         synchronized (trafficSignQueue) {
             this.queuedTrafficSign = trafficSignInformation;
-            super.notifyAll();
+            this.notifyAll();
         }
     }
 
@@ -34,7 +34,7 @@ public class TrafficSignQueue {
         synchronized (trafficSignQueue) {
             while (this.queuedTrafficSign == null) {
                 try {
-                    super.wait();
+                    this.wait();
                 }
                 catch (InterruptedException interruptedException) {
                     Thread.interrupted();

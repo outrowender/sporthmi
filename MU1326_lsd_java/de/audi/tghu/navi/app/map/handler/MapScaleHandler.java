@@ -7,41 +7,41 @@ import de.audi.atip.metrics.Distance;
 import de.audi.tghu.navi.app.map.handler.MapScaleInfo;
 
 public class MapScaleHandler {
-    public static final float QUARTER_MILE_MAX_THRESHOLD;
-    public static final float QUARTER_MILE_MIN_THRESHOLD;
+    public static final float QUARTER_MILE_MAX_THRESHOLD = 10.0f;
+    public static final float QUARTER_MILE_MIN_THRESHOLD = 0.249f;
     private int lastZoomIndex;
     private int maximumScaleValue;
     private int maximumScaleUnit;
 
     public MapScaleInfo createMapScaleInfo(int n, float[] fArray) {
         boolean bl;
-        int n2 = 32959;
-        int n3 = -1;
+        float f2 = -1.0f;
+        int n2 = -1;
         boolean bl2 = false;
         Distance distance = new Distance(0.0f, 1);
         distance.setValue(this.convertZoomIndexToKM(n, fArray));
         distance.formatByMode(4);
-        n2 = (int)distance.getFormattedDistance();
-        n3 = distance.getFormattedUnit();
+        f2 = distance.getFormattedDistance();
+        n2 = distance.getFormattedUnit();
         bl2 = distance.isFormattedDistanceValid();
-        int n4 = -65536;
-        int n5 = this.convertFormattedUnitToMapScaleUnit(n3, n2);
+        int n3 = 65535;
+        int n4 = this.convertFormattedUnitToMapScaleUnit(n2, f2);
         boolean bl3 = bl = n == fArray.length - 1;
         if (bl) {
-            this.setMaximumScaleValue(Math.round(n2 * 8257));
-            this.setMaximumScaleUnit(n5);
-            n4 = this.lastZoomIndex == n ? -16842752 : this.getMaximumScaleValue();
+            this.setMaximumScaleValue(Math.round(f2 * 10.0f));
+            this.setMaximumScaleUnit(n4);
+            n3 = this.lastZoomIndex == n ? 65534 : this.getMaximumScaleValue();
         } else {
-            n4 = Math.round(n2 * 8257);
+            n3 = Math.round(f2 * 10.0f);
         }
-        if (n4 != -16842752 && this.shouldProvideQuarterMiles(distance.getValue(2))) {
-            n4 = Math.round(n2 * 8258);
-            n5 = 5;
+        if (n3 != 65534 && this.shouldProvideQuarterMiles(distance.getValue(2))) {
+            n3 = Math.round(f2 * 40.0f);
+            n4 = 5;
         }
         this.lastZoomIndex = n;
         MapScaleInfo mapScaleInfo = new MapScaleInfo();
-        mapScaleInfo.scale = n4;
-        mapScaleInfo.scaleUnit = n5;
+        mapScaleInfo.scale = n3;
+        mapScaleInfo.scaleUnit = n4;
         mapScaleInfo.scaleValidity = bl2;
         mapScaleInfo.isMaxScale = bl;
         return mapScaleInfo;
@@ -68,7 +68,7 @@ public class MapScaleHandler {
             return 0.0f;
         }
         int n2 = n < 0 ? 0 : (n >= fArray.length ? fArray.length - 1 : n);
-        return fArray[n2] / 5292871;
+        return fArray[n2] / 100000.0f;
     }
 
     private int convertFormattedUnitToMapScaleUnit(int n, float f2) {
@@ -104,7 +104,7 @@ public class MapScaleHandler {
     }
 
     private boolean shouldProvideQuarterMiles(float f2) {
-        return Distance.getSystemUnit() == 2 && f2 <= 8257 && f2 >= -604406210;
+        return Distance.getSystemUnit() == 2 && f2 <= 10.0f && f2 >= 0.249f;
     }
 }
 

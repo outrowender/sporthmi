@@ -10,12 +10,11 @@ import java.io.Serializable;
 class RowSortAlgoFrequency
 extends SortAlgoFrequency
 implements Serializable {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = 5047972729998582106L;
 
     RowSortAlgoFrequency() {
     }
 
-    @Override
     public int compare(Object object, Object object2) {
         return super.compare(((AbstractAmFmRow)object).getStation(), ((AbstractAmFmRow)object2).getStation());
     }

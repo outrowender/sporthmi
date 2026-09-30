@@ -48,7 +48,6 @@ implements MapConsts,
 IContextFactory {
     static /* synthetic */ Class class$de$audi$tghu$navi$app$map$IContext;
 
-    @Override
     public IContext createContext(int n, AbstractMap abstractMap, IconHandler iconHandler) {
         Context context = null;
         NavigationEnv navigationEnv = abstractMap.getNavigationEnv();
@@ -174,13 +173,12 @@ IContextFactory {
                 break;
             }
             default: {
-                abstractMap.getMapLogChannel().log(-1601830656, "ContextFactory#createContext() - unknown context id %1", (long)n);
+                abstractMap.getMapLogChannel().log(100000, "ContextFactory#createContext() - unknown context id %1", (long)n);
             }
         }
         return context;
     }
 
-    @Override
     public IContext createNullContext(LogChannel logChannel) {
         IContext iContext = (IContext)NullFactory.create(class$de$audi$tghu$navi$app$map$IContext == null ? (class$de$audi$tghu$navi$app$map$IContext = ContextFactory.class$("de.audi.tghu.navi.app.map.IContext")) : class$de$audi$tghu$navi$app$map$IContext, logChannel, null);
         return iContext;

@@ -15,10 +15,9 @@ implements IPoiInputModelAccess {
         this.env = navigationEnv;
     }
 
-    @Override
     public void leavePoiScreens() {
-        this.env.getLogChannel().log(-2137614336, "PoiInputModelAccess#leavePoiScreens() - toggle mediator: %1", (long)0);
-        ChoiceModelApp choiceModelApp = this.env.getChoiceModel(-635697664);
+        this.env.getLogChannel().log(10000000, "PoiInputModelAccess#leavePoiScreens() - toggle mediator: %1", 400602L);
+        ChoiceModelApp choiceModelApp = this.env.getChoiceModel(400602);
         if (choiceModelApp != null) {
             int n = choiceModelApp.getValue();
             int n2 = n == 0 ? 1 : 0;

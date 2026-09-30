@@ -21,7 +21,6 @@ extends MapKombi {
         this.setGUIInterface(new GUIKombiMOST(navigationEnv, this));
     }
 
-    @Override
     public String getName() {
         return "MapKombiMOST";
     }

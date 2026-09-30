@@ -8,27 +8,22 @@ import java.io.File;
 
 public class a
 implements f {
-    @Override
     public void a(String string) {
-        System.out.println(new StringBuffer().append("propertyName: ").append(string).toString());
+        System.out.println("propertyName: " + string);
     }
 
-    @Override
     public void b(String string) {
-        System.out.println(new StringBuffer().append("paramKey: ").append(string).toString());
+        System.out.println("paramKey: " + string);
     }
 
-    @Override
     public void c(String string) {
-        System.out.println(new StringBuffer().append("paramVal: ").append(string).toString());
+        System.out.println("paramVal: " + string);
     }
 
-    @Override
     public void a(String string, int n) {
-        System.out.println(new StringBuffer().append("value ").append(n).append(": ").append(string).toString());
+        System.out.println("value " + n + ": " + string);
     }
 
-    @Override
     public void d() {
         System.out.println("END of VCARD file");
     }
@@ -38,30 +33,25 @@ implements f {
         if (byArray != null) {
             n2 = byArray.length;
         }
-        System.out.println(new StringBuffer().append("binary value ").append(n).append(": ").append(n2).append(" bytes.").toString());
+        System.out.println("binary value " + n + ": " + n2 + " bytes.");
     }
 
-    @Override
     public void e() {
         System.out.println("---------------------------endline---------------------------");
     }
 
-    @Override
     public void a(File file, int n) {
-        System.out.println(new StringBuffer().append("Binary content in file: ").append(file).toString());
+        System.out.println("Binary content in file: " + file);
     }
 
-    @Override
     public void a(byte[] byArray, int n) {
         System.out.println("Byte[] content");
     }
 
-    @Override
     public void d(String string) {
-        System.out.println(new StringBuffer().append("propertyGroup: ").append(string).toString());
+        System.out.println("propertyGroup: " + string);
     }
 
-    @Override
     public boolean g() {
         return false;
     }

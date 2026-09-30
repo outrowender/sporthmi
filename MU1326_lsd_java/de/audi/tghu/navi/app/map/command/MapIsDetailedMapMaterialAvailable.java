@@ -15,12 +15,10 @@ extends MapCommand {
         this.position = navLocationWgs84;
     }
 
-    @Override
     public void execute() {
         this.getMap().getMVRequest().isDetailedMapMaterialAvailable(this.position);
     }
 
-    @Override
     public void isDetailedMapMaterialAvailable(NavLocationWgs84 navLocationWgs84, boolean bl) {
         this.detailedMapMaterialAvailable = bl;
         this.getCommandList().commandFinished();

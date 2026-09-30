@@ -4,7 +4,6 @@
 package de.audi.tv.app;
 
 public interface ISourceChanger {
-    default public void switchSource(int n, boolean bl) {
-    }
+    public void switchSource(int var1, boolean var2);
 }
 

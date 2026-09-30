@@ -4,10 +4,8 @@
 package de.audi.tuner.ifc;
 
 public interface ITunerAnnounce {
-    default public void setAudioAvailable(boolean bl) {
-    }
+    public void setAudioAvailable(boolean var1);
 
-    default public int getActiveAnnouncement() {
-    }
+    public int getActiveAnnouncement();
 }
 

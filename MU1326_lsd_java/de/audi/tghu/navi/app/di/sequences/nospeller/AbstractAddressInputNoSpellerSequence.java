@@ -21,17 +21,18 @@ import de.audi.tghu.navi.app.addressinput.commands.ModelStartCommand;
 import de.audi.tghu.navi.app.addressinput.commands.ModelUpdateSpellerAndResultListCommand;
 import de.audi.tghu.navi.app.addressinput.commands.UpdateAddressInputFormScreenModelsCommand;
 import de.audi.tghu.navi.app.addressinput.country.SetBackupLocationForAddressInputFormCommand;
+import de.audi.tghu.navi.app.command.NavCommand;
 import de.audi.tghu.navi.app.command.UnrequestItemsCommand;
 import de.audi.tghu.navi.app.di.IAddressInputManager;
-import de.audi.tghu.navi.app.di.sequences.nospeller.AbstractAddressInputNoSpellerSequence$1;
 import de.audi.tghu.navi.app.di.sequences.nospeller.IAddressInputNoSpellerSequence;
 import de.audi.tghu.navi.app.li.SpellerStack;
 import de.audi.tghu.navi.app.util.Util;
+import org.dsi.ifc.global.NavLocation;
 import org.dsi.ifc.navigation.LIValueListElement;
 
 public abstract class AbstractAddressInputNoSpellerSequence
 implements IAddressInputNoSpellerSequence {
-    protected final String CLASS_NAME = Util.getClassNameFromPackageName(super.getClass());
+    protected final String CLASS_NAME = Util.getClassNameFromPackageName(this.getClass());
     protected final IAddressInputManager inputManager;
     protected final ICommandListFactory commandListFactory;
     protected final NavigationEnv env;
@@ -52,7 +53,6 @@ implements IAddressInputNoSpellerSequence {
         this.inputManager = iAddressInputManager;
     }
 
-    @Override
     public CommandList getStartCommandList() {
         CommandList commandList = this.commandListFactory.createCommandList();
         commandList.add(new ModelStartCommand(this.modelAccess));
@@ -61,7 +61,6 @@ implements IAddressInputNoSpellerSequence {
         return commandList;
     }
 
-    @Override
     public CommandList getSelectListElementCommandList(LIValueListElement lIValueListElement) {
         CommandList commandList = this.commandListFactory.createCommandList();
         commandList.add(new LISPSelectListItemCommand(lIValueListElement.getListIndex()));
@@ -74,7 +73,6 @@ implements IAddressInputNoSpellerSequence {
         return commandList;
     }
 
-    @Override
     public CommandList getSelectElementByIdentifierCommandList(String string) {
         CommandList commandList = this.commandListFactory.createCommandList();
         commandList.add(new LispSelectListItemByIdent(string));
@@ -86,20 +84,28 @@ implements IAddressInputNoSpellerSequence {
         CommandList commandList = this.commandListFactory.createCommandList(1);
         commandList.add(new LISPRequestValueListByListIndexCommand(n, true));
         commandList.add(new ModelUpdateSpellerAndResultListCommand(this.modelAccess, n2, n));
-        commandList.execute(new StringBuffer().append(this.CLASS_NAME).append("#requestNextResultListWindows").toString());
+        commandList.execute(this.CLASS_NAME + "#requestNextResultListWindows");
     }
 
     public void unrequestItems(int n, int n2) {
         CommandList commandList = this.commandListFactory.createCommandList(1);
         commandList.add(new UnrequestItemsCommand(n, n2, this.modelAccess));
-        commandList.execute(new StringBuffer().append(this.CLASS_NAME).append("#unrequestItems").toString());
+        commandList.execute(this.CLASS_NAME + "#unrequestItems");
     }
 
-    public void checkIfElementIsAmbiguous(LIValueListElement lIValueListElement, Command command) {
+    public void checkIfElementIsAmbiguous(LIValueListElement lIValueListElement, final Command command) {
         CommandList commandList = this.commandListFactory.createCommandList(1);
         commandList.add(new LISPGetLocationFromLIValueListElementCommand(lIValueListElement));
-        commandList.add(new AbstractAddressInputNoSpellerSequence$1(this, "Get NavLocation from Response Container", command));
-        commandList.execute(new StringBuffer().append(this.CLASS_NAME).append("#createCheckIfStreetIsAmbiguousCommandList").toString());
+        commandList.add(new NavCommand("Get NavLocation from Response Container"){
+
+            public void execute() {
+                NavLocation navLocation = this.dsiResponseContainer.getSelectedLocation();
+                this.logger.log(10000000, "Get NavLocation from Response Container - location=%1", (Object)navLocation);
+                this.getCommandList().put("LocationToTest", navLocation);
+                this.getCommandList().commandFinishedWithPostCommand(command);
+            }
+        });
+        commandList.execute(this.CLASS_NAME + "#createCheckIfStreetIsAmbiguousCommandList");
     }
 }
 

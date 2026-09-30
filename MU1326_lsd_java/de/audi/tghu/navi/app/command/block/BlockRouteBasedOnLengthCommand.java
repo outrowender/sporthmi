@@ -7,7 +7,7 @@ import de.audi.tghu.navi.app.command.NavCommand;
 
 public class BlockRouteBasedOnLengthCommand
 extends NavCommand {
-    public static final String BLOCK_UID;
+    public static final String BLOCK_UID = "BLOCK_UID";
     private final int offset;
     private final int length;
 
@@ -16,16 +16,14 @@ extends NavCommand {
         this.length = n2;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(1078071040, "BlockRouteBasedOnLengthCommand#execute() - calling blockRouteBasedOnLength( %1, %2 )", (long)this.offset, (long)this.length);
+        this.logger.log(1000000, "BlockRouteBasedOnLengthCommand#execute() - calling blockRouteBasedOnLength( %1, %2 )", (long)this.offset, (long)this.length);
         this.getDSIBlocking().blockRouteBasedOnLength(this.offset, this.length);
     }
 
-    @Override
     public void blockRouteBasedOnLengthResult(long l, int n) {
-        this.logger.log(1078071040, "BlockRouteBasedOnLengthCommand#blockRouteBasedOnLengthResult()");
-        this.getCommandList().put("BLOCK_UID", new Long(l));
+        this.logger.log(1000000, "BlockRouteBasedOnLengthCommand#blockRouteBasedOnLengthResult()");
+        this.getCommandList().put(BLOCK_UID, new Long(l));
         if (n == 0) {
             this.getCommandList().commandFinished();
         } else {

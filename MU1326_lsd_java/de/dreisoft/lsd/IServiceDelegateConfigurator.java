@@ -8,10 +8,8 @@ import java.util.Dictionary;
 import org.osgi.framework.ServiceRegistration;
 
 public interface IServiceDelegateConfigurator {
-    default public void initConfigurator() {
-    }
+    public void initConfigurator();
 
-    default public ServiceRegistration getServiceRegistration(IServiceDelegator iServiceDelegator, String[] stringArray, Object object, Dictionary dictionary) {
-    }
+    public ServiceRegistration getServiceRegistration(IServiceDelegator var1, String[] var2, Object var3, Dictionary var4);
 }
 

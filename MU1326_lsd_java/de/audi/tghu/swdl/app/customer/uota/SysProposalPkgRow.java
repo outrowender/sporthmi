@@ -11,24 +11,23 @@ import de.esolutions.fw.util.commons.Buffer;
 
 public class SysProposalPkgRow
 extends AbstractPkgListRow {
-    protected static final int COLUMNS;
-    protected static final int IDX_ROW_ID;
-    protected static final int IDX_ENABLED;
-    protected static final int IDX_COMPONENT_NAME;
-    protected static final int IDX_COMPONENT_SIZE;
-    protected static final int IDX_COMPONENT_SELECTED;
-    protected static final int IDX_GROUP_ROW;
-    protected static final int IDX_ADD_INFOS;
-    protected static final int IDX_LAYOUT;
-    static final int LAYOUT_NORMAL_WITH_SIZE_AND_CHECKBOX;
-    static final int LAYOUT_UPTODATE_WITHOUT_CHECKBOX;
-    static final int LAYOUT_NORMAL_WIHOUT_SIZE_WITH_CHECKBOX;
+    protected static final int COLUMNS = 8;
+    protected static final int IDX_ROW_ID = 0;
+    protected static final int IDX_ENABLED = 1;
+    protected static final int IDX_COMPONENT_NAME = 2;
+    protected static final int IDX_COMPONENT_SIZE = 3;
+    protected static final int IDX_COMPONENT_SELECTED = 4;
+    protected static final int IDX_GROUP_ROW = 5;
+    protected static final int IDX_ADD_INFOS = 6;
+    protected static final int IDX_LAYOUT = 7;
+    static final int LAYOUT_NORMAL_WITH_SIZE_AND_CHECKBOX = 0;
+    static final int LAYOUT_UPTODATE_WITHOUT_CHECKBOX = 1;
+    static final int LAYOUT_NORMAL_WIHOUT_SIZE_WITH_CHECKBOX = 2;
 
     public SysProposalPkgRow(PkgNode pkgNode) {
         super(pkgNode, 8);
     }
 
-    @Override
     void setValues() {
         super.setLong(0, this.node.getRowId());
         super.setText(2, this.node.getDisplayName());
@@ -87,7 +86,7 @@ extends AbstractPkgListRow {
         buffer.append(super.getText(2));
         buffer.append(",node=").append(this.node.hashCode());
         buffer.append(",hideSize=").append(this.node.hidePackageSize());
-        buffer.append(",class=").append(super.getClass().getName().substring(super.getClass().getName().lastIndexOf(46) + 1));
+        buffer.append(",class=").append(this.getClass().getName().substring(this.getClass().getName().lastIndexOf(46) + 1));
         buffer.append(",layout=").append(super.getInteger(7));
         buffer.append(",enabled=").append(super.getInteger(1));
         buffer.append(",selectable=").append(this.node.isSelectable());
@@ -96,7 +95,6 @@ extends AbstractPkgListRow {
         System.out.println(buffer);
     }
 
-    @Override
     public EvoListRow copy() {
         return new SysProposalPkgRow(this.node);
     }

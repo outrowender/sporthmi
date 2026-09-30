@@ -6,106 +6,75 @@ package de.audi.tghu.navi.app.setup;
 import org.dsi.ifc.navigation.RouteOptions;
 
 public interface IRouteCriteria {
-    public static final int OPTION_IGNORE;
-    public static final int OPTION_WITH;
-    public static final int OPTION_AVOID;
-    public static final int OPTION_AUTO;
-    public static final int OPTION_MANUAL;
-    public static final int OPTION_ON;
-    public static final int OPTION_OFF;
-    public static final int OPTION_AVOID_EXCEPT;
+    public static final int OPTION_IGNORE = 0;
+    public static final int OPTION_WITH = 1;
+    public static final int OPTION_AVOID = 2;
+    public static final int OPTION_AUTO = 3;
+    public static final int OPTION_MANUAL = 4;
+    public static final int OPTION_ON = 5;
+    public static final int OPTION_OFF = 6;
+    public static final int OPTION_AVOID_EXCEPT = 7;
 
-    default public void setValuesFromObject(IRouteCriteria iRouteCriteria) {
-    }
+    public void setValuesFromObject(IRouteCriteria var1);
 
-    default public RouteOptions[] getRouteOptions(boolean bl) {
-    }
+    public RouteOptions[] getRouteOptions(boolean var1);
 
-    default public int getTrafficRerouting() {
-    }
+    public int getTrafficRerouting();
 
-    default public void setTrafficRerouting(int n) {
-    }
+    public void setTrafficRerouting(int var1);
 
-    default public int getFreeways() {
-    }
+    public int getFreeways();
 
-    default public void setFreeways(int n) {
-    }
+    public void setFreeways(int var1);
 
-    default public int getTollRoads() {
-    }
+    public int getTollRoads();
 
-    default public void setTollRoads(int n) {
-    }
+    public void setTollRoads(int var1);
 
-    default public int getFerries() {
-    }
+    public int getFerries();
 
-    default public void setFerries(int n) {
-    }
+    public void setFerries(int var1);
 
-    default public int getMotorrail() {
-    }
+    public int getMotorrail();
 
-    default public void setMotorrail(int n) {
-    }
+    public void setMotorrail(int var1);
 
-    default public int getTimeRestrictedRoads() {
-    }
+    public int getTimeRestrictedRoads();
 
-    default public void setTimeRestrictedRoads(int n) {
-    }
+    public void setTimeRestrictedRoads(int var1);
 
-    default public int getSeasonRestricted() {
-    }
+    public int getSeasonRestricted();
 
-    default public void setSeasonRestricted(int n) {
-    }
+    public void setSeasonRestricted(int var1);
 
-    default public int getTrailer() {
-    }
+    public int getTrailer();
 
-    default public void setTrailer(int n) {
-    }
+    public void setTrailer(int var1);
 
-    default public int getVignettes() {
-    }
+    public int getVignettes();
 
-    default public void setVignettes(int n) {
-    }
+    public void setVignettes(int var1);
 
-    default public int[] getVignetteCountries() {
-    }
+    public int[] getVignetteCountries();
 
-    default public void setVignetteCountries(int[] nArray) {
-    }
+    public void setVignetteCountries(int[] var1);
 
-    default public void setRouteOption(int n) {
-    }
+    public void setRouteOption(int var1);
 
-    default public void setTunnels(int n) {
-    }
+    public void setTunnels(int var1);
 
-    default public int getTunnels() {
-    }
+    public int getTunnels();
 
-    default public void setHovLanes(int n) {
-    }
+    public void setHovLanes(int var1);
 
-    default public int getHovLanes() {
-    }
+    public int getHovLanes();
 
-    default public void setUnpaved(int n) {
-    }
+    public void setUnpaved(int var1);
 
-    default public int getUnpaved() {
-    }
+    public int getUnpaved();
 
-    default public void setIpd(int n) {
-    }
+    public void setIpd(int var1);
 
-    default public int getIpd() {
-    }
+    public int getIpd();
 }
 

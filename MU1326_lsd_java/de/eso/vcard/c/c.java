@@ -19,22 +19,19 @@ implements b {
         this.c = 0;
     }
 
-    @Override
     public void a(List list) {
         this.c += list.size();
-        de.eso.a.d.b.c(new StringBuffer().append("\n receivedObjects = ").append(this.c).append(" count of parseResult = ").append(list.size()).append("\n").toString());
+        de.eso.a.d.b.c("\n receivedObjects = " + this.c + " count of parseResult = " + list.size() + "\n");
         for (int i2 = 0; i2 < list.size(); ++i2) {
             AdbEntry adbEntry = (AdbEntry)list.get(i2);
             de.eso.a.d.b.c(adbEntry.toString());
         }
     }
 
-    @Override
     public int b() {
         return this.a;
     }
 
-    @Override
     public int a() {
         return this.b;
     }

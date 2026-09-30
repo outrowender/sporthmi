@@ -23,11 +23,11 @@ public class SDTextFactory
 implements I18NTarget,
 SDPromptTextAccess {
     private static final String[][] SPECIAL_CHARS_ARRAY = new String[][]{{"quot", "34"}, {"amp", "38"}, {"lt", "60"}, {"gt", "62"}, {"apos", "39"}};
-    public static final int ID_MULTIPLIER;
+    public static final int ID_MULTIPLIER = 10000;
     protected int moduleID = 0;
-    protected static int currentLanguage;
+    protected static int currentLanguage = -1;
     private ByteArrayData stringResources = null;
-    private static final String EMPTY_STRING;
+    private static final String EMPTY_STRING = "";
     private final String defaultLanguage;
     private final HMIService hmiService;
     private final LogChannel logChannel;
@@ -51,21 +51,21 @@ SDPromptTextAccess {
             this.logChannel.log(1000, "[SDTextFactory#getName] system property 'variant.skin' is unknown! Can not determine current variant! Try to use fallback HIGH-Variant.");
             return "HMISpeechEvoHighMMIKombi";
         }
-        String string2 = new StringBuffer().append("HMISpeech").append(string).toString();
-        this.logChannel.log(1078071040, "[SDTextFactory#getName] Determined HMI-Bundle for Prompt-Resources is '%1'.", (Object)string2);
+        String string2 = "HMISpeech" + string;
+        this.logChannel.log(1000000, "[SDTextFactory#getName] Determined HMI-Bundle for Prompt-Resources is '%1'.", (Object)string2);
         return string2;
     }
 
     protected ClassLoader getResourceClassLoader() {
-        return super.getClass().getClassLoader() != null ? super.getClass().getClassLoader() : ClassLoader.getSystemClassLoader();
+        return this.getClass().getClassLoader() != null ? this.getClass().getClassLoader() : ClassLoader.getSystemClassLoader();
     }
 
     protected String getText(int n, int[] nArray, int[] nArray2) {
-        this.logChannel.log(1078071040, "[SDTextFactory#getText] Getting text with id '%1', containg dynamic Content of ModelIDs '%2', modelTypes '%3'.", (Object)Integer.toString(n), (Object)nArray, (Object)nArray2);
+        this.logChannel.log(1000000, "[SDTextFactory#getText] Getting text with id '%1', containg dynamic Content of ModelIDs '%2', modelTypes '%3'.", (Object)Integer.toString(n), (Object)nArray, (Object)nArray2);
         String string = this.getText(n);
-        this.logChannel.log(1078071040, "[SDTextFactory#getText] Original text is '%1'.", (Object)string);
+        this.logChannel.log(1000000, "[SDTextFactory#getText] Original text is '%1'.", (Object)string);
         String string2 = this.processTextReplacement(string, this.hmiService, nArray, nArray2);
-        this.logChannel.log(1078071040, "[SDTextFactory#getText] Returning '%1'.", (Object)string2);
+        this.logChannel.log(1000000, "[SDTextFactory#getText] Returning '%1'.", (Object)string2);
         return string2;
     }
 
@@ -74,50 +74,48 @@ SDPromptTextAccess {
     }
 
     protected String getText(int n) {
-        this.logChannel.log(1078071040, "[SDTextFactory#getText] Using resource '%1'.", (Object)this.resource);
-        this.logChannel.log(1078071040, "[SDTextFactory#getText] Getting text with id '%1'.", (long)n);
+        this.logChannel.log(1000000, "[SDTextFactory#getText] Using resource '%1'.", (Object)this.resource);
+        this.logChannel.log(1000000, "[SDTextFactory#getText] Getting text with id '%1'.", (long)n);
         try {
             String string = this.stringResources.getString(n - this.moduleID * 10000);
             if (string != null) {
-                this.logChannel.log(1078071040, "[SDTextFactory#getText] Returning text '%1'.", (Object)string);
+                this.logChannel.log(1000000, "[SDTextFactory#getText] Returning text '%1'.", (Object)string);
                 return string;
             }
-            this.logChannel.log(-1601830656, "[SDTextFactory#getText] Text with ID '%1' not found in resource-files!", (long)n);
-            return "";
+            this.logChannel.log(100000, "[SDTextFactory#getText] Text with ID '%1' not found in resource-files!", (long)n);
+            return EMPTY_STRING;
         }
         catch (Exception exception) {
-            this.logChannel.log(1078071040, "[SDTextFactory#getText] Exception '%1' occured.", (Object)exception.getMessage());
+            this.logChannel.log(1000000, "[SDTextFactory#getText] Exception '%1' occured.", (Object)exception.getMessage());
             exception.printStackTrace();
-            return "";
+            return EMPTY_STRING;
         }
     }
 
-    @Override
     public String getSDPromptText(int n) {
         return this.getText(n);
     }
 
-    @Override
     public void setLanguage(Language language) {
-        this.logChannel.log(1078071040, "[SDTextFactory#setLanguage] called, language is '%1', hmiCode '%2'", (Object)language.getLanguageName(), (Object)language.getHmiCode());
+        this.logChannel.log(1000000, "[SDTextFactory#setLanguage] called, language is '%1', hmiCode '%2'", (Object)language.getLanguageName(), (Object)language.getHmiCode());
         this.activator.unregisterSDPromptTextAccess();
         InputStream inputStream = null;
         try {
             ClassLoader classLoader = this.getResourceClassLoader();
-            this.resource = new StringBuffer().append("resources/").append(this.getName()).append("/strings_").append(language.getHmiCode()).append(".data").toString();
+            this.resource = "resources/" + this.getName() + "/strings_" + language.getHmiCode() + ".data";
             inputStream = classLoader.getResourceAsStream(this.resource);
             if (inputStream == null) {
                 this.logChannel.log(1000, "[SDTextFactory#setLanguage] WARNING, cannot load resource-file '%1', trying fallback", (Object)this.resource);
-                this.resource = new StringBuffer().append("resources/").append(this.getName()).append("/strings_").append(this.getDefaultLanguage()).append(".data").toString();
+                this.resource = "resources/" + this.getName() + "/strings_" + this.getDefaultLanguage() + ".data";
                 inputStream = classLoader.getResourceAsStream(this.resource);
             }
             if (inputStream == null) {
                 this.logChannel.log(1000, "[SDTextFactory#setLanguage] WARNING, cannot load resource-file '%1', trying fallback", (Object)this.resource);
-                this.resource = new StringBuffer().append("resources/").append(this.getName()).append("/strings.data").toString();
+                this.resource = "resources/" + this.getName() + "/strings.data";
                 inputStream = classLoader.getResourceAsStream(this.resource);
             }
             if (inputStream != null) {
-                this.logChannel.log(1078071040, "[SDTextFactory#setLanguage] '%1' loaded.", (Object)this.resource);
+                this.logChannel.log(1000000, "[SDTextFactory#setLanguage] '%1' loaded.", (Object)this.resource);
                 this.stringResources = new ByteArrayData(inputStream);
             } else {
                 this.logChannel.log(1000, "[SDTextFactory#setLanguage] WARNING, cannot load resource-file '%1'. The following prompts will contain empty Strings!", (Object)this.resource);
@@ -235,10 +233,6 @@ SDPromptTextAccess {
             return SPECIAL_CHARS_ARRAY[i2][0];
         }
         return null;
-    }
-
-    static {
-        currentLanguage = -1;
     }
 }
 

@@ -4,19 +4,32 @@
 package de.audi.tv.app.settings;
 
 public interface ISettingListener {
-    default public void updateVisualAudio(boolean bl) {
-    }
+    public void updateVisualAudio(boolean var1);
 
-    default public void updateEWS(boolean bl) {
-    }
+    public void updateEWS(boolean var1);
 
-    default public void passwordChanged() {
-    }
+    public void passwordChanged();
 
-    default public void passwordNeedsToBeEnteredAgain() {
-    }
+    public void passwordNeedsToBeEnteredAgain();
 
-    default public void updateStationListSorting(int n) {
+    public void updateStationListSorting(int var1);
+
+    public static class Stub
+    implements ISettingListener {
+        public void updateVisualAudio(boolean bl) {
+        }
+
+        public void updateEWS(boolean bl) {
+        }
+
+        public void passwordChanged() {
+        }
+
+        public void passwordNeedsToBeEnteredAgain() {
+        }
+
+        public void updateStationListSorting(int n) {
+        }
     }
 }
 

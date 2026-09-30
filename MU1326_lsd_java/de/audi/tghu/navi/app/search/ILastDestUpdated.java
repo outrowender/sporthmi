@@ -6,7 +6,6 @@ package de.audi.tghu.navi.app.search;
 import java.util.List;
 
 public interface ILastDestUpdated {
-    default public void updateLastDest(List list) {
-    }
+    public void updateLastDest(List var1);
 }
 

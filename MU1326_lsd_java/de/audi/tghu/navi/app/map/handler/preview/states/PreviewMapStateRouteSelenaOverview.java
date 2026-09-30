@@ -19,7 +19,6 @@ extends PreviewMapStateRouteSelenaAbstract {
         this.routeIds = navSegmentIDArray;
     }
 
-    @Override
     public void applyToScreenDetail() {
         this.getMapForPreview().getNaviInterface().focusSelenaRoutes(true);
         this.applyToScreenDetailRouteSegments();
@@ -48,7 +47,6 @@ extends PreviewMapStateRouteSelenaAbstract {
         this.getPreviewMapHandler().getMapForPreview().getGuiInterface().showPreviewMap(true);
     }
 
-    @Override
     public void applyToScreenFullMap() {
         this.getPreviewMapHandler().getPreviewMapEventVisibilities().resetEventVisibilitiesPredictiveNav();
         this.getPreviewMapHandler().setPreviewMapModeAndFrameRate(16);
@@ -57,7 +55,6 @@ extends PreviewMapStateRouteSelenaAbstract {
         }
     }
 
-    @Override
     public String toString() {
         return "PreviewMapStateRouteSelenaOverview()";
     }

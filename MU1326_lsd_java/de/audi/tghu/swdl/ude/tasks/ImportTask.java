@@ -14,13 +14,11 @@ extends AbstractIETask {
         super(iEApp, listIterator, "ImportTask");
     }
 
-    @Override
     void startNexTask() {
         IEClient iEClient = this.getNextIEClient();
         iEClient.startImport(this);
     }
 
-    @Override
     void finished(boolean bl) {
         this.ieApp.importFinished(bl);
     }

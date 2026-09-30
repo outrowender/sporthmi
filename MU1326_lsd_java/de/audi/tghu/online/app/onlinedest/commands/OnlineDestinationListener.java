@@ -8,9 +8,6 @@ import de.audi.tghu.command.CommandList;
 import de.audi.tghu.command.CommandListManager;
 import de.audi.tghu.command.CommandResponse;
 import de.audi.tghu.command.ICommandResponseSupplier;
-import de.audi.tghu.online.app.onlinedest.commands.OnlineDestinationListener$1;
-import de.audi.tghu.online.app.onlinedest.commands.OnlineDestinationListener$2;
-import de.audi.tghu.online.app.onlinedest.commands.OnlineDestinationListener$3;
 import org.dsi.ifc.base.DSIListener;
 import org.dsi.ifc.online.DSIDestinationImportListener;
 import org.dsi.ifc.online.PortalADBEntry;
@@ -30,47 +27,54 @@ ICommandResponseSupplier {
         this.log = logChannel;
     }
 
-    @Override
-    public void asyncException(int n, String string, int n2) {
-        this.log.log(1078071040, "OnlineDestinationListener#asyncException() passing forward...");
-        CommandResponse.execute(this, new OnlineDestinationListener$1(this, n, string, n2));
+    public void asyncException(final int n, final String string, final int n2) {
+        this.log.log(1000000, "OnlineDestinationListener#asyncException() passing forward...");
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((DSIDestinationImportListener)dSIListener).asyncException(n, string, n2);
+            }
+        });
     }
 
-    @Override
-    public void downloadAddressListResult(PortalADBEntry[] portalADBEntryArray, int n, int n2) {
-        this.log.log(1078071040, "OnlineDestinationListener#downloadAddressListResult() passing forward...");
-        CommandResponse.execute(this, new OnlineDestinationListener$2(this, portalADBEntryArray, n, n2));
+    public void downloadAddressListResult(final PortalADBEntry[] portalADBEntryArray, final int n, final int n2) {
+        this.log.log(1000000, "OnlineDestinationListener#downloadAddressListResult() passing forward...");
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((DSIDestinationImportListener)dSIListener).downloadAddressListResult(portalADBEntryArray, n, n2);
+            }
+        });
     }
 
-    @Override
-    public void stopActionResult(int n) {
-        this.log.log(1078071040, "OnlineDestinationListener#stopActionResult() passing forward...");
-        CommandResponse.execute(this, new OnlineDestinationListener$3(this, n));
+    public void stopActionResult(final int n) {
+        this.log.log(1000000, "OnlineDestinationListener#stopActionResult() passing forward...");
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((DSIDestinationImportListener)dSIListener).stopActionResult(n);
+            }
+        });
     }
 
-    @Override
     public void updateEntries(int n, int n2) {
         this.defaultListener.updateEntries(n, n2);
     }
 
-    @Override
     public DSIListener getDSIDefaultHandler() {
         return this.defaultListener;
     }
 
-    @Override
     public CommandList getActiveCommandList() {
         return this.cmdListMgr.getActiveCommandList();
     }
 
-    @Override
     public LogChannel getLogChannel() {
         return this.log;
     }
 
-    @Override
     public String getHandlerName() {
-        return super.getClass().getName();
+        return this.getClass().getName();
     }
 
     static /* synthetic */ Class class$(String string) {

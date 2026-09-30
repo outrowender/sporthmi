@@ -35,10 +35,8 @@ extends AbstractSdarsEpgListRow {
         return this.station.fullLabel;
     }
 
-    public abstract String getFormatedPerid() {
-    }
+    public abstract String getFormatedPerid();
 
-    public abstract void updateTimesWithTimezoneOffset(long l) {
-    }
+    public abstract void updateTimesWithTimezoneOffset(long var1);
 }
 

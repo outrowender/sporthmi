@@ -22,7 +22,6 @@ implements IDisplayManagerKombiControl {
         }
     }
 
-    @Override
     protected void configureDM() {
         this.setupKDKBackground(this.getSkin(), false);
     }
@@ -42,7 +41,7 @@ implements IDisplayManagerKombiControl {
         } else {
             this.log.log(10000, "DisplayManagerEvo#getSkin failed to retrieve either the lastmode handler or the lastmode storage");
         }
-        this.log.log(1078071040, "DisplayManagerEvo#getSkin skin: %1", (long)n);
+        this.log.log(1000000, "DisplayManagerEvo#getSkin skin: %1", (long)n);
         return n;
     }
 
@@ -50,44 +49,43 @@ implements IDisplayManagerKombiControl {
         return n == 1;
     }
 
-    @Override
     public void setupKDKBackground(int n) {
         this.setupKDKBackground(n, true);
     }
 
     private void setupKDKBackground(int n, boolean bl) {
-        this.log.log(-2137614336, "DisplayManagerEvo#setupKDKBackground setting up the KDK background");
+        this.log.log(10000000, "DisplayManagerEvo#setupKDKBackground setting up the KDK background");
         String string = null;
         String string2 = null;
         if (this.framework != null && this.framework.getSysConst(541) == 2 && this.isAudi(this.framework)) {
             boolean bl2 = this.isA3(this.framework);
             if (bl2 || this.isB9(this.framework) || this.isQ1(this.framework) || this.isQ5(this.framework)) {
                 if (this.isSportSkin(n)) {
-                    this.log.log(-2137614336, "DisplayManagerEvo#setupKDKBackground detected a car model with a B9 Sport-compatible FPK");
+                    this.log.log(10000000, "DisplayManagerEvo#setupKDKBackground detected a car model with a B9 Sport-compatible FPK");
                     string = this.getKDKBackgroundAbsolutePath(bl2, HMIImageConstantsSystem.kdk_background_b9_sport_small_stage);
                 } else {
-                    this.log.log(-2137614336, "DisplayManagerEvo#setupKDKBackground detected a car model with a B9-compatible FPK");
+                    this.log.log(10000000, "DisplayManagerEvo#setupKDKBackground detected a car model with a B9-compatible FPK");
                     string = this.getKDKBackgroundAbsolutePath(bl2, HMIImageConstantsSystem.kdk_background_a4_classic_small_stage);
                 }
                 string2 = this.getKDKBackgroundAbsolutePath(bl2, HMIImageConstantsSystem.kdk_background_a4_classic_large_stage);
             } else if (this.isQ7(this.framework)) {
                 if (this.isSportSkin(n)) {
-                    this.log.log(-2137614336, "DisplayManagerEvo#setupKDKBackground detected a car model with a Q7 Sport-compatible FPK");
+                    this.log.log(10000000, "DisplayManagerEvo#setupKDKBackground detected a car model with a Q7 Sport-compatible FPK");
                     string = this.getKDKBackgroundAbsolutePath(HMIImageConstantsSystem.kdk_background_q7_sport_small_stage);
                 } else {
-                    this.log.log(-2137614336, "DisplayManagerEvo#setupKDKBackground detected a car model with a Q7-compatible FPK");
+                    this.log.log(10000000, "DisplayManagerEvo#setupKDKBackground detected a car model with a Q7-compatible FPK");
                     string = this.getKDKBackgroundAbsolutePath(HMIImageConstantsSystem.kdk_background_q7_classic_universal);
                 }
                 string2 = this.getKDKBackgroundAbsolutePath(HMIImageConstantsSystem.kdk_background_q7_classic_universal);
             }
         }
         if (string != null && string2 != null) {
-            this.log.log(-2137614336, "DisplayManagerEvo#setupKDKBackground small stage KDK background URL: %1", string);
-            this.log.log(-2137614336, "DisplayManagerEvo#setupKDKBackground large stage KDK background URL: %1", string2);
+            this.log.log(10000000, "DisplayManagerEvo#setupKDKBackground small stage KDK background URL: %1", string);
+            this.log.log(10000000, "DisplayManagerEvo#setupKDKBackground large stage KDK background URL: %1", string2);
             this.setupKDKSmallStage(string, bl);
             this.setupKDKLargeStage(string2, bl);
         } else {
-            this.log.log(-2137614336, "DisplayManagerEvo#setupKDKBackground failed to localize KDK backgrounds for both stage sizes; using the default method to set them up");
+            this.log.log(10000000, "DisplayManagerEvo#setupKDKBackground failed to localize KDK backgrounds for both stage sizes; using the default method to set them up");
             super.configureDM();
         }
     }

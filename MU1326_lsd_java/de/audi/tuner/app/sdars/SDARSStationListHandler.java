@@ -3,15 +3,21 @@
  */
 package de.audi.tuner.app.sdars;
 
+import de.audi.atip.hmi.model.DefaultButtonListener;
 import de.audi.atip.hmi.model.list.BaseListModelApp;
+import de.audi.atip.hmi.model.list.EvoListRow;
 import de.audi.atip.hmi.model.list.SelectedItem;
 import de.audi.atip.hmi.model.menu.MenuModelApp;
+import de.audi.atip.hmi.model.menu.focus.FocusAdvice;
+import de.audi.atip.hmi.model.update.ModelTrigger;
 import de.audi.atip.log.LogChannel;
 import de.audi.tuner.app.DrawerFocusManager;
 import de.audi.tuner.app.IDrawerFocusManager;
 import de.audi.tuner.app.IStoreHandler;
 import de.audi.tuner.app.LanguageManager;
 import de.audi.tuner.app.Logger;
+import de.audi.tuner.app.RadioBaseListModelListener;
+import de.audi.tuner.app.RadioMenuModelListener;
 import de.audi.tuner.app.RadioObjectIds;
 import de.audi.tuner.app.TunerBasics;
 import de.audi.tuner.app.TunerModels;
@@ -20,14 +26,10 @@ import de.audi.tuner.app.epg.sdars.ChoiceModifyingEPGAvailibilityCallback;
 import de.audi.tuner.app.epg.sdars.IEPGAvailibiltyCallback;
 import de.audi.tuner.app.epg.sdars.SDARSEPGHandler;
 import de.audi.tuner.app.sdars.CategoryFilter;
+import de.audi.tuner.app.sdars.CategoryFilterRow;
 import de.audi.tuner.app.sdars.CategoryInfoExt;
 import de.audi.tuner.app.sdars.PdtListener;
 import de.audi.tuner.app.sdars.SDARSListRow;
-import de.audi.tuner.app.sdars.SDARSStationListHandler$DsiDownListener;
-import de.audi.tuner.app.sdars.SDARSStationListHandler$DsiUpListener;
-import de.audi.tuner.app.sdars.SDARSStationListHandler$ListListener;
-import de.audi.tuner.app.sdars.SDARSStationListHandler$MenuModelListener;
-import de.audi.tuner.app.sdars.SDARSStationListHandler$PrevNextHandler;
 import de.audi.tuner.app.sdars.SDARSTuner;
 import de.audi.tuner.app.sdars.SdarsRadioText;
 import de.audi.tuner.app.sdars.StationInfoExt;
@@ -42,6 +44,7 @@ import de.audi.tuner.app.sdars.sortandindex.station.SortAlgoStNumber;
 import de.audi.tuner.app.sortandindex.AlphabeticalIndexRow;
 import de.audi.tuner.app.storage.TunerStorage;
 import de.audi.tuner.ifc.AbstractListRowFactory;
+import de.audi.tuner.ifc.AbstractRadioListRow;
 import de.audi.tuner.ifc.IListResourceProvider;
 import de.audi.tuner.ifc.IPrevNext;
 import de.audi.tuner.ifc.IScanHandler;
@@ -51,6 +54,7 @@ import de.audi.tuner.ifc.IStoreStationHandler;
 import de.audi.tuner.sds.UpdateListenerHandler;
 import de.esolutions.fw.util.commons.SimpleIntIntMap;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import org.dsi.ifc.sdars.CategoryInfo;
 import org.dsi.ifc.sdars.SeekPossibility;
@@ -59,13 +63,13 @@ public class SDARSStationListHandler
 extends UpdateListenerHandler
 implements IStationListHandler,
 IListResourceProvider {
-    final SDARSDsiUpInfo dsiUpInfo = new SDARSStationListHandler$DsiUpListener(this, null);
-    final SDARSDsiDownInfo dsiDownInfo = new SDARSStationListHandler$DsiDownListener(this, null);
-    final IPrevNext prevNextHandler = new SDARSStationListHandler$PrevNextHandler(this, null);
-    public static final int ALGO_ST_NUMBER;
-    public static final int ALGO_ST_NAME;
-    public static final int ALGO_CAT_STNUM;
-    public static final int ALGO_CAT_STNAM;
+    final SDARSDsiUpInfo dsiUpInfo = new DsiUpListener();
+    final SDARSDsiDownInfo dsiDownInfo = new DsiDownListener();
+    final IPrevNext prevNextHandler = new PrevNextHandler();
+    public static final int ALGO_ST_NUMBER = 0;
+    public static final int ALGO_ST_NAME = 1;
+    public static final int ALGO_CAT_STNUM = 2;
+    public static final int ALGO_CAT_STNAM = 3;
     private boolean noSignalActive = false;
     private int activeSortAlgo = 0;
     private CategoryInfoExt[] currentCategoryList = new CategoryInfoExt[0];
@@ -76,7 +80,7 @@ IListResourceProvider {
     private final BaseListModelApp listModel;
     private final MenuModelApp menuModel;
     private final AbstractListRowFactory rowFactory;
-    private final SDARSStationListHandler$MenuModelListener menuModelListener;
+    private final MenuModelListener menuModelListener;
     private final PdtListener pdtListener;
     private final IStoreHandler storeHandler;
     private final SDARSEPGHandler epgHandler;
@@ -103,12 +107,12 @@ IListResourceProvider {
         this.catFilter = new CategoryFilter(tunerBasics, languageManager, this, tunerStorage);
         this.epgHandler = sDARSTuner.getSdarsEpgHandler();
         this.epgAvailibilityCallback = ChoiceModifyingEPGAvailibilityCallback.forSdarsFocussedChannelEPGAvailibilityChoice(this.models);
-        this.menuModel = this.models.getMenuModel(-662175488);
-        this.menuModelListener = new SDARSStationListHandler$MenuModelListener(this, tunerBasics, new int[]{-662175488});
-        this.listModel = this.models.getBaseListModel(2005401856);
-        SDARSStationListHandler$ListListener sDARSStationListHandler$ListListener = new SDARSStationListHandler$ListListener(this, this.models, -662175488);
-        this.listModel.setListener(sDARSStationListHandler$ListListener);
-        this.models.getBaseListModel(2139619584).setListener(sDARSStationListHandler$ListListener);
+        this.menuModel = this.models.getMenuModel(100568);
+        this.menuModelListener = new MenuModelListener(tunerBasics, new int[]{100568});
+        this.listModel = this.models.getBaseListModel(100471);
+        ListListener listListener = new ListListener(this.models, 100568);
+        this.listModel.setListener(listListener);
+        this.models.getBaseListModel(100479).setListener(listListener);
         this.rowFactory = abstractListRowFactory;
         this.scanHandler = iScanHandler;
         this.imgType = tunerStorage.loadPreferredImageType();
@@ -120,12 +124,10 @@ IListResourceProvider {
         this.longPressHandler = iStoreStationHandler;
     }
 
-    @Override
     public void register(ISearchBreak iSearchBreak, int n) {
         this.menuModelListener.register(iSearchBreak, n);
     }
 
-    @Override
     public void register(IDrawerFocusManager iDrawerFocusManager) {
         this.drawerFocus = iDrawerFocusManager;
     }
@@ -166,7 +168,7 @@ IListResourceProvider {
             baseListModelApp.append((SDARSListRow[])list.toArray(new SDARSListRow[list.size()]));
             baseListModelApp.setSelectedUniqueID(RadioObjectIds.getSDARSObjectId(this.activeStation.sID));
             this.listModel.update(baseListModelApp);
-            BaseListModelApp baseListModelApp2 = this.models.getBaseListModel(864682240);
+            BaseListModelApp baseListModelApp2 = this.models.getBaseListModel(100915);
             BaseListModelApp baseListModelApp3 = baseListModelApp2.getEmptyCopy();
             baseListModelApp3.append((AlphabeticalIndexRow[])list2.toArray(new AlphabeticalIndexRow[list2.size()]));
             baseListModelApp2.update(baseListModelApp3);
@@ -228,7 +230,7 @@ IListResourceProvider {
     public List formatSdarsStationList(StationInfoExt[] stationInfoExtArray) {
         SdarsRadioText sdarsRadioText = this.pdtListener.getActualPdt();
         int n = sdarsRadioText != null ? (int)sdarsRadioText.sID : -1;
-        this.logger.hmi.log(-2137614336, "formatSdarsStationList");
+        this.logger.hmi.log(10000000, "formatSdarsStationList");
         SimpleIntIntMap simpleIntIntMap = this.catFilter.getFilterStates();
         boolean bl = this.catFilter.isShowAllCategoriesChecked();
         ArrayList arrayList = new ArrayList(stationInfoExtArray.length);
@@ -266,7 +268,7 @@ IListResourceProvider {
     }
 
     public boolean isCatFilterActive() {
-        return this.models.getChoiceModel(914817280).getValue() == 0;
+        return this.models.getChoiceModel(100150).getValue() == 0;
     }
 
     /*
@@ -274,7 +276,7 @@ IListResourceProvider {
      */
     private void setNoSignal(boolean bl) {
         this.noSignalActive = bl;
-        this.logger.sdarsDSI.log(-2137614336, "setNoSignal: %1 ", this.noSignalActive);
+        this.logger.sdarsDSI.log(10000000, "setNoSignal: %1 ", this.noSignalActive);
         Object object = this.mutex;
         synchronized (object) {
             if (bl) {
@@ -294,9 +296,8 @@ IListResourceProvider {
         this.propagateUpdatedMuteStatus(7, this.noSignalActive);
     }
 
-    @Override
     public boolean tuneById(long l, int n) {
-        this.logger.combi.log(-2137614336, "[SDARSStationListHandler#tuneById] radioId: %1", l);
+        this.logger.combi.log(10000000, "[SDARSStationListHandler#tuneById] radioId: %1", l);
         TunerObjectContainer tunerObjectContainer = new RadioObjectIds((long)l, (LogChannel)this.logger.combi).toc;
         int n2 = this.getIndexBySID(tunerObjectContainer.getSDARSService().sID);
         if (n2 == -1) {
@@ -335,14 +336,12 @@ IListResourceProvider {
         return -1;
     }
 
-    @Override
     public void setPrefImgType(int n) {
         this.pdtListener.setPrefImgType(n);
         this.imgType = n;
         this.doUpdateStationList();
     }
 
-    @Override
     public boolean isEnsemble(int n) {
         return false;
     }
@@ -393,7 +392,7 @@ IListResourceProvider {
             this.listModel.setRow(n2, sDARSListRow);
             this.listModel.setSelectedIndex(n2);
         }
-        this.logger.sdarsList.log(14808325, "[SDARSSLH.highlight] old %1 new %2", (long)n, (long)n2);
+        this.logger.sdarsList.log(100000000, "[SDARSSLH.highlight] old %1 new %2", (long)n, (long)n2);
     }
 
     private void orderPdt(int n) {
@@ -409,7 +408,6 @@ IListResourceProvider {
         }
     }
 
-    @Override
     public long getFocussedItemUniqueId() {
         return 0L;
     }
@@ -439,81 +437,176 @@ IListResourceProvider {
         return this.catFilter;
     }
 
-    static /* synthetic */ void access$300(SDARSStationListHandler sDARSStationListHandler, StationInfoExt stationInfoExt) {
-        sDARSStationListHandler.highlight(stationInfoExt);
-    }
-
-    static /* synthetic */ CategoryFilter access$400(SDARSStationListHandler sDARSStationListHandler) {
-        return sDARSStationListHandler.catFilter;
-    }
-
     static /* synthetic */ StationInfoExt[] access$502(SDARSStationListHandler sDARSStationListHandler, StationInfoExt[] stationInfoExtArray) {
         sDARSStationListHandler.stationList = stationInfoExtArray;
         return stationInfoExtArray;
     }
 
-    static /* synthetic */ void access$600(SDARSStationListHandler sDARSStationListHandler) {
-        sDARSStationListHandler.doUpdateStationList();
+    private class ListListener
+    extends RadioBaseListModelListener {
+        public ListListener(TunerModels tunerModels, int n) {
+            super(tunerModels, n);
+        }
+
+        public void itemSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
+            switch (n) {
+                case 100471: {
+                    if (SDARSStationListHandler.this.storeHandler.isStoreModeActive()) {
+                        SDARSStationListHandler.this.storeHandler.store((AbstractRadioListRow)evoListRow);
+                        SDARSStationListHandler.this.listModel.fireEvent(n4);
+                        return;
+                    }
+                    SDARSStationListHandler.this.scanHandler.abortScan();
+                    if (!this.isNewSelection(evoListRow, n, n2, n3, n4)) break;
+                    StationInfoExt stationInfoExt = ((SDARSListRow)evoListRow).getStation();
+                    if (stationInfoExt.subscription != 2) {
+                        if (SDARSStationListHandler.this.sdarsTuner.isEntertainmentDrawerOpened()) {
+                            return;
+                        }
+                        SDARSStationListHandler.this.models.getLabelModel(100632).setText(stationInfoExt.fullLabel);
+                        SDARSStationListHandler.this.sdarsTuner.getAdvisoryHandler().requestAdvisory(3);
+                        break;
+                    }
+                    SDARSStationListHandler.this.sdarsTuner.selectStation(stationInfoExt, n4);
+                    break;
+                }
+                case 100479: {
+                    int n5 = ((CategoryFilterRow)evoListRow).getCategory();
+                    List list = SDARSStationListHandler.this.listModel.asList();
+                    Iterator iterator = list.iterator();
+                    while (iterator.hasNext()) {
+                        SDARSListRow sDARSListRow = (SDARSListRow)iterator.next();
+                        StationInfoExt stationInfoExt = sDARSListRow.getStation();
+                        if (stationInfoExt.categoryNumber != n5 || stationInfoExt.subscription != 2) continue;
+                        SDARSStationListHandler.this.sdarsTuner.selectStation(stationInfoExt, n4);
+                        MenuModelApp menuModelApp = SDARSStationListHandler.this.models.getMenuModel(100568);
+                        menuModelApp.setFocusedItem(100471, FocusAdvice.VIEWPORT_FIRST_POSITION, sDARSListRow.getUniqueID());
+                        SDARSStationListHandler.this.focusSet = true;
+                        SDARSStationListHandler.this.models.getBaseListModel(100479).fireEvent(n4);
+                        return;
+                    }
+                    break;
+                }
+            }
+        }
+
+        public void itemLongSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
+            SDARSStationListHandler.this.scanHandler.abortScan();
+            if (SDARSStationListHandler.this.listModel.getSelected().getIndex() != n2) {
+                int n5 = ((SDARSListRow)evoListRow).getStation().getSubscription();
+                if (n5 != 2) {
+                    SDARSStationListHandler.this.sdarsTuner.getAdvisoryHandler().requestAdvisory(3);
+                } else {
+                    StationInfoExt stationInfoExt = ((SDARSListRow)evoListRow).getStation();
+                    SDARSStationListHandler.this.sdarsTuner.selectStation(stationInfoExt, n4);
+                }
+            }
+            if (SDARSStationListHandler.this.longPressHandler != null) {
+                SDARSStationListHandler.this.longPressHandler.prepareStore(n4, ((AbstractRadioListRow)evoListRow).getTOContainer());
+            }
+        }
+
+        public void itemFocused(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
+            StationInfoExt stationInfoExt = ((SDARSListRow)evoListRow).getStation();
+            SDARSStationListHandler.this.orderPdt(stationInfoExt.sID);
+            boolean bl = SDARSStationListHandler.this.epgHandler.isEPGAvailableFor(stationInfoExt, SDARSStationListHandler.this.epgAvailibilityCallback);
+            SDARSStationListHandler.this.epgAvailibilityCallback.epgAvailibiltyChanged(stationInfoExt, bl);
+        }
     }
 
-    static /* synthetic */ void access$700(SDARSStationListHandler sDARSStationListHandler, CategoryInfoExt[] categoryInfoExtArray) {
-        sDARSStationListHandler.setSdarsCategoryList(categoryInfoExtArray);
+    private class DsiUpListener
+    extends SDARSDsiUpInfo {
+        private DsiUpListener() {
+        }
+
+        public void updateSelectedStation(StationInfoExt stationInfoExt) {
+            SDARSStationListHandler.this.highlight(stationInfoExt);
+        }
+
+        public void updateStationList(StationInfoExt[] stationInfoExtArray) {
+            ((SDARSStationListHandler)SDARSStationListHandler.this).catFilter.dsiUpInfo.updateStationList(stationInfoExtArray);
+            SDARSStationListHandler.access$502(SDARSStationListHandler.this, stationInfoExtArray);
+            SDARSStationListHandler.this.doUpdateStationList();
+        }
+
+        public void updateCategoryList(CategoryInfoExt[] categoryInfoExtArray) {
+            ((SDARSStationListHandler)SDARSStationListHandler.this).catFilter.dsiUpInfo.updateCategoryList(categoryInfoExtArray);
+            SDARSStationListHandler.this.setSdarsCategoryList(categoryInfoExtArray);
+        }
+
+        public void updateSeekPossibility(SeekPossibility seekPossibility) {
+            SDARSStationListHandler.this.setSeekPossibility(seekPossibility);
+        }
+
+        public void updateSignalStatus(boolean bl) {
+            SDARSStationListHandler.this.setNoSignal(bl);
+        }
     }
 
-    static /* synthetic */ void access$800(SDARSStationListHandler sDARSStationListHandler, SeekPossibility seekPossibility) {
-        sDARSStationListHandler.setSeekPossibility(seekPossibility);
+    private class DsiDownListener
+    extends SDARSDsiDownInfo {
+        private DsiDownListener() {
+        }
+
+        public void preTuneAction(StationInfoExt stationInfoExt) {
+            SDARSStationListHandler.this.highlight(stationInfoExt);
+        }
     }
 
-    static /* synthetic */ void access$900(SDARSStationListHandler sDARSStationListHandler, boolean bl) {
-        sDARSStationListHandler.setNoSignal(bl);
+    private class PrevNextHandler
+    implements IPrevNext {
+        private PrevNextHandler() {
+        }
+
+        public void handlePrevNext(boolean bl) {
+            StationInfoExt stationInfoExt = SDARSStationListHandler.this.getNextServiceFromList(bl, true);
+            if (stationInfoExt != null) {
+                SDARSStationListHandler.this.sdarsTuner.selectStation(stationInfoExt, 0);
+                if (!SDARSStationListHandler.this.drawerFocus.isDrawerOpen()) {
+                    SDARSStationListHandler.this.menuModel.trigger(ModelTrigger.JOIN_CURSOR);
+                }
+            }
+        }
     }
 
-    static /* synthetic */ IStoreHandler access$1000(SDARSStationListHandler sDARSStationListHandler) {
-        return sDARSStationListHandler.storeHandler;
-    }
+    private class MenuModelListener
+    extends RadioMenuModelListener {
+        private boolean cursorIsAt000;
 
-    static /* synthetic */ BaseListModelApp access$1100(SDARSStationListHandler sDARSStationListHandler) {
-        return sDARSStationListHandler.listModel;
-    }
+        public MenuModelListener(TunerBasics tunerBasics, int[] nArray) {
+            super(tunerBasics, nArray);
+            this.cursorIsAt000 = false;
+            SDARSStationListHandler.this.models.getChoiceModel(100227).setButtonListener(new ButtonListener());
+        }
 
-    static /* synthetic */ IScanHandler access$1200(SDARSStationListHandler sDARSStationListHandler) {
-        return sDARSStationListHandler.scanHandler;
-    }
+        public void itemFocused(int n, int n2, long l, int n3) {
+            super.itemFocused(n, n2, l, n3);
+            if (n2 == 100568) {
+                boolean bl = this.cursorIsAt000 = n == 1;
+                if (SDARSStationListHandler.this.focusSet) {
+                    SDARSStationListHandler.this.models.getMenuModel(100568).resetFocusedItem();
+                    SDARSStationListHandler.this.focusSet = false;
+                }
+            }
+            if (n != 100471) {
+                SDARSStationListHandler.this.orderPdt(-1);
+            }
+        }
 
-    static /* synthetic */ SDARSTuner access$1300(SDARSStationListHandler sDARSStationListHandler) {
-        return sDARSStationListHandler.sdarsTuner;
-    }
+        private class ButtonListener
+        extends DefaultButtonListener {
+            private ButtonListener() {
+            }
 
-    static /* synthetic */ TunerModels access$1400(SDARSStationListHandler sDARSStationListHandler) {
-        return sDARSStationListHandler.models;
-    }
-
-    static /* synthetic */ IStoreStationHandler access$1500(SDARSStationListHandler sDARSStationListHandler) {
-        return sDARSStationListHandler.longPressHandler;
-    }
-
-    static /* synthetic */ void access$1600(SDARSStationListHandler sDARSStationListHandler, int n) {
-        sDARSStationListHandler.orderPdt(n);
-    }
-
-    static /* synthetic */ IEPGAvailibiltyCallback access$1700(SDARSStationListHandler sDARSStationListHandler) {
-        return sDARSStationListHandler.epgAvailibilityCallback;
-    }
-
-    static /* synthetic */ SDARSEPGHandler access$1800(SDARSStationListHandler sDARSStationListHandler) {
-        return sDARSStationListHandler.epgHandler;
-    }
-
-    static /* synthetic */ StationInfoExt access$1900(SDARSStationListHandler sDARSStationListHandler, boolean bl, boolean bl2) {
-        return sDARSStationListHandler.getNextServiceFromList(bl, bl2);
-    }
-
-    static /* synthetic */ IDrawerFocusManager access$2000(SDARSStationListHandler sDARSStationListHandler) {
-        return sDARSStationListHandler.drawerFocus;
-    }
-
-    static /* synthetic */ MenuModelApp access$2100(SDARSStationListHandler sDARSStationListHandler) {
-        return sDARSStationListHandler.menuModel;
+            public void keyTyped(int n, int n2, int n3) {
+                if (MenuModelListener.this.cursorIsAt000) {
+                    SDARSStationListHandler.this.models.getChoiceModel(n).fireEvent(n3);
+                } else {
+                    SDARSStationListHandler.this.models.getMenuModel(100568).setFocusedItem(1, FocusAdvice.KEEP_POSITION, 1L);
+                    ((MenuModelListener)MenuModelListener.this).SDARSStationListHandler.this.focusSet = true;
+                }
+            }
+        }
     }
 }
 

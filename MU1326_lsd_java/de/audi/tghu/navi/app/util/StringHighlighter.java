@@ -3,7 +3,6 @@
  */
 package de.audi.tghu.navi.app.util;
 
-import de.audi.tghu.navi.app.util.StringHighlighter$HighlightingResult;
 import de.audi.tghu.navi.app.util.Util;
 import java.text.Collator;
 import java.text.ParseException;
@@ -36,9 +35,9 @@ public class StringHighlighter {
         if (this.useCollator) {
             RuleBasedCollator ruleBasedCollator = (RuleBasedCollator)(locale == null ? Collator.getInstance() : Collator.getInstance(locale));
             String string = ruleBasedCollator.getRules();
-            string = new StringBuffer().append(string).append("& a, A, ae, aE, Ae, AE, \u00e4, \u00c4").toString();
-            string = new StringBuffer().append(string).append("& o, O, oe, oE, Oe, OE, \u00f6, \u00d6").toString();
-            string = new StringBuffer().append(string).append("& u, U, ue, uE, Ue, UE, \u00fc, \u00dc").toString();
+            string = string + "& a, A, ae, aE, Ae, AE, \u00e4, \u00c4";
+            string = string + "& o, O, oe, oE, Oe, OE, \u00f6, \u00d6";
+            string = string + "& u, U, ue, uE, Ue, UE, \u00fc, \u00dc";
             try {
                 this.collator = new RuleBasedCollator(string);
                 this.collator.setStrength(0);
@@ -56,7 +55,7 @@ public class StringHighlighter {
         return bl;
     }
 
-    public StringHighlighter$HighlightingResult findHighlight(String string, String string2, boolean bl) {
+    public HighlightingResult findHighlight(String string, String string2, boolean bl) {
         if (Util.isEmpty(string)) {
             return null;
         }
@@ -66,7 +65,7 @@ public class StringHighlighter {
         boolean bl2 = false;
         String string3 = string;
         int n = string3.length();
-        StringHighlighter$HighlightingResult highlightingResult = null;
+        HighlightingResult highlightingResult = null;
         while (!bl2 && n > 0) {
             highlightingResult = this.findMatch(string3, string2, bl);
             if (highlightingResult != null) {
@@ -82,7 +81,7 @@ public class StringHighlighter {
         return Character.isWhitespace(c2) || c2 == '-';
     }
 
-    private StringHighlighter$HighlightingResult findMatch(String string, String string2, boolean bl) {
+    private HighlightingResult findMatch(String string, String string2, boolean bl) {
         char c2 = string.charAt(0);
         boolean bl2 = this.isSeparatorChar(c2);
         int n = 0;
@@ -102,11 +101,11 @@ public class StringHighlighter {
             if (bl || bl3) break;
             n2 = ++n + 1;
         }
-        StringHighlighter$HighlightingResult stringHighlighter$HighlightingResult = null;
+        HighlightingResult highlightingResult = null;
         if (bl3) {
-            stringHighlighter$HighlightingResult = new StringHighlighter$HighlightingResult(string3, n, n2 - 1);
+            highlightingResult = new HighlightingResult(string3, n, n2 - 1);
         }
-        return stringHighlighter$HighlightingResult;
+        return highlightingResult;
     }
 
     public void setUseCollator(boolean bl) {
@@ -115,6 +114,22 @@ public class StringHighlighter {
 
     public static synchronized void deInit() {
         instance = null;
+    }
+
+    public static class HighlightingResult {
+        public String matchText;
+        public int beginIndex;
+        public int endIndex;
+
+        public HighlightingResult(String string, int n, int n2) {
+            this.matchText = string;
+            this.beginIndex = n;
+            this.endIndex = n2;
+        }
+
+        public int[] getHighlightArea() {
+            return new int[]{this.beginIndex, this.endIndex};
+        }
     }
 }
 

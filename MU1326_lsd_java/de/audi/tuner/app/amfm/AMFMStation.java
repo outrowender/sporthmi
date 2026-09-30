@@ -14,6 +14,7 @@ import de.audi.tuner.app.misc.RadioHMIResourceLocator;
 import de.audi.tuner.ifc.ISimpleTuner;
 import de.esolutions.fw.util.commons.Buffer;
 import de.esolutions.fw.util.commons.SimpleIntObjectMap;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
@@ -23,8 +24,8 @@ import org.dsi.ifc.radio.Station;
 public class AMFMStation
 extends Station
 implements Serializable {
-    private static final long serialVersionUID;
-    private static final RadioTextPlus EMPTY_RADIOTEXTPLUS;
+    private static final long serialVersionUID = -7519748479206899055L;
+    private static final RadioTextPlus EMPTY_RADIOTEXTPLUS = new RadioTextPlus(new SimpleIntObjectMap(0), NullLogChannel.getInstance());
     private boolean tmpAdded;
     private boolean psFreezed;
     private int hdStructure;
@@ -140,7 +141,6 @@ implements Serializable {
         return this.psFreezed;
     }
 
-    @Override
     public String toString() {
         Buffer buffer = new Buffer();
         buffer.append("AMFMStation(");
@@ -260,8 +260,8 @@ implements Serializable {
     public String getRawFrequencyString() {
         String string;
         if (this.waveband == 1) {
-            long l = this.frequency / 0;
-            long l2 = this.frequency % 0 / 0;
+            long l = this.frequency / 1000L;
+            long l2 = this.frequency % 1000L / 100L;
             string = new Buffer(10).append(l).append(".").append(l2).toString();
         } else {
             string = String.valueOf(this.frequency);
@@ -381,7 +381,7 @@ implements Serializable {
         return Utilities.getPreferredImage(n, null, this.getCoverArt(), radioHMIResourceLocator);
     }
 
-    private void writeObject(ObjectOutputStream objectOutputStream) {
+    private void writeObject(ObjectOutputStream objectOutputStream) throws IOException {
         objectOutputStream.writeUTF(this.name);
         objectOutputStream.writeLong(this.frequency);
         objectOutputStream.writeInt(this.pi);
@@ -398,7 +398,7 @@ implements Serializable {
         }
     }
 
-    private void readObject(ObjectInputStream objectInputStream) {
+    private void readObject(ObjectInputStream objectInputStream) throws IOException, ClassNotFoundException {
         this.name = objectInputStream.readUTF();
         this.frequency = objectInputStream.readLong();
         this.pi = objectInputStream.readInt();
@@ -474,10 +474,6 @@ implements Serializable {
 
     public boolean isFm() {
         return this.waveband == 1;
-    }
-
-    static {
-        EMPTY_RADIOTEXTPLUS = new RadioTextPlus(new SimpleIntObjectMap(0), NullLogChannel.getInstance());
     }
 }
 

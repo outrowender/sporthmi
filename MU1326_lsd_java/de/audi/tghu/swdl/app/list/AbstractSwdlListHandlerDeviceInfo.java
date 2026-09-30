@@ -14,9 +14,9 @@ import de.audi.tghu.swdl.app.list.AbstractSwdlListHandlerText;
 
 public class AbstractSwdlListHandlerDeviceInfo
 extends AbstractSwdlListHandlerText {
-    protected static final int DEVICEINFO_SELECTION_LAYOUT;
-    protected static final int DEVICEINFO_RESULT_LAYOUT;
-    protected static final int DEVICEINFO_STATE_LAYOUT;
+    protected static final int DEVICEINFO_SELECTION_LAYOUT = 0;
+    protected static final int DEVICEINFO_RESULT_LAYOUT = 1;
+    protected static final int DEVICEINFO_STATE_LAYOUT = 2;
     private final IDeviceInfoManager deviceInfoManager;
     private final ChoiceModelApp layoutChoice;
 
@@ -43,7 +43,6 @@ extends AbstractSwdlListHandlerText {
         return n;
     }
 
-    @Override
     public ListCell[] getNewRow() {
         ListCell[] listCellArray = new ListCell[this.getNrCol()];
         listCellArray[0] = new IntegerListCell(-1, 99);

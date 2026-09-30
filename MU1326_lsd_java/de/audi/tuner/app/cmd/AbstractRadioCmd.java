@@ -10,20 +10,20 @@ import de.esolutions.fw.util.commons.Buffer;
 
 public abstract class AbstractRadioCmd
 extends Command {
-    private static final long COMMAND_TIMEOUT;
-    private static final int LOG_CMDS_COUNT;
-    private static int executedFirstCmds;
-    protected static final int CMD_UNDEF;
-    public static final int CMD_AUDIO;
-    public static final int CMD_AMFM;
-    public static final int CMD_DAB;
-    private static final int CMD_AMFM_AUDIO;
-    private static final int CMD_DAB_AUDIO;
-    public static final int CMD_ALL_BAND;
-    public static final int CMD_SDARS;
-    public static final int CMD_SDARS_AUDIO;
-    public static final int CMD_UNIFIED;
-    private static final int CMD_UNIFIED_AUDIO;
+    private static final long COMMAND_TIMEOUT = 20000L;
+    private static final int LOG_CMDS_COUNT = 20;
+    private static int executedFirstCmds = 0;
+    protected static final int CMD_UNDEF = -1;
+    public static final int CMD_AUDIO = 0;
+    public static final int CMD_AMFM = 1;
+    public static final int CMD_DAB = 2;
+    private static final int CMD_AMFM_AUDIO = 3;
+    private static final int CMD_DAB_AUDIO = 4;
+    public static final int CMD_ALL_BAND = 5;
+    public static final int CMD_SDARS = 6;
+    public static final int CMD_SDARS_AUDIO = 7;
+    public static final int CMD_UNIFIED = 8;
+    private static final int CMD_UNIFIED_AUDIO = 9;
     private final int cmdType;
     private final IFrameworkAccess framework;
 
@@ -39,25 +39,24 @@ extends Command {
 
     protected final void logExecuteFirstCmd() {
         if (executedFirstCmds < 20) {
-            this.framework.getStartupMgr().logStartupEvent(new StringBuffer().append("[RADIO] [EXECUTE] ").append(this.toString()).toString());
+            this.framework.getStartupMgr().logStartupEvent("[RADIO] [EXECUTE] " + this.toString());
         }
     }
 
     protected final void logFinishFirstCmd() {
         if (executedFirstCmds < 20) {
-            this.framework.getStartupMgr().logStartupEvent(new StringBuffer().append("[RADIO] [FINISH]  ").append(this.toString()).toString());
+            this.framework.getStartupMgr().logStartupEvent("[RADIO] [FINISH]  " + this.toString());
             ++executedFirstCmds;
         }
     }
 
     protected void commandFinished() {
-        this.logger.log(-2137614336, "[AbractRadioCommand.commandFinished] '%1'", (Object)this);
+        this.logger.log(10000000, "[AbractRadioCommand.commandFinished] '%1'", (Object)this);
         this.commandList.commandFinished();
     }
 
-    @Override
     public long getTimeout() {
-        return 0;
+        return 20000L;
     }
 
     public boolean isAudioCmd() {
@@ -82,10 +81,6 @@ extends Command {
 
     public boolean isAllBandCmd() {
         return this.cmdType == 5;
-    }
-
-    static {
-        executedFirstCmds = 0;
     }
 }
 

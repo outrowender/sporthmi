@@ -30,7 +30,7 @@ public class a {
 
     public Object[] a(Object[] objectArray) {
         if (objectArray.length < this.c) {
-            objectArray = (Object[])Array.newInstance(super.getClass().getComponentType(), this.c);
+            objectArray = (Object[])Array.newInstance(objectArray.getClass().getComponentType(), this.c);
         }
         for (int i2 = 0; i2 < this.c; ++i2) {
             objectArray[i2] = i2 < this.a.size() ? this.a.get(i2) : this.b.get(i2 - this.a.size());

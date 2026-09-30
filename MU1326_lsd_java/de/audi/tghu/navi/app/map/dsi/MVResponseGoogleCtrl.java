@@ -23,15 +23,13 @@ implements DSIMapViewerGoogleCtrlListener {
         super(n, logChannel);
     }
 
-    @Override
     public String getName() {
         return "MVResponseGoogleCtrl";
     }
 
-    @Override
     public void updateAvailableLanguages(String[] stringArray, int n) {
         if (n == 1) {
-            this.getLogger().log(-2137614336, "MVResponseGoogleCtrl#updateAvailableLanguages(): availableLanguages[0] = %1", (Object)stringArray[0]);
+            this.getLogger().log(10000000, "MVResponseGoogleCtrl#updateAvailableLanguages(): availableLanguages[0] = %1", (Object)stringArray[0]);
             this.mAvailableLanguages = stringArray;
             this.naviMap.getActiveContext().updateAvailableLanguages(stringArray);
         }
@@ -41,10 +39,9 @@ implements DSIMapViewerGoogleCtrlListener {
         return this.mAvailableLanguages;
     }
 
-    @Override
     public void updateAvailableLayers(LayerProperty[] layerPropertyArray, int n) {
         if (n == 1) {
-            this.getLogger().log(-2137614336, "MVResponseGoogleCtrl#updateAvailableLayers() - length: %1", layerPropertyArray == null ? 0L : (long)layerPropertyArray.length);
+            this.getLogger().log(10000000, "MVResponseGoogleCtrl#updateAvailableLayers() - length: %1", layerPropertyArray == null ? 0L : (long)layerPropertyArray.length);
             this.mAvailableLayers = layerPropertyArray;
             this.naviMap.getActiveContext().updateAvailableLayers(layerPropertyArray);
         }
@@ -54,10 +51,9 @@ implements DSIMapViewerGoogleCtrlListener {
         return this.mAvailableLayers;
     }
 
-    @Override
     public void updateCurrentLanguage(String string, int n) {
         if (n == 1) {
-            this.getLogger().log(-2137614336, "MVResponseGoogleCtrl#updateCurrentLanguage(): currentLanguage = %1", (Object)string);
+            this.getLogger().log(10000000, "MVResponseGoogleCtrl#updateCurrentLanguage(): currentLanguage = %1", (Object)string);
             this.mCurrentLanguage = string;
             this.naviMap.getActiveContext().updateCurrentLanguage(string);
         }
@@ -69,7 +65,7 @@ implements DSIMapViewerGoogleCtrlListener {
 
     public void updateLoadKml(boolean[] blArray, int n) {
         if (n == 1) {
-            this.getLogger().log(-2137614336, "MVResponseGoogleCtrl#updateLoadKml(): loadKml = %1", (Object)blArray);
+            this.getLogger().log(10000000, "MVResponseGoogleCtrl#updateLoadKml(): loadKml = %1", (Object)blArray);
             this.mLoadKmls = blArray;
             this.naviMap.getActiveContext().updateLoadKml(blArray);
         }
@@ -79,10 +75,9 @@ implements DSIMapViewerGoogleCtrlListener {
         return this.mLoadKmls;
     }
 
-    @Override
     public void updateGoogleDataStatus(int n, int n2) {
         if (n2 == 1) {
-            this.getLogger().log(-2137614336, "MVResponseGoogleCtrl#updateGoogleDataStatus(): googleDataStatus = %1", (long)n);
+            this.getLogger().log(10000000, "MVResponseGoogleCtrl#updateGoogleDataStatus(): googleDataStatus = %1", (long)n);
             this.mGoogleDataStatus = n;
             this.naviMap.getActiveContext().updateGoogleDataStatus(n);
             if (this.listener != null) {
@@ -95,10 +90,9 @@ implements DSIMapViewerGoogleCtrlListener {
         return this.mGoogleDataStatus;
     }
 
-    @Override
     public void updateVisibleLayers(int[] nArray, int n) {
         if (n == 1) {
-            this.getLogger().log(-2137614336, "MVResponseGoogleCtrl#updateVisibleLayers( %1 )", (Object)nArray);
+            this.getLogger().log(10000000, "MVResponseGoogleCtrl#updateVisibleLayers( %1 )", (Object)nArray);
             this.mVisibleLayers = nArray;
             this.naviMap.getActiveContext().updateVisibleLayers(nArray);
         }
@@ -108,15 +102,13 @@ implements DSIMapViewerGoogleCtrlListener {
         return this.mVisibleLayers;
     }
 
-    @Override
     public void asyncException(int n, String string, int n2) {
         this.getLogger().log(10000, "MVResponseGoogleCtrl#asyncException(): code = %2, msg = %1, type = %3", (Object)string, (long)n, (long)n2);
     }
 
-    @Override
     public void resetMemberVariables() {
         super.resetMemberVariables();
-        this.getLogger().log(-2137614336, "MVResponseGoogleCtrl#resetMemberVariables() ");
+        this.getLogger().log(10000000, "MVResponseGoogleCtrl#resetMemberVariables() ");
         this.mAvailableLanguages = null;
         this.mAvailableLayers = null;
         this.mCurrentLanguage = "";
@@ -125,7 +117,6 @@ implements DSIMapViewerGoogleCtrlListener {
         this.mVisibleLayers = null;
     }
 
-    @Override
     public void updateCopyrightPosition(Rect rect, int n, int n2, int n3) {
     }
 }

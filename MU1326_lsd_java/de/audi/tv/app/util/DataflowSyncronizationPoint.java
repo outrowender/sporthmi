@@ -5,7 +5,6 @@ package de.audi.tv.app.util;
 
 import de.audi.atip.log.LogChannel;
 import de.audi.tv.app.util.CopyOnWriteArrayList;
-import de.audi.tv.app.util.DataflowSyncronizationPoint$1;
 import de.audi.tv.app.util.Handler;
 import de.esolutions.fw.util.commons.job.DispatcherBase;
 import java.util.ArrayList;
@@ -20,7 +19,14 @@ public class DataflowSyncronizationPoint {
     private Handler handler;
     private Runnable callback;
     private DispatcherBase dispatcher;
-    private LogChannel lc = new DataflowSyncronizationPoint$1(this);
+    private LogChannel lc = new LogChannel(){
+
+        public void log(int n, int n2, Object object, Object object2, Object object3, Object object4, long l, long l2, long l3, int n3, Throwable throwable) {
+        }
+
+        public void log(int n, String string, Object object, Object object2, Object object3, Object object4, long l, long l2, long l3, int n2, Throwable throwable) {
+        }
+    };
     private String logTag = "DataflowSyncronizationPoint";
 
     private DataflowSyncronizationPoint() {
@@ -68,7 +74,7 @@ public class DataflowSyncronizationPoint {
             this.isFinished = false;
             this.pendingRequirements.clear();
             this.pendingRequirements.addAll(this.requirements);
-            this.lc.log(-2137614336, "[%1.reset] now pending - %2", (Object)this.logTag, (Object)this.pendingRequirements);
+            this.lc.log(10000000, "[%1.reset] now pending - %2", (Object)this.logTag, (Object)this.pendingRequirements);
         }
     }
 
@@ -81,13 +87,13 @@ public class DataflowSyncronizationPoint {
         synchronized (object2) {
             if (!this.isFinished) {
                 this.requirements.remove(object);
-                this.lc.log(-2137614336, "[%1.completeRequirement] completed %2, pending %3", (Object)this.logTag, object, (Object)this.requirements);
+                this.lc.log(10000000, "[%1.completeRequirement] completed %2, pending %3", (Object)this.logTag, object, (Object)this.requirements);
                 bl = this.requirements.isEmpty();
                 this.isFinished |= bl;
             }
         }
         if (bl) {
-            this.lc.log(-2137614336, "[%1.completeRequirement] completed all", (Object)this.logTag);
+            this.lc.log(10000000, "[%1.completeRequirement] completed all", (Object)this.logTag);
             if (this.callback != null) {
                 if (this.dispatcher != null) {
                     this.dispatcher.execute(this.callback);
@@ -101,32 +107,59 @@ public class DataflowSyncronizationPoint {
         }
     }
 
-    /* synthetic */ DataflowSyncronizationPoint(DataflowSyncronizationPoint$1 var1_1) {
-        this();
-    }
+    public static class Builder {
+        private final DataflowSyncronizationPoint point;
+        private final Object builderIsUsedOnceMutex = new Object();
+        private boolean done;
 
-    static /* synthetic */ void access$100(DataflowSyncronizationPoint dataflowSyncronizationPoint, Handler handler, int n) {
-        dataflowSyncronizationPoint.setCallbackMessage(handler, n);
-    }
+        public Builder() {
+            this.point = new DataflowSyncronizationPoint();
+        }
 
-    static /* synthetic */ void access$200(DataflowSyncronizationPoint dataflowSyncronizationPoint, Object object) {
-        dataflowSyncronizationPoint.addRequirement(object);
-    }
+        public Builder setCallbackMessage(Handler handler, int n) {
+            this.point.setCallbackMessage(handler, n);
+            return this;
+        }
 
-    static /* synthetic */ void access$300(DataflowSyncronizationPoint dataflowSyncronizationPoint, Runnable runnable) {
-        dataflowSyncronizationPoint.setCallback(runnable);
-    }
+        public Builder addRequirement(Object object) {
+            this.point.addRequirement(object);
+            return this;
+        }
 
-    static /* synthetic */ void access$400(DataflowSyncronizationPoint dataflowSyncronizationPoint, DispatcherBase dispatcherBase) {
-        dataflowSyncronizationPoint.setDispatcher(dispatcherBase);
-    }
+        public Builder setCallback(Runnable runnable) {
+            this.point.setCallback(runnable);
+            return this;
+        }
 
-    static /* synthetic */ void access$500(DataflowSyncronizationPoint dataflowSyncronizationPoint, LogChannel logChannel) {
-        dataflowSyncronizationPoint.setLogChannel(logChannel);
-    }
+        public Builder setDispatcher(DispatcherBase dispatcherBase) {
+            this.point.setDispatcher(dispatcherBase);
+            return this;
+        }
 
-    static /* synthetic */ void access$600(DataflowSyncronizationPoint dataflowSyncronizationPoint, String string) {
-        dataflowSyncronizationPoint.setName(string);
+        public Builder setLogChannel(LogChannel logChannel) {
+            this.point.setLogChannel(logChannel);
+            return this;
+        }
+
+        public Builder setName(String string) {
+            this.point.setName(string);
+            return this;
+        }
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public DataflowSyncronizationPoint getDataflowSyncronizationPoint() {
+            Object object = this.builderIsUsedOnceMutex;
+            synchronized (object) {
+                if (this.done) {
+                    throw new IllegalStateException("Builder is not supposed to be used more than once!");
+                }
+                this.done = true;
+                this.point.reset();
+                return this.point;
+            }
+        }
     }
 }
 

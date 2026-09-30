@@ -4,19 +4,16 @@
 package de.dreisoft.lsd;
 
 import de.dreisoft.lsd.AuditTrail;
-import de.dreisoft.lsd.AuditTrail$Entry;
+import de.dreisoft.lsd.BundleInfo;
 import de.dreisoft.lsd.LSDFramework;
 import de.dreisoft.lsd.LSDWatchdog;
 import de.dreisoft.lsd.ServiceInfo;
 import de.dreisoft.lsd.ServiceObserver;
-import de.dreisoft.lsd.ServiceRegistry$Entry;
-import de.dreisoft.lsd.ServiceRegistry$ServiceListenerAlarmHandler;
-import de.dreisoft.lsd.ServiceRegistry$SingletonHolder;
-import de.dreisoft.lsd.ServiceRegistry$WildcardEntry;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -24,9 +21,9 @@ import org.osgi.framework.ServiceEvent;
 import org.osgi.framework.ServiceListener;
 
 public final class ServiceRegistry {
-    static final String GENERAL_SERVICE;
+    static final String GENERAL_SERVICE = "*";
     private final LSDWatchdog watchdog = new LSDWatchdog("Service Registry");
-    private final ServiceRegistry$ServiceListenerAlarmHandler svcListenerAlarmHandler = new ServiceRegistry$ServiceListenerAlarmHandler(this, null);
+    private final ServiceListenerAlarmHandler svcListenerAlarmHandler = new ServiceListenerAlarmHandler();
     private Map svcMap = new HashMap();
     private boolean changingRegistry = false;
     private List newServices = new ArrayList(10);
@@ -43,7 +40,7 @@ public final class ServiceRegistry {
     }
 
     static ServiceRegistry getInstance() {
-        return ServiceRegistry$SingletonHolder.instance;
+        return SingletonHolder.instance;
     }
 
     /*
@@ -61,32 +58,32 @@ public final class ServiceRegistry {
         }
         object = AuditTrail.getInstance().addEntry("registerService", serviceInfo);
         try {
-            this.registerServiceInternal(serviceInfo, (AuditTrail$Entry)object);
+            this.registerServiceInternal(serviceInfo, (AuditTrail.Entry)object);
         }
         finally {
-            ((AuditTrail$Entry)object).setStartProcessingQueued();
+            ((AuditTrail.Entry)object).setStartProcessingQueued();
             this.releaseChangeLock();
-            ((AuditTrail$Entry)object).setFinished();
+            ((AuditTrail.Entry)object).setFinished();
         }
     }
 
-    private void registerServiceInternal(ServiceInfo serviceInfo, AuditTrail$Entry auditTrail$Entry) {
+    private void registerServiceInternal(ServiceInfo serviceInfo, AuditTrail.Entry entry) {
         Object object;
-        AuditTrail$Entry auditTrail$Entry2 = auditTrail$Entry != null ? auditTrail$Entry : AuditTrail.getInstance().addEntry("registerServiceInternal", serviceInfo);
+        AuditTrail.Entry entry2 = entry != null ? entry : AuditTrail.getInstance().addEntry("registerServiceInternal", serviceInfo);
         String[] stringArray = serviceInfo.getServiceInterfaces();
         for (int i2 = 0; i2 < stringArray.length; ++i2) {
             object = this.getEntry(stringArray[i2]);
-            ((ServiceRegistry$Entry)object).addService(serviceInfo);
+            ((Entry)object).addService(serviceInfo);
         }
-        ServiceRegistry$Entry serviceRegistry$Entry = this.getEntry("*");
-        serviceRegistry$Entry.addService(serviceInfo);
+        Entry entry3 = this.getEntry(GENERAL_SERVICE);
+        entry3.addService(serviceInfo);
         object = new ServiceEvent(1, serviceInfo);
         Iterator iterator = this.serviceListeners.iterator();
         while (iterator.hasNext()) {
             ServiceListener serviceListener = (ServiceListener)iterator.next();
             this.notifySvcListener(serviceListener, (ServiceEvent)object);
         }
-        auditTrail$Entry2.setFinished();
+        entry2.setFinished();
     }
 
     /*
@@ -104,52 +101,52 @@ public final class ServiceRegistry {
         }
         object = AuditTrail.getInstance().addEntry("unregisterService", serviceInfo);
         try {
-            this.unregisterServiceInternal(serviceInfo, (AuditTrail$Entry)object);
+            this.unregisterServiceInternal(serviceInfo, (AuditTrail.Entry)object);
         }
         finally {
-            ((AuditTrail$Entry)object).setStartProcessingQueued();
+            ((AuditTrail.Entry)object).setStartProcessingQueued();
             this.releaseChangeLock();
-            ((AuditTrail$Entry)object).setFinished();
+            ((AuditTrail.Entry)object).setFinished();
         }
     }
 
-    private void unregisterServiceInternal(ServiceInfo serviceInfo, AuditTrail$Entry auditTrail$Entry) {
+    private void unregisterServiceInternal(ServiceInfo serviceInfo, AuditTrail.Entry entry) {
         Object object;
-        AuditTrail$Entry auditTrail$Entry2 = auditTrail$Entry != null ? auditTrail$Entry : AuditTrail.getInstance().addEntry("unregisterServiceInternal", serviceInfo);
+        AuditTrail.Entry entry2 = entry != null ? entry : AuditTrail.getInstance().addEntry("unregisterServiceInternal", serviceInfo);
         String[] stringArray = serviceInfo.getServiceInterfaces();
         for (int i2 = 0; i2 < stringArray.length; ++i2) {
             object = this.getEntry(stringArray[i2]);
-            ((ServiceRegistry$Entry)object).removeService(serviceInfo);
+            ((Entry)object).removeService(serviceInfo);
         }
-        ServiceRegistry$Entry serviceRegistry$Entry = this.getEntry("*");
-        serviceRegistry$Entry.removeService(serviceInfo);
+        Entry entry3 = this.getEntry(GENERAL_SERVICE);
+        entry3.removeService(serviceInfo);
         object = new ServiceEvent(4, serviceInfo);
         Iterator iterator = this.serviceListeners.iterator();
         while (iterator.hasNext()) {
             ServiceListener serviceListener = (ServiceListener)iterator.next();
             this.notifySvcListener(serviceListener, (ServiceEvent)object);
         }
-        auditTrail$Entry2.setFinished();
+        entry2.setFinished();
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    private ServiceRegistry$Entry getExistingEntry(String string) {
+    private Entry getExistingEntry(String string) {
         Map map = this.svcMap;
         synchronized (map) {
-            return (ServiceRegistry$Entry)this.svcMap.get(string);
+            return (Entry)this.svcMap.get(string);
         }
     }
 
     public ServiceInfo getServiceInfo(String string) {
-        ServiceRegistry$Entry serviceRegistry$Entry = this.getExistingEntry(string);
-        return serviceRegistry$Entry != null ? serviceRegistry$Entry.getRandomService() : null;
+        Entry entry = this.getExistingEntry(string);
+        return entry != null ? entry.getRandomService() : null;
     }
 
     public List getServiceInfos(String string) {
-        ServiceRegistry$Entry serviceRegistry$Entry = this.getExistingEntry(string);
-        return serviceRegistry$Entry != null ? serviceRegistry$Entry.getServices() : new ArrayList(0);
+        Entry entry = this.getExistingEntry(string);
+        return entry != null ? entry.getServices() : new ArrayList(0);
     }
 
     /*
@@ -161,7 +158,7 @@ public final class ServiceRegistry {
         synchronized (map) {
             hashSet = new HashSet(this.svcMap.keySet());
         }
-        hashSet.remove("*");
+        hashSet.remove(GENERAL_SERVICE);
         return hashSet;
     }
 
@@ -180,28 +177,28 @@ public final class ServiceRegistry {
         }
         object = AuditTrail.getInstance().addEntry("addObserver", serviceObserver);
         try {
-            this.addObserverInternal(serviceObserver, (AuditTrail$Entry)object);
+            this.addObserverInternal(serviceObserver, (AuditTrail.Entry)object);
         }
         finally {
-            ((AuditTrail$Entry)object).setStartProcessingQueued();
+            ((AuditTrail.Entry)object).setStartProcessingQueued();
             this.releaseChangeLock();
-            ((AuditTrail$Entry)object).setFinished();
+            ((AuditTrail.Entry)object).setFinished();
         }
     }
 
-    private void addObserverInternal(ServiceObserver serviceObserver, AuditTrail$Entry auditTrail$Entry) {
-        AuditTrail$Entry auditTrail$Entry2 = auditTrail$Entry != null ? auditTrail$Entry : AuditTrail.getInstance().addEntry("addObserverInternal", serviceObserver);
+    private void addObserverInternal(ServiceObserver serviceObserver, AuditTrail.Entry entry) {
+        AuditTrail.Entry entry2 = entry != null ? entry : AuditTrail.getInstance().addEntry("addObserverInternal", serviceObserver);
         String[] stringArray = serviceObserver.getObservedClasses();
         if (stringArray.length == 0) {
-            ServiceRegistry$Entry serviceRegistry$Entry = this.getEntry("*");
-            serviceRegistry$Entry.addObserver(serviceObserver);
+            Entry entry3 = this.getEntry(GENERAL_SERVICE);
+            entry3.addObserver(serviceObserver);
         } else {
             for (int i2 = 0; i2 < stringArray.length; ++i2) {
-                ServiceRegistry$Entry serviceRegistry$Entry = this.getEntry(stringArray[i2]);
-                serviceRegistry$Entry.addObserver(serviceObserver);
+                Entry entry4 = this.getEntry(stringArray[i2]);
+                entry4.addObserver(serviceObserver);
             }
         }
-        auditTrail$Entry2.setFinished();
+        entry2.setFinished();
     }
 
     /*
@@ -219,33 +216,33 @@ public final class ServiceRegistry {
         }
         object = AuditTrail.getInstance().addEntry("removeObserver", serviceObserver);
         try {
-            this.removeObserverInternal(serviceObserver, (AuditTrail$Entry)object);
+            this.removeObserverInternal(serviceObserver, (AuditTrail.Entry)object);
         }
         finally {
-            ((AuditTrail$Entry)object).setStartProcessingQueued();
+            ((AuditTrail.Entry)object).setStartProcessingQueued();
             this.releaseChangeLock();
-            ((AuditTrail$Entry)object).setFinished();
+            ((AuditTrail.Entry)object).setFinished();
         }
     }
 
-    private void removeObserverInternal(ServiceObserver serviceObserver, AuditTrail$Entry auditTrail$Entry) {
-        AuditTrail$Entry auditTrail$Entry2 = auditTrail$Entry != null ? auditTrail$Entry : AuditTrail.getInstance().addEntry("removeObserverInternal", serviceObserver);
+    private void removeObserverInternal(ServiceObserver serviceObserver, AuditTrail.Entry entry) {
+        AuditTrail.Entry entry2 = entry != null ? entry : AuditTrail.getInstance().addEntry("removeObserverInternal", serviceObserver);
         String[] stringArray = serviceObserver.getObservedClasses();
         if (stringArray.length == 0) {
-            ServiceRegistry$Entry serviceRegistry$Entry = this.getEntry("*");
-            serviceRegistry$Entry.removeObserver(serviceObserver);
+            Entry entry3 = this.getEntry(GENERAL_SERVICE);
+            entry3.removeObserver(serviceObserver);
         } else {
             for (int i2 = 0; i2 < stringArray.length; ++i2) {
-                ServiceRegistry$Entry serviceRegistry$Entry = this.getEntry(stringArray[i2]);
-                serviceRegistry$Entry.removeObserver(serviceObserver);
+                Entry entry4 = this.getEntry(stringArray[i2]);
+                entry4.removeObserver(serviceObserver);
             }
         }
-        auditTrail$Entry2.setFinished();
+        entry2.setFinished();
     }
 
     public List getObservers(String string) {
-        ServiceRegistry$Entry serviceRegistry$Entry = this.getExistingEntry(string);
-        return serviceRegistry$Entry != null ? serviceRegistry$Entry.getObservers() : new ArrayList(0);
+        Entry entry = this.getExistingEntry(string);
+        return entry != null ? entry.getObservers() : new ArrayList(0);
     }
 
     /*
@@ -291,7 +288,7 @@ public final class ServiceRegistry {
     private void notifySvcListener(ServiceListener serviceListener, ServiceEvent serviceEvent) {
         try {
             this.svcListenerAlarmHandler.setData(serviceListener, serviceEvent, Thread.currentThread().getName());
-            this.watchdog.setAlarm(0, "call of ServiceListener.serviceChanged timed out", this.svcListenerAlarmHandler);
+            this.watchdog.setAlarm(2000L, "call of ServiceListener.serviceChanged timed out", this.svcListenerAlarmHandler);
             serviceListener.serviceChanged(serviceEvent);
             this.watchdog.cancelAlarm();
         }
@@ -300,7 +297,7 @@ public final class ServiceRegistry {
             stringBuffer.append("exception sending service event (t");
             stringBuffer.append(serviceEvent.getType());
             stringBuffer.append(") to service listener ");
-            stringBuffer.append(super.getClass());
+            stringBuffer.append(serviceListener.getClass());
             LSDFramework.logService.log(serviceEvent.getServiceReference(), 1, stringBuffer.toString(), exception);
         }
     }
@@ -317,7 +314,7 @@ public final class ServiceRegistry {
         synchronized (serviceRegistry) {
             if (this.changingRegistry) {
                 try {
-                    super.wait(0);
+                    this.wait(1000L);
                 }
                 catch (InterruptedException interruptedException) {
                     // empty catch block
@@ -385,7 +382,7 @@ public final class ServiceRegistry {
 
     private synchronized void releaseChangeFlag() {
         this.changingRegistry = false;
-        super.notifyAll();
+        this.notifyAll();
     }
 
     /*
@@ -421,20 +418,192 @@ public final class ServiceRegistry {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    private ServiceRegistry$Entry getEntry(String string) {
+    private Entry getEntry(String string) {
         Map map = this.svcMap;
         synchronized (map) {
-            ServiceRegistry$Entry serviceRegistry$Entry = (ServiceRegistry$Entry)this.svcMap.get(string);
-            if (serviceRegistry$Entry == null) {
-                serviceRegistry$Entry = string.equals("*") ? new ServiceRegistry$WildcardEntry(this) : new ServiceRegistry$Entry(string);
-                this.svcMap.put(string, serviceRegistry$Entry);
+            Entry entry = (Entry)this.svcMap.get(string);
+            if (entry == null) {
+                entry = string.equals(GENERAL_SERVICE) ? new WildcardEntry() : new Entry(string);
+                this.svcMap.put(string, entry);
             }
-            return serviceRegistry$Entry;
+            return entry;
         }
     }
 
-    static /* synthetic */ Map access$100(ServiceRegistry serviceRegistry) {
-        return serviceRegistry.svcMap;
+    private static class Entry {
+        protected List svcList = new LinkedList();
+        protected List observerList = new LinkedList();
+
+        public Entry(String string) {
+        }
+
+        public synchronized void addService(ServiceInfo serviceInfo) {
+            this.svcList.add(serviceInfo);
+            Iterator iterator = this.observerList.iterator();
+            while (iterator.hasNext()) {
+                ServiceObserver serviceObserver = (ServiceObserver)iterator.next();
+                AuditTrail.getInstance().addEntry("tracker_addToObserver", serviceObserver);
+                serviceObserver.addingService(serviceInfo);
+            }
+        }
+
+        public synchronized void removeService(ServiceInfo serviceInfo) {
+            this.svcList.remove(serviceInfo);
+            Iterator iterator = this.observerList.iterator();
+            while (iterator.hasNext()) {
+                ServiceObserver serviceObserver = (ServiceObserver)iterator.next();
+                AuditTrail.getInstance().addEntry("tracker_removedFromObserver", serviceObserver);
+                serviceObserver.removedService(serviceInfo);
+            }
+        }
+
+        public synchronized List getServices() {
+            return new ArrayList(this.svcList);
+        }
+
+        public synchronized ServiceInfo getRandomService() {
+            if (this.svcList.isEmpty()) {
+                return null;
+            }
+            return (ServiceInfo)((LinkedList)this.svcList).getFirst();
+        }
+
+        public synchronized void addObserver(ServiceObserver serviceObserver) {
+            this.observerList.add(serviceObserver);
+            Iterator iterator = this.svcList.iterator();
+            while (iterator.hasNext()) {
+                ServiceInfo serviceInfo = (ServiceInfo)iterator.next();
+                AuditTrail.getInstance().addEntry("tracker_addService", serviceInfo);
+                serviceObserver.addingService(serviceInfo);
+            }
+        }
+
+        public synchronized void removeObserver(ServiceObserver serviceObserver) {
+            this.observerList.remove(serviceObserver);
+            Iterator iterator = this.svcList.iterator();
+            while (iterator.hasNext()) {
+                ServiceInfo serviceInfo = (ServiceInfo)iterator.next();
+                AuditTrail.getInstance().addEntry("tracker_removedService", serviceInfo);
+                serviceObserver.removedService(serviceInfo);
+            }
+        }
+
+        public synchronized List getObservers() {
+            return new ArrayList(this.observerList);
+        }
+    }
+
+    private class WildcardEntry
+    extends Entry {
+        public WildcardEntry() {
+            super(ServiceRegistry.GENERAL_SERVICE);
+        }
+
+        public void addService(ServiceInfo serviceInfo) {
+            Iterator iterator = this.observerList.iterator();
+            while (iterator.hasNext()) {
+                ServiceObserver serviceObserver = (ServiceObserver)iterator.next();
+                serviceObserver.addingService(serviceInfo);
+            }
+        }
+
+        public void removeService(ServiceInfo serviceInfo) {
+            Iterator iterator = this.observerList.iterator();
+            while (iterator.hasNext()) {
+                ServiceObserver serviceObserver = (ServiceObserver)iterator.next();
+                serviceObserver.removedService(serviceInfo);
+            }
+        }
+
+        public synchronized List getServices() {
+            ArrayList arrayList = new ArrayList(10);
+            Iterator iterator = ServiceRegistry.this.svcMap.values().iterator();
+            while (iterator.hasNext()) {
+                Entry entry = (Entry)iterator.next();
+                arrayList.addAll(entry.svcList);
+            }
+            return arrayList;
+        }
+
+        public synchronized void addObserver(ServiceObserver serviceObserver) {
+            this.observerList.add(serviceObserver);
+            Iterator iterator = ServiceRegistry.this.svcMap.values().iterator();
+            while (iterator.hasNext()) {
+                Entry entry = (Entry)iterator.next();
+                Iterator iterator2 = entry.svcList.iterator();
+                while (iterator2.hasNext()) {
+                    ServiceInfo serviceInfo = (ServiceInfo)iterator2.next();
+                    serviceObserver.addingService(serviceInfo);
+                }
+            }
+        }
+
+        public void removeObserver(ServiceObserver serviceObserver) {
+            this.observerList.remove(serviceObserver);
+            Iterator iterator = ServiceRegistry.this.svcMap.values().iterator();
+            while (iterator.hasNext()) {
+                Entry entry = (Entry)iterator.next();
+                Iterator iterator2 = entry.svcList.iterator();
+                while (iterator2.hasNext()) {
+                    ServiceInfo serviceInfo = (ServiceInfo)iterator2.next();
+                    serviceObserver.removedService(serviceInfo);
+                }
+            }
+        }
+    }
+
+    private static class SingletonHolder {
+        static final ServiceRegistry instance = new ServiceRegistry();
+
+        private SingletonHolder() {
+        }
+    }
+
+    private class ServiceListenerAlarmHandler
+    implements Runnable {
+        ServiceEvent svcEvent = null;
+        ServiceListener svcListener = null;
+        String thread = null;
+
+        private ServiceListenerAlarmHandler() {
+        }
+
+        public void setData(ServiceListener serviceListener, ServiceEvent serviceEvent, String string) {
+            this.svcListener = serviceListener;
+            this.svcEvent = serviceEvent;
+            this.thread = string;
+        }
+
+        public void run() {
+            String string;
+            switch (this.svcEvent.getType()) {
+                case 1: {
+                    string = "registered";
+                    break;
+                }
+                case 2: {
+                    string = "modified";
+                    break;
+                }
+                case 4: {
+                    string = "unregistering";
+                    break;
+                }
+                default: {
+                    string = "undefined";
+                }
+            }
+            ServiceInfo serviceInfo = (ServiceInfo)this.svcEvent.getServiceReference();
+            long l = serviceInfo.getServiceID();
+            String[] stringArray = serviceInfo.getServiceInterfaces();
+            BundleInfo bundleInfo = (BundleInfo)serviceInfo.getBundle();
+            String string2 = bundleInfo.getBundleName();
+            System.err.println(new StringBuffer().append("[").append(this.thread).append("] sent service event '").append(string).append("' for service (").append(l).append(") of bundle ").append(string2).append(" to service listener").append(this.svcListener.getClass()).toString());
+            for (int i2 = 0; i2 < stringArray.length; ++i2) {
+                System.err.print("  ");
+                System.err.print(stringArray[i2]);
+            }
+        }
     }
 }
 

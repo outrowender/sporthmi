@@ -11,15 +11,15 @@ import de.esolutions.fw.util.commons.Buffer;
 
 public class AmListRow
 extends AbstractAmFmRow {
-    public static final int NUM_OF_COLS;
-    protected static final int INDEX_IMAGE;
-    protected static final int INDEX_RECORD_SET;
-    protected static final int INDEX_FREQUENCY_NAME;
-    protected static final int INDEX_NAME;
-    public static final int INDEX_IS_FAVORITE;
-    private static final int INDEX_NAME_HD;
-    private static final int INDEX_HD_ICON;
-    private static final int INDEX_PSFREEZE_STATUS;
+    public static final int NUM_OF_COLS = 8;
+    protected static final int INDEX_IMAGE = 0;
+    protected static final int INDEX_RECORD_SET = 1;
+    protected static final int INDEX_FREQUENCY_NAME = 2;
+    protected static final int INDEX_NAME = 3;
+    public static final int INDEX_IS_FAVORITE = 4;
+    private static final int INDEX_NAME_HD = 5;
+    private static final int INDEX_HD_ICON = 6;
+    private static final int INDEX_PSFREEZE_STATUS = 7;
 
     public AmListRow(int n, AMFMStation aMFMStation, RecordSets recordSets) {
         super(n, aMFMStation);
@@ -37,12 +37,10 @@ extends AbstractAmFmRow {
         super(amListRow);
     }
 
-    @Override
     public EvoListRow copy() {
         return new AmListRow(this);
     }
 
-    @Override
     public void setHdStatus(int n) {
         if (this.station.hd) {
             switch (n) {
@@ -60,17 +58,14 @@ extends AbstractAmFmRow {
         }
     }
 
-    @Override
     public void resetHdStatus() {
         this.setInteger(6, this.station.hd ? 1 : 0);
     }
 
-    @Override
     public String getFastScrollTxt() {
         return this.getText(2);
     }
 
-    @Override
     public String toString() {
         Buffer buffer = new Buffer(300);
         buffer.append("{AM} ");
@@ -78,14 +73,12 @@ extends AbstractAmFmRow {
         return buffer.toString();
     }
 
-    @Override
     public void setStationActive(boolean bl) {
     }
 
     public void reset() {
     }
 
-    @Override
     void psUnfreeze() {
         this.station.unfreezePs();
         this.setInteger(7, this.station.isPsFreezed() ? 1 : 0);

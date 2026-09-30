@@ -6,7 +6,7 @@ package de.audi.tghu.navi.app.map.context;
 import de.audi.tghu.navi.app.NavigationEnv;
 import de.audi.tghu.navi.app.map.AbstractMap;
 import de.audi.tghu.navi.app.map.GUIInterface;
-import de.audi.tghu.navi.app.map.context.CTags$HasZoomArea;
+import de.audi.tghu.navi.app.map.context.CTags;
 import de.audi.tghu.navi.app.map.context.CtxFreeMap;
 import de.audi.tghu.navi.app.map.dsi.IMapRequest;
 import de.audi.tghu.navi.app.map.handler.MapFlagUtils;
@@ -21,14 +21,13 @@ import org.dsi.ifc.map.Rect;
 
 public class CtxOnlineResults
 extends CtxFreeMap
-implements CTags$HasZoomArea {
+implements CTags.HasZoomArea {
     public CtxOnlineResults(NavigationEnv navigationEnv, AbstractMap abstractMap) {
         super(navigationEnv, abstractMap);
     }
 
-    @Override
     public void enter() {
-        this.getLogChannel().log(-2137614336, "CtxOnlineResults#enter()");
+        this.getLogChannel().log(10000000, "CtxOnlineResults#enter()");
         this.doEnter();
     }
 
@@ -53,7 +52,7 @@ implements CTags$HasZoomArea {
         }
         NavLocation navLocation = this.getEnterInMapLocation();
         if (navLocation != null && this.isForceUseEnterInMapLocation()) {
-            this.getLogChannel().log(-2137614336, "CtxOnlineResults#enter() - setLocationByLocation( %1 )", (Object)LocationFormatter.formatLocationShort(navLocation));
+            this.getLogChannel().log(10000000, "CtxOnlineResults#enter() - setLocationByLocation( %1 )", (Object)LocationFormatter.formatLocationShort(navLocation));
             iMapRequest.setLocationByLocation(navLocation);
             this.setForceUseEnterInMapLocation(false, false);
         } else {
@@ -72,7 +71,6 @@ implements CTags$HasZoomArea {
         this.naviMap.getNaviInterface().getViewSizeChangeHandler().requestLargeViewSize(10);
     }
 
-    @Override
     public Rect getVisibleArea() {
         if (Util.isClusterMMI(this.env.getFramework())) {
             return this.getGUI().getLayout().getVisibleArea(this.getCID(), false, false, this.getData().viewSize == 1);
@@ -87,19 +85,18 @@ implements CTags$HasZoomArea {
     protected void processResultFlags(IMapRequest iMapRequest) {
         OnlinePOIResultList onlinePOIResultList = this.getOnlinePOIResultList();
         if (onlinePOIResultList == null || onlinePOIResultList.length() == 0) {
-            this.getLogChannel().log(-1601830656, "CtxOnlineResults#processResultFlags() - OnlinePOIResultList is empty");
+            this.getLogChannel().log(100000, "CtxOnlineResults#processResultFlags() - OnlinePOIResultList is empty");
             return;
         }
-        this.getLogChannel().log(-2137614336, "CtxOnlineResults#processResultFlags()");
+        this.getLogChannel().log(10000000, "CtxOnlineResults#processResultFlags()");
         this.calculateLocationRectangle(onlinePOIResultList);
-        iMapRequest.setMapViewPortByWGS84Rectangle(this.container.focusRectangle, this.retrieveZoomListIndex(51266));
+        iMapRequest.setMapViewPortByWGS84Rectangle(this.container.focusRectangle, this.retrieveZoomListIndex(100.0f));
         NavLocationWgs84 navLocationWgs84 = onlinePOIResultList.getForcedLocation();
         if (navLocationWgs84 != null) {
             iMapRequest.setMapPosition(navLocationWgs84);
         }
     }
 
-    @Override
     public void exit() {
         super.exit();
         GUIInterface gUIInterface = this.naviMap.getGuiInterface();
@@ -109,21 +106,21 @@ implements CTags$HasZoomArea {
         this.container.sOldLocationAfterTMCMap = this.getMapPosition();
         this.container.sSavedZoomIndexAfterTMCMap = this.getSavedZoomListIndex();
         this.container.sSavedRotationAfterTMCMap = this.getMapRotation();
-        this.getLogChannel().log(-2137614336, "CtxOnlineResults#exit(): saved position = %1, zoom = %2, rotation = %3", (Object)this.container.sOldLocationAfterTMCMap, (long)this.container.sSavedZoomIndexAfterTMCMap, (long)this.container.sSavedRotationAfterTMCMap);
+        this.getLogChannel().log(10000000, "CtxOnlineResults#exit(): saved position = %1, zoom = %2, rotation = %3", (Object)this.container.sOldLocationAfterTMCMap, (long)this.container.sSavedZoomIndexAfterTMCMap, (long)this.container.sSavedRotationAfterTMCMap);
         this.naviMap.getNaviInterface().getViewSizeChangeHandler().unrequestLargeViewSize(10);
     }
 
     protected void calculateLocationRectangle(OnlinePOIResultList onlinePOIResultList) {
         int n;
-        int n2 = -129;
-        int n3 = -129;
-        int n4 = 128;
-        int n5 = 128;
+        int n2 = Integer.MAX_VALUE;
+        int n3 = Integer.MAX_VALUE;
+        int n4 = Integer.MIN_VALUE;
+        int n5 = Integer.MIN_VALUE;
         if (onlinePOIResultList != null) {
             NavLocation navLocation = onlinePOIResultList.getSearchContext();
-            this.getLogChannel().log(-2137614336, "CtxOnlineResults#calculateLocationRectangle() - handle searchContext: %1", (Object)LocationFormatter.formatLocationShort(navLocation));
+            this.getLogChannel().log(10000000, "CtxOnlineResults#calculateLocationRectangle() - handle searchContext: %1", (Object)LocationFormatter.formatLocationShort(navLocation));
             n = onlinePOIResultList.length();
-            this.getLogChannel().log(-2137614336, "CtxOnlineResults#calculateLocationRectangle(): looking in %1 OnlineResults flags", (long)n);
+            this.getLogChannel().log(10000000, "CtxOnlineResults#calculateLocationRectangle(): looking in %1 OnlineResults flags", (long)n);
             for (int i2 = 0; i2 < n; ++i2) {
                 if (onlinePOIResultList.getPOIElementAt((int)i2).longitude < n2) {
                     n2 = onlinePOIResultList.getPOIElementAt((int)i2).longitude;
@@ -144,67 +141,62 @@ implements CTags$HasZoomArea {
                 n5 = navLocation.getLatitude();
             }
         }
-        this.getLogChannel().log(-2137614336, "CtxOnlineResults#calculateLocationRectangle(): smallest location: %1/%2", (long)n2, (long)n3);
-        this.getLogChannel().log(-2137614336, "CtxOnlineResults#calculateLocationRectangle(): largest location: %1/%2", (long)n4, (long)n5);
-        if (n4 - n2 > -221185761) {
+        this.getLogChannel().log(10000000, "CtxOnlineResults#calculateLocationRectangle(): smallest location: %1/%2", (long)n2, (long)n3);
+        this.getLogChannel().log(10000000, "CtxOnlineResults#calculateLocationRectangle(): largest location: %1/%2", (long)n4, (long)n5);
+        if (n4 - n2 > 536465650) {
             n = n2 + (n4 - n2 >> 1);
-            n2 = n - 2045312015;
-            n4 = n + 2045312015;
-            this.getLogChannel().log(-2137614336, "CtxOnlineResults#calculateLocationRectangle(): shrinking span (longitues): %1/%2", (long)n2, (long)n4);
+            n2 = n - 268232825;
+            n4 = n + 268232825;
+            this.getLogChannel().log(10000000, "CtxOnlineResults#calculateLocationRectangle(): shrinking span (longitues): %1/%2", (long)n2, (long)n4);
         }
-        if (n5 - n3 > -221185761) {
+        if (n5 - n3 > 536465650) {
             n = n3 + (n5 - n3 >> 1);
-            n3 = n - 2045312015;
-            n5 = n + 2045312015;
-            this.getLogChannel().log(-2137614336, "CtxOnlineResults#calculateLocationRectangle(): shrinking span (latitudes): %1/%2", (long)n3, (long)n5);
+            n3 = n - 268232825;
+            n5 = n + 268232825;
+            this.getLogChannel().log(10000000, "CtxOnlineResults#calculateLocationRectangle(): shrinking span (latitudes): %1/%2", (long)n3, (long)n5);
         }
-        this.getLogChannel().log(-2137614336, "CtxOnlineResults#calculateLocationRectangle(): setting min locations %1/%2", (long)n3, (long)n2);
-        this.getLogChannel().log(-2137614336, "CtxOnlineResults#calculateLocationRectangle(): setting max locations %1/%2", (long)n5, (long)n4);
+        this.getLogChannel().log(10000000, "CtxOnlineResults#calculateLocationRectangle(): setting min locations %1/%2", (long)n3, (long)n2);
+        this.getLogChannel().log(10000000, "CtxOnlineResults#calculateLocationRectangle(): setting max locations %1/%2", (long)n5, (long)n4);
         this.container.focusRectangle = new NavRectangle(n2, n4, n3, n5, false);
         NavLocationWgs84 navLocationWgs84 = onlinePOIResultList.getForcedLocation();
-        this.getLogChannel().log(-2137614336, "CtxOnlineResults#calculateLocationRectangle() - center: %1", (Object)navLocationWgs84);
+        this.getLogChannel().log(10000000, "CtxOnlineResults#calculateLocationRectangle() - center: %1", (Object)navLocationWgs84);
         if (navLocationWgs84 != null) {
             this.container.focusRectangle = Util.extendNavRectangleToCenterOnPoint(this.container.focusRectangle, navLocationWgs84);
         }
-        this.getLogChannel().log(-2137614336, "CtxOnlineResults#calculateLocationRectangle(): rectangle: %1", (Object)this.container.focusRectangle);
+        this.getLogChannel().log(10000000, "CtxOnlineResults#calculateLocationRectangle(): rectangle: %1", (Object)this.container.focusRectangle);
     }
 
     protected void showLogo(boolean bl) {
-        this.getLogChannel().log(-2137614336, "CtxOnlineResults#showLogo( %1 )", bl);
+        this.getLogChannel().log(10000000, "CtxOnlineResults#showLogo( %1 )", bl);
         this.naviMap.getGuiInterface().setOnlineLogoVisible(bl);
     }
 
-    @Override
     public MapPin[] getDynamicPins() {
         MapPin[] mapPinArray = MapFlagUtils.convertResultListToMapPins(this.getOnlinePOIResultList());
         if (mapPinArray != null) {
             for (int i2 = 0; i2 < mapPinArray.length; ++i2) {
-                this.getLogChannel().log(-2137614336, "CtxOnlineResults#getDynamicPins()[%2]: %1", (Object)mapPinArray[i2], (long)i2);
+                this.getLogChannel().log(10000000, "CtxOnlineResults#getDynamicPins()[%2]: %1", (Object)mapPinArray[i2], (long)i2);
             }
             return mapPinArray;
         }
         return new MapPin[0];
     }
 
-    @Override
     public OnlinePOIResultList getOnlinePOIResultList() {
         return this.container.sOnlinePOIResultList;
     }
 
-    @Override
     protected void onDDSClicked() {
-        this.getLogChannel().log(-2137614336, "CtxOnlineResults#onDDSClicked()");
+        this.getLogChannel().log(10000000, "CtxOnlineResults#onDDSClicked()");
         this.bUserHasSelectedOnMap = true;
-        this.joystick(-887224832, -1);
+        this.joystick(401099, -1);
     }
 
-    @Override
     protected void onHKBackClicked() {
-        this.getLogChannel().log(-2137614336, "CtxOnlineResults#onHKBackClicked()");
+        this.getLogChannel().log(10000000, "CtxOnlineResults#onHKBackClicked()");
         this.getGUI().fireHKBackEvent();
     }
 
-    @Override
     public void viewSizeChanged(int n) {
         super.viewSizeChanged(n);
         if (n == 1) {
@@ -212,7 +204,6 @@ implements CTags$HasZoomArea {
         }
     }
 
-    @Override
     public void touchPadPositionMoved(int n, int n2, int n3, int n4, int n5) {
         if (this.naviMap.getNaviInterface().getViewSizeChangeHandler().isSmallStageActive()) {
             this.naviMap.getNaviInterface().getViewSizeChangeHandler().requestLargeViewSize(10);

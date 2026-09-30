@@ -16,36 +16,28 @@ implements IMobilityHorizonHandler {
         this.logChannel = logChannel;
     }
 
-    @Override
     public void setDSIMobilityHorizon(DSIMobilityHorizon dSIMobilityHorizon) {
-        this.logChannel.log(14808325, "NullMobilityHorizonHandler#setDSIMobilityHorizon()");
+        this.logChannel.log(100000000, "NullMobilityHorizonHandler#setDSIMobilityHorizon()");
     }
 
-    @Override
     public void updateLocations(MobilityHorizonLocation[] mobilityHorizonLocationArray, int n) {
     }
 
-    @Override
     public void updateConsideredLocationTypes(int[] nArray, int n) {
     }
 
-    @Override
     public void updateDriveTrainMode(int n, int n2) {
     }
 
-    @Override
     public void updateMobilityHorizonStatus(int n, int n2) {
     }
 
-    @Override
     public void requestLocationRangeLevelResult(int n, int n2) {
     }
 
-    @Override
     public void locationRangeLevelChanged(int n) {
     }
 
-    @Override
     public void asyncException(int n, String string, int n2) {
     }
 }

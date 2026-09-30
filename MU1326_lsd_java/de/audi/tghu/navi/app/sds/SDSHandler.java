@@ -3,104 +3,78 @@
  */
 package de.audi.tghu.navi.app.sds;
 
-import de.audi.atip.interapp.NaviService$NaviInfoDetails;
+import de.audi.atip.interapp.NaviService;
 import de.audi.atip.interapp.SDSListEntry;
 import org.dsi.ifc.global.NavLocation;
 
 public interface SDSHandler {
-    public static final int MAX_SDS_POI_RESULTS;
-    public static final int DEST_CONTEXT_NONE;
-    public static final int DEST_CONTEXT_ADB;
-    public static final int DEST_CONTEXT_FAVORITE;
-    public static final int DEST_CONTEXT_NAV_DEST_FORM;
-    public static final int DEST_CONTEXT_LAST_DEST;
-    public static final int DEST_CONTEXT_MAP_INPUT;
-    public static final int DEST_CONTEXT_FUEL_FEATURE;
-    public static final int DEST_CONTEXT_ONLINE_DEST;
-    public static final int DEST_CONTEXT_RSE;
-    public static final int DEST_CONTEXT_ROUTE_PLAN;
-    public static final int DEST_CONTEXT_ROUTE_LIST;
-    public static final int DEST_CONTEXT_PIC_NAV;
-    public static final int FAV_TYPE_HOME;
-    public static final int FAV_TYPE_OFFICE;
-    public static final int FAV_TYPE_OTHER;
+    public static final int MAX_SDS_POI_RESULTS = 20;
+    public static final int DEST_CONTEXT_NONE = 0;
+    public static final int DEST_CONTEXT_ADB = 1;
+    public static final int DEST_CONTEXT_FAVORITE = 2;
+    public static final int DEST_CONTEXT_NAV_DEST_FORM = 3;
+    public static final int DEST_CONTEXT_LAST_DEST = 4;
+    public static final int DEST_CONTEXT_MAP_INPUT = 5;
+    public static final int DEST_CONTEXT_FUEL_FEATURE = 6;
+    public static final int DEST_CONTEXT_ONLINE_DEST = 7;
+    public static final int DEST_CONTEXT_RSE = 8;
+    public static final int DEST_CONTEXT_ROUTE_PLAN = 9;
+    public static final int DEST_CONTEXT_ROUTE_LIST = 10;
+    public static final int DEST_CONTEXT_PIC_NAV = 11;
+    public static final int FAV_TYPE_HOME = 0;
+    public static final int FAV_TYPE_OFFICE = 1;
+    public static final int FAV_TYPE_OTHER = 2;
 
-    default public boolean isProcessingActive() {
-    }
+    public boolean isProcessingActive();
 
-    default public void setGuidanceMode(byte by) {
-    }
+    public void setGuidanceMode(byte var1);
 
-    default public void checkRouteGuidance() {
-    }
+    public void checkRouteGuidance();
 
-    default public byte fillNaviPickList(SDSListEntry[] sDSListEntryArray) {
-    }
+    public byte fillNaviPickList(SDSListEntry[] var1);
 
-    default public byte fillNaviFavoritePickList(SDSListEntry[] sDSListEntryArray) {
-    }
+    public byte fillNaviFavoritePickList(SDSListEntry[] var1);
 
-    default public byte fillLastDestinationPickList(SDSListEntry[] sDSListEntryArray) {
-    }
+    public byte fillLastDestinationPickList(SDSListEntry[] var1);
 
-    default public void requestPostCodeFormat() {
-    }
+    public void requestPostCodeFormat();
 
-    default public void reduceRouteToFinalDestination() {
-    }
+    public void reduceRouteToFinalDestination();
 
-    default public void triggerPOIReturn() {
-    }
+    public void triggerPOIReturn();
 
-    default public void enterNavDestForm() {
-    }
+    public void enterNavDestForm();
 
-    default public void exitNavDestForm() {
-    }
+    public void exitNavDestForm();
 
-    default public boolean isInNavDestForm() {
-    }
+    public boolean isInNavDestForm();
 
-    default public void enterNavDestFormMainScreen() {
-    }
+    public void enterNavDestFormMainScreen();
 
-    default public void exitNavDestFormMainScreen() {
-    }
+    public void exitNavDestFormMainScreen();
 
-    default public boolean isInNavDestFormMainScreen() {
-    }
+    public boolean isInNavDestFormMainScreen();
 
-    default public void storeNavigateToDestination(NavLocation navLocation) {
-    }
+    public void storeNavigateToDestination(NavLocation var1);
 
-    default public NavLocation getNavigateToDestination() {
-    }
+    public NavLocation getNavigateToDestination();
 
-    default public NaviService$NaviInfoDetails getAddressDetails(byte by) {
-    }
+    public NaviService.NaviInfoDetails getAddressDetails(byte var1);
 
-    default public NaviService$NaviInfoDetails getNaviInfo(boolean bl) {
-    }
+    public NaviService.NaviInfoDetails getNaviInfo(boolean var1);
 
-    default public void alternativeRoutesScreenEntered() {
-    }
+    public void alternativeRoutesScreenEntered();
 
-    default public void flushPOIPickListGroup() {
-    }
+    public void flushPOIPickListGroup();
 
-    default public void setDestinationContext(int n) {
-    }
+    public void setDestinationContext(int var1);
 
-    default public void setLastDestinationByIndex(long l) {
-    }
+    public void setLastDestinationByIndex(long var1);
 
-    default public void setFavoriteDestinationByListIndex(int n) {
-    }
+    public void setFavoriteDestinationByListIndex(int var1);
 
-    default public void setFavoriteDestinationByUniqueId(long l) {
-    }
+    public void setFavoriteDestinationByUniqueId(long var1);
 
-    default public void dialDetailsNumber() {
-    }
+    public void dialDetailsNumber();
 }
 

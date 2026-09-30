@@ -62,11 +62,10 @@ implements ServiceTrackerCustomizer {
     static /* synthetic */ Class class$de$audi$atip$interapp$audio$IAudioSdisListener;
     static /* synthetic */ Class class$de$audi$atip$statemachine$ActionProxy;
 
-    @Override
     public void start(BundleContext bundleContext) {
         super.start(bundleContext);
         this.lcMain = this.framework.getLogChannel("Fw.Audio.Main");
-        this.lcMain.log(-2137614336, "[ToneActivator.start]");
+        this.lcMain.log(10000000, "[ToneActivator.start]");
         this.init();
         this.annStateDispatcher = new AnnouncementStateDispatcher();
         if (this.getApp().getVolumeRangeManager().getMenus()[0] instanceof IAnnouncementStateListener) {
@@ -81,13 +80,10 @@ implements ServiceTrackerCustomizer {
         this.trackAndRegisterBaseServices();
     }
 
-    protected abstract ToneAppCommon getApp() {
-    }
+    protected abstract ToneAppCommon getApp();
 
-    protected abstract void init() {
-    }
+    protected abstract void init();
 
-    @Override
     public Object addingService(ServiceReference serviceReference) {
         Object object;
         Object object2;
@@ -105,17 +101,16 @@ implements ServiceTrackerCustomizer {
         }
         if (object2 != null) {
             object = serviceReference.getProperty("objectClass");
-            this.lcMain.log(-2137614336, "[ToneActivator.addingService] %1 -> %2", object, object3);
+            this.lcMain.log(10000000, "[ToneActivator.addingService] %1 -> %2", object, object3);
         } else {
             this.bundleContext.ungetService(serviceReference);
         }
         return object2;
     }
 
-    @Override
     public void removedService(ServiceReference serviceReference, Object object) {
         Object object2 = serviceReference.getProperty("objectClass");
-        this.lcMain.log(1078071040, "[ToneActivator.removedService] %1 -> %2", object2, object);
+        this.lcMain.log(1000000, "[ToneActivator.removedService] %1 -> %2", object2, object);
         if (object instanceof DSISound) {
             this.getApp().setService(new NullDSISound(this.framework.getLogChannel("Fw.Audio.DSI")));
             this.dsiSound = null;
@@ -129,7 +124,7 @@ implements ServiceTrackerCustomizer {
     }
 
     private void trackAndRegisterBaseServices() {
-        this.lcMain.log(-2137614336, "[ToneActivator.trackBaseServices]");
+        this.lcMain.log(10000000, "[ToneActivator.trackBaseServices]");
         this.registerDSIListener((class$org$dsi$ifc$base$DSIListener == null ? (class$org$dsi$ifc$base$DSIListener = AbstractToneActivator.class$("org.dsi.ifc.base.DSIListener")) : class$org$dsi$ifc$base$DSIListener).getName(), this.getApp().getDSISoundListener(), (class$org$dsi$ifc$audio$DSISoundListener == null ? (class$org$dsi$ifc$audio$DSISoundListener = AbstractToneActivator.class$("org.dsi.ifc.audio.DSISoundListener")) : class$org$dsi$ifc$audio$DSISoundListener).getName(), 0);
         String[] stringArray = new String[]{(class$de$audi$atip$audio$HMIAudioService == null ? (class$de$audi$atip$audio$HMIAudioService = AbstractToneActivator.class$("de.audi.atip.audio.HMIAudioService")) : class$de$audi$atip$audio$HMIAudioService).getName(), (class$org$dsi$ifc$audio$DSISound == null ? (class$org$dsi$ifc$audio$DSISound = AbstractToneActivator.class$("org.dsi.ifc.audio.DSISound")) : class$org$dsi$ifc$audio$DSISound).getName()};
         new ServiceTracker(this.bundleContext, stringArray, (ServiceTrackerCustomizer)this).open();
@@ -149,7 +144,7 @@ implements ServiceTrackerCustomizer {
             this.dsiSound = (DSISound)object2;
         }
         if (this.toneAudioService != null && this.dsiSound != null) {
-            this.lcMain.log(-2137614336, "[ToneActivator.addBaseService] HMIAudioService (Tone) & DSISound registered.");
+            this.lcMain.log(10000000, "[ToneActivator.addBaseService] HMIAudioService (Tone) & DSISound registered.");
             this.getApp().setService(this.dsiSound);
             this.getApp().setService(this.toneAudioService);
             object = new Hashtable();
@@ -168,7 +163,7 @@ implements ServiceTrackerCustomizer {
     }
 
     protected void registerAndTrackOtherServices() {
-        this.lcMain.log(-2137614336, "[ToneActivator.registerAndTrackOtherServices]");
+        this.lcMain.log(10000000, "[ToneActivator.registerAndTrackOtherServices]");
         Hashtable hashtable = new Hashtable();
         hashtable.put("moduleID", new Integer(10));
         hashtable.put("ApplicationName", "AudioAmplifier");
@@ -201,7 +196,6 @@ implements ServiceTrackerCustomizer {
         new ServiceTracker(this.bundleContext, stringArray, (ServiceTrackerCustomizer)this).open();
     }
 
-    @Override
     public void modifiedService(ServiceReference serviceReference, Object object) {
     }
 

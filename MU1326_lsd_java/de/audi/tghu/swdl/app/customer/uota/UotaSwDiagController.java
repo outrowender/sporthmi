@@ -20,7 +20,7 @@ public class UotaSwDiagController {
     }
 
     public void triggerServerListRead() {
-        this.getLogDSI().log(-1601830656, "[UotaSwDiagController].triggerServerListRead()!");
+        this.getLogDSI().log(100000, "[UotaSwDiagController].triggerServerListRead()!");
         DSIUotA dSIUotA = this.getDSI();
         if (null == dSIUotA) {
             this.getLogDSI().log(10000, "[UotaSwDiagController].triggerServerListRead() - NULL DSI!");
@@ -30,7 +30,7 @@ public class UotaSwDiagController {
     }
 
     public void triggerUpdatePackagesRead() {
-        this.getLogDSI().log(-1601830656, "[UotaSwDiagController].triggerUpdatePackagesRead()!");
+        this.getLogDSI().log(100000, "[UotaSwDiagController].triggerUpdatePackagesRead()!");
         DSIUotA dSIUotA = this.getDSI();
         if (null == dSIUotA) {
             this.getLogDSI().log(10000, "[UotaSwDiagController].triggerUpdatePackagesRead() - NULL DSI!");
@@ -40,12 +40,12 @@ public class UotaSwDiagController {
     }
 
     public void triggerUpdateDownloadStatus(int n) {
-        this.getLogDSI().log(-2137614336, "[UotaSwDiagController].triggerUpdateDownloadStatus(%1)!", (long)n);
+        this.getLogDSI().log(10000000, "[UotaSwDiagController].triggerUpdateDownloadStatus(%1)!", (long)n);
         this.getUotaController().getUotaDSIListener().updateDownloadState(1, n, 1);
     }
 
     public void triggerCustomerUpdateDone(int n, boolean bl) {
-        this.getLogDSI().log(-1601830656, "[UotaSwDiagController].triggerCustomerUpdateDone(%2,%1)!", bl, (long)n);
+        this.getLogDSI().log(100000, "[UotaSwDiagController].triggerCustomerUpdateDone(%2,%1)!", bl, (long)n);
         DSIUotA dSIUotA = this.getDSI();
         if (null == dSIUotA) {
             this.getLogDSI().log(10000, "[UotaSwDiagController].triggerCustomerUpdateDone() - NULL DSI!");
@@ -55,7 +55,7 @@ public class UotaSwDiagController {
     }
 
     public void triggerGetSwdlSourcePath() {
-        this.getLogDSI().log(-1601830656, "[UotaSwDiagController].triggerGetSwdlSourcePath()!");
+        this.getLogDSI().log(100000, "[UotaSwDiagController].triggerGetSwdlSourcePath()!");
         DSIUotA dSIUotA = this.getDSI();
         if (null == dSIUotA) {
             this.getLogDSI().log(10000, "[UotaSwDiagController].triggerGetSwdlSourcePath() - NULL DSI!");
@@ -65,7 +65,7 @@ public class UotaSwDiagController {
     }
 
     public void triggerSwdlSourcePathResult(String string) {
-        this.getLogDSI().log(-1601830656, "[UotaSwDiagController].triggerGetSwdlSourcePath(%1)!", (Object)string);
+        this.getLogDSI().log(100000, "[UotaSwDiagController].triggerGetSwdlSourcePath(%1)!", (Object)string);
         this.getUotaController().getUotaDSIListener().attributeResult(1, 0, 1, string);
     }
 
@@ -74,48 +74,48 @@ public class UotaSwDiagController {
     }
 
     public void setServerName(String string) {
-        this.getLogDSI().log(-1601830656, "[UotaSwDiagController].setServerName(%1)! Setting server name directly!", (Object)string);
+        this.getLogDSI().log(100000, "[UotaSwDiagController].setServerName(%1)! Setting server name directly!", (Object)string);
         this.getUotaController().setServerName(string);
         this.getUotaController().setServerNameResponse(true);
     }
 
     public void cleanupIgnoredPackages() {
-        this.getLogUota().log(-1601830656, "[UotaSwDiagController].cleanupIgnoredPackages()!");
+        this.getLogUota().log(100000, "[UotaSwDiagController].cleanupIgnoredPackages()!");
         this.getUotaController().getUserIgnoredPackagesContainer().cleanupIgnoredPackages();
     }
 
     public void resetInstalledPackageIDs() {
-        this.getLogUota().log(-1601830656, "[UotaSwDiagController].resetInstalledPackageIDs()!");
+        this.getLogUota().log(100000, "[UotaSwDiagController].resetInstalledPackageIDs()!");
         this.getUotaController().getUserIgnoredPackagesContainer().updateInstalledPackageIds("");
     }
 
     public void updateInstalledPackageIDs(String string) {
-        this.getLogUota().log(-1601830656, "[UotaSwDiagController].updateInstalledPackageIDs(%1)!", (Object)string);
+        this.getLogUota().log(100000, "[UotaSwDiagController].updateInstalledPackageIDs(%1)!", (Object)string);
         this.getUotaController().getUserIgnoredPackagesContainer().updateInstalledPackageIds(string);
     }
 
     public Buffer getInstalledPackageIDs() {
-        this.getLogUota().log(-1601830656, "[UotaSwDiagController].getInstalledPackageIDs()!");
+        this.getLogUota().log(100000, "[UotaSwDiagController].getInstalledPackageIDs()!");
         return new Buffer("Installed package IDs: ").append(StringUtils.toString(this.getUotaController().getUserIgnoredPackagesContainer().getInstalledPackageIDs(), ','));
     }
 
     public void removeFromIgnoredPackage(int n) {
-        this.getLogUota().log(-1601830656, "[UotaSwDiagController].removeFromIgnoredPackage(%1)!", (long)n);
+        this.getLogUota().log(100000, "[UotaSwDiagController].removeFromIgnoredPackage(%1)!", (long)n);
         this.getUotaController().getUserIgnoredPackagesContainer().removeFromIgnoredPackage(n);
     }
 
     public Buffer getHighestInstalledReleaseVersion() {
-        this.getLogUota().log(-1601830656, "[UotaSwDiagController].getHighestInstalledReleaseVersion()!");
+        this.getLogUota().log(100000, "[UotaSwDiagController].getHighestInstalledReleaseVersion()!");
         return new Buffer(this.getUotaController().getUserIgnoredPackagesContainer().getHighestInstalledReleaseVersion());
     }
 
     public void cleanupHighestInstalledReleaseVersion() {
-        this.getLogUota().log(-1601830656, "[UotaSwDiagController].cleanHighestInstalledReleaseVersion()!");
+        this.getLogUota().log(100000, "[UotaSwDiagController].cleanHighestInstalledReleaseVersion()!");
         this.getUotaController().getUserIgnoredPackagesContainer().updateLastInstalledReleaseVersion("");
     }
 
     public Buffer getNumberDownloadPackages() {
-        this.getLogUota().log(-2137614336, "[UotaSwDiagController].getNumberOfCurrentDownloadPackage()");
+        this.getLogUota().log(10000000, "[UotaSwDiagController].getNumberOfCurrentDownloadPackage()");
         return new Buffer().append("Dovnload package ").append(this.getUotaController().getNumberOfCurrentDownloadPackage()).append(" of ").append(this.getUotaController().getTotalNumberOfUpdatePackages(false));
     }
 
@@ -128,7 +128,7 @@ public class UotaSwDiagController {
     }
 
     public Buffer getIgnoredPackages() {
-        this.getLogUota().log(-1601830656, "[UotaSwDiagController].readIgnoredPackages()!");
+        this.getLogUota().log(100000, "[UotaSwDiagController].readIgnoredPackages()!");
         Buffer buffer = new Buffer(512);
         buffer.append("Ignored packages:\n");
         Map map = this.uotaController.getUserIgnoredPackagesContainer().getIgnoredPackagesMap();

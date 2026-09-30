@@ -6,7 +6,6 @@ package de.audi.tghu.hmi.evo;
 import de.audi.atip.hmi.event.KeyEvent;
 
 public interface IGEMKeyHandler {
-    default public void keyPressed(KeyEvent keyEvent) {
-    }
+    public void keyPressed(KeyEvent var1);
 }
 

@@ -14,15 +14,15 @@ import de.esolutions.fw.util.commons.Buffer;
 import org.dsi.ifc.search.SearchResult;
 
 public class SDSNaviPicklistRowCreator {
-    private static final int COL_TEXT;
-    private static final int COL_CHILDCOUNT;
-    private static final int COL_LAYOUT;
-    private static final int COL_EXTRATEXT;
-    private static final int COL_MAPCODE_ROADSEGMENT;
-    private static final int COL_COUNT;
-    private static final int LAYOUT_DEFAULT;
-    private static final int LAYOUT_CHILDREN;
-    private static final int LAYOUT_LASTDEST;
+    private static final int COL_TEXT = 0;
+    private static final int COL_CHILDCOUNT = 1;
+    private static final int COL_LAYOUT = 2;
+    private static final int COL_EXTRATEXT = 3;
+    private static final int COL_MAPCODE_ROADSEGMENT = 4;
+    private static final int COL_COUNT = 5;
+    private static final int LAYOUT_DEFAULT = 0;
+    private static final int LAYOUT_CHILDREN = 1;
+    private static final int LAYOUT_LASTDEST = 2;
 
     public static EvoListRow createNaviPickList(SDSListEntry sDSListEntry, int n) {
         String string = sDSListEntry.getName();

@@ -4,16 +4,12 @@
 package de.audi.tone.app.volume.samples;
 
 public interface ISamplePlayer {
-    default public void play() {
-    }
+    public void play();
 
-    default public void stop() {
-    }
+    public void stop();
 
-    default public void registerService(Object object) {
-    }
+    public void registerService(Object var1);
 
-    default public void deregisterService(Object object) {
-    }
+    public void deregisterService(Object var1);
 }
 

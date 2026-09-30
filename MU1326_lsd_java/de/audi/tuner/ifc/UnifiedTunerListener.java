@@ -11,49 +11,34 @@ import org.dsi.ifc.radio.UnifiedStation;
 
 public interface UnifiedTunerListener
 extends CmdDefaultListener {
-    default public void selectStationStatus(int n) {
-    }
+    public void selectStationStatus(int var1);
 
-    default public void updateAudioStatus(int n) {
-    }
+    public void updateAudioStatus(int var1);
 
-    default public void updateDetectedDevice(int n) {
-    }
+    public void updateDetectedDevice(int var1);
 
-    default public void updateSelectedStation(UnifiedStation unifiedStation) {
-    }
+    public void updateSelectedStation(UnifiedStation var1);
 
-    default public void updateStationList(UnifiedStation[] unifiedStationArray) {
-    }
+    public void updateStationList(UnifiedStation[] var1);
 
-    default public void updateRadioText(UnifiedRadioText unifiedRadioText) {
-    }
+    public void updateRadioText(UnifiedRadioText var1);
 
-    default public void updateEnhancedRadioText(UnifiedRadioText unifiedRadioText) {
-    }
+    public void updateEnhancedRadioText(UnifiedRadioText var1);
 
-    default public void updateRadioTextPlus(UnifiedRadioTextPlus unifiedRadioTextPlus) {
-    }
+    public void updateRadioTextPlus(UnifiedRadioTextPlus var1);
 
-    default public void updateEnhancedRadioTextPlus(UnifiedRadioTextPlus unifiedRadioTextPlus) {
-    }
+    public void updateEnhancedRadioTextPlus(UnifiedRadioTextPlus var1);
 
-    default public void updateSlideShowInfo(DABSlideShowInfo dABSlideShowInfo) {
-    }
+    public void updateSlideShowInfo(DABSlideShowInfo var1);
 
-    default public void listMode(int n) {
-    }
+    public void listMode(int var1);
 
-    default public void stationFollowingMode(int n) {
-    }
+    public void stationFollowingMode(int var1);
 
-    default public void updateSoftLinkSwitchStatus(int n) {
-    }
+    public void updateSoftLinkSwitchStatus(int var1);
 
-    default public void updateDeviceUsageStatus(int n) {
-    }
+    public void updateDeviceUsageStatus(int var1);
 
-    default public void updateRegModeStatus(int n) {
-    }
+    public void updateRegModeStatus(int var1);
 }
 

@@ -26,9 +26,9 @@ extends AbstractSelectionManager
 implements IFSCServiceListener,
 ButtonListener,
 TimerListener {
-    private static final String CLASSNAME;
-    static final String[] EMPTYSTRINGARRAY;
-    static final long FEC_IMPORT_TIMEOUT;
+    private static final String CLASSNAME = "[CustomerSelectionManager]";
+    static final String[] EMPTYSTRINGARRAY = new String[0];
+    static final long FEC_IMPORT_TIMEOUT = 5000L;
     private final int terminalID;
     private final SwdlListHandlerMedium swdlSourceMediumList;
     private boolean isFECImportActive = false;
@@ -36,16 +36,16 @@ TimerListener {
     private final AbstractDriverResetHandler driverResetHandler;
     private Timer fecImportTimer;
     private int fecMediumId;
-    static final int ERROR_TYPE_WRONG_DATA;
-    static final int ERROR_TYPE_NO_DATA;
-    static final int ERROR_TYPE_DATA_NOT_ACTIVATED;
+    static final int ERROR_TYPE_WRONG_DATA = 0;
+    static final int ERROR_TYPE_NO_DATA = 1;
+    static final int ERROR_TYPE_DATA_NOT_ACTIVATED = 2;
 
     public CustomerSelectionManager(SwdlEnv swdlEnv, AbstractPopupManager abstractPopupManager, CustomerDeviceInfoManager customerDeviceInfoManager, AbstractCustomerProgressManager abstractCustomerProgressManager, SwdlDSIHandlerDeviceInfo swdlDSIHandlerDeviceInfo, SwdlDSIHandlerSelection swdlDSIHandlerSelection, AbstractDriverResetHandler abstractDriverResetHandler) {
         super(swdlEnv, abstractPopupManager, customerDeviceInfoManager, swdlDSIHandlerSelection, swdlDSIHandlerDeviceInfo);
         this.customerProgressManager = abstractCustomerProgressManager;
         this.driverResetHandler = abstractDriverResetHandler;
         this.terminalID = 0;
-        this.getLogHMI().log(-2137614336, "%1 <init>", (Object)"[CustomerSelectionManager]");
+        this.getLogHMI().log(10000000, "%1 <init>", (Object)CLASSNAME);
         this.swdlSourceMediumList = new SwdlListHandlerMedium(this.getSwdlEnv(), this, this.getSwdlModels().getCustomerSourceMediaList());
         this.getSwdlModels().getCustomerInitCustomerUpdateButton().setButtonListener(this);
         this.getSwdlModels().getCustomerOnlineUpdateInstallConfirmButton().setButtonListener(this);
@@ -60,23 +60,20 @@ TimerListener {
         return this.getSwdlEnv().getCustomerDLState();
     }
 
-    @Override
     public void updateSourceMediaList(int[] nArray) {
-        this.getLogHMI().log(1078071040, "%1 <- updateSourceMediaList( %2 ) ", (Object)"[CustomerSelectionManager]", (Object)nArray);
+        this.getLogHMI().log(1000000, "%1 <- updateSourceMediaList( %2 ) ", (Object)CLASSNAME, (Object)nArray);
         this.swdlSourceMediumList.updateList(nArray);
         this.getSwdlModels().getCustomerInitCustomerUpdateButtonChoice().setValue(1);
         this.getSwdlModels().getCustomerInitCustomerUpdateButton().setStatus(1);
     }
 
-    @Override
     public void updateAvailableMedia(byte by) {
-        this.getLogHMI().log(1078071040, "%1 <- updateAvailableMedia( %2 ) ", (Object)"[CustomerSelectionManager]", (long)by);
+        this.getLogHMI().log(1000000, "%1 <- updateAvailableMedia( %2 ) ", (Object)CLASSNAME, (long)by);
         this.swdlSourceMediumList.updateAvailableMedia(by);
     }
 
-    @Override
     public void doSelectSourceMedium(int n) {
-        this.getLogHMI().log(1078071040, "%1 -> doSelectSourceMedium() ", (Object)"[CustomerSelectionManager]");
+        this.getLogHMI().log(1000000, "%1 -> doSelectSourceMedium() ", (Object)CLASSNAME);
         SwdlListItemMedium swdlListItemMedium = (SwdlListItemMedium)this.swdlSourceMediumList.getEntry(n);
         this.getSwdlModels().getCustomerOrOnlineChoiceModel().setValue(0);
         ModelGroup modelGroup = new ModelGroup();
@@ -91,12 +88,11 @@ TimerListener {
         this.getSwdlModels().getCustomerSelectionSourceChoice().setValue(swdlListItemMedium.getId());
     }
 
-    @Override
     public synchronized void importFSCDone(int n) {
-        this.getLogHMI().log(1078071040, "%1 -> importFSCDone(%3), isFECImportActive=%2 ", (Object)"[CustomerSelectionManager]", (Object)this.isFECImportActive, (long)n);
+        this.getLogHMI().log(1000000, "%1 -> importFSCDone(%3), isFECImportActive=%2 ", (Object)CLASSNAME, (Object)this.isFECImportActive, (long)n);
         this.cancelTimer(this.fecImportTimer);
         if (this.isFECImportActive) {
-            this.getLogHMI().log(-2137614336, "[%1.importFSCDone()] call doSetMedium(%2) ", (Object)"[CustomerSelectionManager]", (long)n);
+            this.getLogHMI().log(10000000, "[%1.importFSCDone()] call doSetMedium(%2) ", (Object)CLASSNAME, (long)n);
             this.isFECImportActive = false;
             this.getSelectionDSIHandler().doSetMedium(n);
         }
@@ -104,40 +100,37 @@ TimerListener {
 
     private final void checkFSCImport(int n) {
         if (null != this.getSwdlEnv().getFscService()) {
-            this.getLogHMI().log(-2137614336, "[%1.doSelectSourceMedium(%2)] call startFSCImport ", (Object)"[CustomerSelectionManager]", (long)n);
+            this.getLogHMI().log(10000000, "[%1.doSelectSourceMedium(%2)] call startFSCImport ", (Object)CLASSNAME, (long)n);
             this.isFECImportActive = true;
             this.getSwdlEnv().getFscService().setFscServiceListener(this);
             this.getSwdlEnv().getFscService().startFSCImport(n);
             this.fecMediumId = n;
-            this.fecImportTimer = new Timer("FECImportTimer", 0, true, this);
+            this.fecImportTimer = new Timer("FECImportTimer", 5000L, true, this);
             this.fecImportTimer.restart();
         } else {
-            this.getLogHMI().log(-2137614336, "[%1.doSelectSourceMedium(%2)] call doSetMedium ", (Object)"[CustomerSelectionManager]", (long)n);
+            this.getLogHMI().log(10000000, "[%1.doSelectSourceMedium(%2)] call doSetMedium ", (Object)CLASSNAME, (long)n);
             this.getSelectionDSIHandler().doSetMedium(n);
             this.isFECImportActive = false;
         }
     }
 
-    @Override
     public void fireTimer(Timer timer) {
         if (this.fecImportTimer != null && this.fecImportTimer.equals(timer)) {
-            this.getLogHMI().log(10000, "%1 importing of FEC is timed out, call importFSCDone(%2)", (Object)"[CustomerSelectionManager]", (long)this.fecMediumId);
+            this.getLogHMI().log(10000, "%1 importing of FEC is timed out, call importFSCDone(%2)", (Object)CLASSNAME, (long)this.fecMediumId);
             this.importFSCDone(this.fecMediumId);
         }
     }
 
-    @Override
     public void cancelTimer(Timer timer) {
         if (timer != null && timer.equals(this.fecImportTimer)) {
-            this.getLogHMI().log(-2137614336, "%1 cancel FEC import timer", (Object)"[CustomerSelectionManager]");
+            this.getLogHMI().log(10000000, "%1 cancel FEC import timer", (Object)CLASSNAME);
             timer.cancel();
             timer = null;
         }
     }
 
-    @Override
     public void preSelectSourceMedium(int n) {
-        this.getLogHMI().log(1078071040, "%1 preSelectSourceMedium( %2 ) ", (Object)"[CustomerSelectionManager]", (long)n);
+        this.getLogHMI().log(1000000, "%1 preSelectSourceMedium( %2 ) ", (Object)CLASSNAME, (long)n);
         this.getSwdlModels().getCustomerPreselectedSourceChoice().setValue(n);
         if (n > 0) {
             this.getSwdlModels().getCustomerSelectionSourceChoice().setValue(n);
@@ -152,7 +145,7 @@ TimerListener {
     }
 
     private void selectionError(String string, int n) {
-        this.getLogHMI().log(1078071040, "%1 selectionError(%2, %3)", (Object)"[CustomerSelectionManager]", (Object)string, (long)n);
+        this.getLogHMI().log(1000000, "%1 selectionError(%2, %3)", (Object)CLASSNAME, (Object)string, (long)n);
         this.getSwdlModels().getCustomerErrorLabel().setText(string);
         ModelGroup modelGroup = new ModelGroup();
         modelGroup.add(this.getSwdlModels().getCustomerReadingMetaInfoStateChoice());
@@ -168,16 +161,16 @@ TimerListener {
                 break;
             }
             default: {
-                this.getLogHMI().log(1078071040, "%1 selectionError(): state=%2, value%3", (Object)"[CustomerSelectionManager]", 1L, -1L);
+                this.getLogHMI().log(1000000, "%1 selectionError(): state=%2, value%3", (Object)CLASSNAME, 1L, -1L);
                 this.getSwdlModels().getCustomerReadingMetaInfoStateChoice().setStatus(1);
                 this.getSwdlModels().getCustomerReadingMetaInfoStateChoice().setValue(-1);
             }
         }
         modelGroup.flush();
         modelGroup.removeAll();
-        this.getLogHMI().log(-2137614336, "%1 selectionError(): showPopupCompatibilityCheckFailure and release WaitSync mediator", (Object)"[CustomerSelectionManager]");
+        this.getLogHMI().log(10000000, "%1 selectionError(): showPopupCompatibilityCheckFailure and release WaitSync mediator", (Object)CLASSNAME);
         this.getCustomerProgressManager().showPopupCompatibilityCheckFailure();
-        this.getLogHMI().log(-2137614336, "%1 selectionError(): abort media selection! ", (Object)"[CustomerSelectionManager]");
+        this.getLogHMI().log(10000000, "%1 selectionError(): abort media selection! ", (Object)CLASSNAME);
         this.getCustomerProgressManager().custDownloadLeaveProgress(this.getSwdlEnv().getTerminalId());
         this.getCustomerProgressManager().swdlProgressExit();
         this.getSwdlModels().getCustomerStartDownloadButton().setStatus(1);
@@ -187,30 +180,29 @@ TimerListener {
         }
     }
 
-    @Override
     public void updateReleaseList(String[] stringArray, String string, int n) {
-        this.getLogHMI().log(1078071040, "%1 updateReleaseList( %2, %3, %4 ) ", (Object)"[CustomerSelectionManager]", (Object)stringArray, (Object)string, (long)n);
+        this.getLogHMI().log(1000000, "%1 updateReleaseList( %2, %3, %4 ) ", (Object)CLASSNAME, (Object)stringArray, (Object)string, (long)n);
         BaseUpdateOverTheAirController baseUpdateOverTheAirController = this.getSwdlEnv().getHMISwitcher().getUOTAController();
         if (this.getCustomerDlState().isSelectingSourceMedium() || baseUpdateOverTheAirController.isInstallActive()) {
             this.getCustomerDlState().doneSelectingSourceMedium();
             if (this.getCustomerDlState().isCancelRequested()) {
-                this.getLogHMI().log(-1601830656, "%1 cancel download is requested!", (Object)"[CustomerSelectionManager]");
+                this.getLogHMI().log(100000, "%1 cancel download is requested!", (Object)CLASSNAME);
                 this.getCustomerDlState().cancelDone();
             } else if (n == 1) {
                 if (stringArray.length == 1) {
                     this.doSelectRelease(0);
                 } else if (stringArray.length == 0) {
-                    this.getLogHMI().log(10000, "%1 no fitting release found on update medium! ", (Object)"[CustomerSelectionManager]");
+                    this.getLogHMI().log(10000, "%1 no fitting release found on update medium! ", (Object)CLASSNAME);
                     String string2 = this.getTextFactory().getSelectionErrorNoFittingText();
                     this.selectionError(string2, 1);
                 } else {
-                    this.getLogHMI().log(10000, "%1 more than one release found ( %2 ) ! ", (Object)"[CustomerSelectionManager]", (long)stringArray.length);
+                    this.getLogHMI().log(10000, "%1 more than one release found ( %2 ) ! ", (Object)CLASSNAME, (long)stringArray.length);
                     String string3 = this.getTextFactory().getSelectionErrorMoreThanOneText();
                     this.selectionError(string3, 0);
                 }
             } else {
                 int n2;
-                this.getLogHMI().log(10000, "%1 could not read release list ( %2 ) ! ", (Object)"[CustomerSelectionManager]", (long)n);
+                this.getLogHMI().log(10000, "%1 could not read release list ( %2 ) ! ", (Object)CLASSNAME, (long)n);
                 switch (n) {
                     case 2: 
                     case 3: 
@@ -237,57 +229,53 @@ TimerListener {
                 this.selectionError(string, n2);
             }
         } else {
-            this.getLogHMI().log(10000, "%1 ignore unexpected updateReleaseList!", (Object)"[CustomerSelectionManager]");
+            this.getLogHMI().log(10000, "%1 ignore unexpected updateReleaseList!", (Object)CLASSNAME);
         }
     }
 
-    @Override
     public void doSelectRelease(int n) {
-        this.getLogHMI().log(1078071040, "%1 -> doSelectRelease( %2 ) ", (Object)"[CustomerSelectionManager]", (long)n);
+        this.getLogHMI().log(1000000, "%1 -> doSelectRelease( %2 ) ", (Object)CLASSNAME, (long)n);
         this.getCustomerDlState().startSelectingRelease();
         this.getSelectionDSIHandler().doSetRelease(n);
     }
 
-    @Override
     public void updateReleaseResult(String string, int n) {
-        this.getLogHMI().log(1078071040, "%1 <- updateReleaseResult( %2, %3 ) ", (Object)"[CustomerSelectionManager]", (Object)string, (long)n);
+        this.getLogHMI().log(1000000, "%1 <- updateReleaseResult( %2, %3 ) ", (Object)CLASSNAME, (Object)string, (long)n);
         if (this.getCustomerDlState().isSelectingRelease()) {
             this.getCustomerDlState().doneSelectingRelease();
             if (this.getCustomerDlState().isCancelRequested()) {
-                this.getLogHMI().log(-1601830656, "%1 cancel download is requested!", (Object)"[CustomerSelectionManager]");
+                this.getLogHMI().log(100000, "%1 cancel download is requested!", (Object)CLASSNAME);
                 this.getCustomerDlState().cancelDone();
             } else if (n > 0) {
                 this.doSetInstallationType(true);
                 this.getDeviceInfoManager().doGetDevices(1, null, true);
             } else {
-                this.getLogHMI().log(10000, "%1 could not read metainfo ( %2 ) ! ", (Object)"[CustomerSelectionManager]", (long)n);
+                this.getLogHMI().log(10000, "%1 could not read metainfo ( %2 ) ! ", (Object)CLASSNAME, (long)n);
                 this.selectionError(string, 1);
             }
         } else {
-            this.getLogHMI().log(10000, "%1 ignore unexpected updateReleaseResult!", (Object)"[CustomerSelectionManager]");
+            this.getLogHMI().log(10000, "%1 ignore unexpected updateReleaseResult!", (Object)CLASSNAME);
         }
     }
 
-    @Override
     public void updateConsistency(int n, boolean bl, String string, int n2) {
         if (this.getLogHMI().isDebug()) {
-            this.getLogHMI().log(-2137614336, "%1 updateConsistencyx( %2, %3, %4 ) ", (Object)"[CustomerSelectionManager]", (Object)Integer.toString(n), (Object)Boolean.toString(bl), (Object)new StringBuffer().append(string).append(" ").append(n2).toString());
+            this.getLogHMI().log(10000000, "%1 updateConsistencyx( %2, %3, %4 ) ", (Object)CLASSNAME, (Object)Integer.toString(n), (Object)Boolean.toString(bl), (Object)(string + " " + n2));
         }
         if (bl) {
             this.getSelectionDSIHandler().doGetIncompatibleDevices();
         } else {
-            this.getLogHMI().log(-2137614336, "%1 updateConsistency: download impossible due to consistency problem! ", (Object)"[CustomerSelectionManager]");
+            this.getLogHMI().log(10000000, "%1 updateConsistency: download impossible due to consistency problem! ", (Object)CLASSNAME);
             String string2 = this.getTextFactory().getSelectionErrorUpdateInconsistentText();
             this.getSwdlModels().getCustomerProgressStateChoice().setValue(2);
             this.selectionError(string2, 0);
         }
     }
 
-    @Override
     public void updateIncompatibleDevices(String[] stringArray, String[] stringArray2) {
-        this.getLogHMI().log(-2137614336, "%1 updateIncompatibleDevices( %2, %3 ) ", (Object)"[CustomerSelectionManager]", (Object)stringArray, (Object)stringArray2);
+        this.getLogHMI().log(10000000, "%1 updateIncompatibleDevices( %2, %3 ) ", (Object)CLASSNAME, (Object)stringArray, (Object)stringArray2);
         if (stringArray == null || stringArray.length == 0) {
-            this.getSwdlEnv().getLogMain().log(1078071040, "%1 readyForCustomerUpdate()", (Object)"[CustomerSelectionManager]");
+            this.getSwdlEnv().getLogMain().log(1000000, "%1 readyForCustomerUpdate()", (Object)CLASSNAME);
             this.getSwdlEnv().sendMessage(5);
             this.getCustomerProgressManager().swdlProgressEntered();
             this.getSelectionDSIHandler().startDownload();
@@ -298,17 +286,16 @@ TimerListener {
                     this.getCustomerProgressManager().showCustDownloadInfoPopup(this.terminalID);
                 }
             }
-            this.getLogHMI().log(-2137614336, "%1 selectionError: release WaitSync mediator", (Object)"[CustomerSelectionManager]");
+            this.getLogHMI().log(10000000, "%1 selectionError: release WaitSync mediator", (Object)CLASSNAME);
             this.getSwdlModels().getCustomerStartDownloadButton().setStatus(1);
         } else {
-            this.getLogHMI().log(-2137614336, "%1 updateIncompatibleDevices: download canceled due to incompatible device! ", (Object)"[CustomerSelectionManager]");
+            this.getLogHMI().log(10000000, "%1 updateIncompatibleDevices: download canceled due to incompatible device! ", (Object)CLASSNAME);
             String string = this.getTextFactory().getSelectionErrorIncompDevicesText();
             this.getSwdlModels().getCustomerProgressStateChoice().setValue(2);
             this.selectionError(string, 0);
         }
     }
 
-    @Override
     public void removeSwdlDataDir() {
     }
 
@@ -316,17 +303,14 @@ TimerListener {
         return this.getSwdlEnv().getCustomerDLState();
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
-        this.getLogHMI().log(1078071040, "CustomerSelectionManager.keyTyped(modelID=%1, terminalID=%2)", (long)n, (long)n3);
+        this.getLogHMI().log(1000000, "CustomerSelectionManager.keyTyped(modelID=%1, terminalID=%2)", (long)n, (long)n3);
         if (this.getSwdlModels().getCustomerOnlineUpdateInstallConfirmButton().getID() == n) {
             this.getCustomerDLState().startCustomerOnlineUpdate(false, n3);
         } else if (this.getSwdlModels().getCustomerInitCustomerUpdateButton().getID() == n) {
@@ -345,12 +329,7 @@ TimerListener {
         }
     }
 
-    @Override
     public void keyLongTyped(int n, int n2, int n3) {
-    }
-
-    static {
-        EMPTYSTRINGARRAY = new String[0];
     }
 }
 

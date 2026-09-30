@@ -6,12 +6,11 @@ package de.audi.tghu.navi.app;
 import de.audi.atip.interapp.icon.ExtRenderingInfo;
 import de.audi.atip.interapp.icon.RenderingInfo;
 import de.audi.atip.interapp.icon.RenderingInfoProvider;
-import de.audi.atip.interapp.icon.RenderingInfoProvider$TrafficSignCallback;
 import de.audi.atip.log.LogChannel;
 import de.audi.tghu.navi.app.NavigationEnv;
 
 public class IconHandler {
-    public static final int INVALID_RESOURCE_ID;
+    public static final int INVALID_RESOURCE_ID = -1;
     private RenderingInfoProvider renderingInfoProvider = null;
     private final LogChannel logChannel;
 
@@ -35,7 +34,7 @@ public class IconHandler {
                 n2 = this.resolvePOIIconResourceID(n3, n);
             }
             catch (NumberFormatException numberFormatException) {
-                this.logChannel.log(-1601830656, "IconHandler#resolvePOIIconResourceID() - failed to parse categoryID: %1! ", (Object)string);
+                this.logChannel.log(100000, "IconHandler#resolvePOIIconResourceID() - failed to parse categoryID: %1! ", (Object)string);
             }
         }
         return n2;
@@ -48,13 +47,13 @@ public class IconHandler {
             if (renderingInfo != null && renderingInfo.isValid()) {
                 n3 = renderingInfo.getResourceId();
             } else {
-                this.logChannel.log(-1601830656, "IconHandler#resolvePOIIconResourceID() - resolved RenderingInfo is null or invalid: requested icon not available! ");
+                this.logChannel.log(100000, "IconHandler#resolvePOIIconResourceID() - resolved RenderingInfo is null or invalid: requested icon not available! ");
             }
         } else {
             this.logChannel.log(10000, "IconHandler#resolvePOIIconResourceID() - RenderingInfoProvider not found! ");
         }
         if (this.logChannel.isDebug2()) {
-            this.logChannel.log(14808325, "IconHandler#resolvePOIIconResourceID( %1, %2 ) - returning resourceID: %3 ", (long)n, (long)n2, (long)n3);
+            this.logChannel.log(100000000, "IconHandler#resolvePOIIconResourceID( %1, %2 ) - returning resourceID: %3 ", (long)n, (long)n2, (long)n3);
         }
         return n3;
     }
@@ -66,13 +65,13 @@ public class IconHandler {
             if (renderingInfo != null && renderingInfo.isValid()) {
                 n3 = renderingInfo.getResourceId();
             } else {
-                this.logChannel.log(-1601830656, "IconHandler#resolvePOIIconFromRawData() - resolved RenderingInfo is null or invalid: requested icon not available! ");
+                this.logChannel.log(100000, "IconHandler#resolvePOIIconFromRawData() - resolved RenderingInfo is null or invalid: requested icon not available! ");
             }
         } else {
             this.logChannel.log(10000, "IconHandler#resolvePOIIconFromRawData() - RenderingInfoProvider not found! ");
         }
         if (this.logChannel.isDebug2()) {
-            this.logChannel.log(14808325, "IconHandler#resolvePOIIconFromRawData( %1, %2 ) - returning resourceID: %3 ", (long)n, (long)n2, (long)n3);
+            this.logChannel.log(100000000, "IconHandler#resolvePOIIconFromRawData( %1, %2 ) - returning resourceID: %3 ", (long)n, (long)n2, (long)n3);
         }
         return n3;
     }
@@ -82,7 +81,7 @@ public class IconHandler {
         if (this.renderingInfoProvider != null) {
             extRenderingInfo = this.renderingInfoProvider.getRenderingInformationForRoadIcon((int)l, n);
             if (extRenderingInfo == null || !extRenderingInfo.isValid()) {
-                this.logChannel.log(-1601830656, "IconHandler#resolveStreetIconResourceID() - resolved ExtRenderingInfo is null or invalid: requested icon not available! ");
+                this.logChannel.log(100000, "IconHandler#resolveStreetIconResourceID() - resolved ExtRenderingInfo is null or invalid: requested icon not available! ");
             }
         } else {
             this.logChannel.log(10000, "IconHandler#resolveStreetIconResourceID() - RenderingInfoProvider not found! ");
@@ -95,7 +94,7 @@ public class IconHandler {
         if (this.renderingInfoProvider != null) {
             extRenderingInfo = this.renderingInfoProvider.getRenderingInformationForExitIcon(n, n2);
             if (extRenderingInfo == null || !extRenderingInfo.isValid()) {
-                this.logChannel.log(-1601830656, "IconHandler#resolveExitIconResourceID() - resolved ExtRenderingInfo is null or invalid: requested icon not available! ");
+                this.logChannel.log(100000, "IconHandler#resolveExitIconResourceID() - resolved ExtRenderingInfo is null or invalid: requested icon not available! ");
             }
         } else {
             this.logChannel.log(10000, "IconHandler#resolveExitIconResourceID() - RenderingInfoProvider not found! ");
@@ -110,13 +109,13 @@ public class IconHandler {
             if (renderingInfo != null && renderingInfo.isValid()) {
                 n2 = renderingInfo.getResourceId();
             } else {
-                this.logChannel.log(-1601830656, "IconHandler#resolveTMCIconResourceID() - resolved RenderingInfo is null or invalid: requested icon not available! ");
+                this.logChannel.log(100000, "IconHandler#resolveTMCIconResourceID() - resolved RenderingInfo is null or invalid: requested icon not available! ");
             }
         } else {
             this.logChannel.log(10000, "IconHandler#resolveTMCIconResourceID() - RenderingInfoProvider not found! ");
         }
         if (this.logChannel.isDebug2()) {
-            this.logChannel.log(14808325, "IconHandler#resolveTMCIconResourceID( %1, %2 ) - returning resourceID: %3 ", l, (long)n, (long)n2);
+            this.logChannel.log(100000000, "IconHandler#resolveTMCIconResourceID( %1, %2 ) - returning resourceID: %3 ", l, (long)n, (long)n2);
         }
         return n2;
     }
@@ -128,13 +127,13 @@ public class IconHandler {
             if (renderingInfo != null && renderingInfo.isValid()) {
                 n2 = renderingInfo.getResourceId();
             } else {
-                this.logChannel.log(-1601830656, "IconHandler#resolveTargetIcon() - resolved RenderingInfo is null or invalid: requested icon %1 not available!", (long)n);
+                this.logChannel.log(100000, "IconHandler#resolveTargetIcon() - resolved RenderingInfo is null or invalid: requested icon %1 not available!", (long)n);
             }
         } else {
             this.logChannel.log(10000, "IconHandler#resolveTargetIcon() - RenderingInfoProvider not found!");
         }
         if (this.logChannel.isDebug2()) {
-            this.logChannel.log(14808325, "IconHandler#resolveTargetIcon( %1 ) - returning resourceID: %2", (long)n, (long)n2);
+            this.logChannel.log(100000000, "IconHandler#resolveTargetIcon( %1 ) - returning resourceID: %2", (long)n, (long)n2);
         }
         return n2;
     }
@@ -146,13 +145,13 @@ public class IconHandler {
             if (renderingInfo != null && renderingInfo.isValid()) {
                 n4 = renderingInfo.getResourceId();
             } else {
-                this.logChannel.log(-1601830656, "IconHandler#resolveTrafficRegulationIconWithSubindexResourceID() - resolved RenderingInfo is null or invalid: requested icon not available!");
+                this.logChannel.log(100000, "IconHandler#resolveTrafficRegulationIconWithSubindexResourceID() - resolved RenderingInfo is null or invalid: requested icon not available!");
             }
         } else {
             this.logChannel.log(10000, "IconHandler#resolveTrafficRegulationIconWithSubindexResourceID() - RenderingInfoProvider not found!");
         }
         if (this.logChannel.isDebug2()) {
-            this.logChannel.log(14808325, "IconHandler#resolveTrafficRegulationIconWithSubindexResourceID( %1 ) - returning resourceID: %2", (long)n, (long)n4);
+            this.logChannel.log(100000000, "IconHandler#resolveTrafficRegulationIconWithSubindexResourceID( %1 ) - returning resourceID: %2", (long)n, (long)n4);
         }
         return n4;
     }
@@ -164,13 +163,13 @@ public class IconHandler {
             if (renderingInfo != null && renderingInfo.isValid()) {
                 n3 = renderingInfo.getResourceId();
             } else {
-                this.logChannel.log(-1601830656, "IconHandler#resolveTrafficRegulationIconResourceID() - resolved RenderingInfo is null or invalid: requested icon not available!");
+                this.logChannel.log(100000, "IconHandler#resolveTrafficRegulationIconResourceID() - resolved RenderingInfo is null or invalid: requested icon not available!");
             }
         } else {
             this.logChannel.log(10000, "IconHandler#resolveTrafficRegulationIconResourceID() - RenderingInfoProvider not found!");
         }
         if (this.logChannel.isDebug2()) {
-            this.logChannel.log(14808325, "IconHandler#resolveTrafficRegulationIconResourceID( %1 ) - returning resourceID: %2", (long)n, (long)n3);
+            this.logChannel.log(100000000, "IconHandler#resolveTrafficRegulationIconResourceID( %1 ) - returning resourceID: %2", (long)n, (long)n3);
         }
         return n3;
     }
@@ -182,13 +181,13 @@ public class IconHandler {
             if (renderingInfo != null && renderingInfo.isValid()) {
                 n4 = renderingInfo.getResourceId();
             } else {
-                this.logChannel.log(-1601830656, "IconHandler#resolveTrafficRegulationIconResourceID() - resolved RenderingInfo is null or invalid: requested icon not available!");
+                this.logChannel.log(100000, "IconHandler#resolveTrafficRegulationIconResourceID() - resolved RenderingInfo is null or invalid: requested icon not available!");
             }
         } else {
             this.logChannel.log(10000, "IconHandler#resolveTrafficRegulationIconResourceID() - RenderingInfoProvider not found!");
         }
         if (this.logChannel.isDebug2()) {
-            this.logChannel.log(14808325, "IconHandler#resolveTrafficRegulationIconResourceID( %1 ) - returning resourceID: %2", (long)n, (long)n4);
+            this.logChannel.log(100000000, "IconHandler#resolveTrafficRegulationIconResourceID( %1 ) - returning resourceID: %2", (long)n, (long)n4);
         }
         return n4;
     }
@@ -200,13 +199,13 @@ public class IconHandler {
             if (renderingInfo != null && renderingInfo.isValid()) {
                 n3 = renderingInfo.getResourceId();
             } else {
-                this.logChannel.log(-1601830656, "IconHandler#resolveRoadClassIconResourceID() - resolved RenderingInfo is null or invalid: requested icon not available!");
+                this.logChannel.log(100000, "IconHandler#resolveRoadClassIconResourceID() - resolved RenderingInfo is null or invalid: requested icon not available!");
             }
         } else {
             this.logChannel.log(10000, "IconHandler#resolveRoadClassIconResourceID() - RenderingInfoProvider not found!");
         }
         if (this.logChannel.isDebug2()) {
-            this.logChannel.log(14808325, "IconHandler#resolveRoadClassIconResourceID( %1 ) - returning resourceID: %2", (long)n, (long)n3);
+            this.logChannel.log(100000000, "IconHandler#resolveRoadClassIconResourceID( %1 ) - returning resourceID: %2", (long)n, (long)n3);
         }
         return n3;
     }
@@ -218,28 +217,28 @@ public class IconHandler {
             if (renderingInfo != null && renderingInfo.isValid()) {
                 n3 = renderingInfo.getResourceId();
             } else {
-                this.logChannel.log(-1601830656, "IconHandler#resolveAdditionalInfoIconResourceID() - resolved RenderingInfo is null or invalid: requested icon not available!");
+                this.logChannel.log(100000, "IconHandler#resolveAdditionalInfoIconResourceID() - resolved RenderingInfo is null or invalid: requested icon not available!");
             }
         } else {
             this.logChannel.log(10000, "IconHandler#resolveAdditionalInfoIconResourceID() - RenderingInfoProvider not found!");
         }
         if (this.logChannel.isDebug2()) {
-            this.logChannel.log(14808325, "IconHandler#resolveAdditionalInfoIconResourceID( %1 ) - returning resourceID: %2", (long)n, (long)n3);
+            this.logChannel.log(100000000, "IconHandler#resolveAdditionalInfoIconResourceID( %1 ) - returning resourceID: %2", (long)n, (long)n3);
         }
         return n3;
     }
 
-    public void resolveTrafficSign(int n, int n2, RenderingInfoProvider$TrafficSignCallback renderingInfoProvider$TrafficSignCallback) {
-        if (renderingInfoProvider$TrafficSignCallback == null) {
+    public void resolveTrafficSign(int n, int n2, RenderingInfoProvider.TrafficSignCallback trafficSignCallback) {
+        if (trafficSignCallback == null) {
             this.logChannel.log(10000, "IconHandler#resolveTrafficRegulationIcon() - callback is null!");
             return;
         }
         if (this.renderingInfoProvider != null) {
-            this.renderingInfoProvider.getResourceIdForTrafficSignAsync(n, n2, renderingInfoProvider$TrafficSignCallback);
+            this.renderingInfoProvider.getResourceIdForTrafficSignAsync(n, n2, trafficSignCallback);
         } else {
             this.logChannel.log(10000, "IconHandler#resolveTrafficRegulationIcon() - RenderingInfoProvider not found!");
-            if (renderingInfoProvider$TrafficSignCallback != null) {
-                renderingInfoProvider$TrafficSignCallback.renderingInfoReceived(n, n2, null);
+            if (trafficSignCallback != null) {
+                trafficSignCallback.renderingInfoReceived(n, n2, null);
             }
         }
     }
@@ -251,13 +250,13 @@ public class IconHandler {
             if (renderingInfo != null && renderingInfo.isValid()) {
                 n2 = renderingInfo.getResourceId();
             } else {
-                this.logChannel.log(-1601830656, "IconHandler#resolveCountryIconResourceID() - resolved RenderingInfo is null or invalid: requested icon not available!");
+                this.logChannel.log(100000, "IconHandler#resolveCountryIconResourceID() - resolved RenderingInfo is null or invalid: requested icon not available!");
             }
         } else {
             this.logChannel.log(10000, "IconHandler#resolveCountryIconResourceID() - RenderingInfoProvider not found!");
         }
         if (this.logChannel.isDebug2()) {
-            this.logChannel.log(14808325, "IconHandler#resolveCountryIconResourceID( %1 ) - returning resourceID: %2", (long)n, (long)n2);
+            this.logChannel.log(100000000, "IconHandler#resolveCountryIconResourceID( %1 ) - returning resourceID: %2", (long)n, (long)n2);
         }
         return n2;
     }

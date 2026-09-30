@@ -21,14 +21,13 @@ extends AbstractTVCommand {
         this.mapper = stationMapper;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(14808325, "[SetFavoritesCmd.execute] command started");
+        this.logger.log(100000000, "[SetFavoritesCmd.execute] command started");
         ServiceInfo[] serviceInfoArray = this.serviceListsResource.getNewFavorites();
         long[] lArray = this.mapper.getServicesIDs(serviceInfoArray);
         this.serviceListsResource.setFavorites(serviceInfoArray, lArray);
         this.serviceListsResource.markFavorites(lArray);
-        this.logger.log(14808325, "[SetFavoritesCmd.execute] command finished");
+        this.logger.log(100000000, "[SetFavoritesCmd.execute] command finished");
         this.commandFinished();
     }
 }

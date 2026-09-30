@@ -4,16 +4,12 @@
 package de.audi.tv.app;
 
 public interface IEWSPopupHandler {
-    default public void showPopup() {
-    }
+    public void showPopup();
 
-    default public void hidePopup() {
-    }
+    public void hidePopup();
 
-    default public void showDetails() {
-    }
+    public void showDetails();
 
-    default public void showAreaList() {
-    }
+    public void showAreaList();
 }
 

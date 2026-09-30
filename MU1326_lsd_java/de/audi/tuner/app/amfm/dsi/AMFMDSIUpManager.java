@@ -4,12 +4,14 @@
 package de.audi.tuner.app.amfm.dsi;
 
 import de.audi.atip.hmi.modelaccess.ChoiceModelApp;
+import de.audi.atip.interapp.AMFMStationInfo;
+import de.audi.atip.interapp.AMFMTunerService;
+import de.audi.atip.timer.DefaultTimerListener;
 import de.audi.atip.timer.Timer;
 import de.audi.tuner.app.Logger;
 import de.audi.tuner.app.RadioComparators;
 import de.audi.tuner.app.RadioTextPlusStorage;
 import de.audi.tuner.app.StringDisplayability;
-import de.audi.tuner.app.StringDisplayability$Result;
 import de.audi.tuner.app.TunerAudioMgmt;
 import de.audi.tuner.app.TunerBasics;
 import de.audi.tuner.app.TunerModels;
@@ -20,12 +22,6 @@ import de.audi.tuner.app.amfm.AMFMStation;
 import de.audi.tuner.app.amfm.HdStationInfoExt;
 import de.audi.tuner.app.amfm.IPSFreezeDB;
 import de.audi.tuner.app.amfm.StationNameHistory;
-import de.audi.tuner.app.amfm.dsi.AMFMDSIUpManager$DsiDownInfo;
-import de.audi.tuner.app.amfm.dsi.AMFMDSIUpManager$FmCoverArtHandler;
-import de.audi.tuner.app.amfm.dsi.AMFMDSIUpManager$JpStationNames;
-import de.audi.tuner.app.amfm.dsi.AMFMDSIUpManager$MemoryListener;
-import de.audi.tuner.app.amfm.dsi.AMFMDSIUpManager$RsdbResultListener;
-import de.audi.tuner.app.amfm.dsi.AMFMDSIUpManager$TimerListener;
 import de.audi.tuner.app.amfm.dsi.AMFMDsiDownInfo;
 import de.audi.tuner.app.amfm.dsi.AMFMDsiUpInfo;
 import de.audi.tuner.app.amfm.dsi.AbstractStationConsistencyCheck;
@@ -36,6 +32,7 @@ import de.audi.tuner.app.amfm.dsi.StationConsistencyCheckJp;
 import de.audi.tuner.app.fonts.FontSelection;
 import de.audi.tuner.app.gracenote.CoverArtHandler;
 import de.audi.tuner.app.gracenote.IGracenoteRequest;
+import de.audi.tuner.app.rsdb.IRSDBResult;
 import de.audi.tuner.ifc.AMFMTunerListener;
 import de.audi.tuner.ifc.ILogoDatabase;
 import de.audi.tuner.ifc.IMemoryList;
@@ -43,6 +40,7 @@ import de.audi.tuner.ifc.ISimpleTuner;
 import de.audi.tuner.ifc.NullLogoDatabase;
 import de.audi.tuner.ifc.listener.IUpdateListener;
 import de.audi.tuner.itunes.ITaggingManager;
+import de.audi.tuner.sds.DefaultUpdateListener;
 import de.esolutions.fw.util.commons.Buffer;
 import de.esolutions.fw.util.commons.SimpleIntIntMap;
 import java.util.ArrayList;
@@ -57,7 +55,7 @@ import org.dsi.ifc.radio.WavebandInfo;
 
 public class AMFMDSIUpManager
 implements AMFMTunerListener {
-    private static final long UPDATE_DELAY_TIME;
+    private static final long UPDATE_DELAY_TIME = 5000L;
     private final Logger logger;
     private final TunerStatus status;
     private final StationNameHistory stationNameHistory;
@@ -74,16 +72,16 @@ implements AMFMTunerListener {
     private final TunerModels models;
     private final RadioTextPlusStorage rtPlusStorage;
     private TunerObjectContainer[] presets = new TunerObjectContainer[0];
-    public final AMFMDsiDownInfo dsiDownListener = new AMFMDSIUpManager$DsiDownInfo(this, null);
-    public final AMFMDSIUpManager$JpStationNames jpNameListener = new AMFMDSIUpManager$JpStationNames(this);
+    public final AMFMDsiDownInfo dsiDownListener = new DsiDownInfo();
+    public final JpStationNames jpNameListener = new JpStationNames();
     private final StringDisplayability stringChecker;
     private final AbstractStationConsistencyCheck consistencyChecker;
     private final IAmFmDsiDownManager dsiDownManager;
     private final ITaggingManager taggingMngr;
     private boolean updateWaiting;
-    AMFMDSIUpManager$TimerListener tL = new AMFMDSIUpManager$TimerListener(this, null);
-    private final Timer updateDelayTimer = new Timer("updateDelayTimer", 0, true, this.tL);
-    private final Timer listRequestTimer = new Timer("listRequestTimer", 0, true, this.tL);
+    TimerListener tL = new TimerListener();
+    private final Timer updateDelayTimer = new Timer("updateDelayTimer", 5000L, true, this.tL);
+    private final Timer listRequestTimer = new Timer("listRequestTimer", 500L, true, this.tL);
     private AMFMDsiUpInfo[] listeners = new AMFMDsiUpInfo[0];
     private RadioInfo[] basicListeners = new RadioInfo[0];
     private final CoverArtHandler coverArt;
@@ -98,8 +96,8 @@ implements AMFMTunerListener {
         this.taggingMngr = iTaggingManager;
         this.logoDatabase = new NullLogoDatabase();
         this.stationNameHistory = new StationNameHistory();
-        this.coverArt = new AMFMDSIUpManager$FmCoverArtHandler(this, tunerBasics);
-        this.isRdsOrSignalOk = tunerBasics.getModels().getChoiceModel(-511115008);
+        this.coverArt = new FmCoverArtHandler(tunerBasics);
+        this.isRdsOrSignalOk = tunerBasics.getModels().getChoiceModel(100833);
         this.isRdsOrSignalOk.setValue(1);
         this.audio = tunerAudioMgmt;
         this.models = tunerBasics.getModels();
@@ -124,7 +122,7 @@ implements AMFMTunerListener {
     }
 
     public IUpdateListener getUpdateListener(IMemoryList iMemoryList) {
-        return new AMFMDSIUpManager$MemoryListener(this, iMemoryList);
+        return new MemoryListener(iMemoryList);
     }
 
     public void register(IGracenoteRequest iGracenoteRequest) {
@@ -158,21 +156,19 @@ implements AMFMTunerListener {
         }
     }
 
-    @Override
     public void updateStationList(Station[] stationArray) {
         this.logList("FM StationList", stationArray);
         this.listRequestTimer.cancel();
         AMFMStation[] aMFMStationArray = this.convertFmStationList(stationArray);
         aMFMStationArray = this.consistencyChecker.checkList(aMFMStationArray);
         aMFMStationArray = this.stationNameHistory.updateStationList(aMFMStationArray);
-        this.logoDatabase.requestAmFmData(aMFMStationArray, new AMFMDSIUpManager$RsdbResultListener(this, 2));
+        this.logoDatabase.requestAmFmData(aMFMStationArray, new RsdbResultListener(2));
         AMFMDsiUpInfo[] aMFMDsiUpInfoArray = this.listeners;
         for (int i2 = 0; i2 < aMFMDsiUpInfoArray.length; ++i2) {
             aMFMDsiUpInfoArray[i2].updateStationListFM(aMFMStationArray);
         }
     }
 
-    @Override
     public void updateStationListMW(Station[] stationArray) {
         this.logList("AM StationList", stationArray);
         AMFMStation[] aMFMStationArray = this.convertAmStationList(stationArray);
@@ -183,11 +179,9 @@ implements AMFMTunerListener {
         }
     }
 
-    @Override
     public void updateStationListLW(Station[] stationArray) {
     }
 
-    @Override
     public void updateWavebandInfoList(WavebandInfo[] wavebandInfoArray) {
         AMFMDsiUpInfo[] aMFMDsiUpInfoArray = this.listeners;
         for (int i2 = 0; i2 < aMFMDsiUpInfoArray.length; ++i2) {
@@ -198,7 +192,6 @@ implements AMFMTunerListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updateRadioText(AMFMRadioText aMFMRadioText) {
         Object object = this.globalAmFmLock;
         synchronized (object) {
@@ -210,14 +203,14 @@ implements AMFMTunerListener {
                 String string = aMFMRadioText.text.trim();
                 aMFMRadioText.text = Utilities.radioTextReplace(string).trim();
                 if (aMFMRadioText.text.length() == 0) {
-                    this.logger.amfmDSI.log(-1601830656, "[AMFMDSIUM.updateRadioText] received empty text -> ignore");
+                    this.logger.amfmDSI.log(100000, "[AMFMDSIUM.updateRadioText] received empty text -> ignore");
                     return;
                 }
                 if (this.isERT(aMFMRadioText.text)) {
-                    StringDisplayability$Result stringDisplayability$Result = this.stringChecker.check(aMFMRadioText.text);
-                    this.logger.amfmDSI.log(1078071040, "[AMFMDSIUM.updateRadiotext] received eRT: length: %1, #not displayable %2 !", (long)stringDisplayability$Result.length, (long)stringDisplayability$Result.numNotDisplayable);
-                    if (stringDisplayability$Result.numNotDisplayable * 100 / stringDisplayability$Result.length >= 10) {
-                        this.logger.amfmDSI.log(1078071040, "[AMFMDSIUM.updateRadiotext] eRT not dilplayable");
+                    StringDisplayability.Result result = this.stringChecker.check(aMFMRadioText.text);
+                    this.logger.amfmDSI.log(1000000, "[AMFMDSIUM.updateRadiotext] received eRT: length: %1, #not displayable %2 !", (long)result.length, (long)result.numNotDisplayable);
+                    if (result.numNotDisplayable * 100 / result.length >= 10) {
+                        this.logger.amfmDSI.log(1000000, "[AMFMDSIUM.updateRadiotext] eRT not dilplayable");
                         this.dsiDownManager.setERTDisplayable(false);
                         return;
                     }
@@ -247,7 +240,6 @@ implements AMFMTunerListener {
         return string != null && string.length() > 0 && ((c2 = string.charAt(0)) == '\u200e' || c2 == '\u200f');
     }
 
-    @Override
     public void updateAFSwitchStatus(boolean bl) {
         AMFMDsiUpInfo[] aMFMDsiUpInfoArray = this.listeners;
         for (int i2 = 0; i2 < aMFMDsiUpInfoArray.length; ++i2) {
@@ -255,7 +247,6 @@ implements AMFMTunerListener {
         }
     }
 
-    @Override
     public void updateREGSwitchStatus(int n) {
         AMFMDsiUpInfo[] aMFMDsiUpInfoArray = this.listeners;
         for (int i2 = 0; i2 < aMFMDsiUpInfoArray.length; ++i2) {
@@ -263,11 +254,9 @@ implements AMFMTunerListener {
         }
     }
 
-    @Override
     public void updateLinkingUsageStatus(int n) {
     }
 
-    @Override
     public void updateDetectedDevice(int n) {
         AMFMDsiUpInfo[] aMFMDsiUpInfoArray = this.listeners;
         for (int i2 = 0; i2 < aMFMDsiUpInfoArray.length; ++i2) {
@@ -275,20 +264,18 @@ implements AMFMTunerListener {
         }
     }
 
-    @Override
     public void tuneFrequencyStepsStatus(int n) {
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void selectStationStatus(int n) {
         Object object = this.globalAmFmLock;
         synchronized (object) {
             int n2;
             if (this.waitForTuneRunning && n != 1) {
-                this.logger.amfmDSI.log(-2137614336, "[AMFMDSIUM.selectStationStatus] ignore status because waiting for status RUNNING");
+                this.logger.amfmDSI.log(10000000, "[AMFMDSIUM.selectStationStatus] ignore status because waiting for status RUNNING");
             } else {
                 this.waitForTuneRunning = false;
             }
@@ -322,12 +309,11 @@ implements AMFMTunerListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void selectFrequencyStatus(int n) {
         Object object = this.globalAmFmLock;
         synchronized (object) {
             if (this.waitForTuneRunning && n != 1) {
-                this.logger.amfmDSI.log(-2137614336, "[AMFMDSIUM.selectStationStatus] ignore status because waiting for status RUNNING");
+                this.logger.amfmDSI.log(10000000, "[AMFMDSIUM.selectStationStatus] ignore status because waiting for status RUNNING");
             } else {
                 this.waitForTuneRunning = false;
             }
@@ -353,7 +339,6 @@ implements AMFMTunerListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void seekStationStatus(int n) {
         Object object = this.globalAmFmLock;
         synchronized (object) {
@@ -373,7 +358,6 @@ implements AMFMTunerListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updateRadioTextPlus(int[] nArray, String[] stringArray) {
         Object object = this.globalAmFmLock;
         synchronized (object) {
@@ -402,7 +386,6 @@ implements AMFMTunerListener {
         }
     }
 
-    @Override
     public void updateSelectedStation(Station station) {
         this.updateSelectedStationHD(station, 0);
     }
@@ -410,7 +393,6 @@ implements AMFMTunerListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updateSelectedStationHD(Station station, int n) {
         boolean bl = station.rds || station.receptionQuality > 10;
         this.isRdsOrSignalOk.setValue(bl ? 1 : 0);
@@ -424,7 +406,7 @@ implements AMFMTunerListener {
             AMFMStation aMFMStation = new AMFMStation(station, n);
             aMFMStation = this.consistencyChecker.checkStation(aMFMStation);
             aMFMStation = this.stationNameHistory.updateActiveStation(aMFMStation);
-            this.logger.dd.log(1078071040, "[AMFMDSIUM.updateSelectedStation] (adjusted) %1", (Object)aMFMStation);
+            this.logger.dd.log(1000000, "[AMFMDSIUM.updateSelectedStation] (adjusted) %1", (Object)aMFMStation);
             boolean bl3 = bl2 = this.lastStationUpdate.pi != aMFMStation.pi;
             if (bl2 || this.lastStationUpdate.rds && !aMFMStation.rds) {
                 this.rtPlusStorage.reset();
@@ -443,7 +425,6 @@ implements AMFMTunerListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updateHdStatus(int n) {
         Object object = this.globalAmFmLock;
         synchronized (object) {
@@ -470,7 +451,7 @@ implements AMFMTunerListener {
                 ((AMFMStation)object3).setPresetPos(this.getPresetPos(this.lastStationUpdate));
                 ((AMFMStation)object3).setCoverArt(this.coverArt.getCoverArt());
                 ((AMFMStation)object3).setHdInfo(this.hdStInfo);
-                this.logoDatabase.requestAmFmData(new AMFMStation[]{object3}, new AMFMDSIUpManager$RsdbResultListener(this, 1));
+                this.logoDatabase.requestAmFmData(new AMFMStation[]{object3}, new RsdbResultListener(1));
                 n = ((AMFMStation)object3).hd ? this.lastAudioStatus : 1;
                 ((AMFMStation)object3).setAudioStatus(n);
                 object = this.lastStationUpdate = object3;
@@ -505,23 +486,18 @@ implements AMFMTunerListener {
         }
     }
 
-    @Override
     public void prepareTuningStatus(int n) {
     }
 
-    @Override
     public void setAMBandRangeStatus(int n) {
     }
 
-    @Override
     public void forceFMUpdateStatus(int n) {
     }
 
-    @Override
     public void updatePiIgnoreSwitchStatus(boolean bl) {
     }
 
-    @Override
     public void forceAMUpdateStatus(int n) {
         AMFMDsiUpInfo[] aMFMDsiUpInfoArray = this.listeners;
         for (int i2 = 0; i2 < aMFMDsiUpInfoArray.length; ++i2) {
@@ -529,15 +505,12 @@ implements AMFMTunerListener {
         }
     }
 
-    @Override
     public void updateRDSIgnoreSwitchStatus(boolean bl) {
     }
 
-    @Override
     public void updateMESwitchStatus(boolean bl) {
     }
 
-    @Override
     public void updateHdMode(int n) {
         AMFMDsiUpInfo[] aMFMDsiUpInfoArray = this.listeners;
         for (int i2 = 0; i2 < aMFMDsiUpInfoArray.length; ++i2) {
@@ -548,7 +521,6 @@ implements AMFMTunerListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updateHdStationInfo(HdStationInfo hdStationInfo) {
         int n;
         Object object;
@@ -593,7 +565,6 @@ implements AMFMTunerListener {
         return hdStationInfo;
     }
 
-    @Override
     public void updateAvailability(int n) {
         AMFMDsiUpInfo[] aMFMDsiUpInfoArray = this.listeners;
         for (int i2 = 0; i2 < aMFMDsiUpInfoArray.length; ++i2) {
@@ -601,7 +572,6 @@ implements AMFMTunerListener {
         }
     }
 
-    @Override
     public void updateElectronicSerialCode(String string) {
     }
 
@@ -681,7 +651,7 @@ implements AMFMTunerListener {
     private void logList(String string, Station[] stationArray) {
         if (this.logger.amfmList.isDebug2()) {
             for (int i2 = 0; i2 < stationArray.length; ++i2) {
-                this.logger.amfmList.log(14808325, "%2: %1", (Object)stationArray[i2], (long)i2);
+                this.logger.amfmList.log(100000000, "%2: %1", (Object)stationArray[i2], (long)i2);
             }
         } else if (this.logger.amfmDSI.isDebug()) {
             Buffer buffer = new Buffer(5000);
@@ -700,7 +670,7 @@ implements AMFMTunerListener {
                 buffer.append("stLogo=").append(stationArray[i3].stationArt != null && stationArray[i3].stationArt.url != null && stationArray[i3].stationArt.url.trim().length() > 0).append(';');
                 buffer.append('\n');
             }
-            this.logger.amfmDSI.log(-2137614336, "%2:\n%1", (Object)buffer, (Object)string);
+            this.logger.amfmDSI.log(10000000, "%2:\n%1", (Object)buffer, (Object)string);
         }
     }
 
@@ -708,82 +678,179 @@ implements AMFMTunerListener {
         return this.stationNameHistory;
     }
 
-    static /* synthetic */ Object access$200(AMFMDSIUpManager aMFMDSIUpManager) {
-        return aMFMDSIUpManager.globalAmFmLock;
-    }
-
-    static /* synthetic */ boolean access$302(AMFMDSIUpManager aMFMDSIUpManager, boolean bl) {
-        aMFMDSIUpManager.waitForTuneRunning = bl;
-        return aMFMDSIUpManager.waitForTuneRunning;
-    }
-
-    static /* synthetic */ AMFMStation access$402(AMFMDSIUpManager aMFMDSIUpManager, AMFMStation aMFMStation) {
-        aMFMDSIUpManager.lastDowncall = aMFMStation;
-        return aMFMDSIUpManager.lastDowncall;
-    }
-
-    static /* synthetic */ RadioTextPlusStorage access$500(AMFMDSIUpManager aMFMDSIUpManager) {
-        return aMFMDSIUpManager.rtPlusStorage;
-    }
-
-    static /* synthetic */ CoverArtHandler access$600(AMFMDSIUpManager aMFMDSIUpManager) {
-        return aMFMDSIUpManager.coverArt;
-    }
-
-    static /* synthetic */ HdStationInfoExt access$702(AMFMDSIUpManager aMFMDSIUpManager, HdStationInfoExt hdStationInfoExt) {
-        aMFMDSIUpManager.hdStInfo = hdStationInfoExt;
-        return aMFMDSIUpManager.hdStInfo;
-    }
-
-    static /* synthetic */ TunerStatus access$800(AMFMDSIUpManager aMFMDSIUpManager) {
-        return aMFMDSIUpManager.status;
-    }
-
-    static /* synthetic */ int access$902(AMFMDSIUpManager aMFMDSIUpManager, int n) {
-        aMFMDSIUpManager.lastAudioStatus = n;
-        return aMFMDSIUpManager.lastAudioStatus;
-    }
-
-    static /* synthetic */ Timer access$1000(AMFMDSIUpManager aMFMDSIUpManager) {
-        return aMFMDSIUpManager.updateDelayTimer;
-    }
-
-    static /* synthetic */ ChoiceModelApp access$1100(AMFMDSIUpManager aMFMDSIUpManager) {
-        return aMFMDSIUpManager.isRdsOrSignalOk;
-    }
-
-    static /* synthetic */ void access$1200(AMFMDSIUpManager aMFMDSIUpManager) {
-        aMFMDSIUpManager.doUpdateSelectedStation();
-    }
-
-    static /* synthetic */ IAmFmDsiDownManager access$1300(AMFMDSIUpManager aMFMDSIUpManager) {
-        return aMFMDSIUpManager.dsiDownManager;
-    }
-
-    static /* synthetic */ AbstractStationConsistencyCheck access$1400(AMFMDSIUpManager aMFMDSIUpManager) {
-        return aMFMDSIUpManager.consistencyChecker;
-    }
-
     static /* synthetic */ TunerObjectContainer[] access$1502(AMFMDSIUpManager aMFMDSIUpManager, TunerObjectContainer[] tunerObjectContainerArray) {
         aMFMDSIUpManager.presets = tunerObjectContainerArray;
         return tunerObjectContainerArray;
     }
 
-    static /* synthetic */ TunerObjectContainer[] access$1500(AMFMDSIUpManager aMFMDSIUpManager) {
-        return aMFMDSIUpManager.presets;
+    private class DsiDownInfo
+    extends AMFMDsiDownInfo {
+        private DsiDownInfo() {
+        }
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void preTuneAction(AMFMStation aMFMStation, boolean bl) {
+            Object object = AMFMDSIUpManager.this.globalAmFmLock;
+            synchronized (object) {
+                AMFMDSIUpManager.this.waitForTuneRunning = true;
+                AMFMDSIUpManager.this.lastDowncall = aMFMStation;
+                AMFMDSIUpManager.this.rtPlusStorage.reset();
+                AMFMDSIUpManager.this.coverArt.clear();
+                AMFMDSIUpManager.this.hdStInfo = ISimpleTuner.EMPTY_HDSTATIONINFO;
+                if (aMFMStation.waveband == 1 && !AMFMDSIUpManager.this.status.isFmHdModeOn() || aMFMStation.waveband == 3 && !AMFMDSIUpManager.this.status.isAmHdModeOn()) {
+                    AMFMDSIUpManager.this.lastAudioStatus = 1;
+                }
+                if (bl || Utilities.isNARBuild()) {
+                    AMFMDSIUpManager.this.updateDelayTimer.cancel();
+                } else {
+                    AMFMDSIUpManager.this.updateDelayTimer.restart();
+                }
+            }
+        }
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void blockUpdates() {
+            AMFMDSIUpManager.this.isRdsOrSignalOk.setValue(1);
+            Object object = AMFMDSIUpManager.this.globalAmFmLock;
+            synchronized (object) {
+                AMFMDSIUpManager.this.waitForTuneRunning = true;
+            }
+        }
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void unBlockUpdates() {
+            Object object = AMFMDSIUpManager.this.globalAmFmLock;
+            synchronized (object) {
+                AMFMDSIUpManager.this.waitForTuneRunning = false;
+                AMFMDSIUpManager.this.updateDelayTimer.cancel();
+            }
+        }
     }
 
-    static /* synthetic */ AMFMStation access$400(AMFMDSIUpManager aMFMDSIUpManager) {
-        return aMFMDSIUpManager.lastDowncall;
+    private class TimerListener
+    extends DefaultTimerListener {
+        private TimerListener() {
+        }
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void fireTimer(Timer timer) {
+            if (timer.equals(AMFMDSIUpManager.this.updateDelayTimer)) {
+                Object object = AMFMDSIUpManager.this.globalAmFmLock;
+                synchronized (object) {
+                    AMFMDSIUpManager.this.doUpdateSelectedStation();
+                }
+            } else {
+                AMFMDSIUpManager.this.dsiDownManager.reNotification(2);
+            }
+        }
     }
 
-    static /* synthetic */ boolean access$1602(AMFMDSIUpManager aMFMDSIUpManager, boolean bl) {
-        aMFMDSIUpManager.updateWaiting = bl;
-        return aMFMDSIUpManager.updateWaiting;
+    public class JpStationNames
+    implements AMFMTunerService {
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void updateReceivableStations(AMFMStationInfo[] aMFMStationInfoArray) {
+            Object object = AMFMDSIUpManager.this.globalAmFmLock;
+            synchronized (object) {
+                AMFMDSIUpManager.this.consistencyChecker.setJpAMFMStationInfo(aMFMStationInfoArray);
+            }
+            AMFMDSIUpManager.this.dsiDownManager.reNotification(1);
+            AMFMDSIUpManager.this.dsiDownManager.reNotification(2);
+            AMFMDSIUpManager.this.dsiDownManager.reNotification(3);
+        }
     }
 
-    static /* synthetic */ Timer access$1700(AMFMDSIUpManager aMFMDSIUpManager) {
-        return aMFMDSIUpManager.listRequestTimer;
+    private class MemoryListener
+    extends DefaultUpdateListener
+    implements IUpdateListener {
+        private final IMemoryList memory;
+
+        public MemoryListener(IMemoryList iMemoryList) {
+            this.memory = iMemoryList;
+        }
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void updatedMemoryList() {
+            TunerObjectContainer[] tunerObjectContainerArray = this.memory.getList(new int[]{1, 4});
+            Object object = AMFMDSIUpManager.this.globalAmFmLock;
+            synchronized (object) {
+                AMFMDSIUpManager.access$1502(AMFMDSIUpManager.this, tunerObjectContainerArray);
+                boolean bl = false;
+                for (int i2 = 0; i2 < AMFMDSIUpManager.this.presets.length; ++i2) {
+                    AMFMStation aMFMStation = AMFMDSIUpManager.this.presets[i2].getAMFMService();
+                    if (!RadioComparators.equals(AMFMDSIUpManager.this.lastDowncall, aMFMStation) || AMFMDSIUpManager.this.lastDowncall.getPresetPos() != aMFMStation.getPresetPos()) continue;
+                    bl = true;
+                    break;
+                }
+                if (!bl) {
+                    AMFMDSIUpManager.this.lastDowncall.setPresetPos(0);
+                }
+                AMFMDSIUpManager.this.updateWaiting = true;
+                AMFMDSIUpManager.this.dsiDownManager.reNotification(1);
+                AMFMDSIUpManager.this.dsiDownManager.reNotification(20);
+                AMFMDSIUpManager.this.dsiDownManager.reNotification(2);
+                AMFMDSIUpManager.this.dsiDownManager.reNotification(3);
+            }
+        }
+    }
+
+    private class FmCoverArtHandler
+    extends CoverArtHandler {
+        private final TunerModels models;
+
+        public FmCoverArtHandler(TunerBasics tunerBasics) {
+            super(tunerBasics);
+            this.models = tunerBasics.getModels();
+        }
+
+        public void requestCoverArt(String string, String string2, String string3) {
+            int n = this.models.getActiveTuner();
+            if (n == 1 || n == 4) {
+                super.requestCoverArt(string, string2, string3);
+            }
+        }
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public boolean setCoverArt(int n, ResourceLocator resourceLocator) {
+            Object object = AMFMDSIUpManager.this.globalAmFmLock;
+            synchronized (object) {
+                if (super.setCoverArt(n, resourceLocator)) {
+                    AMFMDSIUpManager.this.updateWaiting = true;
+                    AMFMDSIUpManager.this.doUpdateSelectedStation();
+                }
+                return false;
+            }
+        }
+    }
+
+    private class RsdbResultListener
+    implements IRSDBResult {
+        private final int type;
+
+        public RsdbResultListener(int n) {
+            this.type = n;
+        }
+
+        public void resultAvailable() {
+            AMFMDSIUpManager.this.updateWaiting = true;
+            AMFMDSIUpManager.this.doUpdateSelectedStation();
+            if (this.type == 2) {
+                AMFMDSIUpManager.this.listRequestTimer.start();
+            }
+        }
     }
 }
 

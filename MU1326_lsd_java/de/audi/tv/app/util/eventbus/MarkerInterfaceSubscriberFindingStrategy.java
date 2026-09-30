@@ -6,7 +6,6 @@ package de.audi.tv.app.util.eventbus;
 import de.audi.tv.app.util.Pair;
 import de.audi.tv.app.util.Predicates;
 import de.audi.tv.app.util.ReflectionUtils;
-import de.audi.tv.app.util.eventbus.MarkerInterfaceSubscriberFindingStrategy$1;
 import de.audi.tv.app.util.eventbus.SubscriberFindingStrategy;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -18,7 +17,6 @@ public class MarkerInterfaceSubscriberFindingStrategy
 implements SubscriberFindingStrategy {
     static /* synthetic */ Class class$de$audi$tv$app$util$eventbus$EventMarker;
 
-    @Override
     public List findAllSubscribers(Object object) {
         ArrayList arrayList = new ArrayList();
         Class clazz = object.getClass();
@@ -34,7 +32,18 @@ implements SubscriberFindingStrategy {
 
     private static List getMarkedMethods(Class clazz) {
         Collection collection = ReflectionUtils.getPublicDeclaredMethods(clazz);
-        return new ArrayList(Predicates.filter(collection, new MarkerInterfaceSubscriberFindingStrategy$1()));
+        return new ArrayList(Predicates.filter(collection, new Predicates.Predicate(){
+
+            public boolean apply(Object object) {
+                Class[] classArray = ((Method)object).getParameterTypes();
+                if (classArray.length == 1) {
+                    Class clazz = classArray[0];
+                    boolean bl = clazz != null && (class$de$audi$tv$app$util$eventbus$EventMarker == null ? (class$de$audi$tv$app$util$eventbus$EventMarker = MarkerInterfaceSubscriberFindingStrategy.class$("de.audi.tv.app.util.eventbus.EventMarker")) : class$de$audi$tv$app$util$eventbus$EventMarker).isAssignableFrom(clazz);
+                    return bl;
+                }
+                return false;
+            }
+        }));
     }
 
     static /* synthetic */ Class class$(String string) {

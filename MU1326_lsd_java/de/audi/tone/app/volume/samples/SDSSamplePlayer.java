@@ -18,31 +18,27 @@ implements ISamplePlayer {
         this.sdsService = new NullSDSService(logChannel);
     }
 
-    @Override
     public void registerService(Object object) {
         if (object instanceof SDSService) {
-            this.lc.log(-2137614336, "[SDSSamplePlayer.registerService] %1", object);
+            this.lc.log(10000000, "[SDSSamplePlayer.registerService] %1", object);
             this.sdsService = (SDSService)object;
         }
     }
 
-    @Override
     public void deregisterService(Object object) {
         if (object instanceof SDSService) {
-            this.lc.log(1078071040, "[SDSSamplePlayer.deregisterService] %1", object);
+            this.lc.log(1000000, "[SDSSamplePlayer.deregisterService] %1", object);
             this.sdsService = new NullSDSService(this.lc);
         }
     }
 
-    @Override
     public void play() {
-        this.lc.log(-2137614336, "SDSSamplePlayer.play(): Sending SDS command VOLUME!");
+        this.lc.log(10000000, "SDSSamplePlayer.play(): Sending SDS command VOLUME!");
         this.sdsService.startVolumeSettingSession();
     }
 
-    @Override
     public void stop() {
-        this.lc.log(-2137614336, "SDSSamplePlayer.stop(): Sending SDS command SILENT_ABORT!");
+        this.lc.log(10000000, "SDSSamplePlayer.stop(): Sending SDS command SILENT_ABORT!");
         this.sdsService.stopVolumeSettingSession();
     }
 }

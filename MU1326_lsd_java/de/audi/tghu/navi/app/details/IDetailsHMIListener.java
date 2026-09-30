@@ -14,7 +14,6 @@ extends ButtonListener,
 IDetailsScreen,
 PreviewMapCallback,
 MenuModelListener {
-    default public void setDemoModeManager(DemoModeManager demoModeManager) {
-    }
+    public void setDemoModeManager(DemoModeManager var1);
 }
 

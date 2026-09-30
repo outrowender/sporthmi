@@ -26,48 +26,42 @@ implements DSIAdbSetupListener {
         return "AddressbookHandler";
     }
 
-    @Override
     public int getID() {
         return 0;
     }
 
-    @Override
     public void addService(Object object) {
-        this.lc.log(-2137614336, "[NaviHandler.registerDSI] DSIAdbSetup:%1", object);
+        this.lc.log(10000000, "[NaviHandler.registerDSI] DSIAdbSetup:%1", object);
         this.dsi = (DSIAdbSetup)object;
     }
 
-    @Override
     public void removeService(Object object) {
-        this.lc.log(-2137614336, "[NaviHandler.removeDSI] DSIAdbSetup:%1", object);
+        this.lc.log(10000000, "[NaviHandler.removeDSI] DSIAdbSetup:%1", object);
         this.dsi = new NullDSIAdbSetup(this.lc);
     }
 
-    @Override
     public void startExport(AbstractIETask abstractIETask) {
-        this.lc.log(-2137614336, "[Addressbookhandler.startExport] -> DSIAdbSetup.createBackupFile( %1 )", (Object)this.file);
+        this.lc.log(10000000, "[Addressbookhandler.startExport] -> DSIAdbSetup.createBackupFile( %1 )", (Object)this.file);
         this.setTask(abstractIETask);
         this.longRunningTaskTimer.restart();
         this.dsi.createBackupFile(this.file);
     }
 
-    @Override
     public void startImport(AbstractIETask abstractIETask) {
         if (!new File(this.file).exists()) {
-            this.lc.log(1078071040, "[Addressbookhandler.startImport] File not found: %1", (Object)this.file);
+            this.lc.log(1000000, "[Addressbookhandler.startImport] File not found: %1", (Object)this.file);
             abstractIETask.updateClientResult(this, this.file, false, true);
             return;
         }
-        this.lc.log(-2137614336, "[Addressbookhandler.startImport] -> DSIAdbSetup.importBackupFile( %1 )", (Object)this.file);
+        this.lc.log(10000000, "[Addressbookhandler.startImport] -> DSIAdbSetup.importBackupFile( %1 )", (Object)this.file);
         this.setTask(abstractIETask);
         this.longRunningTaskTimer.restart();
         this.dsi.importBackupFile(this.file);
     }
 
-    @Override
     public void createBackupFileResult(int n, String string) {
         boolean bl = n == 0;
-        this.lc.log(-2137614336, "[AddressbookHandler.createBackupFileResult] fullPath:%1 success:%2", (Object)string, (long)n);
+        this.lc.log(10000000, "[AddressbookHandler.createBackupFileResult] fullPath:%1 success:%2", (Object)string, (long)n);
         try {
             this.longRunningTaskTimer.cancel();
             this.getTask().updateClientResult(this, this.file, bl, true);
@@ -77,10 +71,9 @@ implements DSIAdbSetupListener {
         }
     }
 
-    @Override
     public void importBackupFileResult(int n, String string) {
         boolean bl = n == 0;
-        this.lc.log(-2137614336, "[AddressbookHandler.importBackupFileResult] fullPath:%1 success:%2", (Object)string, (long)n);
+        this.lc.log(10000000, "[AddressbookHandler.importBackupFileResult] fullPath:%1 success:%2", (Object)string, (long)n);
         try {
             this.longRunningTaskTimer.cancel();
             this.getTask().updateClientResult(this, this.file, bl, true);
@@ -90,7 +83,6 @@ implements DSIAdbSetupListener {
         }
     }
 
-    @Override
     public void updateKeyboardDisplay(boolean bl, KeyboardInfo keyboardInfo, int n) {
     }
 }

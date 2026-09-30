@@ -7,6 +7,7 @@ import de.audi.atip.interapp.SDSListEntry;
 import de.audi.atip.interapp.TunerServiceListener;
 import de.audi.tuner.app.Const;
 import de.audi.tuner.app.Logger;
+import de.audi.tuner.app.PresetIds;
 import de.audi.tuner.app.RadioObjectIds;
 import de.audi.tuner.app.TunerBasics;
 import de.audi.tuner.app.TunerObjectContainer;
@@ -19,7 +20,6 @@ import de.audi.tuner.app.uni.UnifiedStationExt;
 import de.audi.tuner.ifc.IMemoryList;
 import de.audi.tuner.ifc.listener.IUpdateListener;
 import de.audi.tuner.sds.DefaultUpdateListener;
-import de.audi.tuner.sds.TunerServiceHandler$1;
 import de.esolutions.fw.util.commons.SimpleIntObjectMap;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,7 +31,32 @@ public class TunerServiceHandler
 extends DefaultUpdateListener
 implements IUpdateListener {
     private final Map listeners = new HashMap();
-    private IMemoryList memory = new TunerServiceHandler$1(this);
+    private IMemoryList memory = new IMemoryList(){
+
+        public boolean isEmpty() {
+            return true;
+        }
+
+        public PresetIds getPresetIds(TunerObjectContainer tunerObjectContainer) {
+            return new PresetIds(0, 0);
+        }
+
+        public TunerObjectContainer[] getList(int[] nArray) {
+            return new TunerObjectContainer[0];
+        }
+
+        public TunerObjectContainer[] getList(int n) {
+            return new TunerObjectContainer[0];
+        }
+
+        public TunerObjectContainer[] getList() {
+            return new TunerObjectContainer[0];
+        }
+
+        public boolean tuneByCombiID(int n, int n2) {
+            return false;
+        }
+    };
     private final Logger logger;
     private int[] bands = new int[0];
 
@@ -40,7 +65,7 @@ implements IUpdateListener {
     }
 
     public void addListener(TunerServiceListener tunerServiceListener) {
-        this.logger.main.log(-2137614336, "[TunerServiceHandler.addListener] %1 %2", (Object)tunerServiceListener.getName(), (Object)tunerServiceListener);
+        this.logger.main.log(10000000, "[TunerServiceHandler.addListener] %1 %2", (Object)tunerServiceListener.getName(), (Object)tunerServiceListener);
         this.listeners.put(tunerServiceListener.getName(), tunerServiceListener);
         this.sendBandList(this.bands);
         this.updatedStationList(1);
@@ -59,7 +84,7 @@ implements IUpdateListener {
     }
 
     public void removeListener(TunerServiceListener tunerServiceListener) {
-        this.logger.main.log(-2137614336, "[TunerServiceHandler.removeListener] %1 %2", (Object)tunerServiceListener.getName(), (Object)tunerServiceListener);
+        this.logger.main.log(10000000, "[TunerServiceHandler.removeListener] %1 %2", (Object)tunerServiceListener.getName(), (Object)tunerServiceListener);
         this.listeners.remove(tunerServiceListener.getName());
     }
 
@@ -83,7 +108,7 @@ implements IUpdateListener {
             arrayList.add(new SDSListEntry(string, l));
         }
         this.updateStationList((SDSListEntry[])arrayList.toArray(new SDSListEntry[arrayList.size()]), n);
-        this.logger.sds.log(-2137614336, "[TunerServiceHAndler.updateStationListAMFM()] %1 stations band %2", (long)arrayList.size(), (long)n);
+        this.logger.sds.log(10000000, "[TunerServiceHAndler.updateStationListAMFM()] %1 stations band %2", (long)arrayList.size(), (long)n);
     }
 
     private void updateStationListDAB() {
@@ -120,7 +145,7 @@ implements IUpdateListener {
         }
         this.updateStationList((SDSListEntry[])arrayList.toArray(new SDSListEntry[arrayList.size()]), 5);
         this.updateEnsembleList((SDSListEntry[])arrayList2.toArray(new SDSListEntry[arrayList2.size()]));
-        this.logger.sds.log(-2137614336, "[TunerServiceHAndler.updateStationListDAB()] %1 stations", (long)arrayList.size());
+        this.logger.sds.log(10000000, "[TunerServiceHAndler.updateStationListDAB()] %1 stations", (long)arrayList.size());
     }
 
     private void updateStationListUni() {
@@ -133,7 +158,7 @@ implements IUpdateListener {
             sDSListEntryArray[i2] = new SDSListEntry(string, l);
         }
         this.updateStationList(sDSListEntryArray, 11);
-        this.logger.sds.log(-2137614336, "[TunerServiceHAndler.updateStationListUni()] %1 stations", (long)sDSListEntryArray.length);
+        this.logger.sds.log(10000000, "[TunerServiceHAndler.updateStationListUni()] %1 stations", (long)sDSListEntryArray.length);
     }
 
     private SimpleIntObjectMap updateStationListSDARS() {
@@ -153,7 +178,7 @@ implements IUpdateListener {
         }
         this.updateStationList((SDSListEntry[])arrayList.toArray(new SDSListEntry[arrayList.size()]), 7);
         this.updateSdarsChannelNumberList((SDSListEntry[])arrayList2.toArray(new SDSListEntry[arrayList2.size()]));
-        this.logger.sds.log(-2137614336, "[TunerServiceHAndler.updateStationListSDARS()] %1 stations", (long)arrayList.size());
+        this.logger.sds.log(10000000, "[TunerServiceHAndler.updateStationListSDARS()] %1 stations", (long)arrayList.size());
         return simpleIntObjectMap;
     }
 
@@ -165,10 +190,9 @@ implements IUpdateListener {
             sDSListEntryArray[i2] = new SDSListEntry((String)objectArray[i2], nArray[i2]);
         }
         this.updateGenreList(sDSListEntryArray);
-        this.logger.sds.log(-2137614336, "[TunerServiceHAndler.updateGenreListSDARS()] %1 stations", (long)sDSListEntryArray.length);
+        this.logger.sds.log(10000000, "[TunerServiceHAndler.updateGenreListSDARS()] %1 stations", (long)sDSListEntryArray.length);
     }
 
-    @Override
     public void updatedMemoryList() {
         TunerObjectContainer[] tunerObjectContainerArray = this.memory.getList();
         ArrayList arrayList = new ArrayList(tunerObjectContainerArray.length);
@@ -209,7 +233,6 @@ implements IUpdateListener {
         this.updateStationList((SDSListEntry[])arrayList.toArray(new SDSListEntry[arrayList.size()]), 12);
     }
 
-    @Override
     public void updatedBandList(int[] nArray) {
         if (!this.memory.isEmpty()) {
             boolean bl = false;
@@ -229,7 +252,6 @@ implements IUpdateListener {
         this.sendBandList(this.bands);
     }
 
-    @Override
     public void updatedStationList(int n) {
         switch (n) {
             case 1: 
@@ -254,8 +276,8 @@ implements IUpdateListener {
     }
 
     private void sendBandList(int[] nArray) {
-        this.logger.main.log(1078071040, "[TunerServiceHandler.updateBandList]");
-        this.logger.dd.log(-2137614336, "List: %1", (Object)nArray);
+        this.logger.main.log(1000000, "[TunerServiceHandler.updateBandList]");
+        this.logger.dd.log(10000000, "List: %1", (Object)nArray);
         int[] nArray2 = new int[nArray.length];
         for (int i2 = 0; i2 < nArray.length; ++i2) {
             nArray2[i2] = Const.radioBand2SdsBand(nArray[i2]);
@@ -273,7 +295,7 @@ implements IUpdateListener {
     }
 
     private void updateEnsembleList(SDSListEntry[] sDSListEntryArray) {
-        this.logger.main.log(1078071040, "[TunerServiceHandler.updateEnsembleList] #%1", (long)sDSListEntryArray.length);
+        this.logger.main.log(1000000, "[TunerServiceHandler.updateEnsembleList] #%1", (long)sDSListEntryArray.length);
         this.dumpList(sDSListEntryArray);
         Iterator iterator = this.listeners.keySet().iterator();
         while (iterator.hasNext()) {
@@ -288,7 +310,7 @@ implements IUpdateListener {
     }
 
     private void updateStationList(SDSListEntry[] sDSListEntryArray, int n) {
-        this.logger.main.log(1078071040, "[TunerServiceHandler.updateStationList]");
+        this.logger.main.log(1000000, "[TunerServiceHandler.updateStationList]");
         this.dumpList(sDSListEntryArray);
         Iterator iterator = this.listeners.keySet().iterator();
         while (iterator.hasNext()) {
@@ -303,7 +325,7 @@ implements IUpdateListener {
     }
 
     private void updateSdarsChannelNumberList(SDSListEntry[] sDSListEntryArray) {
-        this.logger.main.log(1078071040, "[TunerServiceHandler.updateSdarsChannelNumberList]");
+        this.logger.main.log(1000000, "[TunerServiceHandler.updateSdarsChannelNumberList]");
         this.dumpList(sDSListEntryArray);
         Iterator iterator = this.listeners.keySet().iterator();
         while (iterator.hasNext()) {
@@ -318,7 +340,7 @@ implements IUpdateListener {
     }
 
     private void updateGenreList(SDSListEntry[] sDSListEntryArray) {
-        this.logger.main.log(1078071040, "[TunerServiceHandler.updateGenreList]");
+        this.logger.main.log(1000000, "[TunerServiceHandler.updateGenreList]");
         this.dumpList(sDSListEntryArray);
         Iterator iterator = this.listeners.keySet().iterator();
         while (iterator.hasNext()) {
@@ -333,9 +355,9 @@ implements IUpdateListener {
     }
 
     private void dumpList(SDSListEntry[] sDSListEntryArray) {
-        if (this.logger.dd.getCurrentLogThreshold() >= -2137614336) {
+        if (this.logger.dd.getCurrentLogThreshold() >= 10000000) {
             for (int i2 = 0; i2 < sDSListEntryArray.length; ++i2) {
-                this.logger.dd.log(-2137614336, "[%2] %1", (Object)sDSListEntryArray[i2], (long)i2);
+                this.logger.dd.log(10000000, "[%2] %1", (Object)sDSListEntryArray[i2], (long)i2);
             }
         }
     }

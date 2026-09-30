@@ -10,16 +10,16 @@ import org.dsi.ifc.sdars.RadioText;
 
 public class ArtistTitleRow
 extends EvoListRow {
-    public static final int SORTMODE_ARTIST;
-    public static final int SORTMODE_TITLE;
-    public static final int SORTMODES_COUNT;
-    protected static final int INDEX_RS;
-    protected static final int INDEX_ARTIST;
-    protected static final int INDEX_TITLE;
-    protected static final int INDEX_STATIONNAME;
-    protected static final int INDEX_STATIONNUMBER;
-    protected static final int INDEX_ISFAVORITE;
-    public static final int NUM_COLUMNS;
+    public static final int SORTMODE_ARTIST = 0;
+    public static final int SORTMODE_TITLE = 1;
+    public static final int SORTMODES_COUNT = 2;
+    protected static final int INDEX_RS = 0;
+    protected static final int INDEX_ARTIST = 1;
+    protected static final int INDEX_TITLE = 2;
+    protected static final int INDEX_STATIONNAME = 3;
+    protected static final int INDEX_STATIONNUMBER = 4;
+    protected static final int INDEX_ISFAVORITE = 5;
+    public static final int NUM_COLUMNS = 6;
     private final StationInfoExt station;
     private final RadioText pdt;
     private int mode;
@@ -46,7 +46,6 @@ extends EvoListRow {
         this.isFavorite = artistTitleRow.isFavorite;
     }
 
-    @Override
     public EvoListRow copy() {
         return new ArtistTitleRow(this);
     }

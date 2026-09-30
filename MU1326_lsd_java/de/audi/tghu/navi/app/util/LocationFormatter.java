@@ -17,7 +17,7 @@ import org.dsi.ifc.global.NavLocation;
 import org.dsi.ifc.online.PoiOnlineSearchValuelistElement;
 
 public class LocationFormatter {
-    public static final String COUNTRY_CODE_USA;
+    public static final String COUNTRY_CODE_USA = "USA";
 
     private static String InvalidGeoMetricAsString() {
         GeoMetric geoMetric = new GeoMetric();
@@ -156,7 +156,7 @@ public class LocationFormatter {
     }
 
     public static boolean hasFullPostalCode(NavLocation navLocation) {
-        return navLocation != null ? Util.isAdditionalFlagSet(navLocation, 8) : false;
+        return navLocation != null ? Util.isAdditionalFlagSet(navLocation, 0x8000000) : false;
     }
 
     public static String formatCityZipTextfield(NavLocation navLocation) {
@@ -169,7 +169,7 @@ public class LocationFormatter {
             String string2 = LocationFormatter.formatZIPCode(navLocation);
             boolean bl = !Util.isEmpty(string);
             boolean bl2 = !Util.isEmpty(string2);
-            boolean bl3 = Util.isAdditionalFlagSet(navLocation, 96) || Util.isGeoPosType(navLocation);
+            boolean bl3 = Util.isAdditionalFlagSet(navLocation, 0x60000000) || Util.isGeoPosType(navLocation);
             Buffer buffer = new Buffer();
             if (bl && bl2 && bl3) {
                 buffer.append(string2).append(' ').append(string);
@@ -190,7 +190,7 @@ public class LocationFormatter {
             String string3 = LocationFormatter.formatStateAbbreviation(navLocation);
             boolean bl = !Util.isEmpty(string);
             boolean bl2 = !Util.isEmpty(string2);
-            boolean bl3 = Util.isAdditionalFlagSet(navLocation, 96) || Util.isGeoPosType(navLocation);
+            boolean bl3 = Util.isAdditionalFlagSet(navLocation, 0x60000000) || Util.isGeoPosType(navLocation);
             boolean bl4 = !Util.isEmpty(string3);
             Buffer buffer = new Buffer();
             if (bl && bl2 && bl3) {
@@ -228,7 +228,7 @@ public class LocationFormatter {
                     buffer.append(string4).append(", ");
                 }
                 buffer.append(string);
-                if (!Util.isEmpty(string3) && Util.isAdditionalFlagSet(navLocation, 144)) {
+                if (!Util.isEmpty(string3) && Util.isAdditionalFlagSet(navLocation, -1879048192)) {
                     buffer.append(", ").append(string3);
                 }
                 if (bl && !Util.isEmpty(string2)) {
@@ -245,7 +245,7 @@ public class LocationFormatter {
             if (!Util.isEmpty(navLocation.getStreet())) {
                 return LocationFormatter.formatStreet(navLocation);
             }
-            if (LocationFormatter.hasFullPostalCode(navLocation) || Util.isGeoPosFlag(navLocation) || LocationFormatter.getLocationType(navLocation) == 0x800000 || LocationFormatter.getLocationType(navLocation) == 124) {
+            if (LocationFormatter.hasFullPostalCode(navLocation) || Util.isGeoPosFlag(navLocation) || LocationFormatter.getLocationType(navLocation) == 32768 || LocationFormatter.getLocationType(navLocation) == 124) {
                 return "";
             }
             if (!Util.isEmpty(navLocation.getTown()) || !Util.isEmpty(navLocation.getZipCode())) {
@@ -294,7 +294,7 @@ public class LocationFormatter {
         if (navLocation != null) {
             switch (Util.getLocationAccessor(navLocation).getType()) {
                 case 1: {
-                    return 0x800000;
+                    return 32768;
                 }
                 case 2: {
                     return 124;
@@ -837,7 +837,7 @@ public class LocationFormatter {
     }
 
     private static String createPhonemeString(String string) {
-        return new StringBuffer().append("\u241d").append(string).toString();
+        return "\u241d" + string;
     }
 
     public static String splitStringToSingleCharactersWithWhitespace(String string) {

@@ -7,19 +7,14 @@ import de.audi.tghu.navi.app.addressinput.poi.searcharea.PoiSearchArea;
 import org.dsi.ifc.global.NavLocation;
 
 public interface IPoiSearchAreaModelAccess {
-    default public void onStart(NavLocation navLocation) {
-    }
+    public void onStart(NavLocation var1);
 
-    default public void onUpdateSearchArea(PoiSearchArea poiSearchArea) {
-    }
+    public void onUpdateSearchArea(PoiSearchArea var1);
 
-    default public void onUpdateSearchArea(PoiSearchArea poiSearchArea, boolean bl, int n) {
-    }
+    public void onUpdateSearchArea(PoiSearchArea var1, boolean var2, int var3);
 
-    default public void onUpdateHistoryList() {
-    }
+    public void onUpdateHistoryList();
 
-    default public void onElementSelected(NavLocation navLocation) {
-    }
+    public void onElementSelected(NavLocation var1);
 }
 

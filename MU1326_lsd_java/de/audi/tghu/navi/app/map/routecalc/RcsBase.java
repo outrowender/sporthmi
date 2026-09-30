@@ -24,14 +24,14 @@ public abstract class RcsBase {
     protected final RouteCalcSM stateMachine;
     protected final RouteCalcDataContainer data;
     protected final String NAME;
-    public static final int MODEL_VALUE_IDLE;
-    public static final int MODEL_VALUE_CALCULATING_SINGLE_ROUTE;
-    public static final int MODEL_VALUE_CALCULATING_MULTIPLE_ROUTES;
-    public static final int MODEL_VALUE_CALCULATING_ALTERNATIVE_ROUTES_DURING_ACTIVE_RG;
-    public static final int MODEL_VALUE_CALCULATING_RUBBERBAND_ROUTE;
-    public static final int MODEL_VALUE_WAITING_FOR_RG_TO_BECOME_ACTIVE;
-    public static final int MODEL_VALUE_RG_ACTIVE;
-    public static final int MODEL_VALUE_RESTART_AFTER_ALTROUTES;
+    public static final int MODEL_VALUE_IDLE = 0;
+    public static final int MODEL_VALUE_CALCULATING_SINGLE_ROUTE = 1;
+    public static final int MODEL_VALUE_CALCULATING_MULTIPLE_ROUTES = 2;
+    public static final int MODEL_VALUE_CALCULATING_ALTERNATIVE_ROUTES_DURING_ACTIVE_RG = 3;
+    public static final int MODEL_VALUE_CALCULATING_RUBBERBAND_ROUTE = 4;
+    public static final int MODEL_VALUE_WAITING_FOR_RG_TO_BECOME_ACTIVE = 5;
+    public static final int MODEL_VALUE_RG_ACTIVE = 6;
+    public static final int MODEL_VALUE_RESTART_AFTER_ALTROUTES = 7;
 
     RcsBase(RouteCalcSM routeCalcSM, String string) {
         this.stateMachine = routeCalcSM;
@@ -102,11 +102,11 @@ public abstract class RcsBase {
                 }
                 ((Buffer)object).append(availableRouteArray[i2]);
             }
-            this.getLogger().log(14808325, "RcsBase#updateAvailableRoutes() - ResponserID = %2, %1", (Object)((Buffer)object).toString(), (long)n);
+            this.getLogger().log(100000000, "RcsBase#updateAvailableRoutes() - ResponserID = %2, %1", (Object)((Buffer)object).toString(), (long)n);
         }
         object = this.getMutex();
         synchronized (object) {
-            this.getLogger().log(-2137614336, "RcsBase#updateAvailableRoutes() - active renderer = %1, response = %2, valid = %3", (long)this.getActiveRendererID(), (long)n, this.data.sAvailableRoutesValid[n]);
+            this.getLogger().log(10000000, "RcsBase#updateAvailableRoutes() - active renderer = %1, response = %2, valid = %3", (long)this.getActiveRendererID(), (long)n, this.data.sAvailableRoutesValid[n]);
             this.data.sAvailableRoutes[n] = availableRouteArray;
         }
     }
@@ -125,7 +125,7 @@ public abstract class RcsBase {
                     }
                     ((Buffer)object).append("[").append(i2).append("]=").append(MapUtils.toPrettyString(calculatedRouteListElementArray[i2]));
                 }
-                this.getLogger().log(-2137614336, "RcsBase#updateRgCalculatedRoutes() - %1", (Object)((Buffer)object).toString());
+                this.getLogger().log(10000000, "RcsBase#updateRgCalculatedRoutes() - %1", (Object)((Buffer)object).toString());
             }
         }
         object = this.getMutex();
@@ -165,7 +165,7 @@ public abstract class RcsBase {
     }
 
     public void updateRgRouteCalculationState(int n) {
-        this.getLogger().log(-2137614336, "RcsBase#updateRgRouteCalculationState( %1 )", (long)n);
+        this.getLogger().log(10000000, "RcsBase#updateRgRouteCalculationState( %1 )", (long)n);
         if (this.data.iRgRouteCalculationState != n) {
             this.data.iRgRouteCalculationState = n;
             this.stateMachine.naviMap.getActiveContext().updateRgRouteCalculationState(n);
@@ -194,7 +194,7 @@ public abstract class RcsBase {
     }
 
     public void updateRgRouteCostChangeInformation(RgRouteCostChangeInformation rgRouteCostChangeInformation) {
-        this.getLogger().log(1078071040, "RcsBase#updateRgRouteCostChangeInformation() called from State class: --[%1]--", (Object)Util.getClassNameFromPackageName(super.getClass()));
+        this.getLogger().log(1000000, "RcsBase#updateRgRouteCostChangeInformation() called from State class: --[%1]--", (Object)Util.getClassNameFromPackageName(this.getClass()));
         this.data.rgRCCI = rgRouteCostChangeInformation;
         if (rgRouteCostChangeInformation != null) {
             this.data.origialRoute = rgRouteCostChangeInformation.getOldRoute();
@@ -214,7 +214,7 @@ public abstract class RcsBase {
     }
 
     private void warn(String string) {
-        this.getLogger().log(-1601830656, "RcsBase[%2]#%1() - unexpected call", (Object)string, (Object)super.getClass().getName());
+        this.getLogger().log(100000, "RcsBase[%2]#%1() - unexpected call", (Object)string, (Object)this.getClass().getName());
     }
 
     public void updateRgActive(boolean bl) {
@@ -252,14 +252,13 @@ public abstract class RcsBase {
     }
 
     public void rgStartRubberbandManipulationResult(int n) {
-        this.getLogger().log(-2137614336, "RcsBase#rgStartRubberbandManipulationResult( %2 ) - rgStartRubberbandManipulationResultOK: %1", this.data.rgStartRubberbandManipulationResultOK, (long)n);
+        this.getLogger().log(10000000, "RcsBase#rgStartRubberbandManipulationResult( %2 ) - rgStartRubberbandManipulationResultOK: %1", this.data.rgStartRubberbandManipulationResultOK, (long)n);
         if (!this.data.rgStartRubberbandManipulationResultOK && n == 0) {
             this.data.rgStartRubberbandManipulationResultOK = true;
         }
     }
 
-    public abstract int getValue4Model() {
-    }
+    public abstract int getValue4Model();
 
     public void updateRGCurrentRouteOptions(RouteOptions routeOptions) {
     }

@@ -99,24 +99,20 @@ implements ListListener {
         this.list.setSelected(n);
     }
 
-    public abstract ListCell[] getNewRow() {
-    }
+    public abstract ListCell[] getNewRow();
 
-    @Override
     public void itemFocused(int n, int n2, int n3, int n4) {
         if (this.getListId() != n) {
-            this.getLogHMI().log(-1601830656, "[AbstractSwdlListHandler] itemFocused called at wrong handler! modelID %1 expected ModelID %2 ", (long)n, (long)this.getListId());
+            this.getLogHMI().log(100000, "[AbstractSwdlListHandler] itemFocused called at wrong handler! modelID %1 expected ModelID %2 ", (long)n, (long)this.getListId());
         }
     }
 
-    @Override
     public void itemReleased(int n, int n2, int n3, int n4) {
         if (this.getListId() != n) {
-            this.getLogHMI().log(-1601830656, "[AbstractSwdlListHandler] itemReleased called at wrong handler! modelID %1 expected ModelID %2 ", (long)n, (long)this.getListId());
+            this.getLogHMI().log(100000, "[AbstractSwdlListHandler] itemReleased called at wrong handler! modelID %1 expected ModelID %2 ", (long)n, (long)this.getListId());
         }
     }
 
-    @Override
     public void itemSelected(int n, int n2, int n3, int n4) {
         if (this.getListId() == n) {
             ISwdlListItem iSwdlListItem = this.getEntry(n2);
@@ -125,15 +121,15 @@ implements ListListener {
                 this.getList().fireEvent(n4);
             }
         } else {
-            this.getLogHMI().log(-1601830656, "[AbstractSwdlListHandler] itemSelected called at wrong handler! modelID %1 expected ModelID %2 ", (long)n, (long)this.getListId());
+            this.getLogHMI().log(100000, "[AbstractSwdlListHandler] itemSelected called at wrong handler! modelID %1 expected ModelID %2 ", (long)n, (long)this.getListId());
         }
     }
 
     void logList(String string, String[] stringArray) {
         if (this.getLogHMI().isDebug()) {
-            this.getLogHMI().log(-2137614336, "[AbstractSwdlListHandler] New %1 list received.", (Object)string);
+            this.getLogHMI().log(10000000, "[AbstractSwdlListHandler] New %1 list received.", (Object)string);
             for (int i2 = 0; i2 < stringArray.length; ++i2) {
-                this.getLogHMI().log(-2137614336, "[AbstractSwdlListHandler] %1 %2 ", (Object)string, (Object)stringArray[i2]);
+                this.getLogHMI().log(10000000, "[AbstractSwdlListHandler] %1 %2 ", (Object)string, (Object)stringArray[i2]);
             }
         }
     }
@@ -166,7 +162,7 @@ implements ListListener {
 
     public boolean checkBase() {
         if (this.getBase() == null) {
-            this.getLogHMI().log(-1601830656, "[AbstractSwdlListHandler] getBase() is NULL.");
+            this.getLogHMI().log(100000, "[AbstractSwdlListHandler] getBase() is NULL.");
         }
         return this.getBase() != null;
     }

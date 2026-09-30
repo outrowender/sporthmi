@@ -4,10 +4,8 @@
 package de.audi.tghu.info.app.tmc.readout;
 
 public interface TMCReadOutMessage {
-    default public long getMessageID() {
-    }
+    public long getMessageID();
 
-    default public String getReadOutString() {
-    }
+    public String getReadOutString();
 }
 

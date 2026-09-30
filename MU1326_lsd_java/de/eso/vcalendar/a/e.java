@@ -20,7 +20,6 @@ extends a {
         this.d = string;
     }
 
-    @Override
     public void a() {
         if (null == this.a) {
             return;

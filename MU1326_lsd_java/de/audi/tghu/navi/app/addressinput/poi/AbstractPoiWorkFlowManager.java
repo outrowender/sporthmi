@@ -8,7 +8,7 @@ import de.audi.tghu.navi.app.util.Util;
 
 public abstract class AbstractPoiWorkFlowManager
 implements IPoiWorkFlowManager {
-    protected final String CLASS_NAME = Util.getClassNameFromPackageName(super.getClass());
+    protected final String CLASS_NAME = Util.getClassNameFromPackageName(this.getClass());
 
     protected boolean isPoiMainScreen(int n) {
         return n >= 1 && n <= 100;

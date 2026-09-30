@@ -15,77 +15,53 @@ import de.audi.tghu.hmi.evo.IPartialPopupControllerEvo;
 
 public interface IPartialPopupManagerEvo
 extends IPartialPopupManager {
-    public static final int STATE_POPUP_VISIBLE;
-    public static final int STATE_POPUP_HIDDEN;
-    public static final int STATE_POPUP_ERROR;
-    public static final int REGISTER_OK;
-    public static final int REGISTER_ERROR;
-    public static final int DEREGISTER_OK;
-    public static final int DEREGISTER_ERROR;
-    public static final int[] PARTIAL_POPUP_SLOT_DEPTHS;
+    public static final int STATE_POPUP_VISIBLE = 1;
+    public static final int STATE_POPUP_HIDDEN = 2;
+    public static final int STATE_POPUP_ERROR = 3;
+    public static final int REGISTER_OK = 1;
+    public static final int REGISTER_ERROR = 2;
+    public static final int DEREGISTER_OK = 1;
+    public static final int DEREGISTER_ERROR = 2;
+    public static final int[] PARTIAL_POPUP_SLOT_DEPTHS = new int[]{30, 10, 11, 20, 19, 50, 0, 0, 20, 21, 29, 28, 0, 29};
 
-    default public int showPopup(int n, IPartialPopupListener iPartialPopupListener) {
-    }
+    public int showPopup(int var1, IPartialPopupListener var2);
 
-    default public int popupVisible(int n) {
-    }
+    public int popupVisible(int var1);
 
-    default public int popupHidden(int n) {
-    }
+    public int popupHidden(int var1);
 
-    default public int registerPopup(IPartialPopupControllerEvo iPartialPopupControllerEvo) {
-    }
+    public int registerPopup(IPartialPopupControllerEvo var1);
 
-    default public int deregisterPopup(IPartialPopupControllerEvo iPartialPopupControllerEvo) {
-    }
+    public int deregisterPopup(IPartialPopupControllerEvo var1);
 
-    default public void newScreenConnected(Screen screen) {
-    }
+    public void newScreenConnected(Screen var1);
 
-    default public boolean processModelUpdateEvent(ModelUpdateEvent modelUpdateEvent) {
-    }
+    public boolean processModelUpdateEvent(ModelUpdateEvent var1);
 
-    default public void paintUnboundPopups() {
-    }
+    public void paintUnboundPopups();
 
-    default public void keyPressed(KeyEvent keyEvent) {
-    }
+    public void keyPressed(KeyEvent var1);
 
-    default public void keyReleased(KeyEvent keyEvent) {
-    }
+    public void keyReleased(KeyEvent var1);
 
-    default public void keyTurned(WheelButtonEvent wheelButtonEvent) {
-    }
+    public void keyTurned(WheelButtonEvent var1);
 
-    default public void keyMoved(JoystickEvent joystickEvent) {
-    }
+    public void keyMoved(JoystickEvent var1);
 
-    default public void processSDSEvent(SDSEvent sDSEvent) {
-    }
+    public void processSDSEvent(SDSEvent var1);
 
-    default public void setPopupOpacity(float f2) {
-    }
+    public void setPopupOpacity(float var1);
 
-    default public void hideNotScreenChangeSurvivingPopups() {
-    }
+    public void hideNotScreenChangeSurvivingPopups();
 
-    default public int getEventID(int n) {
-    }
+    public int getEventID(int var1);
 
-    default public int getHMIPrio(int n, int n2) {
-    }
+    public int getHMIPrio(int var1, int var2);
 
-    default public void setFocusedLayer(int n) {
-    }
+    public void setFocusedLayer(int var1);
 
-    default public void setPartialPopupCoordinates(int n, int n2, int n3, int n4, int n5) {
-    }
+    public void setPartialPopupCoordinates(int var1, int var2, int var3, int var4, int var5);
 
-    default public int hidePopup(int n, boolean bl) {
-    }
-
-    static {
-        PARTIAL_POPUP_SLOT_DEPTHS = new int[]{30, 10, 11, 20, 19, 50, 0, 0, 20, 21, 29, 28, 0, 29};
-    }
+    public int hidePopup(int var1, boolean var2);
 }
 

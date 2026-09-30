@@ -1,8 +1,5 @@
 /*
  * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  java.lang.Double
  */
 package de.eso.vcard.b;
 
@@ -46,21 +43,21 @@ implements f {
     private LinkedList m = new LinkedList();
     private int n = 1;
     private static DecimalFormat o = new DecimalFormat("########0.000000");
-    private static final String p;
-    private static final String q;
-    private static final String r;
-    private static final String s;
-    private static final String t;
-    private static final String u;
-    private static final String v;
-    private static final String w;
-    private static final String x;
-    private static final String y;
-    private static final String z;
-    private static final String A;
-    private static final String B;
-    private static final String C;
-    private static final String D;
+    private static final String p = "HOME";
+    private static final String q = "WORK";
+    private static final String r = "PREF";
+    private static final String s = "HOME";
+    private static final String t = "WORK";
+    private static final String u = "CELL";
+    private static final String v = "VOICE";
+    private static final String w = "PAGER";
+    private static final String x = "FAX";
+    private static final String y = "VIDEO";
+    private static final String z = "MSG";
+    private static final String A = "BBS";
+    private static final String B = "CAR";
+    private static final String C = "ISDN";
+    private static final String D = "MODEM";
 
     private static void a() {
         DecimalFormatSymbols decimalFormatSymbols = o.getDecimalFormatSymbols();
@@ -90,12 +87,10 @@ implements f {
         }
     }
 
-    @Override
     public void d(String string) {
         this.b = string;
     }
 
-    @Override
     public void a(String string) {
         if (string != null) {
             string = string.toUpperCase();
@@ -103,7 +98,6 @@ implements f {
         this.c = string;
     }
 
-    @Override
     public void e() {
         this.a(this.c, this.f, this.g);
         this.c = null;
@@ -113,7 +107,6 @@ implements f {
         this.g.clear();
     }
 
-    @Override
     public void d() {
         if (this.k != null && this.k.a() > 0) {
             this.a.addressData = (AddressData[])this.k.b().clone();
@@ -148,7 +141,6 @@ implements f {
         ++this.n;
     }
 
-    @Override
     public void b(String string) {
         if (string != null) {
             string = string.toUpperCase();
@@ -156,7 +148,6 @@ implements f {
         this.d = string;
     }
 
-    @Override
     public void c(String string) {
         if (string != null) {
             string = string.toUpperCase();
@@ -164,17 +155,14 @@ implements f {
         this.f.put(this.d, string);
     }
 
-    @Override
     public void a(String string, int n) {
         this.g.add(string);
     }
 
-    @Override
     public void a(File file, int n) {
         this.g.add(file);
     }
 
-    @Override
     public void a(byte[] byArray, int n) {
         this.g.add(byArray);
     }
@@ -222,7 +210,7 @@ implements f {
                 String string3;
                 this.a.personalData.lastNameSound = string3 = this.a(list);
             } else {
-                this.e(new StringBuffer().append("AdbEntryContentHandler does not support VCard property ").append(string).toString());
+                this.e("AdbEntryContentHandler does not support VCard property " + string);
             }
         }
     }
@@ -282,8 +270,8 @@ implements f {
         double d2 = 0.0;
         double d3 = 0.0;
         try {
-            d2 = Double.parseDouble((String)string);
-            d3 = Double.parseDouble((String)string2);
+            d2 = Double.parseDouble(string);
+            d3 = Double.parseDouble(string2);
         }
         catch (NumberFormatException numberFormatException) {
             this.e("Cannot parse geo position from String. Will be ommitted.");
@@ -315,45 +303,45 @@ implements f {
         phoneData.number = string;
         int n = 0;
         if (map != null && map.size() > 0) {
-            if (map.containsValue("MODEM")) {
+            if (map.containsValue(D)) {
                 n |= 0x200;
             }
-            if (map.containsValue("ISDN")) {
+            if (map.containsValue(C)) {
                 n |= 0x800;
             }
-            if (map.containsValue("CAR")) {
+            if (map.containsValue(B)) {
                 n |= 0x400;
             }
-            if (map.containsValue("BBS")) {
+            if (map.containsValue(A)) {
                 n |= 0x100;
             }
             if (map.containsValue("HOME")) {
                 n |= 4;
             }
-            if (map.containsValue("MSG")) {
+            if (map.containsValue(z)) {
                 n |= 0x20;
             }
-            if (map.containsValue("CELL")) {
+            if (map.containsValue(u)) {
                 n |= 0x40;
             }
             if (map.containsValue("WORK")) {
                 n |= 2;
             }
-            if (map.containsValue("VOICE")) {
+            if (map.containsValue(v)) {
                 n |= 8;
             }
-            if (map.containsValue("PAGER")) {
+            if (map.containsValue(w)) {
                 n |= 0x80;
             }
-            if (map.containsValue("FAX")) {
+            if (map.containsValue(x)) {
                 n |= 0x10;
             }
-            if (map.containsValue("VIDEO")) {
+            if (map.containsValue(y)) {
                 n |= 0x1000;
             }
         }
         phoneData.numberType = n;
-        if (map != null && map.size() > 0 && map.containsValue("PREF")) {
+        if (map != null && map.size() > 0 && map.containsValue(r)) {
             this.i.a(phoneData);
             this.a.preferredNumberIdx = 0;
         } else {
@@ -373,7 +361,7 @@ implements f {
         if (addressData.street == null || addressData.street.length() < 1) {
             addressData.street = string;
         } else if (string != null && string.length() > 0) {
-            addressData.street = new StringBuffer().append(string).append(" ").append(addressData.street).toString();
+            addressData.street = string + " " + addressData.street;
         }
         addressData.locality = this.a(list, 3);
         addressData.region = this.a(list, 4);
@@ -383,7 +371,7 @@ implements f {
             addressData.addressType = map.containsValue("HOME") ? (addressData.addressType |= 2) : (map.containsValue("WORK") ? (addressData.addressType |= 1) : 4);
         }
         boolean bl = false;
-        if (map != null && map.size() > 0 && map.containsValue("PREF")) {
+        if (map != null && map.size() > 0 && map.containsValue(r)) {
             bl = true;
         }
         this.k.a(addressData, bl, addressData.addressType, this.b);
@@ -397,7 +385,7 @@ implements f {
         if (string == null) {
             return;
         }
-        if (map != null && map.size() > 0 && map.containsValue("PREF")) {
+        if (map != null && map.size() > 0 && map.containsValue(r)) {
             this.j.a(string);
         } else {
             this.j.b(string);
@@ -428,7 +416,7 @@ implements f {
         EmailData emailData = new EmailData();
         emailData.emailAddr = string;
         emailData.emailType = map != null && map.size() > 0 && map.containsValue("INTERNET") ? 1 : 0;
-        if (map != null && map.size() > 0 && map.containsValue("PREF")) {
+        if (map != null && map.size() > 0 && map.containsValue(r)) {
             this.h.a(emailData);
         } else {
             this.h.b(emailData);
@@ -452,7 +440,7 @@ implements f {
     }
 
     private void e(String string) {
-        de.eso.a.d.b.a(new StringBuffer().append(super.getClass().getName()).append(" | ").append(string).toString());
+        de.eso.a.d.b.a(this.getClass().getName() + " | " + string);
     }
 
     private String a(List list, int n) {
@@ -466,7 +454,6 @@ implements f {
         return null;
     }
 
-    @Override
     public boolean g() {
         return this.n > this.l.a();
     }

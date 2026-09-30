@@ -6,10 +6,8 @@ package de.audi.tghu.navi.app.addressinput.poi.sds;
 import de.audi.atip.interapp.SDSListEntry;
 
 public interface IPickListModelAccess {
-    default public void onStart() {
-    }
+    public void onStart();
 
-    default public void onUpdateResultList(SDSListEntry[] sDSListEntryArray) {
-    }
+    public void onUpdateResultList(SDSListEntry[] var1);
 }
 

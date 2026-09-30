@@ -16,24 +16,21 @@ extends NavCommand {
         this.categoryUid = n;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(1078071040, "LispSelectByCategoryUidCommand#liResult() - categoryUidcategoryUid: %1", (long)this.categoryUid);
+        this.logger.log(1000000, "LispSelectByCategoryUidCommand#liResult() - categoryUidcategoryUid: %1", (long)this.categoryUid);
         this.getDSINavigation().lispSelectByCategoryUid(this.categoryUid);
     }
 
-    @Override
     public void poiValueList(LIValueList lIValueList, long l) {
-        this.logger.log(1078071040, "LispSelectByCategoryUidCommand#poiValueList() - lispValueListCount: %1", l);
+        this.logger.log(1000000, "LispSelectByCategoryUidCommand#poiValueList() - lispValueListCount: %1", l);
         this.dsiResponseContainer.setPOIValueList(lIValueList);
         this.dsiResponseContainer.setPOIValueListCount(l);
         this.poiValueListResponded = true;
         this.checkFinished();
     }
 
-    @Override
     public void liResult(long l) {
-        this.logger.log(1078071040, "LispSelectByCategoryUidCommand#liResult() - returnCode: %1", l);
+        this.logger.log(1000000, "LispSelectByCategoryUidCommand#liResult() - returnCode: %1", l);
         if (l == 0L) {
             this.liResultResponded = true;
             this.checkFinished();

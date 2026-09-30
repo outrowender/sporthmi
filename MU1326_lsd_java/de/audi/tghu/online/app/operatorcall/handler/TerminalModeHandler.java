@@ -13,8 +13,8 @@ import de.audi.tghu.online.app.operatorcall.AbstractOperatorCallMain;
 
 public class TerminalModeHandler
 extends DefaultTerminalModeUpdateListener {
-    private static final int TERMINALMODE_CALL_ACTIVE;
-    private static final int TERMINALMODE_CALL_NOT_ACTIVE;
+    private static final int TERMINALMODE_CALL_ACTIVE = 1;
+    private static final int TERMINALMODE_CALL_NOT_ACTIVE = 0;
     private final LogChannel logChannel = Online.getInstance().getOperatorCallLogChannel();
     private boolean isTerminalModeActive = false;
     private AbstractOperatorCallMain operatorCallMain;
@@ -22,23 +22,22 @@ extends DefaultTerminalModeUpdateListener {
 
     public TerminalModeHandler(AbstractOperatorCallMain abstractOperatorCallMain, HMIService hMIService) {
         this.operatorCallMain = abstractOperatorCallMain;
-        this.operatorCallBlockedByTMChoice = hMIService.getChoiceModel(1059005184);
+        this.operatorCallBlockedByTMChoice = hMIService.getChoiceModel(2301759);
     }
 
-    @Override
     public void updateAudioConnectionUsage(TerminalModeAudioUsage terminalModeAudioUsage) {
         if (terminalModeAudioUsage != null) {
             this.isTerminalModeActive = terminalModeAudioUsage.isInUse();
-            this.logChannel.log(1078071040, "TerminalModeUpdateListener#updateAudioConnectionUsage: setting isTerminalModeActive to '%1'.", (Object)Boolean.toString(this.isTerminalModeActive));
+            this.logChannel.log(1000000, "TerminalModeUpdateListener#updateAudioConnectionUsage: setting isTerminalModeActive to '%1'.", (Object)Boolean.toString(this.isTerminalModeActive));
             if (this.operatorCallMain.isTerminalModeChangedSupressed(this.isTerminalModeActive)) {
-                this.logChannel.log(1078071040, "TerminalModeUpdateListener#updateAudioConnectionUsage: Do not trigger abort connection because a CarPlay call is connecting.");
+                this.logChannel.log(1000000, "TerminalModeUpdateListener#updateAudioConnectionUsage: Do not trigger abort connection because a CarPlay call is connecting.");
             } else {
-                this.logChannel.log(1078071040, "TerminalModeUpdateListener#updateAudioConnectionUsage: Triggering terminalModeChanged()");
+                this.logChannel.log(1000000, "TerminalModeUpdateListener#updateAudioConnectionUsage: Triggering terminalModeChanged()");
                 this.operatorCallMain.terminalModeChanged();
                 this.operatorCallBlockedByTMChoice.setValue(this.isTerminalModeActive ? 1 : 0);
             }
         } else {
-            this.logChannel.log(1078071040, "TerminalModeUpdateListener#updateAudioConnectionUsage: reveiced null for pAudioUsageList '%1'.", (Object)Boolean.toString(this.isTerminalModeActive));
+            this.logChannel.log(1000000, "TerminalModeUpdateListener#updateAudioConnectionUsage: reveiced null for pAudioUsageList '%1'.", (Object)Boolean.toString(this.isTerminalModeActive));
         }
     }
 

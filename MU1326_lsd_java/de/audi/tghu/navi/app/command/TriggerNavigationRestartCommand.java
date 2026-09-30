@@ -7,7 +7,6 @@ import de.audi.tghu.navi.app.command.NavCommand;
 
 public class TriggerNavigationRestartCommand
 extends NavCommand {
-    @Override
     public void execute() {
         this.getDSINavigation(0).etcTriggerNavigationRestart(1);
         this.getCommandList().commandFinished();

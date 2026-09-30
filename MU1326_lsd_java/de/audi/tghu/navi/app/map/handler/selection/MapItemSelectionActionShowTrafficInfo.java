@@ -18,7 +18,6 @@ extends MapItemSelectionActionShow {
         this.tmcMessage = tmcMessage;
     }
 
-    @Override
     public void setPreviewMap(int n, AbstractMap abstractMap, IPreviewMap iPreviewMap, GuiModelAccessForPreviewMapDetailScreen guiModelAccessForPreviewMapDetailScreen, GuiTooltipInformationContainer guiTooltipInformationContainer) {
         abstractMap.getGuiInterface().newPoiPreviewMapSelectionMade(true);
         iPreviewMap.setPreviewMapPositionRefreshAllowed(false);

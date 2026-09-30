@@ -12,12 +12,14 @@ import de.audi.atip.storage.IStorageAccess;
 import de.audi.tghu.command.CommandList;
 import de.audi.tghu.command.ICommandListFactory;
 import de.audi.tghu.navi.app.NavigationEnv;
-import de.audi.tghu.navi.app.SpeechManager$1;
-import de.audi.tghu.navi.app.SpeechManager$GuidanceModeSettingsListener;
-import de.audi.tghu.navi.app.SpeechManager$State;
+import de.audi.tghu.navi.app.PersistentState;
+import de.audi.tghu.navi.app.command.NavCommand;
 import de.audi.tghu.navi.app.command.RGSetRouteGuidanceMode;
 import de.audi.tghu.navi.app.util.FunctionCounter;
 import de.audi.tghu.navi.app.util.Util;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -29,14 +31,14 @@ IAnnouncementStateService {
     private final FunctionCounter fc;
     private final ICommandListFactory commandListFactory;
     private LogChannel logChannel;
-    private SpeechManager$GuidanceModeSettingsListener settingsListener;
+    private GuidanceModeSettingsListener settingsListener;
     private List announcementStateListenerList;
-    private static final int GUIDANCE_MODE_INIT;
-    public static final int GUIDANCE_SPEECH_MODE_COMPLETE;
-    public static final int GUIDANCE_SPEECH_MODE_COMPACT;
-    public static final int GUIDANCE_SPEECH_MODE_TRAFFIC;
-    public static final int GUIDANCE_SPEECH_MODE_OFF;
-    private static final int HIDE_SPEECH_MODE_TRAFFIC;
+    private static final int GUIDANCE_MODE_INIT = -1;
+    public static final int GUIDANCE_SPEECH_MODE_COMPLETE = 0;
+    public static final int GUIDANCE_SPEECH_MODE_COMPACT = 1;
+    public static final int GUIDANCE_SPEECH_MODE_TRAFFIC = 2;
+    public static final int GUIDANCE_SPEECH_MODE_OFF = 3;
+    private static final int HIDE_SPEECH_MODE_TRAFFIC = 11;
     private int lastmode = -1;
 
     public SpeechManager(NavigationEnv navigationEnv, FunctionCounter functionCounter, ICommandListFactory iCommandListFactory) {
@@ -44,7 +46,7 @@ IAnnouncementStateService {
         this.fc = functionCounter;
         this.commandListFactory = iCommandListFactory;
         this.logChannel = navigationEnv.getLogChannel();
-        this.logChannel.log(-2137614336, "SpeechManager#SetupListener() ");
+        this.logChannel.log(10000000, "SpeechManager#SetupListener() ");
         this.announcementStateListenerList = new LinkedList();
         this.setListeners();
     }
@@ -87,17 +89,15 @@ IAnnouncementStateService {
         this.env.getChoiceModel(3829).setChoiceListener(this);
     }
 
-    @Override
     public void itemSelected(int n, int n2, int n3, int n4) {
         this.itemSelected(n, n2, n3, n4, true);
     }
 
-    @Override
     public void itemFocused(int n, int n2, int n3, int n4) {
     }
 
     private void itemSelected(int n, int n2, int n3, int n4, boolean bl) {
-        this.logChannel.log(-2137614336, "SpeechManager#itemSelected( %1, %2 ) ", (long)n, (long)n2);
+        this.logChannel.log(10000000, "SpeechManager#itemSelected( %1, %2 ) ", (long)n, (long)n2);
         CommandList commandList = null;
         switch (n) {
             case 555: {
@@ -125,7 +125,7 @@ IAnnouncementStateService {
 
     public boolean toggleGuidanceMode() {
         int n;
-        this.logChannel.log(-2137614336, "SpeechManager#toggleGuidanceMode()");
+        this.logChannel.log(10000000, "SpeechManager#toggleGuidanceMode()");
         int n2 = this.getGuidanceMode();
         if (n2 == 3) {
             n = this.lastmode != 3 && this.lastmode != -1 ? this.lastmode : 1;
@@ -133,7 +133,7 @@ IAnnouncementStateService {
             n = 3;
             this.lastmode = n2;
         }
-        this.logChannel.log(-2137614336, "SpeechManager#toggleGuidanceMode() - %1 -> %2", (long)n2, (long)n);
+        this.logChannel.log(10000000, "SpeechManager#toggleGuidanceMode() - %1 -> %2", (long)n2, (long)n);
         this.setGuidanceMode(n, true);
         CommandList commandList = this.buildGuidanceModeCommandList(n);
         commandList.execute("SpeechManager#toggleGuidanceMode");
@@ -141,7 +141,7 @@ IAnnouncementStateService {
     }
 
     public void setGuidanceMode(int n, boolean bl) {
-        this.env.getLogChannel().log(-2137614336, "SpeechManager#setGuidanceMode( %1 ) ", (long)n);
+        this.env.getLogChannel().log(10000000, "SpeechManager#setGuidanceMode( %1 ) ", (long)n);
         int n2 = this.env.getChoiceModel(555).getValue();
         switch (n) {
             case 1: {
@@ -161,7 +161,7 @@ IAnnouncementStateService {
                 break;
             }
             default: {
-                this.env.getLogChannel().log(-2137614336, "SpeechManager#setGuidanceMode() - guidance mode %1 not supported for high ", (long)n);
+                this.env.getLogChannel().log(10000000, "SpeechManager#setGuidanceMode() - guidance mode %1 not supported for high ", (long)n);
             }
         }
         this.env.getChoiceModel(555).setValue(n2);
@@ -213,19 +213,15 @@ IAnnouncementStateService {
         return this.env.getChoiceModel(3829).getValue() == 0;
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyLongTyped(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3) {
     }
 
@@ -247,11 +243,11 @@ IAnnouncementStateService {
     void saveState() {
         IStorageAccess iStorageAccess = this.env.getFramework().getStorageMgr();
         if (iStorageAccess != null) {
-            SpeechManager$State speechManager$State = new SpeechManager$State(iStorageAccess, this.logChannel);
-            speechManager$State.setGuidanceMode(this.getGuidanceMode());
-            speechManager$State.setAnnouncementOnCall(this.env.getChoiceModel(3829).getValue());
-            speechManager$State.setGuidanceLastMode(this.lastmode);
-            speechManager$State.serializeAndWrite();
+            State state = new State(iStorageAccess, this.logChannel);
+            state.setGuidanceMode(this.getGuidanceMode());
+            state.setAnnouncementOnCall(this.env.getChoiceModel(3829).getValue());
+            state.setGuidanceLastMode(this.lastmode);
+            state.serializeAndWrite();
         } else {
             this.logChannel.log(10000, "Setup#saveState() - no storage manager available!!! ");
         }
@@ -260,11 +256,11 @@ IAnnouncementStateService {
     public void loadState() {
         IStorageAccess iStorageAccess = this.env.getFramework().getStorageMgr();
         if (iStorageAccess != null) {
-            SpeechManager$State speechManager$State = new SpeechManager$State(iStorageAccess, this.logChannel);
-            speechManager$State.readAndDeserialize();
-            int n = speechManager$State.getGuidanceMode();
-            int n2 = speechManager$State.getGuidanceLastMode();
-            int n3 = speechManager$State.getAnnouncementOnCall();
+            State state = new State(iStorageAccess, this.logChannel);
+            state.readAndDeserialize();
+            int n = state.getGuidanceMode();
+            int n2 = state.getGuidanceLastMode();
+            int n3 = state.getAnnouncementOnCall();
             if (!SpeechManager.isGuidanceModeValid(n)) {
                 n = SpeechManager.getDefaultGuidanceMode();
             }
@@ -299,21 +295,57 @@ IAnnouncementStateService {
         }
     }
 
-    public void registerSettingsListener(SpeechManager$GuidanceModeSettingsListener speechManager$GuidanceModeSettingsListener) {
+    public void registerSettingsListener(GuidanceModeSettingsListener guidanceModeSettingsListener) {
         if (this.settingsListener != null) {
             this.logChannel.log(10000, "SpeechManager#registerSettingsListener() - listener already registered, will be overwritten!");
         }
-        this.settingsListener = speechManager$GuidanceModeSettingsListener;
+        this.settingsListener = guidanceModeSettingsListener;
     }
 
-    public CommandList buildGuidanceModeCommandList(int n) {
+    public CommandList buildGuidanceModeCommandList(final int n) {
         CommandList commandList = this.commandListFactory.createCommandList(1);
         commandList.add(new RGSetRouteGuidanceMode(n));
-        commandList.add(new SpeechManager$1(this, "notifyGuidanceModeListener", n));
+        commandList.add(new NavCommand("notifyGuidanceModeListener"){
+
+            public void execute() {
+                this.logger.log(10000000, "SpeechManager#notifyListener( %1 )", (long)n);
+                if (SpeechManager.this.settingsListener != null) {
+                    SpeechManager.this.settingsListener.updateGuidanceMode(n);
+                }
+                if (SpeechManager.this.announcementStateListenerList.size() != 0) {
+                    int n2 = 20;
+                    switch (n) {
+                        case 1: {
+                            n2 = 20;
+                            break;
+                        }
+                        case 0: {
+                            n2 = 21;
+                            break;
+                        }
+                        case 2: {
+                            n2 = 22;
+                            break;
+                        }
+                        case 3: {
+                            n2 = 23;
+                            break;
+                        }
+                        default: {
+                            n2 = 20;
+                        }
+                    }
+                    for (int i2 = 0; i2 < SpeechManager.this.announcementStateListenerList.size(); ++i2) {
+                        IAnnouncementStateListener iAnnouncementStateListener = (IAnnouncementStateListener)SpeechManager.this.announcementStateListenerList.get(i2);
+                        iAnnouncementStateListener.updateAnnouncementState(n2, 1);
+                    }
+                }
+                this.getCommandList().commandFinished();
+            }
+        });
         return commandList;
     }
 
-    @Override
     public void setAnnouncementState(int n) {
         this.logChannel.log(10000, "SpeechManager#setAnnouncementState(%1)", (long)n);
         int n2 = -1;
@@ -345,12 +377,85 @@ IAnnouncementStateService {
         }
     }
 
-    static /* synthetic */ SpeechManager$GuidanceModeSettingsListener access$000(SpeechManager speechManager) {
-        return speechManager.settingsListener;
+    public static class State
+    extends PersistentState {
+        public static final int VERSION = 2;
+        public static final int KEY = 841;
+        private int guidanceMode;
+        private int announcementOnCall;
+        private int guidanceLastMode;
+
+        public State(IStorageAccess iStorageAccess, LogChannel logChannel) {
+            super(iStorageAccess, 2, 1004, 841, logChannel);
+        }
+
+        protected void initWithDefaultValues() {
+            this.guidanceMode = SpeechManager.getDefaultGuidanceMode();
+            this.guidanceLastMode = SpeechManager.getDefaultGuidanceMode();
+            this.announcementOnCall = SpeechManager.getDefaultAnnouncementOnCall();
+        }
+
+        protected void initFromOldKeys(IStorageAccess iStorageAccess) {
+            this.guidanceMode = iStorageAccess.getInt(1004, 300, SpeechManager.getDefaultGuidanceMode());
+            this.announcementOnCall = iStorageAccess.getInt(1004, 310, SpeechManager.getDefaultAnnouncementOnCall());
+        }
+
+        protected void serialize(DataOutputStream dataOutputStream) throws IOException {
+            dataOutputStream.writeInt(this.guidanceMode);
+            dataOutputStream.writeInt(this.announcementOnCall);
+            dataOutputStream.writeInt(this.guidanceLastMode);
+        }
+
+        protected void deserialize(DataInputStream dataInputStream) throws IOException {
+            this.guidanceMode = dataInputStream.readInt();
+            this.announcementOnCall = dataInputStream.readInt();
+            this.guidanceLastMode = dataInputStream.readInt();
+        }
+
+        protected void convertContainer(int n, int n2, DataInputStream dataInputStream) {
+            this.getLogChannel().log(10000000, "SetupListener.State#convertContainer( %1, %2 )", (long)n, (long)n2);
+            this.initWithDefaultValues();
+            try {
+                if (n > 0) {
+                    this.guidanceMode = dataInputStream.readInt();
+                    this.announcementOnCall = dataInputStream.readInt();
+                }
+                if (n > 1) {
+                    this.guidanceLastMode = dataInputStream.readInt();
+                }
+            }
+            catch (IOException iOException) {
+                this.getLogChannel().log(10000, "SetupListener.State#convertContainer - error on converting the persistent state format", (Throwable)iOException);
+            }
+        }
+
+        public int getGuidanceMode() {
+            return this.guidanceMode;
+        }
+
+        public void setGuidanceMode(int n) {
+            this.guidanceMode = n;
+        }
+
+        public int getAnnouncementOnCall() {
+            return this.announcementOnCall;
+        }
+
+        public void setAnnouncementOnCall(int n) {
+            this.announcementOnCall = n;
+        }
+
+        public int getGuidanceLastMode() {
+            return this.guidanceLastMode;
+        }
+
+        public void setGuidanceLastMode(int n) {
+            this.guidanceLastMode = n;
+        }
     }
 
-    static /* synthetic */ List access$100(SpeechManager speechManager) {
-        return speechManager.announcementStateListenerList;
+    public static interface GuidanceModeSettingsListener {
+        public void updateGuidanceMode(int var1);
     }
 }
 

@@ -15,7 +15,7 @@ import org.osgi.framework.BundleContext;
 
 public class PredictiveNavControllerCore
 implements IPredictiveNavController {
-    protected final String CLASS_NAME = Util.getClassNameFromPackageName(super.getClass());
+    protected final String CLASS_NAME = Util.getClassNameFromPackageName(this.getClass());
     protected LikelyDestination[] likelyDestinations;
     protected NavigationEnv env;
     protected LogChannel logChannel;
@@ -31,30 +31,25 @@ implements IPredictiveNavController {
         this.predictiveNavDSIHandler = new PredictiveNavDSIHandler(navigationEnv, this);
     }
 
-    @Override
     public void start(BundleContext bundleContext) {
         this.predictiveNavDSIHandler.startDSI(bundleContext);
     }
 
-    @Override
     public void stop(BundleContext bundleContext) {
         this.predictiveNavDSIHandler.stopDSI(bundleContext);
     }
 
-    @Override
     public void updateRgActive() {
-        this.logChannel.log(14808325, "%1#updateRgActive() - rgActive = %2", (Object)this.CLASS_NAME, (Object)Boolean.toString(this.env.getContainer().isRgActive()));
+        this.logChannel.log(100000000, "%1#updateRgActive() - rgActive = %2", (Object)this.CLASS_NAME, (Object)Boolean.toString(this.env.getContainer().isRgActive()));
         this.sequence.updateOperationModePredictiveNav();
     }
 
-    @Override
     public void updateRgRouteCalculationState() {
     }
 
-    @Override
     public void updateOperationMode() {
         this.currentOperationMode = this.env.getContainer().getPredictiveNavOperationMode();
-        this.logChannel.log(-2137614336, new StringBuffer().append(this.CLASS_NAME).append("#updateOperationMode # operationMode=%1").toString(), (Object)Integer.toString(this.currentOperationMode));
+        this.logChannel.log(10000000, this.CLASS_NAME + "#updateOperationMode # operationMode=%1", (Object)Integer.toString(this.currentOperationMode));
         boolean bl = this.getIsRgActiveOrCalculating();
         if (this.lastActivationMode != 1 && (this.currentOperationMode == 2 && bl || this.currentOperationMode == 1 && !bl)) {
             this.setActivationMode(3);
@@ -67,10 +62,9 @@ implements IPredictiveNavController {
         }
     }
 
-    @Override
     public void setActivationMode(int n) {
         boolean bl = this.getIsRgActiveOrCalculating();
-        this.logChannel.log(-2137614336, new StringBuffer().append(this.CLASS_NAME).append("#setActivationMode # activationMode=%1, isRgActiveOrCalculated=%2, currentOperationMode=%3").toString(), (Object)Integer.toString(n), (Object)Boolean.toString(bl), (Object)Integer.toString(this.env.getContainer().getPredictiveNavOperationMode()));
+        this.logChannel.log(10000000, this.CLASS_NAME + "#setActivationMode # activationMode=%1, isRgActiveOrCalculated=%2, currentOperationMode=%3", (Object)Integer.toString(n), (Object)Boolean.toString(bl), (Object)Integer.toString(this.env.getContainer().getPredictiveNavOperationMode()));
         this.lastActivationMode = n;
         if (this.currentOperationMode == 2 && n == 1) {
             this.predictiveNavDSIHandler.setOperationMode(1);
@@ -98,7 +92,6 @@ implements IPredictiveNavController {
         return this.env.getContainer().isRgActive() || this.env.getContainer().getRgRouteCalculationState() == 1;
     }
 
-    @Override
     public void updateLikelyDestinations(LikelyDestination[] likelyDestinationArray) {
         if (this.env.getContainer().getPredictiveNavOperationMode() == 2 || this.env.getContainer().getPredictiveNavOperationMode() == 1) {
             this.likelyDestinations = this.filterLikelyDestinations(likelyDestinationArray);
@@ -125,13 +118,11 @@ implements IPredictiveNavController {
         return likelyDestinationArray2;
     }
 
-    @Override
     public void updateMaxPredictions(int n) {
     }
 
-    @Override
     public void clearCacheResult() {
-        this.logChannel.log(-2137614336, "%1#clearCacheResult", (Object)this.CLASS_NAME);
+        this.logChannel.log(10000000, "%1#clearCacheResult", (Object)this.CLASS_NAME);
         this.predictiveNavModelAccess.clearLikelyDestinations();
     }
 
@@ -139,22 +130,18 @@ implements IPredictiveNavController {
         return this.env.getContainer().getPredictiveNavOperationMode();
     }
 
-    @Override
     public void resetMemorySettings() {
         this.predictiveNavDSIHandler.clearCache();
     }
 
-    @Override
     public void resetSettings() {
         this.predictiveNavDSIHandler.setOperationMode(0);
     }
 
-    @Override
     public LikelyDestination[] getLikelyDestinations() {
         return this.likelyDestinations;
     }
 
-    @Override
     public void focusSelenaRoutes(boolean bl) {
     }
 }

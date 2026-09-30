@@ -8,28 +8,22 @@ import de.audi.tuner.itunes.TaggingData;
 import org.dsi.ifc.media.TagInformation;
 
 public interface ITaggingManager {
-    public static final int TAGGING_UNKNOWN;
-    public static final int TAGGING_NO_INFO;
-    public static final int TAGGING_TAGGING_ALLOWED;
-    public static final int TAGGING_ALREADY_TAGGED;
-    public static final int TAGGING_MEMORY_FULL;
+    public static final int TAGGING_UNKNOWN = 0;
+    public static final int TAGGING_NO_INFO = 1;
+    public static final int TAGGING_TAGGING_ALLOWED = 2;
+    public static final int TAGGING_ALREADY_TAGGED = 3;
+    public static final int TAGGING_MEMORY_FULL = 4;
 
-    default public int addTag(TaggingData taggingData) {
-    }
+    public int addTag(TaggingData var1);
 
-    default public boolean isAlreadyStored(int n) {
-    }
+    public boolean isAlreadyStored(int var1);
 
-    default public boolean isAlreadyStored(TagInformation tagInformation) {
-    }
+    public boolean isAlreadyStored(TagInformation var1);
 
-    default public boolean isTaggingSpaceFree() {
-    }
+    public boolean isTaggingSpaceFree();
 
-    default public int getExpectedTagResult() {
-    }
+    public int getExpectedTagResult();
 
-    default public void register(ITaggingManagerListener iTaggingManagerListener) {
-    }
+    public void register(ITaggingManagerListener var1);
 }
 

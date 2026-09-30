@@ -21,26 +21,22 @@ IAppPresetDefinitionHandler {
         this.logChan = logger.presets;
     }
 
-    @Override
     public int getType() {
         return 0;
     }
 
-    @Override
     public int[] getModelIds() {
         return new int[0];
     }
 
-    @Override
     public synchronized void requestDefinition(DefinitionRequest definitionRequest) {
-        this.logChan.log(1078071040, "[SMPresetHandler#requestDefinition] request='%1'", (Object)definitionRequest);
+        this.logChan.log(1000000, "[SMPresetHandler#requestDefinition] request='%1'", (Object)definitionRequest);
     }
 
     public synchronized void requestExecute(ExecuteRequest executeRequest) {
-        this.logChan.log(1078071040, "[SMPresetHandler#requestExecute] request='%1'", (Object)executeRequest);
+        this.logChan.log(1000000, "[SMPresetHandler#requestExecute] request='%1'", (Object)executeRequest);
     }
 
-    @Override
     public synchronized void setStateMachine(IStateMachinePresetAccess iStateMachinePresetAccess) {
     }
 }

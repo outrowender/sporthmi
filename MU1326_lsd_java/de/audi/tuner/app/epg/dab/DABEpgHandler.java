@@ -3,32 +3,28 @@
  */
 package de.audi.tuner.app.epg.dab;
 
+import de.audi.atip.hmi.model.DefaultButtonListener;
 import de.audi.atip.hmi.model.list.BaseListModelApp;
+import de.audi.atip.hmi.model.list.DefaultBaseListModelListener;
 import de.audi.atip.hmi.model.list.EvoListRow;
 import de.audi.atip.hmi.model.list.SelectedItem;
+import de.audi.atip.hmi.model.listener.DefaultChoiceListener;
 import de.audi.tuner.app.LanguageManager;
 import de.audi.tuner.app.Logger;
 import de.audi.tuner.app.RadioObjectIds;
 import de.audi.tuner.app.TunerBasics;
 import de.audi.tuner.app.TunerModels;
 import de.audi.tuner.app.TunerObjectContainer;
+import de.audi.tuner.app.TunerProxyManager;
 import de.audi.tuner.app.Utilities;
 import de.audi.tuner.app.amfm.dsi.RadioInfo;
 import de.audi.tuner.app.dab.DABDsiDownInfo;
 import de.audi.tuner.app.dab.DABDsiUpInfo;
+import de.audi.tuner.app.dab.DabReceptionStatus;
 import de.audi.tuner.app.dab.DabStation;
 import de.audi.tuner.app.dab.sortandindex.station.AbstractDabStationComparatorAndIndexer;
 import de.audi.tuner.app.dab.sortandindex.station.SortAlgoDabStationName;
 import de.audi.tuner.app.epg.ClockTimeZoneOffsetHandler;
-import de.audi.tuner.app.epg.dab.DABEpgHandler$ButtonListener;
-import de.audi.tuner.app.epg.dab.DABEpgHandler$ChoiceListener;
-import de.audi.tuner.app.epg.dab.DABEpgHandler$ClockTimeZoneOffsetListener;
-import de.audi.tuner.app.epg.dab.DABEpgHandler$DabDsiDownListener;
-import de.audi.tuner.app.epg.dab.DABEpgHandler$DabDsiUpListener;
-import de.audi.tuner.app.epg.dab.DABEpgHandler$EpgDetailRow;
-import de.audi.tuner.app.epg.dab.DABEpgHandler$ListListener;
-import de.audi.tuner.app.epg.dab.DABEpgHandler$UniDsiDownListener;
-import de.audi.tuner.app.epg.dab.DABEpgHandler$UniDsiUpListener;
 import de.audi.tuner.app.epg.dab.EPGListRow;
 import de.audi.tuner.app.epg.dab.EPGListRowInfo;
 import de.audi.tuner.app.epg.dab.EPGShortInfoExt;
@@ -52,15 +48,15 @@ import org.dsi.ifc.radio.EPGShortProgramInfo;
 
 public class DABEpgHandler
 implements IDabEpgHandler {
-    private final DABDsiUpInfo dabDsiUpListener = new DABEpgHandler$DabDsiUpListener(this, null);
-    private final DABDsiDownInfo dabDsiDownListener = new DABEpgHandler$DabDsiDownListener(this, null);
-    private final UniDsiUpInfo uniDsiUpListener = new DABEpgHandler$UniDsiUpListener(this, null);
-    private final UniDsiDownInfo uniDsiDownListener = new DABEpgHandler$UniDsiDownListener(this, null);
-    private static final String LOGCLASS;
-    public static final int REQUESTED_NOW;
-    public static final int REQUESTED_NEXT;
-    public static final int SELECTED_PROGRAM_ACTIVE;
-    public static final int SELECTED_PROGRAM_INACTIVE;
+    private final DABDsiUpInfo dabDsiUpListener = new DabDsiUpListener();
+    private final DABDsiDownInfo dabDsiDownListener = new DabDsiDownListener();
+    private final UniDsiUpInfo uniDsiUpListener = new UniDsiUpListener();
+    private final UniDsiDownInfo uniDsiDownListener = new UniDsiDownListener();
+    private static final String LOGCLASS = "DABEpgHandler";
+    public static final int REQUESTED_NOW = 1;
+    public static final int REQUESTED_NEXT = 2;
+    public static final int SELECTED_PROGRAM_ACTIVE = 1;
+    public static final int SELECTED_PROGRAM_INACTIVE = 0;
     private final Logger logger;
     private final TunerModels models;
     private final IDABTuner dabTuner;
@@ -89,31 +85,28 @@ implements IDabEpgHandler {
         this.varExt = iTunerVariantExt;
         this.timeZoneOffset = clockTimeZoneOffsetHandler;
         this.favoriteHandler = new NullStoreStationHandler(this.logger.main);
-        this.epgList = this.models.getBaseListModel(1804075264);
-        this.indexEpgList = this.models.getBaseListModel(982122752);
+        this.epgList = this.models.getBaseListModel(100459);
+        this.indexEpgList = this.models.getBaseListModel(100922);
         this.comparator = new SortAlgoDabStationName(languageManager);
-        DABEpgHandler$ListListener dABEpgHandler$ListListener = new DABEpgHandler$ListListener(this, null);
-        this.epgList.setListener(dABEpgHandler$ListListener);
-        this.models.getBaseListModel(-1266155264).setListener(dABEpgHandler$ListListener);
-        DABEpgHandler$ButtonListener dABEpgHandler$ButtonListener = new DABEpgHandler$ButtonListener(this, null);
-        this.models.getButtonModel(-108527360).setButtonListener(dABEpgHandler$ButtonListener);
-        this.models.getButtonModel(-142081792).setButtonListener(dABEpgHandler$ButtonListener);
-        this.models.getChoiceModel(-1534525184).setChoiceListener(new DABEpgHandler$ChoiceListener(this, null));
-        this.timeZoneOffset.addClockTimeZoneOffsetListener(new DABEpgHandler$ClockTimeZoneOffsetListener(this, null));
+        ListListener listListener = new ListListener();
+        this.epgList.setListener(listListener);
+        this.models.getBaseListModel(100532).setListener(listListener);
+        ButtonListener buttonListener = new ButtonListener();
+        this.models.getButtonModel(100601).setButtonListener(buttonListener);
+        this.models.getButtonModel(100599).setButtonListener(buttonListener);
+        this.models.getChoiceModel(100772).setChoiceListener(new ChoiceListener());
+        this.timeZoneOffset.addClockTimeZoneOffsetListener(new ClockTimeZoneOffsetListener());
         this.epgList.setStatus(0);
     }
 
-    @Override
     public RadioInfo[] getDabListeners() {
         return new RadioInfo[]{this.dabDsiUpListener, this.dabDsiDownListener};
     }
 
-    @Override
     public RadioInfo[] getUniListeners() {
         return new RadioInfo[]{this.uniDsiUpListener, this.uniDsiDownListener};
     }
 
-    @Override
     public void setFavoriteHandler(IStoreStationHandler iStoreStationHandler) {
         if (iStoreStationHandler == null) {
             iStoreStationHandler = new NullStoreStationHandler(this.logger.main);
@@ -124,22 +117,21 @@ implements IDabEpgHandler {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void setEPGList(EPGShortInfoExt[] ePGShortInfoExtArray) {
         Object object;
         if (ePGShortInfoExtArray.length == 0) {
             this.epgList.removeAll();
             this.epgList.setStatus(0);
-            this.models.getButtonModel(478675200).setStatus(3);
-            this.models.getChoiceModel(1485373696).setValue(0);
-            this.logger.dabData.log(1078071040, "[%1#setEpgList]Received empty epgListData", (Object)"DABEpgHandler");
+            this.models.getButtonModel(100380).setStatus(3);
+            this.models.getChoiceModel(100696).setValue(0);
+            this.logger.dabData.log(1000000, "[%1#setEpgList]Received empty epgListData", (Object)LOGCLASS);
             return;
         }
         ArrayList arrayList = new ArrayList(ePGShortInfoExtArray.length);
         for (int i2 = 0; i2 < ePGShortInfoExtArray.length; ++i2) {
             EPGShortInfoExt ePGShortInfoExt = ePGShortInfoExtArray[i2];
             if (ePGShortInfoExt == null || ePGShortInfoExt.getNowProgramInfo() == null || ePGShortInfoExt.getNextProgramInfo() == null) {
-                this.logger.dabData.log(-1601830656, "[%1#setEpgList]Received invalid EPGShortInfo %2", (Object)"DABEpgHandler", (Object)ePGShortInfoExt);
+                this.logger.dabData.log(100000, "[%1#setEpgList]Received invalid EPGShortInfo %2", (Object)LOGCLASS, (Object)ePGShortInfoExt);
                 continue;
             }
             arrayList.add(ePGShortInfoExt);
@@ -161,21 +153,20 @@ implements IDabEpgHandler {
         if (!object2.isEmpty()) {
             baseListModelApp.append((AlphabeticalIndexRow[])object2.toArray(new AlphabeticalIndexRow[object2.size()]));
         }
-        this.models.getButtonModel(478675200).setStatus(1);
+        this.models.getButtonModel(100380).setStatus(1);
         Object object3 = this.mutex;
         synchronized (object3) {
             this.updateHighlighting((BaseListModelApp)object);
             this.epgList.update((BaseListModelApp)object);
             this.epgList.setStatus(1);
             this.indexEpgList.update(baseListModelApp);
-            this.models.getChoiceModel(1485373696).setValue(1);
+            this.models.getChoiceModel(100696).setValue(1);
         }
     }
 
-    @Override
     public void setEPGDetailData(EPGFullInfo ePGFullInfo) {
         if (this.detailsRequested.getDabStation().ensemble.ensID != ePGFullInfo.getEnsID() || this.detailsRequested.getDabStation().ensemble.ensECC != ePGFullInfo.getEnsECC() || this.detailsRequested.getDabStation().service.sID != ePGFullInfo.getSID() || this.detailsRequested.getDabStation().component.sCIDI != ePGFullInfo.getSCIDI()) {
-            this.logger.main.log(-1601830656, "[%1.setEPGDetailData] received data for not requested channel req: %2 rec:%3", (Object)"DABEpgHandler", (Object)this.detailsRequested.getDabStation(), ePGFullInfo.getSID());
+            this.logger.main.log(100000, "[%1.setEPGDetailData] received data for not requested channel req: %2 rec:%3", (Object)LOGCLASS, (Object)this.detailsRequested.getDabStation(), ePGFullInfo.getSID());
             return;
         }
         this.epgDetailData = ePGFullInfo;
@@ -187,12 +178,11 @@ implements IDabEpgHandler {
             if (ePGFullProgramInfo != null) {
                 this.showDetails(ePGFullProgramInfo);
             } else {
-                this.logger.main.log(-1601830656, "[%1.setEPGDetailData] received EPGFullProgramInfo == null", (Object)"DABEpgHandler");
+                this.logger.main.log(100000, "[%1.setEPGDetailData] received EPGFullProgramInfo == null", (Object)LOGCLASS);
             }
         }
     }
 
-    @Override
     public void updateEPGDetailData() {
         EPGListRow ePGListRow = null;
         SelectedItem selectedItem = this.epgList.getSelected();
@@ -205,7 +195,7 @@ implements IDabEpgHandler {
         if (ePGListRow != null) {
             this.updateEPGDetailDataFor(ePGListRow);
         }
-        this.models.getChoiceModel(-1601634048).setValue(ePGListRow != null ? 1 : 0);
+        this.models.getChoiceModel(100768).setValue(ePGListRow != null ? 1 : 0);
     }
 
     private void updateEPGDetailDataFor(EPGListRow ePGListRow) {
@@ -219,29 +209,29 @@ implements IDabEpgHandler {
         this.resetDetailView(ePGShortProgramInfo);
         this.dabTuner.getEPGDetailData(this.detailDabStation);
         this.detailsRequested = ePGListRow;
-        this.models.getLabelModel(495452416).setText(ePGListRow.getStationName());
-        this.models.getLabelModel(495452416).setStatus(this.nowOrNextRequested);
-        this.models.getLabelModel(126484736).setText(this.detailDabStation.ensemble.fullName);
-        this.models.getChoiceModel(277479680).setValue(this.detailDabStation.getPTY());
+        this.models.getLabelModel(100381).setText(ePGListRow.getStationName());
+        this.models.getLabelModel(100381).setStatus(this.nowOrNextRequested);
+        this.models.getLabelModel(100871).setText(this.detailDabStation.ensemble.fullName);
+        this.models.getChoiceModel(100880).setValue(this.detailDabStation.getPTY());
         boolean bl = this.favoriteHandler.isStored(new TunerObjectContainer(this.detailDabStation));
-        this.models.getChoiceModel(-1534525184).setValue(bl ? 1 : 0);
-        this.models.getResourceLocatorModel(193593600).setResourceLocator(ePGListRow.getDabStation().getStationLogo());
-        this.models.getResourceLocatorModel(-192413440).setResourceLocator(ePGListRow.getDabStation().getStationLogo());
+        this.models.getChoiceModel(100772).setValue(bl ? 1 : 0);
+        this.models.getResourceLocatorModel(100875).setResourceLocator(ePGListRow.getDabStation().getStationLogo());
+        this.models.getResourceLocatorModel(100596).setResourceLocator(ePGListRow.getDabStation().getStationLogo());
     }
 
     private void showDetails(EPGFullProgramInfo ePGFullProgramInfo) {
         EPGShortProgramInfo ePGShortProgramInfo = ePGFullProgramInfo.getShortInfo();
         if (ePGShortProgramInfo != null) {
-            this.models.getLabelModel(545784064).setText(ePGShortProgramInfo.getProgramInfo());
-            this.models.getLabelModel(529006848).setText(this.getTimeString(ePGShortProgramInfo));
-            this.models.getLabelModel(-125304576).setText(this.getBeginTimeString(ePGShortProgramInfo));
-            this.models.getLabelModel(-158859008).setText(this.getBeginDateString(ePGShortProgramInfo));
+            this.models.getLabelModel(100384).setText(ePGShortProgramInfo.getProgramInfo());
+            this.models.getLabelModel(100383).setText(this.getTimeString(ePGShortProgramInfo));
+            this.models.getLabelModel(100600).setText(this.getBeginTimeString(ePGShortProgramInfo));
+            this.models.getLabelModel(100598).setText(this.getBeginDateString(ePGShortProgramInfo));
         } else {
-            this.logger.main.log(-1601830656, "[%1.setEPGDetailData] received EPGShortProgramInfo == null", (Object)"DABEpgHandler");
+            this.logger.main.log(100000, "[%1.setEPGDetailData] received EPGShortProgramInfo == null", (Object)LOGCLASS);
         }
         String string = ePGFullProgramInfo.getDetailProgramInfo();
-        this.models.getLabelModel(512229632).setText(string);
-        this.models.getLabelModel(512229632).setStatus(Utilities.isEmpty(string) ? 0 : 1);
+        this.models.getLabelModel(100382).setText(string);
+        this.models.getLabelModel(100382).setStatus(Utilities.isEmpty(string) ? 0 : 1);
     }
 
     private String getBeginDateString(EPGShortProgramInfo ePGShortProgramInfo) {
@@ -264,19 +254,19 @@ implements IDabEpgHandler {
     }
 
     private void fillDetailedList() {
-        BaseListModelApp baseListModelApp = this.models.getBaseListModel(-1266155264);
+        BaseListModelApp baseListModelApp = this.models.getBaseListModel(100532);
         baseListModelApp.removeAll();
         baseListModelApp.setSelectedIndex(-1);
         EPGFullProgramInfo ePGFullProgramInfo = this.epgDetailData.nowProgramInfo;
-        DABEpgHandler$EpgDetailRow dABEpgHandler$EpgDetailRow = new DABEpgHandler$EpgDetailRow(this, this.detailId++, ePGFullProgramInfo, true);
-        baseListModelApp.append(dABEpgHandler$EpgDetailRow);
+        EpgDetailRow epgDetailRow = new EpgDetailRow(this.detailId++, ePGFullProgramInfo, true);
+        baseListModelApp.append(epgDetailRow);
         ePGFullProgramInfo = this.epgDetailData.nextProgramInfo;
-        dABEpgHandler$EpgDetailRow = new DABEpgHandler$EpgDetailRow(this, this.detailId++, ePGFullProgramInfo, false);
-        baseListModelApp.append(dABEpgHandler$EpgDetailRow);
+        epgDetailRow = new EpgDetailRow(this.detailId++, ePGFullProgramInfo, false);
+        baseListModelApp.append(epgDetailRow);
         EPGFullProgramInfo[] ePGFullProgramInfoArray = this.epgDetailData.extendedProgramInfo.fullProgramInfoList;
         for (int i2 = 0; i2 < ePGFullProgramInfoArray.length; ++i2) {
-            dABEpgHandler$EpgDetailRow = new DABEpgHandler$EpgDetailRow(this, this.detailId++, ePGFullProgramInfoArray[i2], false);
-            baseListModelApp.append(dABEpgHandler$EpgDetailRow);
+            epgDetailRow = new EpgDetailRow(this.detailId++, ePGFullProgramInfoArray[i2], false);
+            baseListModelApp.append(epgDetailRow);
         }
         if (this.epgDetailData != null && this.currentDabStation.ensemble.ensID == this.epgDetailData.ensID && this.currentDabStation.ensemble.ensECC == this.epgDetailData.ensECC && this.currentDabStation.service.sID == this.epgDetailData.sID && this.currentDabStation.component.sCIDI == this.epgDetailData.sCIDI) {
             baseListModelApp.setSelectedIndex(0);
@@ -285,15 +275,15 @@ implements IDabEpgHandler {
 
     private void resetDetailView(EPGShortProgramInfo ePGShortProgramInfo) {
         if (ePGShortProgramInfo != null) {
-            this.models.getLabelModel(545784064).setText(ePGShortProgramInfo.getProgramInfo());
-            this.models.getLabelModel(529006848).setText(this.getTimeString(ePGShortProgramInfo));
-            this.models.getLabelModel(512229632).setText("");
+            this.models.getLabelModel(100384).setText(ePGShortProgramInfo.getProgramInfo());
+            this.models.getLabelModel(100383).setText(this.getTimeString(ePGShortProgramInfo));
+            this.models.getLabelModel(100382).setText("");
         } else {
-            this.models.getLabelModel(545784064).setText("");
-            this.models.getLabelModel(529006848).setText("");
-            this.models.getLabelModel(512229632).setText("");
+            this.models.getLabelModel(100384).setText("");
+            this.models.getLabelModel(100383).setText("");
+            this.models.getLabelModel(100382).setText("");
         }
-        this.models.getLabelModel(512229632).setStatus(1);
+        this.models.getLabelModel(100382).setStatus(1);
     }
 
     private void updateHighlighting(BaseListModelApp baseListModelApp) {
@@ -322,8 +312,8 @@ implements IDabEpgHandler {
             if (this.epgDetailData != null && this.currentDabStation.ensemble.ensID == this.epgDetailData.ensID && this.currentDabStation.ensemble.ensECC == this.epgDetailData.ensECC && this.currentDabStation.service.sID == this.epgDetailData.sID && this.currentDabStation.component.sCIDI == this.epgDetailData.sCIDI) {
                 n = 0;
             }
-            if (this.models.getBaseListModel(-1266155264).getLength() > 0) {
-                this.models.getBaseListModel(-1266155264).setSelectedIndex(n);
+            if (this.models.getBaseListModel(100532).getLength() > 0) {
+                this.models.getBaseListModel(100532).setSelectedIndex(n);
             }
         }
     }
@@ -342,83 +332,205 @@ implements IDabEpgHandler {
     private void setDetailIndex(int n) {
         this.detailIndex = n;
         if (n == 0) {
-            this.models.getButtonModel(-142081792).setStatus(3);
-            this.models.getChoiceModel(-527892224).setValue(1);
+            this.models.getButtonModel(100599).setStatus(3);
+            this.models.getChoiceModel(100832).setValue(1);
         } else {
-            this.models.getButtonModel(-142081792).setStatus(1);
-            this.models.getChoiceModel(-527892224).setValue(0);
+            this.models.getButtonModel(100599).setStatus(1);
+            this.models.getChoiceModel(100832).setValue(0);
         }
-        if (n == this.models.getBaseListModel(-1266155264).getLength() - 1) {
-            this.models.getButtonModel(-108527360).setStatus(3);
+        if (n == this.models.getBaseListModel(100532).getLength() - 1) {
+            this.models.getButtonModel(100601).setStatus(3);
         } else {
-            this.models.getButtonModel(-108527360).setStatus(1);
+            this.models.getButtonModel(100601).setStatus(1);
         }
     }
 
-    static /* synthetic */ void access$800(DABEpgHandler dABEpgHandler, UnifiedStationExt unifiedStationExt) {
-        dABEpgHandler.setCurrentStation(unifiedStationExt);
+    private class EpgDetailRow
+    extends EvoListRow {
+        private static final int NUM_COLS = 4;
+        private static final int RS_NOW_PROGRAM = 0;
+        private static final int RS_OTHER_PROGRAM = 1;
+        private static final int INDEX_TIME = 0;
+        private static final int INDEX_TITLE = 1;
+        private static final int INDEX_DETAIL = 2;
+        private static final int INDEX_RS = 3;
+        private final EPGFullProgramInfo info;
+
+        public EpgDetailRow(long l, EPGFullProgramInfo ePGFullProgramInfo, boolean bl) {
+            super(l, 4);
+            this.info = ePGFullProgramInfo;
+            long l2 = DABEpgHandler.this.timeZoneOffset.getOffset();
+            long l3 = ePGFullProgramInfo.shortInfo.getStartTime().getTime() + l2;
+            this.setText(0, Utilities.getFormatedTime(l3));
+            this.setText(1, ePGFullProgramInfo.shortInfo.programInfo);
+            this.setText(2, ePGFullProgramInfo.detailProgramInfo);
+            this.setInteger(3, bl ? 0 : 1);
+        }
+
+        private EpgDetailRow(EpgDetailRow epgDetailRow) {
+            super(epgDetailRow);
+            this.info = epgDetailRow.info;
+        }
+
+        public EvoListRow copy() {
+            return new EpgDetailRow(this);
+        }
+
+        public EPGFullProgramInfo getDetails() {
+            return this.info;
+        }
     }
 
-    static /* synthetic */ void access$900(DABEpgHandler dABEpgHandler, DabStation dabStation) {
-        dABEpgHandler.setCurrentStation(dabStation);
+    private class ListListener
+    extends DefaultBaseListModelListener {
+        private ListListener() {
+        }
+
+        public void itemSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
+            switch (n) {
+                case 100459: {
+                    DabStation dabStation = ((EPGListRow)evoListRow).getDabStation();
+                    if (evoListRow.getInteger(0) == 0) {
+                        if (n3 == 0) {
+                            DABEpgHandler.this.epgList.setSelectedIndex(n2);
+                            if (DABEpgHandler.this.models.getActiveTuner() == 5) {
+                                TunerProxyManager.getInstance().prepareAndTune(new TunerObjectContainer(dabStation), n4);
+                                break;
+                            }
+                            UnifiedStationExt unifiedStationExt = new UnifiedStationExt();
+                            unifiedStationExt.shortName = dabStation.getShortName();
+                            unifiedStationExt.longName = dabStation.getFullName();
+                            unifiedStationExt.frequency = dabStation.ensemble.frequencyValue;
+                            unifiedStationExt.piSId = (int)dabStation.service.sID;
+                            unifiedStationExt.ensId = dabStation.service.ensID;
+                            unifiedStationExt.ecc = dabStation.service.ensECC;
+                            unifiedStationExt.sCIDI = dabStation.component.sCIDI;
+                            TunerProxyManager.getInstance().prepareAndTune(new TunerObjectContainer(unifiedStationExt), n4);
+                            break;
+                        }
+                        this.prepareDetailsList(evoListRow, n4);
+                        break;
+                    }
+                    DABEpgHandler.this.updateEPGDetailDataFor((EPGListRow)evoListRow);
+                    DABEpgHandler.this.models.getChoiceModel(100768).setValue(1);
+                    DABEpgHandler.this.epgList.fireEvent(n4);
+                    break;
+                }
+                case 100532: {
+                    DABEpgHandler.this.setDetailIndex(n2);
+                    EpgDetailRow epgDetailRow = (EpgDetailRow)evoListRow;
+                    DABEpgHandler.this.showDetails(epgDetailRow.getDetails());
+                    DABEpgHandler.this.models.getBaseListModel(100532).fireEvent(n4);
+                    DABEpgHandler.this.varExt.showPartialPopup(22);
+                    break;
+                }
+            }
+        }
+
+        public void itemLongSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
+            if (Utilities.isPGen1OrBentley()) {
+                this.prepareDetailsList(evoListRow, n4);
+            }
+        }
+
+        private void prepareDetailsList(EvoListRow evoListRow, int n) {
+            BaseListModelApp baseListModelApp = DABEpgHandler.this.models.getBaseListModel(100532);
+            baseListModelApp.removeAll();
+            DabStation dabStation = ((EPGListRow)evoListRow).getDabStation();
+            DABEpgHandler.this.detailDabStation = dabStation;
+            DABEpgHandler.this.dabTuner.getEPGDetailData(dabStation);
+            DABEpgHandler.this.resetDetailView(null);
+            DABEpgHandler.this.detailsRequested = (EPGListRow)evoListRow;
+            DABEpgHandler.this.models.getLabelModel(100381).setText(((EPGListRow)evoListRow).getStationName());
+            DABEpgHandler.this.models.getResourceLocatorModel(100875).setResourceLocator(dabStation.getStationLogo());
+            DABEpgHandler.this.models.getResourceLocatorModel(100596).setResourceLocator(dabStation.getStationLogo());
+            DABEpgHandler.this.epgList.fireEvent(n);
+        }
     }
 
-    static /* synthetic */ BaseListModelApp access$1000(DABEpgHandler dABEpgHandler) {
-        return dABEpgHandler.epgList;
+    private class ButtonListener
+    extends DefaultButtonListener {
+        private ButtonListener() {
+        }
+
+        public void keyPressed(int n, int n2, int n3) {
+            int n4 = n == 100599 ? DABEpgHandler.this.detailIndex - 1 : DABEpgHandler.this.detailIndex + 1;
+            EpgDetailRow epgDetailRow = (EpgDetailRow)DABEpgHandler.this.models.getBaseListModel(100532).getRow(n4);
+            if (epgDetailRow != null) {
+                DABEpgHandler.this.setDetailIndex(n4);
+                DABEpgHandler.this.showDetails(epgDetailRow.getDetails());
+            }
+        }
     }
 
-    static /* synthetic */ TunerModels access$1100(DABEpgHandler dABEpgHandler) {
-        return dABEpgHandler.models;
+    private class ChoiceListener
+    extends DefaultChoiceListener {
+        private ChoiceListener() {
+        }
+
+        public void keyPressed(int n, int n2, int n3) {
+            TunerObjectContainer tunerObjectContainer = new TunerObjectContainer(DABEpgHandler.this.detailDabStation);
+            int n4 = DABEpgHandler.this.favoriteHandler.toggleStore(tunerObjectContainer);
+            DABEpgHandler.this.models.getChoiceModel(100772).setValue(n4);
+        }
     }
 
-    static /* synthetic */ void access$1200(DABEpgHandler dABEpgHandler, EPGListRow ePGListRow) {
-        dABEpgHandler.updateEPGDetailDataFor(ePGListRow);
+    private class DabDsiUpListener
+    extends DABDsiUpInfo {
+        private DabDsiUpListener() {
+        }
+
+        public void setEPGList(EPGShortInfoExt[] ePGShortInfoExtArray) {
+            DABEpgHandler.this.setEPGList(ePGShortInfoExtArray);
+        }
+
+        public void setEPGDetailData(EPGFullInfo ePGFullInfo) {
+            DABEpgHandler.this.setEPGDetailData(ePGFullInfo);
+        }
+
+        public void updateCurrentStation(DabStation dabStation, DabReceptionStatus dabReceptionStatus) {
+            DABEpgHandler.this.setCurrentStation(dabStation);
+        }
     }
 
-    static /* synthetic */ void access$1300(DABEpgHandler dABEpgHandler, int n) {
-        dABEpgHandler.setDetailIndex(n);
+    private class UniDsiUpListener
+    extends UniDsiUpInfo {
+        private UniDsiUpListener() {
+        }
+
+        public void updateSelectedStation(UnifiedStationExt unifiedStationExt) {
+            DABEpgHandler.this.setCurrentStation(unifiedStationExt);
+        }
     }
 
-    static /* synthetic */ void access$1400(DABEpgHandler dABEpgHandler, EPGFullProgramInfo ePGFullProgramInfo) {
-        dABEpgHandler.showDetails(ePGFullProgramInfo);
+    private class DabDsiDownListener
+    extends DABDsiDownInfo {
+        private DabDsiDownListener() {
+        }
+
+        public void preTuneAction(DabStation dabStation, DabReceptionStatus dabReceptionStatus, int n) {
+            DABEpgHandler.this.setCurrentStation(dabStation);
+        }
     }
 
-    static /* synthetic */ ITunerVariantExt access$1500(DABEpgHandler dABEpgHandler) {
-        return dABEpgHandler.varExt;
+    private class UniDsiDownListener
+    extends UniDsiDownInfo {
+        private UniDsiDownListener() {
+        }
+
+        public void preTuneCommand(UnifiedStationExt unifiedStationExt) {
+            DABEpgHandler.this.setCurrentStation(unifiedStationExt);
+        }
     }
 
-    static /* synthetic */ DabStation access$1602(DABEpgHandler dABEpgHandler, DabStation dabStation) {
-        dABEpgHandler.detailDabStation = dabStation;
-        return dABEpgHandler.detailDabStation;
-    }
+    private class ClockTimeZoneOffsetListener
+    implements ClockTimeZoneOffsetHandler.IClockTimeZoneOffsetListener {
+        private ClockTimeZoneOffsetListener() {
+        }
 
-    static /* synthetic */ IDABTuner access$1700(DABEpgHandler dABEpgHandler) {
-        return dABEpgHandler.dabTuner;
-    }
-
-    static /* synthetic */ void access$1800(DABEpgHandler dABEpgHandler, EPGShortProgramInfo ePGShortProgramInfo) {
-        dABEpgHandler.resetDetailView(ePGShortProgramInfo);
-    }
-
-    static /* synthetic */ EPGListRow access$1902(DABEpgHandler dABEpgHandler, EPGListRow ePGListRow) {
-        dABEpgHandler.detailsRequested = ePGListRow;
-        return dABEpgHandler.detailsRequested;
-    }
-
-    static /* synthetic */ ClockTimeZoneOffsetHandler access$2000(DABEpgHandler dABEpgHandler) {
-        return dABEpgHandler.timeZoneOffset;
-    }
-
-    static /* synthetic */ int access$2100(DABEpgHandler dABEpgHandler) {
-        return dABEpgHandler.detailIndex;
-    }
-
-    static /* synthetic */ DabStation access$1600(DABEpgHandler dABEpgHandler) {
-        return dABEpgHandler.detailDabStation;
-    }
-
-    static /* synthetic */ IStoreStationHandler access$2200(DABEpgHandler dABEpgHandler) {
-        return dABEpgHandler.favoriteHandler;
+        public void offsetChanged(long l) {
+            DABEpgHandler.this.dabTuner.setNotification(new int[]{29});
+        }
     }
 }
 

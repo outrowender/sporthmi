@@ -13,7 +13,7 @@ import de.audi.tuner.ifc.ITunerVariantExt;
 
 public class TunerHMIApplication
 implements HMIApplication {
-    public static final int HMI_APP_ID;
+    public static final int HMI_APP_ID = 1;
     private final TunerModels models;
     private final Logger logger;
     private final ITunerVariantExt varExt;
@@ -32,25 +32,23 @@ implements HMIApplication {
         this.listener = hmiAppListenerArray;
     }
 
-    @Override
     public int getId() {
         return 1;
     }
 
-    @Override
     public ButtonModelApp getVirtualButton(int n) {
         switch (n) {
             case 0: {
-                return this.models.getButtonModel(1300758784);
+                return this.models.getButtonModel(100429);
             }
             case 1: {
-                return this.models.getButtonModel(1283981568);
+                return this.models.getButtonModel(100428);
             }
             case 13: {
-                return this.models.getButtonModel(1418199296);
+                return this.models.getButtonModel(100436);
             }
             case 43: {
-                return this.models.getButtonModel(-1115225856);
+                return this.models.getButtonModel(100285);
             }
         }
         int n2 = this.varExt.getVirtualButtonModel(n);
@@ -60,39 +58,32 @@ implements HMIApplication {
         return null;
     }
 
-    @Override
     public void popupVisible(int n, int n2) {
-        this.logger.hmi.log(-2137614336, "Popup %1 is visible ", (long)n);
+        this.logger.hmi.log(10000000, "Popup %1 is visible ", (long)n);
     }
 
-    @Override
     public void popupHidden(int n, int n2) {
-        this.logger.hmi.log(-2137614336, "Popup %1 is hidden ", (long)n);
+        this.logger.hmi.log(10000000, "Popup %1 is hidden ", (long)n);
     }
 
-    @Override
     public void popupRemoved(int n, int n2) {
-        this.logger.hmi.log(-2137614336, "Popup %1 is removed ", (long)n);
+        this.logger.hmi.log(10000000, "Popup %1 is removed ", (long)n);
     }
 
-    @Override
     public void screenVisible(int n, int n2) {
-        this.logger.hmi.log(-2137614336, "[TunerHMIApplication.screenVisible] screen:%1", (long)n);
+        this.logger.hmi.log(10000000, "[TunerHMIApplication.screenVisible] screen:%1", (long)n);
     }
 
-    @Override
     public void screenHidden(int n, int n2) {
-        this.logger.hmi.log(-2137614336, "[TunerHMIApplication.screenHidden] screen:%1", (long)n);
+        this.logger.hmi.log(10000000, "[TunerHMIApplication.screenHidden] screen:%1", (long)n);
     }
 
-    @Override
     public void screenFadedOut(int n, int n2) {
         for (int i2 = 0; i2 < this.listener.length; ++i2) {
             this.listener[i2].screenFadedOut(n, n2);
         }
     }
 
-    @Override
     public void screenConnected(int n, int n2) {
     }
 }

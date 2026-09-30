@@ -7,11 +7,10 @@ import de.audi.tghu.command.CommandList;
 import de.audi.tghu.command.ICommandListFactory;
 import de.audi.tghu.navi.app.NavigationEnv;
 import de.audi.tghu.navi.app.command.DSIResponseContainer;
+import de.audi.tghu.navi.app.command.NavCommand;
 import de.audi.tghu.navi.app.details.IDestinationHandler;
 import de.audi.tghu.navi.app.routeguidance.IStartGuidanceModelAccess;
 import de.audi.tghu.navi.app.routeguidance.StartGuidanceDependentSequence;
-import de.audi.tghu.navi.app.routeguidance.StartGuidanceDependentSequenceEvo$1;
-import de.audi.tghu.navi.app.routeguidance.StartGuidanceDependentSequenceEvo$2;
 import org.dsi.ifc.global.NavSegmentID;
 import org.dsi.ifc.navigation.Route;
 
@@ -21,23 +20,44 @@ extends StartGuidanceDependentSequence {
         super(navigationEnv, iCommandListFactory, iStartGuidanceModelAccess, iDestinationHandler);
     }
 
-    @Override
     protected boolean isUserInteractionNeeded(DSIResponseContainer dSIResponseContainer) {
-        int n = this.env.getChoiceModel(136578560).getValue();
+        int n = this.env.getChoiceModel(402440).getValue();
         return n == 0 && dSIResponseContainer.isRgActive() || dSIResponseContainer.isEtcDemoMode();
     }
 
-    @Override
-    public CommandList getStartSequence(NavSegmentID navSegmentID) {
+    public CommandList getStartSequence(final NavSegmentID navSegmentID) {
         CommandList commandList = this.commandListFactory.createCommandList();
-        commandList.add(new StartGuidanceDependentSequenceEvo$1(this, "StartGuidanceDependentSequenceEvo depends on DemoMode state", navSegmentID));
+        commandList.add(new NavCommand("StartGuidanceDependentSequenceEvo depends on DemoMode state"){
+
+            public void execute() {
+                StartGuidanceDependentSequenceEvo.this.destinationHandler.setSegmentID(navSegmentID);
+                if (this.dsiResponseContainer.isEtcDemoMode()) {
+                    this.logger.log(10000000, "[RouteGuidance] StartGuidanceDependentSequenceEvo#NavCommand1#execute() - DemoMode is active");
+                    this.getCommandList().commandFinished();
+                } else {
+                    this.logger.log(10000000, "[RouteGuidance] StartGuidanceDependentSequenceEvo#NavCommand1#execute() - DemoMode not active, start Route Guidance");
+                    this.getCommandList().commandFinishedWithPostSequence(this.navigation.getRouteManager().getStartGuidanceBySegmendIDSequence(navSegmentID, true));
+                }
+            }
+        });
         return commandList;
     }
 
-    @Override
-    public CommandList getStartSequence(Route route) {
+    public CommandList getStartSequence(final Route route) {
         CommandList commandList = this.commandListFactory.createCommandList();
-        commandList.add(new StartGuidanceDependentSequenceEvo$2(this, "StartGuidanceDependentSequenceEvo depends on DemoMode state", route));
+        commandList.add(new NavCommand("StartGuidanceDependentSequenceEvo depends on DemoMode state"){
+
+            public void execute() {
+                StartGuidanceDependentSequenceEvo.this.destinationHandler.setRoute(route);
+                if (this.dsiResponseContainer.isEtcDemoMode()) {
+                    this.logger.log(10000000, "[RouteGuidance] StartGuidanceDependentSequenceEvo#NavCommand1#execute() - DemoMode is active");
+                    this.getCommandList().commandFinished();
+                } else {
+                    this.logger.log(10000000, "[RouteGuidance] StartGuidanceDependentSequenceEvo#NavCommand1#execute() - DemoMode not active, start Route Guidance");
+                    this.getCommandList().commandFinishedWithPostSequence(this.navigation.getRouteManager().getStartGuidanceByRouteSequence(route));
+                }
+            }
+        });
         return commandList;
     }
 }

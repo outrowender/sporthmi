@@ -42,8 +42,6 @@ import de.audi.tghu.navi.app.LocationSerializer;
 import de.audi.tghu.navi.app.ManagementServices;
 import de.audi.tghu.navi.app.NaviMapConnector;
 import de.audi.tghu.navi.app.NaviPresetHandler;
-import de.audi.tghu.navi.app.Navigation$1;
-import de.audi.tghu.navi.app.Navigation$2;
 import de.audi.tghu.navi.app.NavigationBrowser;
 import de.audi.tghu.navi.app.NavigationEnv;
 import de.audi.tghu.navi.app.NavigationModeManager;
@@ -79,6 +77,7 @@ import de.audi.tghu.navi.app.cluster.ClusterService;
 import de.audi.tghu.navi.app.command.DSIResponseContainer;
 import de.audi.tghu.navi.app.command.ETCSetDemoMode;
 import de.audi.tghu.navi.app.command.LISPCancelSpellerCommand;
+import de.audi.tghu.navi.app.command.NavCommand;
 import de.audi.tghu.navi.app.command.NavCommandListFactory;
 import de.audi.tghu.navi.app.command.NavCommandListSupplier;
 import de.audi.tghu.navi.app.command.RGStopGuidanceCommand;
@@ -164,8 +163,8 @@ PowerEventListener,
 HMIApplication,
 I18NTarget,
 INaviComponent {
-    public static final int MODULE_ID;
-    protected static Navigation instance;
+    public static final int MODULE_ID = 4;
+    protected static Navigation instance = null;
     protected final NavigationEnv env;
     public NaviActionProxyImplCore navigationActionProxy;
     protected AbstractNavigationActivator activator;
@@ -259,8 +258,8 @@ INaviComponent {
     protected NaviMyAudiImportImpl myAudiImporter;
     protected GpxHandler gpxHandler;
     protected MapSelectionHandlerFactory mapSelectionHandlerFactory;
-    private static final int OPERATOR_CALL_NOT_AVAILABLE;
-    private static final int OPERATOR_CALL_AVAILABLE;
+    private static final int OPERATOR_CALL_NOT_AVAILABLE = 0;
+    private static final int OPERATOR_CALL_AVAILABLE = 1;
     protected final PopupsHandler popupsHandler;
     protected IPoiService poiService;
     protected RMLDSIHandler rmlDsiHandler;
@@ -300,12 +299,12 @@ INaviComponent {
     public void setOperatorCallServiceProvider(IOperatorCallNaviService iOperatorCallNaviService) {
         this.operatorCallOnlineService = iOperatorCallNaviService;
         if (this.operatorCallOnlineService != null) {
-            this.env.getChoiceModel(1914832384).setValue(1);
+            this.env.getChoiceModel(402034).setValue(1);
             if (this.naviOperatorCallService != null) {
                 this.naviOperatorCallService.setOnlineOperatorCallService(this.operatorCallOnlineService);
             }
         } else {
-            this.env.getChoiceModel(1914832384).setValue(0);
+            this.env.getChoiceModel(402034).setValue(0);
             this.env.getLogChannel().log(10000, "Navigation#setOperatorCallServiceProvider - received null!");
         }
     }
@@ -348,16 +347,15 @@ INaviComponent {
         }
     }
 
-    @Override
     public void init(AbstractNavigationActivator abstractNavigationActivator, NavigationEnv navigationEnv) {
-        navigationEnv.getLogChannel().log(-2137614336, "Navigation#initialize()");
+        navigationEnv.getLogChannel().log(10000000, "Navigation#initialize()");
         this.activator = abstractNavigationActivator;
         this.initSpellerStack(navigationEnv);
         this.initMinimal(navigationEnv);
         this.setModelDefaultValues(navigationEnv);
         this.viewSizeChangeHandler = new NullViewSizeChangeHandler();
         this.navCommandListSupplier = new NavCommandListSupplier(navigationEnv, this);
-        this.commandListCallManager = new CommandListCallManager("NavCommandLists", navigationEnv.getFramework(), navigationEnv.getCommandListLogChannel(), this.navCommandListSupplier, navigationEnv.getChoiceModel(-635763200));
+        this.commandListCallManager = new CommandListCallManager("NavCommandLists", navigationEnv.getFramework(), navigationEnv.getCommandListLogChannel(), this.navCommandListSupplier, navigationEnv.getChoiceModel(400346));
         this.commandListFactory = new NavCommandListFactory(this.commandListCallManager, navigationEnv, this);
         this.dsiNavigationManager = new DSINavigationManager(navigationEnv, this, this.commandListCallManager, this.commandListFactory, this.dispatcher);
         ((NavCommandListFactory)this.commandListFactory).setDsiNavigationManager(this.dsiNavigationManager);
@@ -395,8 +393,8 @@ INaviComponent {
     }
 
     protected IAlternativeRouteStateManager createAlternativeRouteStateManager() {
-        AlternativeRouteStateManager alternativeRouteStateManager = new AlternativeRouteStateManager(this.env, -300022272, new AlternativeRouteStatePersitenceHelper(this.env, 230));
-        new AlternativeRouteChoiceModelListener(alternativeRouteStateManager, -300022272, this.env);
+        AlternativeRouteStateManager alternativeRouteStateManager = new AlternativeRouteStateManager(this.env, 401134, new AlternativeRouteStatePersitenceHelper(this.env, 230));
+        new AlternativeRouteChoiceModelListener(alternativeRouteStateManager, 401134, this.env);
         return alternativeRouteStateManager;
     }
 
@@ -407,7 +405,7 @@ INaviComponent {
     public void initMinimal(NavigationEnv navigationEnv) {
         this.dispatcher = navigationEnv.getFramework().getDispatcherManager().createDispatcher("NavigationJobs", new JobLogger(navigationEnv.getLogChannel()));
         this.dispatcher.start();
-        navigationEnv.getLogChannel().log(-2137614336, "Navigation#initMinimal()");
+        navigationEnv.getLogChannel().log(10000000, "Navigation#initMinimal()");
         this.naviLocationAccessor = new NaviLocationAccessor(navigationEnv.getLogChannel());
     }
 
@@ -435,7 +433,7 @@ INaviComponent {
 
     public synchronized void cleanup1() {
         if (instance != null && this.env != null) {
-            this.env.getLogChannel().log(-2137614336, "Navigation#cleanup1()");
+            this.env.getLogChannel().log(10000000, "Navigation#cleanup1()");
             this.commandListCallManager.destroy();
             if (this.getNaviADBHandler() != null) {
                 this.getNaviADBHandler().destroy();
@@ -507,7 +505,7 @@ INaviComponent {
 
     public synchronized void cleanup2() {
         if (instance != null && this.env != null) {
-            this.env.getLogChannel().log(-2137614336, "Navigation#cleanup2()");
+            this.env.getLogChannel().log(10000000, "Navigation#cleanup2()");
             instance = null;
         }
         navigationModeManager = null;
@@ -524,7 +522,7 @@ INaviComponent {
     }
 
     public void setNavigationMode(int n) {
-        this.env.getLogChannel().log(-2137614336, "Navigation#setMode( %1 )", (long)n);
+        this.env.getLogChannel().log(10000000, "Navigation#setMode( %1 )", (long)n);
         if (n != navigationModeManager.getNavigationMode()) {
             navigationModeManager.setNavigationMode(n);
             this.dsiNavigationManager.setNavigationMode(n);
@@ -540,16 +538,14 @@ INaviComponent {
         return navigationModeManager.getNavigationMode() == 0;
     }
 
-    @Override
     public int getId() {
         return 4;
     }
 
-    @Override
     public ButtonModelApp getVirtualButton(int n) {
-        this.env.getLogChannel().log(-2137614336, "Navigation#getVirtualButton() ");
+        this.env.getLogChannel().log(10000000, "Navigation#getVirtualButton() ");
         if (n == 12) {
-            return this.env.getButtonModel(1461650944);
+            return this.env.getButtonModel(401239);
         }
         if (n == 13) {
             return this.hkJokerHandler.getJoker1Button();
@@ -557,86 +553,134 @@ INaviComponent {
         return null;
     }
 
-    @Override
     public void popupVisible(int n, int n2) {
-        this.env.getLogChannel().log(-2137614336, "Navigation#popupVisible( %1 ) ", (long)n);
+        this.env.getLogChannel().log(10000000, "Navigation#popupVisible( %1 ) ", (long)n);
         this.popupsHandler.popupVisible(n, n2);
     }
 
-    @Override
     public void popupHidden(int n, int n2) {
-        this.env.getLogChannel().log(-2137614336, "Navigation#popupHidden( %1 ) ", (long)n);
+        this.env.getLogChannel().log(10000000, "Navigation#popupHidden( %1 ) ", (long)n);
         this.popupsHandler.popupHidden(n, n2);
     }
 
-    @Override
     public void popupRemoved(int n, int n2) {
-        this.env.getLogChannel().log(-2137614336, "Navigation#popupRemoved( %1 ) ", (long)n);
+        this.env.getLogChannel().log(10000000, "Navigation#popupRemoved( %1 ) ", (long)n);
     }
 
-    @Override
     public void screenVisible(int n, int n2) {
-        this.env.getLogChannel().log(-2137614336, "Navigation#screenVisible( %1 ) ", (long)n);
+        this.env.getLogChannel().log(10000000, "Navigation#screenVisible( %1 ) ", (long)n);
         this.getMapInterface().screenVisible();
     }
 
-    @Override
     public void screenHidden(int n, int n2) {
-        this.env.getLogChannel().log(-2137614336, "Navigation#screenHidden( %1 ) ", (long)n);
+        this.env.getLogChannel().log(10000000, "Navigation#screenHidden( %1 ) ", (long)n);
         this.getMapInterface().screenHidden();
     }
 
-    @Override
     public void screenFadedOut(int n, int n2) {
         this.getMapInterface().getPreviewMap().onScreenFadedOut(n);
     }
 
-    @Override
     public void screenConnected(int n, int n2) {
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void setLanguage(Language language) {
+        CommandList commandList;
+        boolean bl;
         String string = language.getLanguageCode();
-        this.env.getLogChannel().log(-2137614336, "Navigation#setLanguage( %1 ) ", (Object)string);
+        this.env.getLogChannel().log(10000000, "Navigation#setLanguage( %1 ) ", (Object)string);
         try {
             TextUtil.updateTranslations(this.env);
             this.getMapInterface().setLanguage(string);
             this.onlineSearchController.setLanguage(language);
             this.refreshPositionDescription();
+            bl = this.operationManager.isFullyOperable();
+            commandList = this.commandListFactory.createCommandList(1);
+            commandList.add(new ResetSMCommand());
         }
         catch (Exception exception) {
-            this.env.getLogChannel().log(-2137614336, "Navigation#setLanguage()", (Throwable)exception);
+            CommandList commandList2;
+            boolean bl2;
+            try {
+                this.env.getLogChannel().log(10000000, "Navigation#setLanguage()", (Throwable)exception);
+                bl2 = this.operationManager.isFullyOperable();
+                commandList2 = this.commandListFactory.createCommandList(1);
+                commandList2.add(new ResetSMCommand());
+            }
+            catch (Throwable throwable) {
+                boolean bl3 = this.operationManager.isFullyOperable();
+                CommandList commandList3 = this.commandListFactory.createCommandList(1);
+                commandList3.add(new ResetSMCommand());
+                if (bl3) {
+                    commandList3.add(new LISPCancelSpellerCommand());
+                    commandList3.add(new NavCommand(){
+
+                        public void execute() {
+                            this.env.getChoiceModel(170).setValue(0);
+                            this.env.getChoiceModel(170).setValue(3);
+                            this.getCommandList().commandFinished();
+                        }
+                    });
+                    commandList3.add(new SetLanguageCommand(string));
+                }
+                commandList3.add(new NavCommand("notifyLanguageManager"){
+
+                    public void execute() {
+                        this.env.getFramework().getLanguageMgr().responseSetLanguage("LANG_COMPONENT_NAVI", true);
+                        this.getCommandList().commandFinished();
+                    }
+                });
+                if (bl3 && this.routeManager.getRoute() != null) {
+                    commandList3.add(new TranslateAndPersistRoute(this.routeManager.getRoute()));
+                }
+                if (bl3) {
+                    commandList3.add(new TranslateVehicleCountryLocationCommand());
+                }
+                commandList3.add(this.poiCategoryManager.languageChanged());
+                commandList3.add(this.getIntelliDestAccess().getLastDestHandler().getLanguageChangedCommand());
+                commandList3.execute("Navigation#setLanguage");
+                throw throwable;
+            }
+            if (bl2) {
+                commandList2.add(new LISPCancelSpellerCommand());
+                commandList2.add(new /* invalid duplicate definition of identical inner class */);
+                commandList2.add(new SetLanguageCommand(string));
+            }
+            commandList2.add(new /* invalid duplicate definition of identical inner class */);
+            if (bl2 && this.routeManager.getRoute() != null) {
+                commandList2.add(new TranslateAndPersistRoute(this.routeManager.getRoute()));
+            }
+            if (bl2) {
+                commandList2.add(new TranslateVehicleCountryLocationCommand());
+            }
+            commandList2.add(this.poiCategoryManager.languageChanged());
+            commandList2.add(this.getIntelliDestAccess().getLastDestHandler().getLanguageChangedCommand());
+            commandList2.execute("Navigation#setLanguage");
         }
-        finally {
-            boolean bl = this.operationManager.isFullyOperable();
-            CommandList commandList = this.commandListFactory.createCommandList(1);
-            commandList.add(new ResetSMCommand());
-            if (bl) {
-                commandList.add(new LISPCancelSpellerCommand());
-                commandList.add(new Navigation$1(this));
-                commandList.add(new SetLanguageCommand(string));
-            }
-            commandList.add(new Navigation$2(this, "notifyLanguageManager"));
-            if (bl && this.routeManager.getRoute() != null) {
-                commandList.add(new TranslateAndPersistRoute(this.routeManager.getRoute()));
-            }
-            if (bl) {
-                commandList.add(new TranslateVehicleCountryLocationCommand());
-            }
-            commandList.add(this.poiCategoryManager.languageChanged());
-            commandList.add(this.getIntelliDestAccess().getLastDestHandler().getLanguageChangedCommand());
-            commandList.execute("Navigation#setLanguage");
+        if (bl) {
+            commandList.add(new LISPCancelSpellerCommand());
+            commandList.add(new /* invalid duplicate definition of identical inner class */);
+            commandList.add(new SetLanguageCommand(string));
         }
+        commandList.add(new /* invalid duplicate definition of identical inner class */);
+        if (bl && this.routeManager.getRoute() != null) {
+            commandList.add(new TranslateAndPersistRoute(this.routeManager.getRoute()));
+        }
+        if (bl) {
+            commandList.add(new TranslateVehicleCountryLocationCommand());
+        }
+        commandList.add(this.poiCategoryManager.languageChanged());
+        commandList.add(this.getIntelliDestAccess().getLastDestHandler().getLanguageChangedCommand());
+        commandList.execute("Navigation#setLanguage");
     }
 
     public void updateNaviLanguage() {
         String string = this.env.getFramework().getLanguageMgr().getCurrentLanguage("LANG_COMPONENT_NAVI").getLanguageCode();
         String string2 = this.env.getContainer().getLanguage();
-        this.env.getLogChannel().log(-2137614336, "Navigation#updateNaviLanguage() - old language: %1, new language: %2", (Object)string2, (Object)string);
+        this.env.getLogChannel().log(10000000, "Navigation#updateNaviLanguage() - old language: %1, new language: %2", (Object)string2, (Object)string);
         if (!Util.isEmpty(string) && !string.equalsIgnoreCase(string2)) {
             CommandList commandList = this.commandListFactory.createCommandList(1);
             commandList.add(new LISPCancelSpellerCommand());
@@ -670,7 +714,7 @@ INaviComponent {
     }
 
     public void resetSettings() {
-        this.env.getLogChannel().log(1078071040, "Navigation#resetSettings() ");
+        this.env.getLogChannel().log(1000000, "Navigation#resetSettings() ");
         try {
             if (this.speechManager != null) {
                 this.speechManager.resetSettings();
@@ -802,7 +846,7 @@ INaviComponent {
     }
 
     public void resetMemorySettings() {
-        this.env.getLogChannel().log(1078071040, "Navigation#resetMemorySettings() ");
+        this.env.getLogChannel().log(1000000, "Navigation#resetMemorySettings() ");
         try {
             if (this.poiService != null) {
                 this.poiService.deletePersonalPOIDataBases();
@@ -1132,9 +1176,8 @@ INaviComponent {
         return this.naviFormattingService;
     }
 
-    @Override
     public void notifyPowerListenerOnEnterState(int n, int n2) {
-        this.env.getLogChannel().log(-2137614336, "Navigation#notifyPowerListenerOnEnterState( %1 ) ", (long)n);
+        this.env.getLogChannel().log(10000000, "Navigation#notifyPowerListenerOnEnterState( %1 ) ", (long)n);
         if (n == 2) {
             ((PowerEventListener)((Object)this.routeManager)).notifyPowerListenerOnEnterState(n, n2);
             this.tourHandler.notifyPowerListenerOnEnterState(n, n2);
@@ -1142,26 +1185,23 @@ INaviComponent {
         this.clusterService.notifyPowerListenerOnEnterState(n, n2);
     }
 
-    @Override
     public void notifyPowerListenerOnExitState(int n, int n2) {
-        this.env.getLogChannel().log(-2137614336, "Navigation#notifyPowerListenerOnExitState( %1 ) ", (long)n);
+        this.env.getLogChannel().log(10000000, "Navigation#notifyPowerListenerOnExitState( %1 ) ", (long)n);
         if (n == 2) {
             this.getMapInterface().notifyPowerListenerOnExitState();
         }
         this.clusterService.notifyPowerListenerOnExitState(n, n2);
     }
 
-    @Override
     public void notifyPowerTriggerAction(int n, int n2) {
         this.clusterService.notifyPowerTriggerAction(n, n2);
     }
 
-    @Override
     public void updateClampState(boolean bl, boolean bl2, boolean bl3, boolean bl4) {
-        this.env.getLogChannel().log(-2137614336, "Navigation#updateClampState() - clampS: %1, clamp15: %2, clampX: %3 ", bl, bl2, bl3);
+        this.env.getLogChannel().log(10000000, "Navigation#updateClampState() - clampS: %1, clamp15: %2, clampX: %3 ", bl, bl2, bl3);
         if (!bl2) {
             boolean bl5 = Boolean.getBoolean("demoModeIgnoreClamp");
-            this.env.getLogChannel().log(-2137614336, "Navigation#updateClampState() - demoModeIgnoreClamp: %1 ", bl5);
+            this.env.getLogChannel().log(10000000, "Navigation#updateClampState() - demoModeIgnoreClamp: %1 ", bl5);
             if (this.env.getContainer().isEtcDemoMode() && !bl5) {
                 CommandList commandList = this.commandListFactory.createCommandList(1);
                 commandList.add(new RGStopGuidanceCommand());
@@ -1173,7 +1213,7 @@ INaviComponent {
     }
 
     public void updateLockingState(boolean bl) {
-        this.env.getLogChannel().log(-2137614336, "Navigation#updateLockingState( %1 )", (Object)(bl ? "LOCK" : "UNLOCK"));
+        this.env.getLogChannel().log(10000000, "Navigation#updateLockingState( %1 )", (Object)(bl ? "LOCK" : "UNLOCK"));
         this.naviInterface.setFeatureToBeLocked(bl);
         this.mapManager.updateLockingState(bl);
         this.clusterService.getCombiBAPListener().updateLockingState(bl);
@@ -1277,7 +1317,6 @@ INaviComponent {
         this.poiService.vehicleStatesEventsProviderAdded(iVehicleStatesEventsProvider);
     }
 
-    @Override
     public void start(BundleContext bundleContext) {
         try {
             this.sdsController.start(bundleContext);
@@ -1314,7 +1353,6 @@ INaviComponent {
         }
     }
 
-    @Override
     public void stop(BundleContext bundleContext) {
         try {
             this.sdsController.stop(bundleContext);
@@ -1383,10 +1421,10 @@ INaviComponent {
 
     public void setViewSizeManager(IViewSizeManager iViewSizeManager) {
         if (this.viewSizeChangeHandler != null) {
-            this.env.getLogChannel().log(-2137614336, "Navigation#setViewSizeManager()");
+            this.env.getLogChannel().log(10000000, "Navigation#setViewSizeManager()");
             this.viewSizeChangeHandler.setViewSizeManager(iViewSizeManager);
         } else {
-            this.env.getLogChannel().log(-2137614336, "Navigation#setViewSizeManager() - viewSizeChangeHandler is null");
+            this.env.getLogChannel().log(10000000, "Navigation#setViewSizeManager() - viewSizeChangeHandler is null");
         }
     }
 
@@ -1456,10 +1494,6 @@ INaviComponent {
         catch (ClassNotFoundException classNotFoundException) {
             throw new NoClassDefFoundError().initCause(classNotFoundException);
         }
-    }
-
-    static {
-        instance = null;
     }
 }
 

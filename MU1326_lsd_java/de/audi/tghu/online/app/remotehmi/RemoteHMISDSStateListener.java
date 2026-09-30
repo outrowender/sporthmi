@@ -17,18 +17,15 @@ implements ISDSServiceStatusListener {
         this.remoteHmiService = remoteHMIService;
     }
 
-    @Override
     public void notifySDSDialogStarted() {
-        this.logChannel.log(-2137614336, "RemoteHMISDSStateListener#notifySDSDialogStarted: Called.");
+        this.logChannel.log(10000000, "RemoteHMISDSStateListener#notifySDSDialogStarted: Called.");
         this.remoteHmiService.getTTS().abort();
     }
 
-    @Override
     public void notifySDSDialogEnded() {
-        this.logChannel.log(-2137614336, "RemoteHMISDSStateListener#notifySDSDialogEnded: Called.");
+        this.logChannel.log(10000000, "RemoteHMISDSStateListener#notifySDSDialogEnded: Called.");
     }
 
-    @Override
     public void notifySDSDialogAborting() {
     }
 }

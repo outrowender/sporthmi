@@ -143,9 +143,9 @@ public class ToneEnv {
             return string;
         }
         int n2 = this.variantProvider.getTextConstantsMapper().mapToVariant(n);
-        this.lcHMI.log(-2137614336, "ToneEnv#getTranslatedText() - mapped id %1 to %2", (long)n, (long)n2);
+        this.lcHMI.log(10000000, "ToneEnv#getTranslatedText() - mapped id %1 to %2", (long)n, (long)n2);
         if (n2 == -1) {
-            this.lcHMI.log(-1601830656, "ToneEnv#getTranslatedText() - textID %1 is not variant-specific, use it directly!", (long)n);
+            this.lcHMI.log(100000, "ToneEnv#getTranslatedText() - textID %1 is not variant-specific, use it directly!", (long)n);
             n2 = n;
         }
         if ((string2 = this.hmiService.getText(n2)) == null || string2.equals("")) {

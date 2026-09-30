@@ -21,7 +21,7 @@ import org.osgi.framework.ServiceRegistration;
 public class PictureStoreProxyActivator
 extends AbstractFrameworkActivator
 implements IDSIClient {
-    private static final int INSTANCE_ID;
+    private static final int INSTANCE_ID = 0;
     private ServiceRegistration sRegPictureStoreProxy;
     private LogChannel logCh;
     private PictureStoreDSIListener pictureStoreDSIListener = null;
@@ -39,24 +39,22 @@ implements IDSIClient {
         return this.pictureStoreProxy;
     }
 
-    @Override
     protected void startInternal(BundleContext bundleContext) {
         this.logCh = this.framework.getLogChannel("Fw.PictureStore");
-        this.logCh.log(-2137614336, "PictureStoreProxyActivator#startLastMode initialize and start cmdListMgr");
-        CommandListManager commandListManager = new CommandListManager(new StringBuffer().append(super.getClass().getName()).append("_CmdListMgr").toString(), this.framework, this.logCh, null, null);
+        this.logCh.log(10000000, "PictureStoreProxyActivator#startLastMode initialize and start cmdListMgr");
+        CommandListManager commandListManager = new CommandListManager(new StringBuffer().append(this.getClass().getName()).append("_CmdListMgr").toString(), this.framework, this.logCh, null, null);
         commandListManager.start();
-        this.logCh.log(-2137614336, "PictureStoreProxyActivator#startLastMode initialize PictureStore Proxy and PictureStoreDSIListener");
+        this.logCh.log(10000000, "PictureStoreProxyActivator#startLastMode initialize PictureStore Proxy and PictureStoreDSIListener");
         PictureStoreDSIDefaultListener pictureStoreDSIDefaultListener = new PictureStoreDSIDefaultListener();
         this.pictureStoreProxy = new PictureStoreProxy(this.framework, commandListManager, this.logCh);
         this.pictureStoreProxy.setPictureStoreDSIDefaultHandler(pictureStoreDSIDefaultListener);
         this.pictureStoreDSIListener = new PictureStoreDSIListener(commandListManager, pictureStoreDSIDefaultListener);
         this.pictureStoreDSIListener.setPictureStoreProxy(this.pictureStoreProxy);
-        this.logCh.log(-2137614336, "PictureStoreProxyActivator#start called");
+        this.logCh.log(10000000, "PictureStoreProxyActivator#start called");
         this.dsiActivator = new DSIActivator(this.framework, (class$org$dsi$ifc$picturestore$DSIPictureStore == null ? (class$org$dsi$ifc$picturestore$DSIPictureStore = PictureStoreProxyActivator.class$("org.dsi.ifc.picturestore.DSIPictureStore")) : class$org$dsi$ifc$picturestore$DSIPictureStore).getName(), (class$org$dsi$ifc$picturestore$DSIPictureStoreListener == null ? (class$org$dsi$ifc$picturestore$DSIPictureStoreListener = PictureStoreProxyActivator.class$("org.dsi.ifc.picturestore.DSIPictureStoreListener")) : class$org$dsi$ifc$picturestore$DSIPictureStoreListener).getName(), new Integer(0), this.pictureStoreDSIListener, this);
         this.dsiActivator.start(bundleContext);
     }
 
-    @Override
     public void stop(BundleContext bundleContext) {
         if (this.sRegPictureStoreProxy != null) {
             this.sRegPictureStoreProxy.unregister();
@@ -69,9 +67,8 @@ implements IDSIClient {
         super.stop(bundleContext);
     }
 
-    @Override
     public void setDSI(DSIBase dSIBase) {
-        this.logCh.log(-2137614336, "PictureStoreProxyActivator#setDSI picture store DSI was found.");
+        this.logCh.log(10000000, "PictureStoreProxyActivator#setDSI picture store DSI was found.");
         DSIPictureStore dSIPictureStore = (DSIPictureStore)dSIBase;
         this.pictureStoreProxy.setDSIPictureStore(dSIPictureStore);
         if (dSIBase == null) {
@@ -86,7 +83,6 @@ implements IDSIClient {
         }
     }
 
-    @Override
     public int[] getAutoNotifications() {
         return new int[0];
     }

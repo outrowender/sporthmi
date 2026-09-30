@@ -7,7 +7,6 @@ import de.audi.tghu.navi.app.addressinput.IRestorable;
 import de.audi.tghu.navi.app.command.NavCommand;
 import de.audi.tghu.navi.app.li.IAdditionalStateInfo;
 import de.audi.tghu.navi.app.li.SpellerStack;
-import de.audi.tghu.navi.app.li.SpellerStack$StackElement;
 import de.audi.tghu.navi.app.li.sc.SpellerContext;
 import de.audi.tghu.navi.app.util.LocationFormatter;
 import org.dsi.ifc.navigation.LISpellerData;
@@ -52,18 +51,16 @@ extends NavCommand {
         this.restorable = iRestorable;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "LIGetStateCommand#execute() - calling liGetState() ");
+        this.logger.log(10000000, "LIGetStateCommand#execute() - calling liGetState() ");
         this.getDSINavigation().liGetState();
     }
 
-    @Override
     public void liGetStateResult(LISpellerData lISpellerData) {
-        this.logger.log(-2137614336, "LIGetStateCommand#liGetStateResult()");
-        SpellerStack$StackElement spellerStack$StackElement = new SpellerStack$StackElement(lISpellerData, this.element, this.categoryUid, this.infos, this.sc, this.restorable);
-        this.spellerStack.push(spellerStack$StackElement);
-        this.logger.log(-2137614336, "LIGetStateCommand#liGetStateResult  Stored( %1 )", (Object)LocationFormatter.formatLocationShort(this.dsiResponseContainer.getLiCurrentLD()));
+        this.logger.log(10000000, "LIGetStateCommand#liGetStateResult()");
+        SpellerStack.StackElement stackElement = new SpellerStack.StackElement(lISpellerData, this.element, this.categoryUid, this.infos, this.sc, this.restorable);
+        this.spellerStack.push(stackElement);
+        this.logger.log(10000000, "LIGetStateCommand#liGetStateResult  Stored( %1 )", (Object)LocationFormatter.formatLocationShort(this.dsiResponseContainer.getLiCurrentLD()));
         this.getCommandList().commandFinished();
     }
 }

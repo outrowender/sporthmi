@@ -13,15 +13,13 @@ extends NavCommand {
         this.nvcRange = n;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "%1#execute - nvcRange=%2", (Object)this.CLASS_NAME, (long)this.nvcRange);
+        this.logger.log(10000000, "%1#execute - nvcRange=%2", (Object)this.CLASS_NAME, (long)this.nvcRange);
         this.getDSINavigation().liSetNVCRange(this.nvcRange);
     }
 
-    @Override
     public void liResult(long l) {
-        this.logger.log(-2137614336, "%1#liResult - returnCode=%2", (Object)this.CLASS_NAME, l);
+        this.logger.log(10000000, "%1#liResult - returnCode=%2", (Object)this.CLASS_NAME, l);
         if (l == 0L) {
             this.getCommandList().commandFinished();
         } else {

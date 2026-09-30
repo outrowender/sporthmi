@@ -26,7 +26,6 @@ extends PoiResultsGeneralInputSequence {
         super(iPoiSpellerModelAccess, iCommandListFactory, poiSearchArea, navigationEnv, lIValueListElement, iVehicle, bl, iDetailsScreen);
     }
 
-    @Override
     public void start() {
         CommandList commandList = this.commandListFactory.createCommandList();
         commandList.add(new LISetCurrentLDCommand(this.getSpellerCountryLocation()));
@@ -34,23 +33,21 @@ extends PoiResultsGeneralInputSequence {
         commandList.execute("[PoiInput] PoiSpellerSearchInputSequence#start");
     }
 
-    @Override
     public void startSubstringSearch(IPoiSpellerModelAccess iPoiSpellerModelAccess) {
         if (this.hasActiveSubSequence()) {
             this.currentInputSequence.startSubstringSearch(iPoiSpellerModelAccess);
             return;
         }
-        this.env.getLogChannel().log(-2137614336, "[PoiInput] AbstractPoiSequence( %1 )#startSubstringSearch()", (Object)this.getStringId());
+        this.env.getLogChannel().log(10000000, "[PoiInput] AbstractPoiSequence( %1 )#startSubstringSearch()", (Object)this.getStringId());
         throw new UnsupportedOperationException("Cannot start a Substring Search Sequence from the current speller state.");
     }
 
-    @Override
     public void startBrands(IPoiSpellerModelAccess iPoiSpellerModelAccess) {
         if (this.hasActiveSubSequence()) {
             this.currentInputSequence.startBrands(iPoiSpellerModelAccess);
             return;
         }
-        this.env.getLogChannel().log(-2137614336, "[PoiInput] AbstractPoiSequence( %1 )#startBrands()", (Object)this.getStringId());
+        this.env.getLogChannel().log(10000000, "[PoiInput] AbstractPoiSequence( %1 )#startBrands()", (Object)this.getStringId());
         throw new UnsupportedOperationException("Cannot start brands sequence from the current speller state.");
     }
 
@@ -59,7 +56,6 @@ extends PoiResultsGeneralInputSequence {
         return this.transformLocationBySurrounding(navLocation);
     }
 
-    @Override
     protected String getStringId() {
         return "PoiSpellerSearchInputSequence";
     }

@@ -5,35 +5,54 @@ package de.audi.tghu.navi.app.map;
 
 import de.audi.atip.hmi.modelaccess.ChoiceModelApp;
 import de.audi.atip.hmi.modelaccess.ResourceLocatorModelApp;
-import de.audi.tghu.navi.app.map.ISatelliteMapsGUI$1;
 import de.audi.tghu.navi.app.map.IVisibleContext;
 import org.dsi.ifc.global.NavRectangle;
 
 public interface ISatelliteMapsGUI {
-    public static final ISatelliteMapsGUI NULL_GUI = new ISatelliteMapsGUI$1();
+    public static final ISatelliteMapsGUI NULL_GUI = new ISatelliteMapsGUI(){
 
-    default public void setSatelliteMapsProviderLogo(boolean bl) {
-    }
+        public void setSatelliteMapsProviderLogo(boolean bl) {
+        }
 
-    default public NavRectangle getCopyRightLogoPosition(IVisibleContext iVisibleContext, int n) {
-    }
+        public NavRectangle getCopyRightLogoPosition(IVisibleContext iVisibleContext, int n) {
+            return new NavRectangle();
+        }
 
-    default public void showFunctionCurrentlyNotAvailableHelpTextWithTimeout() {
-    }
+        public void showFunctionCurrentlyNotAvailableHelpTextWithTimeout() {
+        }
 
-    default public void showFunctionCurrentlyNotAvailableHelpText() {
-    }
+        public void showFunctionCurrentlyNotAvailableHelpText() {
+        }
 
-    default public void redrawFunctionCurrentlyNotAvailableHelpTextWithTimeout() {
-    }
+        public void redrawFunctionCurrentlyNotAvailableHelpTextWithTimeout() {
+        }
 
-    default public void cleanUp() {
-    }
+        public void cleanUp() {
+        }
 
-    default public ResourceLocatorModelApp getSatelliteMapResourceLocator(int n) {
-    }
+        public ResourceLocatorModelApp getSatelliteMapResourceLocator(int n) {
+            return null;
+        }
 
-    default public ChoiceModelApp getSatelliteMapChoiceModel(int n) {
-    }
+        public ChoiceModelApp getSatelliteMapChoiceModel(int n) {
+            return null;
+        }
+    };
+
+    public void setSatelliteMapsProviderLogo(boolean var1);
+
+    public NavRectangle getCopyRightLogoPosition(IVisibleContext var1, int var2);
+
+    public void showFunctionCurrentlyNotAvailableHelpTextWithTimeout();
+
+    public void showFunctionCurrentlyNotAvailableHelpText();
+
+    public void redrawFunctionCurrentlyNotAvailableHelpTextWithTimeout();
+
+    public void cleanUp();
+
+    public ResourceLocatorModelApp getSatelliteMapResourceLocator(int var1);
+
+    public ChoiceModelApp getSatelliteMapChoiceModel(int var1);
 }
 

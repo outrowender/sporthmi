@@ -11,7 +11,7 @@ import de.audi.tghu.swdl.app.list.ISwdlListItem;
 
 public class SwdlListItemMedium
 extends AbstractSwdlListItemText {
-    private static final String SWDL_CLASS_NAME;
+    private static final String SWDL_CLASS_NAME = "[SwdlMedium]";
     private ISelectionManager selectionManager;
 
     public SwdlListItemMedium(ISelectionManager iSelectionManager, ISwdlListItem iSwdlListItem, int n, boolean bl, AbstractSwdlTextFactory abstractSwdlTextFactory) {
@@ -24,19 +24,17 @@ extends AbstractSwdlListItemText {
         return this.selectionManager;
     }
 
-    @Override
     public void updateListRow(BaseListRow baseListRow) {
         baseListRow.setInteger(0, this.getId());
         baseListRow.setInteger(1, this.getSelectable() ? 1 : 0);
     }
 
-    @Override
     public void select(int n) {
         this.getSelectionManager().doSelectSourceMedium(n);
     }
 
     public String getSwdlClassName() {
-        return "[SwdlMedium]";
+        return SWDL_CLASS_NAME;
     }
 }
 

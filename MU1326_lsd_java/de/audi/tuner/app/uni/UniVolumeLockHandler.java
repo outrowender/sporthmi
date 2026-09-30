@@ -6,11 +6,11 @@ package de.audi.tuner.app.uni;
 import de.audi.tuner.app.TunerAudioMgmt;
 import de.audi.tuner.app.TunerModels;
 import de.audi.tuner.app.uni.UniDsiUpInfo;
-import de.audi.tuner.app.uni.UniVolumeLockHandler$DsiUpListener;
+import de.audi.tuner.app.uni.UnifiedStationExt;
 import de.esolutions.fw.util.commons.Buffer;
 
 class UniVolumeLockHandler {
-    final UniDsiUpInfo dsiUpListener = new UniVolumeLockHandler$DsiUpListener(this, null);
+    final UniDsiUpInfo dsiUpListener = new DsiUpListener();
     private boolean selectRunning = true;
     private final TunerAudioMgmt audio;
     private final TunerModels models;
@@ -40,23 +40,30 @@ class UniVolumeLockHandler {
         }
     }
 
-    static /* synthetic */ int access$102(UniVolumeLockHandler uniVolumeLockHandler, int n) {
-        uniVolumeLockHandler.audioStatus = n;
-        return uniVolumeLockHandler.audioStatus;
-    }
+    private class DsiUpListener
+    extends UniDsiUpInfo {
+        private DsiUpListener() {
+        }
 
-    static /* synthetic */ void access$200(UniVolumeLockHandler uniVolumeLockHandler) {
-        uniVolumeLockHandler.updateVolumeLock();
-    }
+        public void updateAudioStatus(int n) {
+            UniVolumeLockHandler.this.audioStatus = n;
+            UniVolumeLockHandler.this.updateVolumeLock();
+        }
 
-    static /* synthetic */ boolean access$302(UniVolumeLockHandler uniVolumeLockHandler, boolean bl) {
-        uniVolumeLockHandler.selectRunning = bl;
-        return uniVolumeLockHandler.selectRunning;
-    }
+        public void updateSelectedStation(UnifiedStationExt unifiedStationExt) {
+            UniVolumeLockHandler.this.audioStatus = unifiedStationExt.getAudioStatus();
+            UniVolumeLockHandler.this.updateVolumeLock();
+        }
 
-    static /* synthetic */ int access$402(UniVolumeLockHandler uniVolumeLockHandler, int n) {
-        uniVolumeLockHandler.detDevice = n;
-        return uniVolumeLockHandler.detDevice;
+        public void selectionIsRunning(boolean bl) {
+            UniVolumeLockHandler.this.selectRunning = bl;
+            UniVolumeLockHandler.this.updateVolumeLock();
+        }
+
+        public void updateDetectedDevice(int n) {
+            UniVolumeLockHandler.this.detDevice = n;
+            UniVolumeLockHandler.this.updateVolumeLock();
+        }
     }
 }
 

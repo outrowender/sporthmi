@@ -28,8 +28,8 @@ import java.util.Date;
 
 public class SemidynRGView
 implements IView {
-    protected static final int NO_ROAD_BLOCK;
-    protected static final int ROAD_BLOCK;
+    protected static final int NO_ROAD_BLOCK = 1;
+    protected static final int ROAD_BLOCK = 0;
     protected IMapPartialPopupHandler mapPartialPopupHandler;
     private ChoiceModelApp mBetterRouteAvailable;
     private MetricsModelApp mSDRSPopupMetrics;
@@ -47,12 +47,12 @@ implements IView {
     protected ButtonModelApp mVirtualBtnPopupIgnoreBlockedRoute;
     private ListModelApp mSBRSList;
     protected ChoiceModelApp roadBlockedModel;
-    public static final int ROAD_BLOCKED_FALSE;
-    public static final int ROAD_BLOCKED_TRUE;
+    public static final int ROAD_BLOCKED_FALSE = 0;
+    public static final int ROAD_BLOCKED_TRUE = 1;
     private RangeModelApp detoursModel;
-    public static final int ITEM_CURRENT_ROUTE;
-    public static final int ITEM_RECOMMENDED_ROUTE;
-    public static final int ITEM_DETOUR_DETAILS;
+    public static final int ITEM_CURRENT_ROUTE = 0;
+    public static final int ITEM_RECOMMENDED_ROUTE = 1;
+    public static final int ITEM_DETOUR_DETAILS = 2;
     private final LogChannel logger;
     protected NavigationEnv env;
 
@@ -64,26 +64,26 @@ implements IView {
     }
 
     protected void initModels(NavigationEnv navigationEnv) {
-        this.mBetterRouteAvailable = navigationEnv.getChoiceModel(-669055488);
-        this.mSDRSPopupMetrics = navigationEnv.getMetricsModel(-652278272);
-        this.mSDRSSavingTime = navigationEnv.getLabelModel(-1457519104);
-        this.mSDRSDetourSavingTimeMetrics = navigationEnv.getMetricsModel(1344538112);
-        this.mSdrsList = navigationEnv.getListModel(1125910016);
-        this.mSdrsMenu = navigationEnv.getMenuModel(690030080);
-        this.mSDRSTooltip = navigationEnv.getListModel(-2078407168);
+        this.mBetterRouteAvailable = navigationEnv.getChoiceModel(401368);
+        this.mSDRSPopupMetrics = navigationEnv.getMetricsModel(401369);
+        this.mSDRSSavingTime = navigationEnv.getLabelModel(401577);
+        this.mSDRSDetourSavingTimeMetrics = navigationEnv.getMetricsModel(402512);
+        this.mSdrsList = navigationEnv.getListModel(400451);
+        this.mSdrsMenu = navigationEnv.getMenuModel(401705);
+        this.mSDRSTooltip = navigationEnv.getListModel(401028);
         this.mSDRSTooltip.setMaxColumns(7);
         ListCell[] listCellArray = new ListCell[]{IntegerListCell.create(0), new TextListCell(""), new TextListCell(""), IntegerListCell.create(0), IntegerListCell.create(0), IntegerListCell.create(0), IntegerListCell.create(0)};
         this.mSDRSTooltip.addRow(listCellArray);
-        this.mSBRSList = navigationEnv.getListModel(1125910016);
-        this.mBtnShowBetterRoute = navigationEnv.getButtonModel(-199293440);
-        this.mBtnPopupShowBetterRoute = navigationEnv.getButtonModel(-165739008);
-        this.mBtnPopupIgnoreBetterRoute = navigationEnv.getButtonModel(186648064);
-        this.mVirtualBtnPopupIgnoreBetterRoute = navigationEnv.getButtonModel(2099381760);
-        this.mBtnPopupShowDetour = navigationEnv.getButtonModel(-148961792);
-        this.mBtnPopupIgnoreDetour = navigationEnv.getButtonModel(270534144);
-        this.mVirtualBtnPopupIgnoreBlockedRoute = navigationEnv.getButtonModel(2082604544);
-        this.roadBlockedModel = navigationEnv.getChoiceModel(-383646208);
-        this.detoursModel = navigationEnv.getRangeModel(-752679424);
+        this.mSBRSList = navigationEnv.getListModel(400451);
+        this.mBtnShowBetterRoute = navigationEnv.getButtonModel(401396);
+        this.mBtnPopupShowBetterRoute = navigationEnv.getButtonModel(401398);
+        this.mBtnPopupIgnoreBetterRoute = navigationEnv.getButtonModel(401419);
+        this.mVirtualBtnPopupIgnoreBetterRoute = navigationEnv.getButtonModel(402045);
+        this.mBtnPopupShowDetour = navigationEnv.getButtonModel(401399);
+        this.mBtnPopupIgnoreDetour = navigationEnv.getButtonModel(401424);
+        this.mVirtualBtnPopupIgnoreBlockedRoute = navigationEnv.getButtonModel(402044);
+        this.roadBlockedModel = navigationEnv.getChoiceModel(402153);
+        this.detoursModel = navigationEnv.getRangeModel(402387);
     }
 
     protected LogChannel getLogger() {
@@ -147,7 +147,7 @@ implements IView {
     }
 
     public void showSDRSTooltip(long l, long l2, int n, int n2, int n3, long l3) {
-        this.logger.log(-2137614336, "SemidynRGView#showSDRSTooltip( delay:%1ms, saving:%2ms )", l, l2);
+        this.logger.log(10000000, "SemidynRGView#showSDRSTooltip( delay:%1ms, saving:%2ms )", l, l2);
         String string = this.env.getTranslatedText(52, "Sperrung meiden");
         String string2 = l >= 0L ? MapUtils.formatTime(l) : "";
         String string3 = l2 >= 0L ? MapUtils.formatTime(l2) : string;
@@ -197,7 +197,7 @@ implements IView {
     }
 
     public void focusRoute(int n) {
-        this.getLogger().log(14808325, "SemidynRGView#focusRoute( %1 )", (long)n);
+        this.getLogger().log(100000000, "SemidynRGView#focusRoute( %1 )", (long)n);
         if (n == 0 || n == 1) {
             this.mSdrsMenu.setFocusedItem(1, FocusAdvice.KEEP_POSITION, -1L);
         }

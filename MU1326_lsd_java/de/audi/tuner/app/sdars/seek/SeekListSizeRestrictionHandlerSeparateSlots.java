@@ -22,13 +22,12 @@ extends AbstractSeekListSizeRistrictionHandler {
 
     public SeekListSizeRestrictionHandlerSeparateSlots(TunerBasics tunerBasics, SDARSDSISeekDownManager sDARSDSISeekDownManager, int n, int n2, int n3) {
         super(sDARSDSISeekDownManager);
-        this.seekListFullChoice = tunerBasics.getModels().getChoiceModel(1871249664);
+        this.seekListFullChoice = tunerBasics.getModels().getChoiceModel(100719);
         this.musicSlots = n;
         this.teamSlots = n2;
         this.trafficWeatherSlots = n3;
     }
 
-    @Override
     protected void onDSIUpdateSeekList(SeekEntry[] seekEntryArray) {
         int n;
         int n2 = 0;
@@ -81,7 +80,6 @@ extends AbstractSeekListSizeRistrictionHandler {
         }
     }
 
-    @Override
     public boolean isSeekListFull(int n) {
         switch (n) {
             case 1: 
@@ -94,7 +92,6 @@ extends AbstractSeekListSizeRistrictionHandler {
         return false;
     }
 
-    @Override
     public int getRemainingSpace(int n) {
         switch (n) {
             case 1: {

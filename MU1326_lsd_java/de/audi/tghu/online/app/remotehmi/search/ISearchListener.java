@@ -7,10 +7,8 @@ import org.dsi.ifc.search.Suggestion;
 import org.dsi.ifc.search.Token;
 
 public interface ISearchListener {
-    default public void triggerApplySearchFilter(int n, Token[] tokenArray) {
-    }
+    public void triggerApplySearchFilter(int var1, Token[] var2);
 
-    default public void handleSuggestion(Suggestion suggestion, String string) {
-    }
+    public void handleSuggestion(Suggestion var1, String var2);
 }
 

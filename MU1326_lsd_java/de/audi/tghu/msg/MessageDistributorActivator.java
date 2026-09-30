@@ -4,10 +4,10 @@
 package de.audi.tghu.msg;
 
 import de.audi.atip.activator.AbstractFrameworkActivator;
-import de.audi.atip.base.IFrameworkAccess;
-import de.audi.tghu.msg.MessageDistributorActivator$1;
+import de.audi.atip.msg.MsgListener;
 import de.audi.tghu.msg.MessageDistributorImpl;
 import org.osgi.framework.BundleContext;
+import org.osgi.framework.ServiceReference;
 import org.osgi.util.tracker.ServiceTracker;
 import org.osgi.util.tracker.ServiceTrackerCustomizer;
 
@@ -21,14 +21,32 @@ extends AbstractFrameworkActivator {
         super("MessageDistributor");
     }
 
-    @Override
     protected void startInternal(BundleContext bundleContext) {
         this.messageDistributor = new MessageDistributorImpl(this.framework);
-        this.tracker = new ServiceTracker(this.getBundleContext(), (class$de$audi$atip$msg$MsgListener == null ? (class$de$audi$atip$msg$MsgListener = MessageDistributorActivator.class$("de.audi.atip.msg.MsgListener")) : class$de$audi$atip$msg$MsgListener).getName(), (ServiceTrackerCustomizer)new MessageDistributorActivator$1(this));
+        this.tracker = new ServiceTracker(this.getBundleContext(), (class$de$audi$atip$msg$MsgListener == null ? (class$de$audi$atip$msg$MsgListener = MessageDistributorActivator.class$("de.audi.atip.msg.MsgListener")) : class$de$audi$atip$msg$MsgListener).getName(), new ServiceTrackerCustomizer(){
+
+            public Object addingService(ServiceReference serviceReference) {
+                Object object = MessageDistributorActivator.this.framework.getBundleCxt().getService(serviceReference);
+                if (object instanceof MsgListener) {
+                    MessageDistributorActivator.this.messageDistributor.addListener((MsgListener)object);
+                    return object;
+                }
+                MessageDistributorActivator.this.framework.getBundleCxt().ungetService(serviceReference);
+                return null;
+            }
+
+            public void modifiedService(ServiceReference serviceReference, Object object) {
+            }
+
+            public void removedService(ServiceReference serviceReference, Object object) {
+                if (object instanceof MsgListener) {
+                    MessageDistributorActivator.this.messageDistributor.removeListener((MsgListener)object);
+                }
+            }
+        });
         this.tracker.open();
     }
 
-    @Override
     public void stop(BundleContext bundleContext) {
         if (this.tracker != null) {
             this.tracker.close();
@@ -48,18 +66,6 @@ extends AbstractFrameworkActivator {
         catch (ClassNotFoundException classNotFoundException) {
             throw new NoClassDefFoundError().initCause(classNotFoundException);
         }
-    }
-
-    static /* synthetic */ IFrameworkAccess access$000(MessageDistributorActivator messageDistributorActivator) {
-        return messageDistributorActivator.framework;
-    }
-
-    static /* synthetic */ MessageDistributorImpl access$100(MessageDistributorActivator messageDistributorActivator) {
-        return messageDistributorActivator.messageDistributor;
-    }
-
-    static /* synthetic */ IFrameworkAccess access$200(MessageDistributorActivator messageDistributorActivator) {
-        return messageDistributorActivator.framework;
     }
 }
 

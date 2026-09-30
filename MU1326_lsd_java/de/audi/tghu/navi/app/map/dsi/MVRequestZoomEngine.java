@@ -31,7 +31,6 @@ implements DSIMapViewerZoomEngine {
         return this.mDSIZE != null;
     }
 
-    @Override
     protected void cleanup() {
         super.cleanup();
     }
@@ -48,19 +47,17 @@ implements DSIMapViewerZoomEngine {
         return (MVResponseZoomEngine)this.getResponser();
     }
 
-    @Override
     protected DSIBase getDSIBase() {
         return this.mDSIZE;
     }
 
-    @Override
     public void autoZoomEnable(boolean bl) {
         if (!this.isDSIZEAvailable()) {
             this.getLogger().log(10000, "MVRequestZoomEngine#autoZoomEnable() - DSIZE not available!");
             return;
         }
         try {
-            this.getLogger().log(-2137614336, "MVRequestZoomEngine#autoZoomEnable(%1)", bl);
+            this.getLogger().log(10000000, "MVRequestZoomEngine#autoZoomEnable(%1)", bl);
             this.mDSIZE.autoZoomEnable(bl);
         }
         catch (Exception exception) {
@@ -68,14 +65,13 @@ implements DSIMapViewerZoomEngine {
         }
     }
 
-    @Override
     public void manoeuvreZoomEnable(boolean bl) {
         if (!this.isDSIZEAvailable()) {
             this.getLogger().log(10000, "MVRequestZoomEngine#manoeuvreZoomEnable() - DSIZE not available!");
             return;
         }
         try {
-            this.getLogger().log(-2137614336, "MVRequestZoomEngine#manoeuvreZoomEnable(%1)", bl);
+            this.getLogger().log(10000000, "MVRequestZoomEngine#manoeuvreZoomEnable(%1)", bl);
             this.mDSIZE.manoeuvreZoomEnable(bl);
         }
         catch (Exception exception) {
@@ -83,7 +79,6 @@ implements DSIMapViewerZoomEngine {
         }
     }
 
-    @Override
     public void resetMemberVariables() {
         this.mOrientation = -1;
         this.mViewtype = -1;
@@ -92,7 +87,6 @@ implements DSIMapViewerZoomEngine {
         this.mZoomArea = new Rect(0, 0, 0, 0);
     }
 
-    @Override
     public void setViewType(int n) {
         if (this.mViewtype != n) {
             if (!this.isDSIZEAvailable()) {
@@ -100,7 +94,7 @@ implements DSIMapViewerZoomEngine {
                 return;
             }
             try {
-                this.getLogger().log(-2137614336, "MVRequestZoomEngine#setViewType(%1)", (long)n);
+                this.getLogger().log(10000000, "MVRequestZoomEngine#setViewType(%1)", (long)n);
                 this.mDSIZE.setViewType(n);
                 this.mViewtype = n;
             }
@@ -110,7 +104,6 @@ implements DSIMapViewerZoomEngine {
         }
     }
 
-    @Override
     public void setCarPosition(Point point) {
         if (null != this.mScreenCarPosition && (this.mScreenCarPosition.xPos != point.xPos || this.mScreenCarPosition.yPos != point.yPos)) {
             if (!this.isDSIZEAvailable()) {
@@ -118,7 +111,7 @@ implements DSIMapViewerZoomEngine {
                 return;
             }
             try {
-                this.getLogger().log(-2137614336, "MVRequestZoomEngine#setCarPosition(%1)", (Object)point);
+                this.getLogger().log(10000000, "MVRequestZoomEngine#setCarPosition(%1)", (Object)point);
                 this.mDSIZE.setCarPosition(point);
                 this.mScreenCarPosition = point;
             }
@@ -128,7 +121,6 @@ implements DSIMapViewerZoomEngine {
         }
     }
 
-    @Override
     public void setMapRotation(short s) {
         if (this.mMapRotation != s) {
             if (!this.isDSIZEAvailable()) {
@@ -136,7 +128,7 @@ implements DSIMapViewerZoomEngine {
                 return;
             }
             try {
-                this.getLogger().log(-2137614336, "MVRequestZoomEngine#setMapRotation(%1)", (long)s);
+                this.getLogger().log(10000000, "MVRequestZoomEngine#setMapRotation(%1)", (long)s);
                 this.mDSIZE.setMapRotation(s);
                 this.mMapRotation = s;
             }
@@ -153,7 +145,7 @@ implements DSIMapViewerZoomEngine {
                 return;
             }
             try {
-                this.getLogger().log(-2137614336, "MVRequestZoomEngine#setMapOrientation(%1)", (long)n);
+                this.getLogger().log(10000000, "MVRequestZoomEngine#setMapOrientation(%1)", (long)n);
                 this.mDSIZE.setMapOrientation(n, new Point());
                 this.mOrientation = n;
             }
@@ -163,7 +155,6 @@ implements DSIMapViewerZoomEngine {
         }
     }
 
-    @Override
     public void setMapOrientation(int n, Point point) {
         if (this.mOrientation != n) {
             if (!this.isDSIZEAvailable()) {
@@ -171,7 +162,7 @@ implements DSIMapViewerZoomEngine {
                 return;
             }
             try {
-                this.getLogger().log(-2137614336, "MVRequestZoomEngine#setMapOrientation(%2, %1)", (Object)point, (long)n);
+                this.getLogger().log(10000000, "MVRequestZoomEngine#setMapOrientation(%2, %1)", (Object)point, (long)n);
                 this.mDSIZE.setMapOrientation(n, point);
                 this.mOrientation = n;
             }
@@ -181,10 +172,9 @@ implements DSIMapViewerZoomEngine {
         }
     }
 
-    @Override
     public void setZoomArea(Rect rect) {
         if (rect == null) {
-            this.getLogger().log(-1601830656, "MVRequestZoomEngine#setZoomArea( null )");
+            this.getLogger().log(100000, "MVRequestZoomEngine#setZoomArea( null )");
             return;
         }
         if (null != this.mZoomArea && (this.mZoomArea.kordX != rect.kordX || this.mZoomArea.kordY != rect.kordY || this.mZoomArea.diffX != rect.diffX || this.mZoomArea.diffY != rect.diffY)) {
@@ -193,7 +183,7 @@ implements DSIMapViewerZoomEngine {
                 return;
             }
             try {
-                this.getLogger().log(-2137614336, "MVRequestZoomEngine#setZoomArea(%1)", (Object)rect);
+                this.getLogger().log(10000000, "MVRequestZoomEngine#setZoomArea(%1)", (Object)rect);
                 this.mDSIZE.setZoomArea(rect);
                 this.mZoomArea = rect;
             }

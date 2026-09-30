@@ -20,10 +20,10 @@ import org.dsi.ifc.navigation.DSICombinedRouteList;
 import org.dsi.ifc.navigation.DSINavigation;
 
 public class DSINavigationManager {
-    public static final int DSI_MAIN;
-    public static final int DSI_REMOTE;
-    public static final int DSI_MAX;
-    public static final String DSI_REMOTE_KEY;
+    public static final int DSI_MAIN = 0;
+    public static final int DSI_REMOTE = 1;
+    public static final int DSI_MAX = 2;
+    public static final String DSI_REMOTE_KEY = "DSI_NAVI_REMOTE";
     private final CommandListManager commandListManager;
     private final LogChannel logChannel;
     private final DSINavigation[] navigationDSIs = new DSINavigation[2];
@@ -44,34 +44,34 @@ public class DSINavigationManager {
         if (0 <= n && n < 2) {
             return this.navigationDispatchers[n];
         }
-        this.logChannel.log(-1601830656, "DSINavigationManager#getDispatcher() - invalid dsiType: %1", (long)n);
+        this.logChannel.log(100000, "DSINavigationManager#getDispatcher() - invalid dsiType: %1", (long)n);
         return null;
     }
 
     public void setDSINavigation(DSINavigation dSINavigation, int n) {
-        this.logChannel.log(-2137614336, "DSINavigationManager#setDSINavigation( %1, %2 )", (Object)dSINavigation, (long)n);
+        this.logChannel.log(10000000, "DSINavigationManager#setDSINavigation( %1, %2 )", (Object)dSINavigation, (long)n);
         if (0 <= n && n < 2) {
             this.navigationDSIs[n] = dSINavigation;
         } else {
-            this.logChannel.log(-1601830656, "DSINavigationManager#setDSINavigation() - invalid dsiType: %1", (long)n);
+            this.logChannel.log(100000, "DSINavigationManager#setDSINavigation() - invalid dsiType: %1", (long)n);
         }
     }
 
     public void setDSIBlocking(DSIBlocking dSIBlocking, int n) {
-        this.logChannel.log(-2137614336, "DSINavigationManager#setDSIBlocking( %1, %2 )", (Object)dSIBlocking, (long)n);
+        this.logChannel.log(10000000, "DSINavigationManager#setDSIBlocking( %1, %2 )", (Object)dSIBlocking, (long)n);
         if (0 <= n && n < 2) {
             this.blockingDSIs[n] = dSIBlocking;
         } else {
-            this.logChannel.log(-1601830656, "DSINavigationManager#setDSIBlocking() - invalid dsiType: %1", (long)n);
+            this.logChannel.log(100000, "DSINavigationManager#setDSIBlocking() - invalid dsiType: %1", (long)n);
         }
     }
 
     public void setDSICombinedRouteList(DSICombinedRouteList dSICombinedRouteList, int n) {
-        this.logChannel.log(-2137614336, "DSINavigationManager#setDSICombinedRouteList( %1, %2 )", (Object)dSICombinedRouteList, (long)n);
+        this.logChannel.log(10000000, "DSINavigationManager#setDSICombinedRouteList( %1, %2 )", (Object)dSICombinedRouteList, (long)n);
         if (0 <= n && n < 2) {
             this.combinedRouteListDSIs[n] = dSICombinedRouteList;
         } else {
-            this.logChannel.log(-1601830656, "DSINavigationManager#setDSICombinedRouteList() - invalid dsiType: %1", (long)n);
+            this.logChannel.log(100000, "DSINavigationManager#setDSICombinedRouteList() - invalid dsiType: %1", (long)n);
         }
     }
 
@@ -79,7 +79,7 @@ public class DSINavigationManager {
         if (0 <= n && n < 2) {
             return this.navigationDSIs[n];
         }
-        this.logChannel.log(-1601830656, "DSINavigationManager#getDSINavigation() - invalid dsiType: %1", (long)n);
+        this.logChannel.log(100000, "DSINavigationManager#getDSINavigation() - invalid dsiType: %1", (long)n);
         return null;
     }
 
@@ -87,7 +87,7 @@ public class DSINavigationManager {
         if (0 <= n && n < 2) {
             return this.blockingDSIs[n];
         }
-        this.logChannel.log(-1601830656, "DSINavigationManager#getDSIBlocking() - invalid dsiType: %1", (long)n);
+        this.logChannel.log(100000, "DSINavigationManager#getDSIBlocking() - invalid dsiType: %1", (long)n);
         return null;
     }
 
@@ -95,7 +95,7 @@ public class DSINavigationManager {
         if (0 <= n && n < 2) {
             return this.combinedRouteListDSIs[n];
         }
-        this.logChannel.log(-1601830656, "DSINavigationManager#getDSICombinedRouteList() - invalid dsiType: %1", (long)n);
+        this.logChannel.log(100000, "DSINavigationManager#getDSICombinedRouteList() - invalid dsiType: %1", (long)n);
         return null;
     }
 
@@ -118,19 +118,19 @@ public class DSINavigationManager {
     }
 
     public static int getDSIType(ICommandList iCommandList) {
-        return iCommandList.get("DSI_NAVI_REMOTE") != null ? 1 : 0;
+        return iCommandList.get(DSI_REMOTE_KEY) != null ? 1 : 0;
     }
 
     public static void setDSIType(CommandList commandList, int n) {
         if (n == 1) {
-            commandList.put("DSI_NAVI_REMOTE", "true");
+            commandList.put(DSI_REMOTE_KEY, "true");
         } else {
-            commandList.remove("DSI_NAVI_REMOTE");
+            commandList.remove(DSI_REMOTE_KEY);
         }
     }
 
     public void setNavigationMode(int n) {
-        this.logChannel.log(-2137614336, "DSINavigationManager#setNavigationMode( %1 )", (long)n);
+        this.logChannel.log(10000000, "DSINavigationManager#setNavigationMode( %1 )", (long)n);
         int n2 = n == 0 ? 0 : 1;
         this.navigationDispatchers[n2].propagateDSIData();
     }
@@ -142,11 +142,11 @@ public class DSINavigationManager {
     public void abortExecution(String string, int n) {
         switch (n) {
             case 0: {
-                this.commandListManager.abortExecution(string, "DSI_NAVI_REMOTE", true);
+                this.commandListManager.abortExecution(string, DSI_REMOTE_KEY, true);
                 break;
             }
             case 1: {
-                this.commandListManager.abortExecution(string, "DSI_NAVI_REMOTE", false);
+                this.commandListManager.abortExecution(string, DSI_REMOTE_KEY, false);
                 break;
             }
             default: {

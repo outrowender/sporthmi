@@ -4,6 +4,7 @@
 package de.audi.tv.app.base;
 
 import de.audi.atip.interapp.displaymanager.IDisplayManagerService;
+import de.audi.atip.interapp.tv.ITVComponentListener;
 import de.audi.atip.log.LogChannel;
 import de.audi.tv.app.EWS;
 import de.audi.tv.app.FullscreenHandler;
@@ -19,10 +20,9 @@ import de.audi.tv.app.audio.MuteHandler;
 import de.audi.tv.app.audio.TVAudioSDISConnectionRetryTimer;
 import de.audi.tv.app.audio.TVAudioService;
 import de.audi.tv.app.audio.TunerAnnouncementHandler;
+import de.audi.tv.app.base.DefaultMessageListener;
 import de.audi.tv.app.base.MessageHandler;
 import de.audi.tv.app.base.NotificationHandler;
-import de.audi.tv.app.base.TVAppCommon$ComponentCallListener;
-import de.audi.tv.app.base.TVAppCommon$ResetListener;
 import de.audi.tv.app.base.TVEnv;
 import de.audi.tv.app.base.TVEventDispatcher;
 import de.audi.tv.app.base.TvTunerStateTracker;
@@ -64,13 +64,13 @@ import de.audi.tv.app.tm.handling.DisplayManagerHandler;
 import de.audi.tv.app.tm.handling.DisplayModeHandler;
 import de.audi.tv.app.tm.handling.TerminalAndScreenModeHandler;
 import de.audi.tv.app.tm.handling.TerminalModeMisc;
-import de.audi.tv.app.util.Handler$Builder;
+import de.audi.tv.app.util.Handler;
 import org.dsi.ifc.displaymanagement.DSIDisplayManagement;
 import org.dsi.ifc.tvtuner.DSITVTuner;
 
 public class TVAppCommon {
     public final DSIHandler dsiHandler;
-    public final TVAppCommon$ComponentCallListener componentCallListener;
+    public final ComponentCallListener componentCallListener;
     public final DSITVTunerListenerImpl dsiListener;
     final DisplayManagerListenerImpl dsiDisplayListener;
     public final TVEventDispatcher tvEventDispatcher;
@@ -111,12 +111,12 @@ public class TVAppCommon {
     TVAppCommon(TVEnv tVEnv) {
         this.env = tVEnv;
         LogChannel logChannel = tVEnv.lcMain;
-        logChannel.log(-2137614336, "[TVApp.new]");
+        logChannel.log(10000000, "[TVApp.new]");
         this.cmdManager = new TVCmdManager(tVEnv.lcCmd, tVEnv.framework);
         this.mapper = new StationMapper();
         this.tvEventDispatcher = new TVEventDispatcher(tVEnv, tVEnv.lcMain, 20);
         this.dsiHandler = new DSIHandler(tVEnv.lcDSI, this.tvEventDispatcher);
-        this.componentCallListener = new TVAppCommon$ComponentCallListener(this);
+        this.componentCallListener = new ComponentCallListener();
         this.dsiListener = new DSITVTunerListenerImpl(tVEnv.lcDSI);
         this.dsiDisplayListener = new DisplayManagerListenerImpl(tVEnv.lcDSI);
         TVStateNotifier tVStateNotifier = new TVStateNotifier(tVEnv);
@@ -124,7 +124,7 @@ public class TVAppCommon {
         this.notificationHandler = new NotificationHandler(tVEnv.lcDSI, this.dsiHandler, this.dsiListener);
         this.hmiApplication = new TVHMIApplication(tVEnv);
         this.storage = new TVStorage(tVEnv);
-        this.ewsBeep = new EWSBeepHandler(tVEnv.lcMain, new Handler$Builder().setDispatcher(tVEnv.dispatchBase));
+        this.ewsBeep = new EWSBeepHandler(tVEnv.lcMain, new Handler.Builder().setDispatcher(tVEnv.dispatchBase));
         this.audioListener = new TVAudioService(tVEnv.lcAudio, this.ewsBeep.playerListener);
         this.audioListener.addChildAudioServiceListener(new TVAudioSDISConnectionRetryTimer(this.audioListener, tVEnv.lcAudio));
         this.sourceManager = new SourceManager(tVEnv, this.dsiHandler, this.storage, this.notificationHandler);
@@ -163,7 +163,7 @@ public class TVAppCommon {
         this.normAreaSublist = new NormAreaSublist(tVEnv, this.dsiHandler);
         this.interappManager = new TvSdisManager(tVEnv, this.dsiHandler, this.mapper, this.keyPanelHandler, this.stateTracker.interappConnectionListener, this.sourceActivatorAdapter);
         this.msgHandler = new MessageHandler(tVEnv.lcMain);
-        this.menuModelListener = new TVMenuModelListener(tVEnv, new int[]{-492034304, -1666439424});
+        this.menuModelListener = new TVMenuModelListener(tVEnv, new int[]{2600162, 2600092});
         this.taHandler = new TunerAnnouncementHandler(tVEnv);
         this.sdsServiceHandler = new TVServiceHandler(tVEnv.lcSDS, tVEnv, this.storage);
         this.sdsServiceListener = new TVServiceImpl(tVEnv.lcSDS, this.focusHandler, this.dsiHandler, this.notificationHandler, this.sourceActivatorAdapter);
@@ -200,14 +200,14 @@ public class TVAppCommon {
         this.stationList.registerListener(this.interappManager.listsListener);
         this.stationList.registerListener(this.combiBAPHandler.listsListener);
         this.stationList.registerListener(this.sdsServiceHandler.listsListener);
-        this.msgHandler.addMessageListener(new TVAppCommon$ResetListener(this, null));
+        this.msgHandler.addMessageListener(new ResetListener());
         this.msgHandler.addMessageListener(this.tvEventDispatcher.messageListener);
         this.tvEngineering.startTimer();
-        tVEnv.lcMain.log(-2137614336, "[TVApp.new] done");
+        tVEnv.lcMain.log(10000000, "[TVApp.new] done");
     }
 
     public void resetSettings(boolean bl, boolean bl2) {
-        this.env.lcMain.log(1078071040, "[TVApp.resetSettings] sys %1, pers %2", bl, bl2);
+        this.env.lcMain.log(1000000, "[TVApp.resetSettings] sys %1, pers %2", bl, bl2);
         this.tvEventDispatcher.makeFactoryReset();
         this.stationList.resetToDefault();
         this.settings.resetToDefault(bl, bl2);
@@ -236,6 +236,65 @@ public class TVAppCommon {
         this.osd.deinit();
         this.settings.deinit();
         this.dsiListener.removeListeners();
+    }
+
+    private class ResetListener
+    extends DefaultMessageListener {
+        private ResetListener() {
+        }
+
+        public void reset(boolean bl, boolean bl2) {
+            TVAppCommon.this.resetSettings(bl, bl2);
+        }
+    }
+
+    public class ComponentCallListener
+    extends DSICallListener {
+        private ITVComponentListener componentListener;
+        private boolean startCalled;
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void startComponent(int n, int n2, int n3) {
+            ITVComponentListener iTVComponentListener;
+            ComponentCallListener componentCallListener = this;
+            synchronized (componentCallListener) {
+                iTVComponentListener = this.componentListener;
+                this.startCalled = true;
+            }
+            if (iTVComponentListener != null) {
+                iTVComponentListener.startComponenCalled();
+            }
+        }
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void stopComponent(int n, int n2, int n3) {
+            ITVComponentListener iTVComponentListener;
+            ComponentCallListener componentCallListener = this;
+            synchronized (componentCallListener) {
+                iTVComponentListener = this.componentListener;
+                this.startCalled = false;
+            }
+            if (iTVComponentListener != null) {
+                iTVComponentListener.stopComponentCalled();
+            }
+        }
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void setListener(ITVComponentListener iTVComponentListener) {
+            ComponentCallListener componentCallListener = this;
+            synchronized (componentCallListener) {
+                this.componentListener = iTVComponentListener;
+            }
+            if (this.componentListener != null && this.startCalled) {
+                iTVComponentListener.startComponenCalled();
+            }
+        }
     }
 }
 

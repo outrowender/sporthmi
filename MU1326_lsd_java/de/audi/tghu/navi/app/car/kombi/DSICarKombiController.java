@@ -28,21 +28,17 @@ BundleActivator {
         this.dsiActivator = new DSIActivator(iFrameworkAccess, (class$org$dsi$ifc$carkombi$DSICarKombi == null ? (class$org$dsi$ifc$carkombi$DSICarKombi = DSICarKombiController.class$("org.dsi.ifc.carkombi.DSICarKombi")) : class$org$dsi$ifc$carkombi$DSICarKombi).getName(), (class$org$dsi$ifc$carkombi$DSICarKombiListener == null ? (class$org$dsi$ifc$carkombi$DSICarKombiListener = DSICarKombiController.class$("org.dsi.ifc.carkombi.DSICarKombiListener")) : class$org$dsi$ifc$carkombi$DSICarKombiListener).getName(), new Integer(this.carKombiInstance), this.dsiCarKombiListener, this);
     }
 
-    @Override
     public void setDSI(DSIBase dSIBase) {
     }
 
-    @Override
     public int[] getAutoNotifications() {
         return this.dsiCarKombiListener.getAutoNotifications();
     }
 
-    @Override
     public void start(BundleContext bundleContext) {
         this.dsiActivator.start(bundleContext);
     }
 
-    @Override
     public void stop(BundleContext bundleContext) {
         if (this.dsiActivator != null) {
             this.dsiActivator.stop(bundleContext);

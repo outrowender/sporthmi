@@ -13,21 +13,19 @@ extends NavCommand {
         this.language = string;
     }
 
-    @Override
     public void execute() {
         String string = this.dsiResponseContainer.getLanguage();
         if (!this.language.equalsIgnoreCase(string)) {
-            this.logger.log(-2137614336, "SetLanguageCommand#execute() - calling setLanguage( %1 -> %2 ) ", (Object)string, (Object)this.language);
+            this.logger.log(10000000, "SetLanguageCommand#execute() - calling setLanguage( %1 -> %2 ) ", (Object)string, (Object)this.language);
             this.getDSINavigation().setLanguage(this.language);
         } else {
-            this.logger.log(-2137614336, "SetLanguageCommand#execute() - language: %1 already set! ", (Object)this.language);
+            this.logger.log(10000000, "SetLanguageCommand#execute() - language: %1 already set! ", (Object)this.language);
             this.getCommandList().commandFinished();
         }
     }
 
-    @Override
     public void updateLanguage(String string) {
-        this.logger.log(-2137614336, "SetLanguageCommand#updateLanguage( %1 ) ", (Object)string);
+        this.logger.log(10000000, "SetLanguageCommand#updateLanguage( %1 ) ", (Object)string);
         super.updateLanguage(string);
         this.getCommandList().commandFinished();
     }

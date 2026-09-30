@@ -9,7 +9,7 @@ import java.io.FilenameFilter;
 
 public class j
 implements FilenameFilter {
-    private static final int a;
+    private static final int a = 500;
     private int b = 0;
     private String c = "ics";
     private boolean d = false;
@@ -18,11 +18,10 @@ implements FilenameFilter {
         this.c = string;
     }
 
-    @Override
     public boolean accept(File file, String string) {
         if (this.b >= 500) {
             if (!this.d) {
-                de.eso.a.d.b.d(new StringBuffer().append("more then 500*.").append(this.c).append(" files found in directory. Ignore the rest of files").toString());
+                de.eso.a.d.b.d("more then 500*." + this.c + " files found in directory. Ignore the rest of files");
             }
             this.d = true;
             return false;

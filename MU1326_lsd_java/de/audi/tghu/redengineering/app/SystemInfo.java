@@ -20,17 +20,17 @@ import java.io.IOException;
 import java.util.StringTokenizer;
 
 public final class SystemInfo {
-    private static final int DISPLAY_NOTHING;
-    private static final int DISPLAY_CPU;
-    private static final int DISPLAY_MEM;
-    private static final int DISPLAY_CPU_MEM;
-    private static final int DISPLAY_DAB_INFO;
+    private static final int DISPLAY_NOTHING = 0;
+    private static final int DISPLAY_CPU = 1;
+    private static final int DISPLAY_MEM = 2;
+    private static final int DISPLAY_CPU_MEM = 3;
+    private static final int DISPLAY_DAB_INFO = 4;
     private int prodMode = 0;
     private long memMin = Long.MAX_VALUE;
     private long memMax = Long.MIN_VALUE;
     private int displayFlag = 0;
-    private static final String SYSLOAD_DATA_NAME;
-    private static final String SYSLOAD_DATA_NAME_NEW;
+    private static final String SYSLOAD_DATA_NAME = "/dev/cpumeter/mmx";
+    private static final String SYSLOAD_DATA_NAME_NEW = "/dev/cpumeter/mmx_cpu";
     private File sysLoadDataFile = null;
     private int[] loadCpu = null;
     private int sysMemInUse = -1;
@@ -43,7 +43,7 @@ public final class SystemInfo {
         String string = this.getEnv().getMostTrainVersion();
         this.getSystemLabel(151).setText(string);
         this.getSystemLabel(340).setText(string);
-        this.getLabel(1138103040).setText(this.getEnv().getHUSwVersion());
+        this.getLabel(1300035).setText(this.getEnv().getHUSwVersion());
         if (this.getEnv().isPBuild() || this.getEnv().isSimulator()) {
             this.displayFlag = 0;
         } else {
@@ -57,17 +57,17 @@ public final class SystemInfo {
             this.displayFlag = 0;
         }
         this.updateUseStatusLabel();
-        this.getLabel(1708528384).setText(this.getEnv().getTextToolVersion());
-        this.getLabel(1859523328).setText(this.getEnv().getOptionDrawerVersion());
+        this.getLabel(1300069).setText(this.getEnv().getTextToolVersion());
+        this.getLabel(1300078).setText(this.getEnv().getOptionDrawerVersion());
         if (System.getProperty("enableTouchCrosshair") != null) {
             this.getSystemChoice(102).setValue(1);
         }
         if (this.getEnv().isTarget()) {
             this.sysLoadDataFile = this.getSysLoadDataFile();
             if (null != this.sysLoadDataFile) {
-                this.getLogMain().log(-1601830656, "System load file %1 exists and is readable!", (Object)this.sysLoadDataFile);
+                this.getLogMain().log(100000, "System load file %1 exists and is readable!", (Object)this.sysLoadDataFile);
             } else {
-                this.getLogMain().log(-1601830656, "System load file %1 not found!", (Object)this.sysLoadDataFile);
+                this.getLogMain().log(100000, "System load file %1 not found!", (Object)this.sysLoadDataFile);
             }
         }
     }
@@ -112,11 +112,11 @@ public final class SystemInfo {
     }
 
     public String getMemoryValue(long l) {
-        return Long.toString(l > 0 ? (l > 0 ? l / 0 : l / 0) : l);
+        return Long.toString(l > 1024L ? (l > 0x100000L ? l / 0x100000L : l / 1024L) : l);
     }
 
     public String getUnit(long l) {
-        return l > 0 ? (l > 0 ? "MB" : "kB") : "B";
+        return l > 1024L ? (l > 0x100000L ? "MB" : "kB") : "B";
     }
 
     private boolean isProductionFlag() {
@@ -131,7 +131,7 @@ public final class SystemInfo {
      * WARNING - Removed try catching itself - possible behaviour change.
      */
     private synchronized void refreshLoadData() {
-        this.getLogMain().log(1078071040, "refreshLoadData()");
+        this.getLogMain().log(1000000, "refreshLoadData()");
         this.sysMemInUse = -1;
         if (this.sysLoadDataFile != null) {
             FileInputStream fileInputStream = null;
@@ -141,7 +141,7 @@ public final class SystemInfo {
                 int n = fileInputStream.read(byArray);
                 if (n >= 5) {
                     String string = new String(byArray, 0, n, "ASCII");
-                    this.getLogMain().log(-2137614336, "CPUmeter raw data %1", (Object)string);
+                    this.getLogMain().log(10000000, "CPUmeter raw data %1", (Object)string);
                     int n2 = string.indexOf(" | ");
                     if (n2 > 0) {
                         String string2 = string.substring(n2 + 3).trim();
@@ -166,7 +166,7 @@ public final class SystemInfo {
                         } else {
                             this.loadCpu = new int[]{Integer.parseInt(string2)};
                         }
-                        this.getLogMain().log(-2137614336, "CPUmeter Load %1, Memory %2", (Object)this.loadCpu, (long)this.sysMemInUse);
+                        this.getLogMain().log(10000000, "CPUmeter Load %1, Memory %2", (Object)this.loadCpu, (long)this.sysMemInUse);
                     }
                 }
             }
@@ -184,7 +184,7 @@ public final class SystemInfo {
                         fileInputStream.close();
                     }
                     catch (IOException iOException) {
-                        this.getLogMain().log(-1601830656, "closing system file '%1' failed!", (Object)this.sysLoadDataFile);
+                        this.getLogMain().log(100000, "closing system file '%1' failed!", (Object)this.sysLoadDataFile);
                     }
                 }
             }
@@ -210,7 +210,7 @@ public final class SystemInfo {
         if (n < 0 || n > 4) {
             n = 0;
         }
-        this.getLogMain().log(-2137614336, "Loaded statusline mode is: %1", (long)n);
+        this.getLogMain().log(10000000, "Loaded statusline mode is: %1", (long)n);
         return n;
     }
 
@@ -244,10 +244,10 @@ public final class SystemInfo {
         this.refreshLoadData();
         if ((long)this.sysMemInUse > this.memMax) {
             this.memMax = this.sysMemInUse;
-            this.getLabel(1339429632).setText(new StringBuffer().append(this.getMemoryValue(this.sysMemInUse)).append(this.getUnit(this.sysMemInUse)).toString());
+            this.getLabel(1300047).setText(this.getMemoryValue(this.sysMemInUse) + this.getUnit(this.sysMemInUse));
         } else if ((long)this.sysMemInUse < this.memMin) {
             this.memMin = this.sysMemInUse;
-            this.getLabel(1322652416).setText(new StringBuffer().append(this.getMemoryValue(this.sysMemInUse)).append(this.getUnit(this.sysMemInUse)).toString());
+            this.getLabel(1300046).setText(this.getMemoryValue(this.sysMemInUse) + this.getUnit(this.sysMemInUse));
         }
         Buffer buffer = new Buffer();
         if ((this.displayFlag & 2) != 0) {
@@ -280,9 +280,9 @@ public final class SystemInfo {
     }
 
     private File getSysLoadDataFile() {
-        File file = new File("/dev/cpumeter/mmx_cpu");
+        File file = new File(SYSLOAD_DATA_NAME_NEW);
         if (!file.exists() || !file.canRead()) {
-            file = new File("/dev/cpumeter/mmx");
+            file = new File(SYSLOAD_DATA_NAME);
         }
         if (file.exists() && file.canRead()) {
             return file;
@@ -291,16 +291,16 @@ public final class SystemInfo {
     }
 
     public void fillParameter() {
-        this.getLabel(1289097984).setText(" \u00b0C");
-        this.getLabel(1305875200).setText(new StringBuffer().append(this.getEnv().getFOTTemp()).append(" \u00b0C").toString());
-        this.getLabel(1322652416).setText("");
-        this.getLabel(1339429632).setText("");
-        this.getLabel(1372984064).setText(" - ");
-        this.getLabel(1389761280).setText("false");
+        this.getLabel(1300044).setText(" \u00b0C");
+        this.getLabel(1300045).setText(this.getEnv().getFOTTemp() + " \u00b0C");
+        this.getLabel(1300046).setText("");
+        this.getLabel(1300047).setText("");
+        this.getLabel(1300049).setText(" - ");
+        this.getLabel(1300050).setText("false");
     }
 
     protected void fillSwAuthorizationList() {
-        ListModelApp listModelApp = this.getList(584454912);
+        ListModelApp listModelApp = this.getList(1300002);
         listModelApp.clear();
         listModelApp.setMaxRows(100);
         listModelApp.setMaxColumns(2);

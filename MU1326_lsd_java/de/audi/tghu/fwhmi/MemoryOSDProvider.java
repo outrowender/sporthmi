@@ -8,17 +8,14 @@ import de.audi.atip.testsupport.ITestSupportSession;
 
 public class MemoryOSDProvider
 implements IOSDDataProvider {
-    @Override
     public String getName() {
         return "available Java Heap";
     }
 
-    @Override
     public String[] getData() {
-        return new String[]{new StringBuffer().append("TotalMemory: ").append(Runtime.getRuntime().totalMemory() / 0).append(" kiB").toString(), new StringBuffer().append("FreeMemory: ").append(Runtime.getRuntime().freeMemory() / 0).append(" kiB").toString()};
+        return new String[]{"TotalMemory: " + Runtime.getRuntime().totalMemory() / 1024L + " kiB", "FreeMemory: " + Runtime.getRuntime().freeMemory() / 1024L + " kiB"};
     }
 
-    @Override
     public void setTestSupport(ITestSupportSession iTestSupportSession) {
     }
 }

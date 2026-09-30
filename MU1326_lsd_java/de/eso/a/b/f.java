@@ -6,34 +6,24 @@ package de.eso.a.b;
 import java.io.File;
 
 public interface f {
-    default public void a(String string) {
-    }
+    public void a(String var1);
 
-    default public void b(String string) {
-    }
+    public void b(String var1);
 
-    default public void c(String string) {
-    }
+    public void c(String var1);
 
-    default public void a(String string, int n) {
-    }
+    public void a(String var1, int var2);
 
-    default public void a(File file, int n) {
-    }
+    public void a(File var1, int var2);
 
-    default public void a(byte[] byArray, int n) {
-    }
+    public void a(byte[] var1, int var2);
 
-    default public void d() {
-    }
+    public void d();
 
-    default public void e() {
-    }
+    public void e();
 
-    default public void d(String string) {
-    }
+    public void d(String var1);
 
-    default public boolean g() {
-    }
+    public boolean g();
 }
 

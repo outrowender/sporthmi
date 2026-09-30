@@ -4,7 +4,6 @@
 package de.audi.tghu.navi.app.command.block;
 
 public interface IWaitForBlockingAvailableListener {
-    default public void updateBlockingAvailable(boolean bl) {
-    }
+    public void updateBlockingAvailable(boolean var1);
 }
 

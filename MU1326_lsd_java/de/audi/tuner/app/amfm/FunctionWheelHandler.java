@@ -3,8 +3,10 @@
  */
 package de.audi.tuner.app.amfm;
 
+import de.audi.atip.hmi.model.DefaultRangeListener;
 import de.audi.atip.hmi.modelaccess.LabelModelApp;
 import de.audi.atip.hmi.modelaccess.RangeModelApp;
+import de.audi.atip.timer.DefaultTimerListener;
 import de.audi.atip.timer.Timer;
 import de.audi.tuner.app.Logger;
 import de.audi.tuner.app.TunerBasics;
@@ -12,11 +14,6 @@ import de.audi.tuner.app.TunerModels;
 import de.audi.tuner.app.Utilities;
 import de.audi.tuner.app.amfm.AMFMStation;
 import de.audi.tuner.app.amfm.AMFMTuner;
-import de.audi.tuner.app.amfm.FunctionWheelHandler$DsiDownListener;
-import de.audi.tuner.app.amfm.FunctionWheelHandler$DsiUpListener;
-import de.audi.tuner.app.amfm.FunctionWheelHandler$MyRangeListener;
-import de.audi.tuner.app.amfm.FunctionWheelHandler$TimerListener;
-import de.audi.tuner.app.amfm.FunctionWheelHandler$TunerActionProxyListenerExt;
 import de.audi.tuner.app.amfm.dsi.AMFMDsiDownInfo;
 import de.audi.tuner.app.amfm.dsi.AMFMDsiUpInfo;
 import de.audi.tuner.app.ap.TunerActionProxyListener;
@@ -24,9 +21,9 @@ import de.audi.tuner.ifc.IScanHandler;
 import org.dsi.ifc.radio.WavebandInfo;
 
 class FunctionWheelHandler {
-    public final AMFMDsiUpInfo dsiUpListener = new FunctionWheelHandler$DsiUpListener(this, null);
-    public final AMFMDsiDownInfo dsiDownListener = new FunctionWheelHandler$DsiDownListener(this, null);
-    public final TunerActionProxyListener actionProxyListener = new FunctionWheelHandler$TunerActionProxyListenerExt(this, null);
+    public final AMFMDsiUpInfo dsiUpListener = new DsiUpListener();
+    public final AMFMDsiDownInfo dsiDownListener = new DsiDownListener();
+    public final TunerActionProxyListener actionProxyListener = new TunerActionProxyListenerExt();
     private final Timer tuneTimer;
     private final Timer afBlockTimer;
     private final Timer updateBlockTimer;
@@ -50,14 +47,14 @@ class FunctionWheelHandler {
         this.amFmTuner = aMFMTuner;
         this.bandInfo = new WavebandInfo(n, 0L, 0L, 0L, 0L);
         this.scanHandler = iScanHandler;
-        FunctionWheelHandler$TimerListener functionWheelHandler$TimerListener = new FunctionWheelHandler$TimerListener(this, null);
-        this.tuneTimer = new Timer(new StringBuffer().append("tuneTimer").append(this.bandInfo.waveband).toString(), 5, this.logger.timer, functionWheelHandler$TimerListener, 0, true);
-        this.afBlockTimer = new Timer("AF-block", 0, true, functionWheelHandler$TimerListener);
-        this.updateBlockTimer = new Timer(new StringBuffer().append("updateBlockTimer").append(this.bandInfo.waveband).toString(), 5, this.logger.timer, functionWheelHandler$TimerListener, 0, true);
+        TimerListener timerListener = new TimerListener();
+        this.tuneTimer = new Timer(new StringBuffer().append("tuneTimer").append(this.bandInfo.waveband).toString(), 5, this.logger.timer, timerListener, 100L, true);
+        this.afBlockTimer = new Timer("AF-block", 30000L, true, timerListener);
+        this.updateBlockTimer = new Timer(new StringBuffer().append("updateBlockTimer").append(this.bandInfo.waveband).toString(), 5, this.logger.timer, timerListener, 2000L, true);
         this.range = rangeModelApp;
         this.range.setStatus(1);
         this.freqLabel = labelModelApp;
-        this.range.setRangeListener(new FunctionWheelHandler$MyRangeListener(this, null));
+        this.range.setRangeListener(new MyRangeListener());
     }
 
     public long getPosition() {
@@ -66,8 +63,8 @@ class FunctionWheelHandler {
 
     private void setResultName() {
         this.freqLabel.setText(FunctionWheelHandler.constructFrequencyString(this.bandInfo.waveband, this.position));
-        this.models.getChoiceModel(1233649920).setValue(0);
-        this.models.getLabelModel(1166672128).setText("");
+        this.models.getChoiceModel(100425).setValue(0);
+        this.models.getLabelModel(100933).setText("");
         this.range.setValue((int)this.position);
     }
 
@@ -86,20 +83,20 @@ class FunctionWheelHandler {
      */
     private void update(AMFMStation aMFMStation) {
         if (this.bandInfo.waveband == aMFMStation.waveband) {
-            this.logger.amfmDeepDebug.log(-2137614336, "[FWH.update] %1", (Object)aMFMStation);
+            this.logger.amfmDeepDebug.log(10000000, "[FWH.update] %1", (Object)aMFMStation);
             Object object = this.mutex;
             synchronized (object) {
                 if (this.updateBlockTimer.isRunning()) {
-                    this.logger.amfmDeepDebug.log(14808325, "[FWH.update] store blocked");
+                    this.logger.amfmDeepDebug.log(100000000, "[FWH.update] store blocked");
                     this.blockedStation = aMFMStation;
                     this.activeStation = aMFMStation;
                 } else {
                     if (this.checkAfJump(aMFMStation) && this.afBlockTimer.isRunning()) {
                         this.afJumpStation = aMFMStation;
-                        this.logger.amfmDeepDebug.log(14808325, "[FWH.update] store AF-jump");
+                        this.logger.amfmDeepDebug.log(100000000, "[FWH.update] store AF-jump");
                         return;
                     }
-                    this.logger.amfmDeepDebug.log(14808325, "[FWH.update] delete AF-jump");
+                    this.logger.amfmDeepDebug.log(100000000, "[FWH.update] delete AF-jump");
                     this.afJumpStation = null;
                     this.activeStation = aMFMStation;
                     this.position = aMFMStation.frequency;
@@ -118,84 +115,127 @@ class FunctionWheelHandler {
         return n == 1 ? Utilities.kHzToMHz(l) : String.valueOf(l);
     }
 
-    static /* synthetic */ Logger access$500(FunctionWheelHandler functionWheelHandler) {
-        return functionWheelHandler.logger;
+    private class DsiUpListener
+    extends AMFMDsiUpInfo {
+        private DsiUpListener() {
+        }
+
+        public void updateSelectedStation(AMFMStation aMFMStation) {
+            FunctionWheelHandler.this.update(aMFMStation);
+        }
+
+        public void updateSeekStation(AMFMStation aMFMStation) {
+            FunctionWheelHandler.this.update(aMFMStation);
+        }
+
+        public void updateWavebandInfoList(WavebandInfo[] wavebandInfoArray) {
+            FunctionWheelHandler.this.updateWavebandInfoList(wavebandInfoArray);
+        }
     }
 
-    static /* synthetic */ IScanHandler access$600(FunctionWheelHandler functionWheelHandler) {
-        return functionWheelHandler.scanHandler;
+    private class TimerListener
+    extends DefaultTimerListener {
+        private TimerListener() {
+        }
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void fireTimer(Timer timer) {
+            ((FunctionWheelHandler)FunctionWheelHandler.this).logger.amfmDeepDebug.log(10000000, "[FWH.fireTimer] %1", (Object)timer.getName());
+            if (timer.equals(FunctionWheelHandler.this.tuneTimer)) {
+                AMFMStation aMFMStation = new AMFMStation();
+                aMFMStation.frequency = FunctionWheelHandler.this.result;
+                aMFMStation.pi = -1;
+                aMFMStation.waveband = ((FunctionWheelHandler)FunctionWheelHandler.this).bandInfo.waveband;
+                aMFMStation.serviceId = 1;
+                FunctionWheelHandler.this.amFmTuner.tuneStation(aMFMStation, true, false, 0);
+                ((FunctionWheelHandler)FunctionWheelHandler.this).amFmTuner.audio.demute();
+            } else {
+                if (timer.equals(FunctionWheelHandler.this.updateBlockTimer)) {
+                    Object object = FunctionWheelHandler.this.mutex;
+                    synchronized (object) {
+                        if (FunctionWheelHandler.this.blockedStation != null) {
+                            FunctionWheelHandler.this.update(FunctionWheelHandler.this.blockedStation);
+                            FunctionWheelHandler.this.blockedStation = null;
+                        }
+                    }
+                }
+                if (timer.equals(FunctionWheelHandler.this.afBlockTimer)) {
+                    Object object = FunctionWheelHandler.this.mutex;
+                    synchronized (object) {
+                        if (FunctionWheelHandler.this.afJumpStation != null) {
+                            FunctionWheelHandler.this.update(new AMFMStation(FunctionWheelHandler.this.afJumpStation));
+                            FunctionWheelHandler.this.afJumpStation = null;
+                        }
+                    }
+                }
+            }
+        }
     }
 
-    static /* synthetic */ Timer access$700(FunctionWheelHandler functionWheelHandler) {
-        return functionWheelHandler.updateBlockTimer;
+    private class DsiDownListener
+    extends AMFMDsiDownInfo {
+        private DsiDownListener() {
+        }
+
+        public void preTuneAction(AMFMStation aMFMStation, boolean bl) {
+            FunctionWheelHandler.this.update(aMFMStation);
+        }
     }
 
-    static /* synthetic */ Timer access$800(FunctionWheelHandler functionWheelHandler) {
-        return functionWheelHandler.afBlockTimer;
+    private class MyRangeListener
+    extends DefaultRangeListener {
+        private MyRangeListener() {
+        }
+
+        public void decrement(int n, int n2, int n3) {
+            ((FunctionWheelHandler)FunctionWheelHandler.this).logger.benchmark.log(10000000, "decrement %1", (long)n2);
+            if (n2 != 0) {
+                FunctionWheelHandler.this.scanHandler.abortScan();
+                FunctionWheelHandler.this.updateBlockTimer.restart();
+                FunctionWheelHandler.this.afBlockTimer.restart();
+                FunctionWheelHandler.this.result = FunctionWheelHandler.this.position - (long)n2;
+                if (FunctionWheelHandler.this.result < ((FunctionWheelHandler)FunctionWheelHandler.this).bandInfo.lowerLimit) {
+                    FunctionWheelHandler.this.result = ((FunctionWheelHandler)FunctionWheelHandler.this).bandInfo.upperLimit;
+                }
+                FunctionWheelHandler.this.position = FunctionWheelHandler.this.result;
+                FunctionWheelHandler.this.setResultName();
+                FunctionWheelHandler.this.tuneTimer.restart();
+            }
+            ((FunctionWheelHandler)FunctionWheelHandler.this).logger.benchmark.log(10000000, "decrement left");
+        }
+
+        public void increment(int n, int n2, int n3) {
+            ((FunctionWheelHandler)FunctionWheelHandler.this).logger.benchmark.log(10000000, "increment %1", (long)n2);
+            if (n2 != 0) {
+                FunctionWheelHandler.this.scanHandler.abortScan();
+                FunctionWheelHandler.this.updateBlockTimer.restart();
+                FunctionWheelHandler.this.afBlockTimer.restart();
+                FunctionWheelHandler.this.result = FunctionWheelHandler.this.position + (long)n2;
+                if (FunctionWheelHandler.this.result > ((FunctionWheelHandler)FunctionWheelHandler.this).bandInfo.upperLimit) {
+                    FunctionWheelHandler.this.result = ((FunctionWheelHandler)FunctionWheelHandler.this).bandInfo.lowerLimit;
+                }
+                FunctionWheelHandler.this.position = FunctionWheelHandler.this.result;
+                FunctionWheelHandler.this.setResultName();
+                FunctionWheelHandler.this.tuneTimer.restart();
+            }
+            ((FunctionWheelHandler)FunctionWheelHandler.this).logger.benchmark.log(10000000, "increment left");
+        }
     }
 
-    static /* synthetic */ long access$902(FunctionWheelHandler functionWheelHandler, long l) {
-        functionWheelHandler.result = l;
-        return functionWheelHandler.result;
-    }
+    private class TunerActionProxyListenerExt
+    extends TunerActionProxyListener {
+        private TunerActionProxyListenerExt() {
+        }
 
-    static /* synthetic */ long access$1000(FunctionWheelHandler functionWheelHandler) {
-        return functionWheelHandler.position;
-    }
-
-    static /* synthetic */ long access$900(FunctionWheelHandler functionWheelHandler) {
-        return functionWheelHandler.result;
-    }
-
-    static /* synthetic */ WavebandInfo access$1100(FunctionWheelHandler functionWheelHandler) {
-        return functionWheelHandler.bandInfo;
-    }
-
-    static /* synthetic */ long access$1002(FunctionWheelHandler functionWheelHandler, long l) {
-        functionWheelHandler.position = l;
-        return functionWheelHandler.position;
-    }
-
-    static /* synthetic */ void access$1200(FunctionWheelHandler functionWheelHandler) {
-        functionWheelHandler.setResultName();
-    }
-
-    static /* synthetic */ Timer access$1300(FunctionWheelHandler functionWheelHandler) {
-        return functionWheelHandler.tuneTimer;
-    }
-
-    static /* synthetic */ void access$1400(FunctionWheelHandler functionWheelHandler, AMFMStation aMFMStation) {
-        functionWheelHandler.update(aMFMStation);
-    }
-
-    static /* synthetic */ void access$1500(FunctionWheelHandler functionWheelHandler, WavebandInfo[] wavebandInfoArray) {
-        functionWheelHandler.updateWavebandInfoList(wavebandInfoArray);
-    }
-
-    static /* synthetic */ AMFMTuner access$1600(FunctionWheelHandler functionWheelHandler) {
-        return functionWheelHandler.amFmTuner;
-    }
-
-    static /* synthetic */ Object access$1700(FunctionWheelHandler functionWheelHandler) {
-        return functionWheelHandler.mutex;
-    }
-
-    static /* synthetic */ AMFMStation access$1800(FunctionWheelHandler functionWheelHandler) {
-        return functionWheelHandler.blockedStation;
-    }
-
-    static /* synthetic */ AMFMStation access$1802(FunctionWheelHandler functionWheelHandler, AMFMStation aMFMStation) {
-        functionWheelHandler.blockedStation = aMFMStation;
-        return functionWheelHandler.blockedStation;
-    }
-
-    static /* synthetic */ AMFMStation access$1900(FunctionWheelHandler functionWheelHandler) {
-        return functionWheelHandler.afJumpStation;
-    }
-
-    static /* synthetic */ AMFMStation access$1902(FunctionWheelHandler functionWheelHandler, AMFMStation aMFMStation) {
-        functionWheelHandler.afJumpStation = aMFMStation;
-        return functionWheelHandler.afJumpStation;
+        public void manualTuneLeft() {
+            FunctionWheelHandler.this.afBlockTimer.cancel();
+            if (FunctionWheelHandler.this.afJumpStation != null) {
+                FunctionWheelHandler.this.update(new AMFMStation(FunctionWheelHandler.this.afJumpStation));
+                FunctionWheelHandler.this.afJumpStation = null;
+            }
+        }
     }
 }
 

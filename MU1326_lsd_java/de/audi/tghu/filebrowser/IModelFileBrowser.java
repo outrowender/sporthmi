@@ -8,16 +8,12 @@ import org.dsi.ifc.global.ResourceLocator;
 
 public interface IModelFileBrowser
 extends IFileBrowserSession {
-    default public int getFileCount() {
-    }
+    public int getFileCount();
 
-    default public boolean chdirUp() {
-    }
+    public boolean chdirUp();
 
-    default public ResourceLocator[] getResourceLocators(int n, int n2) {
-    }
+    public ResourceLocator[] getResourceLocators(int var1, int var2);
 
-    default public void importSpellerActive(boolean bl) {
-    }
+    public void importSpellerActive(boolean var1);
 }
 

@@ -19,7 +19,6 @@ extends AbstractHMIActivator {
         super(34, "WirelessCharging", System.getProperty("variant.skin", "EvoHighScale"), new WirelessChargingModelBank());
     }
 
-    @Override
     protected synchronized AbstractScreenFactory getScreenFactory() {
         if (this.instance == null) {
             this.instance = new WirelessChargingScreenFactory(this.getFramework());
@@ -27,7 +26,6 @@ extends AbstractHMIActivator {
         return this.instance;
     }
 
-    @Override
     public HMIConditionBank getConditionBank() {
         if (this.conditionBank == null) {
             this.conditionBank = new WirelessChargingConditionBank((WirelessChargingScreenFactory)this.getScreenFactory());

@@ -50,7 +50,7 @@ implements IAddressInputService {
     protected final IRouteManager routeManager;
     protected final LogChannel logChannel;
     protected final CityHistory cityHistory;
-    protected final String CLASS_NAME = Util.getClassNameFromPackageName(super.getClass());
+    protected final String CLASS_NAME = Util.getClassNameFromPackageName(this.getClass());
     protected final NaviADBHandler adbHandler;
     protected final INaviFavoriteHandler naviFavoriteHandler;
     protected final AsyncNavLocationExtractor asyncLiValueListNavLocationExctractor;
@@ -104,30 +104,24 @@ implements IAddressInputService {
         }
     }
 
-    protected abstract void initAddressInput() {
-    }
+    protected abstract void initAddressInput();
 
-    @Override
     public void start() {
         this.inputManager.start();
     }
 
-    @Override
     public void start(NavLocation navLocation) {
         this.inputManager.start(navLocation);
     }
 
-    @Override
     public void startWithoutStrip(NavLocation navLocation) {
         this.inputManager.startWithoutStrip(navLocation);
     }
 
-    @Override
     public void startForOnline() {
         this.inputManager.startForOnline();
     }
 
-    @Override
     public void startForRemoteHMI() {
         this.inputManager.startForRemoteHMI();
     }
@@ -140,62 +134,50 @@ implements IAddressInputService {
         return this.inputManager != null;
     }
 
-    @Override
     public NavLocation getBackupLocation() {
         return this.inputManager.getBackupLocation();
     }
 
-    @Override
     public void setBackupLocation(NavLocation navLocation) {
         this.inputManager.setBackupLocation(navLocation);
     }
 
-    @Override
     public void invalidateBackupLocation() {
         this.inputManager.invalidateBackupLocation();
     }
 
-    @Override
     public NavLocation getInitialLocation() {
         return this.inputManager.getInitialLocation();
     }
 
-    @Override
     public CommandList acceptGivenInput(AddressInputHandler addressInputHandler, NavLocation navLocation) {
         return this.inputManager.acceptGivenInput(addressInputHandler, navLocation);
     }
 
-    @Override
     public void persistBackupLocation(NavLocation navLocation) {
         this.inputManager.persistBackupLocation(navLocation);
     }
 
-    @Override
     public void onNewNaviServiceListener() {
         this.inputManager.onNewNaviServiceListener();
     }
 
-    @Override
     public void setPoiService(IPoiService iPoiService) {
         this.inputManager.setPoiService(iPoiService);
     }
 
-    @Override
     public void resetMemorySettings() {
         this.inputManager.resetMemorySettings();
     }
 
-    @Override
     public NavLocation getPersistedBackupLocation() {
         return this.inputManager.getPersistedBackupLocation();
     }
 
-    @Override
     public CommandList getStartAddressInputCommandList(NavLocation navLocation) {
         return this.getStartAddressInputCommandList(navLocation, this.startAddressInputWFMId);
     }
 
-    @Override
     public CommandList getStartAddressInputCommandList(NavLocation navLocation, int n) {
         CommandList commandList = this.commandListFactory.createCommandList();
         if (navLocation != null) {
@@ -204,22 +186,18 @@ implements IAddressInputService {
         return this.inputManager.handleAddressInputEvent(commandList, n);
     }
 
-    @Override
     public IAddressInputFormModelAccessHelper getModelAccessHelper() {
         return this.modelAccessHelper;
     }
 
-    @Override
     public void startCityZipInputSequence() {
         this.inputManager.executeAddressInputEvent(this.commandListFactory.createCommandList(), this.inputManager.getStartCityInputFromMainScreenEventId());
     }
 
-    @Override
     public void destAddressInputHKReturn(int n, int n2, Command command, Command command2) {
         this.inputManager.destAddressInputHKReturn(n, n2, command, command2);
     }
 
-    @Override
     public IAddressInputSDSForm getSDSAddressInputForm() {
         return this.addressInputSDSForm;
     }

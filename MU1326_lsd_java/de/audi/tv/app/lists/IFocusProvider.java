@@ -6,7 +6,6 @@ package de.audi.tv.app.lists;
 import de.audi.tv.app.lists.AbstractStationList;
 
 interface IFocusProvider {
-    default public AbstractStationList getFocusedList(int n) {
-    }
+    public AbstractStationList getFocusedList(int var1);
 }
 

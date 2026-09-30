@@ -3,16 +3,16 @@
  */
 package de.audi.tv.app.storage;
 
+import de.audi.tv.app.TVUtil;
 import de.audi.tv.app.base.ITVEventListener;
 import de.audi.tv.app.base.TVEnv;
+import de.audi.tv.app.base.TVEventDefaultListener;
 import de.audi.tv.app.dsi.DSICallListener;
 import de.audi.tv.app.dsi.DSIHandler;
 import de.audi.tv.app.dsi.DefaultTVListener;
 import de.audi.tv.app.settings.TVSettings;
-import de.audi.tv.app.storage.TVLastmode$DSICallListenerExt;
-import de.audi.tv.app.storage.TVLastmode$OnDSIHandlerStateChangedListenerImpl;
-import de.audi.tv.app.storage.TVLastmode$TVListenerImpl;
 import de.audi.tv.app.storage.TVStorage;
+import org.dsi.ifc.tvtuner.ProgramInfo;
 import org.dsi.ifc.tvtuner.ServiceInfo;
 
 public class TVLastmode {
@@ -20,8 +20,8 @@ public class TVLastmode {
     private final DSIHandler dsihandler;
     private final TVEnv env;
     private final TVSettings settings;
-    public final DefaultTVListener tvListener = new TVLastmode$TVListenerImpl(this, null);
-    public final DSICallListener dsiCallListener = new TVLastmode$DSICallListenerExt(this, null);
+    public final DefaultTVListener tvListener = new TVListenerImpl();
+    public final DSICallListener dsiCallListener = new DSICallListenerExt();
     public final ITVEventListener dsiHandlerLockedListener;
     private int currentTunerState = -1;
     private int currentTerminalMode = 0;
@@ -31,7 +31,7 @@ public class TVLastmode {
         this.dsihandler = dSIHandler;
         this.env = tVEnv;
         this.settings = tVSettings;
-        this.dsiHandlerLockedListener = new TVLastmode$OnDSIHandlerStateChangedListenerImpl(this, null);
+        this.dsiHandlerLockedListener = new OnDSIHandlerStateChangedListenerImpl();
     }
 
     private boolean isValidSource(int n) {
@@ -41,7 +41,7 @@ public class TVLastmode {
     private void restore(boolean bl) {
         int n = this.storage.getActiveSource();
         if (this.currentTunerState == 1 && this.isValidSource(n)) {
-            this.env.lcMain.log(1078071040, "[TVLastmode.restoreAfterSleep] activeSource:%1, terminalmode:%2", (long)n, (long)this.currentTerminalMode);
+            this.env.lcMain.log(1000000, "[TVLastmode.restoreAfterSleep] activeSource:%1, terminalmode:%2", (long)n, (long)this.currentTerminalMode);
             if (n == 0) {
                 ServiceInfo serviceInfo = this.storage.getTunedService();
                 serviceInfo.contentGroup = 0;
@@ -52,30 +52,60 @@ public class TVLastmode {
         }
     }
 
-    static /* synthetic */ int access$302(TVLastmode tVLastmode, int n) {
-        tVLastmode.currentTerminalMode = n;
-        return tVLastmode.currentTerminalMode;
+    private class TVListenerImpl
+    extends DefaultTVListener {
+        private TVListenerImpl() {
+        }
+
+        public void updateTerminalMode(int n, int n2) {
+            TVLastmode.this.currentTerminalMode = n;
+        }
+
+        public void updateTunerState(int n) {
+            ((TVLastmode)TVLastmode.this).env.lcMain.log(10000000, "[TVLastmode.updateTunerState] state:%1", (long)n);
+            boolean bl = TVLastmode.this.currentTunerState == 0 && n == 1;
+            TVLastmode.this.currentTunerState = n;
+            TVLastmode.this.restore(bl);
+        }
+
+        public void updateSelectedService(ProgramInfo programInfo) {
+            TVLastmode.this.storage.setTunedService(programInfo.serviceInfo);
+        }
     }
 
-    static /* synthetic */ TVEnv access$400(TVLastmode tVLastmode) {
-        return tVLastmode.env;
+    private class DSICallListenerExt
+    extends DSICallListener {
+        private DSICallListenerExt() {
+        }
+
+        public void selectService(ServiceInfo serviceInfo, boolean bl) {
+            TVLastmode.this.storage.setTunedService(serviceInfo);
+        }
+
+        public void switchSource(int n, boolean bl) {
+            ((TVLastmode)TVLastmode.this).env.lcMain.log(10000000, "[TVLastmode.switchSource] source:%1", (long)n);
+            int n2 = TVUtil.getInternalSourceRepresentation(n);
+            if (n2 != -1) {
+                TVLastmode.this.storage.setActiveSource(n2);
+            }
+        }
+
+        public void setTerminalMode(int n, int n2) {
+            TVLastmode.this.currentTerminalMode = n;
+        }
     }
 
-    static /* synthetic */ int access$500(TVLastmode tVLastmode) {
-        return tVLastmode.currentTunerState;
-    }
+    private class OnDSIHandlerStateChangedListenerImpl
+    extends TVEventDefaultListener {
+        private OnDSIHandlerStateChangedListenerImpl() {
+        }
 
-    static /* synthetic */ int access$502(TVLastmode tVLastmode, int n) {
-        tVLastmode.currentTunerState = n;
-        return tVLastmode.currentTunerState;
-    }
+        public void onDSILocked() {
+        }
 
-    static /* synthetic */ void access$600(TVLastmode tVLastmode, boolean bl) {
-        tVLastmode.restore(bl);
-    }
-
-    static /* synthetic */ TVStorage access$700(TVLastmode tVLastmode) {
-        return tVLastmode.storage;
+        public void onDSIUnlocked() {
+            TVLastmode.this.restore(false);
+        }
     }
 }
 

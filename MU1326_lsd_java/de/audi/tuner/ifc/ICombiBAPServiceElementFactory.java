@@ -6,7 +6,6 @@ package de.audi.tuner.ifc;
 import de.audi.tuner.ifc.ICombiBAPServiceElementBuilderAMFM;
 
 public interface ICombiBAPServiceElementFactory {
-    default public ICombiBAPServiceElementBuilderAMFM getServiceElementFactoryAMFM() {
-    }
+    public ICombiBAPServiceElementBuilderAMFM getServiceElementFactoryAMFM();
 }
 

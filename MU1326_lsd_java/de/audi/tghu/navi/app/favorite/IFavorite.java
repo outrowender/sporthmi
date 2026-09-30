@@ -4,28 +4,20 @@
 package de.audi.tghu.navi.app.favorite;
 
 public interface IFavorite {
-    default public long getUniqueID() {
-    }
+    public long getUniqueID();
 
-    default public String getFavoriteName() {
-    }
+    public String getFavoriteName();
 
-    default public String getHouseNumber() {
-    }
+    public String getHouseNumber();
 
-    default public String getStreet() {
-    }
+    public String getStreet();
 
-    default public String getCity() {
-    }
+    public String getCity();
 
-    default public int getLongitude() {
-    }
+    public int getLongitude();
 
-    default public int getLatitude() {
-    }
+    public int getLatitude();
 
-    default public byte[] getFavoriteLocation() {
-    }
+    public byte[] getFavoriteLocation();
 }
 

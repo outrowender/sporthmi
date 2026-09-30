@@ -11,7 +11,6 @@ import de.audi.tghu.system.sm.SystemSMMActions;
 
 public class Activator
 extends AbstractSMMActivator {
-    @Override
     public void init() {
         this.smmList = new SystemSMM[9];
         if (this.framework.isFrontMU()) {

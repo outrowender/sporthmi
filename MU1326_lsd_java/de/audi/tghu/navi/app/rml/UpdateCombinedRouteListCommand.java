@@ -22,11 +22,10 @@ extends NavCommand {
         this.route = route;
     }
 
-    @Override
     public void execute() {
         long l = this.dsiResponseContainer.getCombinedRouteListResultAnchorId();
         CombinedRouteListElement[] combinedRouteListElementArray = this.dsiResponseContainer.getCombinedRouteListResultCombinedRouteListElements();
-        this.env.getRMLLogChannel().log(-2137614336, "UpdateCombinedRouteListCommand#execute - list will be updated with requestID = %1, combinedRouteListResultAnchorId = %2", (long)this.requestId, l);
+        this.env.getRMLLogChannel().log(10000000, "UpdateCombinedRouteListCommand#execute - list will be updated with requestID = %1, combinedRouteListResultAnchorId = %2", (long)this.requestId, l);
         this.modelAccess.onUpdateList(l, combinedRouteListElementArray, this.requestId, this.openedAnchorId, this.route);
         this.getCommandList().commandFinished();
     }

@@ -11,7 +11,6 @@ import de.audi.atip.hmi.modelaccess.ChoiceModelApp;
 import de.audi.atip.hmi.modelaccess.LabelModelApp;
 import de.audi.atip.hmi.modelaccess.VirtualButtonModelApp;
 import de.audi.atip.log.LogChannel;
-import de.audi.tghu.navi.app.NavigationBrowser$FreetextSpeller;
 import de.audi.tghu.navi.app.NavigationBrowserCallbackHandler;
 import de.audi.tghu.navi.app.NavigationEnv;
 import de.audi.tghu.navi.app.util.Util;
@@ -19,12 +18,12 @@ import de.esolutions.fw.util.commons.Buffer;
 
 public class NavigationBrowser
 implements ButtonListener {
-    public static final String URL_PREFIX;
-    public static final String EXTURL_PREFIX;
-    public static final String EXTURL_PREFIX_SECURE;
-    public static final int DETAILS_SCREEN_NORMAL;
-    public static final int DETAILS_SCREEN_LOADING;
-    public static final int DETAILS_SCREEN_BROWSER;
+    public static final String URL_PREFIX = "file://";
+    public static final String EXTURL_PREFIX = "http://";
+    public static final String EXTURL_PREFIX_SECURE = "https://";
+    public static final int DETAILS_SCREEN_NORMAL = 0;
+    public static final int DETAILS_SCREEN_LOADING = 1;
+    public static final int DETAILS_SCREEN_BROWSER = 2;
     private final NavigationEnv env;
     private LogChannel logChannel;
     private final boolean[] visible = new boolean[8];
@@ -32,37 +31,37 @@ implements ButtonListener {
     private final String[] bufferedURL = new String[8];
     private final boolean[] deleteCache = new boolean[8];
     private final EfiUrlHandler[] efiUrlHandlers = new EfiUrlHandler[8];
-    private final NavigationBrowser$FreetextSpeller[] freetextSpellers = new NavigationBrowser$FreetextSpeller[8];
+    private final FreetextSpeller[] freetextSpellers = new FreetextSpeller[8];
     private ChoiceModelApp browserTypeChoice;
     private boolean[] browsersSuspended = new boolean[8];
 
     public NavigationBrowser(NavigationEnv navigationEnv) {
         this.env = navigationEnv;
         this.logChannel = navigationEnv.getLogChannel();
-        this.browserTypeChoice = navigationEnv.getChoiceModel(-1021573632);
-        navigationEnv.getButtonModel(-1508047360).setButtonListener(this);
-        navigationEnv.getButtonModel(-1524824576).setButtonListener(this);
-        navigationEnv.getButtonModel(-1541601792).setButtonListener(this);
+        this.browserTypeChoice = navigationEnv.getChoiceModel(400579);
+        navigationEnv.getButtonModel(400806).setButtonListener(this);
+        navigationEnv.getButtonModel(400805).setButtonListener(this);
+        navigationEnv.getButtonModel(400804).setButtonListener(this);
         for (int i2 = 0; i2 < 8; ++i2) {
             this.browsersSuspended[i2] = false;
         }
     }
 
     public void setBrowserHandler(IBrowserHandler iBrowserHandler, int n) {
-        this.logChannel.log(-2137614336, "NavigationBrowser#setBrowserHandler() -instance %1", (long)n);
+        this.logChannel.log(10000000, "NavigationBrowser#setBrowserHandler() -instance %1", (long)n);
         if (n != 2 || iBrowserHandler == null) {
-            this.logChannel.log(-1601830656, "NavigationBrowser#setBrowserHandler() - unknown instance: %1", (long)n);
+            this.logChannel.log(100000, "NavigationBrowser#setBrowserHandler() - unknown instance: %1", (long)n);
             this.browserHandlers[n] = null;
             return;
         }
         int n2 = 7;
-        VirtualButtonModelApp virtualButtonModelApp = this.env.getVirtualButtonModel(-1323235840);
-        ChoiceModelApp choiceModelApp = this.env.getChoiceModel(538904064);
-        ButtonModelApp buttonModelApp = this.env.getButtonModel(-2145384960);
-        ChoiceModelApp choiceModelApp2 = this.env.getChoiceModel(1696269824);
-        LabelModelApp labelModelApp = this.env.getLabelModel(1713047040);
-        ChoiceModelApp choiceModelApp3 = this.env.getChoiceModel(-585366016);
-        ChoiceModelApp choiceModelApp4 = this.env.getChoiceModel(1746601472);
+        VirtualButtonModelApp virtualButtonModelApp = this.env.getVirtualButtonModel(401841);
+        ChoiceModelApp choiceModelApp = this.env.getChoiceModel(401184);
+        ButtonModelApp buttonModelApp = this.env.getButtonModel(401536);
+        ChoiceModelApp choiceModelApp2 = this.env.getChoiceModel(400229);
+        LabelModelApp labelModelApp = this.env.getLabelModel(400230);
+        ChoiceModelApp choiceModelApp3 = this.env.getChoiceModel(400605);
+        ChoiceModelApp choiceModelApp4 = this.env.getChoiceModel(400232);
         this.browserHandlers[n] = iBrowserHandler;
         this.browserHandlers[n].setBrowserCallbackHandler(new NavigationBrowserCallbackHandler(this.env, this.logChannel));
         this.browserHandlers[n].initialize(virtualButtonModelApp, choiceModelApp, choiceModelApp3, choiceModelApp4, null, n2);
@@ -79,12 +78,12 @@ implements ButtonListener {
         }
     }
 
-    public void registerFreetextSpeller(NavigationBrowser$FreetextSpeller freetextSpeller, int n) {
+    public void registerFreetextSpeller(FreetextSpeller freetextSpeller, int n) {
         this.freetextSpellers[n] = freetextSpeller;
     }
 
     public void browserVisible(boolean bl, int n) {
-        this.logChannel.log(-2137614336, "NavigationBrowser#browserVisible( %1, %2 )", bl, (long)n);
+        this.logChannel.log(10000000, "NavigationBrowser#browserVisible( %1, %2 )", bl, (long)n);
         if (this.browserHandlers[n] == null) {
             this.logChannel.log(10000, "NavigationBrowser#browserVisible() - browser not ready [browserHandler[%1] == null]!", (long)n);
             return;
@@ -92,7 +91,7 @@ implements ButtonListener {
         this.visible[n] = bl;
         if (bl) {
             if (this.browsersSuspended[n]) {
-                this.logChannel.log(-2137614336, "NavigationBrowser#browserVisible() - resuming browser ( %1 )", (long)n);
+                this.logChannel.log(10000000, "NavigationBrowser#browserVisible() - resuming browser ( %1 )", (long)n);
                 this.browserHandlers[n].resumeBrowser();
                 this.browsersSuspended[n] = false;
                 if (!Util.isEmpty(this.bufferedURL[n])) {
@@ -100,22 +99,22 @@ implements ButtonListener {
                     this.bufferedURL[n] = null;
                 } else if (this.browserHandlers[n].getBrowserSyncModel() != null && this.browserHandlers[n].getBrowserSyncModel().getStatus() == 2 && this.browserHandlers[n].getLastActiveUrl() != null) {
                     String string = this.browserHandlers[n].getLastActiveUrl();
-                    this.logChannel.log(-2137614336, "NavigationBrowser#browserVisible() - last state was error, loading last URL again. %1", (Object)string);
+                    this.logChannel.log(10000000, "NavigationBrowser#browserVisible() - last state was error, loading last URL again. %1", (Object)string);
                     this.browserHandlers[n].loadUrl(string, false);
                 }
             } else {
                 if (!Util.isEmpty(this.bufferedURL[n])) {
-                    this.logChannel.log(-2137614336, "NavigationBrowser#browserVisible() - startBrowser( %1 ) - buffer set", (Object)this.bufferedURL[n]);
+                    this.logChannel.log(10000000, "NavigationBrowser#browserVisible() - startBrowser( %1 ) - buffer set", (Object)this.bufferedURL[n]);
                     this.browserHandlers[n].loadUrl(this.bufferedURL[n], this.deleteCache[n]);
                     this.bufferedURL[n] = null;
                 } else {
-                    this.logChannel.log(-2137614336, "NavigationBrowser#browserVisible() - startBrowser( ) - enter by history");
+                    this.logChannel.log(10000000, "NavigationBrowser#browserVisible() - startBrowser( ) - enter by history");
                     this.browserHandlers[n].loadUrl(null, false);
                 }
                 this.deleteCache[n] = false;
             }
         } else {
-            this.logChannel.log(-2137614336, "NavigationBrowser#browserVisible() - stopBrowser() ");
+            this.logChannel.log(10000000, "NavigationBrowser#browserVisible() - stopBrowser() ");
             if (this.freetextSpellers[n] != null) {
                 this.freetextSpellers[n].finishSpeller();
             }
@@ -126,12 +125,12 @@ implements ButtonListener {
 
     public boolean loadURL(int n, String string, boolean bl) {
         String string2 = string;
-        if (!(string2 == null || string2.startsWith("file://") || string2.startsWith("http://") || string2.startsWith("https://"))) {
-            string2 = new StringBuffer().append("file://").append(string2).toString();
+        if (!(string2 == null || string2.startsWith(URL_PREFIX) || string2.startsWith(EXTURL_PREFIX) || string2.startsWith(EXTURL_PREFIX_SECURE))) {
+            string2 = URL_PREFIX + string2;
         }
-        this.logChannel.log(-2137614336, "NavigationBrowser#loadURL( %1 ) Instance %2", (Object)string2, (long)n);
+        this.logChannel.log(10000000, "NavigationBrowser#loadURL( %1 ) Instance %2", (Object)string2, (long)n);
         this.bufferedURL[n] = string2;
-        this.logChannel.log(-2137614336, "NavigationBrowser#loadURL bufferedURL:  %1 ", (Object)this.bufferedURL[n]);
+        this.logChannel.log(10000000, "NavigationBrowser#loadURL bufferedURL:  %1 ", (Object)this.bufferedURL[n]);
         this.deleteCache[n] = bl;
         if (this.browserHandlers[n] == null) {
             this.logChannel.log(10000, "NavigationBrowser#loadURL() - browser not ready [browserHandler[%1] == null]!", (long)n);
@@ -145,7 +144,7 @@ implements ButtonListener {
 
     public boolean finishSpeller(int n, String string, boolean bl) {
         boolean bl2;
-        this.logChannel.log(-2137614336, "NavigationBrowser#finishSpeller( %3, %2, %1 )", bl, (Object)string, (Object)Integer.toString(n));
+        this.logChannel.log(10000000, "NavigationBrowser#finishSpeller( %3, %2, %1 )", bl, (Object)string, (Object)Integer.toString(n));
         if (this.browserHandlers[n] == null) {
             this.logChannel.log(10000, "NavigationBrowser#finishSpeller() - browser not ready [browserHandler[%1] == null]!", (long)n);
             bl2 = false;
@@ -166,9 +165,8 @@ implements ButtonListener {
         return buffer.toString();
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3) {
-        this.logChannel.log(-2137614336, "NavigationBrowser#keyPressed( %1 )", (long)n);
+        this.logChannel.log(10000000, "NavigationBrowser#keyPressed( %1 )", (long)n);
         switch (n) {
             case 400806: {
                 this.env.fireModelEvent(n, n3);
@@ -187,20 +185,17 @@ implements ButtonListener {
                 break;
             }
             default: {
-                this.logChannel.log(-2137614336, "NavigationBrowser#keyPressed( %1 ) - unknown modelID.", (long)n);
+                this.logChannel.log(10000000, "NavigationBrowser#keyPressed( %1 ) - unknown modelID.", (long)n);
             }
         }
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyLongTyped(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
     }
 
@@ -209,15 +204,21 @@ implements ButtonListener {
     }
 
     public void setDetailScreenLoading() {
-        this.env.getChoiceModel(1747125760).setValue(1);
+        this.env.getChoiceModel(402280).setValue(1);
     }
 
     public void setDetailScreenNormal() {
-        this.env.getChoiceModel(1747125760).setValue(0);
+        this.env.getChoiceModel(402280).setValue(0);
     }
 
     public int getCurrentDetailScreenState() {
-        return this.env.getChoiceModel(1747125760).getValue();
+        return this.env.getChoiceModel(402280).getValue();
+    }
+
+    public static interface FreetextSpeller {
+        public void showSpeller(String var1, String var2, String var3, boolean var4, short var5);
+
+        public void finishSpeller();
     }
 }
 

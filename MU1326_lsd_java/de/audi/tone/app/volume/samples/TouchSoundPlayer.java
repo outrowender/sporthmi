@@ -20,29 +20,25 @@ implements ISamplePlayer {
         this.systemTonePlayer = new NullSystemTonePlayer(logChannel);
     }
 
-    @Override
     public void registerService(Object object) {
         if (object instanceof SystemTonePlayer) {
             this.systemTonePlayer = (SystemTonePlayer)object;
         }
     }
 
-    @Override
     public void deregisterService(Object object) {
         if (object instanceof SystemTonePlayer) {
             this.systemTonePlayer = new NullSystemTonePlayer(this.lc);
         }
     }
 
-    @Override
     public void play() {
-        this.lc.log(-2137614336, "[TouchSoundPlayer.play]");
+        this.lc.log(10000000, "[TouchSoundPlayer.play]");
         this.systemTonePlayer.playTone(this.playMode, 20);
     }
 
-    @Override
     public void stop() {
-        this.lc.log(-2137614336, "[TouchSoundPlayer.stop]");
+        this.lc.log(10000000, "[TouchSoundPlayer.stop]");
         this.systemTonePlayer.abort();
     }
 }

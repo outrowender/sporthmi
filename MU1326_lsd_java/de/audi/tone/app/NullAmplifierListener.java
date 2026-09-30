@@ -14,7 +14,6 @@ implements AmplifierListener {
         super(logChannel, string);
     }
 
-    @Override
     public void updateAmplifier(int n) {
         this.log();
     }

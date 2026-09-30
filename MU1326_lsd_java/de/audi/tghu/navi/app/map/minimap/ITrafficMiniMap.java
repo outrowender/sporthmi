@@ -7,48 +7,34 @@ import org.dsi.ifc.base.DSIBase;
 import org.osgi.framework.BundleContext;
 
 public interface ITrafficMiniMap {
-    public static final int FEATURE_DISABLED;
+    public static final int FEATURE_DISABLED = 0;
 
-    default public void startDSI(BundleContext bundleContext) {
-    }
+    public void startDSI(BundleContext var1);
 
-    default public void stopDSI(BundleContext bundleContext) {
-    }
+    public void stopDSI(BundleContext var1);
 
-    default public DSIBase getDSI() {
-    }
+    public DSIBase getDSI();
 
-    default public void persistSettings() {
-    }
+    public void persistSettings();
 
-    default public void setActive(boolean bl) {
-    }
+    public void setActive(boolean var1);
 
-    default public void setCurrentSystemLanguage() {
-    }
+    public void setCurrentSystemLanguage();
 
-    default public boolean isActive() {
-    }
+    public boolean isActive();
 
-    default public void tmpCommandSetActive(boolean bl) {
-    }
+    public void tmpCommandSetActive(boolean var1);
 
-    default public void loadState() {
-    }
+    public void loadState();
 
-    default public void resetSettings() {
-    }
+    public void resetSettings();
 
-    default public void cleanup() {
-    }
+    public void cleanup();
 
-    default public boolean isVisible() {
-    }
+    public boolean isVisible();
 
-    default public void hideTrafficMiniMap() {
-    }
+    public void hideTrafficMiniMap();
 
-    default public void activateAndPersist(boolean bl) {
-    }
+    public void activateAndPersist(boolean var1);
 }
 

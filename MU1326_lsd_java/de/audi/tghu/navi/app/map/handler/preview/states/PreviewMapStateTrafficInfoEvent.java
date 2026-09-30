@@ -19,7 +19,6 @@ extends PreviewMapStateTrafficInfo {
         this.trafficInfoEvent = l;
     }
 
-    @Override
     public void applyToScreenDetail() {
         this.getPreviewMapHandler().getPreviewMapEventVisibilities().resetEventVisibilities();
         this.getPreviewMapHandler().getPreviewMapEventVisibilities().ensureTMCVisibility(new long[]{this.trafficInfoEvent}, false);
@@ -28,11 +27,9 @@ extends PreviewMapStateTrafficInfo {
         this.getMapForPreview().getMVRequest().goToTMCMessage(this.trafficInfoEvent);
     }
 
-    @Override
     public void applyToScreenDetailModels() {
     }
 
-    @Override
     public void applyToScreenFullMap() {
         AbstractMap abstractMap = this.getMapForFullScreen();
         abstractMap.getMVRequest().setMode(2);
@@ -48,12 +45,10 @@ extends PreviewMapStateTrafficInfo {
         abstractMap.getMVRequest().ensureTMCVisibility((int)this.trafficInfoEvent);
     }
 
-    @Override
     public NavLocation getNavLocationForEnterInMap() {
         return null;
     }
 
-    @Override
     public String toString() {
         return "PreviewMapStateTrafficInfoEvent()";
     }

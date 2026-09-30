@@ -5,7 +5,6 @@ package de.audi.tghu.navi.app.map.context;
 
 import de.audi.tghu.navi.app.NavigationEnv;
 import de.audi.tghu.navi.app.map.AbstractMap;
-import de.audi.tghu.navi.app.map.AbstractMap$MapState;
 import de.audi.tghu.navi.app.map.Context;
 import de.audi.tghu.navi.app.map.GUIInterface;
 import de.audi.tghu.navi.app.map.IVisibleContext;
@@ -24,26 +23,24 @@ import org.dsi.ifc.map.Rect;
 public abstract class CtxShown
 extends Context
 implements IVisibleContext {
-    private static final long[][] DEMO_MODE_SPEED_MAPPING = new long[][]{{0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}};
-    private static final int DEMO_MODE_SPEED_MAPPING_INDEX_ZOOMLEVEL;
-    private static final int DEMO_MODE_SPEED_MAPPING_INDEX_FACTOR;
+    private static final long[][] DEMO_MODE_SPEED_MAPPING = new long[][]{{500000L, 1000L}, {1000000L, 2000L}, {5000000L, 3000L}, {10000000L, 4000L}, {250000000L, 5000L}};
+    private static final int DEMO_MODE_SPEED_MAPPING_INDEX_ZOOMLEVEL = 0;
+    private static final int DEMO_MODE_SPEED_MAPPING_INDEX_FACTOR = 1;
 
     CtxShown(NavigationEnv navigationEnv, AbstractMap abstractMap) {
         super(navigationEnv, abstractMap);
     }
 
-    @Override
     public synchronized void cleanup() {
         super.cleanup();
     }
 
-    @Override
     public void enterPrologue() {
         this.freezeMap();
         int n = this.getCID();
         int n2 = this.getMap().getLastVisibleCID();
         if (MapUtils.isPreviewMapContext(n) != MapUtils.isPreviewMapContext(n2)) {
-            this.getLogChannel().log(1078071040, "CtxShown#enterPrologue() - last visible CID = %1, active CID = %2, restore is required.", (long)n2, (long)n);
+            this.getLogChannel().log(1000000, "CtxShown#enterPrologue() - last visible CID = %1, active CID = %2, restore is required.", (long)n2, (long)n);
             this.restore();
         }
     }
@@ -51,7 +48,6 @@ implements IVisibleContext {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void enterEpilogue() {
         this.showMap(true);
         this.unfreezeMap();
@@ -65,7 +61,6 @@ implements IVisibleContext {
         }
     }
 
-    @Override
     public void enter() {
         if (Util.isRangeMapDisplayPresent(this.env.getFramework())) {
             this.switchMobilityHorizonAccordingToSetup();
@@ -79,7 +74,7 @@ implements IVisibleContext {
             gUIInterface.clearDestDistance();
         }
         if (this.getMap().getSetup().isCrossingViewEnabled() && !this.getMap().getRouteInfoContextHandler().isManeuverViewAvailable() && this.getMap().getRouteInfoContextHandler().isManeuverViewVisible()) {
-            this.getLogChannel().log(-2137614336, "CtxShown#enter() - correct visible display context!");
+            this.getLogChannel().log(10000000, "CtxShown#enter() - correct visible display context!");
             this.getMap().getActiveCtx().setVisibleDisplayContextID(this.getMap().getMapDataContainer().sRequestedDisplayContextID);
         }
         int n = this.naviMap.getOldActiveContextIndex();
@@ -105,11 +100,11 @@ implements IVisibleContext {
             this.switchMapRepresentation();
             this.getMap().getSatellitemapsManager().setSatelliteMapIconsAccordingToSetup();
             this.naviMap.getNaviInterface().addressbookMapActive(true);
-            this.getLogChannel().log(-2137614336, "CtxShown#enter()");
+            this.getLogChannel().log(10000000, "CtxShown#enter()");
         }
         if (this.getData().sHomeAddress == null && MapEnv.isDebugMapFlagEnabled()) {
-            this.getLogChannel().log(-2137614336, "CtxPositionMap#enter() - add faked pin als home address");
-            this.getData().sHomeAddress = Util.getLocationFromGeoPos(-186966264, -1124619230);
+            this.getLogChannel().log(10000000, "CtxPositionMap#enter() - add faked pin als home address");
+            this.getData().sHomeAddress = Util.getLocationFromGeoPos(136305652, 581760956);
         }
         this.refreshPins();
         this.hideToolTip();
@@ -120,7 +115,6 @@ implements IVisibleContext {
         this.getGUI().setFocusedProperty(-1);
     }
 
-    @Override
     public void exit() {
         super.exit();
         this.naviMap.getMVRequest().setEnableSoftJump(false);
@@ -145,9 +139,8 @@ implements IVisibleContext {
         }
     }
 
-    @Override
     public void enterMapScreen(int n) {
-        this.getLogChannel().log(1078071040, "CtxShown#enterMapScreen() - keepContext: %1", (long)n);
+        this.getLogChannel().log(1000000, "CtxShown#enterMapScreen() - keepContext: %1", (long)n);
         super.enterMapScreen(n);
         if (n == 1) {
             this.storeKeptContextIndex(this.naviMap.getActiveContextIndex());
@@ -156,19 +149,16 @@ implements IVisibleContext {
         }
     }
 
-    @Override
     public void exitMapScreen() {
         super.exitMapScreen();
         this.naviMap.switchToContext(3);
         this.shutdownAdditionalInfos();
     }
 
-    @Override
     public void exitNavSetup() {
         this.naviMap.switchToContext(3);
     }
 
-    @Override
     public void updateViewFreeze(boolean bl) {
         super.updateViewFreeze(bl);
         if (!bl) {
@@ -201,14 +191,12 @@ implements IVisibleContext {
         }
     }
 
-    @Override
     protected void setVisibleArea() {
         Rect rect = this.getVisibleArea();
-        this.getLogChannel().log(-2137614336, "CtxShown[%2]#setVisibleArea() - %1", (Object)rect, (long)this.getCID());
+        this.getLogChannel().log(10000000, "CtxShown[%2]#setVisibleArea() - %1", (Object)rect, (long)this.getCID());
         this.getZoomHandler().setZoomArea(rect);
     }
 
-    @Override
     public Rect getVisibleArea() {
         if (Util.isClusterMMI(this.env.getFramework()) || this.naviMap.isMapKombiFPK()) {
             return this.getGUI().getLayout().getVisibleArea(this.getCID(), false, true, this.getData().viewSize == 1);
@@ -220,19 +208,19 @@ implements IVisibleContext {
     }
 
     protected void centerCarPosition() {
-        this.getLogChannel().log(-2137614336, "CtxShown#centerCarPosition()");
+        this.getLogChannel().log(10000000, "CtxShown#centerCarPosition()");
         Rect rect = this.getVisibleArea();
         this.setCarPosition(rect.kordX + (rect.diffX >> 1), rect.kordY + (rect.diffY >> 1));
     }
 
     protected void setHotPoint(int n, int n2) {
-        this.getLogChannel().log(-2137614336, "CtxShown#setHotPoint( x = %1, y = %2 )", (long)n, (long)n2);
+        this.getLogChannel().log(10000000, "CtxShown#setHotPoint( x = %1, y = %2 )", (long)n, (long)n2);
         this.naviMap.getMVRequest().setHotPoint(new Point(n, n2));
     }
 
     protected void setCarPosition(int n, int n2) {
         int n3 = n + this.getGUI().getOffsetOfCarPosition();
-        this.getLogChannel().log(1078071040, "CtxShown#setCarPosition( x = %1 (adjusted to %3), y = %2 )", (long)n, (long)n2, (long)n3);
+        this.getLogChannel().log(1000000, "CtxShown#setCarPosition( x = %1 (adjusted to %3), y = %2 )", (long)n, (long)n2, (long)n3);
         this.naviMap.getMVRequest().setCarPosition(new Point(n3, n2));
     }
 
@@ -247,7 +235,6 @@ implements IVisibleContext {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void requestPreferredViewType() {
         CtxShown ctxShown = this;
         synchronized (ctxShown) {
@@ -259,24 +246,21 @@ implements IVisibleContext {
         }
     }
 
-    @Override
     public void sdsSetZoomLevel(int n) {
         super.sdsSetZoomLevel(n);
         this.getZoomHandler().setZoom(n);
     }
 
-    @Override
     public void updateMapRotation(short s) {
         super.updateMapRotation(s);
         this.naviMap.getGuiInterface().setRotation(s);
     }
 
     private void reinitOrientationThresholds() {
-        this.container.sAutoOrientationThreshold = this.retrieveZoomListIndex(8436549);
-        this.container.sOrientationThresholdPM = 5292871;
+        this.container.sAutoOrientationThreshold = this.retrieveZoomListIndex(6000.0f);
+        this.container.sOrientationThresholdPM = 100000.0f;
     }
 
-    @Override
     public void updateZoomList(float[] fArray, int n, float[] fArray2) {
         if (fArray != null && fArray.length > 0) {
             this.reinitOrientationThresholds();
@@ -284,11 +268,10 @@ implements IVisibleContext {
         super.updateZoomList(fArray, n, fArray2);
     }
 
-    @Override
     public void updateZoomListIndex(int n) {
         super.updateZoomListIndex(n);
-        this.getLogChannel().log(-2137614336, "CtxShown#updateZoomListIndex(%1)", (long)n);
-        if (this.getZoomHandler().getZoom() >= 64068 && this.isMapFlagAutoHideEnabled()) {
+        this.getLogChannel().log(10000000, "CtxShown#updateZoomListIndex(%1)", (long)n);
+        if (this.getZoomHandler().getZoom() >= 2000.0f && this.isMapFlagAutoHideEnabled()) {
             this.getMap().getMapFlagHandler().cleanAllPins();
         } else {
             this.getMap().getMapFlagHandler().refresh(false);
@@ -299,11 +282,10 @@ implements IVisibleContext {
         return false;
     }
 
-    @Override
     public void showLandmark(float f2) {
         if (this.container.sToolTipMode == 3) {
-            if (-2137614336 <= this.getLogChannel().getCurrentLogThreshold()) {
-                this.getLogChannel().log(1078071040, "CtxShown#showLandmark(): aspectRatio = %1", (Object)Float.toString(f2));
+            if (10000000 <= this.getLogChannel().getCurrentLogThreshold()) {
+                this.getLogChannel().log(1000000, "CtxShown#showLandmark(): aspectRatio = %1", (Object)Float.toString(f2));
             }
             if ((double)f2 < 1.0) {
                 this.container.sToolTipMode = 4;
@@ -313,26 +295,23 @@ implements IVisibleContext {
         }
     }
 
-    @Override
     public void updateManoeuvreViewsAvailable(short[] sArray) {
-        this.getLogChannel().log(1078071040, "CtxShown#updateManoeuvreViewsAvailable() - sShowManeuverViews: %1", this.container.sShowManeuverViews);
+        this.getLogChannel().log(1000000, "CtxShown#updateManoeuvreViewsAvailable() - sShowManeuverViews: %1", this.container.sShowManeuverViews);
         super.updateManoeuvreViewsAvailable(sArray);
         this.naviMap.getRouteInfoContextHandler().handleCurrentRouteInfoContext();
     }
 
-    @Override
     public void updateManoeuvreViewActive(int n) {
         super.updateManoeuvreViewActive(n);
-        this.getLogChannel().log(-2137614336, "CtxShown#updateManoeuvreViewActive( %1 )", (long)n);
+        this.getLogChannel().log(10000000, "CtxShown#updateManoeuvreViewActive( %1 )", (long)n);
         this.naviMap.getRouteInfoContextHandler().signalManeuverViewActive();
     }
 
-    @Override
     public void initAdditionalInfos() {
         super.initAdditionalInfos();
         this.container.sShowManeuverViews = this.getSetup().isCrossingViewEnabled();
         this.container.sShowMapInMap = this.getSetup().isMapInMapEnabled();
-        this.getLogChannel().log(-2137614336, "CtxShown#initAdditionalInfos() - sShowManeuverViews: %1, sShowMapInMap: %2", this.container.sShowManeuverViews, this.container.sShowMapInMap);
+        this.getLogChannel().log(10000000, "CtxShown#initAdditionalInfos() - sShowManeuverViews: %1, sShowMapInMap: %2", this.container.sShowManeuverViews, this.container.sShowMapInMap);
         this.naviMap.getRouteInfoContextHandler().handleCurrentRouteInfoContext();
     }
 
@@ -340,11 +319,10 @@ implements IVisibleContext {
         this.container.sShowManeuverViews = false;
         this.container.sShowMapInMap = false;
         boolean bl = this.naviMap.getRouteInfoContextHandler().isManeuverViewVisible();
-        this.getLogChannel().log(-2137614336, "CtxShown#shutdownAdditionalInfos() - maneuverViewVisible: %1", bl);
+        this.getLogChannel().log(10000000, "CtxShown#shutdownAdditionalInfos() - maneuverViewVisible: %1", bl);
         this.naviMap.getRouteInfoContextHandler().handleCurrentRouteInfoContext();
     }
 
-    @Override
     public void updateRgActive(boolean bl) {
         super.updateRgActive(bl);
         GUIInterface gUIInterface = this.naviMap.getGuiInterface();
@@ -361,34 +339,28 @@ implements IVisibleContext {
         this.getMap().switchToAShownContext();
     }
 
-    @Override
     public void setNightDesign(int n) {
         super.setNightDesign(n);
         this.switchMapAccordingToNightDesign();
     }
 
-    @Override
     public void incrementGesture(int n) {
         super.incrementGesture(n);
         this.getZoomHandler().incrementGesture(n);
     }
 
-    @Override
     public void touchScreenDoubleClick(int n, int n2, int n3) {
         this.getZoomHandler().doubleClick();
     }
 
-    @Override
     public void touchScreenPinch(int n, float f2, int n2, int n3) {
         this.getZoomHandler().pinchZoom(f2);
     }
 
-    @Override
     public void touchScreenRotate(int n, short s) {
         this.naviMap.getMVRequest().setRotation(s);
     }
 
-    @Override
     public void increment(int n, int n2) {
         super.increment(n, n2);
         switch (n) {
@@ -421,7 +393,6 @@ implements IVisibleContext {
         return n;
     }
 
-    @Override
     public void keyPressed(int n, int n2) {
         super.keyPressed(n, n2);
         block0 : switch (n) {
@@ -452,7 +423,7 @@ implements IVisibleContext {
                         this.naviMap.getMVRequest().setEnableSoftZoomConditional(false);
                         n3 = this.naviMap.getMVResponseControl().getZoomListIndex();
                         n4 = this.getNextZoomIndex(n3, true);
-                        this.getLogChannel().log(-2137614336, "CtxShown#keyPressed#NAV_MAP_MAGNIFICATION_RANGE-KEY_LEFT: newIndex = %1", (long)n4);
+                        this.getLogChannel().log(10000000, "CtxShown#keyPressed#NAV_MAP_MAGNIFICATION_RANGE-KEY_LEFT: newIndex = %1", (long)n4);
                         if (n4 == n3) break block0;
                         this.increment(n, n4 - n3);
                         break;
@@ -461,13 +432,13 @@ implements IVisibleContext {
                         this.naviMap.getMVRequest().setEnableSoftZoomConditional(false);
                         n3 = this.naviMap.getMVResponseControl().getZoomListIndex();
                         n4 = this.getNextZoomIndex(n3, false);
-                        this.getLogChannel().log(-2137614336, "CtxShown#keyPressed#NAV_MAP_MAGNIFICATION_RANGE-KEY_RIGHT: newIndex = %1", (long)n4);
+                        this.getLogChannel().log(10000000, "CtxShown#keyPressed#NAV_MAP_MAGNIFICATION_RANGE-KEY_RIGHT: newIndex = %1", (long)n4);
                         if (n4 == n3) break block0;
                         this.increment(n, n4 - n3);
                         break;
                     }
                     default: {
-                        this.getLogChannel().log(-1601830656, "CtxShown#keyPressed#NAV_MAP_MAGNIFICATION_RANGE - unknown keyID = %1", (long)n2);
+                        this.getLogChannel().log(100000, "CtxShown#keyPressed#NAV_MAP_MAGNIFICATION_RANGE - unknown keyID = %1", (long)n2);
                         break;
                     }
                 }
@@ -486,18 +457,17 @@ implements IVisibleContext {
                     this.onHKBackClicked();
                     break;
                 }
-                this.getLogChannel().log(-1601830656, "CtxCrosshairMap#keyPressed() - unknown keyID = %1", (long)n2);
+                this.getLogChannel().log(100000, "CtxCrosshairMap#keyPressed() - unknown keyID = %1", (long)n2);
                 break;
             }
             case 401781: {
-                this.getGUI().fireModelEvent(1965098496);
+                this.getGUI().fireModelEvent(401781);
                 this.onHKSelectionClicked();
                 break;
             }
         }
     }
 
-    @Override
     public void keyReleased(int n, int n2) {
         super.keyReleased(n, n2);
         switch (n) {
@@ -510,7 +480,6 @@ implements IVisibleContext {
         }
     }
 
-    @Override
     public void itemSelected(int n, int n2, int n3, int n4) {
         super.itemSelected(n, n2, n3, n4);
         GUIInterface gUIInterface = this.naviMap.getGuiInterface();
@@ -524,10 +493,9 @@ implements IVisibleContext {
         }
     }
 
-    @Override
     public void joystick(int n, int n2) {
         super.joystick(n, n2);
-        if (n != 404817408) {
+        if (n != 401688) {
             AbstractMap abstractMap = this.naviMap;
             int n3 = abstractMap.getActiveContextIndex();
             if (n2 >= 0 && !MapUtils.isUserInteractiveMap(n3)) {
@@ -537,9 +505,8 @@ implements IVisibleContext {
         }
     }
 
-    @Override
     public void touchPadPositionMoved(int n, int n2, int n3, int n4, int n5) {
-        this.getLogChannel().log(-2137614336, "CtxShown[%1]#touchPadPositionMoved( %2 )", (long)this.getMap().getActiveContextIndex(), (long)n);
+        this.getLogChannel().log(10000000, "CtxShown[%1]#touchPadPositionMoved( %2 )", (long)this.getMap().getActiveContextIndex(), (long)n);
         AbstractMap abstractMap = this.naviMap;
         int n6 = abstractMap.getActiveContextIndex();
         if (!MapUtils.isUserInteractiveMap(n6)) {
@@ -549,11 +516,10 @@ implements IVisibleContext {
     }
 
     protected void hideToolTip() {
-        this.getLogChannel().log(-2137614336, "CtxShown#hideToolTip()");
+        this.getLogChannel().log(10000000, "CtxShown#hideToolTip()");
         this.getGUI().hideToolTip();
     }
 
-    @Override
     public void onChangedMapType(int n, int n2) {
         super.onChangedMapType(n, n2);
         AbstractMap abstractMap = this.naviMap;
@@ -567,7 +533,6 @@ implements IVisibleContext {
         }
     }
 
-    @Override
     public void onChangedMapRepresentation(int n, int n2) {
         super.onChangedMapRepresentation(n, n2);
         if (n == 3 || n2 == 3) {
@@ -575,9 +540,8 @@ implements IVisibleContext {
         }
     }
 
-    @Override
     public void onChangedDayNightView(int n) {
-        this.getLogChannel().log(-2137614336, "CtxShown#onChangedDayNightView() - dayNightView = %1", (long)n);
+        this.getLogChannel().log(10000000, "CtxShown#onChangedDayNightView() - dayNightView = %1", (long)n);
         super.onChangedDayNightView(n);
         AbstractMap abstractMap = this.naviMap;
         abstractMap.getActiveContext().freezeMapLevel1();
@@ -586,71 +550,70 @@ implements IVisibleContext {
     }
 
     public void calculateAndSetDemoModeSpeed() {
-        long l = this.calculateDemoModeSpeed(this.getZoomHandler().getZoom() * 51266);
+        long l = this.calculateDemoModeSpeed(this.getZoomHandler().getZoom() * 100.0f);
         if (l != -1L) {
-            this.getLogChannel().log(-2137614336, "CtxShown#calculateAndSetDemoModeSpeed() - speed = %1", l);
+            this.getLogChannel().log(10000000, "CtxShown#calculateAndSetDemoModeSpeed() - speed = %1", l);
             this.naviMap.getNaviInterface().setDemoModeSpeed(l);
         } else {
-            this.getLogChannel().log(-1601830656, "CtxShown#calculateAndSetDemoModeSpeed() - could not calculate demo mode speed");
+            this.getLogChannel().log(100000, "CtxShown#calculateAndSetDemoModeSpeed() - could not calculate demo mode speed");
         }
     }
 
     private long calculateDemoModeSpeed(float f2) {
         long l;
         String string = String.valueOf(f2);
-        this.getLogChannel().log(-2137614336, "CtxShown#calculateDemoModeSpeed() - zoomLevel: %1", (Object)string);
-        long l2 = (long)(f2 + 63);
+        this.getLogChannel().log(10000000, "CtxShown#calculateDemoModeSpeed() - zoomLevel: %1", (Object)string);
+        long l2 = (long)(f2 + 0.5f);
         int n = DEMO_MODE_SPEED_MAPPING.length;
         if (n > 0 && l2 > (l = DEMO_MODE_SPEED_MAPPING[n - 1][0])) {
             long l3 = DEMO_MODE_SPEED_MAPPING[n - 1][1];
-            this.getLogChannel().log(-2137614336, "CtxShown#calculateDemoModeSpeed() - use maximum demo mode speed: %1", l3);
+            this.getLogChannel().log(10000000, "CtxShown#calculateDemoModeSpeed() - use maximum demo mode speed: %1", l3);
             return l3;
         }
         for (int i2 = 0; i2 < n; ++i2) {
             l = DEMO_MODE_SPEED_MAPPING[i2][0];
             if (l2 > l) continue;
             long l4 = DEMO_MODE_SPEED_MAPPING[i2][1];
-            this.getLogChannel().log(-2137614336, "CtxShown#calculateDemoModeSpeed() - calculated demo mode speed: %1", l4);
+            this.getLogChannel().log(10000000, "CtxShown#calculateDemoModeSpeed() - calculated demo mode speed: %1", l4);
             return l4;
         }
-        this.getLogChannel().log(-2137614336, "CtxShown#calculateDemoModeSpeed() - could not calculate demo mode speed; return default: 1000L");
-        return 0;
+        this.getLogChannel().log(10000000, "CtxShown#calculateDemoModeSpeed() - could not calculate demo mode speed; return default: 1000L");
+        return 1000L;
     }
 
-    @Override
     public boolean isUserZoomEnabled() {
         return true;
     }
 
     protected void updateCrosshairsColor() {
-        this.getLogChannel().log(-2137614336, "CtxShown[%1]#updateCrosshairsColor()", (long)this.getCID());
+        this.getLogChannel().log(10000000, "CtxShown[%1]#updateCrosshairsColor()", (long)this.getCID());
         GUIInterface gUIInterface = this.naviMap.getGuiInterface();
         IMapRequest iMapRequest = this.naviMap.getMVRequest();
         iMapRequest.setCrossHairsColor(gUIInterface.getCrosshairColorMode() == 1);
     }
 
     protected void onDDSClicked() {
-        this.getLogChannel().log(-2137614336, "CtxShown[%1]#onDDSClicked()", (long)this.getCID());
+        this.getLogChannel().log(10000000, "CtxShown[%1]#onDDSClicked()", (long)this.getCID());
     }
 
     protected void onHKBackClicked() {
-        this.getLogChannel().log(-2137614336, "CtxShown[%1]#onHKBackClicked()", (long)this.getCID());
+        this.getLogChannel().log(10000000, "CtxShown[%1]#onHKBackClicked()", (long)this.getCID());
         this.getGUI().fireHKBackEvent();
     }
 
     protected void onHKSelectionClicked() {
-        this.getLogChannel().log(14808325, "CtxShown[%1]#onHKSelectionClicked()", (long)this.getCID());
+        this.getLogChannel().log(100000000, "CtxShown[%1]#onHKSelectionClicked()", (long)this.getCID());
     }
 
     protected void restore() {
-        this.getLogChannel().log(-2137614336, "CtxShown[%1]#restore()", (long)this.getCID());
-        AbstractMap$MapState abstractMap$MapState = this.getMap().getLastMapState();
+        this.getLogChannel().log(10000000, "CtxShown[%1]#restore()", (long)this.getCID());
+        AbstractMap.MapState mapState = this.getMap().getLastMapState();
         IMapRequest iMapRequest = this.getMap().getMVRequest();
-        if (abstractMap$MapState != null) {
-            this.getZoomHandler().setZoomLevel(abstractMap$MapState.zoomlevel);
-            iMapRequest.setOrientation(abstractMap$MapState.mapOrientation);
-            if (!(this.naviMap.getActiveCtx() instanceof CtxPositionMap) && abstractMap$MapState.position != null && abstractMap$MapState.position.latitude != 0 && abstractMap$MapState.position.longitude != 0) {
-                iMapRequest.setMapPosition(abstractMap$MapState.position);
+        if (mapState != null) {
+            this.getZoomHandler().setZoomLevel(mapState.zoomlevel);
+            iMapRequest.setOrientation(mapState.mapOrientation);
+            if (!(this.naviMap.getActiveCtx() instanceof CtxPositionMap) && mapState.position != null && mapState.position.latitude != 0 && mapState.position.longitude != 0) {
+                iMapRequest.setMapPosition(mapState.position);
             }
         }
         iMapRequest.showTMCMessages(true);
@@ -664,38 +627,34 @@ implements IVisibleContext {
         }
     }
 
-    @Override
     public void viewSizeChanged(int n) {
         super.viewSizeChanged(n);
         if (this instanceof IsViewSizeDepended) {
-            this.getLogChannel().log(14808325, "CtxShown[%1]#viewSizeChanged( %2 )", (long)this.getCID(), (long)n);
+            this.getLogChannel().log(100000000, "CtxShown[%1]#viewSizeChanged( %2 )", (long)this.getCID(), (long)n);
             this.setVisibleArea();
         }
     }
 
-    @Override
     public void setSDSDialogActive(boolean bl) {
-        this.getLogChannel().log(-2137614336, "CtxShown[%2]#setSDSDialogActive( %1 )", bl, (long)this.getCID());
+        this.getLogChannel().log(10000000, "CtxShown[%2]#setSDSDialogActive( %1 )", bl, (long)this.getCID());
         super.setSDSDialogActive(bl);
         this.setBackgroundRenderingMode(bl);
-        this.joystick(1075578368, -1);
+        this.joystick(400448, -1);
     }
 
     protected void refreshPins() {
         this.getMapFlagHandler().refresh(true);
     }
 
-    @Override
     public void setBackgroundRenderingMode(boolean bl) {
-        this.getLogChannel().log(-2137614336, "CtxShown#setBackgroundMode( %1 )", bl);
+        this.getLogChannel().log(10000000, "CtxShown#setBackgroundMode( %1 )", bl);
         if (!bl && (this.getSDSDialogActive() || this.isDrawerOpen())) {
-            this.getLogChannel().log(-2137614336, "CtxShown#setBackgroundMode() - keeping background mode active (SDS dialog active = %1, drawer open = %2)", this.getSDSDialogActive(), this.isDrawerOpen());
+            this.getLogChannel().log(10000000, "CtxShown#setBackgroundMode() - keeping background mode active (SDS dialog active = %1, drawer open = %2)", this.getSDSDialogActive(), this.isDrawerOpen());
             return;
         }
         this.naviMap.getMVRequest().setFrameRateMode(bl ? 2 : 1);
     }
 
-    @Override
     public void showTMC(boolean bl) {
         super.showTMC(bl);
         this.freezeMap();
@@ -703,13 +662,11 @@ implements IVisibleContext {
         this.unfreezeMap();
     }
 
-    @Override
     public void showSpeedAndFlowFreeflow(boolean bl) {
         super.showSpeedAndFlowFreeflow(bl);
         this.showSpeedAndFlowFreeflow(bl, true);
     }
 
-    @Override
     public void showSpeedAndFlowFreeflow(boolean bl, boolean bl2) {
         super.showSpeedAndFlowFreeflow(bl);
         if (bl2) {
@@ -721,13 +678,11 @@ implements IVisibleContext {
         }
     }
 
-    @Override
     public void showSpeedAndFlowCongestions(boolean bl) {
         super.showSpeedAndFlowCongestions(bl);
         this.showSpeedAndFlowCongestions(bl, true);
     }
 
-    @Override
     public void showSpeedAndFlowCongestions(boolean bl, boolean bl2) {
         super.showSpeedAndFlowCongestions(bl);
         if (bl2) {
@@ -739,7 +694,6 @@ implements IVisibleContext {
         }
     }
 
-    @Override
     public void setSpeedAndFlowRoadClass(int n) {
         super.setSpeedAndFlowRoadClass(n);
         this.freezeMap();
@@ -747,7 +701,6 @@ implements IVisibleContext {
         this.unfreezeMap();
     }
 
-    @Override
     public void setLandmarksVisible(boolean bl) {
         super.setLandmarksVisible(bl);
         this.freezeMap();
@@ -755,7 +708,6 @@ implements IVisibleContext {
         this.unfreezeMap();
     }
 
-    @Override
     public void setCityModelMode(int n) {
         super.setCityModelMode(n);
         this.freezeMap();
@@ -763,7 +715,6 @@ implements IVisibleContext {
         this.unfreezeMap();
     }
 
-    @Override
     public void showBrandIcons(int n) {
         super.showBrandIcons(n);
         this.freezeMap();
@@ -771,7 +722,6 @@ implements IVisibleContext {
         this.unfreezeMap();
     }
 
-    @Override
     public void showPictureNavigationIcons(boolean bl) {
         super.showPictureNavigationIcons(bl);
         this.freezeMap();
@@ -779,7 +729,6 @@ implements IVisibleContext {
         this.unfreezeMap();
     }
 
-    @Override
     public void showWeatherIcons(boolean bl) {
         super.showWeatherIcons(bl);
         this.freezeMap();
@@ -787,19 +736,18 @@ implements IVisibleContext {
         this.unfreezeMap();
     }
 
-    @Override
     public void updateMobilityHorizonStatus(int n) {
         super.updateMobilityHorizonStatus(n);
         this.switchMobilityHorizonAccordingToSetup();
     }
 
     protected void refreshCarPositionForZoomEngine() {
-        this.getLogChannel().log(-2137614336, "CtxShown#refreshCarPositionForZoomEngine()");
+        this.getLogChannel().log(10000000, "CtxShown#refreshCarPositionForZoomEngine()");
         Rect rect = this.getVisibleArea();
         if (Util.isClusterMMI(this.env.getFramework())) {
             rect.kordY = rect.kordY - 15 - 5;
         }
-        int n = rect.kordY + (int)(-512080833 * (float)rect.diffY) + 1;
+        int n = rect.kordY + (int)(0.7675f * (float)rect.diffY) + 1;
         MVRequestZoomEngine mVRequestZoomEngine = this.getMap().getMVRequest().getMVRequestZoomEngine();
         if (mVRequestZoomEngine != null) {
             mVRequestZoomEngine.setCarPosition(new Point(rect.kordX + (rect.diffX >> 1), n));
@@ -808,12 +756,10 @@ implements IVisibleContext {
         }
     }
 
-    @Override
     public void recalculateVisibleArea() {
         this.setVisibleArea();
     }
 
-    @Override
     public void updateLockingState(boolean bl) {
         if (Util.isLockFeatureNavMapAdvancedMapEnabled(this.env)) {
             this.naviMap.getMVRequest().setCityModelMode(this.determineSetup3DCityModelMode());
@@ -822,7 +768,6 @@ implements IVisibleContext {
         super.updateLockingState(bl);
     }
 
-    @Override
     protected int determineSetup3DCityModelMode() {
         if (Util.isLockFeatureNavMapAdvancedMapEnabled(this.env) && this.naviMap.getNaviInterface().isFeatureToBeLocked()) {
             return 0;
@@ -830,7 +775,6 @@ implements IVisibleContext {
         return super.determineSetup3DCityModelMode();
     }
 
-    @Override
     protected boolean getSetup3DLandmarks() {
         if (Util.isLockFeatureNavMapAdvancedMapEnabled(this.env) && this.naviMap.getNaviInterface().isFeatureToBeLocked()) {
             return false;

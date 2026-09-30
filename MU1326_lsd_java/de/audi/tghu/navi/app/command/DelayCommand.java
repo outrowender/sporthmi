@@ -15,14 +15,12 @@ extends NavCommand {
         this.delay = l;
     }
 
-    @Override
     public long getTimeout() {
         return super.getTimeout() + (this.delay > 0L ? this.delay : 0L);
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "DelayCommand#execute() - delay: %1ms ", this.delay);
+        this.logger.log(10000000, "DelayCommand#execute() - delay: %1ms ", this.delay);
         if (this.delay > 0L) {
             this.timer = new Timer("DelayCommandTimer", this.delay, true, this.getDispatcher());
             this.timer.start();
@@ -31,17 +29,15 @@ extends NavCommand {
         }
     }
 
-    @Override
     public void abort() {
-        this.logger.log(-2137614336, "DelayCommand#abort()");
+        this.logger.log(10000000, "DelayCommand#abort()");
         if (this.timer != null) {
             this.timer.cancel();
         }
     }
 
-    @Override
     public void fireTimer(Timer timer) {
-        this.logger.log(-2137614336, "DelayCommand#fireTimer() ");
+        this.logger.log(10000000, "DelayCommand#fireTimer() ");
         if (timer == this.timer) {
             this.getCommandList().commandFinished();
         }

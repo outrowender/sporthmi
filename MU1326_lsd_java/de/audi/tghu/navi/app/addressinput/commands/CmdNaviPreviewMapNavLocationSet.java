@@ -25,13 +25,12 @@ extends NavCommand {
         this.destination = Util.navLocationToWgs84(navLocation);
     }
 
-    @Override
     public void execute() {
         if (this.previewMap == null) {
             this.getCommandList().commandAborted("previewMap is null");
             return;
         }
-        this.env.getLogChannel().log(-2137614336, "%1#execute longitude = %2, latitude = %3", (Object)this.CLASS_NAME, (long)this.destination.getLongitude(), (long)this.destination.getLatitude());
+        this.env.getLogChannel().log(10000000, "%1#execute longitude = %2, latitude = %3", (Object)this.CLASS_NAME, (long)this.destination.getLongitude(), (long)this.destination.getLatitude());
         this.previewMap.setPreviewLocation(Util.wgs84ToNavLocation(this.destination), 1, null, null);
         this.getCommandList().commandFinished();
     }

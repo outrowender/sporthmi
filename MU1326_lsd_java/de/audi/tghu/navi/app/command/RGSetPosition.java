@@ -15,9 +15,8 @@ extends NavCommand {
         this.location = navLocation;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "RGSetPosition#execute() - calling rgSetPosition( %1 ) ", (Object)LocationFormatter.formatLocationShort(this.location));
+        this.logger.log(10000000, "RGSetPosition#execute() - calling rgSetPosition( %1 ) ", (Object)LocationFormatter.formatLocationShort(this.location));
         this.getDSINavigation().rgSetPosition(this.location);
         this.getCommandList().commandFinished();
     }

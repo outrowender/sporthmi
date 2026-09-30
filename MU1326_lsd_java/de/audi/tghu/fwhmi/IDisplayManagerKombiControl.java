@@ -8,37 +8,30 @@ import org.dsi.ifc.global.ResourceLocator;
 
 public interface IDisplayManagerKombiControl
 extends IDisplayManager {
-    public static final int DISPLAYABLE_NONE;
-    public static final int DISPLAYABLE_KDK;
-    public static final int DISPLAYABLE_OPACITY_NONE;
-    public static final int DISPLAYABLE_OPACITY_FULL;
-    public static final int DISPLAYABLE_KDK_BACKGROUND_SMALL_STAGE;
-    public static final int DISPLAYABLE_KDK_BACKGROUND_LARGE_STAGE;
-    public static final String IMAGE_PATH_KDK_BACKGROUND_LARGE_STAGE;
-    public static final String IMAGE_PATH_KDK_BACKGROUND_SMALL_STAGE;
-    public static final String IMAGE_DIRECTORY_PATH;
-    public static final String IMAGE_DIRECTORY_PATH_A3;
-    public static final String IMAGE_FILENAME_SUFFIX;
+    public static final int DISPLAYABLE_NONE = -1;
+    public static final int DISPLAYABLE_KDK = 20;
+    public static final int DISPLAYABLE_OPACITY_NONE = 0;
+    public static final int DISPLAYABLE_OPACITY_FULL = 100;
+    public static final int DISPLAYABLE_KDK_BACKGROUND_SMALL_STAGE = 101;
+    public static final int DISPLAYABLE_KDK_BACKGROUND_LARGE_STAGE = 102;
+    public static final String IMAGE_PATH_KDK_BACKGROUND_LARGE_STAGE = "/mnt/app/eso/hmi/lsd/images/HMISystemEvoHigh/987.png";
+    public static final String IMAGE_PATH_KDK_BACKGROUND_SMALL_STAGE = "/mnt/app/eso/hmi/lsd/images/HMISystemEvoHigh/987.png";
+    public static final String IMAGE_DIRECTORY_PATH = "/mnt/app/eso/hmi/lsd/images/HMISystemEvoHigh/";
+    public static final String IMAGE_DIRECTORY_PATH_A3 = "/mnt/app/eso/hmi/lsd/images/HMISystemEvoHighScale/";
+    public static final String IMAGE_FILENAME_SUFFIX = ".png";
 
-    default public void setupKDKBackground(int n) {
-    }
+    public void setupKDKBackground(int var1);
 
-    default public void setKDKVisible(int n, int n2) {
-    }
+    public void setKDKVisible(int var1, int var2);
 
-    default public int getVisibleKDK(int n) {
-    }
+    public int getVisibleKDK(int var1);
 
-    default public boolean isKDKVisible(int n) {
-    }
+    public boolean isKDKVisible(int var1);
 
-    default public void setKDKOpacity(int n, int n2) {
-    }
+    public void setKDKOpacity(int var1, int var2);
 
-    default public void createImageDisplayable(ResourceLocator resourceLocator, int n) {
-    }
+    public void createImageDisplayable(ResourceLocator var1, int var2);
 
-    default public void updateImageDisplayable(ResourceLocator resourceLocator, int n) {
-    }
+    public void updateImageDisplayable(ResourceLocator var1, int var2);
 }
 

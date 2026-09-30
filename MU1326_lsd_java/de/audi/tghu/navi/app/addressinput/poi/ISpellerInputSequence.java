@@ -8,25 +8,18 @@ import org.dsi.ifc.navigation.LIValueListElement;
 
 public interface ISpellerInputSequence
 extends IPreviewMapHandler {
-    default public void start() {
-    }
+    public void start();
 
-    default public void requestNextResultListWindow(int n, int n2, int n3) {
-    }
+    public void requestNextResultListWindow(int var1, int var2, int var3);
 
-    default public void requestNextResultListWindow(int n) {
-    }
+    public void requestNextResultListWindow(int var1);
 
-    default public void requestPreviousResultListWindow(int n) {
-    }
+    public void requestPreviousResultListWindow(int var1);
 
-    default public void selectListElement(LIValueListElement lIValueListElement) {
-    }
+    public void selectListElement(LIValueListElement var1);
 
-    default public void setInput(String string) {
-    }
+    public void setInput(String var1);
 
-    default public void unrequestItems(int n, int n2) {
-    }
+    public void unrequestItems(int var1, int var2);
 }
 

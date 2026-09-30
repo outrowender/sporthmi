@@ -9,22 +9,16 @@ import de.audi.tuner.ifc.IStoreStationHandler;
 import org.dsi.ifc.radio.EPGFullInfo;
 
 public interface IDabEpgHandler {
-    default public void setEPGList(EPGShortInfoExt[] ePGShortInfoExtArray) {
-    }
+    public void setEPGList(EPGShortInfoExt[] var1);
 
-    default public void setEPGDetailData(EPGFullInfo ePGFullInfo) {
-    }
+    public void setEPGDetailData(EPGFullInfo var1);
 
-    default public RadioInfo[] getDabListeners() {
-    }
+    public RadioInfo[] getDabListeners();
 
-    default public RadioInfo[] getUniListeners() {
-    }
+    public RadioInfo[] getUniListeners();
 
-    default public void updateEPGDetailData() {
-    }
+    public void updateEPGDetailData();
 
-    default public void setFavoriteHandler(IStoreStationHandler iStoreStationHandler) {
-    }
+    public void setFavoriteHandler(IStoreStationHandler var1);
 }
 

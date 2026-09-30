@@ -8,19 +8,14 @@ import de.audi.tghu.info.app.tmc.readout.TMCReadOutQueueListener;
 import org.dsi.ifc.tmc.TmcMessage;
 
 public interface TMCReadOutQueue {
-    default public TMCReadOutMessage getTmcMessage() {
-    }
+    public TMCReadOutMessage getTmcMessage();
 
-    default public void setDistanceToTarget(long l) {
-    }
+    public void setDistanceToTarget(long var1);
 
-    default public void speakingFinished(TMCReadOutMessage tMCReadOutMessage) {
-    }
+    public void speakingFinished(TMCReadOutMessage var1);
 
-    default public void updateTmcMessageList(TmcMessage[] tmcMessageArray) {
-    }
+    public void updateTmcMessageList(TmcMessage[] var1);
 
-    default public void setQueueListener(TMCReadOutQueueListener tMCReadOutQueueListener) {
-    }
+    public void setQueueListener(TMCReadOutQueueListener var1);
 }
 

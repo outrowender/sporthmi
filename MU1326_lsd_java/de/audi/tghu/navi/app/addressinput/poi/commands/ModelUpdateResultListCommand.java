@@ -23,7 +23,6 @@ extends NavCommand {
         this.startIndex = n2;
     }
 
-    @Override
     public void execute() {
         String string = this.dsiResponseContainer.getLispCurrentInput();
         boolean bl = this.dsiResponseContainer.isLispIsFullMatch();

@@ -9,18 +9,18 @@ import de.audi.tghu.navi.app.NavigationEnv;
 import de.audi.tghu.navi.app.util.Util;
 
 public class OperationManagerModelAccess {
-    private static final int CHOICE_INIT_VALUE_NOTCALIBRATED;
-    private static final int CHOICE_INIT_VALUE_UNDEFINED;
-    private static final int CHOICE_INIT_VALUE_AVAILABLE;
-    private static final int CHOICE_ERROR_DEFAULT;
+    private static final int CHOICE_INIT_VALUE_NOTCALIBRATED = -1;
+    private static final int CHOICE_INIT_VALUE_UNDEFINED = 0;
+    private static final int CHOICE_INIT_VALUE_AVAILABLE = 1;
+    private static final int CHOICE_ERROR_DEFAULT = 0;
     private final NavigationEnv env;
     private final LogChannel logChannel;
     private final ChoiceModelApp initializationChoice;
     private final ChoiceModelApp initializationMediatorChoice;
     private final ChoiceModelApp errorChoice;
     private final ChoiceModelApp naviReady2navigateChoice;
-    public static final int CHOICE_READY_TO_NAVIGATE_TRUE;
-    public static final int CHOICE_READY_TO_NAVIGATE_FALSE;
+    public static final int CHOICE_READY_TO_NAVIGATE_TRUE = 1;
+    public static final int CHOICE_READY_TO_NAVIGATE_FALSE = 0;
 
     public OperationManagerModelAccess(NavigationEnv navigationEnv, LogChannel logChannel) {
         this.env = navigationEnv;

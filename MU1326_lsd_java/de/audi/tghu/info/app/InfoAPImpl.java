@@ -19,7 +19,7 @@ public abstract class InfoAPImpl {
     }
 
     public void tmcMapLeft(int n) {
-        this.logger.log(-2137614336, "[InfoAPImpl#tmcMapLeft] Called");
+        this.logger.log(10000000, "[InfoAPImpl#tmcMapLeft] Called");
     }
 }
 

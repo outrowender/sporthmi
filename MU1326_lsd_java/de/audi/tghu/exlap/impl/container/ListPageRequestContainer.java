@@ -11,18 +11,17 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Map$Entry;
 import org.dsi.ifc.has.HASDataContainer;
 import org.dsi.ifc.has.HASDataElement;
 
 public class ListPageRequestContainer
 extends AbstractContainer {
-    private static final int CONTAINER_ID_LIST_PAGE_REQUEST;
-    private static final int ELEMENT_ID_OFFSET;
+    private static final int CONTAINER_ID_LIST_PAGE_REQUEST = 0x1000003;
+    private static final int ELEMENT_ID_OFFSET = 0x1000008;
     private Map map = new HashMap();
 
     public ListPageRequestContainer(int n) {
-        this.map.put(new Integer(0x8000001), new Long(n));
+        this.map.put(new Integer(0x1000008), new Long(n));
     }
 
     public ListPageRequestContainer(ListPageRequestContainer listPageRequestContainer) {
@@ -33,7 +32,7 @@ extends AbstractContainer {
         block3: for (int i2 = 0; i2 < hASDataElementArray.length; ++i2) {
             switch (hASDataElementArray[i2].elementId) {
                 case 0x1000008: {
-                    this.map.put(new Integer(0x8000001), new Long(hASDataElementArray[i2].numericData));
+                    this.map.put(new Integer(0x1000008), new Long(hASDataElementArray[i2].numericData));
                     continue block3;
                 }
             }
@@ -41,17 +40,15 @@ extends AbstractContainer {
     }
 
     public int getOffset() {
-        return ((Long)this.map.get(new Integer(0x8000001))).intValue();
+        return ((Long)this.map.get(new Integer(0x1000008))).intValue();
     }
 
-    @Override
     public List createContainer(int n, int n2, int n3) {
         ArrayList arrayList = new ArrayList();
-        arrayList.add(new HASDataContainer(0x3000001, n2, n, this.createElements(), n3));
+        arrayList.add(new HASDataContainer(0x1000003, n2, n, this.createElements(), n3));
         return arrayList;
     }
 
-    @Override
     public HASDataContainer[] createContainer() {
         List list = this.createContainer(-1, 1, -1);
         return (HASDataContainer[])list.toArray(new HASDataContainer[list.size()]);
@@ -62,11 +59,11 @@ extends AbstractContainer {
         HASDataElement[] hASDataElementArray = new HASDataElement[this.map.size()];
         Iterator iterator = this.map.entrySet().iterator();
         while (iterator.hasNext()) {
-            Map$Entry map$Entry = (Map$Entry)iterator.next();
-            if (map$Entry.getValue() == null) continue;
-            switch ((Integer)map$Entry.getKey()) {
+            Map.Entry entry = (Map.Entry)iterator.next();
+            if (entry.getValue() == null) continue;
+            switch ((Integer)entry.getKey()) {
                 case 0x1000008: {
-                    hASDataElementArray[n++] = new IntegerElement(0x8000001, ((Long)map$Entry.getValue()).intValue());
+                    hASDataElementArray[n++] = new IntegerElement(0x1000008, ((Long)entry.getValue()).intValue());
                     break;
                 }
             }
@@ -74,20 +71,19 @@ extends AbstractContainer {
         return hASDataElementArray;
     }
 
-    @Override
     public void toString(StringWriter stringWriter) {
         stringWriter.write("ListPageRequestContainer(");
         Iterator iterator = this.map.entrySet().iterator();
         while (iterator.hasNext()) {
-            Map$Entry map$Entry = (Map$Entry)iterator.next();
-            switch ((Integer)map$Entry.getKey()) {
+            Map.Entry entry = (Map.Entry)iterator.next();
+            switch ((Integer)entry.getKey()) {
                 case 0x1000008: {
-                    if (map$Entry.getValue() == null) {
+                    if (entry.getValue() == null) {
                         stringWriter.write("offset(int)=null");
                         break;
                     }
                     stringWriter.write("offset(int)='");
-                    stringWriter.write(map$Entry.getValue().toString());
+                    stringWriter.write(entry.getValue().toString());
                     stringWriter.write("'");
                     break;
                 }
@@ -98,7 +94,6 @@ extends AbstractContainer {
         stringWriter.write(")");
     }
 
-    @Override
     protected Object clone() {
         ListPageRequestContainer listPageRequestContainer = new ListPageRequestContainer(this);
         return listPageRequestContainer;

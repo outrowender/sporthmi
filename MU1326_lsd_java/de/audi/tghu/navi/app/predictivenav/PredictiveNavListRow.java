@@ -19,31 +19,31 @@ import org.dsi.ifc.predictivenavigation.LikelyDestination;
 
 public class PredictiveNavListRow
 extends EvoListRow {
-    protected static final int COLUMN_LAYOUT;
-    protected static final int COLUMN_PNAV_ICON_ID;
-    protected static final int COLUMN_DESTINATION_FIRST_LINE;
-    protected static final int COLUMN_DESTINATION_SECOND_LINE;
-    protected static final int COLUMN_DESTINATION_ICON_ID;
-    protected static final int COLUMN_ETA;
-    protected static final int COLUMN_DIRECTION;
-    protected static final int COLUMN_DISTANCE;
-    protected static final int COLUMN_TRAFFIC_ICON_ID;
-    protected static final int COLUMN_TRAFFIC_OFFSET;
-    protected static final int COLUMN_PROPERTIES;
-    protected static final int NUMBER_OF_COLUMNS;
-    private static final int LAYOUT_NO_EVENT;
-    private static final int LAYOUT_DELAY;
-    private static final int LAYOUT_BLOCKED;
-    private static final int LAYOUT_NOT_CALCULATED_YET;
-    public static final int FLAG_NOT_VISIBLE;
-    public static final int FLAG_VISIBLE;
-    private static final int INVALID_ETA;
-    private static final int ICON_NO_ICON_ID;
-    private static final int ICON_DELAY_ID;
-    private static final int ICON_BLOCKED_ID;
-    private static final int ICON_DELAY_NAR_ID;
-    private static final int ICON_BLOCKED_NAR_ID;
-    protected static long idCounter;
+    protected static final int COLUMN_LAYOUT = 0;
+    protected static final int COLUMN_PNAV_ICON_ID = 1;
+    protected static final int COLUMN_DESTINATION_FIRST_LINE = 2;
+    protected static final int COLUMN_DESTINATION_SECOND_LINE = 3;
+    protected static final int COLUMN_DESTINATION_ICON_ID = 4;
+    protected static final int COLUMN_ETA = 5;
+    protected static final int COLUMN_DIRECTION = 6;
+    protected static final int COLUMN_DISTANCE = 7;
+    protected static final int COLUMN_TRAFFIC_ICON_ID = 8;
+    protected static final int COLUMN_TRAFFIC_OFFSET = 9;
+    protected static final int COLUMN_PROPERTIES = 10;
+    protected static final int NUMBER_OF_COLUMNS = 11;
+    private static final int LAYOUT_NO_EVENT = 0;
+    private static final int LAYOUT_DELAY = 1;
+    private static final int LAYOUT_BLOCKED = 2;
+    private static final int LAYOUT_NOT_CALCULATED_YET = 3;
+    public static final int FLAG_NOT_VISIBLE = 0;
+    public static final int FLAG_VISIBLE = 1;
+    private static final int INVALID_ETA = -1;
+    private static final int ICON_NO_ICON_ID = 0;
+    private static final int ICON_DELAY_ID = 1;
+    private static final int ICON_BLOCKED_ID = 2;
+    private static final int ICON_DELAY_NAR_ID = 3;
+    private static final int ICON_BLOCKED_NAR_ID = 4;
+    protected static long idCounter = 1L;
     protected NavigationEnv env = null;
     protected LogChannel logChannel = null;
     protected LikelyDestination likelyDestination = null;
@@ -185,13 +185,8 @@ extends EvoListRow {
         return this.likelyDestination.getDestination();
     }
 
-    @Override
     public EvoListRow copy() {
         return new PredictiveNavListRow(this);
-    }
-
-    static {
-        idCounter = 1L;
     }
 }
 

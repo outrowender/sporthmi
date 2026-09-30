@@ -6,20 +6,20 @@ package de.audi.tuner.app.sdars.seek;
 import de.audi.atip.hmi.model.PropertyListCell;
 import de.audi.atip.hmi.model.list.EvoListRow;
 import de.audi.tuner.app.TunerModels;
-import de.audi.tuner.app.sdars.seek.AbstractListControllerButtonHandler$IMarkableRow;
+import de.audi.tuner.app.sdars.seek.AbstractListControllerButtonHandler;
 import de.audi.tuner.app.sdars.seek.AbstractTeamRow;
 
 public class SelectedTeamRow
 extends AbstractTeamRow
-implements AbstractListControllerButtonHandler$IMarkableRow {
-    private static final int INDEX_SELTEAMS_LEAGUE_NAME;
-    private static final int INDEX_SELTEAMS_TEAM_NAME;
-    private static final int INDEX_SELTEAMS_ACTIVATION_CHECKBOX;
-    private static final int INDEX_SELTEAMS_MARKING_CHECKBOX;
-    private static final int INDEX_SELTEAMS_ID;
-    private static final int INDEX_LEAGUE_TEAM_SEPARATOR_CHAR;
-    private static final int INDEX_PROPERTIES;
-    private static final int SELTEAMS_COLUMNS;
+implements AbstractListControllerButtonHandler.IMarkableRow {
+    private static final int INDEX_SELTEAMS_LEAGUE_NAME = 0;
+    private static final int INDEX_SELTEAMS_TEAM_NAME = 1;
+    private static final int INDEX_SELTEAMS_ACTIVATION_CHECKBOX = 2;
+    private static final int INDEX_SELTEAMS_MARKING_CHECKBOX = 3;
+    private static final int INDEX_SELTEAMS_ID = 4;
+    private static final int INDEX_LEAGUE_TEAM_SEPARATOR_CHAR = 5;
+    private static final int INDEX_PROPERTIES = 6;
+    private static final int SELTEAMS_COLUMNS = 7;
 
     SelectedTeamRow(String string, int n, int n2, String string2) {
         super(n2, n, 7);
@@ -36,17 +36,14 @@ implements AbstractListControllerButtonHandler$IMarkableRow {
         super(selectedTeamRow);
     }
 
-    @Override
     public EvoListRow copy() {
         return new SelectedTeamRow(this);
     }
 
-    @Override
     public int getTeamID() {
         return this.getInteger(4);
     }
 
-    @Override
     int getActivationCheckBox() {
         return this.getInteger(2);
     }
@@ -74,7 +71,6 @@ implements AbstractListControllerButtonHandler$IMarkableRow {
         return TunerModels.checkboxConstantToBoolean(this.getInteger(2));
     }
 
-    @Override
     public boolean isMarkingCheckboxSelected() {
         return TunerModels.checkboxConstantToBoolean(this.getInteger(3));
     }
@@ -83,7 +79,6 @@ implements AbstractListControllerButtonHandler$IMarkableRow {
         this.setActivationCheckbox(!this.isActivationCheckboxSelected());
     }
 
-    @Override
     public int toggleMarkCheckbox() {
         return this.setMarkingCheckbox(!this.isMarkingCheckboxSelected());
     }

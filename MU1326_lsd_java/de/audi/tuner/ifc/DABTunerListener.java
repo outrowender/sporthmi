@@ -18,94 +18,64 @@ import org.dsi.ifc.radio.ServiceInfo;
 
 public interface DABTunerListener
 extends CmdDefaultListener {
-    default public void updateSelectedEnsemble(EnsembleInfo ensembleInfo) {
-    }
+    public void updateSelectedEnsemble(EnsembleInfo var1);
 
-    default public void updateSelectedService(ServiceInfo serviceInfo) {
-    }
+    public void updateSelectedService(ServiceInfo var1);
 
-    default public void updateSelectedComponent(ComponentInfo componentInfo) {
-    }
+    public void updateSelectedComponent(ComponentInfo var1);
 
-    default public void updateSelectedFrequency(FrequencyInfo frequencyInfo) {
-    }
+    public void updateSelectedFrequency(FrequencyInfo var1);
 
-    default public void updateEnsembleList(EnsembleInfo[] ensembleInfoArray) {
-    }
+    public void updateEnsembleList(EnsembleInfo[] var1);
 
-    default public void updateServiceList(ServiceInfo[] serviceInfoArray) {
-    }
+    public void updateServiceList(ServiceInfo[] var1);
 
-    default public void updateComponentList(ComponentInfo[] componentInfoArray) {
-    }
+    public void updateComponentList(ComponentInfo[] var1);
 
-    default public void updateDataServiceList(DataServiceInfo[] dataServiceInfoArray) {
-    }
+    public void updateDataServiceList(DataServiceInfo[] var1);
 
-    default public void updateFrequencyList(FrequencyInfo[] frequencyInfoArray) {
-    }
+    public void updateFrequencyList(FrequencyInfo[] var1);
 
-    default public void updateRadioText(DABRadioText dABRadioText) {
-    }
+    public void updateRadioText(DABRadioText var1);
 
-    default public void updateSyncStatus(int n) {
-    }
+    public void updateSyncStatus(int var1);
 
-    default public void updateQuality(short s) {
-    }
+    public void updateQuality(short var1);
 
-    default public void updateLinkingSwitchStatus(int n) {
-    }
+    public void updateLinkingSwitchStatus(int var1);
 
-    default public void updateFrequencyTableSwitchStatus(int n) {
-    }
+    public void updateFrequencyTableSwitchStatus(int var1);
 
-    default public void updateLinkingStatus(int n) {
-    }
+    public void updateLinkingStatus(int var1);
 
-    default public void updateLinkingUsageStatus(int n) {
-    }
+    public void updateLinkingUsageStatus(int var1);
 
-    default public void updateDetectedDevice(int n) {
-    }
+    public void updateDetectedDevice(int var1);
 
-    default public void updateQualityInfo(String string) {
-    }
+    public void updateQualityInfo(String var1);
 
-    default public void selectServiceStatus(int n) {
-    }
+    public void selectServiceStatus(int var1);
 
-    default public void seekServiceStatus(int n) {
-    }
+    public void seekServiceStatus(int var1);
 
-    default public void tuneEnsembleStatus(int n) {
-    }
+    public void tuneEnsembleStatus(int var1);
 
-    default public void selectDataServiceStatus(int n) {
-    }
+    public void selectDataServiceStatus(int var1);
 
-    default public void forceLMUpdateStatus(int n) {
-    }
+    public void forceLMUpdateStatus(int var1);
 
-    default public void updateEpgLogoList(EPGLogo[] ePGLogoArray) {
-    }
+    public void updateEpgLogoList(EPGLogo[] var1);
 
-    default public void updateAvailability(int n) {
-    }
+    public void updateAvailability(int var1);
 
-    default public void updateEPGMode(int n) {
-    }
+    public void updateEPGMode(int var1);
 
-    default public void updateEPGListData(EPGShortInfo[] ePGShortInfoArray) {
-    }
+    public void updateEPGListData(EPGShortInfo[] var1);
 
-    default public void updateEPGDetailData(EPGFullInfo ePGFullInfo) {
-    }
+    public void updateEPGDetailData(EPGFullInfo var1);
 
-    default public void updateRadioTextPlusInfo(DABRadioTextPlusInfo dABRadioTextPlusInfo) {
-    }
+    public void updateRadioTextPlusInfo(DABRadioTextPlusInfo var1);
 
-    default public void updateSlideShowInfo(DABSlideShowInfo dABSlideShowInfo) {
-    }
+    public void updateSlideShowInfo(DABSlideShowInfo var1);
 }
 

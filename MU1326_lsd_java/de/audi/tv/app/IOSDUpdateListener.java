@@ -4,7 +4,6 @@
 package de.audi.tv.app;
 
 public interface IOSDUpdateListener {
-    default public void updateProgress() {
-    }
+    public void updateProgress();
 }
 

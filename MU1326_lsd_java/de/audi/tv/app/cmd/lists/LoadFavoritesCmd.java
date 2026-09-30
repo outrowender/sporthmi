@@ -17,11 +17,10 @@ extends AbstractTVCommand {
         this.serviceListsResource = iServiceListsResource;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(14808325, "[LoadFavoritesCmd.execute] command started");
+        this.logger.log(100000000, "[LoadFavoritesCmd.execute] command started");
         this.serviceListsResource.loadFavoritesFromMemory();
-        this.logger.log(14808325, "[LoadFavoritesCmd.execute] command finished");
+        this.logger.log(100000000, "[LoadFavoritesCmd.execute] command finished");
         this.commandFinished();
     }
 }

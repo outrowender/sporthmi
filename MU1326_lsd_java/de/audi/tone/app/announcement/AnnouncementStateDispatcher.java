@@ -14,7 +14,6 @@ implements IAnnouncementStateListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updateAnnouncementState(int n, int n2) {
         HashMap hashMap;
         Serializable serializable = this.listeners;

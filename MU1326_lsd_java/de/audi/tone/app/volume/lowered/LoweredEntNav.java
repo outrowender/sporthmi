@@ -12,40 +12,34 @@ import de.audi.tone.app.volume.samples.NaviSamplePlayer;
 public class LoweredEntNav
 extends AbstractLoweredEnt {
     private final NaviSamplePlayer samplePlayer;
-    private static final int CONNECTION;
-    private static final String LOGCLASS;
+    private static final int CONNECTION = 83;
+    private static final String LOGCLASS = "LoweredEntNav";
 
     public LoweredEntNav(VolumeRangeManager volumeRangeManager, IDSISoundHandler iDSISoundHandler) {
-        super(volumeRangeManager, iDSISoundHandler, "LoweredEntNav", 83, 2017595136);
+        super(volumeRangeManager, iDSISoundHandler, LOGCLASS, 83, 1000056);
         this.samplePlayer = new NaviSamplePlayer(this.env.lcMain);
     }
 
-    @Override
     public int getLoweringType() {
         return 0;
     }
 
-    @Override
     int getModelID() {
-        return 2017595136;
+        return 1000056;
     }
 
-    @Override
     protected ISamplePlayer getSamplePlayer() {
         return this.samplePlayer;
     }
 
-    @Override
     protected int[] getVolumeConnections() {
         return NO_CONNECTIONS;
     }
 
-    @Override
     protected String getName() {
-        return "LoweredEntNav";
+        return LOGCLASS;
     }
 
-    @Override
     protected int getID() {
         return 4;
     }

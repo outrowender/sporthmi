@@ -9,58 +9,40 @@ import org.dsi.ifc.tvtuner.ProgramInfo;
 import org.dsi.ifc.tvtuner.ServiceInfo;
 
 public interface IServiceListsResource {
-    default public ServiceInfo[] getNewFavorites() {
-    }
+    public ServiceInfo[] getNewFavorites();
 
-    default public ServiceInfo[] getOldFavorites() {
-    }
+    public ServiceInfo[] getOldFavorites();
 
-    default public ServiceInfo[] getNewServiceList() {
-    }
+    public ServiceInfo[] getNewServiceList();
 
-    default public void setFavorites(ServiceInfo[] serviceInfoArray, long[] lArray) {
-    }
+    public void setFavorites(ServiceInfo[] var1, long[] var2);
 
-    default public void addFavorite(ServiceInfo serviceInfo, long l) {
-    }
+    public void addFavorite(ServiceInfo var1, long var2);
 
-    default public void clearFavorites() {
-    }
+    public void clearFavorites();
 
-    default public void removeFavorite(ServiceInfo serviceInfo, long l) {
-    }
+    public void removeFavorite(ServiceInfo var1, long var2);
 
-    default public void markFavorites(long[] lArray) {
-    }
+    public void markFavorites(long[] var1);
 
-    default public void unmarkFavorites(long[] lArray) {
-    }
+    public void unmarkFavorites(long[] var1);
 
-    default public long[] getFavoritesIDs() {
-    }
+    public long[] getFavoritesIDs();
 
-    default public void loadFavoritesFromMemory() {
-    }
+    public void loadFavoritesFromMemory();
 
-    default public List createNewStationList(ServiceInfo[] serviceInfoArray, long[] lArray, long[] lArray2) {
-    }
+    public List createNewStationList(ServiceInfo[] var1, long[] var2, long[] var3);
 
-    default public void setStationList(List list) {
-    }
+    public void setStationList(List var1);
 
-    default public ProgramInfo getSelectedProgram() {
-    }
+    public ProgramInfo getSelectedProgram();
 
-    default public void setSelectedProgram(ProgramInfo programInfo) {
-    }
+    public void setSelectedProgram(ProgramInfo var1);
 
-    default public ServiceInfo getSelectedService() {
-    }
+    public ServiceInfo getSelectedService();
 
-    default public void setSelectedService(ServiceInfo serviceInfo) {
-    }
+    public void setSelectedService(ServiceInfo var1);
 
-    default public void updateLogoList(LogoInfo[] logoInfoArray) {
-    }
+    public void updateLogoList(LogoInfo[] var1);
 }
 

@@ -6,10 +6,8 @@ package de.audi.tghu.navi.app.di;
 import de.audi.tghu.command.CommandList;
 
 public interface IAddressInputListener {
-    default public CommandList getStartCommandList() {
-    }
+    public CommandList getStartCommandList();
 
-    default public CommandList getStartCommandList(String string) {
-    }
+    public CommandList getStartCommandList(String var1);
 }
 

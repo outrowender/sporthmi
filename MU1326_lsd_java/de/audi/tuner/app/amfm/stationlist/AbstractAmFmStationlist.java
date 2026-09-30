@@ -7,13 +7,17 @@ import de.audi.atip.hmi.model.list.BaseListModelApp;
 import de.audi.atip.hmi.model.list.EvoListRow;
 import de.audi.atip.hmi.model.list.SelectedItem;
 import de.audi.atip.hmi.model.menu.MenuModelApp;
+import de.audi.atip.hmi.model.update.ModelTrigger;
 import de.audi.atip.log.LogChannel;
+import de.audi.atip.timer.DefaultTimerListener;
 import de.audi.atip.timer.Timer;
 import de.audi.tuner.app.DrawerFocusManager;
 import de.audi.tuner.app.IDrawerFocusManager;
 import de.audi.tuner.app.IStoreHandler;
 import de.audi.tuner.app.LanguageManager;
+import de.audi.tuner.app.RadioBaseListModelListener;
 import de.audi.tuner.app.RadioComparators;
+import de.audi.tuner.app.RadioMenuModelListener;
 import de.audi.tuner.app.RadioObjectIds;
 import de.audi.tuner.app.TunerBasics;
 import de.audi.tuner.app.TunerModels;
@@ -26,14 +30,7 @@ import de.audi.tuner.app.amfm.HdStationInfoExt;
 import de.audi.tuner.app.amfm.dsi.AMFMDsiDownInfo;
 import de.audi.tuner.app.amfm.dsi.RadioInfo;
 import de.audi.tuner.app.amfm.stationlist.AbstractAmFmRow;
-import de.audi.tuner.app.amfm.stationlist.AbstractAmFmStationlist$DsiDownListener;
-import de.audi.tuner.app.amfm.stationlist.AbstractAmFmStationlist$ListListener;
-import de.audi.tuner.app.amfm.stationlist.AbstractAmFmStationlist$MenuModelListener;
-import de.audi.tuner.app.amfm.stationlist.AbstractAmFmStationlist$PrevNextHandler;
-import de.audi.tuner.app.amfm.stationlist.AbstractAmFmStationlist$StationComparator;
-import de.audi.tuner.app.amfm.stationlist.AbstractAmFmStationlist$StationComparatorEU;
-import de.audi.tuner.app.amfm.stationlist.AbstractAmFmStationlist$StationComparatorPiIgnore;
-import de.audi.tuner.app.amfm.stationlist.AbstractAmFmStationlist$TimerListener;
+import de.audi.tuner.app.amfm.stationlist.AmListRow;
 import de.audi.tuner.app.amfm.stationlist.FmListRow;
 import de.audi.tuner.app.amfm.stationlist.IAmFmStationList;
 import de.audi.tuner.app.amfm.stationlist.RecordSets;
@@ -60,25 +57,25 @@ public abstract class AbstractAmFmStationlist
 extends UpdateListenerHandler
 implements IStationListHandler,
 IAmFmStationList {
-    private final AMFMDsiDownInfo dsiDownListener = new AbstractAmFmStationlist$DsiDownListener(this, null);
-    private final IPrevNext prevNextHandler = new AbstractAmFmStationlist$PrevNextHandler(this, null);
-    public static final int SORT_ALGO_ALPHABETICAL;
-    private static final int SORT_ALGO_PI_ASC;
-    public static final int SORT_ALGO_FREQ;
-    private static final int SORT_ALGO_GENRE;
-    private static final int SORT_ALGO_SIGNAL;
-    protected static final int REASON_NONE;
-    protected static final int REASON_NEW_STATION;
-    protected static final int REASON_RESORTING;
-    protected static final int REASON_PROGRAM_CHANGED;
-    private static final int AREA_FIX_NAME;
-    private static final int AREA_SCROLLING;
-    private static final int AREA_FREQUENCY;
+    private final AMFMDsiDownInfo dsiDownListener = new DsiDownListener();
+    private final IPrevNext prevNextHandler = new PrevNextHandler();
+    public static final int SORT_ALGO_ALPHABETICAL = 0;
+    private static final int SORT_ALGO_PI_ASC = 1;
+    public static final int SORT_ALGO_FREQ = 2;
+    private static final int SORT_ALGO_GENRE = 3;
+    private static final int SORT_ALGO_SIGNAL = 4;
+    protected static final int REASON_NONE = 0;
+    protected static final int REASON_NEW_STATION = 1;
+    protected static final int REASON_RESORTING = 2;
+    protected static final int REASON_PROGRAM_CHANGED = 3;
+    private static final int AREA_FIX_NAME = 0;
+    private static final int AREA_SCROLLING = 1;
+    private static final int AREA_FREQUENCY = 2;
     private final LogChannel log;
     protected final TunerModels models;
     protected final BaseListModelApp listModel;
     protected final MenuModelApp menuModel;
-    protected final AbstractAmFmStationlist$MenuModelListener menuModelListener;
+    protected final MenuModelListener menuModelListener;
     private final AbstractListRowFactory rowFactory;
     private final AMFMTuner tuner;
     protected final RecordSets recordSets;
@@ -95,7 +92,7 @@ IAmFmStationList {
     private final Timer timerFocus;
     private final Timer timerListUpdate;
     private final int band;
-    private final AbstractAmFmStationlist$StationComparator stComp;
+    private final StationComparator stComp;
     private IStoreStationHandler longPressHandler;
     private final IScanHandler scanHandler;
     private int imgType;
@@ -114,50 +111,43 @@ IAmFmStationList {
         this.scanHandler = iScanHandler;
         this.storeHandler = iStoreHandler;
         this.mkNewAlgo(n4);
-        this.stComp = Utilities.isPiIgnore() ? new AbstractAmFmStationlist$StationComparatorPiIgnore(null) : new AbstractAmFmStationlist$StationComparatorEU(null);
+        this.stComp = Utilities.isPiIgnore() ? new StationComparatorPiIgnore() : new StationComparatorEU();
         this.listModel = this.models.getBaseListModel(n);
-        this.listModel.setListener(new AbstractAmFmStationlist$ListListener(this, tunerBasics.getModels(), n2));
+        this.listModel.setListener(new ListListener(tunerBasics.getModels(), n2));
         this.menuModel = this.models.getMenuModel(n2);
-        this.menuModelListener = new AbstractAmFmStationlist$MenuModelListener(this);
+        this.menuModelListener = new MenuModelListener();
         this.menuModel.setListener(this.menuModelListener);
-        AbstractAmFmStationlist$TimerListener abstractAmFmStationlist$TimerListener = new AbstractAmFmStationlist$TimerListener(this, null);
-        this.timerTmp = new Timer("timerTmp", 0, true, abstractAmFmStationlist$TimerListener);
-        this.timerFocus = new Timer("timerFocus", 0, true, abstractAmFmStationlist$TimerListener);
-        this.timerListUpdate = new Timer("timerListUpdate", Utilities.isStd() ? 0 : 0, true, abstractAmFmStationlist$TimerListener);
+        TimerListener timerListener = new TimerListener();
+        this.timerTmp = new Timer("timerTmp", 20000L, true, timerListener);
+        this.timerFocus = new Timer("timerFocus", 5000L, true, timerListener);
+        this.timerListUpdate = new Timer("timerListUpdate", Utilities.isStd() ? 1500L : 400L, true, timerListener);
         this.imgType = tunerStorage.loadPreferredImageType();
     }
 
-    @Override
     public void init(TunerStorage tunerStorage) {
         this.highlight(tunerStorage.getAMFMLSM(this.band));
     }
 
-    @Override
     public void register(IStoreStationHandler iStoreStationHandler) {
         this.longPressHandler = iStoreStationHandler;
     }
 
-    @Override
     public void register(ISearchBreak iSearchBreak, int n) {
         this.menuModelListener.register(iSearchBreak, n);
     }
 
-    @Override
     public void register(IDrawerFocusManager iDrawerFocusManager) {
         this.drawerFocus = iDrawerFocusManager;
     }
 
-    @Override
     public RadioInfo getDsiDownListener() {
         return this.dsiDownListener;
     }
 
-    @Override
     public IPrevNext getPrevNextHandler() {
         return this.prevNextHandler;
     }
 
-    @Override
     public void setSortAlgo(int n) {
         this.mkNewAlgo(n);
         if (this.activeStation.frequency != 0L) {
@@ -196,7 +186,7 @@ IAmFmStationList {
      * Enabled aggressive exception aggregation
      */
     protected void doListUpdate(boolean bl) {
-        this.log.log(14808325, "[AbstractAmFmStationlist.doListUpdate]");
+        this.log.log(100000000, "[AbstractAmFmStationlist.doListUpdate]");
         ArrayList arrayList = new ArrayList(200);
         Object object = this.mutex;
         synchronized (object) {
@@ -225,11 +215,11 @@ IAmFmStationList {
                             ((AbstractAmFmRow)object2).setProgramData(this.activeStation, this.imgType, this.tuner.getStatus());
                             ((AbstractAmFmRow)object2).setStationActive(true);
                             arrayList.add(object2);
-                            this.log.log(14808325, "[AbstractAmFmStationlist.doListUpdate] active station has index %1", (long)n);
+                            this.log.log(100000000, "[AbstractAmFmStationlist.doListUpdate] active station has index %1", (long)n);
                             this.lastList[n] = this.activeStation;
                             break block16;
                         } else {
-                            this.log.log(-1601830656, "[AbstractAmFmStationlist.doListUpdate] active station already added -> ignore %1", (Object)this.lastList[n]);
+                            this.log.log(100000, "[AbstractAmFmStationlist.doListUpdate] active station already added -> ignore %1", (Object)this.lastList[n]);
                             continue;
                         }
                     }
@@ -247,7 +237,7 @@ IAmFmStationList {
                 ((AbstractAmFmRow)object2).setStationActive(true);
                 arrayList.add(object2);
                 n = 1;
-                this.log.log(14808325, "[AbstractAmFmStationlist.doListUpdate] active station added temporary");
+                this.log.log(100000000, "[AbstractAmFmStationlist.doListUpdate] active station added temporary");
             } else if (this.tmpAddedStation != null) {
                 arrayList.add(this.rowFactory.getAmFmListRow(this.band, this.tmpAddedStation, this.recordSets, this.imgType));
                 n = 1;
@@ -258,10 +248,10 @@ IAmFmStationList {
             }
             if (this.tmpAddedFocussedStation != null) {
                 if (n != 0 && this.stComp.equals(this.tmpAddedStation, this.tmpAddedFocussedStation)) {
-                    this.log.log(1078071040, "[AbstractAmFmStationlist.doListUpdate] focussed station was double");
+                    this.log.log(1000000, "[AbstractAmFmStationlist.doListUpdate] focussed station was double");
                 } else {
                     arrayList.add(this.rowFactory.getAmFmListRow(this.band, this.tmpAddedFocussedStation, this.recordSets, this.imgType));
-                    this.log.log(14808325, "[AbstractAmFmStationlist.doListUpdate] focussed station added temporary");
+                    this.log.log(100000000, "[AbstractAmFmStationlist.doListUpdate] focussed station added temporary");
                 }
             }
             Collections.sort(arrayList, this.comparator);
@@ -302,14 +292,14 @@ IAmFmStationList {
     }
 
     protected void highlight(AMFMStation aMFMStation) {
-        this.log.log(-2137614336, "[AbstractAmFmStationlist.highlight] %1", (Object)aMFMStation);
+        this.log.log(10000000, "[AbstractAmFmStationlist.highlight] %1", (Object)aMFMStation);
         int n = this.getUpdateReason(this.activeStation, aMFMStation);
-        this.log.log(14808325, "[AbstractAmFmStationlist.highlight] reason %1", (long)n);
+        this.log.log(100000000, "[AbstractAmFmStationlist.highlight] reason %1", (long)n);
         if (n != 0) {
             int n2;
             this.activeStation = new AMFMStation(aMFMStation);
             int n3 = this.getIndex(aMFMStation);
-            this.log.log(14808325, "[AbstractAmFmStationlist.highlight] index %1", (long)n3);
+            this.log.log(100000000, "[AbstractAmFmStationlist.highlight] index %1", (long)n3);
             if (n3 == -1 || n == 2) {
                 this.doListUpdate(true);
                 return;
@@ -376,9 +366,8 @@ IAmFmStationList {
         return -1;
     }
 
-    @Override
     public boolean tuneById(long l, int n) {
-        this.log.log(-2137614336, "[AbstractAmFmStationList#tuneById], id: %1", l);
+        this.log.log(10000000, "[AbstractAmFmStationList#tuneById], id: %1", l);
         AbstractAmFmRow abstractAmFmRow = (AbstractAmFmRow)this.listModel.getRowByUniqueID(l);
         if (abstractAmFmRow != null) {
             this.tuner.tuneStation(abstractAmFmRow.getStation(), false, false, n);
@@ -396,7 +385,6 @@ IAmFmStationList {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public TunerObjectContainer[] getStationList() {
         TunerObjectContainer[] tunerObjectContainerArray;
         Object object = this.mutex;
@@ -413,7 +401,6 @@ IAmFmStationList {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public AMFMStation getActiveStation() {
         Object object = this.mutex;
         synchronized (object) {
@@ -421,7 +408,6 @@ IAmFmStationList {
         }
     }
 
-    @Override
     public boolean isEnsemble(int n) {
         return false;
     }
@@ -429,7 +415,6 @@ IAmFmStationList {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void setPrefImgType(int n) {
         Object object = this.mutex;
         synchronized (object) {
@@ -438,77 +423,190 @@ IAmFmStationList {
         }
     }
 
-    static /* synthetic */ Timer access$500(AbstractAmFmStationlist abstractAmFmStationlist) {
-        return abstractAmFmStationlist.timerTmp;
+    protected class ListListener
+    extends RadioBaseListModelListener {
+        public ListListener(TunerModels tunerModels, int n) {
+            super(tunerModels, n);
+        }
+
+        public void itemSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
+            boolean bl;
+            boolean bl2 = evoListRow instanceof FmListRow && n3 == 8;
+            boolean bl3 = bl = evoListRow instanceof AmListRow && n3 == 4;
+            if (bl2 || bl) {
+                if (AbstractAmFmStationlist.this.longPressHandler != null) {
+                    AbstractAmFmStationlist.this.longPressHandler.prepareStore(n4, ((AbstractRadioListRow)evoListRow).getTOContainer());
+                }
+            } else {
+                if (AbstractAmFmStationlist.this.storeHandler.isStoreModeActive()) {
+                    AbstractAmFmStationlist.this.storeHandler.store((AbstractRadioListRow)evoListRow);
+                    AbstractAmFmStationlist.this.listModel.fireEvent(n4);
+                    return;
+                }
+                AbstractAmFmStationlist.this.scanHandler.abortScan();
+                if (this.isNewSelection(evoListRow, n, n2, n3, n4)) {
+                    AMFMStation aMFMStation = ((AbstractAmFmRow)evoListRow).getStation();
+                    AbstractAmFmStationlist.this.tuner.tuneStation(aMFMStation, false, false, n4);
+                    AbstractAmFmStationlist.this.propagateUpdatedActiveStation(AbstractAmFmStationlist.this.band);
+                }
+            }
+        }
+
+        public void itemLongSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
+            AbstractAmFmStationlist.this.scanHandler.abortScan();
+            if (AbstractAmFmStationlist.this.listModel.getSelected().getIndex() != n2) {
+                AMFMStation aMFMStation = ((AbstractAmFmRow)evoListRow).getStation();
+                AbstractAmFmStationlist.this.tuner.tuneStation(aMFMStation, false, false, n4);
+                AbstractAmFmStationlist.this.propagateUpdatedActiveStation(AbstractAmFmStationlist.this.band);
+            }
+            if (AbstractAmFmStationlist.this.longPressHandler != null) {
+                AbstractAmFmStationlist.this.longPressHandler.prepareStore(n4, ((AbstractRadioListRow)evoListRow).getTOContainer());
+            }
+        }
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void itemFocused(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
+            AbstractAmFmStationlist.this.log.log(100000000, "[BAFS.itemFocused] model %1 index %2", (long)n, (long)n2);
+            Object object = AbstractAmFmStationlist.this.mutex;
+            synchronized (object) {
+                AbstractAmFmStationlist.this.focussedRow = (AbstractAmFmRow)evoListRow;
+            }
+        }
     }
 
-    static /* synthetic */ AMFMStation access$602(AbstractAmFmStationlist abstractAmFmStationlist, AMFMStation aMFMStation) {
-        abstractAmFmStationlist.tmpAddedStation = aMFMStation;
-        return abstractAmFmStationlist.tmpAddedStation;
+    private class TimerListener
+    extends DefaultTimerListener {
+        private TimerListener() {
+        }
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void fireTimer(Timer timer) {
+            if (timer.equals(AbstractAmFmStationlist.this.timerTmp)) {
+                Object object = AbstractAmFmStationlist.this.mutex;
+                synchronized (object) {
+                    AbstractAmFmStationlist.this.tmpAddedStation = null;
+                    AbstractAmFmStationlist.this.doListUpdate(false);
+                }
+            }
+            if (timer.equals(AbstractAmFmStationlist.this.timerFocus)) {
+                Object object = AbstractAmFmStationlist.this.mutex;
+                synchronized (object) {
+                    AbstractAmFmStationlist.this.tmpAddedFocussedStation = null;
+                    AbstractAmFmStationlist.this.doListUpdate(false);
+                }
+            }
+            if (timer.equals(AbstractAmFmStationlist.this.timerListUpdate)) {
+                Object object = AbstractAmFmStationlist.this.mutex;
+                synchronized (object) {
+                    if (AbstractAmFmStationlist.this.listUpdateWaiting && !AbstractAmFmStationlist.this.cursorMoving) {
+                        AbstractAmFmStationlist.this.listUpdateWaiting = false;
+                        AbstractAmFmStationlist.this.doListUpdate(false);
+                    }
+                }
+            }
+        }
     }
 
-    static /* synthetic */ Timer access$700(AbstractAmFmStationlist abstractAmFmStationlist) {
-        return abstractAmFmStationlist.timerFocus;
+    private class DsiDownListener
+    extends AMFMDsiDownInfo {
+        private DsiDownListener() {
+        }
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void preTuneAction(AMFMStation aMFMStation, boolean bl) {
+            Object object = AbstractAmFmStationlist.this.mutex;
+            synchronized (object) {
+                if (aMFMStation.waveband == 1 && AbstractAmFmStationlist.this.band == 1 || aMFMStation.waveband == 3 && AbstractAmFmStationlist.this.band != 1 && AbstractAmFmStationlist.this.band == AbstractAmFmStationlist.this.models.getActiveTuner()) {
+                    AbstractAmFmStationlist.this.highlight(aMFMStation);
+                }
+            }
+        }
     }
 
-    static /* synthetic */ AMFMStation access$802(AbstractAmFmStationlist abstractAmFmStationlist, AMFMStation aMFMStation) {
-        abstractAmFmStationlist.tmpAddedFocussedStation = aMFMStation;
-        return abstractAmFmStationlist.tmpAddedFocussedStation;
+    private class PrevNextHandler
+    implements IPrevNext {
+        private PrevNextHandler() {
+        }
+
+        public void handlePrevNext(boolean bl) {
+            if (AbstractAmFmStationlist.this.tuner.isForcedStationListUpdateRunning()) {
+                AbstractAmFmStationlist.this.log.log(10000000, "[AAFS.PNH.handlePrevNext] ignore skip: listupdate running");
+                return;
+            }
+            SelectedItem selectedItem = AbstractAmFmStationlist.this.listModel.getSelected();
+            int n = 0;
+            if (selectedItem != null) {
+                n = bl ? ((n = selectedItem.getIndex() + 1) >= AbstractAmFmStationlist.this.listModel.getLength() ? 0 : n) : ((n = selectedItem.getIndex() - 1) < 0 ? AbstractAmFmStationlist.this.listModel.getLength() - 1 : n);
+            }
+            AbstractAmFmRow abstractAmFmRow = (AbstractAmFmRow)AbstractAmFmStationlist.this.listModel.getRow(n);
+            AbstractAmFmStationlist.this.tuner.tuneStation(abstractAmFmRow.getStation(), false, false, 0);
+            if (!AbstractAmFmStationlist.this.drawerFocus.isDrawerOpen()) {
+                AbstractAmFmStationlist.this.menuModel.trigger(ModelTrigger.JOIN_CURSOR);
+            }
+        }
     }
 
-    static /* synthetic */ Timer access$900(AbstractAmFmStationlist abstractAmFmStationlist) {
-        return abstractAmFmStationlist.timerListUpdate;
+    protected class MenuModelListener
+    extends RadioMenuModelListener {
+        protected MenuModelListener() {
+        }
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void itemFocused(int n, int n2, long l, int n3) {
+            super.itemFocused(n, n2, l, n3);
+            Object object = AbstractAmFmStationlist.this.mutex;
+            synchronized (object) {
+                AbstractAmFmStationlist.this.cursorMoving = n == -1;
+                if (AbstractAmFmStationlist.this.listUpdateWaiting) {
+                    if (AbstractAmFmStationlist.this.cursorMoving) {
+                        AbstractAmFmStationlist.this.timerListUpdate.cancel();
+                    } else {
+                        AbstractAmFmStationlist.this.timerListUpdate.restart();
+                    }
+                }
+            }
+        }
     }
 
-    static /* synthetic */ boolean access$1000(AbstractAmFmStationlist abstractAmFmStationlist) {
-        return abstractAmFmStationlist.listUpdateWaiting;
+    private static interface StationComparator {
+        public boolean equals(AMFMStation var1, AMFMStation var2);
     }
 
-    static /* synthetic */ boolean access$1100(AbstractAmFmStationlist abstractAmFmStationlist) {
-        return abstractAmFmStationlist.cursorMoving;
+    private static class StationComparatorEU
+    implements StationComparator {
+        private StationComparatorEU() {
+        }
+
+        public boolean equals(AMFMStation aMFMStation, AMFMStation aMFMStation2) {
+            if (aMFMStation == null || aMFMStation2 == null) {
+                return false;
+            }
+            if (aMFMStation.pi > 0 || aMFMStation2.pi > 0) {
+                return aMFMStation.pi == aMFMStation2.pi || aMFMStation.frequency == aMFMStation2.frequency;
+            }
+            return aMFMStation.frequency == aMFMStation2.frequency;
+        }
     }
 
-    static /* synthetic */ boolean access$1002(AbstractAmFmStationlist abstractAmFmStationlist, boolean bl) {
-        abstractAmFmStationlist.listUpdateWaiting = bl;
-        return abstractAmFmStationlist.listUpdateWaiting;
-    }
+    private static class StationComparatorPiIgnore
+    implements StationComparator {
+        private StationComparatorPiIgnore() {
+        }
 
-    static /* synthetic */ int access$1200(AbstractAmFmStationlist abstractAmFmStationlist) {
-        return abstractAmFmStationlist.band;
-    }
-
-    static /* synthetic */ boolean access$1102(AbstractAmFmStationlist abstractAmFmStationlist, boolean bl) {
-        abstractAmFmStationlist.cursorMoving = bl;
-        return abstractAmFmStationlist.cursorMoving;
-    }
-
-    static /* synthetic */ IStoreStationHandler access$1300(AbstractAmFmStationlist abstractAmFmStationlist) {
-        return abstractAmFmStationlist.longPressHandler;
-    }
-
-    static /* synthetic */ IStoreHandler access$1400(AbstractAmFmStationlist abstractAmFmStationlist) {
-        return abstractAmFmStationlist.storeHandler;
-    }
-
-    static /* synthetic */ IScanHandler access$1500(AbstractAmFmStationlist abstractAmFmStationlist) {
-        return abstractAmFmStationlist.scanHandler;
-    }
-
-    static /* synthetic */ AMFMTuner access$1600(AbstractAmFmStationlist abstractAmFmStationlist) {
-        return abstractAmFmStationlist.tuner;
-    }
-
-    static /* synthetic */ LogChannel access$1700(AbstractAmFmStationlist abstractAmFmStationlist) {
-        return abstractAmFmStationlist.log;
-    }
-
-    static /* synthetic */ AbstractAmFmRow access$1802(AbstractAmFmStationlist abstractAmFmStationlist, AbstractAmFmRow abstractAmFmRow) {
-        abstractAmFmStationlist.focussedRow = abstractAmFmRow;
-        return abstractAmFmStationlist.focussedRow;
-    }
-
-    static /* synthetic */ IDrawerFocusManager access$1900(AbstractAmFmStationlist abstractAmFmStationlist) {
-        return abstractAmFmStationlist.drawerFocus;
+        public boolean equals(AMFMStation aMFMStation, AMFMStation aMFMStation2) {
+            if (aMFMStation == null || aMFMStation2 == null) {
+                return false;
+            }
+            return aMFMStation.frequency == aMFMStation2.frequency;
+        }
     }
 }
 

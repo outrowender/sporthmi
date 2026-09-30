@@ -7,20 +7,17 @@ import de.audi.atip.hmi.model.list.EvoListRow;
 import org.dsi.ifc.global.NavLocation;
 
 public interface IDetailsRowBuilderPorsche {
-    public static final int COLUMN_ICON;
-    public static final int COLUMN_TEXT;
-    public static final int COLUMN_LAYOUT;
-    public static final int COLUMN_COUNT;
-    public static final int LAYOUT_TEXT;
-    public static final int LAYOUT_ICON_TEXT;
+    public static final int COLUMN_ICON = 0;
+    public static final int COLUMN_TEXT = 1;
+    public static final int COLUMN_LAYOUT = 2;
+    public static final int COLUMN_COUNT = 3;
+    public static final int LAYOUT_TEXT = 0;
+    public static final int LAYOUT_ICON_TEXT = 1;
 
-    default public EvoListRow buildCityListRow(NavLocation navLocation, int n) {
-    }
+    public EvoListRow buildCityListRow(NavLocation var1, int var2);
 
-    default public EvoListRow buildAddressListRow(NavLocation navLocation, int n) {
-    }
+    public EvoListRow buildAddressListRow(NavLocation var1, int var2);
 
-    default public EvoListRow buildTextListRow(String string, int n) {
-    }
+    public EvoListRow buildTextListRow(String var1, int var2);
 }
 

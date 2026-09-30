@@ -9,97 +9,66 @@ import org.dsi.ifc.global.NavSegmentID;
 import org.dsi.ifc.navigation.Route;
 
 public interface IStartGuidanceManager {
-    default public void startGuidance(NavLocation navLocation, int n, boolean bl, boolean bl2) {
-    }
+    public void startGuidance(NavLocation var1, int var2, boolean var3, boolean var4);
 
-    default public void startGuidance() {
-    }
+    public void startGuidance();
 
-    default public void stopRouteGuidance() {
-    }
+    public void stopRouteGuidance();
 
-    default public void startRouteGuidanceToOffroadDestination(NavLocation navLocation, int n) {
-    }
+    public void startRouteGuidanceToOffroadDestination(NavLocation var1, int var2);
 
-    default public void startRouteGuidanceToSingleDestination(NavLocation navLocation) {
-    }
+    public void startRouteGuidanceToSingleDestination(NavLocation var1);
 
-    default public void startGuidanceWithAddedStopOver(NavLocation navLocation, int n) {
-    }
+    public void startGuidanceWithAddedStopOver(NavLocation var1, int var2);
 
-    default public void startGuidanceWithReplacedDestination(NavLocation navLocation, int n) {
-    }
+    public void startGuidanceWithReplacedDestination(NavLocation var1, int var2);
 
-    default public void calculateAlternativeRoutes() {
-    }
+    public void calculateAlternativeRoutes();
 
-    default public void startGuidanceToCalculatedRoute(int n) {
-    }
+    public void startGuidanceToCalculatedRoute(int var1);
 
-    default public void restartRouteGuidance(boolean bl) {
-    }
+    public void restartRouteGuidance(boolean var1);
 
-    default public void restartRouteGuidance(boolean bl, boolean bl2) {
-    }
+    public void restartRouteGuidance(boolean var1, boolean var2);
 
-    default public void restartRouteGuidance(boolean bl, Route route) {
-    }
+    public void restartRouteGuidance(boolean var1, Route var2);
 
-    default public void insertAsStopOver(NavLocation navLocation, int n, boolean bl) {
-    }
+    public void insertAsStopOver(NavLocation var1, int var2, boolean var3);
 
-    default public boolean resumeRouteGuidance() {
-    }
+    public boolean resumeRouteGuidance();
 
-    default public CommandList getStartGuidanceSequence() {
-    }
+    public CommandList getStartGuidanceSequence();
 
-    default public CommandList getStartGuidanceSequence(boolean bl) {
-    }
+    public CommandList getStartGuidanceSequence(boolean var1);
 
-    default public CommandList getStartGuidance(NavLocation navLocation, int n, boolean bl, boolean bl2) {
-    }
+    public CommandList getStartGuidance(NavLocation var1, int var2, boolean var3, boolean var4);
 
-    default public CommandList getStopRouteGuidanceSequence() {
-    }
+    public CommandList getStopRouteGuidanceSequence();
 
-    default public CommandList getStartRouteGuidanceToOffroadDestinationSequence(NavLocation navLocation, int n) {
-    }
+    public CommandList getStartRouteGuidanceToOffroadDestinationSequence(NavLocation var1, int var2);
 
-    default public CommandList getStartRouteGuidanceToSingleDestinationSequence(NavLocation navLocation) {
-    }
+    public CommandList getStartRouteGuidanceToSingleDestinationSequence(NavLocation var1);
 
-    default public CommandList getStartGuidanceBySegmendIDSequence(NavSegmentID navSegmentID, boolean bl) {
-    }
+    public CommandList getStartGuidanceBySegmendIDSequence(NavSegmentID var1, boolean var2);
 
-    default public CommandList getStartGuidanceByRouteSequence(Route route) {
-    }
+    public CommandList getStartGuidanceByRouteSequence(Route var1);
 
-    default public CommandList getStartRouteGuidanceToSingleDestinationSequence(NavLocation navLocation, boolean bl) {
-    }
+    public CommandList getStartRouteGuidanceToSingleDestinationSequence(NavLocation var1, boolean var2);
 
-    default public CommandList getStartRouteGuidanceToSingleDestinationSequenceFromKombi(NavLocation navLocation, boolean bl) {
-    }
+    public CommandList getStartRouteGuidanceToSingleDestinationSequenceFromKombi(NavLocation var1, boolean var2);
 
-    default public CommandList getStartGuidanceWithAddedStopOverSequence(NavLocation navLocation, int n) {
-    }
+    public CommandList getStartGuidanceWithAddedStopOverSequence(NavLocation var1, int var2);
 
-    default public CommandList getStartGuidanceWithReplacedDestinationSequence(NavLocation navLocation, int n) {
-    }
+    public CommandList getStartGuidanceWithReplacedDestinationSequence(NavLocation var1, int var2);
 
-    default public CommandList getRestartRouteGuidanceCommandList(boolean bl) {
-    }
+    public CommandList getRestartRouteGuidanceCommandList(boolean var1);
 
-    default public CommandList getRestartRouteGuidanceCommandList(boolean bl, Route route) {
-    }
+    public CommandList getRestartRouteGuidanceCommandList(boolean var1, Route var2);
 
-    default public CommandList getRestartRouteGuidanceCommandList(boolean bl, boolean bl2) {
-    }
+    public CommandList getRestartRouteGuidanceCommandList(boolean var1, boolean var2);
 
-    default public CommandList getInsertAsStopOverCommandList(NavLocation navLocation, int n, boolean bl, boolean bl2) {
-    }
+    public CommandList getInsertAsStopOverCommandList(NavLocation var1, int var2, boolean var3, boolean var4);
 
-    default public CommandList evaluateGuidanceStatus() {
-    }
+    public CommandList evaluateGuidanceStatus();
 }
 

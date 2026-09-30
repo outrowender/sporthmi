@@ -8,22 +8,15 @@ import de.audi.atip.log.LogChannel;
 import de.audi.tghu.command.CommandList;
 import de.audi.tghu.command.ICommandListFactory;
 import de.audi.tghu.navi.app.NavigationEnv;
+import de.audi.tghu.navi.app.command.NavCommand;
 import de.audi.tghu.navi.app.details.IDestinationHandler;
 import de.audi.tghu.navi.app.interapp.IRouteGuidanceInterAppService;
 import de.audi.tghu.navi.app.interapp.InterAppRouteGuidanceMapEventListener;
-import de.audi.tghu.navi.app.interapp.RouteGuidanceInterAppService$1;
-import de.audi.tghu.navi.app.interapp.RouteGuidanceInterAppService$2;
-import de.audi.tghu.navi.app.interapp.RouteGuidanceInterAppService$3;
-import de.audi.tghu.navi.app.interapp.RouteGuidanceInterAppService$4;
-import de.audi.tghu.navi.app.interapp.RouteGuidanceInterAppService$5;
-import de.audi.tghu.navi.app.interapp.RouteGuidanceInterAppService$6;
-import de.audi.tghu.navi.app.interapp.RouteGuidanceInterAppService$7;
-import de.audi.tghu.navi.app.interapp.RouteGuidanceInterAppService$8;
-import de.audi.tghu.navi.app.interapp.RouteGuidanceInterAppService$9;
 import de.audi.tghu.navi.app.map.MapManager;
 import de.audi.tghu.navi.app.routeguidance.AddSelectedDestinationAtIndexCommandListCreator;
 import de.audi.tghu.navi.app.routeguidance.IStartGuidanceManager;
 import de.audi.tghu.navi.app.routeguidance.IStartGuidanceToDestinationSequence;
+import de.audi.tghu.navi.app.sds.NotifyNaviServiceListenerCommand;
 import org.dsi.ifc.global.NavLocation;
 
 public class RouteGuidanceInterAppService
@@ -49,86 +42,133 @@ implements IRouteGuidanceInterAppService {
         mapManager.getMapEventDispatcher().addListener(this.routeGuidanceMapEventListener);
     }
 
-    @Override
     public IDestinationHandler getDestinationHandler() {
         return this.destinationHandler;
     }
 
-    @Override
     public boolean getRgActiveStatus() {
         return this.env.getContainer().isRgActive();
     }
 
-    @Override
     public boolean isEtcDemoMode() {
         return this.env.getContainer().isEtcDemoMode();
     }
 
-    @Override
     public void stopRouteGuidance(NaviServiceListener naviServiceListener) {
-        this.logChannel.log(-2137614336, "RouteGuidanceInterAppService#stopRouteGuidance()");
+        this.logChannel.log(10000000, "RouteGuidanceInterAppService#stopRouteGuidance()");
         CommandList commandList = this.routeManager.getStopRouteGuidanceSequence();
-        commandList.add(new RouteGuidanceInterAppService$1(this, naviServiceListener));
-        commandList.setErrorCommand(new RouteGuidanceInterAppService$2(this, naviServiceListener));
+        commandList.add(new NotifyNaviServiceListenerCommand(naviServiceListener){
+
+            protected void call(NaviServiceListener naviServiceListener) {
+                naviServiceListener.responseStopRouteGuidance((byte)0);
+            }
+        });
+        commandList.setErrorCommand(new NotifyNaviServiceListenerCommand(naviServiceListener){
+
+            protected void call(NaviServiceListener naviServiceListener) {
+                naviServiceListener.responseStopRouteGuidance((byte)1);
+            }
+        });
         commandList.execute("RouteGuidanceInterAppService#stopRouteGuidance");
     }
 
-    @Override
     public void restartRouteGuidance(NaviServiceListener naviServiceListener) {
         CommandList commandList = this.commandListFactory.createCommandList();
         commandList.add(this.routeManager.getRestartRouteGuidanceCommandList(true, false));
-        commandList.add(new RouteGuidanceInterAppService$3(this, naviServiceListener));
-        commandList.setErrorCommand(new RouteGuidanceInterAppService$4(this, naviServiceListener));
+        commandList.add(new NotifyNaviServiceListenerCommand(naviServiceListener){
+
+            protected void call(NaviServiceListener naviServiceListener) {
+                naviServiceListener.responseStartRouteGuidance((byte)0);
+            }
+        });
+        commandList.setErrorCommand(new NotifyNaviServiceListenerCommand(naviServiceListener){
+
+            protected void call(NaviServiceListener naviServiceListener) {
+                naviServiceListener.responseStartRouteGuidance((byte)1);
+            }
+        });
         commandList.execute("RouteGuidanceInterAppService#startRouteGuidance");
     }
 
-    @Override
     public void startRouteGuidance(NaviServiceListener naviServiceListener, boolean bl) {
-        this.logChannel.log(-2137614336, "RouteGuidanceInterAppService#startRouteGuidance()");
+        this.logChannel.log(10000000, "RouteGuidanceInterAppService#startRouteGuidance()");
         NavLocation navLocation = this.destinationHandler.getLocation();
-        this.logChannel.log(-2137614336, "RouteGuidanceInterAppService#startRouteGuidance( ) - location: %1 ", (Object)navLocation);
+        this.logChannel.log(10000000, "RouteGuidanceInterAppService#startRouteGuidance( ) - location: %1 ", (Object)navLocation);
         CommandList commandList = this.commandListFactory.createCommandList();
         if (navLocation == null) {
-            this.logChannel.log(-2137614336, "RouteGuidanceInterAppService#CheckStatus - no location was set.");
-            commandList.add(new RouteGuidanceInterAppService$5(this, naviServiceListener));
+            this.logChannel.log(10000000, "RouteGuidanceInterAppService#CheckStatus - no location was set.");
+            commandList.add(new NotifyNaviServiceListenerCommand(naviServiceListener){
+
+                protected void call(NaviServiceListener naviServiceListener) {
+                    naviServiceListener.responseStartRouteGuidance((byte)1);
+                }
+            });
         } else {
             commandList.add(this.getStartRgCommandList(naviServiceListener, navLocation, bl));
         }
-        commandList.setErrorCommand(new RouteGuidanceInterAppService$6(this, naviServiceListener));
+        commandList.setErrorCommand(new NotifyNaviServiceListenerCommand(naviServiceListener){
+
+            protected void call(NaviServiceListener naviServiceListener) {
+                naviServiceListener.responseStartRouteGuidance((byte)1);
+            }
+        });
         commandList.execute("RouteGuidanceInterAppService#startRouteGuidance");
     }
 
-    private CommandList getStartRgCommandList(NaviServiceListener naviServiceListener, NavLocation navLocation, boolean bl) {
-        this.logChannel.log(-2137614336, "RouteGuidanceInterAppService#getStartRgCommandList( )");
+    private CommandList getStartRgCommandList(final NaviServiceListener naviServiceListener, final NavLocation navLocation, final boolean bl) {
+        this.logChannel.log(10000000, "RouteGuidanceInterAppService#getStartRgCommandList( )");
         CommandList commandList = this.commandListFactory.createCommandList();
-        commandList.add(new RouteGuidanceInterAppService$7(this, "Check whethter route guidance is already started", navLocation, bl, naviServiceListener));
+        commandList.add(new NavCommand("Check whethter route guidance is already started"){
+
+            public void execute() {
+                if (this.dsiResponseContainer.isRgActive() || this.dsiResponseContainer.isEtcDemoMode() || RouteGuidanceInterAppService.this.alternativeRouteCalculationActive()) {
+                    CommandList commandList = RouteGuidanceInterAppService.this.commandListFactory.createCommandList();
+                    if (navLocation.isPositionValid()) {
+                        commandList.add(RouteGuidanceInterAppService.this.startGuidanceToDestinationSequence.getStartSequence(null, navLocation, false, bl));
+                        commandList.add(new NotifyNaviServiceListenerCommand(naviServiceListener){
+
+                            protected void call(NaviServiceListener naviServiceListener) {
+                                naviServiceListener.responseStartRouteGuidance((byte)0);
+                            }
+                        });
+                    } else {
+                        commandList.add(new NotifyNaviServiceListenerCommand(naviServiceListener){
+
+                            protected void call(NaviServiceListener naviServiceListener) {
+                                naviServiceListener.responseStartRouteGuidance((byte)3);
+                            }
+                        });
+                    }
+                    this.getCommandList().commandFinishedWithPostSequence(commandList);
+                } else {
+                    this.getCommandList().commandFinishedWithPostSequence(RouteGuidanceInterAppService.this.startGuidanceToDestinationSequence.getStartSequence(null, navLocation, false, bl));
+                }
+            }
+        });
         return commandList;
     }
 
     private boolean alternativeRouteCalculationActive() {
-        return this.env.getChoiceModel(-300022272).getValue() == 1;
+        return this.env.getChoiceModel(401134).getValue() == 1;
     }
 
-    @Override
     public void addSelectedDestinationAtIndex(int n, boolean bl, NaviServiceListener naviServiceListener) {
-        this.logChannel.log(-2137614336, "RouteGuidanceInterAppService#addSelectedDestinationAtIndex( %1, %2 )", bl, (long)n);
+        this.logChannel.log(10000000, "RouteGuidanceInterAppService#addSelectedDestinationAtIndex( %1, %2 )", bl, (long)n);
         CommandList commandList = this.commandListFactory.createCommandList();
         commandList.add(this.addSelectedDestinationAtIndexCommandListCreator.createAddSelectedDestinationAtIndexCommandList(n, bl));
-        commandList.add(new RouteGuidanceInterAppService$8(this, naviServiceListener));
-        commandList.setErrorCommand(new RouteGuidanceInterAppService$9(this, naviServiceListener));
+        commandList.add(new NotifyNaviServiceListenerCommand(naviServiceListener){
+
+            protected void call(NaviServiceListener naviServiceListener) {
+                naviServiceListener.responseAddSelectedDestinationAtIndex((byte)0);
+            }
+        });
+        commandList.setErrorCommand(new NotifyNaviServiceListenerCommand(naviServiceListener){
+
+            protected void call(NaviServiceListener naviServiceListener) {
+                naviServiceListener.responseAddSelectedDestinationAtIndex((byte)1);
+            }
+        });
         commandList.execute("RouteGuidanceInterAppService#addSelectedDestinationAtIndex");
-    }
-
-    static /* synthetic */ boolean access$000(RouteGuidanceInterAppService routeGuidanceInterAppService) {
-        return routeGuidanceInterAppService.alternativeRouteCalculationActive();
-    }
-
-    static /* synthetic */ ICommandListFactory access$100(RouteGuidanceInterAppService routeGuidanceInterAppService) {
-        return routeGuidanceInterAppService.commandListFactory;
-    }
-
-    static /* synthetic */ IStartGuidanceToDestinationSequence access$200(RouteGuidanceInterAppService routeGuidanceInterAppService) {
-        return routeGuidanceInterAppService.startGuidanceToDestinationSequence;
     }
 }
 

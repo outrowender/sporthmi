@@ -19,16 +19,14 @@ extends NavCommand {
         this.name = string;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "LiLastStateHistoryAddCommand#execute() - calling liLastStateHistoryAdd(%1, %2, %3) ", (Object)LocationFormatter.formatLocationShort(this.location), (Object)Boolean.toString(this.hasCitys), (Object)this.name);
+        this.logger.log(10000000, "LiLastStateHistoryAddCommand#execute() - calling liLastStateHistoryAdd(%1, %2, %3) ", (Object)LocationFormatter.formatLocationShort(this.location), (Object)Boolean.toString(this.hasCitys), (Object)this.name);
         this.getDSINavigation().liLastStateHistoryAdd(this.location, this.hasCitys, this.name);
     }
 
-    @Override
     public void liHistoryResult(int n) {
         if (n == 0) {
-            this.logger.log(-2137614336, "LiLastStateHistoryAddCommand#liHistoryResult()");
+            this.logger.log(10000000, "LiLastStateHistoryAddCommand#liHistoryResult()");
             this.getCommandList().commandFinished();
         } else {
             this.logger.log(10000, "LiLastStateHistoryAddCommand#liHistoryResult() - commandAborted");

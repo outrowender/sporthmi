@@ -26,20 +26,18 @@ extends AbstractOSRCommand {
         this.callback = null;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "ORSSetOnlineApplicationStateCommand#execute() applicationId: %1 state: %2", (Object)this.applicationId, (long)this.state);
+        this.logger.log(10000000, "ORSSetOnlineApplicationStateCommand#execute() applicationId: %1 state: %2", (Object)this.applicationId, (long)this.state);
         this.getDSI().setOnlineApplicationState(this.applicationId, this.state);
     }
 
-    @Override
     public void getOnlineApplicationResponse(OSRApplication oSRApplication) {
         if (oSRApplication == null) {
-            this.logger.log(-1601830656, "ORSSetOnlineApplicationStateCommand#getOnlineApplicationResponse() applicationId: %1 - app is null");
+            this.logger.log(100000, "ORSSetOnlineApplicationStateCommand#getOnlineApplicationResponse() applicationId: %1 - app is null");
             this.getCommandList().commandAborted("getOnlineApplicationResponse failed");
             return;
         }
-        this.logger.log(-2137614336, "ORSSetOnlineApplicationStateCommand#getOnlineApplicationResponse() applicationId: %1", (Object)oSRApplication.getId());
+        this.logger.log(10000000, "ORSSetOnlineApplicationStateCommand#getOnlineApplicationResponse() applicationId: %1", (Object)oSRApplication.getId());
         if (this.callback != null) {
             this.callback.getOnlineApplicationResponse(oSRApplication);
         } else {

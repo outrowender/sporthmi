@@ -19,15 +19,13 @@ abstract class AbstractStationConsistencyCheck {
         this.status = tunerBasics.getStatus();
     }
 
-    public abstract AMFMStation[] checkList(AMFMStation[] aMFMStationArray) {
-    }
+    public abstract AMFMStation[] checkList(AMFMStation[] var1);
 
     public Station[] checkList(Station[] stationArray) {
         return stationArray;
     }
 
-    public abstract AMFMStation checkStation(AMFMStation aMFMStation) {
-    }
+    public abstract AMFMStation checkStation(AMFMStation var1);
 
     public void setJpAMFMStationInfo(AMFMStationInfo[] aMFMStationInfoArray) {
     }

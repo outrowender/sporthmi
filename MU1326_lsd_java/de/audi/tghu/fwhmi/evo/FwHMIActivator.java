@@ -1,22 +1,27 @@
 /*
  * Decompiled with CFR 0.152.
+ * 
+ * Could not load the following classes:
+ *  de.mib.swdiagnosis.evo.HMIDiagGatewayEvo
  */
 package de.audi.tghu.fwhmi.evo;
 
 import de.audi.atip.activator.AbstractFrameworkActivator;
-import de.audi.atip.base.IFrameworkAccess;
+import de.audi.atip.diag.sw.AbstractSwDiagnosis;
+import de.audi.atip.diag.sw.SwDiagnosisManager;
+import de.audi.atip.interapp.SDSService;
 import de.audi.atip.log.LogChannel;
 import de.audi.atip.metrics.AbstractMetrics;
 import de.audi.atip.testsupport.OSDActivator;
 import de.audi.tghu.fwhmi.FwHMI;
 import de.audi.tghu.fwhmi.HMIOSDProvider;
 import de.audi.tghu.fwhmi.MemoryOSDProvider;
-import de.audi.tghu.fwhmi.evo.FwHMIActivator$1;
-import de.audi.tghu.fwhmi.evo.FwHMIActivator$2;
 import de.audi.tghu.fwhmi.evo.FwHMIEvo;
 import de.audi.tghu.fwhmi.evo.MetricsTextHandler;
 import de.esolutions.fw.util.commons.error.DumpInfoProvider;
+import de.mib.swdiagnosis.evo.HMIDiagGatewayEvo;
 import org.osgi.framework.BundleContext;
+import org.osgi.framework.ServiceReference;
 import org.osgi.framework.ServiceRegistration;
 import org.osgi.util.tracker.ServiceTracker;
 import org.osgi.util.tracker.ServiceTrackerCustomizer;
@@ -46,10 +51,9 @@ extends AbstractFrameworkActivator {
         return this.fwHMI;
     }
 
-    @Override
     protected void startInternal(BundleContext bundleContext) {
         this.logHMIServiceMain = this.framework.getLogChannel("Fw.HMIService.Main");
-        this.logHMIServiceMain.log(-2137614336, "FwHMIActivator.startLastMode()");
+        this.logHMIServiceMain.log(10000000, "FwHMIActivator.startLastMode()");
         this.fwHMI = new FwHMIEvo(this.framework);
         this.fwHMI.init();
         AbstractMetrics.setTextHandler(new MetricsTextHandler(this.framework, this.fwHMI));
@@ -58,9 +62,48 @@ extends AbstractFrameworkActivator {
         this.sregHMIService = bundleContext.registerService(new String[]{(class$de$audi$atip$hmi$HMIService == null ? (class$de$audi$atip$hmi$HMIService = FwHMIActivator.class$("de.audi.atip.hmi.HMIService")) : class$de$audi$atip$hmi$HMIService).getName(), (class$de$audi$atip$msg$MsgListener == null ? (class$de$audi$atip$msg$MsgListener = FwHMIActivator.class$("de.audi.atip.msg.MsgListener")) : class$de$audi$atip$msg$MsgListener).getName()}, (Object)this.fwHMI, null);
         this.hmiInfoProvider = this.fwHMI.createHMIInfoProvider();
         this.framework.getErrorMgr().registerDumpInfoProvider(this.hmiInfoProvider);
-        this.swDiagTracker = new ServiceTracker(bundleContext, (class$de$audi$atip$diag$sw$SwDiagnosisManager == null ? (class$de$audi$atip$diag$sw$SwDiagnosisManager = FwHMIActivator.class$("de.audi.atip.diag.sw.SwDiagnosisManager")) : class$de$audi$atip$diag$sw$SwDiagnosisManager).getName(), (ServiceTrackerCustomizer)new FwHMIActivator$1(this));
+        this.swDiagTracker = new ServiceTracker(bundleContext, (class$de$audi$atip$diag$sw$SwDiagnosisManager == null ? (class$de$audi$atip$diag$sw$SwDiagnosisManager = FwHMIActivator.class$("de.audi.atip.diag.sw.SwDiagnosisManager")) : class$de$audi$atip$diag$sw$SwDiagnosisManager).getName(), new ServiceTrackerCustomizer(){
+
+            public Object addingService(ServiceReference serviceReference) {
+                Object object = FwHMIActivator.this.framework.getBundleCxt().getService(serviceReference);
+                if (object instanceof SwDiagnosisManager) {
+                    ((SwDiagnosisManager)object).addDiagGateway((AbstractSwDiagnosis)new HMIDiagGatewayEvo(FwHMIActivator.this.fwHMI));
+                } else {
+                    FwHMIActivator.this.framework.getBundleCxt().ungetService(serviceReference);
+                    object = null;
+                }
+                return object;
+            }
+
+            public void modifiedService(ServiceReference serviceReference, Object object) {
+            }
+
+            public void removedService(ServiceReference serviceReference, Object object) {
+                FwHMIActivator.this.framework.getBundleCxt().ungetService(serviceReference);
+            }
+        });
         this.swDiagTracker.open();
-        this.sdsServiceTracker = new ServiceTracker(bundleContext, (class$de$audi$atip$interapp$SDSService == null ? (class$de$audi$atip$interapp$SDSService = FwHMIActivator.class$("de.audi.atip.interapp.SDSService")) : class$de$audi$atip$interapp$SDSService).getName(), (ServiceTrackerCustomizer)new FwHMIActivator$2(this));
+        this.sdsServiceTracker = new ServiceTracker(bundleContext, (class$de$audi$atip$interapp$SDSService == null ? (class$de$audi$atip$interapp$SDSService = FwHMIActivator.class$("de.audi.atip.interapp.SDSService")) : class$de$audi$atip$interapp$SDSService).getName(), new ServiceTrackerCustomizer(){
+
+            public Object addingService(ServiceReference serviceReference) {
+                Object object = FwHMIActivator.this.framework.getBundleCxt().getService(serviceReference);
+                if (object instanceof SDSService) {
+                    FwHMIActivator.this.fwHMI.setSDSService((SDSService)object);
+                } else {
+                    FwHMIActivator.this.framework.getBundleCxt().ungetService(serviceReference);
+                    object = null;
+                }
+                return object;
+            }
+
+            public void modifiedService(ServiceReference serviceReference, Object object) {
+            }
+
+            public void removedService(ServiceReference serviceReference, Object object) {
+                FwHMIActivator.this.fwHMI.setSDSService(null);
+                FwHMIActivator.this.framework.getBundleCxt().ungetService(serviceReference);
+            }
+        });
         this.sdsServiceTracker.open();
         this.osdData = new HMIOSDProvider(this.fwHMI.getEventDispatcherAdmin());
         this.osdActivator = new OSDActivator(this.osdData, true);
@@ -68,12 +111,11 @@ extends AbstractFrameworkActivator {
         this.memOsdData = new MemoryOSDProvider();
         this.memOsdActivator = new OSDActivator(this.memOsdData, true);
         this.memOsdActivator.start(bundleContext);
-        this.logHMIServiceMain.log(-2137614336, "FwHMIActivator.start()");
+        this.logHMIServiceMain.log(10000000, "FwHMIActivator.start()");
     }
 
-    @Override
     public void stop(BundleContext bundleContext) {
-        this.logHMIServiceMain.log(-2137614336, "FwHMIActivator.stop()");
+        this.logHMIServiceMain.log(10000000, "FwHMIActivator.stop()");
         if (this.hmiInfoProvider != null) {
             this.framework.getErrorMgr().unregisterDumpInfoProvider(this.hmiInfoProvider);
             this.hmiInfoProvider = null;
@@ -106,34 +148,6 @@ extends AbstractFrameworkActivator {
         catch (ClassNotFoundException classNotFoundException) {
             throw new NoClassDefFoundError().initCause(classNotFoundException);
         }
-    }
-
-    static /* synthetic */ IFrameworkAccess access$000(FwHMIActivator fwHMIActivator) {
-        return fwHMIActivator.framework;
-    }
-
-    static /* synthetic */ FwHMIEvo access$100(FwHMIActivator fwHMIActivator) {
-        return fwHMIActivator.fwHMI;
-    }
-
-    static /* synthetic */ IFrameworkAccess access$200(FwHMIActivator fwHMIActivator) {
-        return fwHMIActivator.framework;
-    }
-
-    static /* synthetic */ IFrameworkAccess access$300(FwHMIActivator fwHMIActivator) {
-        return fwHMIActivator.framework;
-    }
-
-    static /* synthetic */ IFrameworkAccess access$400(FwHMIActivator fwHMIActivator) {
-        return fwHMIActivator.framework;
-    }
-
-    static /* synthetic */ IFrameworkAccess access$500(FwHMIActivator fwHMIActivator) {
-        return fwHMIActivator.framework;
-    }
-
-    static /* synthetic */ IFrameworkAccess access$600(FwHMIActivator fwHMIActivator) {
-        return fwHMIActivator.framework;
     }
 }
 

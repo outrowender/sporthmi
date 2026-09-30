@@ -12,27 +12,23 @@ extends RcsBase {
         super(routeCalcSM, "RcsCalculatingBaseRouteAfterRubberband");
     }
 
-    @Override
     public void enter() {
         super.enter();
         this.getStateMachine().setIsRGAboutToBeStarted(true, true);
     }
 
-    @Override
     public void exit() {
         super.exit();
         this.getStateMachine().setIsRGAboutToBeStarted(false, true);
     }
 
-    @Override
     public boolean isMatchingRoutesFound() {
         return true;
     }
 
-    @Override
     public void updateRgActive(boolean bl) {
         super.updateRgActive(bl);
-        this.getLogger().log(14808325, "RcsCalculatingBaseRouteAfterRubberband#updateRgActive( %1 )", bl);
+        this.getLogger().log(100000000, "RcsCalculatingBaseRouteAfterRubberband#updateRgActive( %1 )", bl);
         if (bl) {
             this.goTo(7);
             this.getStateMachine().fireEvent(212);
@@ -42,7 +38,6 @@ extends RcsBase {
         }
     }
 
-    @Override
     public int getValue4Model() {
         return 5;
     }

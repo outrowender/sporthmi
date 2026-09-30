@@ -15,39 +15,30 @@ import de.audi.tghu.exlap.impl.container.TrackInfoContainer;
 
 public class ExlapMediaEmptyListener
 implements ExlapMediaListener {
-    @Override
     public void updateCurrentTrackInfo(TrackInfoContainer trackInfoContainer) {
     }
 
-    @Override
     public void updateMediaPlayInfo(MediaPlayInfoContainer mediaPlayInfoContainer) {
     }
 
-    @Override
     public void updateMediaPlayMode(MediaPlayModeContainer mediaPlayModeContainer) {
     }
 
-    @Override
     public void updateAvailableMediaSources(MediaSourcesContainer mediaSourcesContainer) {
     }
 
-    @Override
     public void updateMediaBrowserList(ListStateContainer listStateContainer) {
     }
 
-    @Override
     public void updateMediaBrowserFollowMode(FollowModeContainer followModeContainer) {
     }
 
-    @Override
     public void updateMediaBrowserFolder(MediaBrowserPathContainer mediaBrowserPathContainer) {
     }
 
-    @Override
     public void updateCurrentTrackPath(MediaBrowserPathContainer mediaBrowserPathContainer) {
     }
 
-    @Override
     public void updateAppConnectDevice(AppConnectDeviceContainer appConnectDeviceContainer) {
     }
 }

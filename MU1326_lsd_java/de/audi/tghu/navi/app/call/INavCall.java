@@ -8,16 +8,12 @@ import de.audi.tghu.navi.app.call.CommandListCallManager;
 
 public interface INavCall
 extends ICommand {
-    default public boolean didHandle() {
-    }
+    public boolean didHandle();
 
-    default public void setHandled(boolean bl) {
-    }
+    public void setHandled(boolean var1);
 
-    default public void execute(String string) {
-    }
+    public void execute(String var1);
 
-    default public void setManager(CommandListCallManager commandListCallManager) {
-    }
+    public void setManager(CommandListCallManager var1);
 }
 

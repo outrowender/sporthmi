@@ -5,29 +5,29 @@ package de.audi.tghu.navi.app.map.settings;
 
 import de.audi.atip.base.IFrameworkAccess;
 import de.audi.atip.log.LogChannel;
-import de.audi.tghu.navi.app.map.context.State$StateData;
+import de.audi.tghu.navi.app.map.context.State;
 import de.audi.tghu.navi.app.map.settings.MapOptionValidator;
 import de.audi.tghu.navi.app.util.Util;
 
 public class StateDataProxy {
-    protected final String CLASS_NAME = Util.getClassNameFromPackageName(super.getClass());
-    public static final int MAP_MAIN;
-    public static final int MAP_Kombi;
-    public static final int MAP_MAX;
-    protected static StateDataProxy[] instance;
+    protected final String CLASS_NAME = Util.getClassNameFromPackageName(this.getClass());
+    public static final int MAP_MAIN = 0;
+    public static final int MAP_Kombi = 1;
+    public static final int MAP_MAX = 2;
+    protected static StateDataProxy[] instance = new StateDataProxy[2];
     protected final LogChannel logger;
     protected IFrameworkAccess framework = null;
     protected MapOptionValidator mapOptionValidator;
-    protected State$StateData[] stateData = new State$StateData[2];
+    protected State.StateData[] stateData = new State.StateData[2];
     private boolean[] loadedFromPersistence = new boolean[2];
     protected boolean setupPanorama = true;
-    protected int setupDayNightView = State$StateData.getDefaultDayNightView();
-    protected int setupOrientation = State$StateData.getDefaultOrientation();
-    protected int setupMapType = State$StateData.getDefaultMapType();
-    protected int setupMapAutoZoom = State$StateData.getDefaultAutoZoom();
+    protected int setupDayNightView = State.StateData.getDefaultDayNightView();
+    protected int setupOrientation = State.StateData.getDefaultOrientation();
+    protected int setupMapType = State.StateData.getDefaultMapType();
+    protected int setupMapAutoZoom = State.StateData.getDefaultAutoZoom();
     protected int setupAdditionalInfos;
     protected int setupCrossingView;
-    protected int setupGoogle3DCityModel = State$StateData.getDefaultGoogle3DCityModel();
+    protected int setupGoogle3DCityModel = State.StateData.getDefaultGoogle3DCityModel();
     protected boolean[] setupTMCSymbols = new boolean[3];
     protected boolean[] setupMap3DLandmarks = new boolean[3];
     protected int[] setup3DBuildings = new int[3];
@@ -41,56 +41,56 @@ public class StateDataProxy {
     protected boolean[] setupRange = new boolean[3];
     protected int[] setupPoiVisibleUid = null;
     protected boolean[] setupPoiVisibleStatus = null;
-    protected int savedZoomListIndex = State$StateData.getDefaultZoomLevelIndex();
-    protected int mapRepresentation = State$StateData.getDefaultMapRepresentation();
+    protected int savedZoomListIndex = State.StateData.getDefaultZoomLevelIndex();
+    protected int mapRepresentation = State.StateData.getDefaultMapRepresentation();
     protected int backupMapRepresentation = 0;
     protected int setupSpeedAndFlowRoadClass = 4;
     protected boolean setupTrafficEventNoticeMap;
-    protected boolean setupUncrowdedRoad = State$StateData.getDefaultUncrowdedRoad();
+    protected boolean setupUncrowdedRoad = State.StateData.getDefaultUncrowdedRoad();
     protected int[] systemLayers;
     protected int[] systemLayerAvailable;
 
-    public synchronized void loadByPersistence(State$StateData state$StateData, int n) {
-        this.stateData[n] = state$StateData;
+    public synchronized void loadByPersistence(State.StateData stateData, int n) {
+        this.stateData[n] = stateData;
         this.loadedFromPersistence[n] = true;
-        this.setMapRepresentation(state$StateData.getMapRepresentation());
-        this.setSetupPanorama(state$StateData.isPanorama());
-        this.setSetupDayNightView(state$StateData.getDayNightView());
-        this.setSetupOrientation(state$StateData.getOrientation());
-        this.setSetupMapType(state$StateData.getMapType());
-        this.setSetupAutoZoom(state$StateData.getAutoZoom());
-        this.setSetupAdditionalInfos(state$StateData.getAdditionalInfos());
-        this.setSetupCrossingView(state$StateData.getCrossingView());
-        this.setSetupGoogle3DCityModel(state$StateData.getGoogle3DCityModel());
-        this.setSetupSpeedAndFlowRoadClass(state$StateData.getTrafficFlow());
-        this.setSetupTrafficEventNoticeMap(state$StateData.isTrafficEventNoticeMap());
-        this.setSetupUncrowdedRoad(state$StateData.isUncrowedRoad());
+        this.setMapRepresentation(stateData.getMapRepresentation());
+        this.setSetupPanorama(stateData.isPanorama());
+        this.setSetupDayNightView(stateData.getDayNightView());
+        this.setSetupOrientation(stateData.getOrientation());
+        this.setSetupMapType(stateData.getMapType());
+        this.setSetupAutoZoom(stateData.getAutoZoom());
+        this.setSetupAdditionalInfos(stateData.getAdditionalInfos());
+        this.setSetupCrossingView(stateData.getCrossingView());
+        this.setSetupGoogle3DCityModel(stateData.getGoogle3DCityModel());
+        this.setSetupSpeedAndFlowRoadClass(stateData.getTrafficFlow());
+        this.setSetupTrafficEventNoticeMap(stateData.isTrafficEventNoticeMap());
+        this.setSetupUncrowdedRoad(stateData.isUncrowedRoad());
         for (int i2 = 0; i2 < 3; ++i2) {
-            this.setSetupTMCSymbols(state$StateData.isTmcSymbols(i2), i2);
-            this.setSetup3DLandmarks(state$StateData.isShow3DLandmarks(i2), i2);
-            this.setSetup3DBuildings(state$StateData.getShow3DBuildings(i2), i2);
-            this.setSetupFavorites(state$StateData.isFavorites(i2), i2);
-            this.setSetupTopPrivate(state$StateData.isTopPrivate(i2), i2);
-            this.setSetupBrandedPOIs(state$StateData.getBrandedPois(i2), i2);
-            this.setSetupSpeedAndFlowFreeflow(state$StateData.isSpeedAndFlowFreeflow(i2), i2);
-            this.setSetupSpeedAndFlowCongestions(state$StateData.isSpeedAndFlowCongestions(i2), i2);
-            this.setSetupPicNavIcons(state$StateData.isPicNavIcons(i2), i2);
-            this.setSetupWeatherIcons(state$StateData.isWeatherIcons(i2), i2);
-            this.setSetupRange(state$StateData.isRange(i2), i2);
+            this.setSetupTMCSymbols(stateData.isTmcSymbols(i2), i2);
+            this.setSetup3DLandmarks(stateData.isShow3DLandmarks(i2), i2);
+            this.setSetup3DBuildings(stateData.getShow3DBuildings(i2), i2);
+            this.setSetupFavorites(stateData.isFavorites(i2), i2);
+            this.setSetupTopPrivate(stateData.isTopPrivate(i2), i2);
+            this.setSetupBrandedPOIs(stateData.getBrandedPois(i2), i2);
+            this.setSetupSpeedAndFlowFreeflow(stateData.isSpeedAndFlowFreeflow(i2), i2);
+            this.setSetupSpeedAndFlowCongestions(stateData.isSpeedAndFlowCongestions(i2), i2);
+            this.setSetupPicNavIcons(stateData.isPicNavIcons(i2), i2);
+            this.setSetupWeatherIcons(stateData.isWeatherIcons(i2), i2);
+            this.setSetupRange(stateData.isRange(i2), i2);
         }
-        this.setSavedZoomListIndex(state$StateData.getZoomLevelIndex());
-        this.setSystemLayers(state$StateData.getSystemLayers());
-        this.setSystemLayerAvailable(state$StateData.getSystemLayersAvailable());
+        this.setSavedZoomListIndex(stateData.getZoomLevelIndex());
+        this.setSystemLayers(stateData.getSystemLayers());
+        this.setSystemLayerAvailable(stateData.getSystemLayersAvailable());
     }
 
     private StateDataProxy(IFrameworkAccess iFrameworkAccess, int n, MapOptionValidator mapOptionValidator) {
         this.framework = iFrameworkAccess;
         this.logger = iFrameworkAccess.getLogChannel(n == 0 ? "App.Map.MapMain" : "App.Map.MapKombi");
         this.mapOptionValidator = mapOptionValidator;
-        this.logger.log(-2137614336, "%1 is initialized with key (%2)", (Object)this.CLASS_NAME, (long)n);
+        this.logger.log(10000000, "%1 is initialized with key (%2)", (Object)this.CLASS_NAME, (long)n);
         this.setupAdditionalInfos = 3;
         this.setupCrossingView = 1;
-        this.setupTrafficEventNoticeMap = State$StateData.getDefaultTrafficEventNoticeMap(iFrameworkAccess);
+        this.setupTrafficEventNoticeMap = State.StateData.getDefaultTrafficEventNoticeMap(iFrameworkAccess);
         int n2 = 2;
         for (int i2 = 0; i2 < 3; ++i2) {
             this.setupTMCSymbols[i2] = true;
@@ -118,7 +118,7 @@ public class StateDataProxy {
         return this.framework.getSysConst(n);
     }
 
-    protected State$StateData getStateData(int n) {
+    protected State.StateData getStateData(int n) {
         return this.stateData[n];
     }
 
@@ -251,19 +251,19 @@ public class StateDataProxy {
     }
 
     public void setSetupOrientation(int n) {
-        this.setupOrientation = this.mapOptionValidator.isOrientationValid(n) ? n : State$StateData.getDefaultOrientation();
+        this.setupOrientation = this.mapOptionValidator.isOrientationValid(n) ? n : State.StateData.getDefaultOrientation();
     }
 
     public void setSetupMapType(int n) {
-        this.setupMapType = this.mapOptionValidator.isMapTypeValid(n) ? n : State$StateData.getDefaultMapType();
+        this.setupMapType = this.mapOptionValidator.isMapTypeValid(n) ? n : State.StateData.getDefaultMapType();
     }
 
     public void setSetupAutoZoom(int n) {
-        this.setupMapAutoZoom = this.mapOptionValidator.isAutoZoomValid(n) ? n : State$StateData.getDefaultAutoZoom();
+        this.setupMapAutoZoom = this.mapOptionValidator.isAutoZoomValid(n) ? n : State.StateData.getDefaultAutoZoom();
     }
 
     public void setSetupAdditionalInfos(int n) {
-        this.setupAdditionalInfos = this.mapOptionValidator.isAdditionalInfosValid(n) ? n : State$StateData.getDefaultAdditionalInfos(this.framework);
+        this.setupAdditionalInfos = this.mapOptionValidator.isAdditionalInfosValid(n) ? n : State.StateData.getDefaultAdditionalInfos(this.framework);
     }
 
     public void setSetupCrossingView(int n) {
@@ -331,7 +331,7 @@ public class StateDataProxy {
     }
 
     public void setMapRepresentation(int n) {
-        this.mapRepresentation = this.mapOptionValidator.isMapRepresentationValid(n) ? n : State$StateData.getDefaultMapRepresentation();
+        this.mapRepresentation = this.mapOptionValidator.isMapRepresentationValid(n) ? n : State.StateData.getDefaultMapRepresentation();
     }
 
     public void setBackupMapRepresentation(int n) {
@@ -347,7 +347,7 @@ public class StateDataProxy {
     }
 
     public void setSetupUncrowdedRoad(boolean bl) {
-        this.setupUncrowdedRoad = this.mapOptionValidator.isUncrowdedRoadValid() ? bl : State$StateData.getDefaultUncrowdedRoad();
+        this.setupUncrowdedRoad = this.mapOptionValidator.isUncrowdedRoadValid() ? bl : State.StateData.getDefaultUncrowdedRoad();
     }
 
     public void setSystemLayers(int[] nArray) {
@@ -356,10 +356,6 @@ public class StateDataProxy {
 
     public void setSystemLayerAvailable(int[] nArray) {
         this.systemLayerAvailable = nArray;
-    }
-
-    static {
-        instance = new StateDataProxy[2];
     }
 }
 

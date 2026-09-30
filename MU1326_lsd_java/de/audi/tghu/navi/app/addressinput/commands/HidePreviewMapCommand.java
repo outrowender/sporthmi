@@ -14,13 +14,12 @@ extends NavCommand {
         this.previewMap = iPreviewMap;
     }
 
-    @Override
     public void execute() {
         if (this.previewMap != null) {
-            this.logger.log(-2137614336, "%1#execute() - hiding preview map", (Object)this.CLASS_NAME);
+            this.logger.log(10000000, "%1#execute() - hiding preview map", (Object)this.CLASS_NAME);
             this.previewMap.hidePreviewMap();
         } else {
-            this.logger.log(-1601830656, "%1#execute() - preview map is null!", (Object)this.CLASS_NAME);
+            this.logger.log(100000, "%1#execute() - preview map is null!", (Object)this.CLASS_NAME);
         }
         this.getCommandList().commandFinished();
     }

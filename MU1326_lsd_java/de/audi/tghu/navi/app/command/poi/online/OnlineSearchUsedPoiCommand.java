@@ -14,14 +14,13 @@ extends AbstractOnlineSearchCommand {
 
     public OnlineSearchUsedPoiCommand(LogChannel logChannel, PoiOnlineSearchValuelistElement poiOnlineSearchValuelistElement, int n) {
         super(logChannel);
-        logChannel.log(1078071040, "PoiUsedCommand#PoiUsedCommand()");
+        logChannel.log(1000000, "PoiUsedCommand#PoiUsedCommand()");
         this.element = poiOnlineSearchValuelistElement;
         this.use = n;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(1078071040, "PoiUsedCommand#execute()");
+        this.logger.log(1000000, "PoiUsedCommand#execute()");
         this.dsiOnlineSearch.usedPoi(this.element, this.use);
         this.getCommandList().commandFinished();
     }

@@ -4,13 +4,10 @@
 package de.eso.a.b;
 
 public interface g {
-    default public void a(byte by) {
-    }
+    public void a(byte var1);
 
-    default public void a(int n) {
-    }
+    public void a(int var1);
 
-    default public void b(String string) {
-    }
+    public void b(String var1);
 }
 

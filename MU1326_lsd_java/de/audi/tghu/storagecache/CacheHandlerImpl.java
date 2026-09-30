@@ -23,7 +23,7 @@ import java.util.Set;
 public class CacheHandlerImpl
 extends AbstractStorageDataContainer
 implements CacheHandler {
-    private static final int VERSION;
+    private static final int VERSION = 2;
     private LogChannel log;
     private Map serviceID2worker = Collections.synchronizedMap(new HashMap());
     private IStorageAccess storageAccess;
@@ -60,20 +60,17 @@ implements CacheHandler {
         return "service_dsi_onlinetraffic".equals(string) || "service_dsi_satellitemaps".equals(string) || "ebnav".equals(string) || "awnavicore".equals(string) || "weatherinmaponlineservice".equals(string) || "service_dsi_poi".equals(string) || "service_dsi_presetlayout".equals(string) || "service_dsi_destimport".equals(string) || "dictation".equals(string) || "service_dsi_operatorcall".equals(string) || "hotspotwlan".equals(string) || "service_core".equals(string) || "online_metadata_service_app".equals(string) || "UpdateOverTheAir".equals(string);
     }
 
-    @Override
     protected void handleCRC32Error() {
-        this.log.log(-1601830656, "CacheHandlerImpl.handleCRC32Error()");
+        this.log.log(100000, "CacheHandlerImpl.handleCRC32Error()");
     }
 
-    @Override
     protected synchronized void handleStorageReadError(Exception exception) {
-        this.log.log(-1601830656, "CacheHandlerImpl.handleStorageReadError(): %1, setting default values", (Throwable)exception);
+        this.log.log(100000, "CacheHandlerImpl.handleStorageReadError(): %1, setting default values", (Throwable)exception);
         this.restoreDefaultValues();
         this.serializeAndWrite();
     }
 
-    @Override
-    protected void convertContainer(int n, int n2, DataInputStream dataInputStream) {
+    protected void convertContainer(int n, int n2, DataInputStream dataInputStream) throws IOException {
         this.log.log(10000, "CacheHandlerImpl.convertContainer (%1, %2, ...): restore default values", (long)n, (long)n2);
         if (n == 1 && n2 == 2) {
             try {
@@ -147,9 +144,8 @@ implements CacheHandler {
         cacheWorker14.readAndDeserialize();
     }
 
-    @Override
-    protected synchronized void serialize(DataOutputStream dataOutputStream) {
-        this.log.log(1078071040, "CacheHandlerImpl.serialize()");
+    protected synchronized void serialize(DataOutputStream dataOutputStream) throws IOException {
+        this.log.log(1000000, "CacheHandlerImpl.serialize()");
         Set set = this.serviceID2worker.keySet();
         dataOutputStream.writeInt(set.size());
         Iterator iterator = set.iterator();
@@ -159,9 +155,8 @@ implements CacheHandler {
         }
     }
 
-    @Override
-    protected synchronized void deserialize(DataInputStream dataInputStream) {
-        this.log.log(1078071040, "CacheHandlerImpl.deserialize()");
+    protected synchronized void deserialize(DataInputStream dataInputStream) throws IOException {
+        this.log.log(1000000, "CacheHandlerImpl.deserialize()");
         int n = dataInputStream.readInt();
         this.serviceID2worker.clear();
         for (int i2 = 0; i2 < n; ++i2) {
@@ -172,8 +167,8 @@ implements CacheHandler {
         }
     }
 
-    protected synchronized void deserializeV1(DataInputStream dataInputStream) {
-        this.log.log(1078071040, "CacheHandlerImpl.deserializeV1()");
+    protected synchronized void deserializeV1(DataInputStream dataInputStream) throws IOException {
+        this.log.log(1000000, "CacheHandlerImpl.deserializeV1()");
         int n = dataInputStream.readInt();
         this.serviceID2worker.clear();
         for (int i2 = 0; i2 < n; ++i2) {
@@ -184,7 +179,6 @@ implements CacheHandler {
         }
     }
 
-    @Override
     public synchronized void addListener(CacheEventListener cacheEventListener) {
         if (cacheEventListener == null) {
             return;
@@ -205,7 +199,6 @@ implements CacheHandler {
         }
     }
 
-    @Override
     public synchronized void removeListener(CacheEventListener cacheEventListener) {
         if (cacheEventListener == null) {
             return;
@@ -226,7 +219,6 @@ implements CacheHandler {
         }
     }
 
-    @Override
     public synchronized Object getState(String string, String string2) {
         CacheWorker cacheWorker = (CacheWorker)this.serviceID2worker.get(string);
         if (cacheWorker != null) {

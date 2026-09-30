@@ -8,12 +8,10 @@ import org.dsi.ifc.navigation.RrdCalculationInfo;
 
 public class DummyDistanceContainer
 implements IDistanceContainer {
-    @Override
     public RrdCalculationInfo getDistance(int n) {
         return null;
     }
 
-    @Override
     public void storeRRDDistances(RrdCalculationInfo[] rrdCalculationInfoArray) {
     }
 }

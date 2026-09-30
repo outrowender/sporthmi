@@ -12,23 +12,22 @@ import de.audi.tghu.navi.app.addressinput.CmdNaviPreviewMapUpdate;
 import de.audi.tghu.navi.app.addressinput.IAddressInputForm;
 import de.audi.tghu.navi.app.addressinput.IMatchspellerInputSequenceExt;
 import de.audi.tghu.navi.app.addressinput.IMatchspellerModelAccess;
-import de.audi.tghu.navi.app.addressinput.city.CityZipInputSimpleSequence$1;
-import de.audi.tghu.navi.app.addressinput.city.CityZipInputSimpleSequence$2;
-import de.audi.tghu.navi.app.addressinput.city.CityZipInputSimpleSequence$3;
-import de.audi.tghu.navi.app.addressinput.city.CityZipInputSimpleSequence$4;
-import de.audi.tghu.navi.app.addressinput.city.CityZipInputSimpleSequence$5;
-import de.audi.tghu.navi.app.addressinput.city.CityZipInputSimpleSequence$6;
 import de.audi.tghu.navi.app.addressinput.city.ICityInputSequence;
+import de.audi.tghu.navi.app.addressinput.commands.AddCityToHistoryCommand;
 import de.audi.tghu.navi.app.addressinput.commands.GetLastCityHistoryEntryCommand;
 import de.audi.tghu.navi.app.addressinput.commands.LISPSelectListItemCommand;
+import de.audi.tghu.navi.app.addressinput.commands.LISetCurrentLDCommand;
+import de.audi.tghu.navi.app.addressinput.commands.LIStartSpellerCommand;
 import de.audi.tghu.navi.app.addressinput.commands.LispSelectListItemByIdent;
 import de.audi.tghu.navi.app.addressinput.commands.ModelSelectListElementCommand;
 import de.audi.tghu.navi.app.addressinput.commands.UpdateAddressInputFormScreenModelsCommand;
 import de.audi.tghu.navi.app.addressinput.country.SetBackupLocationForAddressInputFormCommand;
 import de.audi.tghu.navi.app.addressinput.poi.commands.LIRestoreStateCommand;
 import de.audi.tghu.navi.app.addressinput.poi.commands.SetCityAsLocationForPreviewMapCommand;
+import de.audi.tghu.navi.app.command.NavCommand;
 import de.audi.tghu.navi.app.li.SpellerStack;
-import de.audi.tghu.navi.app.li.SpellerStack$StackElement;
+import de.audi.tghu.navi.app.util.Util;
+import org.dsi.ifc.global.NavLocation;
 import org.dsi.ifc.navigation.LICityHistoryEntry;
 import org.dsi.ifc.navigation.LIValueListElement;
 
@@ -51,26 +50,64 @@ IMatchspellerInputSequenceExt {
         this.addressInputForm = iAddressInputForm;
     }
 
-    @Override
     public CommandList createStartCommandList(boolean bl) {
         CommandList commandList = this.commandListFactory.createCommandList();
-        commandList.add(new CityZipInputSimpleSequence$1(this, "CityZipInputSimpleSequence#SetCurrentLDFromResponseContainer"));
-        commandList.add(new CityZipInputSimpleSequence$2(this, "Choose speller SelectionCriteria for City"));
+        commandList.add(new NavCommand("CityZipInputSimpleSequence#SetCurrentLDFromResponseContainer"){
+
+            public void execute() {
+                this.getCommandList().commandFinishedWithPostCommand(new LISetCurrentLDCommand(this.dsiResponseContainer.getLiCurrentLD()));
+            }
+        });
+        commandList.add(new NavCommand("Choose speller SelectionCriteria for City"){
+
+            public void execute() {
+                if (Util.isHURegionKR() && this.env.getInputModeManager().isSdsActive()) {
+                    this.logger.log(10000000, "%1#createStartCommandList - Region is Korea and SDS is active -> Skip validity checks for selection criteria and start town speller.", (Object)this.CLASS_NAME);
+                    this.getCommandList().commandFinishedWithPostCommand(new LIStartSpellerCommand(2, true, true, true));
+                    return;
+                }
+                if (CityZipInputSimpleSequence.this.inputCriteria == 4 && (this.dsiResponseContainer.selectionCriterionAvailable(133) || this.dsiResponseContainer.selectionCriterionAvailable(6))) {
+                    if (this.dsiResponseContainer.selectionCriterionAvailable(133) && this.dsiResponseContainer.selectionCriterionAvailable(6)) {
+                        this.getCommandList().commandFinishedWithPostCommand(new LIStartSpellerCommand(133, 6, true, true, true));
+                    } else if (this.dsiResponseContainer.selectionCriterionAvailable(133)) {
+                        this.getCommandList().commandFinishedWithPostCommand(new LIStartSpellerCommand(133, true, true, true));
+                    } else if (this.dsiResponseContainer.selectionCriterionAvailable(6)) {
+                        this.getCommandList().commandFinishedWithPostCommand(new LIStartSpellerCommand(6, true, true, true));
+                    }
+                } else if ((CityZipInputSimpleSequence.this.inputCriteria == -1 || CityZipInputSimpleSequence.this.inputCriteria == 3) && this.dsiResponseContainer.selectionCriterionAvailable(133) && this.dsiResponseContainer.selectionCriterionAvailable(6)) {
+                    this.getCommandList().commandFinishedWithPostCommand(new LIStartSpellerCommand(2, 6, true, true, true));
+                } else if ((CityZipInputSimpleSequence.this.inputCriteria == -1 || CityZipInputSimpleSequence.this.inputCriteria == 1) && this.dsiResponseContainer.selectionCriterionAvailable(2)) {
+                    this.getCommandList().commandFinishedWithPostCommand(new LIStartSpellerCommand(2, true, true, true));
+                } else if ((CityZipInputSimpleSequence.this.inputCriteria == -1 || CityZipInputSimpleSequence.this.inputCriteria == 2) && this.dsiResponseContainer.selectionCriterionAvailable(6)) {
+                    this.getCommandList().commandFinishedWithPostCommand(new LIStartSpellerCommand(6, true, true, true));
+                } else {
+                    this.logger.log(1000000, "CityZipInputSimpleSequence#availableSelectionCriteria = %1 currentLD = %2", (Object)this.dsiResponseContainer.getLiAvailableSelectionCriteria(), (Object)this.dsiResponseContainer.getLiCurrentLD());
+                    this.getCommandList().commandAborted("Neither SELCRITDES_TOWN nor SELCRITDES_ZIP_CODE are available as selection criteria");
+                }
+            }
+        });
         return commandList;
     }
 
-    @Override
     public void selectListElement(LIValueListElement lIValueListElement, boolean bl) {
         CommandList commandList = this.getSelectListElementCommandList(lIValueListElement, bl);
         commandList.execute("CityZipInputSimpleSequence#selectListElement");
     }
 
-    @Override
-    public CommandList getSelectListElementCommandList(LIValueListElement lIValueListElement, boolean bl) {
+    public CommandList getSelectListElementCommandList(final LIValueListElement lIValueListElement, boolean bl) {
         CommandList commandList = this.commandListFactory.createCommandList();
         this.addGetStateCommand(commandList, bl, lIValueListElement);
         commandList.add(new LISPSelectListItemCommand(lIValueListElement.getListIndex()));
-        commandList.add(new CityZipInputSimpleSequence$3(this, lIValueListElement));
+        commandList.add(new NavCommand(){
+
+            public void execute() {
+                if (!lIValueListElement.isToRefine()) {
+                    this.getCommandList().commandFinishedWithPostCommand(new AddCityToHistoryCommand(CityZipInputSimpleSequence.this.cityHistory));
+                } else {
+                    this.getCommandList().commandFinished();
+                }
+            }
+        });
         commandList.add(new ModelSelectListElementCommand(this.modelAccess));
         commandList.add(new UpdateAddressInputFormScreenModelsCommand(this.modelAccess));
         commandList.add(new CmdNaviPreviewMapUpdate(this.previewMap, true, 1, null, null));
@@ -78,17 +115,24 @@ IMatchspellerInputSequenceExt {
         return commandList;
     }
 
-    @Override
     public void selectElementByIdentifier(String string) {
         CommandList commandList = this.getSelectElementByIdentifierCommandList(string);
         commandList.execute("CityZipInputSimpleSequence#selectElementByIdentifier");
     }
 
-    @Override
     public CommandList getSelectElementByIdentifierCommandList(String string) {
         CommandList commandList = this.commandListFactory.createCommandList();
         commandList.add(new LispSelectListItemByIdent(string));
-        commandList.add(new CityZipInputSimpleSequence$4(this));
+        commandList.add(new NavCommand(){
+
+            public void execute() {
+                if (this.dsiResponseContainer.getLispCurrentSelectionCriterion() == 2) {
+                    this.getCommandList().commandFinishedWithPostCommand(new AddCityToHistoryCommand(CityZipInputSimpleSequence.this.cityHistory));
+                } else {
+                    this.getCommandList().commandFinished();
+                }
+            }
+        });
         commandList.add(new ModelSelectListElementCommand(this.modelAccess));
         commandList.add(new UpdateAddressInputFormScreenModelsCommand(this.modelAccess));
         commandList.add(new CmdNaviPreviewMapUpdate(this.previewMap, true, 1, null, null));
@@ -96,7 +140,6 @@ IMatchspellerInputSequenceExt {
         return commandList;
     }
 
-    @Override
     public void selectHistoryElement(LICityHistoryEntry lICityHistoryEntry, boolean bl) {
         CommandList commandList = this.getSelectHistoryElementCommandList(lICityHistoryEntry, bl);
         commandList.execute("CityZipInputSimpleSequence#selectHistoryElement");
@@ -106,7 +149,17 @@ IMatchspellerInputSequenceExt {
         CommandList commandList = this.commandListFactory.createCommandList();
         this.addGetStateCommand(commandList, bl, null);
         commandList.add(new GetLastCityHistoryEntryCommand(lICityHistoryEntry));
-        commandList.add(new CityZipInputSimpleSequence$5(this));
+        commandList.add(new NavCommand(){
+
+            public void execute() {
+                Object object = this.getCommandList().get("NavLocation from History");
+                if (object == null || !(object instanceof NavLocation)) {
+                    this.getCommandList().commandAborted("unexpected Object");
+                } else {
+                    this.getCommandList().commandFinishedWithPostCommand(new LISetCurrentLDCommand((NavLocation)object));
+                }
+            }
+        });
         commandList.add(new ModelSelectListElementCommand(this.modelAccess));
         commandList.add(new UpdateAddressInputFormScreenModelsCommand(this.modelAccess));
         commandList.add(new CmdNaviPreviewMapUpdate(this.previewMap, true, 1, null, null));
@@ -114,15 +167,25 @@ IMatchspellerInputSequenceExt {
         return commandList;
     }
 
-    @Override
-    public void showHistoryLocationInPreviewMap(IPreviewMap iPreviewMap, LICityHistoryEntry lICityHistoryEntry) {
+    public void showHistoryLocationInPreviewMap(final IPreviewMap iPreviewMap, LICityHistoryEntry lICityHistoryEntry) {
         CommandList commandList = this.commandListFactory.createCommandList();
         commandList.add(new GetLastCityHistoryEntryCommand(lICityHistoryEntry));
-        commandList.add(new CityZipInputSimpleSequence$6(this, "SetNavLocationForPreviewMap", iPreviewMap));
+        commandList.add(new NavCommand("SetNavLocationForPreviewMap"){
+
+            public void execute() {
+                Object object = this.getCommandList().get("NavLocation from History");
+                if (object == null || !(object instanceof NavLocation)) {
+                    this.getCommandList().commandAborted("unexpected Object");
+                } else {
+                    NavLocation navLocation = (NavLocation)object;
+                    iPreviewMap.setPreviewLocationCity(navLocation, 1, null, null);
+                    this.getCommandList().commandFinished();
+                }
+            }
+        });
         commandList.execute("CityZipInputSimpleSequence#showHistoryLocationInPreviewMap");
     }
 
-    @Override
     public void showLocationInPreviewMap(IPreviewMap iPreviewMap, LIValueListElement lIValueListElement) {
         if (this.hasActiveSubSequence()) {
             this.childSequence.showLocationInPreviewMap(iPreviewMap, lIValueListElement);
@@ -135,7 +198,6 @@ IMatchspellerInputSequenceExt {
         }
     }
 
-    @Override
     public void restore() {
         int n = 1;
         if (this.childSequence != null) {
@@ -143,12 +205,12 @@ IMatchspellerInputSequenceExt {
             this.childSequence = null;
             return;
         }
-        SpellerStack$StackElement spellerStack$StackElement = this.spellerStack.pop();
-        if (spellerStack$StackElement != null) {
+        SpellerStack.StackElement stackElement = this.spellerStack.pop();
+        if (stackElement != null) {
             CommandList commandList = this.commandListFactory.createCommandList();
-            commandList.add(new LIRestoreStateCommand(spellerStack$StackElement.spellerData));
+            commandList.add(new LIRestoreStateCommand(stackElement.spellerData));
             commandList.add(new CmdNaviPreviewMapUpdate(this.previewMap, true, n, null, null));
-            commandList.execute(new StringBuffer().append(this.CLASS_NAME).append("#restore").toString());
+            commandList.execute(this.CLASS_NAME + "#restore");
         }
     }
 }

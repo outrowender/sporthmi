@@ -14,26 +14,21 @@ extends AbstractVolumeRange {
         super(volumeRangeManager, -1, -1);
     }
 
-    @Override
     protected String getName() {
         return "NullVolumeRange";
     }
 
-    @Override
     protected int getID() {
         return -1;
     }
 
-    @Override
     protected void init() {
     }
 
-    @Override
     protected int[] getVolumeConnections() {
         return this.connections;
     }
 
-    @Override
     protected void audible(boolean bl) {
     }
 }

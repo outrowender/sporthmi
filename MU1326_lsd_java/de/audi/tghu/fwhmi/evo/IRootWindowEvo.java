@@ -9,19 +9,14 @@ import de.audi.tghu.hmi.evo.IDrawerFocusManagerEvo;
 
 public interface IRootWindowEvo
 extends IRootWindow {
-    default public IDrawerFocusManagerEvo getDrawerFocusManager() {
-    }
+    public IDrawerFocusManagerEvo getDrawerFocusManager();
 
-    default public void setDrawerFocusManager(IDrawerFocusManagerEvo iDrawerFocusManagerEvo) {
-    }
+    public void setDrawerFocusManager(IDrawerFocusManagerEvo var1);
 
-    default public void setViewSizeManager(IViewSizeManager iViewSizeManager) {
-    }
+    public void setViewSizeManager(IViewSizeManager var1);
 
-    default public IViewSizeManager getViewSizeManager() {
-    }
+    public IViewSizeManager getViewSizeManager();
 
-    default public void postRepaintEvent() {
-    }
+    public void postRepaintEvent();
 }
 

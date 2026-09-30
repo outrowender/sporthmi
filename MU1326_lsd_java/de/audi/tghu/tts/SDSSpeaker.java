@@ -14,24 +14,21 @@ implements TTSSDSService {
     public SDSSpeaker(LogChannel logChannel, DSITTSCaller dSITTSCaller, short s) {
         super(logChannel, dSITTSCaller, -1, s);
         this.sessionPauseHandling = 0;
-        this.logCh.log(-2137614336, "[SDSSpeaker#ctor] Called.");
+        this.logCh.log(10000000, "[SDSSpeaker#ctor] Called.");
     }
 
-    @Override
     public void speakImpl(String string) {
-        this.logCh.log(-2137614336, "[SDSSpeaker#speakImpl] Called, text: %1", (Object)string);
+        this.logCh.log(10000000, "[SDSSpeaker#speakImpl] Called, text: %1", (Object)string);
         this.ttsService.speak(string);
     }
 
-    @Override
     public void playTone(int n) {
-        this.logCh.log(-2137614336, "[SDSSpeaker#playTone] Called, toneValue=%1", (long)n);
+        this.logCh.log(10000000, "[SDSSpeaker#playTone] Called, toneValue=%1", (long)n);
         this.ttsService.playTone(n);
     }
 
-    @Override
     public synchronized void speakRemoteHMI(String string) {
-        this.logCh.log(1078071040, "[AbstractSpeaker#speakRemoteHMI] Called, text: %1", (Object)string);
+        this.logCh.log(1000000, "[AbstractSpeaker#speakRemoteHMI] Called, text: %1", (Object)string);
         this.ttsService.speak(string, 3);
     }
 }

@@ -10,12 +10,11 @@ import de.esolutions.fw.util.commons.Buffer;
 
 public abstract class AbstractHapticUIService
 extends AbstractUIService {
-    @Override
     public void activateUI(State[] stateArray, int n, AdditionalScreenData additionalScreenData) {
         int n2;
         State state;
         if (this.logger.smi.isInfo()) {
-            this.logger.smi.log(1078071040, "[AbstractHapticUIService#activateUI] [%1] metaInfos='%2'", (Object)this.data.terminal.getTerminalName(), (Object)additionalScreenData);
+            this.logger.smi.log(1000000, "[AbstractHapticUIService#activateUI] [%1] metaInfos='%2'", (Object)this.data.terminal.getTerminalName(), (Object)additionalScreenData);
         }
         if ((state = stateArray[n - 1]).isComposite()) {
             this.logger.smi.log(1000, "[AbstractHapticUIService#activateUI] [%1] event processing terminated without activating a simple state (STATEID#%2).", (Object)this.data.terminal.getTerminalName(), (long)state.getStateID());
@@ -48,7 +47,7 @@ extends AbstractUIService {
             buffer.append(bl3 ? " & animate" : "");
             buffer.append("(VIEWID#").append(n2).append(") ");
             buffer.append(bl ? "locked" : "unlocked");
-            this.logger.sm[this.data.terminalID][this.data.subterminalID].log(1078071040, "[AbstractHapticUIService#activateUI] [%1] activate screen %2", (Object)this.data.terminal.getTerminalName(), (Object)buffer.toString());
+            this.logger.sm[this.data.terminalID][this.data.subterminalID].log(1000000, "[AbstractHapticUIService#activateUI] [%1] activate screen %2", (Object)this.data.terminal.getTerminalName(), (Object)buffer.toString());
         }
         try {
             this.showScreen(n2, nArray, bl2, bl, bl3, this.stateMachine.getPartialPopupShowList(), additionalScreenData);
@@ -59,7 +58,6 @@ extends AbstractUIService {
         }
     }
 
-    @Override
     public void reactivateUI(State[] stateArray, int n, AdditionalScreenData additionalScreenData) {
         int n2;
         State state = stateArray[n - 1];
@@ -86,7 +84,7 @@ extends AbstractUIService {
             this.getSMI().criticalError("critical model error during SMI processing");
         }
         boolean bl = this.stateMachine.lockingScreen();
-        this.logger.sm[this.data.terminalID][this.data.subterminalID].log(1078071040, "[AbstractHapticUIService#reactivateUI] [%1] activate & reinit screen (VIEWID#%2).", (Object)this.data.terminal.getTerminalName(), (long)n2);
+        this.logger.sm[this.data.terminalID][this.data.subterminalID].log(1000000, "[AbstractHapticUIService#reactivateUI] [%1] activate & reinit screen (VIEWID#%2).", (Object)this.data.terminal.getTerminalName(), (long)n2);
         try {
             this.showScreen(n2, nArray, true, bl, false, this.stateMachine.getPartialPopupShowList(), additionalScreenData);
         }
@@ -96,13 +94,11 @@ extends AbstractUIService {
         }
     }
 
-    protected abstract void showScreen(int n, int[] nArray, boolean bl, boolean bl2, boolean bl3, int[] nArray2, AdditionalScreenData additionalScreenData) {
-    }
+    protected abstract void showScreen(int var1, int[] var2, boolean var3, boolean var4, boolean var5, int[] var6, AdditionalScreenData var7);
 
-    @Override
     protected void lockScreen(boolean bl) {
         if (this.logger.sm[this.data.terminalID][this.data.subterminalID].isDebug2()) {
-            this.logger.sm[this.data.terminalID][this.data.subterminalID].log(14808325, "[AbstractHapticUIService#lockScreen] [%1] lock='%2'", (Object)this.data.terminal.getTerminalName(), (Object)Boolean.toString(bl));
+            this.logger.sm[this.data.terminalID][this.data.subterminalID].log(100000000, "[AbstractHapticUIService#lockScreen] [%1] lock='%2'", (Object)this.data.terminal.getTerminalName(), (Object)Boolean.toString(bl));
         }
         try {
             this.stateMachine.getSMI().lockCurrentScreen(this.data.terminalID, this.data.subterminalID, bl);
@@ -113,14 +109,12 @@ extends AbstractUIService {
         }
     }
 
-    @Override
     protected void stopUI() {
     }
 
-    @Override
     public void noStateChange() {
         try {
-            this.logger.sm[this.data.terminalID][this.data.subterminalID].log(1078071040, "[AbstractHapticUIService#noStateChange] [%1] inform HMI service, that no screen/state has changed", (Object)this.data.terminal.getTerminalName());
+            this.logger.sm[this.data.terminalID][this.data.subterminalID].log(1000000, "[AbstractHapticUIService#noStateChange] [%1] inform HMI service, that no screen/state has changed", (Object)this.data.terminal.getTerminalName());
             this.getSMI().noStateChange(this.data.terminalID);
         }
         catch (Exception exception) {

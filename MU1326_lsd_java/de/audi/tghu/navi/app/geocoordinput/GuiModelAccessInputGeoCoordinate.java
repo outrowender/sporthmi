@@ -9,14 +9,10 @@ import org.dsi.ifc.global.NavLocation;
 
 public interface GuiModelAccessInputGeoCoordinate
 extends GuiModelAccessForPreviewMapDetailScreen {
-    default public void setCoordinates(NavLocation navLocation, int n) {
-    }
+    public void setCoordinates(NavLocation var1, int var2);
 
-    default public void setCoordinates(GeoMetric geoMetric, int n) {
-    }
+    public void setCoordinates(GeoMetric var1, int var2);
 
-    @Override
-    default public void onUpdateLocation(NavLocation navLocation) {
-    }
+    public void onUpdateLocation(NavLocation var1);
 }
 

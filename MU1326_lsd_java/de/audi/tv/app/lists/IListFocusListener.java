@@ -4,7 +4,6 @@
 package de.audi.tv.app.lists;
 
 public interface IListFocusListener {
-    default public void onFocusedListChanged(int n) {
-    }
+    public void onFocusedListChanged(int var1);
 }
 

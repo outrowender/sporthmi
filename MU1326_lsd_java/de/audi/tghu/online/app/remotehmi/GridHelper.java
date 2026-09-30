@@ -17,9 +17,9 @@ public class GridHelper {
      */
     public static void updateListModelTransaction(ListModelApp listModelApp, IGridList iGridList, Object object, int n, int n2, LogChannel logChannel) {
         String string = ModelDescription.getList(listModelApp.getID());
-        logChannel.log(1078071040, "GridHelper#updateListModelTransaction: triggered grid list repaint. grid list range start = %1. List model = '%2'. Listener = %3", (Object)new Integer(iGridList.getIdRangeStart()), (Object)string, object);
+        logChannel.log(1000000, "GridHelper#updateListModelTransaction: triggered grid list repaint. grid list range start = %1. List model = '%2'. Listener = %3", (Object)new Integer(iGridList.getIdRangeStart()), (Object)string, object);
         if (n == 0) {
-            logChannel.log(1078071040, "GridHelper#updateListModelTransaction: skipping update mode %1 (nothing to do)", (long)n);
+            logChannel.log(1000000, "GridHelper#updateListModelTransaction: skipping update mode %1 (nothing to do)", (long)n);
             return;
         }
         IGridList iGridList2 = iGridList;
@@ -28,7 +28,7 @@ public class GridHelper {
             int n3 = iGridList.addUpdateMode(n);
             int n4 = iGridList.getUpdateMode();
             if (n3 != 0 && n3 != n4) {
-                logChannel.log(1078071040, "GridHelper#updateListModelTransaction: old pending update mode %1 overridden with mode %2", (long)n3, (long)n4);
+                logChannel.log(1000000, "GridHelper#updateListModelTransaction: old pending update mode %1 overridden with mode %2", (long)n3, (long)n4);
             }
             iGridList.setUpdateSource(n2);
         }

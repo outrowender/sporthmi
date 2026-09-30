@@ -66,7 +66,6 @@ ServiceRegistration {
         return this.svcProperties;
     }
 
-    @Override
     public String[] getPropertyKeys() {
         String[] stringArray = new String[this.svcProperties.size()];
         Enumeration enumeration = this.svcProperties.keys();
@@ -78,32 +77,26 @@ ServiceRegistration {
         return stringArray;
     }
 
-    @Override
     public Object getProperty(String string) {
         return this.svcProperties.get(string);
     }
 
-    @Override
     public Bundle getBundle() {
         return this.bdlInfo;
     }
 
-    @Override
     public Bundle[] getUsingBundles() {
         throw new UnsupportedOperationException("ServiceReference.getUsingBundles is not supported");
     }
 
-    @Override
     public ServiceReference getReference() {
         return this;
     }
 
-    @Override
     public void setProperties(Dictionary dictionary) {
         throw new UnsupportedOperationException("ServiceRegistration.setProperties is not supported");
     }
 
-    @Override
     public void unregister() {
         if (!this.registered) {
             throw new IllegalStateException("service already unregistered");

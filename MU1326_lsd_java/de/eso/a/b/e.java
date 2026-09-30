@@ -42,56 +42,48 @@ implements f {
         }
     }
 
-    @Override
     public void a(String string) {
         if (this.c != null) {
             this.c.a(string);
         }
     }
 
-    @Override
     public void b(String string) {
         if (this.c != null) {
             this.c.b(string);
         }
     }
 
-    @Override
     public void c(String string) {
         if (this.c != null) {
             this.c.c(string);
         }
     }
 
-    @Override
     public void a(String string, int n) {
         if (this.c != null) {
             this.c.a(string, n);
         }
     }
 
-    @Override
     public void d() {
         if (this.c != null) {
             this.c.d();
         }
     }
 
-    @Override
     public void e() {
         if (this.c != null) {
             this.c.e();
         }
     }
 
-    @Override
     public void a(File file, int n) {
         if (this.c != null) {
             this.c.a(file, n);
         }
     }
 
-    @Override
     public void a(byte[] byArray, int n) {
         if (this.c != null) {
             this.c.a(byArray, n);
@@ -107,14 +99,12 @@ implements f {
         this.c = bl ? this.d : null;
     }
 
-    @Override
     public void d(String string) {
         if (this.c != null) {
             this.c.d(string);
         }
     }
 
-    @Override
     public boolean g() {
         return this.d.g();
     }

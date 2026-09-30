@@ -16,15 +16,15 @@ import org.dsi.ifc.tvtuner.ServiceInfo;
 
 public class TVEvoStationRow
 extends AbstractTVStationRow {
-    private static final int EVO_COL_COUNT;
-    private static final int COL_PROPERTIES;
-    private static final int COL_ERROR_ICON;
-    private static final int COL_STATION_ICON;
-    private static final int COL_IS_FAVORITE;
-    private static final int COL_CLASSIFICATION;
-    private static final int COL_RECORD_SET;
-    private static final int DESIGN_WITHOUT_CLASSIFICATION;
-    private static final int DESIGN_WITH_CLASSIFICATION;
+    private static final int EVO_COL_COUNT = 7;
+    private static final int COL_PROPERTIES = 1;
+    private static final int COL_ERROR_ICON = 2;
+    private static final int COL_STATION_ICON = 3;
+    private static final int COL_IS_FAVORITE = 4;
+    private static final int COL_CLASSIFICATION = 5;
+    private static final int COL_RECORD_SET = 6;
+    private static final int DESIGN_WITHOUT_CLASSIFICATION = 0;
+    private static final int DESIGN_WITH_CLASSIFICATION = 1;
     private IRowProperties properties;
     private StationStatus status = new StationStatus(0, 0);
 
@@ -54,19 +54,16 @@ extends AbstractTVStationRow {
         this.status = tVEvoStationRow.getState();
     }
 
-    @Override
     public EvoListRow copy() {
         return new TVEvoStationRow(this);
     }
 
-    @Override
     public synchronized void makeFavorite(boolean bl) {
         this.setInteger(4, bl ? 1 : 0);
         this.properties.setElementIsFavorite(bl);
         this.setPropertyCell(1, new PropertyListCell(this.properties.getCategory(), this.properties.toArray()));
     }
 
-    @Override
     public synchronized void evaluateProgramInfo(ProgramInfo programInfo) {
         this.properties.setDatabroadcastIsCheckingOrUnavailable(programInfo.variantDatabroadcastFlag == 0);
         this.properties.setDatabroadcastIsLoading(programInfo.variantDatabroadcastFlag == 1);
@@ -80,7 +77,6 @@ extends AbstractTVStationRow {
         this.setPropertyCell(1, new PropertyListCell(this.properties.getCategory(), this.properties.toArray()));
     }
 
-    @Override
     public void resetProgramInfo() {
         this.setDefaultProperties();
     }
@@ -98,12 +94,10 @@ extends AbstractTVStationRow {
         this.setPropertyCell(1, new PropertyListCell(this.properties.getCategory(), this.properties.toArray()));
     }
 
-    @Override
     public PropertyListCell getProperties() {
         return (PropertyListCell)this.getCell(1);
     }
 
-    @Override
     public synchronized void setStationStatus(StationStatus stationStatus) {
         this.status = stationStatus;
         int n = TVUtil.getCasStatus(stationStatus.casState);
@@ -120,12 +114,10 @@ extends AbstractTVStationRow {
         this.setInteger(2, n);
     }
 
-    @Override
     public synchronized StationStatus getState() {
         return this.status;
     }
 
-    @Override
     public void updateLogo(ResourceLocator resourceLocator) {
     }
 }

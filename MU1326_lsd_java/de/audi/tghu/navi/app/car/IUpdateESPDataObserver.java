@@ -4,7 +4,6 @@
 package de.audi.tghu.navi.app.car;
 
 public interface IUpdateESPDataObserver {
-    default public void updateESPData() {
-    }
+    public void updateESPData();
 }
 

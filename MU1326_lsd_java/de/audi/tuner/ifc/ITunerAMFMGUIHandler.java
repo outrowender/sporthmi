@@ -8,7 +8,6 @@ import de.audi.tuner.ifc.ITunerGUIHandler;
 
 public interface ITunerAMFMGUIHandler
 extends ITunerGUIHandler {
-    default public void setSelectedStation(AMFMStation aMFMStation) {
-    }
+    public void setSelectedStation(AMFMStation var1);
 }
 

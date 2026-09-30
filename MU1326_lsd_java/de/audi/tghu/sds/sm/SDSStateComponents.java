@@ -33,13 +33,13 @@ public class SDSStateComponents {
 
     private void logoutEmptySDForState() {
         if (this.logChannel != null) {
-            this.logChannel.log(1078071040, "[SDSStateComponents#execSDForState] State has an empty command. No rules are executed.");
+            this.logChannel.log(1000000, "[SDSStateComponents#execSDForState] State has an empty command. No rules are executed.");
         }
     }
 
     public void execSDForState(TTSASR tTSASR, ITTSASRContext iTTSASRContext, int n) {
         if (this.logChannel != null) {
-            this.logChannel.log(1078071040, "[SDSStateComponents#execSDForState] executing SD-Components for State (STATEID#%1).", (Object)Integer.toString(n));
+            this.logChannel.log(1000000, "[SDSStateComponents#execSDForState] executing SD-Components for State (STATEID#%1).", (Object)Integer.toString(n));
         }
         boolean bl = false;
         bl = this.execSDForStateBag0(n, tTSASR, iTTSASRContext);

@@ -4,8 +4,6 @@
 package de.audi.tghu.navi.app.map.routeinfo;
 
 import de.audi.atip.hmi.intercommunication.MixedListConstants;
-import de.audi.atip.hmi.intercommunication.MixedListConstants$TollGateInfo;
-import de.audi.atip.hmi.intercommunication.MixedListConstants$TollgateType_enum;
 import de.audi.atip.hmi.model.HMIResourceLocator;
 import de.audi.atip.hmi.model.IconCell;
 import de.audi.atip.hmi.model.LongListCell;
@@ -17,8 +15,8 @@ import de.audi.atip.util.StringUtilities;
 import de.audi.tghu.navi.app.NavigationEnv;
 import de.audi.tghu.navi.app.PicNavNaviInterfaceImpl;
 import de.audi.tghu.navi.app.map.routeinfo.IRouteInfoHelper;
-import de.audi.tghu.navi.app.map.routeinfo.RouteInfoHandler$TravelData;
-import de.audi.tghu.navi.app.map.utils.MixedListRow$IRouteInfoEnv;
+import de.audi.tghu.navi.app.map.routeinfo.RouteInfoHandler;
+import de.audi.tghu.navi.app.map.utils.MixedListRow;
 import de.audi.tghu.navi.app.util.LocationFormatter;
 import de.audi.tghu.navi.app.util.Util;
 import de.audi.tghu.navi.app.util.addressformatting.AddressFormatter;
@@ -38,55 +36,51 @@ implements MixedListConstants,
 IRouteInfoHelper {
     protected NavigationEnv env;
     private LogChannel logger;
-    protected MixedListRow$IRouteInfoEnv riEnv;
-    protected RouteInfoHandler$TravelData travelData;
+    protected MixedListRow.IRouteInfoEnv riEnv;
+    protected RouteInfoHandler.TravelData travelData;
     protected final DateMetric dateMetric = new DateMetric(new Date(), 5);
     public static int MANEUVERELEMENTELEMENT_NONE = -1;
 
-    public RouteInfoHelper(NavigationEnv navigationEnv, LogChannel logChannel, MixedListRow$IRouteInfoEnv mixedListRow$IRouteInfoEnv) {
+    public RouteInfoHelper(NavigationEnv navigationEnv, LogChannel logChannel, MixedListRow.IRouteInfoEnv iRouteInfoEnv) {
         this.env = navigationEnv;
         this.logger = logChannel;
-        this.riEnv = mixedListRow$IRouteInfoEnv;
+        this.riEnv = iRouteInfoEnv;
     }
 
     protected LogChannel getLogger() {
         return this.logger;
     }
 
-    @Override
-    public void setTravelData(RouteInfoHandler$TravelData routeInfoHandler$TravelData) {
-        this.logger.log(-2137614336, "RouteInfoHelper#setTravelData()");
-        this.travelData = routeInfoHandler$TravelData;
+    public void setTravelData(RouteInfoHandler.TravelData travelData) {
+        this.logger.log(10000000, "RouteInfoHelper#setTravelData()");
+        this.travelData = travelData;
     }
 
-    @Override
-    public long computeDistToFinalDest(long l, int n, RouteInfoHandler$TravelData routeInfoHandler$TravelData) {
-        if (routeInfoHandler$TravelData != null && routeInfoHandler$TravelData.rgDestinationInfo != null && routeInfoHandler$TravelData.rgDestinationInfo.length > n && n >= 0) {
-            return l + (long)routeInfoHandler$TravelData.rgDestinationInfo[n].endDistance;
+    public long computeDistToFinalDest(long l, int n, RouteInfoHandler.TravelData travelData) {
+        if (travelData != null && travelData.rgDestinationInfo != null && travelData.rgDestinationInfo.length > n && n >= 0) {
+            return l + (long)travelData.rgDestinationInfo[n].endDistance;
         }
-        this.getLogger().log(-1601830656, "RouteInfoHelper#computeDistToFinalDest() - invalid TravelData: %1", (Object)routeInfoHandler$TravelData);
+        this.getLogger().log(100000, "RouteInfoHelper#computeDistToFinalDest() - invalid TravelData: %1", (Object)travelData);
         return 0L;
     }
 
-    @Override
-    public long computeRttToFinalDest(long l, int n, RouteInfoHandler$TravelData routeInfoHandler$TravelData) {
+    public long computeRttToFinalDest(long l, int n, RouteInfoHandler.TravelData travelData) {
         try {
-            if (routeInfoHandler$TravelData != null && routeInfoHandler$TravelData.isTravelDataValid()) {
-                if (n == routeInfoHandler$TravelData.rgDestinationInfo.length - 1) {
+            if (travelData != null && travelData.isTravelDataValid()) {
+                if (n == travelData.rgDestinationInfo.length - 1) {
                     return l;
                 }
-                return l + (long)(routeInfoHandler$TravelData.rgDestinationInfo[n + 1].remainingTravelTime / 1000);
+                return l + (long)(travelData.rgDestinationInfo[n + 1].remainingTravelTime / 1000);
             }
-            this.getLogger().log(-1601830656, "RouteInfoHelper#computeRttToFinalDest() - invalid Travel data - return 0 as RttToFinalDest! ");
+            this.getLogger().log(100000, "RouteInfoHelper#computeRttToFinalDest() - invalid Travel data - return 0 as RttToFinalDest! ");
             return 0L;
         }
         catch (Exception exception) {
-            this.getLogger().log(-1601830656, "RouteInfoHelper#computeRttToFinalDest() - invalid Travel data cause array out of bounds, destIndex: %1", (long)n);
+            this.getLogger().log(100000, "RouteInfoHelper#computeRttToFinalDest() - invalid Travel data cause array out of bounds, destIndex: %1", (long)n);
             return 0L;
         }
     }
 
-    @Override
     public long computeWholeDistance(int[] nArray) {
         long l = 0L;
         for (int i2 = 0; i2 < nArray.length; ++i2) {
@@ -95,7 +89,6 @@ IRouteInfoHelper {
         return l;
     }
 
-    @Override
     public int getDefaultFormat(TurnListElement turnListElement, NavigationEnv navigationEnv) {
         int n = turnListElement.getManeuver()[0].getElement();
         int n2 = -1;
@@ -180,7 +173,6 @@ IRouteInfoHelper {
         return 0;
     }
 
-    @Override
     public int getDefaultFormat(NavPoiInfo navPoiInfo) {
         if (navPoiInfo == null) {
             return -1;
@@ -194,7 +186,6 @@ IRouteInfoHelper {
         return 1;
     }
 
-    @Override
     public int getDefaultFormat(TmcMessage tmcMessage) {
         if (tmcMessage == null) {
             return -1;
@@ -214,7 +205,6 @@ IRouteInfoHelper {
         return 2;
     }
 
-    @Override
     public long getDistToNextDest(Object object) {
         if (object instanceof TurnListElement) {
             return ((TurnListElement)object).distance;
@@ -228,7 +218,6 @@ IRouteInfoHelper {
         return 0L;
     }
 
-    @Override
     public int getDestinationIndex(Object object) {
         if (object instanceof TurnListElement) {
             return ((TurnListElement)object).destinationIndex;
@@ -242,14 +231,13 @@ IRouteInfoHelper {
         return 0;
     }
 
-    @Override
     public long getRttToNextDest(Object object) {
         if (object instanceof TurnListElement) {
             TurnListElement turnListElement = (TurnListElement)object;
             return turnListElement.etaWithTimeDelay != 0L ? turnListElement.etaWithTimeDelay : turnListElement.eta;
         }
         if (object instanceof NavPoiInfo) {
-            return ((NavPoiInfo)object).remainingTime / 0;
+            return ((NavPoiInfo)object).remainingTime / 1000L;
         }
         if (object instanceof TmcMessage) {
             return ((TmcMessage)object).startTimeToDestination;
@@ -257,7 +245,6 @@ IRouteInfoHelper {
         return 0L;
     }
 
-    @Override
     public boolean isTurnElement(int n) {
         boolean bl = false;
         switch (n) {
@@ -277,12 +264,10 @@ IRouteInfoHelper {
         return bl;
     }
 
-    @Override
     public boolean isRealTurnElement(org.dsi.ifc.navigation.ManeuverElement maneuverElement) {
         return maneuverElement != null && maneuverElement.getElement() < 128;
     }
 
-    @Override
     public String determineDisplayName(TurnListElement turnListElement) {
         String string = turnListElement.getTurnToStreet();
         String string2 = turnListElement.getSignPostInfo();
@@ -292,19 +277,17 @@ IRouteInfoHelper {
         if (Util.isHURegionNAR() && turnListElement.maneuver != null) {
             for (int i2 = 0; i2 < turnListElement.maneuver.length; ++i2) {
                 if (turnListElement.maneuver[i2].getElement() != 256) continue;
-                string = new StringBuffer().append("\u25ca ").append(string).toString();
+                string = "\u25ca " + string;
                 break;
             }
         }
         return string;
     }
 
-    @Override
     public String determineExitNumber(TurnListElement turnListElement) {
         return turnListElement.getExitNumber();
     }
 
-    @Override
     public int findSpeedUnitForCountry(String string, RoadClassSpeedInfo[] roadClassSpeedInfoArray) {
         if (!Util.isEmpty(string) && roadClassSpeedInfoArray != null) {
             for (int i2 = 0; i2 < roadClassSpeedInfoArray.length; ++i2) {
@@ -316,9 +299,8 @@ IRouteInfoHelper {
         return 0;
     }
 
-    @Override
     public String formatDistString(long l) {
-        if (l > 0) {
+        if (l > 30L) {
             if (Util.isHURegionAsia()) {
                 return Util.formatDistance((int)l, 5);
             }
@@ -327,7 +309,6 @@ IRouteInfoHelper {
         return "";
     }
 
-    @Override
     public String formatMillisecond(long l) {
         if (l == 0L) {
             return "";
@@ -336,31 +317,26 @@ IRouteInfoHelper {
         return this.dateMetric.format();
     }
 
-    @Override
     public ManeuverElement clone(org.dsi.ifc.navigation.ManeuverElement maneuverElement) {
         return new ManeuverElement(maneuverElement.getElement(), maneuverElement.getDirection(), maneuverElement.getAttribute());
     }
 
-    @Override
     public boolean isWithinHorizon(long l) {
-        return l <= 0;
+        return l <= 500L;
     }
 
-    @Override
     public DateMetric createDateMetrics(long l) {
         return new DateMetric(new Date(l), 5);
     }
 
-    @Override
     public int getElement(TurnListElement turnListElement, int n) {
         if (turnListElement != null && turnListElement.maneuver != null && 0 <= n && n < turnListElement.maneuver.length) {
             return turnListElement.maneuver[n].element;
         }
-        this.getLogger().log(14808325, "RouteInfoHelper#getElement() - tle.maneuver[%1].element not found", (long)n);
+        this.getLogger().log(100000000, "RouteInfoHelper#getElement() - tle.maneuver[%1].element not found", (long)n);
         return MANEUVERELEMENTELEMENT_NONE;
     }
 
-    @Override
     public org.dsi.ifc.navigation.ManeuverElement getManeuverElement(TurnListElement turnListElement, int n) {
         if (turnListElement != null && turnListElement.maneuver != null) {
             for (int i2 = 0; i2 < turnListElement.maneuver.length; ++i2) {
@@ -371,7 +347,6 @@ IRouteInfoHelper {
         return null;
     }
 
-    @Override
     public String getDisplayName(TurnListElement turnListElement) {
         int n;
         String string = turnListElement.getTurnToStreet();
@@ -385,26 +360,24 @@ IRouteInfoHelper {
         return string;
     }
 
-    @Override
     public String getDisplayName(NavPoiInfo navPoiInfo) {
         String string = "";
         if (navPoiInfo != null && navPoiInfo.poiLocations != null && navPoiInfo.poiLocations.length > 0) {
             string = LocationFormatter.formatPOIName(navPoiInfo.getPoiLocations()[0]);
-            this.getLogger().log(14808325, "RouteInfoHelper#getDisplayName(NavPoiInfo) - %1", (Object)string);
+            this.getLogger().log(100000000, "RouteInfoHelper#getDisplayName(NavPoiInfo) - %1", (Object)string);
         } else {
-            this.getLogger().log(14808325, "RouteInfoHelper#getDisplayName(NavPoiInfo) - empty");
+            this.getLogger().log(100000000, "RouteInfoHelper#getDisplayName(NavPoiInfo) - empty");
         }
         return string;
     }
 
-    @Override
     public String getDisplayName(TmcMessage tmcMessage) {
         String string = "";
         if (tmcMessage != null && tmcMessage.eventText != null && tmcMessage.eventText.length > 0) {
             string = tmcMessage.eventText[0];
-            this.getLogger().log(14808325, "RouteInfoHelper#getDisplayName(TmcMessage) - %1", (Object)string);
+            this.getLogger().log(100000000, "RouteInfoHelper#getDisplayName(TmcMessage) - %1", (Object)string);
         } else {
-            this.getLogger().log(-1601830656, "RouteInfoHelper#getDisplayName(TmcMessage) - empty");
+            this.getLogger().log(100000, "RouteInfoHelper#getDisplayName(TmcMessage) - empty");
         }
         return string;
     }
@@ -429,44 +402,43 @@ IRouteInfoHelper {
         return string;
     }
 
-    @Override
-    public MixedListConstants$TollGateInfo getTollGateInfo(NavLaneGuidanceData[] navLaneGuidanceDataArray, int n) {
+    public MixedListConstants.TollGateInfo getTollGateInfo(NavLaneGuidanceData[] navLaneGuidanceDataArray, int n) {
         if (navLaneGuidanceDataArray == null || navLaneGuidanceDataArray.length == 0) {
             return null;
         }
         int n2 = navLaneGuidanceDataArray.length > n ? n : navLaneGuidanceDataArray.length;
-        MixedListConstants$TollgateType_enum[] mixedListConstants$TollgateType_enumArray = new MixedListConstants$TollgateType_enum[n2];
+        MixedListConstants.TollgateType_enum[] tollgateType_enumArray = new MixedListConstants.TollgateType_enum[n2];
         for (int i2 = 0; i2 < n2; ++i2) {
             short s = navLaneGuidanceDataArray[i2].laneType;
             switch (s) {
                 case 1: {
-                    mixedListConstants$TollgateType_enumArray[i2] = MixedListConstants$TollgateType_enum.ETC_DEDICATED;
+                    tollgateType_enumArray[i2] = MixedListConstants.TollgateType_enum.ETC_DEDICATED;
                     break;
                 }
                 case 2: {
-                    mixedListConstants$TollgateType_enumArray[i2] = MixedListConstants$TollgateType_enum.ETC_AND_GENERAL_COMBINED;
+                    tollgateType_enumArray[i2] = MixedListConstants.TollgateType_enum.ETC_AND_GENERAL_COMBINED;
                     break;
                 }
                 case 3: {
-                    mixedListConstants$TollgateType_enumArray[i2] = MixedListConstants$TollgateType_enum.ETC_GENERAL_ONLY;
+                    tollgateType_enumArray[i2] = MixedListConstants.TollgateType_enum.ETC_GENERAL_ONLY;
                     break;
                 }
                 case 4: {
-                    mixedListConstants$TollgateType_enumArray[i2] = MixedListConstants$TollgateType_enum.ETC_LANE_OMIT;
+                    tollgateType_enumArray[i2] = MixedListConstants.TollgateType_enum.ETC_LANE_OMIT;
                     break;
                 }
                 default: {
-                    this.getLogger().log(-1601830656, "RouteInfoHelper#getTollGateInfo() - %1 : unknown ETC type or type currently not handled!", (long)s);
-                    mixedListConstants$TollgateType_enumArray[i2] = MixedListConstants$TollgateType_enum.ETC_UNKNOWN;
+                    this.getLogger().log(100000, "RouteInfoHelper#getTollGateInfo() - %1 : unknown ETC type or type currently not handled!", (long)s);
+                    tollgateType_enumArray[i2] = MixedListConstants.TollgateType_enum.ETC_UNKNOWN;
                 }
             }
             if (navLaneGuidanceDataArray.length <= n || i2 != n - 1) continue;
-            mixedListConstants$TollgateType_enumArray[i2] = MixedListConstants$TollgateType_enum.ETC_LANE_OMIT;
+            tollgateType_enumArray[i2] = MixedListConstants.TollgateType_enum.ETC_LANE_OMIT;
             break;
         }
-        MixedListConstants$TollGateInfo mixedListConstants$TollGateInfo = new MixedListConstants$TollGateInfo();
-        mixedListConstants$TollGateInfo.setTollGateTypes(mixedListConstants$TollgateType_enumArray);
-        return mixedListConstants$TollGateInfo;
+        MixedListConstants.TollGateInfo tollGateInfo = new MixedListConstants.TollGateInfo();
+        tollGateInfo.setTollGateTypes(tollgateType_enumArray);
+        return tollGateInfo;
     }
 
     public static boolean isLaneGuidanceInfoElement(TurnListElement turnListElement, NavigationEnv navigationEnv) {
@@ -482,7 +454,6 @@ IRouteInfoHelper {
         return turnListElement.getLaneGuidance() != null && turnListElement.getLaneGuidance().length != 0;
     }
 
-    @Override
     public String getDestName(int n) {
         String string = "---";
         int n2 = -1;
@@ -492,16 +463,14 @@ IRouteInfoHelper {
         if (n2 >= 0 && n >= 0 && n <= n2) {
             string = n == this.travelData.rgDestinationInfo.length - 1 ? this.env.getTranslatedText(14, "Destination") : this.env.getTranslatedText(21, "Stopover");
         }
-        this.getLogger().log(-2137614336, "RouteInfoHelper#getDestName( %2 ) - finalDestinationIndex=%3, name=%1", (Object)string, (long)n, (long)n2);
+        this.getLogger().log(10000000, "RouteInfoHelper#getDestName( %2 ) - finalDestinationIndex=%3, name=%1", (Object)string, (long)n, (long)n2);
         return string;
     }
 
-    @Override
     public boolean isFinalDestination(int n) {
         return n >= 0 && this.travelData != null && this.travelData.rgDestinationInfo != null && this.travelData.rgDestinationInfo.length > 0 && n == this.travelData.rgDestinationInfo.length - 1;
     }
 
-    @Override
     public IconCell createPicNavIconCell(NavLocation navLocation) {
         ResourceLocator resourceLocator;
         int n = -1;
@@ -516,35 +485,31 @@ IRouteInfoHelper {
         return null;
     }
 
-    @Override
     public IconCell createTurnRoadIcon(int n, String string) {
         ExtRenderingInfo extRenderingInfo = null;
         if (!Util.isEmpty(string)) {
             extRenderingInfo = this.riEnv.getIconHandler().resolveStreetIconResourceID(n, string.length());
         } else {
-            this.getLogger().log(14808325, "MixedListRow#updateTurnDefault(): Street icon text not available");
+            this.getLogger().log(100000000, "MixedListRow#updateTurnDefault(): Street icon text not available");
         }
         if (extRenderingInfo != null && extRenderingInfo.isValid()) {
             if (this.getLogger().isDebug2()) {
-                this.getLogger().log(14808325, "MixedListRow#updateTurnDefault(): Street icon is available, Resource Id is: (%1), and StreetIconText is (%2)", (Object)String.valueOf(extRenderingInfo.getResourceId()), (Object)string);
+                this.getLogger().log(100000000, "MixedListRow#updateTurnDefault(): Street icon is available, Resource Id is: (%1), and StreetIconText is (%2)", (Object)String.valueOf(extRenderingInfo.getResourceId()), (Object)string);
             }
             return new IconCell(new HMIResourceLocator(extRenderingInfo.getResourceId()), string, extRenderingInfo.getFontReference(), extRenderingInfo.getFontSize(), extRenderingInfo.getFontColor(), extRenderingInfo.getDeltaX(), extRenderingInfo.getDeltaY());
         }
-        this.getLogger().log(14808325, "MixedListRow#updateTurnDefault(): Street icon not available");
+        this.getLogger().log(100000000, "MixedListRow#updateTurnDefault(): Street icon not available");
         return this.createEmptyIconCell();
     }
 
-    @Override
     public IconCell createEmptyIconCell() {
         return new IconCell(new HMIResourceLocator(-1));
     }
 
-    @Override
     public TextListCell createEmptyTextListCell() {
         return new TextListCell("");
     }
 
-    @Override
     public LongListCell createZeroLongListCell() {
         return new LongListCell(0L);
     }

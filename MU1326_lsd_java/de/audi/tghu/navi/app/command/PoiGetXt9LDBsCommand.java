@@ -14,12 +14,10 @@ extends NavCommand {
         this.wordPrediction = iWordPredictionCallback;
     }
 
-    @Override
     public void execute() {
         this.getDSINavigation().poiGetXt9LDBs(this.navigation.getVehicle().getVehicleLocationDescription(), this.wordPrediction.getPoiXt9Mode());
     }
 
-    @Override
     public void poiGetXt9LDBsResult(String[] stringArray) {
         this.wordPrediction.databaseNamesAvailableCallback(stringArray);
         this.getCommandList().commandFinished();

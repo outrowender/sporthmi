@@ -16,15 +16,13 @@ extends AbstractI18nCmd {
         super(fwServices, 4610);
     }
 
-    @Override
     public void decode(DataInputStream dataInputStream) {
-        log.log(-2137614336, "I18nCmdQueryLanguage#decode: Decoding id %1", (long)this.id);
-        log.log(-2137614336, "I18nCmdQueryLanguage#decode: Decoding complete");
+        log.log(10000000, "I18nCmdQueryLanguage#decode: Decoding id %1", (long)this.id);
+        log.log(10000000, "I18nCmdQueryLanguage#decode: Decoding complete");
     }
 
-    @Override
     public void encode(DataOutputStream dataOutputStream) {
-        log.log(-2137614336, "I18nCmdQueryLanguage#encode: Encoding id %1", (long)this.id);
+        log.log(10000000, "I18nCmdQueryLanguage#encode: Encoding id %1", (long)this.id);
         try {
             this.encodeHeader(dataOutputStream);
             dataOutputStream.flush();
@@ -32,12 +30,11 @@ extends AbstractI18nCmd {
         catch (IOException iOException) {
             log.log(10000, "I18nCmdQueryLanguage#encode: ", (Throwable)iOException);
         }
-        log.log(-2137614336, "I18nCmdQueryLanguage#encode: Encoding complete");
+        log.log(10000000, "I18nCmdQueryLanguage#encode: Encoding complete");
     }
 
-    @Override
     public void execute(AbstractRSEConnection abstractRSEConnection) {
-        log.log(-2137614336, "I18nCmdQueryLanguage#execute()");
+        log.log(10000000, "I18nCmdQueryLanguage#execute()");
         if (this.getFwServices().getFramework().isFrontMU()) {
             // empty if block
         }

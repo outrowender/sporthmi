@@ -20,7 +20,6 @@ IMetricsTextConstants {
         this.logMetrics = iFrameworkAccess.getLogChannel("Fw.Metrics");
     }
 
-    @Override
     public String getText(int n) {
         int n2;
         boolean bl = false;
@@ -415,10 +414,10 @@ IMetricsTextConstants {
             }
         }
         if (n2 == -1) {
-            this.logMetrics.log(1078071040, "MetricsTextHandler#getText no internationalized text for metrics constant: %1 available", (long)n);
+            this.logMetrics.log(1000000, "MetricsTextHandler#getText no internationalized text for metrics constant: %1 available", (long)n);
             return null;
         }
-        return new StringBuffer().append(bl ? " " : "").append(this.hmiService.getText(n2)).toString();
+        return (bl ? " " : "") + this.hmiService.getText(n2);
     }
 }
 

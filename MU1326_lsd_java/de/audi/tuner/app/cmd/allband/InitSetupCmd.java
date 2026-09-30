@@ -13,12 +13,11 @@ public class InitSetupCmd
 extends AbstractAllBandCmd {
     public InitSetupCmd(IFrameworkAccess iFrameworkAccess, ISimpleTuner iSimpleTuner, LogChannel logChannel) {
         super(iFrameworkAccess, iSimpleTuner, logChannel);
-        this.setName(new Buffer().append("InitSetupCmd( ").append(super.getClass().getName()).append(" )"));
+        this.setName(new Buffer().append("InitSetupCmd( ").append(iSimpleTuner.getClass().getName()).append(" )"));
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "[InitSetupCmd.execute] ");
+        this.logger.log(10000000, "[InitSetupCmd.execute] ");
         this.tuner.initSetup();
         this.commandFinished();
     }

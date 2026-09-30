@@ -4,7 +4,6 @@
 package de.audi.tuner.app.sdars;
 
 public interface ISdarsAdvisoryListener {
-    default public void advisoryRequested(int n) {
-    }
+    public void advisoryRequested(int var1);
 }
 

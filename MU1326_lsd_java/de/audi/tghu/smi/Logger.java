@@ -12,9 +12,9 @@ import de.esolutions.fw.util.commons.Buffer;
 class Logger {
     public static final LogChannel DEFAULT_LOG_CHANNEL = NullLogChannel.getInstance();
     private LogChannelFactory logChFactory;
-    private static final String LOG_CH_SMI;
-    private static final String LOG_CH_EVENT;
-    private static final String LOG_CH_PRESETS;
+    private static final String LOG_CH_SMI = "Fw.SMI";
+    private static final String LOG_CH_EVENT = "Fw.ATIPEvent";
+    private static final String LOG_CH_PRESETS = "Fw.Presets";
     public LogChannel smi;
     public LogChannel[][] sm = new LogChannel[8][4];
     public LogChannel event;
@@ -26,14 +26,14 @@ class Logger {
     }
 
     private void initLogChannels() {
-        this.smi = this.logChFactory.getLogChannel("Fw.SMI");
+        this.smi = this.logChFactory.getLogChannel(LOG_CH_SMI);
         for (int i2 = 0; i2 < 8; ++i2) {
             for (int i3 = 0; i3 < 4; ++i3) {
                 this.sm[i2][i3] = DEFAULT_LOG_CHANNEL;
             }
         }
-        this.event = this.logChFactory.getLogChannel("Fw.ATIPEvent");
-        this.presets = this.logChFactory.getLogChannel("Fw.Presets");
+        this.event = this.logChFactory.getLogChannel(LOG_CH_EVENT);
+        this.presets = this.logChFactory.getLogChannel(LOG_CH_PRESETS);
     }
 
     public void createLogChannel(StateMachine stateMachine) {

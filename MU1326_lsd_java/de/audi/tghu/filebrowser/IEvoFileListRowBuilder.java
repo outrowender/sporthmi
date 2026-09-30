@@ -7,7 +7,6 @@ import de.audi.tghu.filebrowser.AbstractEvoFileListRow;
 import org.dsi.ifc.filebrowser.BrowsedFile;
 
 public interface IEvoFileListRowBuilder {
-    default public AbstractEvoFileListRow buildRow(BrowsedFile browsedFile, int n) {
-    }
+    public AbstractEvoFileListRow buildRow(BrowsedFile var1, int var2);
 }
 

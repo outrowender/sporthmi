@@ -4,61 +4,42 @@
 package de.audi.tone.app.intra;
 
 public interface IAppSoundListener {
-    default public void updateMuteTheftProtection(boolean bl) {
-    }
+    public void updateMuteTheftProtection(boolean var1);
 
-    default public void updateLoweringEntertainment(int n, int n2) {
-    }
+    public void updateLoweringEntertainment(int var1, int var2);
 
-    default public void updateVolumeRange(int n, int n2) {
-    }
+    public void updateVolumeRange(int var1, int var2);
 
-    default public void updateVolume(int n, int n2, int n3) {
-    }
+    public void updateVolume(int var1, int var2, int var3);
 
-    default public void menuVolumeRange(int n, int n2, int n3) {
-    }
+    public void menuVolumeRange(int var1, int var2, int var3);
 
-    default public void menuVolEntRange(int n, int n2, int n3) {
-    }
+    public void menuVolEntRange(int var1, int var2, int var3);
 
-    default public void updateAmplifier(int n) {
-    }
+    public void updateAmplifier(int var1);
 
-    default public void updatePresetPositionList(int n) {
-    }
+    public void updatePresetPositionList(int var1);
 
-    default public void updatePresetPosition(int n) {
-    }
+    public void updatePresetPosition(int var1);
 
-    default public void inputGainOffsetRange(int n, int n2) {
-    }
+    public void inputGainOffsetRange(int var1, int var2);
 
-    default public void updateInputGainOffset(int n, int n2) {
-    }
+    public void updateInputGainOffset(int var1, int var2);
 
-    default public void updateThreeDMode(int n) {
-    }
+    public void updateThreeDMode(int var1);
 
-    default public void updateThreeDModeRange(int n, int n2) {
-    }
+    public void updateThreeDModeRange(int var1, int var2);
 
-    default public void updatePresetEQList(int n) {
-    }
+    public void updatePresetEQList(int var1);
 
-    default public void updatePresetEQ(int n) {
-    }
+    public void updatePresetEQ(int var1);
 
-    default public void updateFader(int n, int n2, int n3) {
-    }
+    public void updateFader(int var1, int var2, int var3);
 
-    default public void updateFaderRanges(int n, int n2) {
-    }
+    public void updateFaderRanges(int var1, int var2);
 
-    default public void updateBalance(int n, int n2, int n3) {
-    }
+    public void updateBalance(int var1, int var2, int var3);
 
-    default public void updateBalanceRange(int n, int n2) {
-    }
+    public void updateBalanceRange(int var1, int var2);
 }
 

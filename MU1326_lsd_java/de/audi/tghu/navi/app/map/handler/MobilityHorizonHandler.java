@@ -26,9 +26,8 @@ implements IMobilityHorizonHandler {
         this.logChannel = logChannel;
     }
 
-    @Override
     public void setDSIMobilityHorizon(DSIMobilityHorizon dSIMobilityHorizon) {
-        this.logChannel.log(1078071040, "MobilityHorizonHandler#setDSIMobilityHorizon() - mobilityHorizon: %1 ", (Object)dSIMobilityHorizon);
+        this.logChannel.log(1000000, "MobilityHorizonHandler#setDSIMobilityHorizon() - mobilityHorizon: %1 ", (Object)dSIMobilityHorizon);
         if (dSIMobilityHorizon != null) {
             dSIMobilityHorizon.setNotification(new int[]{2, 3, 1, 4}, (DSIListener)this);
             int n = this.retrieveDriveTrainMode();
@@ -53,7 +52,7 @@ implements IMobilityHorizonHandler {
     }
 
     private final void deinitDSI() {
-        this.logChannel.log(-2137614336, "MobilityHorizonHandler#deinit()");
+        this.logChannel.log(10000000, "MobilityHorizonHandler#deinit()");
         if (this.dsiMobilityHorizon != null) {
             try {
                 this.dsiMobilityHorizon.clearNotification(this);
@@ -64,48 +63,41 @@ implements IMobilityHorizonHandler {
         }
     }
 
-    @Override
     public void asyncException(int n, String string, int n2) {
-        this.logChannel.log(1078071040, "MobilityHorizonHandler#asyncException() - errorCode: %2, requestType: %3, errorMsg: %1", (Object)string, (long)n, (long)n2);
+        this.logChannel.log(1000000, "MobilityHorizonHandler#asyncException() - errorCode: %2, requestType: %3, errorMsg: %1", (Object)string, (long)n, (long)n2);
     }
 
-    @Override
     public void updateLocations(MobilityHorizonLocation[] mobilityHorizonLocationArray, int n) {
         if (n == 1) {
-            this.logChannel.log(14808325, "MobilityHorizonHandler#updateLocations() - not implemented ");
+            this.logChannel.log(100000000, "MobilityHorizonHandler#updateLocations() - not implemented ");
         }
     }
 
-    @Override
     public void updateConsideredLocationTypes(int[] nArray, int n) {
         if (n == 1) {
-            this.logChannel.log(14808325, "MobilityHorizonHandler#updateConsideredLocationTypes() - not implemented ");
+            this.logChannel.log(100000000, "MobilityHorizonHandler#updateConsideredLocationTypes() - not implemented ");
         }
     }
 
-    @Override
     public void updateDriveTrainMode(int n, int n2) {
         if (n2 == 1) {
-            this.logChannel.log(1078071040, "MobilityHorizonHandler#updateDriveTrainMode() - driveTrainMode: %1 ", (long)n);
+            this.logChannel.log(1000000, "MobilityHorizonHandler#updateDriveTrainMode() - driveTrainMode: %1 ", (long)n);
         }
     }
 
-    @Override
     public void updateMobilityHorizonStatus(int n, int n2) {
         if (n2 == 1) {
-            this.logChannel.log(1078071040, "MobilityHorizonHandler#updateMobilityHorizonStatus() - status: %1 ", (long)n);
+            this.logChannel.log(1000000, "MobilityHorizonHandler#updateMobilityHorizonStatus() - status: %1 ", (long)n);
             this.mainMap.getActiveContext().updateMobilityHorizonStatus(n);
         }
     }
 
-    @Override
     public void requestLocationRangeLevelResult(int n, int n2) {
-        this.logChannel.log(14808325, "MobilityHorizonHandler#requestLocationRangeLevelResult() - unexpected call! ");
+        this.logChannel.log(100000000, "MobilityHorizonHandler#requestLocationRangeLevelResult() - unexpected call! ");
     }
 
-    @Override
     public void locationRangeLevelChanged(int n) {
-        this.logChannel.log(14808325, "MobilityHorizonHandler#locationRangeLevelChanged() - unexpected call! ");
+        this.logChannel.log(100000000, "MobilityHorizonHandler#locationRangeLevelChanged() - unexpected call! ");
     }
 }
 

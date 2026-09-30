@@ -5,16 +5,16 @@ package de.audi.tghu.navi.app.util.addressformatting.audi.tooltip;
 
 import de.audi.atip.metrics.DateMetric;
 import de.audi.tghu.navi.app.util.Util;
-import de.audi.tghu.navi.app.util.addressformatting.AbstractTooltipFormatter$TooltipStringBuilder;
-import de.audi.tghu.navi.app.util.addressformatting.ITooltipFormatter$TooltipFormatterEnvironment;
+import de.audi.tghu.navi.app.util.addressformatting.AbstractTooltipFormatter;
+import de.audi.tghu.navi.app.util.addressformatting.ITooltipFormatter;
 import de.audi.tghu.navi.app.util.addressformatting.audi.tooltip.TooltipFormatterAsia;
 import java.util.Date;
 import org.dsi.ifc.tmc.TmcMessage;
 
 public abstract class TooltipFormatterJP
 extends TooltipFormatterAsia {
-    public TooltipFormatterJP(ITooltipFormatter$TooltipFormatterEnvironment iTooltipFormatter$TooltipFormatterEnvironment) {
-        super(iTooltipFormatter$TooltipFormatterEnvironment);
+    public TooltipFormatterJP(ITooltipFormatter.TooltipFormatterEnvironment tooltipFormatterEnvironment) {
+        super(tooltipFormatterEnvironment);
     }
 
     protected String formatVICSGen2(TmcMessage tmcMessage) {
@@ -27,17 +27,16 @@ extends TooltipFormatterAsia {
         } else {
             string = null;
         }
-        object = new AbstractTooltipFormatter$TooltipStringBuilder(this);
-        ((AbstractTooltipFormatter$TooltipStringBuilder)object).addString(string2);
+        object = new AbstractTooltipFormatter.TooltipStringBuilder();
+        ((AbstractTooltipFormatter.TooltipStringBuilder)object).addString(string2);
         if (!Util.isEmpty(string)) {
-            ((AbstractTooltipFormatter$TooltipStringBuilder)object).addString("(");
-            ((AbstractTooltipFormatter$TooltipStringBuilder)object).addStringWithoutSeparator(string);
-            ((AbstractTooltipFormatter$TooltipStringBuilder)object).addString(")");
+            ((AbstractTooltipFormatter.TooltipStringBuilder)object).addString("(");
+            ((AbstractTooltipFormatter.TooltipStringBuilder)object).addStringWithoutSeparator(string);
+            ((AbstractTooltipFormatter.TooltipStringBuilder)object).addString(")");
         }
-        return ((AbstractTooltipFormatter$TooltipStringBuilder)object).toString();
+        return ((AbstractTooltipFormatter.TooltipStringBuilder)object).toString();
     }
 
-    @Override
     public String formatTMC(TmcMessage tmcMessage) {
         if (tmcMessage.eventType == 1 || tmcMessage.eventType == 255) {
             return this.formatVICSGen2(tmcMessage);

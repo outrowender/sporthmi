@@ -4,7 +4,6 @@
 package de.audi.tghu.hmi.evo;
 
 public interface IRightDrawerActionReceiver {
-    default public void executeAction(int n) {
-    }
+    public void executeAction(int var1);
 }
 

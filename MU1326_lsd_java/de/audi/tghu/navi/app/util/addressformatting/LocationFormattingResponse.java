@@ -45,7 +45,6 @@ implements IFormattingResponse {
         this.thirdLine.add(formattedHighlightedText);
     }
 
-    @Override
     public String getFirstLineAsText() {
         return this.getLineAsTextFrom(this.firstLine);
     }
@@ -54,7 +53,6 @@ implements IFormattingResponse {
         return this.getLineForTrufflesFrom(this.firstLine);
     }
 
-    @Override
     public String getSecondLineAsText() {
         return this.getLineAsTextFrom(this.secondLine);
     }
@@ -63,7 +61,6 @@ implements IFormattingResponse {
         return this.getLineForTrufflesFrom(this.secondLine);
     }
 
-    @Override
     public String getThirdLineAsText() {
         return this.getLineAsTextFrom(this.thirdLine);
     }
@@ -119,7 +116,6 @@ implements IFormattingResponse {
         this.thirdLine = new LinkedList(list);
     }
 
-    @Override
     public String getPhoneticsAsText() {
         FormattedHighlightedText formattedHighlightedText;
         int n;

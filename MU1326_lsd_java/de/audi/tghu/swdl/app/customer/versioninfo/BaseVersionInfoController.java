@@ -20,7 +20,7 @@ import java.util.Map;
 public class BaseVersionInfoController
 implements I18NTarget {
     static final String BB_INFO_FILE_PATH = System.getProperty("BoardbookInfoFilePath", "/mnt/boardbook/");
-    static final String BB_INFO_FILE_NAME;
+    static final String BB_INFO_FILE_NAME = "update.txt";
     private final LogChannel logMain;
     private final SwdlEnv swdlEnv;
     private final SwdlModels swdlModels;
@@ -31,35 +31,34 @@ implements I18NTarget {
         this.logMain = swdlEnv.getLogMain();
     }
 
-    @Override
     public void setLanguage(Language language) {
         this.readVersionInfo(language.getLanguageCode());
     }
 
     public void readVersionInfo(String string) {
-        this.getLogMain().log(1078071040, "[BaseVersionInfoController].readVersionInfo(): Reading version info for language: %1", (Object)string);
+        this.getLogMain().log(1000000, "[BaseVersionInfoController].readVersionInfo(): Reading version info for language: %1", (Object)string);
         this.readBoardBookVersionInfo(string);
         this.readPhoneDriverVersionInfo(string);
     }
 
     private void readPhoneDriverVersionInfo(String string) {
         String string2;
-        byte[] byArray = this.getSwdlEnv().getStorageMgr().getByteArray(570543106, 100, null);
+        byte[] byArray = this.getSwdlEnv().getStorageMgr().getByteArray(46924066, 100, null);
         String string3 = string2 = byArray == null ? "" : new String(byArray);
         if (string2 == null || "".equals(string2)) {
-            string2 = this.getSwdlEnv().getStorageMgr().getString(570543106, 100, null);
+            string2 = this.getSwdlEnv().getStorageMgr().getString(46924066, 100, null);
         }
-        this.getLogMain().log(1078071040, "[BaseVersionInfoController].readPhoneDriverVersionInfo(): Found phone driver version: %1", (Object)string2);
+        this.getLogMain().log(1000000, "[BaseVersionInfoController].readPhoneDriverVersionInfo(): Found phone driver version: %1", (Object)string2);
         LabelModelApp labelModelApp = this.getSwdlModels().getPhoneDriverVersionInfoLabelModel();
         labelModelApp.setText(string2);
         labelModelApp.setStatus(null == string2 ? 0 : 1);
     }
 
     private void readBoardBookVersionInfo(String string) {
-        File file = new File(BB_INFO_FILE_PATH, "update.txt");
+        File file = new File(BB_INFO_FILE_PATH, BB_INFO_FILE_NAME);
         LabelModelApp labelModelApp = this.getSwdlModels().getBoardBookVersionInfoLabelModel();
         if (!file.exists() || !file.canRead()) {
-            this.getLogMain().log(1078071040, "[DefaultVersionInfoController].readVersionInfo(): boardbook not installed or cannot read info file");
+            this.getLogMain().log(1000000, "[DefaultVersionInfoController].readVersionInfo(): boardbook not installed or cannot read info file");
             labelModelApp.setText(null);
             labelModelApp.setStatus(0);
             return;
@@ -78,7 +77,7 @@ implements I18NTarget {
             labelModelApp.setStatus(0);
             return;
         }
-        this.getLogMain().log(1078071040, "[DefaultVersionInfoController].readVersionInfo(): Found boardbook version: %1", (Object)string2);
+        this.getLogMain().log(1000000, "[DefaultVersionInfoController].readVersionInfo(): Found boardbook version: %1", (Object)string2);
         labelModelApp.setText(string2);
         labelModelApp.setStatus(1);
     }
@@ -87,7 +86,7 @@ implements I18NTarget {
      * WARNING - Removed try catching itself - possible behaviour change.
      */
     private Map parseInfoFile(File file) {
-        this.getLogMain().log(1078071040, "[DefaultVersionInfoController].parseInfoFile(%1) ", (Object)file);
+        this.getLogMain().log(1000000, "[DefaultVersionInfoController].parseInfoFile(%1) ", (Object)file);
         HashMap hashMap = new HashMap();
         FileInputStream fileInputStream = null;
         BufferedReader bufferedReader = null;
@@ -117,7 +116,7 @@ implements I18NTarget {
             }
         }
         catch (IOException iOException) {
-            this.getLogMain().log(-1601830656, "[DefaultVersionInfoController].parseInfoFile(%1) failed with IOException %2", (Object)file, (Throwable)iOException);
+            this.getLogMain().log(100000, "[DefaultVersionInfoController].parseInfoFile(%1) failed with IOException %2", (Object)file, (Throwable)iOException);
             hashMap = null;
         }
         finally {
@@ -134,7 +133,7 @@ implements I18NTarget {
     }
 
     private String getDisplayVersion(Map map, String string) {
-        String string2 = (String)map.get(new StringBuffer().append("version.").append(string).toString());
+        String string2 = (String)map.get("version." + string);
         if (null == string2) {
             string2 = (String)map.get("version.default");
         }

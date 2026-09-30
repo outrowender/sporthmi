@@ -10,9 +10,9 @@ import de.audi.tghu.navi.app.dsi.DSINavigationManager;
 
 public class ClearNotificationCall
 extends NavCall {
-    public static final int CLEAR_NOTIFICATION_NAVIGATION;
-    public static final int CLEAR_NOTIFICATION_BLOCKING;
-    public static final int CLEAR_NOTIFICATION_COMBINEDROUTELIST;
+    public static final int CLEAR_NOTIFICATION_NAVIGATION = 0;
+    public static final int CLEAR_NOTIFICATION_BLOCKING = 1;
+    public static final int CLEAR_NOTIFICATION_COMBINEDROUTELIST = 2;
     private int whichDSI;
 
     public ClearNotificationCall(NavigationEnv navigationEnv, DSINavigationManager dSINavigationManager, Navigation navigation, int n, int n2) {
@@ -21,9 +21,8 @@ extends NavCall {
         this.whichDSI = n2;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "ClearNotificationCall#execute() - calling clearNotification() on dsiType: %1", (Object)DSINavigationManager.dsiTypeToString(this.dsiType));
+        this.logger.log(10000000, "ClearNotificationCall#execute() - calling clearNotification() on dsiType: %1", (Object)DSINavigationManager.dsiTypeToString(this.dsiType));
         try {
             switch (this.whichDSI) {
                 case 0: {

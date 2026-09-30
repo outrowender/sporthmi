@@ -4,7 +4,6 @@
 package de.audi.tuner.app.dab.stationlist;
 
 import de.audi.tuner.app.dab.DabStation;
-import de.audi.tuner.app.dab.stationlist.DABListMemory$DABLists;
 
 class DABListMemory {
     private DabStation[] components = new DabStation[0];
@@ -30,10 +29,22 @@ class DABListMemory {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    public DABListMemory$DABLists getLists() {
+    public DABLists getLists() {
         Object object = this.mutex;
         synchronized (object) {
-            return new DABListMemory$DABLists(this.ensembles, this.services, this.components, null);
+            return new DABLists(this.ensembles, this.services, this.components);
+        }
+    }
+
+    static class DABLists {
+        final DabStation[] components;
+        final DabStation[] ensembles;
+        final DabStation[] services;
+
+        private DABLists(DabStation[] dabStationArray, DabStation[] dabStationArray2, DabStation[] dabStationArray3) {
+            this.ensembles = dabStationArray;
+            this.services = dabStationArray2;
+            this.components = dabStationArray3;
         }
     }
 }

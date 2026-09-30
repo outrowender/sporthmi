@@ -12,8 +12,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class b {
-    private static final String a;
-    private static final String[] b;
+    private static final String a = "test/eso_icalendar_tests/";
+    private static final String[] b = new String[]{"bayram.ics", "test_attaced.ics", "test.ics"};
 
     public static void a(String[] stringArray) {
         TraceClient.init("vcalender=1");
@@ -28,10 +28,6 @@ public class b {
         a a2 = new a(inputStream, (de.eso.a.c.b)new c());
         a2.a();
         TraceClient.exit();
-    }
-
-    static {
-        b = new String[]{"bayram.ics", "test_attaced.ics", "test.ics"};
     }
 }
 

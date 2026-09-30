@@ -25,9 +25,8 @@ extends RSENaviCommand {
         this.criteria = criteria;
     }
 
-    @Override
     public void decode(DataInputStream dataInputStream) {
-        log.log(-2137614336, "RSESyncCriteria#decode - enter");
+        log.log(10000000, "RSESyncCriteria#decode - enter");
         try {
             ObjectInputStream objectInputStream = new ObjectInputStream(dataInputStream);
             this.criteria = (Criteria)objectInputStream.readObject();
@@ -38,12 +37,11 @@ extends RSENaviCommand {
         catch (ClassNotFoundException classNotFoundException) {
             log.log(10000, "RSESyncCriteria#decode", (Throwable)classNotFoundException);
         }
-        log.log(-2137614336, "RSESyncCriteria#decode - exit");
+        log.log(10000000, "RSESyncCriteria#decode - exit");
     }
 
-    @Override
     public void encode(DataOutputStream dataOutputStream) {
-        log.log(-2137614336, "RSESyncCriteria#encode - enter");
+        log.log(10000000, "RSESyncCriteria#encode - enter");
         try {
             this.encodeHeader(dataOutputStream);
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(dataOutputStream);
@@ -53,12 +51,11 @@ extends RSENaviCommand {
         catch (IOException iOException) {
             log.log(10000, "RSESyncCriteria#encode", (Throwable)iOException);
         }
-        log.log(-2137614336, "RSESyncCriteria#encode - exit");
+        log.log(10000000, "RSESyncCriteria#encode - exit");
     }
 
-    @Override
     public void execute(AbstractRSEConnection abstractRSEConnection) {
-        log.log(-2137614336, "RSESyncCriteria#execute()");
+        log.log(10000000, "RSESyncCriteria#execute()");
     }
 }
 

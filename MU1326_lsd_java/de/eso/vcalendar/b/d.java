@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class d {
-    public static final String a;
+    public static final String a = "VCALENDAR";
     private String b;
     private String c;
     private String d;

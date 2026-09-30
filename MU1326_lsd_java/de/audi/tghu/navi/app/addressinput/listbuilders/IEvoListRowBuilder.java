@@ -7,7 +7,6 @@ import de.audi.atip.hmi.model.list.EvoListRow;
 import org.dsi.ifc.navigation.LIValueListElement;
 
 public interface IEvoListRowBuilder {
-    default public EvoListRow buildListRow(LIValueListElement lIValueListElement, int n) {
-    }
+    public EvoListRow buildListRow(LIValueListElement var1, int var2);
 }
 

@@ -43,7 +43,6 @@ implements ServiceTrackerCustomizer {
         return this.diagnosisApp;
     }
 
-    @Override
     protected void startInternal(BundleContext bundleContext) {
         this.diagnosisApp = new DiagnosisApp(this.framework);
         Hashtable hashtable = new Hashtable();
@@ -55,7 +54,6 @@ implements ServiceTrackerCustomizer {
         this.framework.startDSIService((class$org$dsi$ifc$diagnose$DSIDiagnoseSystem == null ? (class$org$dsi$ifc$diagnose$DSIDiagnoseSystem = DiagnosisActivator.class$("org.dsi.ifc.diagnose.DSIDiagnoseSystem")) : class$org$dsi$ifc$diagnose$DSIDiagnoseSystem).getName(), 0);
     }
 
-    @Override
     public void stop(BundleContext bundleContext) {
         if (this.sRegDiag != null) {
             this.sRegDiag.unregister();
@@ -68,7 +66,6 @@ implements ServiceTrackerCustomizer {
         super.stop(bundleContext);
     }
 
-    @Override
     public Object addingService(ServiceReference serviceReference) {
         Object object = this.bundleContext.getService(serviceReference);
         if (object instanceof DSIDiagnoseSystem) {
@@ -86,11 +83,9 @@ implements ServiceTrackerCustomizer {
         return object;
     }
 
-    @Override
     public void modifiedService(ServiceReference serviceReference, Object object) {
     }
 
-    @Override
     public void removedService(ServiceReference serviceReference, Object object) {
         if (object instanceof IDiagnosisApp) {
             this.diagnosisApp.removeDiagnosisApplication((IDiagnosisApp)object);

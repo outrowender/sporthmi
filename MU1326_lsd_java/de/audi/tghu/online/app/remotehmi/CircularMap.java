@@ -14,7 +14,7 @@ public class CircularMap {
 
     public CircularMap(int n) {
         if (n <= 0) {
-            throw new IllegalArgumentException(new StringBuffer().append("CircularMap#constructor: maximum size must be > 0, but maxSize=").append(n).toString());
+            throw new IllegalArgumentException("CircularMap#constructor: maximum size must be > 0, but maxSize=" + n);
         }
         this.ringSize = n;
         this.ring = new Object[n];

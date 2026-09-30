@@ -15,7 +15,7 @@ import org.dsi.ifc.has.HASDataElement;
 
 public class MediaBrowserPathContainer
 extends AbstractContainer {
-    private static final int CONTAINER_ID_MEDIA_BROWSER_PATH;
+    private static final int CONTAINER_ID_MEDIA_BROWSER_PATH = 50;
     private List entries;
 
     public MediaBrowserPathContainer() {
@@ -49,7 +49,6 @@ extends AbstractContainer {
         return this.entries;
     }
 
-    @Override
     public List createContainer(int n, int n2, int n3) {
         ArrayList arrayList = new ArrayList();
         int n4 = n2 + 1;
@@ -66,13 +65,11 @@ extends AbstractContainer {
         return arrayList;
     }
 
-    @Override
     public HASDataContainer[] createContainer() {
         List list = this.createContainer(-1, 1, -1);
         return (HASDataContainer[])list.toArray(new HASDataContainer[list.size()]);
     }
 
-    @Override
     public void toString(StringWriter stringWriter) {
         stringWriter.write("MediaBrowserPathContainer(");
         if (this.entries != null) {
@@ -88,7 +85,6 @@ extends AbstractContainer {
         stringWriter.write(")");
     }
 
-    @Override
     protected Object clone() {
         MediaBrowserPathContainer mediaBrowserPathContainer = new MediaBrowserPathContainer(this);
         return mediaBrowserPathContainer;

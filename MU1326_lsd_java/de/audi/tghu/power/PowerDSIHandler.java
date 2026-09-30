@@ -36,34 +36,32 @@ MsgListener {
      * WARNING - Removed try catching itself - possible behaviour change.
      */
     private void waitForDSIPower() {
-        this.lc.log(-2137614336, "waitForDSIPower()");
+        this.lc.log(10000000, "waitForDSIPower()");
         Object object = this.syncDSI;
         synchronized (object) {
             if (!this.dsiAvailable) {
-                this.lc.log(-2137614336, "Wait up to 5 seconds for DSIPowerManagement");
+                this.lc.log(10000000, "Wait up to 5 seconds for DSIPowerManagement");
                 try {
-                    this.syncDSI.wait(0);
+                    this.syncDSI.wait(5000L);
                 }
                 catch (InterruptedException interruptedException) {
                     Thread.interrupted();
                 }
             }
             if (this.dsiAvailable) {
-                this.lc.log(-2137614336, "DSIPowerManagement is available");
+                this.lc.log(10000000, "DSIPowerManagement is available");
             } else {
-                this.lc.log(-2137614336, "DSIPowerManagement is not available!");
+                this.lc.log(10000000, "DSIPowerManagement is not available!");
             }
         }
     }
 
-    @Override
     public void asyncException(int n, String string, int n2) {
         this.lc.log(10000, "errorCode=%2, errorMsg=%1, requestType=%3", (Object)string, (long)n, (long)n2);
     }
 
-    @Override
     public void updatePowerManagementStateRight(int n, int n2, int n3) {
-        this.lc.log(-2137614336, "-> updatePowerManagementStateRight(stateRight=%1, powerEvent=%2, validFlag=%2)", (long)n, (long)n2, (long)n3);
+        this.lc.log(10000000, "-> updatePowerManagementStateRight(stateRight=%1, powerEvent=%2, validFlag=%2)", (long)n, (long)n2, (long)n3);
         if (n3 == 1) {
             if (!this.pwrMgr.IS_FRONT_MU) {
                 this.pwrMgr.getPwrCmdFactory().setPwrStateCmd(n, n2, 4);
@@ -75,9 +73,8 @@ MsgListener {
         }
     }
 
-    @Override
     public void updatePowerManagementState(int n, int n2, int n3) {
-        this.lc.log(-2137614336, "-> updatePowerManagementState(state=%1, powerEvent=%2, validFlag=%3)", (long)n, (long)n2, (long)n3);
+        this.lc.log(10000000, "-> updatePowerManagementState(state=%1, powerEvent=%2, validFlag=%3)", (long)n, (long)n2, (long)n3);
         if (n3 == 1) {
             if (this.pwrMgr.IS_FRONT_MU) {
                 this.pwrMgr.getPwrCmdFactory().setPwrStateCmd(n, n2, 0);
@@ -95,7 +92,7 @@ MsgListener {
      * WARNING - Removed try catching itself - possible behaviour change.
      */
     void setPwrMgmtDsi(DSIPowerManagement dSIPowerManagement) {
-        this.lc.log(-2137614336, "dsi=%1", (Object)dSIPowerManagement);
+        this.lc.log(10000000, "dsi=%1", (Object)dSIPowerManagement);
         this.dsiPwr = dSIPowerManagement;
         this.dsiPwr.setNotification(new int[]{1, 5, 3, 4, 6, 8, 11}, (DSIListener)this);
         Object object = this.syncDSI;
@@ -106,7 +103,7 @@ MsgListener {
     }
 
     void setHMIReady() {
-        this.lc.log(-2137614336, "setHMIReady()");
+        this.lc.log(10000000, "setHMIReady()");
         try {
             this.waitForDSIPower();
             if (this.dsiPwr != null) {
@@ -121,14 +118,14 @@ MsgListener {
     }
 
     void rebootSystem() {
-        this.lc.log(-2137614336, "rebootSystem()");
+        this.lc.log(10000000, "rebootSystem()");
         if (this.dsiPwr != null) {
             this.dsiPwr.rebootSystem();
         }
     }
 
     void rebootSystem(boolean bl) {
-        this.lc.log(-2137614336, "rebootSystem # slayJ9Flag=%1", bl);
+        this.lc.log(10000000, "rebootSystem # slayJ9Flag=%1", bl);
         if (this.dsiPwr != null) {
             if (bl) {
                 this.pwrMgr.getFramework().getHMIService().getEventDispatcherAdmin().setPriority(5);
@@ -143,7 +140,7 @@ MsgListener {
     }
 
     void setChildProtectionStatus(boolean bl) {
-        this.lc.log(-2137614336, "setChildProtectionStatus # isProtected=%1", bl);
+        this.lc.log(10000000, "setChildProtectionStatus # isProtected=%1", bl);
         if (this.dsiPwr != null) {
             this.dsiPwr.setChildLockRSE(bl ? 1 : 0);
         }
@@ -154,9 +151,8 @@ MsgListener {
         CommandLineExecuter.executeCommand("slay", new String[]{System.getProperty("jvm.kill.signal", "-s11"), "j9"});
     }
 
-    @Override
     public void updateBEMState(int n, int n2) {
-        this.lc.log(-2137614336, "-> updateBEMState(updateBEMState=%1, validFlag=%2)", (long)n, (long)n2);
+        this.lc.log(10000000, "-> updateBEMState(updateBEMState=%1, validFlag=%2)", (long)n, (long)n2);
         if (n2 == 1) {
             switch (n) {
                 case 6: {
@@ -190,30 +186,26 @@ MsgListener {
         }
     }
 
-    @Override
     public void updateClampSignal(ClampSignal clampSignal, int n) {
-        this.lc.log(-2137614336, "-> updateClampSignal(clampSignal=%1, validFlag=%2)", (Object)clampSignal, (long)n);
+        this.lc.log(10000000, "-> updateClampSignal(clampSignal=%1, validFlag=%2)", (Object)clampSignal, (long)n);
         if (n == 1) {
             this.pwrMgr.getPwrCmdFactory().setClampSStateCmd(clampSignal);
         }
     }
 
-    @Override
     public void updateLastOn(int n, int n2) {
-        this.lc.log(-2137614336, "updateLastOn(lastOn=%1, validFlag=%2)", (long)n, (long)n2);
+        this.lc.log(10000000, "updateLastOn(lastOn=%1, validFlag=%2)", (long)n, (long)n2);
     }
 
-    @Override
     public void updateRVCActive(boolean bl, int n) {
-        this.lc.log(-2137614336, "updateRVCActive(active=%1, validFlag=%2)", bl, (long)n);
+        this.lc.log(10000000, "updateRVCActive(active=%1, validFlag=%2)", bl, (long)n);
         if (n == 1) {
-            this.lc.log(-2137614336, "ignore updateRVCActive, RVC is triggerd from CAR_APP!");
+            this.lc.log(10000000, "ignore updateRVCActive, RVC is triggerd from CAR_APP!");
         }
     }
 
-    @Override
     public void updateTelMaxPopup(boolean bl, int n) {
-        this.lc.log(-2137614336, "updateTelMaxPopup(showPopup=%1, validFlag=%2)", bl, (long)n);
+        this.lc.log(10000000, "updateTelMaxPopup(showPopup=%1, validFlag=%2)", bl, (long)n);
         if (n == 1) {
             if (bl) {
                 this.pwrMgr.setExtendedPowerState(130, 0);
@@ -223,28 +215,25 @@ MsgListener {
         }
     }
 
-    @Override
     public void updateSplashScreenAnimation(int n, int n2) {
     }
 
-    @Override
     public void updateChildLockState(int n, int n2) {
-        this.lc.log(-2137614336, "updateChildLockState(childLockState=%1, validFlag=%2)", (long)n, (long)n2);
+        this.lc.log(10000000, "updateChildLockState(childLockState=%1, validFlag=%2)", (long)n, (long)n2);
     }
 
     public void updateSplashScreenAnimationFinished(boolean bl, int n) {
     }
 
     public void updateCriticalTemperature(boolean bl, int n) {
-        this.lc.log(-2137614336, "updateCriticalTemperature(showPopup=%1, validFlag=%2)", bl, (long)n);
+        this.lc.log(10000000, "updateCriticalTemperature(showPopup=%1, validFlag=%2)", bl, (long)n);
         if (n == 1 && bl) {
             this.pwrMgr.getPwrCmdFactory().setPwrStateCmd(3, 7, 0);
         }
     }
 
-    @Override
     public void updateTStandbyPopup(boolean bl, int n) {
-        this.lc.log(-2137614336, "updateTStandbyPopup(showPopup=%1, validFlag=%2)", bl, (long)n);
+        this.lc.log(10000000, "updateTStandbyPopup(showPopup=%1, validFlag=%2)", bl, (long)n);
         if (n == 1) {
             try {
                 if (bl) {
@@ -261,7 +250,7 @@ MsgListener {
                 }
             }
             catch (Exception exception) {
-                this.lc.log(-1601830656, "updateTStandbyPopup Exception: %1", (Object)exception.getMessage());
+                this.lc.log(100000, "updateTStandbyPopup Exception: %1", (Object)exception.getMessage());
             }
         }
     }
@@ -280,12 +269,11 @@ MsgListener {
         }
     }
 
-    @Override
     public void processMsg(int n) {
         switch (n) {
             case 101: {
                 this.powerWarningPopupStateModel = this.pwrMgr.getFramework().getHMIService().getChoiceModel(4228);
-                this.lc.log(1078071040, "PowerDSIHandler: Modelbank is initialized. Got powerWarningPopupStateModel reference");
+                this.lc.log(1000000, "PowerDSIHandler: Modelbank is initialized. Got powerWarningPopupStateModel reference");
                 break;
             }
         }

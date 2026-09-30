@@ -19,22 +19,20 @@ extends NavCommand {
         this.logChannel = logChannel;
     }
 
-    @Override
     public void execute() {
         if (this.logChannel.isDebug()) {
-            this.logChannel.log(-2137614336, "EhSetCategoryMonitoringCommand#execute() - calling ehSetCategoryMonitoring(%1)", (Object)Util.arrayToString(this.categoryUid));
+            this.logChannel.log(10000000, "EhSetCategoryMonitoringCommand#execute() - calling ehSetCategoryMonitoring(%1)", (Object)Util.arrayToString(this.categoryUid));
         }
         this.getDSINavigation().ehSetCategoryMonitoring(this.categoryUid, this.monitor);
     }
 
-    @Override
     public void ehResult(int n, int n2) {
-        this.logChannel.log(-2137614336, "EhSetCategoryMonitoringCommand#ehResult( %1, %2 )", (long)n, (long)n2);
+        this.logChannel.log(10000000, "EhSetCategoryMonitoringCommand#ehResult( %1, %2 )", (long)n, (long)n2);
         if (n2 == 0) {
-            this.logChannel.log(-2137614336, "   --> NAVRESULTCODE_OK");
+            this.logChannel.log(10000000, "   --> NAVRESULTCODE_OK");
             this.getCommandList().commandFinished();
         } else {
-            this.logChannel.log(-2137614336, "   --> Not OK");
+            this.logChannel.log(10000000, "   --> Not OK");
             this.getCommandList().commandAborted(n2);
         }
     }

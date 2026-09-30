@@ -13,7 +13,7 @@ import org.dsi.ifc.predictivenavigation.LikelyDestination;
 
 public abstract class PredictiveNavModelAccess
 implements IPredictiveNavModelAccess {
-    protected final String CLASS_NAME = Util.getClassNameFromPackageName(super.getClass());
+    protected final String CLASS_NAME = Util.getClassNameFromPackageName(this.getClass());
     protected NavigationEnv env;
     protected final LogChannel logChannel;
     protected BaseListModelApp likelyDestinationsList;
@@ -23,7 +23,6 @@ implements IPredictiveNavModelAccess {
         this.logChannel = navigationEnv.getPredictiveNavigationLogChannel();
     }
 
-    @Override
     public void updateSelection(LikelyDestination[] likelyDestinationArray) {
         if (likelyDestinationArray == null) {
             this.likelyDestinationsList.removeAll();
@@ -48,9 +47,8 @@ implements IPredictiveNavModelAccess {
         return this.createNewListRow(likelyDestination);
     }
 
-    @Override
     public void clearLikelyDestinations() {
-        this.logChannel.log(-2137614336, "%1#clearLikelyDestinations", (Object)this.CLASS_NAME);
+        this.logChannel.log(10000000, "%1#clearLikelyDestinations", (Object)this.CLASS_NAME);
         this.likelyDestinationsList.removeAll();
     }
 
@@ -73,12 +71,10 @@ implements IPredictiveNavModelAccess {
         return bl;
     }
 
-    @Override
     public int getPredictiveRouteListLength() {
         return this.likelyDestinationsList.getLength();
     }
 
-    protected abstract PredictiveNavListRow createNewListRow(LikelyDestination likelyDestination) {
-    }
+    protected abstract PredictiveNavListRow createNewListRow(LikelyDestination var1);
 }
 

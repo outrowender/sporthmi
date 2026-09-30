@@ -20,14 +20,14 @@ import org.dsi.ifc.swdlprogress.GeneralProgress;
 public abstract class AbstractCustomerProgressManager
 extends AbstractProgressManager
 implements ButtonListener {
-    private static final String CLASSNAME;
-    private static final int PROGRESS_TYPE_PROGRESS;
-    private static final int PROGRESS_TYPE_TIMEOUT;
-    private static final int PROGRESS_STEP_PREPARE;
-    private static final int PROGRESS_STEP_INSTALL;
-    private static final int PROGRESS_STEP_FINALIZE;
-    private static final String PREPARE_TIMEOUT_MARKER;
-    private static final String FINALIZE_MARKER;
+    private static final String CLASSNAME = "[AbstractCustomerProgressManager]";
+    private static final int PROGRESS_TYPE_PROGRESS = 1;
+    private static final int PROGRESS_TYPE_TIMEOUT = 2;
+    private static final int PROGRESS_STEP_PREPARE = 1;
+    private static final int PROGRESS_STEP_INSTALL = 2;
+    private static final int PROGRESS_STEP_FINALIZE = 3;
+    private static final String PREPARE_TIMEOUT_MARKER = "_Prepare";
+    private static final String FINALIZE_MARKER = "_Finalize";
     private int currentPopup = -1;
     private String currentPopupId = null;
     private boolean interruptScreenEntered = false;
@@ -55,17 +55,14 @@ implements ButtonListener {
         return this.customerDeviceInfoManager;
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
-        this.getLogHMI().log(1078071040, "%1 keyTyped( %2 ) ", (Object)"[AbstractCustomerProgressManager]", (long)n);
+        this.getLogHMI().log(1000000, "%1 keyTyped( %2 ) ", (Object)CLASSNAME, (long)n);
         if (n == this.getSwdlModels().getCustomerInterruptContinueButton().getID()) {
             this.getProgressDSIHandler().doHandleUserSelection(this.currentPopup, this.currentPopupId, 3);
             this.interruptScreenEntered = false;
@@ -78,11 +75,11 @@ implements ButtonListener {
             this.getSwdlModels().getCustomerInitCustomerUpdateButtonChoice().setValue(0);
             this.getSwdlModels().getCustomerInterruptAbortButton().fireEvent(-1);
         } else if (n == this.getSwdlModels().getCustomerStartUpdateAgainButton().getID()) {
-            this.getLogHMI().log(-2137614336, "%1 -- start update again! ", (Object)"[AbstractCustomerProgressManager]");
+            this.getLogHMI().log(10000000, "%1 -- start update again! ", (Object)CLASSNAME);
             this.getSwdlModels().getCustomerProgressStateChoice().setValue(5);
             this.getSwdlModels().getCustomerStartUpdateAgainButton().fireEvent(n3);
         } else if (n == this.getSwdlModels().getCustomerStartUpdateCancelButton().getID()) {
-            this.getLogHMI().log(-2137614336, "%1 -- user cancels the update! ", (Object)"[AbstractCustomerProgressManager]");
+            this.getLogHMI().log(10000000, "%1 -- user cancels the update! ", (Object)CLASSNAME);
             this.getSwdlModels().getCustomerProgressStateChoice().setValue(0);
             if (this.isUOTAUpdate) {
                 this.getSwdlEnv().getHMISwitcher().getUOTAController().resumeUota(1, false);
@@ -91,7 +88,7 @@ implements ButtonListener {
                 this.getSwdlModels().getCustomerStartUpdateCancelButton().fireEvent(n3);
             }
         } else if (n == this.getSwdlModels().getCustomerSummarySuccessConfirmButton().getID()) {
-            this.getLogHMI().log(-2137614336, "%1 -- user confirms the successful %2 update! ", (Object)"[AbstractCustomerProgressManager]", (Object)(this.isUOTAUpdate ? "UOTA" : "customer"));
+            this.getLogHMI().log(10000000, "%1 -- user confirms the successful %2 update! ", (Object)CLASSNAME, (Object)(this.isUOTAUpdate ? "UOTA" : "customer"));
             if (this.isUOTAUpdate || !this.getSwdlEnv().getHMISwitcher().getUOTAController().isSummaryPopupConfirmed()) {
                 this.getSwdlModels().getCustomerProgressStateChoice().setValue(0);
                 this.getSwdlEnv().getHMISwitcher().getUOTAController().confirmSummaryPopup();
@@ -100,18 +97,16 @@ implements ButtonListener {
                 this.getSwdlModels().getCustomerSummarySuccessConfirmButton().fireEvent(n3);
             }
         } else {
-            this.getLogHMI().log(1078071040, "%1 ignore unexpected event( modelID: %2 ) ", (Object)"[AbstractCustomerProgressManager]", (long)n);
+            this.getLogHMI().log(1000000, "%1 ignore unexpected event( modelID: %2 ) ", (Object)CLASSNAME, (long)n);
         }
     }
 
-    @Override
     public void keyLongTyped(int n, int n2, int n3) {
     }
 
-    @Override
     public void switchUotaProgressState(boolean bl) {
         this.isUOTAUpdate = true;
-        this.getLogHMI().log(1078071040, "%1 switchUotaProgressState(%2)", (Object)"[AbstractCustomerProgressManager]", (Object)bl);
+        this.getLogHMI().log(1000000, "%1 switchUotaProgressState(%2)", (Object)CLASSNAME, (Object)bl);
         this.removePopupUpdateRestart();
         BaseUpdateOverTheAirController baseUpdateOverTheAirController = this.getSwdlEnv().getHMISwitcher().getUOTAController();
         if (bl) {
@@ -122,10 +117,9 @@ implements ButtonListener {
         }
     }
 
-    @Override
     public void showSummaryUota(boolean bl) {
         this.isUOTAUpdate = true;
-        this.getLogHMI().log(1078071040, "%1 showSummary(%2)", (Object)"[AbstractCustomerProgressManager]", (Object)bl);
+        this.getLogHMI().log(1000000, "%1 showSummary(%2)", (Object)CLASSNAME, (Object)bl);
         this.removePopupUpdateRestart();
         this.getSwdlModels().getCustomerProgressStateChoice().setValue(4);
         if (bl) {
@@ -142,19 +136,19 @@ implements ButtonListener {
 
     protected void showSummary(boolean bl) {
         this.isUOTAUpdate = false;
-        this.getLogHMI().log(1078071040, "%1 showSummary(%2)", (Object)"[AbstractCustomerProgressManager]", (Object)bl);
+        this.getLogHMI().log(1000000, "%1 showSummary(%2)", (Object)CLASSNAME, (Object)bl);
         this.getSwdlModels().getCustomerUpdateAgainRequestChoice().setValue(bl ? 1 : 0);
         this.removePopupUpdateRestart();
         if (!this.abortRequestedByUser) {
             if (bl) {
-                this.getLogHMI().log(-2137614336, "%1 show summary popup (failure)", (Object)"[AbstractCustomerProgressManager]");
+                this.getLogHMI().log(10000000, "%1 show summary popup (failure)", (Object)CLASSNAME);
                 this.showPopupUpdateFailure();
             } else {
-                this.getLogHMI().log(-2137614336, "%1 show summary popup (success)", (Object)"[AbstractCustomerProgressManager]");
+                this.getLogHMI().log(10000000, "%1 show summary popup (success)", (Object)CLASSNAME);
                 this.showPopupUpdateSuccessful();
             }
         } else {
-            this.getLogHMI().log(-2137614336, "%1 do not show any summary popup because of previous user 'abort'-interaction", (Object)"[AbstractCustomerProgressManager]");
+            this.getLogHMI().log(10000000, "%1 do not show any summary popup because of previous user 'abort'-interaction", (Object)CLASSNAME);
             this.abortRequestedByUser = false;
             this.getSwdlModels().getCustomerProgressStateChoice().setValue(4);
             this.getSwdlEnv().getCustomerDLState().leaveCustomerUpdate();
@@ -163,7 +157,7 @@ implements ButtonListener {
     }
 
     private void showInterruptScreen(String string) {
-        this.getLogHMI().log(1078071040, "%1 showInterruptScreen(%2): interruptScreenEntered=%3", (Object)"[AbstractCustomerProgressManager]", (Object)string, (Object)this.interruptScreenEntered);
+        this.getLogHMI().log(1000000, "%1 showInterruptScreen(%2): interruptScreenEntered=%3", (Object)CLASSNAME, (Object)string, (Object)this.interruptScreenEntered);
         if (!this.interruptScreenEntered) {
             this.interruptScreenEntered = true;
             this.getSwdlModels().getCustomerProgressInterruptedLabel().setText(string);
@@ -173,17 +167,15 @@ implements ButtonListener {
         }
     }
 
-    @Override
     public void updateGeneralProgress(GeneralProgress generalProgress) {
-        this.getLogHMI().log(1078071040, "%1 updateGeneralProgress: %2", (Object)"[AbstractCustomerProgressManager]", (Object)generalProgress);
+        this.getLogHMI().log(1000000, "%1 updateGeneralProgress: %2", (Object)CLASSNAME, (Object)generalProgress);
     }
 
-    @Override
     public void updateDevicesOverviewProgress(DeviceOverviewProgress[] deviceOverviewProgressArray) {
         if (deviceOverviewProgressArray.length >= 1) {
             int n;
             int n2 = n = deviceOverviewProgressArray[0].getValue();
-            this.getLogHMI().log(1078071040, "%1 updateDevicesOverviewProgress: %2 %3", (Object)"[AbstractCustomerProgressManager]", (Object)deviceOverviewProgressArray[0].getFileName(), (long)n);
+            this.getLogHMI().log(1000000, "%1 updateDevicesOverviewProgress: %2 %3", (Object)CLASSNAME, (Object)deviceOverviewProgressArray[0].getFileName(), (long)n);
             BaseUpdateOverTheAirController baseUpdateOverTheAirController = this.getSwdlEnv().getHMISwitcher().getUOTAController();
             if (!baseUpdateOverTheAirController.isInstallActive()) {
                 this.getSwdlModels().getCurrentDownloadPackageLabelModel().setText("1");
@@ -191,14 +183,14 @@ implements ButtonListener {
                 baseUpdateOverTheAirController.setUotaUpdate(false);
             }
             if (2 == deviceOverviewProgressArray[0].getType()) {
-                if (deviceOverviewProgressArray[0].getFileName().endsWith("_Prepare")) {
+                if (deviceOverviewProgressArray[0].getFileName().endsWith(PREPARE_TIMEOUT_MARKER)) {
                     n2 = baseUpdateOverTheAirController.installingProgress2CrossProgress(0);
-                    this.getLogHMI().log(-2137614336, "%1 updateDevicesOverviewProgress: Prepare", (Object)"[AbstractCustomerProgressManager]");
+                    this.getLogHMI().log(10000000, "%1 updateDevicesOverviewProgress: Prepare", (Object)CLASSNAME);
                     this.getSwdlModels().getCustomerDLProgressTypeChoiceModel().setValue(1);
                     this.getSwdlModels().updateCustomerProgress(n2);
-                } else if (deviceOverviewProgressArray[0].getFileName().endsWith("_Finalize")) {
+                } else if (deviceOverviewProgressArray[0].getFileName().endsWith(FINALIZE_MARKER)) {
                     n2 = baseUpdateOverTheAirController.installingProgress2CrossProgress(100);
-                    this.getLogHMI().log(-2137614336, "%1 updateDevicesOverviewProgress: Finalize", (Object)"[AbstractCustomerProgressManager]");
+                    this.getLogHMI().log(10000000, "%1 updateDevicesOverviewProgress: Finalize", (Object)CLASSNAME);
                     this.getSwdlModels().getCustomerDLProgressTypeChoiceModel().setValue(3);
                     this.getSwdlModels().updateCustomerProgress(n2);
                 }
@@ -216,36 +208,31 @@ implements ButtonListener {
             }
             this.getSwdlEnv().updateCustomerDownloadState(1, n2);
         } else {
-            this.getLogHMI().log(1078071040, "%1 updateDevicesOverviewProgress()", (Object)"[AbstractCustomerProgressManager]");
+            this.getLogHMI().log(1000000, "%1 updateDevicesOverviewProgress()", (Object)CLASSNAME);
         }
     }
 
-    @Override
     public void selectForDetails(String string) {
     }
 
-    @Override
     public void updateStaticProgressDetails(int n, int n2, short s, String string) {
     }
 
-    @Override
     public void updateDynamicProgressDetails(String string, byte by) {
     }
 
-    @Override
     public void updateLostDevices(String[] stringArray) {
     }
 
-    @Override
     public void triggerPanel(int n) {
         boolean bl = false;
         switch (n) {
             case 0: {
-                this.getLogHMI().log(-2137614336, "%1 triggerPanel(): No trigger panel to activate!", (Object)"[AbstractCustomerProgressManager]");
+                this.getLogHMI().log(10000000, "%1 triggerPanel(): No trigger panel to activate!", (Object)CLASSNAME);
                 break;
             }
             case 1: {
-                this.getLogHMI().log(-2137614336, "%1 triggerPanel(): Trigger reboot panel", (Object)"[AbstractCustomerProgressManager]");
+                this.getLogHMI().log(10000000, "%1 triggerPanel(): Trigger reboot panel", (Object)CLASSNAME);
                 this.getSwdlModels().getRebootCountdown().setText("");
                 this.showPopupUpdateRestart();
                 this.getPopupManager().disablePopups();
@@ -255,7 +242,7 @@ implements ButtonListener {
                 break;
             }
             case 2: {
-                this.getLogHMI().log(-2137614336, "%1 triggerPanel(): Trigger summary panel", (Object)"[AbstractCustomerProgressManager]");
+                this.getLogHMI().log(10000000, "%1 triggerPanel(): Trigger summary panel", (Object)CLASSNAME);
                 this.getProgressDSIHandler().stopProgressUpdates();
                 this.getCustomerDeviceInfoManager().doGetDevices(2, null, true);
                 this.getSwdlModels().getCustomerProgressStateChoice().setValue(4);
@@ -263,7 +250,7 @@ implements ButtonListener {
                 break;
             }
             default: {
-                this.getLogHMI().log(-2137614336, "%1 triggerPanel(): ignore triggerPanel(%2) Event!", (Object)"[AbstractCustomerProgressManager]", (long)n);
+                this.getLogHMI().log(10000000, "%1 triggerPanel(): ignore triggerPanel(%2) Event!", (Object)CLASSNAME, (long)n);
             }
         }
         if (bl) {
@@ -271,9 +258,8 @@ implements ButtonListener {
         }
     }
 
-    @Override
     public void indicatePopUp(int n, String string, byte by, int n2, int n3, String string2) {
-        this.getLogHMI().log(1078071040, "%1 indicatePopUp(popUp=%2, id=%3, errorCode=%4)", (Object)"[AbstractCustomerProgressManager]", (Object)new Integer(n), (Object)string, (long)n2);
+        this.getLogHMI().log(1000000, "%1 indicatePopUp(popUp=%2, id=%3, errorCode=%4)", (Object)CLASSNAME, (Object)new Integer(n), (Object)string, (long)n2);
         this.currentPopup = n;
         this.currentPopupId = string;
         boolean bl = false;
@@ -316,14 +302,12 @@ implements ButtonListener {
         }
     }
 
-    @Override
     public void indicateDismissPopUp(int n, String string) {
     }
 
-    @Override
     public boolean swdlProgressEntered() {
         ChoiceModelApp choiceModelApp;
-        this.getSwdlEnv().getLogMain().log(1078071040, "%1 swdlProgressEntered()", (Object)"[AbstractCustomerProgressManager]");
+        this.getSwdlEnv().getLogMain().log(1000000, "%1 swdlProgressEntered()", (Object)CLASSNAME);
         boolean bl = true;
         ChoiceModelApp choiceModelApp2 = this.getSwdlModels().getCustomerNaviDbChoice();
         if (null != choiceModelApp2 && 1 == choiceModelApp2.getValue() && null != (choiceModelApp = this.getSwdlModels().getNaviUpdateRunning())) {
@@ -331,10 +315,10 @@ implements ButtonListener {
         }
         this.getSwdlEnv().setCustProgressIconVisible(true);
         if (this.getSwdlModels().getCustomerProgressStateChoice().getValue() >= 3 && this.getSwdlModels().getCustomerProgressStateChoice().getValue() != 7) {
-            this.getSwdlEnv().getLogMain().log(1078071040, "%1 ... reentering a download in progress", (Object)"[AbstractCustomerProgressManager]");
+            this.getSwdlEnv().getLogMain().log(1000000, "%1 ... reentering a download in progress", (Object)CLASSNAME);
             bl = false;
         } else {
-            this.getSwdlEnv().getLogMain().log(1078071040, "%1 Intialize a new customer download!", (Object)"[AbstractCustomerProgressManager]");
+            this.getSwdlEnv().getLogMain().log(1000000, "%1 Intialize a new customer download!", (Object)CLASSNAME);
             int n = this.getSwdlEnv().getHMISwitcher().getUOTAController().installingProgress2CrossProgress(0);
             this.getSwdlModels().updateCustomerProgress(n);
             this.getSwdlEnv().updateCustomerDownloadState(1, n);
@@ -344,85 +328,65 @@ implements ButtonListener {
         return bl;
     }
 
-    @Override
     public void swdlProgressExit() {
-        this.getSwdlEnv().getLogMain().log(1078071040, "%1 swdlProgressExit()", (Object)"[AbstractCustomerProgressManager]");
+        this.getSwdlEnv().getLogMain().log(1000000, "%1 swdlProgressExit()", (Object)CLASSNAME);
         ChoiceModelApp choiceModelApp = this.getSwdlModels().getNaviUpdateRunning();
         if (null != choiceModelApp) {
             choiceModelApp.setValue(0);
         }
     }
 
-    @Override
     public void swdlProgressDetailEntered() {
     }
 
-    @Override
     public void swdlProgressDetailExit() {
     }
 
-    @Override
     public void swdlStartWaitLostDevices() {
     }
 
-    @Override
     public void swdlStopWaitLostDevices() {
     }
 
-    @Override
     public void swdlSummaryEntered() {
-        this.getSwdlEnv().getLogMain().log(1000, "%1 swdlSummaryEntered()", (Object)"[AbstractCustomerProgressManager]");
+        this.getSwdlEnv().getLogMain().log(1000, "%1 swdlSummaryEntered()", (Object)CLASSNAME);
     }
 
     public void abortProgressInterrupt() {
         if (this.interruptScreenEntered) {
             this.interruptScreenEntered = false;
-            this.getSwdlEnv().getLogMain().log(1078071040, "%1 CustomerUpdateActionProxy: abortProgressInterrupt()", (Object)"[AbstractCustomerProgressManager]");
+            this.getSwdlEnv().getLogMain().log(1000000, "%1 CustomerUpdateActionProxy: abortProgressInterrupt()", (Object)CLASSNAME);
             this.abortRequestedByUser = true;
             this.getProgressDSIHandler().doHandleUserSelection(this.currentPopup, this.currentPopupId, 2);
         }
     }
 
-    @Override
     public void continueProgressInterrupt() {
         if (this.abortRequestedByUser) {
             this.abortProgressInterrupt();
         } else if (this.interruptScreenEntered) {
             this.interruptScreenEntered = false;
-            this.getSwdlEnv().getLogMain().log(1078071040, "%1 CustomerUpdateActionProxy: continueProgressInterrupt()", (Object)"[AbstractCustomerProgressManager]");
+            this.getSwdlEnv().getLogMain().log(1000000, "%1 CustomerUpdateActionProxy: continueProgressInterrupt()", (Object)CLASSNAME);
             this.getProgressDSIHandler().doHandleUserSelection(this.currentPopup, this.currentPopupId, 3);
         }
     }
 
-    protected abstract void showPopupUpdateFailure() {
-    }
+    protected abstract void showPopupUpdateFailure();
 
-    @Override
-    public abstract void showPopupUpdateSuccessful() {
-    }
+    public abstract void showPopupUpdateSuccessful();
 
-    protected abstract void removePopupUpdateRestart() {
-    }
+    protected abstract void removePopupUpdateRestart();
 
-    protected abstract void showPopupUpdateInterrupted() {
-    }
+    protected abstract void showPopupUpdateInterrupted();
 
-    protected abstract void showPopupUpdateRestart() {
-    }
+    protected abstract void showPopupUpdateRestart();
 
-    protected abstract void showPopupCompatibilityCheckFailure() {
-    }
+    protected abstract void showPopupCompatibilityCheckFailure();
 
-    @Override
-    public abstract void showPopupMainSKSetupUpdateSummaryInterruptRestart() {
-    }
+    public abstract void showPopupMainSKSetupUpdateSummaryInterruptRestart();
 
-    @Override
-    public abstract void custDownloadLeaveProgress(int n) {
-    }
+    public abstract void custDownloadLeaveProgress(int var1);
 
-    @Override
-    public abstract void showCustDownloadInfoPopup(int n) {
-    }
+    public abstract void showCustDownloadInfoPopup(int var1);
 }
 

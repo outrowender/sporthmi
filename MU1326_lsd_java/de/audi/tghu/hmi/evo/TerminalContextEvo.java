@@ -8,12 +8,16 @@ import de.audi.atip.hmi.HMIService;
 import de.audi.atip.hmi.view.IAnimationController;
 import de.audi.atip.hmi.view.IPartialPopupManager;
 import de.audi.atip.hmi.view.IPopupManager;
+import de.audi.atip.hmi.view.IScreenChangeManager;
 import de.audi.atip.hmi.view.IScreenManager;
 import de.audi.atip.hmi.view.ITerminalContext;
 import de.audi.atip.hmi.view.Screen;
+import de.audi.atip.mmicombi.IMMICombiPopupManager;
+import de.audi.atip.mmicombi.IMMICombiScreenChangeManager;
 import de.audi.tghu.fwhmi.FwHMI;
 import de.audi.tghu.fwhmi.evo.HMIRegistryEvo;
 import de.audi.tghu.hmi.AbstractTerminalContext;
+import de.audi.tghu.hmi.PopupManager;
 import de.audi.tghu.hmi.ScreenManager;
 import de.audi.tghu.hmi.evo.IDrawerControllerEvo;
 import de.audi.tghu.hmi.evo.ITerminalContextEvo;
@@ -21,9 +25,8 @@ import de.audi.tghu.hmi.evo.PopupManagerEvo;
 import de.audi.tghu.hmi.evo.ResourceManagerEvo;
 import de.audi.tghu.hmi.evo.ScreenChangeAnimationManagerEvo;
 import de.audi.tghu.hmi.evo.ScreenChangeManagerEvo;
-import de.audi.tghu.hmi.evo.TerminalContextEvo$1;
-import de.audi.tghu.hmi.evo.TerminalContextEvo$2;
 import java.io.PrintStream;
+import org.osgi.framework.ServiceReference;
 import org.osgi.util.tracker.ServiceTracker;
 import org.osgi.util.tracker.ServiceTrackerCustomizer;
 
@@ -46,7 +49,6 @@ implements ITerminalContextEvo {
         return this.resourceManager;
     }
 
-    @Override
     public IScreenManager getScreenManager() {
         if (this.screenManager == null || this.popupManager == null) {
             this.initializeScreenManagers();
@@ -54,7 +56,6 @@ implements ITerminalContextEvo {
         return this.screenManager;
     }
 
-    @Override
     public IPopupManager getPopupManager() {
         if (this.popupManager == null || this.screenManager == null) {
             this.initializeScreenManagers();
@@ -78,16 +79,50 @@ implements ITerminalContextEvo {
     }
 
     private void initializeCombiPopupTracker() {
-        ServiceTracker serviceTracker = new ServiceTracker(this.getFramework().getBundleCxt(), (class$de$audi$atip$mmicombi$IMMICombiPopupManager == null ? (class$de$audi$atip$mmicombi$IMMICombiPopupManager = TerminalContextEvo.class$("de.audi.atip.mmicombi.IMMICombiPopupManager")) : class$de$audi$atip$mmicombi$IMMICombiPopupManager).getName(), (ServiceTrackerCustomizer)new TerminalContextEvo$1(this));
+        ServiceTracker serviceTracker = new ServiceTracker(this.getFramework().getBundleCxt(), (class$de$audi$atip$mmicombi$IMMICombiPopupManager == null ? (class$de$audi$atip$mmicombi$IMMICombiPopupManager = TerminalContextEvo.class$("de.audi.atip.mmicombi.IMMICombiPopupManager")) : class$de$audi$atip$mmicombi$IMMICombiPopupManager).getName(), new ServiceTrackerCustomizer(){
+
+            public Object addingService(ServiceReference serviceReference) {
+                IMMICombiPopupManager iMMICombiPopupManager = (IMMICombiPopupManager)TerminalContextEvo.this.getFramework().getBundleCxt().getService(serviceReference);
+                iMMICombiPopupManager.setMainUnitPopupManager(TerminalContextEvo.this.popupManager);
+                TerminalContextEvo.this.popupManager = iMMICombiPopupManager;
+                return iMMICombiPopupManager;
+            }
+
+            public void modifiedService(ServiceReference serviceReference, Object object) {
+            }
+
+            public void removedService(ServiceReference serviceReference, Object object) {
+            }
+        });
         serviceTracker.open();
     }
 
     private void initializeCombiScreenChangeTracker() {
-        ServiceTracker serviceTracker = new ServiceTracker(this.getFramework().getBundleCxt(), (class$de$audi$atip$mmicombi$IMMICombiScreenChangeManager == null ? (class$de$audi$atip$mmicombi$IMMICombiScreenChangeManager = TerminalContextEvo.class$("de.audi.atip.mmicombi.IMMICombiScreenChangeManager")) : class$de$audi$atip$mmicombi$IMMICombiScreenChangeManager).getName(), (ServiceTrackerCustomizer)new TerminalContextEvo$2(this));
+        ServiceTracker serviceTracker = new ServiceTracker(this.getFramework().getBundleCxt(), (class$de$audi$atip$mmicombi$IMMICombiScreenChangeManager == null ? (class$de$audi$atip$mmicombi$IMMICombiScreenChangeManager = TerminalContextEvo.class$("de.audi.atip.mmicombi.IMMICombiScreenChangeManager")) : class$de$audi$atip$mmicombi$IMMICombiScreenChangeManager).getName(), new ServiceTrackerCustomizer(){
+
+            public Object addingService(ServiceReference serviceReference) {
+                IMMICombiScreenChangeManager iMMICombiScreenChangeManager = (IMMICombiScreenChangeManager)TerminalContextEvo.this.getFramework().getBundleCxt().getService(serviceReference);
+                iMMICombiScreenChangeManager.setScreenChangeManager(TerminalContextEvo.this.screenManager.getScreenChangeUnit());
+                TerminalContextEvo.this.screenManager.setScreenChangeUnit((IScreenChangeManager)((Object)iMMICombiScreenChangeManager));
+                PopupManager popupManager = null;
+                if (TerminalContextEvo.this.popupManager instanceof PopupManager) {
+                    popupManager = (PopupManager)TerminalContextEvo.this.popupManager;
+                } else if (TerminalContextEvo.this.popupManager instanceof IMMICombiPopupManager) {
+                    popupManager = (PopupManager)((IMMICombiPopupManager)TerminalContextEvo.this.popupManager).getMainUnitPopupManager();
+                }
+                popupManager.setScreenChangeUnit((IScreenChangeManager)((Object)iMMICombiScreenChangeManager));
+                return iMMICombiScreenChangeManager;
+            }
+
+            public void modifiedService(ServiceReference serviceReference, Object object) {
+            }
+
+            public void removedService(ServiceReference serviceReference, Object object) {
+            }
+        });
         serviceTracker.open();
     }
 
-    @Override
     public IPartialPopupManager getPartialPopupManager() {
         return this.getHmiTerminal().getPartialPopupManager();
     }
@@ -99,22 +134,18 @@ implements ITerminalContextEvo {
         return this.animationController;
     }
 
-    @Override
     public IDrawerControllerEvo[] getSelectionDrawers(int n) {
         return this.getHMIRegistryEvo().getSelectionDrawers(this.getTerminalID(), n);
     }
 
-    @Override
     public IDrawerControllerEvo[] getOptionDrawers(int n) {
         return this.getHMIRegistryEvo().getOptionDrawers(this.getTerminalID(), n);
     }
 
-    @Override
     public Object getKanziResource(String string, Object object, int n, int n2) {
         return this.getResourceManager().getKanziResource(string, object, n, n2, true, true);
     }
 
-    @Override
     public Object getImageImpl(int n, boolean bl, int n2, int n3) {
         return this.getResourceManager().getImageImpl(n, bl, n2, n3);
     }
@@ -123,7 +154,6 @@ implements ITerminalContextEvo {
         return new StringBuffer().append("TerminalManager: ").append(this.getTerminalID()).toString();
     }
 
-    @Override
     public void dump(PrintStream printStream) {
         printStream.print("Terminal: ");
         printStream.println(this.getTerminalID());
@@ -139,7 +169,6 @@ implements ITerminalContextEvo {
         }
     }
 
-    @Override
     public void initialize(HMIService hMIService) {
         this.fwHMI = (FwHMI)hMIService;
         this.log = this.getFramework().getLogChannel("Fw.HMIService.Main");
@@ -149,7 +178,6 @@ implements ITerminalContextEvo {
         }
     }
 
-    @Override
     protected ITerminalContext createSubTerminalContext(int n) {
         return new TerminalContextEvo(n);
     }
@@ -158,23 +186,20 @@ implements ITerminalContextEvo {
         return (HMIRegistryEvo)this.fwHMI.getHMIRegistry();
     }
 
-    @Override
     public void notifyScreenFadedOut(int n, int n2) {
-        HMIApplication hMIApplication = this.getHMIApplication(n2 * -1601830656);
+        HMIApplication hMIApplication = this.getHMIApplication(n2 * 100000);
         if (hMIApplication != null) {
             hMIApplication.screenFadedOut(n, this.terminalID);
         }
     }
 
-    @Override
     public void notifyScreenConnected(int n, int n2) {
-        HMIApplication hMIApplication = this.getHMIApplication(n2 * -1601830656);
+        HMIApplication hMIApplication = this.getHMIApplication(n2 * 100000);
         if (hMIApplication != null) {
             hMIApplication.screenConnected(n, this.terminalID);
         }
     }
 
-    @Override
     public Screen getPartialPopup(int n, int n2) {
         Screen screen = this.getHMIRegistry().getPartialPopup(this.getTerminalID(), n2);
         if (screen != null) {
@@ -190,39 +215,6 @@ implements ITerminalContextEvo {
         catch (ClassNotFoundException classNotFoundException) {
             throw new NoClassDefFoundError().initCause(classNotFoundException);
         }
-    }
-
-    static /* synthetic */ IPopupManager access$000(TerminalContextEvo terminalContextEvo) {
-        return terminalContextEvo.popupManager;
-    }
-
-    static /* synthetic */ IPopupManager access$102(TerminalContextEvo terminalContextEvo, IPopupManager iPopupManager) {
-        terminalContextEvo.popupManager = iPopupManager;
-        return terminalContextEvo.popupManager;
-    }
-
-    static /* synthetic */ IScreenManager access$200(TerminalContextEvo terminalContextEvo) {
-        return terminalContextEvo.screenManager;
-    }
-
-    static /* synthetic */ IScreenManager access$300(TerminalContextEvo terminalContextEvo) {
-        return terminalContextEvo.screenManager;
-    }
-
-    static /* synthetic */ IPopupManager access$400(TerminalContextEvo terminalContextEvo) {
-        return terminalContextEvo.popupManager;
-    }
-
-    static /* synthetic */ IPopupManager access$500(TerminalContextEvo terminalContextEvo) {
-        return terminalContextEvo.popupManager;
-    }
-
-    static /* synthetic */ IPopupManager access$600(TerminalContextEvo terminalContextEvo) {
-        return terminalContextEvo.popupManager;
-    }
-
-    static /* synthetic */ IPopupManager access$700(TerminalContextEvo terminalContextEvo) {
-        return terminalContextEvo.popupManager;
     }
 }
 

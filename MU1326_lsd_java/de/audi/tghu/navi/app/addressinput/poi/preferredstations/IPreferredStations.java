@@ -7,16 +7,12 @@ import de.audi.tghu.navi.app.command.NavCommand;
 import org.dsi.ifc.navigation.Brand;
 
 public interface IPreferredStations {
-    default public void onStart(int n, int n2, NavCommand navCommand) {
-    }
+    public void onStart(int var1, int var2, NavCommand var3);
 
-    default public void brandsUpdated(int n, int n2, Brand[] brandArray) {
-    }
+    public void brandsUpdated(int var1, int var2, Brand[] var3);
 
-    default public void toggleBrandPreferrence(int n) {
-    }
+    public void toggleBrandPreferrence(int var1);
 
-    default public void onExit() {
-    }
+    public void onExit();
 }
 

@@ -11,18 +11,21 @@ import de.audi.atip.hmi.modelaccess.SpellerModelApp;
 import de.audi.atip.log.LogChannel;
 import de.audi.atip.storage.IStorageAccess;
 import de.audi.tghu.navi.app.NavigationEnv;
-import de.audi.tghu.navi.app.poi.online.OnlineSearchHistory$State;
+import de.audi.tghu.navi.app.PersistentState;
 import de.audi.tghu.navi.app.util.Util;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class OnlineSearchHistory {
     public static int MAX_CUSTOMER_HISTORY_LENGTH = 20;
-    private static final int MAX_SYSTEM_HISTORY_LENGTH;
-    public static final int MAX_HISTORY_LENGTH;
-    public static final int MAX_HISTORY_COLUMNS;
-    private static final int LLD_DEFAULT;
-    private static final int LLD_CUSTOMER;
+    private static final int MAX_SYSTEM_HISTORY_LENGTH = 0;
+    public static final int MAX_HISTORY_LENGTH = MAX_CUSTOMER_HISTORY_LENGTH + 0;
+    public static final int MAX_HISTORY_COLUMNS = 2;
+    private static final int LLD_DEFAULT = 0;
+    private static final int LLD_CUSTOMER = 1;
     protected final NavigationEnv env;
     protected ListModelApp historyList;
     private ListModelApp historyPreviewList;
@@ -53,8 +56,8 @@ public class OnlineSearchHistory {
             int n;
             int n2;
             boolean bl;
-            this.logChannel.log(-2137614336, "OnlineSearchHistory#refreshSearchHistory() - customerHistoryList.size: %1 ", (long)this.customerHistoryList.size());
-            this.logChannel.log(-2137614336, "OnlineSearchHistory#refreshSearchHistory() - HistoryList.size: %1 ", (long)this.historyList.getLength());
+            this.logChannel.log(10000000, "OnlineSearchHistory#refreshSearchHistory() - customerHistoryList.size: %1 ", (long)this.customerHistoryList.size());
+            this.logChannel.log(10000000, "OnlineSearchHistory#refreshSearchHistory() - HistoryList.size: %1 ", (long)this.historyList.getLength());
             this.SDSSearch = bl = string != null;
             String string2 = string == null ? this.searchSpeller.getText() : string;
             int n3 = n2 = string2 != null ? string2.length() : 0;
@@ -102,12 +105,12 @@ public class OnlineSearchHistory {
     }
 
     protected void refreshHistoryAccess() {
-        this.logChannel.log(-1601830656, "OnlineSearchHistory#refreshHistoryAccess not implemented yet!");
+        this.logChannel.log(100000, "OnlineSearchHistory#refreshHistoryAccess not implemented yet!");
     }
 
     public void handleSearchText(String string) {
         int n = this.customerHistoryList.size();
-        this.logChannel.log(-2137614336, "OnlineSearchHistory#handleSearchText - searchText = %1, customerHistoryList = %2", (Object)string, (long)n);
+        this.logChannel.log(10000000, "OnlineSearchHistory#handleSearchText - searchText = %1, customerHistoryList = %2", (Object)string, (long)n);
         for (int i2 = 0; i2 < n; ++i2) {
             String string2 = (String)this.customerHistoryList.get(i2);
             if (string2 == null || !string2.equalsIgnoreCase(string)) continue;
@@ -124,7 +127,7 @@ public class OnlineSearchHistory {
 
     public void handleSearchTextSDS(String string) {
         int n = this.customerHistoryList.size();
-        this.logChannel.log(-2137614336, "OnlineSearchHistory#handleSearchText - searchText = %1, customerHistoryList = %2", (Object)string, (long)n);
+        this.logChannel.log(10000000, "OnlineSearchHistory#handleSearchText - searchText = %1, customerHistoryList = %2", (Object)string, (long)n);
         for (int i2 = 0; i2 < n; ++i2) {
             String string2 = (String)this.customerHistoryList.get(i2);
             if (string2 == null || !string2.equalsIgnoreCase(string)) continue;
@@ -140,7 +143,7 @@ public class OnlineSearchHistory {
     }
 
     public void resetHistory() {
-        this.logChannel.log(-2137614336, "OnlineSearchHistory#resetHistory() ");
+        this.logChannel.log(10000000, "OnlineSearchHistory#resetHistory() ");
         this.customerHistoryList.clear();
         this.saveState();
         this.refreshSearchHistory();
@@ -149,17 +152,17 @@ public class OnlineSearchHistory {
     public void loadState() {
         try {
             IStorageAccess iStorageAccess = this.env.getFramework().getStorageMgr();
-            OnlineSearchHistory$State onlineSearchHistory$State = new OnlineSearchHistory$State(iStorageAccess, this.logChannel);
-            onlineSearchHistory$State.readAndDeserialize();
-            String[] stringArray = onlineSearchHistory$State.getHistory();
+            State state = new State(iStorageAccess, this.logChannel);
+            state.readAndDeserialize();
+            String[] stringArray = state.getHistory();
             this.customerHistoryList.clear();
             if (stringArray != null) {
-                this.logChannel.log(-2137614336, "OnlineSearchHistory#loadState %1", (long)stringArray.length);
+                this.logChannel.log(10000000, "OnlineSearchHistory#loadState %1", (long)stringArray.length);
                 for (int i2 = 0; i2 < stringArray.length && i2 < MAX_CUSTOMER_HISTORY_LENGTH; ++i2) {
                     this.customerHistoryList.add(stringArray[i2]);
                 }
             } else {
-                this.logChannel.log(-2137614336, "OnlineSearchHistory#loadState - no search history");
+                this.logChannel.log(10000000, "OnlineSearchHistory#loadState - no search history");
             }
         }
         catch (Exception exception) {
@@ -173,16 +176,16 @@ public class OnlineSearchHistory {
             IStorageAccess iStorageAccess = this.env.getFramework().getStorageMgr();
             int n = this.customerHistoryList.size();
             String[] stringArray = new String[n];
-            this.logChannel.log(-2137614336, "OnlineSearchHistory#saveState - customerHistoryList = ( %1 )", (long)n);
+            this.logChannel.log(10000000, "OnlineSearchHistory#saveState - customerHistoryList = ( %1 )", (long)n);
             for (int i2 = 0; i2 < n; ++i2) {
                 stringArray[i2] = (String)this.customerHistoryList.get(i2);
             }
-            OnlineSearchHistory$State onlineSearchHistory$State = new OnlineSearchHistory$State(iStorageAccess, this.logChannel);
-            onlineSearchHistory$State.setHistory(stringArray);
-            onlineSearchHistory$State.serializeAndWrite();
+            State state = new State(iStorageAccess, this.logChannel);
+            state.setHistory(stringArray);
+            state.serializeAndWrite();
         }
         catch (Exception exception) {
-            this.logChannel.log(-2137614336, "OnlineSearchHistory#saveState() - could not save state! ", (Throwable)exception);
+            this.logChannel.log(10000000, "OnlineSearchHistory#saveState() - could not save state! ", (Throwable)exception);
         }
     }
 
@@ -190,8 +193,59 @@ public class OnlineSearchHistory {
         return this.customerHistoryList;
     }
 
-    static {
-        MAX_HISTORY_LENGTH = MAX_CUSTOMER_HISTORY_LENGTH + 0;
+    public static class State
+    extends PersistentState {
+        public static final int VERSION = 1;
+        public static final int KEY = 880;
+        private static final String[] DEFAULT_HISTORY = new String[0];
+        private String[] history;
+
+        public State(IStorageAccess iStorageAccess, LogChannel logChannel) {
+            super(iStorageAccess, 1, 1004, 880, logChannel);
+        }
+
+        protected void initWithDefaultValues() {
+            this.history = DEFAULT_HISTORY;
+        }
+
+        protected void initFromOldKeys(IStorageAccess iStorageAccess) {
+            this.history = DEFAULT_HISTORY;
+        }
+
+        protected void serialize(DataOutputStream dataOutputStream) throws IOException {
+            this.serializeStringArray(this.history, dataOutputStream);
+        }
+
+        protected void deserialize(DataInputStream dataInputStream) throws IOException {
+            this.history = this.deserializeStringArray(dataInputStream);
+            if (this.history == null) {
+                this.history = DEFAULT_HISTORY;
+            }
+        }
+
+        protected void convertContainer(int n, int n2, DataInputStream dataInputStream) {
+            this.getLogChannel().log(10000000, "OnlineSearchHistory.State#convertContainer( %1, %2 )", (long)n, (long)n2);
+            this.initWithDefaultValues();
+            try {
+                if (n > 0) {
+                    this.history = this.deserializeStringArray(dataInputStream);
+                    if (this.history == null) {
+                        this.history = DEFAULT_HISTORY;
+                    }
+                }
+            }
+            catch (IOException iOException) {
+                this.getLogChannel().log(10000, "OnlineSearchHistory.State#convertContainer - error on converting the persistent state format", (Throwable)iOException);
+            }
+        }
+
+        public String[] getHistory() {
+            return this.history;
+        }
+
+        public void setHistory(String[] stringArray) {
+            this.history = stringArray;
+        }
     }
 }
 

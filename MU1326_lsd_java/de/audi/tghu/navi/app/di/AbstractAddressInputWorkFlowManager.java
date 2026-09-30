@@ -12,7 +12,7 @@ import de.audi.tghu.navi.app.util.Util;
 
 public abstract class AbstractAddressInputWorkFlowManager
 implements IAddressInputWorkFlowManager {
-    protected final String CLASS_NAME = Util.getClassNameFromPackageName(super.getClass());
+    protected final String CLASS_NAME = Util.getClassNameFromPackageName(this.getClass());
     protected final NavigationEnv env;
     protected final ICommandListFactory commandListFactory;
     protected final SpellerStack spellerStack;
@@ -126,7 +126,7 @@ implements IAddressInputWorkFlowManager {
     }
 
     protected boolean isSystemNAR(int n) {
-        return n >= 30000 && n <= 1067188224;
+        return n >= 30000 && n <= 39999;
     }
 
     protected boolean isNARMainScreen(int n) {
@@ -162,39 +162,39 @@ implements IAddressInputWorkFlowManager {
     }
 
     protected boolean isSystemKR(int n) {
-        return n >= 1083965440 && n <= 1338179584;
+        return n >= 40000 && n <= 49999;
     }
 
     protected boolean isKRMainScreen(int n) {
-        return n >= 1100742656 && n <= -1533280256;
+        return n >= 40001 && n <= 40100;
     }
 
     protected boolean isKRProvinceScreen(int n) {
-        return n >= -1516503040 && n <= 144506880;
+        return n >= 40101 && n <= 40200;
     }
 
     protected boolean isKRCityScreen(int n) {
-        return n >= 0x99D0000 && n <= 1822228480;
+        return n >= 40201 && n <= 40300;
     }
 
     protected boolean isKRWardScreen(int n) {
-        return n >= 1839005696 && n <= -795017216;
+        return n >= 40301 && n <= 40400;
     }
 
     protected boolean isKRFacilityScreen(int n) {
-        return n >= -778240000 && n <= 882769920;
+        return n >= 40401 && n <= 40500;
     }
 
     protected boolean isKRTownStreetScreen(int n) {
-        return n >= 899547136 && n <= -1734475776;
+        return n >= 40501 && n <= 40600;
     }
 
     protected boolean isKRVillageStreetScreen(int n) {
-        return n >= -1717698560 && n <= -56754176;
+        return n >= 40601 && n <= 40700;
     }
 
     protected boolean isKRNumberScreen(int n) {
-        return n >= -39976960 && n <= 1621032960;
+        return n >= 40701 && n <= 40800;
     }
 }
 

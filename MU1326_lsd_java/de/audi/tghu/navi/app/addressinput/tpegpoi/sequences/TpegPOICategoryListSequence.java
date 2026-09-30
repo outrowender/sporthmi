@@ -13,9 +13,9 @@ import de.audi.tghu.navi.app.addressinput.poi.commands.PoiSetContextCommand;
 import de.audi.tghu.navi.app.addressinput.poi.commands.PoiSetSortOrderCommand;
 import de.audi.tghu.navi.app.addressinput.tpegpoi.ITpegPOICategoryListModelAccess;
 import de.audi.tghu.navi.app.addressinput.tpegpoi.sequences.TpegPOIBaseSequence;
-import de.audi.tghu.navi.app.addressinput.tpegpoi.sequences.TpegPOICategoryListSequence$1;
 import de.audi.tghu.navi.app.command.LIGetStateCommand;
 import de.audi.tghu.navi.app.command.LISPCancelSpellerCommand;
+import de.audi.tghu.navi.app.command.NavCommand;
 import de.audi.tghu.navi.app.guidance.IVehicle;
 import de.audi.tghu.navi.app.li.SpellerStack;
 import de.audi.tghu.navi.app.li.sc.SpellerContext;
@@ -33,7 +33,13 @@ extends TpegPOIBaseSequence {
 
     public CommandList getStartTpegPOICommandList() {
         CommandList commandList = this.commandListFactory.createCommandList();
-        commandList.add(new TpegPOICategoryListSequence$1(this, "Reset SpellerStack"));
+        commandList.add(new NavCommand("Reset SpellerStack"){
+
+            public void execute() {
+                TpegPOICategoryListSequence.this.spellerStack.reset();
+                this.getCommandList().commandFinished();
+            }
+        });
         commandList.add(new LIGetStateCommand(this.spellerStack, new SpellerContext(109)));
         commandList.add(new LISPCancelSpellerCommand());
         commandList.add(new PoiModelStartCommand(this.modelAccess));

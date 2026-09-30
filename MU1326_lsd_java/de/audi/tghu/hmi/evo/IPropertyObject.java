@@ -4,25 +4,18 @@
 package de.audi.tghu.hmi.evo;
 
 public interface IPropertyObject {
-    default public int getVisibleCCID() {
-    }
+    public int getVisibleCCID();
 
-    default public int getEnabledCCID() {
-    }
+    public int getEnabledCCID();
 
-    default public int[] getContextIDs() {
-    }
+    public int[] getContextIDs();
 
-    default public int[] getCategories() {
-    }
+    public int[] getCategories();
 
-    default public int[] getFocusPropertiesToShow() {
-    }
+    public int[] getFocusPropertiesToShow();
 
-    default public int[] getFocusPropertiesToHide() {
-    }
+    public int[] getFocusPropertiesToHide();
 
-    default public int[] getFocusPropertiesToDisable() {
-    }
+    public int[] getFocusPropertiesToDisable();
 }
 

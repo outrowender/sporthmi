@@ -11,16 +11,12 @@ public interface ScreenAreaFocus
 extends KeyListener,
 TouchPadEventListener,
 GestureEventListener {
-    default public boolean hasIdleTimer() {
-    }
+    public boolean hasIdleTimer();
 
-    default public void restartIdleTimer() {
-    }
+    public void restartIdleTimer();
 
-    default public void cancelIdleTimer() {
-    }
+    public void cancelIdleTimer();
 
-    default public void focusChanged(int n, int n2, int n3) {
-    }
+    public void focusChanged(int var1, int var2, int var3);
 }
 

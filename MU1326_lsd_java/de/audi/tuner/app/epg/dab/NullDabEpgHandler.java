@@ -24,34 +24,28 @@ implements IDabEpgHandler {
         return null;
     }
 
-    @Override
     public void setEPGList(EPGShortInfoExt[] ePGShortInfoExtArray) {
         this.log();
     }
 
-    @Override
     public void setEPGDetailData(EPGFullInfo ePGFullInfo) {
         this.log();
     }
 
-    @Override
     public RadioInfo[] getDabListeners() {
         this.log();
         return new RadioInfo[0];
     }
 
-    @Override
     public RadioInfo[] getUniListeners() {
         this.log();
         return new RadioInfo[0];
     }
 
-    @Override
     public void updateEPGDetailData() {
         this.log();
     }
 
-    @Override
     public void setFavoriteHandler(IStoreStationHandler iStoreStationHandler) {
         this.log();
     }

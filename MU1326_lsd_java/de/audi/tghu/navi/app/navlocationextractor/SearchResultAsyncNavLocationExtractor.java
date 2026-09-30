@@ -9,20 +9,19 @@ import de.audi.tghu.command.CommandList;
 import de.audi.tghu.command.ICommandListFactory;
 import de.audi.tghu.navi.app.command.CreateTryMatchCommand;
 import de.audi.tghu.navi.app.command.DSIResponseContainer;
+import de.audi.tghu.navi.app.command.LIGetLocationDescriptionTransformCommand;
 import de.audi.tghu.navi.app.command.NavCommand;
 import de.audi.tghu.navi.app.command.StreamToLocationCommand;
 import de.audi.tghu.navi.app.favorite.INaviFavoriteHandler;
 import de.audi.tghu.navi.app.navlocationextractor.AbstractAsyncNavLocationExtractor;
 import de.audi.tghu.navi.app.navlocationextractor.AdbEntryAsyncNavLocationExtractor;
 import de.audi.tghu.navi.app.navlocationextractor.NavLocationsCache;
-import de.audi.tghu.navi.app.navlocationextractor.SearchResultAsyncNavLocationExtractor$1;
-import de.audi.tghu.navi.app.navlocationextractor.SearchResultAsyncNavLocationExtractor$2;
-import de.audi.tghu.navi.app.navlocationextractor.SearchResultAsyncNavLocationExtractor$3;
-import de.audi.tghu.navi.app.navlocationextractor.SearchResultAsyncNavLocationExtractor$4;
 import de.audi.tghu.navi.app.rows.AdbEntryListRow;
+import de.audi.tghu.navi.app.util.Util;
 import org.dsi.ifc.global.NavLocation;
 import org.dsi.ifc.navigation.TryMatchLocationResultData;
 import org.dsi.ifc.search.SearchResult;
+import org.dsi.ifc.search.Token;
 
 public class SearchResultAsyncNavLocationExtractor
 extends AbstractAsyncNavLocationExtractor {
@@ -38,7 +37,6 @@ extends AbstractAsyncNavLocationExtractor {
         this.naviFavoriteHandler = iNaviFavoriteHandler;
     }
 
-    @Override
     protected CommandList getExtractNavLocationCL(EvoListRow evoListRow, int n) {
         this.checkArgument(evoListRow);
         if (evoListRow instanceof AdbEntryListRow) {
@@ -85,20 +83,57 @@ extends AbstractAsyncNavLocationExtractor {
     }
 
     private NavCommand getStoreDeserializedNavLocationInCmdListMapCommand() {
-        return new SearchResultAsyncNavLocationExtractor$1(this, "SearchResultAsyncNavLocationExtractor#StoreDeserializedNavLocationInCmdListMap");
+        return new NavCommand("SearchResultAsyncNavLocationExtractor#StoreDeserializedNavLocationInCmdListMap"){
+
+            public void execute() {
+                Object object = this.getCommandList().get("STREAMED_LOCATION");
+                SearchResultAsyncNavLocationExtractor.this.putResultInCommandListMap("navLocation", object, this.getCommandList(), this.logger);
+                this.getCommandList().commandFinished();
+            }
+        };
     }
 
-    private CommandList getCLForPoiCall(SearchResult searchResult, int n) {
+    private CommandList getCLForPoiCall(final SearchResult searchResult, int n) {
         CommandList commandList = this.commandListFactory.createCommandList(n);
-        commandList.add(new SearchResultAsyncNavLocationExtractor$2(this, "SearchResultAsyncNavLocationExtractor#ExtractNavLocationFromPoiCallSearchResult", searchResult));
-        commandList.add(new SearchResultAsyncNavLocationExtractor$3(this, "SearchResultAsyncNavLocationExtractor#StoreTransformedNavLocdationInCmdListMap", searchResult));
+        commandList.add(new NavCommand("SearchResultAsyncNavLocationExtractor#ExtractNavLocationFromPoiCallSearchResult"){
+
+            public void execute() {
+                Token token = Util.extractTokenFromSearchresult(searchResult, 19);
+                Token token2 = Util.extractTokenFromSearchresult(searchResult, 18);
+                try {
+                    int n = Integer.parseInt(token.token);
+                    int n2 = Integer.parseInt(token2.token);
+                    NavLocation navLocation = Util.getLocationFromGeoPos(n, n2);
+                    this.getCommandList().commandFinishedWithPostCommand(new LIGetLocationDescriptionTransformCommand(navLocation));
+                }
+                catch (NumberFormatException numberFormatException) {
+                    this.getCommandList().commandAborted(new StringBuffer().append("No valid longitude/latitude from SearchResult extractable: ").append(numberFormatException).toString());
+                }
+            }
+        });
+        commandList.add(new NavCommand("SearchResultAsyncNavLocationExtractor#StoreTransformedNavLocdationInCmdListMap"){
+
+            public void execute() {
+                NavLocation navLocation = this.dsiResponseContainer.getTransformedLocation();
+                Token token = Util.extractTokenFromSearchresult(searchResult, 5);
+                Util.setOnlinePOINameOnLocation(navLocation, token.getToken());
+                SearchResultAsyncNavLocationExtractor.this.putResultInCommandListMap("navLocation", navLocation, this.getCommandList(), this.logger);
+                this.getCommandList().commandFinished();
+            }
+        });
         return commandList;
     }
 
     private CommandList getResolveNavLocationCL(SearchResult searchResult, int n) {
         CommandList commandList = this.commandListFactory.createCommandList(n);
         commandList.add(new CreateTryMatchCommand(searchResult, this.cache));
-        commandList.add(new SearchResultAsyncNavLocationExtractor$4(this));
+        commandList.add(new NavCommand(){
+
+            public void execute() {
+                SearchResultAsyncNavLocationExtractor.this.putResultInCommandListMap("navLocation", SearchResultAsyncNavLocationExtractor.this.getNavLocationFromLiTryMatchLocation(this.dsiResponseContainer), this.getCommandList(), this.logger);
+                this.getCommandList().commandFinished();
+            }
+        });
         return commandList;
     }
 
@@ -108,10 +143,6 @@ extends AbstractAsyncNavLocationExtractor {
             return null;
         }
         return tryMatchLocationResultDataArray[0].getLocation();
-    }
-
-    static /* synthetic */ NavLocation access$000(SearchResultAsyncNavLocationExtractor searchResultAsyncNavLocationExtractor, DSIResponseContainer dSIResponseContainer) {
-        return searchResultAsyncNavLocationExtractor.getNavLocationFromLiTryMatchLocation(dSIResponseContainer);
     }
 }
 

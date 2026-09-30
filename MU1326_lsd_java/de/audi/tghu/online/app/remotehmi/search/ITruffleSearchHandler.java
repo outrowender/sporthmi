@@ -7,10 +7,8 @@ import de.audi.remotehmi.ui.mib2.grid.IGridList;
 import de.audi.tghu.online.app.remotehmi.search.ISearchListener;
 
 public interface ITruffleSearchHandler {
-    default public void performQuery(String string, IGridList iGridList, ISearchListener iSearchListener) {
-    }
+    public void performQuery(String var1, IGridList var2, ISearchListener var3);
 
-    default public boolean cancelQuery() {
-    }
+    public boolean cancelQuery();
 }
 

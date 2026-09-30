@@ -11,6 +11,7 @@ import de.audi.atip.statemachine.SMModuleConstants;
 import de.audi.atip.statemachine.SMServices;
 import de.audi.atip.statemachine.ap.EngineeringActionProxy;
 import de.audi.atip.statemachine.ap.EntertainmentActionProxy;
+import java.util.NoSuchElementException;
 
 public class EngineeringSMMActions
 implements SMModuleConstants {
@@ -28,12 +29,12 @@ implements SMModuleConstants {
     public void removeActionProxy(int n, ActionProxy actionProxy) {
         if (actionProxy instanceof EntertainmentActionProxy) {
             this.ap1 = null;
-            this.logChannel.log(-2137614336, "EntertainmentActionProxy Action Proxy removed");
+            this.logChannel.log(10000000, "EntertainmentActionProxy Action Proxy removed");
             return;
         }
         if (actionProxy instanceof EngineeringActionProxy) {
             this.ap0 = null;
-            this.logChannel.log(-2137614336, "EngineeringActionProxy Action Proxy removed");
+            this.logChannel.log(10000000, "EngineeringActionProxy Action Proxy removed");
             return;
         }
     }
@@ -41,12 +42,12 @@ implements SMModuleConstants {
     public ActionProxy addActionProxy(int n, ActionProxy actionProxy) {
         if (actionProxy instanceof EntertainmentActionProxy) {
             this.ap1 = (EntertainmentActionProxy)actionProxy;
-            this.logChannel.log(-2137614336, "EntertainmentActionProxy Action Proxy added");
+            this.logChannel.log(10000000, "EntertainmentActionProxy Action Proxy added");
             return this.ap1;
         }
         if (actionProxy instanceof EngineeringActionProxy) {
             this.ap0 = (EngineeringActionProxy)actionProxy;
-            this.logChannel.log(-2137614336, "EngineeringActionProxy Action Proxy added");
+            this.logChannel.log(10000000, "EngineeringActionProxy Action Proxy added");
             return this.ap0;
         }
         return null;
@@ -57,7 +58,7 @@ implements SMModuleConstants {
             this.logChannel.log(1000, "Action Proxy 'EntertainmentActionProxy' is causing an exception in call '%1'", (Object)string, (Throwable)nullPointerException);
             throw nullPointerException;
         }
-        this.logChannel.log(1078071040, "Action Proxy 'EntertainmentActionProxy' missing for call '%1'", (Object)string);
+        this.logChannel.log(1000000, "Action Proxy 'EntertainmentActionProxy' missing for call '%1'", (Object)string);
     }
 
     private void catchActionExceptionEngineeringActionProxy(ActionProxy actionProxy, NullPointerException nullPointerException, String string) {
@@ -65,7 +66,7 @@ implements SMModuleConstants {
             this.logChannel.log(1000, "Action Proxy 'EngineeringActionProxy' is causing an exception in call '%1'", (Object)string, (Throwable)nullPointerException);
             throw nullPointerException;
         }
-        this.logChannel.log(1078071040, "Action Proxy 'EngineeringActionProxy' missing for call '%1'", (Object)string);
+        this.logChannel.log(1000000, "Action Proxy 'EngineeringActionProxy' missing for call '%1'", (Object)string);
     }
 
     public void execFocusGainedAction(SMServices sMServices, int n) {
@@ -160,7 +161,7 @@ implements SMModuleConstants {
         }
     }
 
-    public HMIModel getModel(int n) {
+    public HMIModel getModel(int n) throws NoSuchElementException {
         return this.smm.getModel(n);
     }
 }

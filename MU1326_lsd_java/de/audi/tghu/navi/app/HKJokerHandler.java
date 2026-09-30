@@ -12,7 +12,7 @@ import de.audi.tghu.navi.app.NavigationEnv;
 
 public final class HKJokerHandler
 implements ButtonListener {
-    private static final int JOKER1_BUTTON_ID;
+    private static final int JOKER1_BUTTON_ID = 401304;
     private LogChannel logChannel;
     private ButtonModelApp joker1Button;
     private ManagementServices managementServices;
@@ -23,7 +23,7 @@ implements ButtonListener {
         this.logChannel = navigationEnv.getLogChannel();
         this.navigation = navigation;
         this.env = navigationEnv;
-        this.joker1Button = navigationEnv.getButtonModel(-1742797312);
+        this.joker1Button = navigationEnv.getButtonModel(401304);
         this.joker1Button.setButtonListener(this);
         this.managementServices = managementServices;
     }
@@ -37,16 +37,14 @@ implements ButtonListener {
         this.managementServices = null;
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3) {
-        this.logChannel.log(-2137614336, "HKJokerHandler#keyReleased( %1 )", (long)n);
-        if (n == -1742797312) {
+        this.logChannel.log(10000000, "HKJokerHandler#keyReleased( %1 )", (long)n);
+        if (n == 401304) {
             int n4 = this.env.getChoiceModel(395).getValue();
-            this.logChannel.log(1078071040, "HKJokerHandler#keyReleased() - jokerKey1Choice: %1", (long)n4);
+            this.logChannel.log(1000000, "HKJokerHandler#keyReleased() - jokerKey1Choice: %1", (long)n4);
             if (n4 == 3) {
                 this.navigation.getSpeechManager().toggleGuidanceMode();
                 int n5 = this.navigation.getSpeechManager().getGuidanceMode();
@@ -88,22 +86,20 @@ implements ButtonListener {
                     }
                 }
             } else if (n4 == 10) {
-                this.logChannel.log(-2137614336, "HKJokerHandler#keyReleased() - show/hide traffic announcement");
+                this.logChannel.log(10000000, "HKJokerHandler#keyReleased() - show/hide traffic announcement");
                 this.navigation.getTmcGateway().showHideTMCPopup();
             } else if (n4 == 12) {
-                this.logChannel.log(-2137614336, "HKJokerHandler#keyReleased() - repeat driving instruction");
+                this.logChannel.log(10000000, "HKJokerHandler#keyReleased() - repeat driving instruction");
                 this.navigation.getLastAnnouncementHandler().repeatLastAnnoucment();
             } else {
-                this.logChannel.log(-2137614336, "HKJokerHandler#keyReleased() - ignoring HKJoker key. No navigation function called.");
+                this.logChannel.log(10000000, "HKJokerHandler#keyReleased() - ignoring HKJoker key. No navigation function called.");
             }
         }
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyLongTyped(int n, int n2, int n3) {
     }
 }

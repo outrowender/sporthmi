@@ -7,10 +7,8 @@ import de.audi.tghu.waveplayer.RingTonePlayer;
 import de.audi.tghu.waveplayer.SystemTonePlayer;
 
 public interface WavePlayer {
-    default public RingTonePlayer getRingTonePlayer() {
-    }
+    public RingTonePlayer getRingTonePlayer();
 
-    default public SystemTonePlayer getSystemTonePlayer() {
-    }
+    public SystemTonePlayer getSystemTonePlayer();
 }
 

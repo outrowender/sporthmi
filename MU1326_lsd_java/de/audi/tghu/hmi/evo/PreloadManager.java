@@ -4,7 +4,6 @@
 package de.audi.tghu.hmi.evo;
 
 public interface PreloadManager {
-    default public void preloadBitmaps(int[] nArray, int n) {
-    }
+    public void preloadBitmaps(int[] var1, int var2);
 }
 

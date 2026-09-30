@@ -13,7 +13,7 @@ import de.audi.tone.app.volume.samples.TTSSamplePlayer;
 
 public class InfoAnnouncementVolumeRange
 extends AbstractVolumeRange {
-    private static final int CONNECTION;
+    private static final int CONNECTION = 139;
     private final String DEFAULT_TEXT;
     private final TTSSamplePlayer player;
     private final int[] volumeConnections = new int[]{138, 140, 139};
@@ -21,27 +21,24 @@ extends AbstractVolumeRange {
     private final String name;
 
     protected InfoAnnouncementVolumeRange(VolumeRangeManager volumeRangeManager) {
-        super(volumeRangeManager, -1371402496, -1388179712, 139);
+        super(volumeRangeManager, 1000110, 1000109, 139);
         this.DEFAULT_TEXT = "Text not available";
         this.name = "InfoAnnouncementVolumeRange";
         this.player = new TTSSamplePlayer(volumeRangeManager.env, volumeRangeManager.env.getTranslatedText(3, "Text not available"));
-        ChoiceModelApp choiceModelApp = volumeRangeManager.env.getChoiceModel(-1354625280);
+        ChoiceModelApp choiceModelApp = volumeRangeManager.env.getChoiceModel(1000111);
         this.greyOutHandler = new DefaultGreyOutAndPopupHandler(choiceModelApp, this.greyOutConnections, volumeRangeManager.env.lcHMI, "InfoAnnouncementVolumeRange");
     }
 
-    @Override
     protected void registerService(Object object) {
         super.registerService(object);
-        this.volMenuManager.env.getChoiceModel(1396838144).setValue(1);
+        this.volMenuManager.env.getChoiceModel(1000019).setValue(1);
     }
 
-    @Override
     protected void deregisterService(Object object) {
         super.deregisterService(object);
-        this.volMenuManager.env.getChoiceModel(1396838144).setValue(0);
+        this.volMenuManager.env.getChoiceModel(1000019).setValue(0);
     }
 
-    @Override
     protected void requestMenuConnection() {
         this.limitVolumeToHmiLimits();
         String string = this.env.getTranslatedText(3, "Text not available");
@@ -49,27 +46,22 @@ extends AbstractVolumeRange {
         this.player.startSession();
     }
 
-    @Override
     protected void releaseMenuConnection() {
         this.player.stopSession();
     }
 
-    @Override
     protected ISamplePlayer getSamplePlayer() {
         return this.player;
     }
 
-    @Override
     protected int[] getVolumeConnections() {
         return this.volumeConnections;
     }
 
-    @Override
     protected String getName() {
         return "InfoAnnouncementVolumeRange";
     }
 
-    @Override
     protected int getID() {
         return 12;
     }

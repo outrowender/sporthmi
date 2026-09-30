@@ -10,15 +10,14 @@ import de.audi.tghu.waveplayer.DefaultWavePlayerListener;
 import de.audi.tghu.waveplayer.SystemTonePlayer;
 import de.audi.tone.app.ToneEnv;
 import de.audi.tone.app.msg.DefaultMsgListener;
-import de.audi.tone.app.msg.TouchSound$MsgListener;
 import de.audi.tone.app.volume.samples.TouchSoundPlayer;
 
 public class TouchSound
 extends DefaultWavePlayerListener
 implements ChoiceListener {
-    private static final int TOUCHSOUND_ENABLED;
-    private static final int TOUCHSOUND_DISABLED;
-    public final DefaultMsgListener audioMsgListener = new TouchSound$MsgListener(this, null);
+    private static final int TOUCHSOUND_ENABLED = 1;
+    private static final int TOUCHSOUND_DISABLED = 0;
+    public final DefaultMsgListener audioMsgListener = new MsgListener();
     private final TouchSoundPlayer player;
     private final LogChannel lc;
     private final ChoiceModelApp touchSoundOnOfModel;
@@ -29,7 +28,7 @@ implements ChoiceListener {
         this.lc = toneEnv.lcMain;
         this.env = toneEnv;
         this.player = new TouchSoundPlayer(this.lc, 0);
-        this.touchSoundOnOfModel = toneEnv.getChoiceModel(-1841164544);
+        this.touchSoundOnOfModel = toneEnv.getChoiceModel(1000082);
         this.touchSoundEnabled = toneEnv.getStorageAccess().getBoolean(1009, 29, true);
         this.touchSoundOnOfModel.setValue(this.touchSoundEnabled ? 1 : 0);
         this.touchSoundOnOfModel.setChoiceListener(this);
@@ -40,51 +39,51 @@ implements ChoiceListener {
         systemTonePlayer.setListener(this);
     }
 
-    @Override
     public void state(int n) {
-        this.lc.log(-2137614336, "[TouchSound.state] called do nothing");
+        this.lc.log(10000000, "[TouchSound.state] called do nothing");
     }
 
-    @Override
     public void itemSelected(int n, int n2, int n3, int n4) {
-        if (n == -1841164544) {
-            this.lc.log(-2137614336, "[TouchSound.itemSelected] itemID: %1", (long)n2);
+        if (n == 1000082) {
+            this.lc.log(10000000, "[TouchSound.itemSelected] itemID: %1", (long)n2);
             this.touchSoundOnOfModel.setValue(n2);
             this.touchSoundEnabled = n2 == 1;
             this.env.getStorageAccess().setBoolean(1009, 29, this.touchSoundEnabled);
         }
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyLongTyped(int n, int n2, int n3) {
     }
 
-    @Override
     public void itemFocused(int n, int n2, int n3, int n4) {
     }
 
-    static /* synthetic */ boolean access$100(TouchSound touchSound) {
-        return touchSound.touchSoundEnabled;
-    }
+    private class MsgListener
+    extends DefaultMsgListener {
+        private MsgListener() {
+        }
 
-    static /* synthetic */ LogChannel access$200(TouchSound touchSound) {
-        return touchSound.lc;
-    }
+        protected void playTouchSound() {
+            if (TouchSound.this.touchSoundEnabled) {
+                TouchSound.this.lc.log(10000000, "[TouchSound.MsgListener.playTouchSound] play");
+                TouchSound.this.player.play();
+            } else {
+                TouchSound.this.lc.log(10000000, "[TouchSound.MsgListener.playTouchSound] touchSoundEnabled: %1", TouchSound.this.touchSoundEnabled);
+            }
+        }
 
-    static /* synthetic */ TouchSoundPlayer access$300(TouchSound touchSound) {
-        return touchSound.player;
+        protected void resetMessagingSettings() {
+            TouchSound.this.itemSelected(1000082, 1, 0, 0);
+        }
     }
 }
 

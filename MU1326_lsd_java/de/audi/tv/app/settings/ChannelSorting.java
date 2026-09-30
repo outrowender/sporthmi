@@ -3,15 +3,15 @@
  */
 package de.audi.tv.app.settings;
 
+import de.audi.atip.hmi.model.listener.DefaultChoiceListener;
 import de.audi.atip.hmi.modelaccess.ChoiceModelApp;
 import de.audi.tv.app.base.TVEnv;
 import de.audi.tv.app.dsi.DSITV;
-import de.audi.tv.app.settings.ChannelSorting$ChoiceListenerImpl;
 import de.audi.tv.app.settings.ISettingListener;
 import de.audi.tv.app.settings.SettingsStorage;
 
 class ChannelSorting {
-    static final int DEFAULT;
+    static final int DEFAULT = 0;
     private final TVEnv env;
     private final SettingsStorage storage;
     private final DSITV dsi;
@@ -22,8 +22,8 @@ class ChannelSorting {
         this.storage = settingsStorage;
         this.dsi = dSITV;
         this.provider = iSettingListener;
-        ChoiceModelApp choiceModelApp = tVEnv.getChoiceModel(1219241728);
-        choiceModelApp.setChoiceListener(new ChannelSorting$ChoiceListenerImpl(this, null));
+        ChoiceModelApp choiceModelApp = tVEnv.getChoiceModel(2600008);
+        choiceModelApp.setChoiceListener(new ChoiceListenerImpl());
         choiceModelApp.setValue(0);
     }
 
@@ -38,22 +38,22 @@ class ChannelSorting {
     }
 
     void update(int n) {
-        this.env.lcHMI.log(-2137614336, "[ChannelSorting.updateChannelSorting] %1", (long)n);
-        this.env.getChoiceModel(1219241728).setValue(n);
+        this.env.lcHMI.log(10000000, "[ChannelSorting.updateChannelSorting] %1", (long)n);
+        this.env.getChoiceModel(2600008).setValue(n);
         this.provider.updateStationListSorting(n);
         this.storage.saveChannelSorting(n);
     }
 
-    static /* synthetic */ TVEnv access$100(ChannelSorting channelSorting) {
-        return channelSorting.env;
-    }
+    private class ChoiceListenerImpl
+    extends DefaultChoiceListener {
+        private ChoiceListenerImpl() {
+        }
 
-    static /* synthetic */ ISettingListener access$200(ChannelSorting channelSorting) {
-        return channelSorting.provider;
-    }
-
-    static /* synthetic */ DSITV access$300(ChannelSorting channelSorting) {
-        return channelSorting.dsi;
+        public void itemSelected(int n, int n2, int n3, int n4) {
+            ((ChannelSorting)ChannelSorting.this).env.lcHMI.log(10000000, "[ChannelSorting.itemSelected] %1", (long)n2);
+            ChannelSorting.this.provider.updateStationListSorting(n2);
+            ChannelSorting.this.dsi.setBrowserListSort(n2);
+        }
     }
 }
 

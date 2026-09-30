@@ -15,9 +15,10 @@ import de.audi.tghu.navi.app.addressinput.commands.LISPSelectListItemCommand;
 import de.audi.tghu.navi.app.addressinput.commands.LIStartSpellerCommand;
 import de.audi.tghu.navi.app.addressinput.commands.ModelStartCommand;
 import de.audi.tghu.navi.app.addressinput.commands.ModelUpdateSpellerAndResultListCommand;
+import de.audi.tghu.navi.app.addressinput.commands.UpdateAddressInputFormScreenModelsCommand;
 import de.audi.tghu.navi.app.addressinput.country.SetBackupLocationForAddressInputFormCommand;
-import de.audi.tghu.navi.app.addressinput.street.StreetRefinementByCityInputSequence$1;
 import de.audi.tghu.navi.app.command.LISPCancelSpellerCommand;
+import de.audi.tghu.navi.app.command.NavCommand;
 import de.audi.tghu.navi.app.li.SpellerStack;
 import org.dsi.ifc.navigation.LIValueListElement;
 
@@ -31,7 +32,6 @@ implements IMatchspellerInputSequenceExt {
         this.addressInputForm = iAddressInputForm;
     }
 
-    @Override
     public CommandList createStartCommandList(boolean bl) {
         CommandList commandList = this.commandListFactory.createCommandList();
         this.addGetStateCommand(commandList, bl, null);
@@ -46,48 +46,34 @@ implements IMatchspellerInputSequenceExt {
         return commandList;
     }
 
-    @Override
     public void selectListElement(LIValueListElement lIValueListElement, boolean bl) {
         CommandList commandList = this.getSelectListElementCommandList(lIValueListElement, bl);
         commandList.execute("StreetRefinementByCityInputSequence#selectListElement");
     }
 
-    @Override
     public CommandList getSelectListElementCommandList(LIValueListElement lIValueListElement, boolean bl) {
         CommandList commandList = this.commandListFactory.createCommandList();
         this.addGetStateCommand(commandList, bl, lIValueListElement);
         commandList.add(new LISPSelectListItemCommand(lIValueListElement.getListIndex()));
-        commandList.add(new StreetRefinementByCityInputSequence$1(this));
+        commandList.add(new NavCommand(){
+
+            public void execute() {
+                StreetRefinementByCityInputSequence.this.modelAccess.onElementSelected(this.dsiResponseContainer.getLiCurrentLD());
+                CommandList commandList = StreetRefinementByCityInputSequence.this.commandListFactory.createCommandList();
+                commandList.add(new UpdateAddressInputFormScreenModelsCommand(StreetRefinementByCityInputSequence.this.modelAccess));
+                commandList.add(new CmdNaviPreviewMapUpdate(StreetRefinementByCityInputSequence.this.previewMap, 1, null, null));
+                commandList.add(new SetBackupLocationForAddressInputFormCommand(StreetRefinementByCityInputSequence.this.addressInputForm));
+                this.getCommandList().commandFinishedWithPostSequence(commandList);
+            }
+        });
         return commandList;
     }
 
-    @Override
     public void selectElementByIdentifier(String string) {
     }
 
-    @Override
     public CommandList getSelectElementByIdentifierCommandList(String string) {
         return this.commandListFactory.createCommandList();
-    }
-
-    static /* synthetic */ IMatchspellerModelAccess access$000(StreetRefinementByCityInputSequence streetRefinementByCityInputSequence) {
-        return streetRefinementByCityInputSequence.modelAccess;
-    }
-
-    static /* synthetic */ ICommandListFactory access$100(StreetRefinementByCityInputSequence streetRefinementByCityInputSequence) {
-        return streetRefinementByCityInputSequence.commandListFactory;
-    }
-
-    static /* synthetic */ IMatchspellerModelAccess access$200(StreetRefinementByCityInputSequence streetRefinementByCityInputSequence) {
-        return streetRefinementByCityInputSequence.modelAccess;
-    }
-
-    static /* synthetic */ IPreviewMap access$300(StreetRefinementByCityInputSequence streetRefinementByCityInputSequence) {
-        return streetRefinementByCityInputSequence.previewMap;
-    }
-
-    static /* synthetic */ IAddressInputForm access$400(StreetRefinementByCityInputSequence streetRefinementByCityInputSequence) {
-        return streetRefinementByCityInputSequence.addressInputForm;
     }
 }
 

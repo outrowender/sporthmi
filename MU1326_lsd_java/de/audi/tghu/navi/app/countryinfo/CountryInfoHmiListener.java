@@ -32,32 +32,29 @@ SpellerListener {
     }
 
     protected final void setListeners() {
-        this.env.getButtonModel(1847395840).setButtonListener(this);
-        this.env.getButtonModel(1662846464).setButtonListener(this);
-        this.env.getListModel(1780286976).setMaxColumns(7);
-        this.env.getButtonModel(1075971584).setButtonListener(this);
-        this.directWritingSpeller = this.env.getSpellerModel(-1088354816);
+        this.env.getButtonModel(400750).setButtonListener(this);
+        this.env.getButtonModel(400739).setButtonListener(this);
+        this.env.getListModel(400746).setMaxColumns(7);
+        this.env.getButtonModel(401984).setButtonListener(this);
+        this.directWritingSpeller = this.env.getSpellerModel(401855);
         this.directWritingSpeller.setSpellerListener(this);
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3) {
         if (this.logChannel.isDebug2()) {
-            this.logChannel.log(14808325, "CountryInfoHmiListener#keyPressed(%1, %2, %3)", (long)n, (long)n2, (long)n3);
+            this.logChannel.log(100000000, "CountryInfoHmiListener#keyPressed(%1, %2, %3)", (long)n, (long)n2, (long)n3);
         }
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3) {
         if (this.logChannel.isDebug2()) {
-            this.logChannel.log(14808325, "CountryInfoHmiListener#keyReleased(%1, %2, %3)", (long)n, (long)n2, (long)n3);
+            this.logChannel.log(100000000, "CountryInfoHmiListener#keyReleased(%1, %2, %3)", (long)n, (long)n2, (long)n3);
         }
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
         if (this.logChannel.isDebug2()) {
-            this.logChannel.log(14808325, "CountryInfoHmiListener#keyTyped(%1, %2, %3)", (long)n, (long)n2, (long)n3);
+            this.logChannel.log(100000000, "CountryInfoHmiListener#keyTyped(%1, %2, %3)", (long)n, (long)n2, (long)n3);
         }
         switch (n) {
             case 400750: {
@@ -77,7 +74,7 @@ SpellerListener {
                 break;
             }
             default: {
-                this.logChannel.log(-1601830656, "CountryInfoHmiListener#keyTyped - unknown modelID( %1 )", (long)n);
+                this.logChannel.log(100000, "CountryInfoHmiListener#keyTyped - unknown modelID( %1 )", (long)n);
             }
         }
     }
@@ -86,11 +83,9 @@ SpellerListener {
         this.navResetInputModeChoice.setValue(0);
     }
 
-    @Override
     public void keyLongTyped(int n, int n2, int n3) {
     }
 
-    @Override
     public void textChanged(int n, String string, char c2, int n2) {
         if (n == this.directWritingSpeller.getID()) {
             this.countryInfoHandler.startCountryInput(true, c2);
@@ -98,11 +93,9 @@ SpellerListener {
         }
     }
 
-    @Override
     public void focusedCharacter(int n, char c2, int n2) {
     }
 
-    @Override
     public void commandPressed(int n, int n2, int n3) {
     }
 }

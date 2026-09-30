@@ -30,7 +30,6 @@ extends AbstractMemoryRow {
         super(emptyMemoryRow);
     }
 
-    @Override
     public String toString() {
         Buffer buffer = new Buffer(100);
         buffer.append("{EMPTY}");
@@ -39,7 +38,6 @@ extends AbstractMemoryRow {
         return buffer.toString();
     }
 
-    @Override
     public TunerObjectContainer getTOContainer() {
         return null;
     }
@@ -52,7 +50,6 @@ extends AbstractMemoryRow {
         }
     }
 
-    @Override
     public EvoListRow copy() {
         return new EmptyMemoryRow(this);
     }

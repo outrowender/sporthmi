@@ -6,10 +6,8 @@ package de.audi.tghu.online.app.remotehmi.onlinemedia;
 import de.audi.remotehmi.media.IOnlineMediaSession;
 
 public interface IPlaytimeStrategy {
-    default public void updatePlayPosition(int n, int n2) {
-    }
+    public void updatePlayPosition(int var1, int var2);
 
-    default public void updateBufferPosition(IOnlineMediaSession iOnlineMediaSession) {
-    }
+    public void updateBufferPosition(IOnlineMediaSession var1);
 }
 

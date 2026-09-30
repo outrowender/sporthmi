@@ -11,7 +11,6 @@ import de.audi.tghu.navi.app.map.handler.selection.MapItemSelectionAction;
 
 public class MapItemSelectionActionDoNothing
 extends MapItemSelectionAction {
-    @Override
     public void setPreviewMap(int n, AbstractMap abstractMap, IPreviewMap iPreviewMap, GuiModelAccessForPreviewMapDetailScreen guiModelAccessForPreviewMapDetailScreen, GuiTooltipInformationContainer guiTooltipInformationContainer) {
     }
 }

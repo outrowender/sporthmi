@@ -16,116 +16,116 @@ public class TunerActionProxyCore {
     }
 
     public void hmiActivatedTuner(int n) {
-        this.lc.log(1078071040, "[TunerActionProxy.hmiActivatedTuner]");
+        this.lc.log(1000000, "[TunerActionProxy.hmiActivatedTuner]");
         for (int i2 = 0; i2 < this.listeners.length; ++i2) {
             this.listeners[i2].hmiActivatedTuner();
         }
     }
 
     public void hmiDeactivatedTuner(int n) {
-        this.lc.log(1078071040, "[TunerActionProxy.hmiDeactivatedTuner]");
+        this.lc.log(1000000, "[TunerActionProxy.hmiDeactivatedTuner]");
         for (int i2 = 0; i2 < this.listeners.length; ++i2) {
             this.listeners[i2].hmiDeactivatedTuner();
         }
     }
 
     public void stationListEntered(int n) {
-        this.lc.log(1078071040, "[TunerActionProxy.stationListEntered]");
+        this.lc.log(1000000, "[TunerActionProxy.stationListEntered]");
         for (int i2 = 0; i2 < this.listeners.length; ++i2) {
             this.listeners[i2].stationListEntered();
         }
     }
 
     public void taVolumeAdjustmentActivated(int n) {
-        this.lc.log(1078071040, "[TunerActionProxy.taVolumeAdjustmentActivated]");
+        this.lc.log(1000000, "[TunerActionProxy.taVolumeAdjustmentActivated]");
         for (int i2 = 0; i2 < this.listeners.length; ++i2) {
             this.listeners[i2].taVolumeAdjustmentActivated();
         }
     }
 
     public void taVolumeAdjustmentDeactivated(int n) {
-        this.lc.log(1078071040, "[TunerActionProxy.taVolumeAdjustmentDeactivated]");
+        this.lc.log(1000000, "[TunerActionProxy.taVolumeAdjustmentDeactivated]");
         for (int i2 = 0; i2 < this.listeners.length; ++i2) {
             this.listeners[i2].taVolumeAdjustmentDeactivated();
         }
     }
 
     public void tunerTempBandChangeEntered(int n) {
-        this.lc.log(1078071040, "[TunerActionProxy.tunTmpBandChangeEntered]");
+        this.lc.log(1000000, "[TunerActionProxy.tunTmpBandChangeEntered]");
         for (int i2 = 0; i2 < this.listeners.length; ++i2) {
             this.listeners[i2].tunTmpBandChangeEntered();
         }
     }
 
     public void tunerTempBandChangeLeft(int n) {
-        this.lc.log(1078071040, "[TunerActionProxy.tunTmpBandChangeLeft]");
+        this.lc.log(1000000, "[TunerActionProxy.tunTmpBandChangeLeft]");
         for (int i2 = 0; i2 < this.listeners.length; ++i2) {
             this.listeners[i2].tunTmpBandChangeLeft();
         }
     }
 
     public void tunerTempBandToggleLeftByTimer(int n) {
-        this.lc.log(1078071040, "[TunerActionProxy.tunerListSearchLeft] is deprecated");
+        this.lc.log(1000000, "[TunerActionProxy.tunerListSearchLeft] is deprecated");
     }
 
     public void storeModeLeft(int n) {
-        this.lc.log(1078071040, "[TunerActionProxy.storeModeLeft]");
+        this.lc.log(1000000, "[TunerActionProxy.storeModeLeft]");
         for (int i2 = 0; i2 < this.listeners.length; ++i2) {
             this.listeners[i2].storeModeLeft();
         }
     }
 
     public void tunerManualTuneLeft(int n) {
-        this.lc.log(1078071040, "[TunerActionProxy.tunerManualTuneLeft]");
+        this.lc.log(1000000, "[TunerActionProxy.tunerManualTuneLeft]");
         for (int i2 = 0; i2 < this.listeners.length; ++i2) {
             this.listeners[i2].manualTuneLeft();
         }
     }
 
     public void tunerManualTuneEntered(int n) {
-        this.lc.log(1078071040, "[TunerActionProxy.tunerManualTuneEntered]");
+        this.lc.log(1000000, "[TunerActionProxy.tunerManualTuneEntered]");
         for (int i2 = 0; i2 < this.listeners.length; ++i2) {
             this.listeners[i2].manualTuneEntered();
         }
     }
 
     public void tunerSeekLeft(int n) {
-        this.lc.log(1078071040, "[TunerActionProxy.tunerSeekLeft]");
+        this.lc.log(1000000, "[TunerActionProxy.tunerSeekLeft]");
         for (int i2 = 0; i2 < this.listeners.length; ++i2) {
             this.listeners[i2].stationSeekLeft();
         }
     }
 
     public void tunerFavoritesEntered(int n) {
-        this.lc.log(1078071040, "[TunerActionProxy.tunerFavoritesEntered]");
+        this.lc.log(1000000, "[TunerActionProxy.tunerFavoritesEntered]");
         for (int i2 = 0; i2 < this.listeners.length; ++i2) {
             this.listeners[i2].tunerFavoritesEntered();
         }
     }
 
     public void tunerFavoritesLeft(int n) {
-        this.lc.log(1078071040, "[TunerActionProxy.tunerFavoritesLeft]");
+        this.lc.log(1000000, "[TunerActionProxy.tunerFavoritesLeft]");
         for (int i2 = 0; i2 < this.listeners.length; ++i2) {
             this.listeners[i2].tunerFavoritesLeft();
         }
     }
 
     public void tunerGuidedStoreLeft(int n) {
-        this.lc.log(1078071040, "[TunerActionProxy.tunerGuidedStoreLeft]");
+        this.lc.log(1000000, "[TunerActionProxy.tunerGuidedStoreLeft]");
         for (int i2 = 0; i2 < this.listeners.length; ++i2) {
             this.listeners[i2].tunerGuidedStoreLeft();
         }
     }
 
     public void tunerAbortScan(int n) {
-        this.lc.log(1078071040, "[TunerActionProxy.tunerAbortScan]");
+        this.lc.log(1000000, "[TunerActionProxy.tunerAbortScan]");
         for (int i2 = 0; i2 < this.listeners.length; ++i2) {
             this.listeners[i2].tunerAbortScan();
         }
     }
 
     public void tunerSDARSManageAlertsLeft(int n) {
-        this.lc.log(1078071040, "[TunerActionProxy.tunerSDARSManageAlertsLeft]");
+        this.lc.log(1000000, "[TunerActionProxy.tunerSDARSManageAlertsLeft]");
         for (int i2 = 0; i2 < this.listeners.length; ++i2) {
             this.listeners[i2].tunerSDARSManageAlertsLeft();
         }

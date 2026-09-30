@@ -4,7 +4,6 @@
 package de.audi.tghu.navi.app.map;
 
 public interface IOnlineConnectionStateListener {
-    default public void updateOnlineConnectionState(boolean bl) {
-    }
+    public void updateOnlineConnectionState(boolean var1);
 }
 

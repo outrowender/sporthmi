@@ -12,19 +12,14 @@ import de.audi.tghu.exlap.impl.container.SoundVolumeRangesContainer;
 
 public interface ExlapSoundListener
 extends ExlapListener {
-    default public void updateSoundVolume(SoundVolumeContainer soundVolumeContainer) {
-    }
+    public void updateSoundVolume(SoundVolumeContainer var1);
 
-    default public void updateSoundVolumeRanges(SoundVolumeRangesContainer soundVolumeRangesContainer) {
-    }
+    public void updateSoundVolumeRanges(SoundVolumeRangesContainer var1);
 
-    default public void updateBalanceFader(BalanceFaderContainer balanceFaderContainer) {
-    }
+    public void updateBalanceFader(BalanceFaderContainer var1);
 
-    default public void updateBalanceFaderRanges(BalanceFaderRangesContainer balanceFaderRangesContainer) {
-    }
+    public void updateBalanceFaderRanges(BalanceFaderRangesContainer var1);
 
-    default public void updateEntertainmentContext(EntertainmentContextContainer entertainmentContextContainer) {
-    }
+    public void updateEntertainmentContext(EntertainmentContextContainer var1);
 }
 

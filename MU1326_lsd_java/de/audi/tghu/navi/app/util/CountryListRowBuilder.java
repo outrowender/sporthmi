@@ -11,21 +11,18 @@ import org.dsi.ifc.navigation.LIValueListElement;
 
 public class CountryListRowBuilder
 implements ListRowBuilder {
-    public static final int COLUMN_NAME;
-    public static final int COLUMN_ELEMENT;
-    public static final int COLUMN_MAX;
+    public static final int COLUMN_NAME = 0;
+    public static final int COLUMN_ELEMENT = 1;
+    public static final int COLUMN_MAX = 2;
 
-    @Override
     public ListCell[] buildListRow(LIValueListElement lIValueListElement, int n) {
         return new ListCell[]{new TextListCell(lIValueListElement.getData()), new ObjectListCell(lIValueListElement)};
     }
 
-    @Override
     public int getMaxColumns() {
         return 2;
     }
 
-    @Override
     public int getElementIndex() {
         return 1;
     }

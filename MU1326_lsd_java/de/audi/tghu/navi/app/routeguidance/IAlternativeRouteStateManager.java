@@ -3,24 +3,26 @@
  */
 package de.audi.tghu.navi.app.routeguidance;
 
-import de.audi.tghu.navi.app.routeguidance.IAlternativeRouteStateManager$1;
-
 public interface IAlternativeRouteStateManager {
-    public static final int ALTERNATIVE_ROUTE_CALCULATION_ON;
-    public static final int ALTERNATIVE_ROUTE_CALCULATION_OFF;
-    public static final IAlternativeRouteStateManager NULL_ALTERNATIVE_ROUTE_STATE_MANAGER;
+    public static final int ALTERNATIVE_ROUTE_CALCULATION_ON = 1;
+    public static final int ALTERNATIVE_ROUTE_CALCULATION_OFF = 0;
+    public static final IAlternativeRouteStateManager NULL_ALTERNATIVE_ROUTE_STATE_MANAGER = new IAlternativeRouteStateManager(){
 
-    default public int getAlternativeRouteState() {
-    }
+        public void setAlternativeRouteState(int n) {
+        }
 
-    default public void setAlternativeRouteState(int n) {
-    }
+        public void resetSettings() {
+        }
 
-    default public void resetSettings() {
-    }
+        public int getAlternativeRouteState() {
+            return 0;
+        }
+    };
 
-    static {
-        NULL_ALTERNATIVE_ROUTE_STATE_MANAGER = new IAlternativeRouteStateManager$1();
-    }
+    public int getAlternativeRouteState();
+
+    public void setAlternativeRouteState(int var1);
+
+    public void resetSettings();
 }
 

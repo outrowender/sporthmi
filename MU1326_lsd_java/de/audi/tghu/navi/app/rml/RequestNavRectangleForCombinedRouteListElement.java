@@ -17,21 +17,18 @@ extends NavCommand {
         this.combinedRouteListElement = combinedRouteListElement;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "RequestNavRectangleForCombinedRouteListElement#execute calling getBoundingRectangleOfCombinedRouteListElements [%1]", this.combinedRouteListElement.getUid());
+        this.logger.log(10000000, "RequestNavRectangleForCombinedRouteListElement#execute calling getBoundingRectangleOfCombinedRouteListElements [%1]", this.combinedRouteListElement.getUid());
         long[] lArray = new long[]{this.combinedRouteListElement.getUid()};
         this.getDSICombinedRouteList().getBoundingRectangleOfCombinedRouteListElements(lArray);
     }
 
-    @Override
     public long getTimeout() {
-        return 0;
+        return 1000L;
     }
 
-    @Override
     public void getBoundingRectangleOfCombinedRouteListElementsResult(long[] lArray, NavRectangle navRectangle) {
-        this.logger.log(-2137614336, "RequestNavRectangleForCombinedRouteListElement#getBoundingRectangleOfCombinedRouteListElementsResult uids %1", lArray.length > 0 ? lArray[0] : -1L);
+        this.logger.log(10000000, "RequestNavRectangleForCombinedRouteListElement#getBoundingRectangleOfCombinedRouteListElementsResult uids %1", lArray.length > 0 ? lArray[0] : -1L);
         if (lArray.length == 1 && lArray[0] == this.combinedRouteListElement.getUid()) {
             this.getCommandList().put(NAV_RECTANGLE_FOR_COMBINED_ROUTE_LIST_UIDS, lArray);
             this.getCommandList().put(NAV_RECTANGLE_FOR_COMBINED_ROUTE_LIST_NAV_RECTANGLE, navRectangle);

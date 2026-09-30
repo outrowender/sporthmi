@@ -265,7 +265,7 @@ IGUIVariantProvider {
     }
 
     protected void registerProvidedServices(Navigation navigation, NavigationEnv navigationEnv) {
-        this.logChannel.log(-2137614336, "AbstractNavigationActivator#registerProvidedServices - register navigation service");
+        this.logChannel.log(10000000, "AbstractNavigationActivator#registerProvidedServices - register navigation service");
         String[] stringArray = new String[]{(class$de$audi$atip$hmi$HMIApplication == null ? (class$de$audi$atip$hmi$HMIApplication = AbstractNavigationActivator.class$("de.audi.atip.hmi.HMIApplication")) : class$de$audi$atip$hmi$HMIApplication).getName(), (class$de$audi$atip$power$PowerEventListener == null ? (class$de$audi$atip$power$PowerEventListener = AbstractNavigationActivator.class$("de.audi.atip.power.PowerEventListener")) : class$de$audi$atip$power$PowerEventListener).getName()};
         Hashtable hashtable = new Hashtable();
         hashtable.put("ApplicationName", "AppNavi");
@@ -338,7 +338,7 @@ IGUIVariantProvider {
     }
 
     public void startDelayedDSIServices(LogChannel logChannel, IFrameworkAccess iFrameworkAccess) {
-        logChannel.log(-2137614336, "AbstractNavigationActivator#startDelayedDSIServices() - starting DSI services (already started: %1)", this.delayedServicesStarted);
+        logChannel.log(10000000, "AbstractNavigationActivator#startDelayedDSIServices() - starting DSI services (already started: %1)", this.delayedServicesStarted);
         if (!this.delayedServicesStarted) {
             iFrameworkAccess.startDSIService((class$org$dsi$ifc$generalvehiclestates$DSIGeneralVehicleStates == null ? (class$org$dsi$ifc$generalvehiclestates$DSIGeneralVehicleStates = AbstractNavigationActivator.class$("org.dsi.ifc.generalvehiclestates.DSIGeneralVehicleStates")) : class$org$dsi$ifc$generalvehiclestates$DSIGeneralVehicleStates).getName(), 0);
             iFrameworkAccess.startDSIService((class$org$dsi$ifc$trafficregulation$DSITrafficRegulation == null ? (class$org$dsi$ifc$trafficregulation$DSITrafficRegulation = AbstractNavigationActivator.class$("org.dsi.ifc.trafficregulation.DSITrafficRegulation")) : class$org$dsi$ifc$trafficregulation$DSITrafficRegulation).getName(), 0);
@@ -349,7 +349,7 @@ IGUIVariantProvider {
     }
 
     protected void startTrackers(NavigationEnv navigationEnv) {
-        this.logChannel.log(-2137614336, "AbstractNavigationActivator#startTrackers - starting trackers");
+        this.logChannel.log(10000000, "AbstractNavigationActivator#startTrackers - starting trackers");
         ArrayList arrayList = new ArrayList(51);
         arrayList.add((class$de$audi$atip$interapp$online$OnlineServiceProvider == null ? (class$de$audi$atip$interapp$online$OnlineServiceProvider = AbstractNavigationActivator.class$("de.audi.atip.interapp.online.OnlineServiceProvider")) : class$de$audi$atip$interapp$online$OnlineServiceProvider).getName());
         arrayList.add((class$org$dsi$ifc$navigation$DSINavigation == null ? (class$org$dsi$ifc$navigation$DSINavigation = AbstractNavigationActivator.class$("org.dsi.ifc.navigation.DSINavigation")) : class$org$dsi$ifc$navigation$DSINavigation).getName());
@@ -433,14 +433,13 @@ IGUIVariantProvider {
         return "";
     }
 
-    @Override
     public void start(BundleContext bundleContext) {
         this.isServiceDeregistrationAllowed = true;
         super.start(bundleContext);
         Util.region = this.framework.getSysConst(442);
         NavigationEnv navigationEnv = this.createNavigationEnvironment(this.getFramework());
         this.logChannel = navigationEnv.getLogChannel();
-        this.logChannel.log(-2137614336, "AbstractNavigationActivator#start");
+        this.logChannel.log(10000000, "AbstractNavigationActivator#start");
         this.dsiCarKombiController = new DSICarKombiController(this.framework, this.logChannel, 0);
         this.dsiGeneralVehicleStatesController = new DSIGeneralVehicleStatesController(this.framework, this.logChannel, 0);
         this.navigation = this.createNavigation(navigationEnv);
@@ -467,9 +466,8 @@ IGUIVariantProvider {
         return new NavigationEnv(iFrameworkAccess, this.getTextConstantsMapper(), this.getSMEventConstantsMapper());
     }
 
-    @Override
     public void stop(BundleContext bundleContext) {
-        this.logChannel.log(-2137614336, "AbstractNavigationActivator#stop");
+        this.logChannel.log(10000000, "AbstractNavigationActivator#stop");
         this.isServiceDeregistrationAllowed = false;
         this.deinitDSIServices();
         this.serviceTracker = this.closeTracker(this.serviceTracker);
@@ -542,7 +540,7 @@ IGUIVariantProvider {
             this.removeNaviCruiseModeServiceListener();
             this.removeAllLGIServiceListeners();
             this.removeSWDiagnosisManager();
-            this.logChannel.log(-2137614336, "AbstractNavigationActivator#deinitDSIServices - OSGi Services deinitialized");
+            this.logChannel.log(10000000, "AbstractNavigationActivator#deinitDSIServices - OSGi Services deinitialized");
         }
         catch (Exception exception) {
             this.logChannel.log(10000, "AbstractNavigationActivator#deinitDSIServices - Problem during OSGi Service deinit %1", (Throwable)exception);
@@ -553,7 +551,6 @@ IGUIVariantProvider {
         this.navigation.getTrafficMiniMap().stopDSI(this.getBundleContext());
     }
 
-    @Override
     public Object addingService(ServiceReference serviceReference) {
         Object object = this.bundleContext.getService(serviceReference);
         String string = null;
@@ -568,13 +565,13 @@ IGUIVariantProvider {
             return this.addADBHMIAppService((ADBHMIAppService)object);
         }
         if (string != null && string.equals("AppPhone")) {
-            this.logChannel.log(-2137614336, "addingService: AppPhone service added! ");
+            this.logChannel.log(10000000, "addingService: AppPhone service added! ");
             this.navigation.getPhoneGateway().setPhoneService((PhoneService)object);
             return object;
         }
         Object object2 = serviceReference.getProperty("DEVICE_NAME");
         Object object3 = serviceReference.getProperty("DEVICE_INSTANCE");
-        this.logChannel.log(-2137614336, "AbstractNavigationActivator#addingService() - deviceName: %1, deviceInstance: %2", object2, object3);
+        this.logChannel.log(10000000, "AbstractNavigationActivator#addingService() - deviceName: %1, deviceInstance: %2", object2, object3);
         if (object2 != null) {
             NaviADBHandler naviADBHandler = this.navigation.getNaviADBHandler();
             if (object2.equals((class$org$dsi$ifc$navigation$DSINavigation == null ? (class$org$dsi$ifc$navigation$DSINavigation = AbstractNavigationActivator.class$("org.dsi.ifc.navigation.DSINavigation")) : class$org$dsi$ifc$navigation$DSINavigation).getName())) {
@@ -732,7 +729,7 @@ IGUIVariantProvider {
                 return this.addLGIServiceListener((ILGIServiceListener)object);
             }
         }
-        this.logChannel.log(-1601830656, "AbstractNavigationActivator#addingService() - unknown service: %1, deviceName: %2 ", (Object)serviceReference, object2);
+        this.logChannel.log(100000, "AbstractNavigationActivator#addingService() - unknown service: %1, deviceName: %2 ", (Object)serviceReference, object2);
         this.bundleContext.ungetService(serviceReference);
         return null;
     }
@@ -828,23 +825,21 @@ IGUIVariantProvider {
         this.navigation.getAeaService().setAudiEnergyAssistService(null);
     }
 
-    @Override
     public void modifiedService(ServiceReference serviceReference, Object object) {
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void removedService(ServiceReference serviceReference, Object object) {
-        this.logChannel.log(-2137614336, "AbstractNavigationActivator#removedService(): reference = %1, object = %2", (Object)serviceReference, object);
+        this.logChannel.log(10000000, "AbstractNavigationActivator#removedService(): reference = %1, object = %2", (Object)serviceReference, object);
         if (this.bundleContext == null || serviceReference == null) {
             this.logChannel.log(10000, "removedService: bundleContext %1 isShuttingDown %3 serviceReference %2 ! ", (Object)this.bundleContext, (Object)serviceReference);
             return;
         }
         try {
             if (!this.isServiceDeregistrationAllowed) {
-                this.logChannel.log(-2137614336, "removedService: isServiceDeregistrationAllowed %1 ! ", this.isServiceDeregistrationAllowed);
+                this.logChannel.log(10000000, "removedService: isServiceDeregistrationAllowed %1 ! ", this.isServiceDeregistrationAllowed);
                 return;
             }
             String string = null;
@@ -866,7 +861,7 @@ IGUIVariantProvider {
             }
             Object object2 = serviceReference.getProperty("DEVICE_NAME");
             Object object3 = serviceReference.getProperty("DEVICE_INSTANCE");
-            this.logChannel.log(-2137614336, "AbstractNavigationActivator#removedService(): device name = %1, instance = %2", object2, object3);
+            this.logChannel.log(10000000, "AbstractNavigationActivator#removedService(): device name = %1, instance = %2", object2, object3);
             if (object2 != null) {
                 if (object2.equals((class$org$dsi$ifc$navigation$DSINavigation == null ? (class$org$dsi$ifc$navigation$DSINavigation = AbstractNavigationActivator.class$("org.dsi.ifc.navigation.DSINavigation")) : class$org$dsi$ifc$navigation$DSINavigation).getName())) {
                     this.removeDSINavigation((DSINavigation)object, object3);
@@ -927,7 +922,7 @@ IGUIVariantProvider {
                 } else if (object2.equals((class$de$audi$atip$interapp$picturestore$PictureStoreProvider == null ? (class$de$audi$atip$interapp$picturestore$PictureStoreProvider = AbstractNavigationActivator.class$("de.audi.atip.interapp.picturestore.PictureStoreProvider")) : class$de$audi$atip$interapp$picturestore$PictureStoreProvider).getName())) {
                     this.removePictureStoreProvider(serviceReference, (PictureStoreProvider)object);
                 } else {
-                    this.logChannel.log(-1601830656, "AbstractNavigationActivator#removedService unknown device name: reference = %1, object = %2", (Object)serviceReference, object);
+                    this.logChannel.log(100000, "AbstractNavigationActivator#removedService unknown device name: reference = %1, object = %2", (Object)serviceReference, object);
                 }
             } else if (object instanceof OnlineServiceProvider) {
                 this.removeOnlineServiceProvider();
@@ -974,7 +969,7 @@ IGUIVariantProvider {
             } else if (object instanceof ILGIServiceListener) {
                 this.removeLGIServiceListener((ILGIServiceListener)object);
             } else {
-                this.logChannel.log(-1601830656, "AbstractNavigationActivator#removedService unknown service: reference = %1, object = %2", (Object)serviceReference, object);
+                this.logChannel.log(100000, "AbstractNavigationActivator#removedService unknown service: reference = %1, object = %2", (Object)serviceReference, object);
             }
         }
         finally {
@@ -1138,7 +1133,7 @@ IGUIVariantProvider {
         } else if (IBrowserHandler.DEVICEINSTANCE_DSIBROWSER_DAB.equals(object)) {
             n = 1;
         } else {
-            this.logChannel.log(-2137614336, "AbstractNavigationActivator#addBrowserHandler() - unknown service:%1", (Object)serviceReference);
+            this.logChannel.log(10000000, "AbstractNavigationActivator#addBrowserHandler() - unknown service:%1", (Object)serviceReference);
         }
         if (n != -1) {
             this.serviceReferenceBrowserHandler[n] = serviceReference;
@@ -1295,7 +1290,7 @@ IGUIVariantProvider {
         if (Util.isHURegionAsia()) {
             AsiaWarningsStateSetupListener asiaWarningsStateSetupListener = this.navigation.getAsiaWarningsStateSetupListener();
             if (null == asiaWarningsStateSetupListener) {
-                this.logChannel.log(-1601830656, "AbstractNavigationActivator#addDSITrafficRegulation - navigation.getAsiaWarningsStateSetupListener() is null");
+                this.logChannel.log(100000, "AbstractNavigationActivator#addDSITrafficRegulation - navigation.getAsiaWarningsStateSetupListener() is null");
             } else {
                 asiaWarningsStateSetupListener.makeInitialDSICalls(dSITrafficRegulation);
             }
@@ -1452,7 +1447,7 @@ IGUIVariantProvider {
             n = DEVICEINSTANCE_DSIMAPCTRL_GOOGLE2;
         }
         if (n != -1) {
-            this.logChannel.log(-2137614336, "AbstractNavigationActivator#addDSIMapControl - register map control DSI listener service, instanceID: %1", (long)n);
+            this.logChannel.log(10000000, "AbstractNavigationActivator#addDSIMapControl - register map control DSI listener service, instanceID: %1", (long)n);
             this.serviceReferenceDSIMapControl[n] = serviceReference;
             this.navigation.getMapInterface().setDSIMapControl(dSIMapViewerControl, n);
             return dSIMapViewerControl;

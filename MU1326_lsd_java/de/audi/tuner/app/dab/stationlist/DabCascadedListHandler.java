@@ -4,12 +4,15 @@
 package de.audi.tuner.app.dab.stationlist;
 
 import de.audi.atip.hmi.model.list.BaseListModelApp;
+import de.audi.atip.hmi.model.list.EvoListRow;
 import de.audi.atip.hmi.model.list.SelectedItem;
 import de.audi.atip.hmi.modelaccess.LabelModelApp;
 import de.audi.tuner.app.LanguageManager;
 import de.audi.tuner.app.Logger;
+import de.audi.tuner.app.RadioBaseListModelListener;
 import de.audi.tuner.app.RadioComparators;
 import de.audi.tuner.app.TunerBasics;
+import de.audi.tuner.app.TunerModels;
 import de.audi.tuner.app.Utilities;
 import de.audi.tuner.app.dab.DABDsiDownInfo;
 import de.audi.tuner.app.dab.DABDsiUpInfo;
@@ -22,14 +25,11 @@ import de.audi.tuner.app.dab.stationlist.AbstractDABListHandler;
 import de.audi.tuner.app.dab.stationlist.ComparatorComponent;
 import de.audi.tuner.app.dab.stationlist.ComparatorEnsemble;
 import de.audi.tuner.app.dab.stationlist.DABListMemory;
-import de.audi.tuner.app.dab.stationlist.DABListMemory$DABLists;
-import de.audi.tuner.app.dab.stationlist.DabCascadedListHandler$DsiDownListener;
-import de.audi.tuner.app.dab.stationlist.DabCascadedListHandler$DsiUpListener;
-import de.audi.tuner.app.dab.stationlist.DabCascadedListHandler$ListListener;
 import de.audi.tuner.app.dab.stationlist.DabListRow;
 import de.audi.tuner.app.dab.stationlist.RecordSets;
 import de.audi.tuner.app.storage.TunerStorage;
 import de.audi.tuner.ifc.AbstractListRowFactory;
+import de.audi.tuner.ifc.AbstractRadioListRow;
 import de.audi.tuner.ifc.IScanHandler;
 import de.audi.tuner.ifc.IStoreStationHandler;
 import de.audi.tuner.ifc.ITunerVariantExt;
@@ -42,8 +42,8 @@ import org.dsi.ifc.radio.ServiceInfo;
 
 public class DabCascadedListHandler
 extends AbstractDABListHandler {
-    public final DABDsiUpInfo dsiUpListener = new DabCascadedListHandler$DsiUpListener(this, null);
-    public final DABDsiDownInfo dsiDownListener = new DabCascadedListHandler$DsiDownListener(this, null);
+    public final DABDsiUpInfo dsiUpListener = new DsiUpListener();
+    public final DABDsiDownInfo dsiDownListener = new DsiDownListener();
     private final Logger logger;
     private final DABTuner dabTuner;
     private final LanguageManager langMngr;
@@ -75,13 +75,13 @@ extends AbstractDABListHandler {
         this.currentEnsemble = new DabStation(this.currentStation.ensemble);
         this.langMngr = languageManager;
         this.imgType = tunerStorage.loadPreferredImageType();
-        this.ensembleList = tunerBasics.getModels().getBaseListModel(1015611648);
-        this.serviceList = tunerBasics.getModels().getBaseListModel(998834432);
-        this.curEnsembleNameLabel = tunerBasics.getModels().getLabelModel(378142976);
+        this.ensembleList = tunerBasics.getModels().getBaseListModel(100668);
+        this.serviceList = tunerBasics.getModels().getBaseListModel(100667);
+        this.curEnsembleNameLabel = tunerBasics.getModels().getLabelModel(100886);
         this.serviceComparator = new SortAlgoDabStationName(languageManager);
-        DabCascadedListHandler$ListListener dabCascadedListHandler$ListListener = new DabCascadedListHandler$ListListener(this, tunerBasics.getModels(), 310903040);
-        this.ensembleList.setListener(dabCascadedListHandler$ListListener);
-        this.serviceList.setListener(dabCascadedListHandler$ListListener);
+        ListListener listListener = new ListListener(tunerBasics.getModels(), 100370);
+        this.ensembleList.setListener(listListener);
+        this.serviceList.setListener(listListener);
         this.ensembleRecordSets = new RecordSets(this, 0);
         this.serviceRecordSets = new RecordSets(this, 1);
         this.rowFactory = iTunerVariantExt.getListRowFactory();
@@ -107,7 +107,6 @@ extends AbstractDABListHandler {
         }
     }
 
-    @Override
     public DabStation getCurrentStation() {
         return this.currentStation;
     }
@@ -115,10 +114,9 @@ extends AbstractDABListHandler {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     protected void highlightItem(DabStation dabStation, DabReceptionStatus dabReceptionStatus) {
         int n;
-        this.logger.dabList.log(-2137614336, "[DabCascadedListHandler.highlightItem] %1", (Object)dabStation);
+        this.logger.dabList.log(10000000, "[DabCascadedListHandler.highlightItem] %1", (Object)dabStation);
         this.currentStation = dabStation;
         Object object = this.mutex;
         synchronized (object) {
@@ -144,14 +142,14 @@ extends AbstractDABListHandler {
             }
             this.ensembleList.setSelectedIndex(n2);
         }
-        this.logger.dabList.log(1078071040, "highlightItemLeft");
+        this.logger.dabList.log(1000000, "highlightItemLeft");
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
     public void listUpdate(DabStation[] dabStationArray, DabStation[] dabStationArray2, DabStation[] dabStationArray3) {
-        this.logger.dabList.log(14808325, "[DabCascadedListHandler.listupdate] E:%1 S: %2 C: %3", (long)dabStationArray.length, (long)dabStationArray2.length, (long)dabStationArray3.length);
+        this.logger.dabList.log(100000000, "[DabCascadedListHandler.listupdate] E:%1 S: %2 C: %3", (long)dabStationArray.length, (long)dabStationArray2.length, (long)dabStationArray3.length);
         BaseListModelApp baseListModelApp = this.ensembleList;
         synchronized (baseListModelApp) {
             this.orgLists.setLists(dabStationArray, dabStationArray2, dabStationArray3);
@@ -172,10 +170,10 @@ extends AbstractDABListHandler {
     }
 
     private void removeTmpItemsFromArrays() {
-        DABListMemory$DABLists dABListMemory$DABLists = this.orgLists.getLists();
-        this.ensembles = dABListMemory$DABLists.ensembles;
-        this.services = dABListMemory$DABLists.services;
-        this.components = dABListMemory$DABLists.components;
+        DABListMemory.DABLists dABLists = this.orgLists.getLists();
+        this.ensembles = dABLists.ensembles;
+        this.services = dABLists.services;
+        this.components = dABLists.components;
     }
 
     private void addActiveStationToList() {
@@ -314,7 +312,7 @@ extends AbstractDABListHandler {
 
     private DabListRow createRow(DabStation dabStation, RecordSets recordSets) {
         DabListRow dabListRow;
-        this.logger.dabDeepDebug.log(1078071040, "DabCascadedListHandler.createRow %1", (Object)dabStation);
+        this.logger.dabDeepDebug.log(1000000, "DabCascadedListHandler.createRow %1", (Object)dabStation);
         if (RadioComparators.equals(this.currentStation, dabStation)) {
             dabListRow = this.rowFactory.getDabListRow(recordSets, this.currentStation, false, this.imgType);
             dabListRow.setStationActive(true);
@@ -370,45 +368,82 @@ extends AbstractDABListHandler {
         }
     }
 
-    static /* synthetic */ IScanHandler access$200(DabCascadedListHandler dabCascadedListHandler) {
-        return dabCascadedListHandler.scanHandler;
+    private class ListListener
+    extends RadioBaseListModelListener {
+        public ListListener(TunerModels tunerModels, int n) {
+            super(tunerModels, n);
+        }
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void itemSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
+            DabCascadedListHandler.this.scanHandler.abortScan();
+            DabStation dabStation = DabCascadedListHandler.this.getStation((DabListRow)evoListRow);
+            if (n == 100667) {
+                boolean bl;
+                boolean bl2 = bl = n3 == 6;
+                if (bl) {
+                    if (DabCascadedListHandler.this.longPressHandler != null) {
+                        DabCascadedListHandler.this.longPressHandler.prepareStore(n4, ((AbstractRadioListRow)evoListRow).getTOContainer());
+                    }
+                } else if (this.isNewSelection(evoListRow, n, n2, n3, n4)) {
+                    DabCascadedListHandler.this.dabTuner.selectStation(dabStation, dabStation.isComponent() ? 3 : 2, n4);
+                }
+            } else if (n == 100668) {
+                DabCascadedListHandler.this.currentEnsemble = dabStation;
+                Object object = DabCascadedListHandler.this.mutex;
+                synchronized (object) {
+                    DabCascadedListHandler.this.buildServiceList(((DabCascadedListHandler)DabCascadedListHandler.this).currentEnsemble.ensemble);
+                }
+                DabCascadedListHandler.this.ensembleList.fireEvent(n4);
+            }
+        }
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void itemLongSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
+            DabCascadedListHandler.this.scanHandler.abortScan();
+            if (n == 100667) {
+                SelectedItem selectedItem = null;
+                Object object = DabCascadedListHandler.this.mutex;
+                synchronized (object) {
+                    selectedItem = DabCascadedListHandler.this.serviceList.getSelected();
+                }
+                if (selectedItem == null || n2 != selectedItem.getIndex()) {
+                    object = ((DabListRow)evoListRow).getDabStation();
+                    DabCascadedListHandler.this.dabTuner.selectStation((DabStation)object, 0, n4);
+                }
+                if (DabCascadedListHandler.this.longPressHandler != null) {
+                    DabCascadedListHandler.this.longPressHandler.prepareStore(n4, ((AbstractRadioListRow)evoListRow).getTOContainer());
+                }
+            }
+        }
     }
 
-    static /* synthetic */ DabStation access$300(DabCascadedListHandler dabCascadedListHandler, DabListRow dabListRow) {
-        return dabCascadedListHandler.getStation(dabListRow);
+    private class DsiUpListener
+    extends DABDsiUpInfo {
+        private DsiUpListener() {
+        }
+
+        public void listUpdate(DabStation[] dabStationArray, DabStation[] dabStationArray2, DabStation[] dabStationArray3) {
+            DabCascadedListHandler.this.listUpdate(dabStationArray, dabStationArray2, dabStationArray3);
+        }
+
+        public void updateCurrentStation(DabStation dabStation, DabReceptionStatus dabReceptionStatus) {
+            DabCascadedListHandler.this.highlightItem(dabStation, dabReceptionStatus);
+        }
     }
 
-    static /* synthetic */ IStoreStationHandler access$400(DabCascadedListHandler dabCascadedListHandler) {
-        return dabCascadedListHandler.longPressHandler;
-    }
+    private class DsiDownListener
+    extends DABDsiDownInfo {
+        private DsiDownListener() {
+        }
 
-    static /* synthetic */ DABTuner access$500(DabCascadedListHandler dabCascadedListHandler) {
-        return dabCascadedListHandler.dabTuner;
-    }
-
-    static /* synthetic */ DabStation access$602(DabCascadedListHandler dabCascadedListHandler, DabStation dabStation) {
-        dabCascadedListHandler.currentEnsemble = dabStation;
-        return dabCascadedListHandler.currentEnsemble;
-    }
-
-    static /* synthetic */ Object access$700(DabCascadedListHandler dabCascadedListHandler) {
-        return dabCascadedListHandler.mutex;
-    }
-
-    static /* synthetic */ DabStation access$600(DabCascadedListHandler dabCascadedListHandler) {
-        return dabCascadedListHandler.currentEnsemble;
-    }
-
-    static /* synthetic */ void access$800(DabCascadedListHandler dabCascadedListHandler, EnsembleInfo ensembleInfo) {
-        dabCascadedListHandler.buildServiceList(ensembleInfo);
-    }
-
-    static /* synthetic */ BaseListModelApp access$900(DabCascadedListHandler dabCascadedListHandler) {
-        return dabCascadedListHandler.ensembleList;
-    }
-
-    static /* synthetic */ BaseListModelApp access$1000(DabCascadedListHandler dabCascadedListHandler) {
-        return dabCascadedListHandler.serviceList;
+        public void preTuneAction(DabStation dabStation, DabReceptionStatus dabReceptionStatus, int n) {
+            DabCascadedListHandler.this.highlightItem(dabStation, dabReceptionStatus);
+        }
     }
 }
 

@@ -14,46 +14,39 @@ implements IMapPartialPopupHandler {
         this.env = navigationEnv;
     }
 
-    @Override
     public void showPopupSemidynBlockMain() {
-        this.env.getFramework().getHmiServiceApp().showPartialPopup(0, 85657088);
+        this.env.getFramework().getHmiServiceApp().showPartialPopup(0, 400133);
     }
 
-    @Override
     public void showPopupSemidynBetterMain() {
-        this.env.getFramework().getHmiServiceApp().showPartialPopup(0, 102434304);
+        this.env.getFramework().getHmiServiceApp().showPartialPopup(0, 400134);
     }
 
-    @Override
     public void hidePopupSemidynBlockMain() {
-        this.env.getFramework().getHmiServiceApp().removePartialPopup(0, 85657088);
+        this.env.getFramework().getHmiServiceApp().removePartialPopup(0, 400133);
     }
 
-    @Override
     public void hidePopupSemidynBetterMain() {
-        this.env.getFramework().getHmiServiceApp().removePartialPopup(0, 102434304);
+        this.env.getFramework().getHmiServiceApp().removePartialPopup(0, 400134);
     }
 
-    @Override
     public void showPopupGoogleOfflineNoCache() {
-        this.env.getFramework().getHmiServiceApp().showPartialPopup(0, 1461388800);
+        this.env.getFramework().getHmiServiceApp().showPartialPopup(0, 400215);
     }
 
-    @Override
     public void showPopupTrafficeNoticeMap(boolean bl) {
         if (bl) {
-            this.env.getFramework().getHmiServiceApp().showPartialPopup(0, -618985984);
+            this.env.getFramework().getHmiServiceApp().showPartialPopup(0, 400347);
         } else {
-            this.env.getFramework().getHmiServiceApp().removePartialPopup(0, -618985984);
+            this.env.getFramework().getHmiServiceApp().removePartialPopup(0, 400347);
         }
     }
 
-    @Override
     public void showOnlineTrafficWarningPPU(boolean bl) {
         if (bl) {
-            this.env.getFramework().getHmiServiceApp().showPartialPopup(0, -434436608);
+            this.env.getFramework().getHmiServiceApp().showPartialPopup(0, 400358);
         } else {
-            this.env.getFramework().getHmiServiceApp().removePartialPopup(0, -434436608);
+            this.env.getFramework().getHmiServiceApp().removePartialPopup(0, 400358);
         }
     }
 }

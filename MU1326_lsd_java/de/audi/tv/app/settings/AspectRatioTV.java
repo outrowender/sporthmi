@@ -3,26 +3,26 @@
  */
 package de.audi.tv.app.settings;
 
+import de.audi.atip.hmi.model.listener.DefaultChoiceListener;
 import de.audi.atip.hmi.modelaccess.ChoiceModelApp;
 import de.audi.atip.interapp.displaymanager.Cropping;
 import de.audi.atip.interapp.displaymanager.DSIMgnHandler;
 import de.audi.tv.app.base.TVEnv;
 import de.audi.tv.app.dsi.DSITV;
-import de.audi.tv.app.settings.AspectRatioTV$ChoiceListener;
 import de.audi.tv.app.settings.SettingsStorage;
 
 public class AspectRatioTV {
-    private static final int DSI_4_3;
-    private static final int ITEM_AUTO;
-    private static final int ITEM_4_3;
-    private static final int ITEM_16_9;
-    static final int DEFAULT;
-    private static final int DISPLAY_ID;
+    private static final int DSI_4_3 = 1;
+    private static final int ITEM_AUTO = 0;
+    private static final int ITEM_4_3 = 1;
+    private static final int ITEM_16_9 = 2;
+    static final int DEFAULT = 0;
+    private static final int DISPLAY_ID = 0;
     private int cid = 26;
-    private static final int SRC_X;
-    private static final int SRC_Y;
-    private static final int SRC_WIDTH;
-    private static final int SRC_HEIGHT;
+    private static final int SRC_X = 0;
+    private static final int SRC_Y = 0;
+    private static final int SRC_WIDTH = 0;
+    private static final int SRC_HEIGHT = 0;
     private volatile int videoFormat;
     private final Object mutex = new Object();
     private volatile boolean isInTerminalMode;
@@ -38,8 +38,8 @@ public class AspectRatioTV {
         this.storage = settingsStorage;
         this.dsi = dSITV;
         this.displayHandler = new DSIMgnHandler(tVEnv.framework);
-        this.ratioChoice = tVEnv.getChoiceModel(-1783879936);
-        this.ratioChoice.setChoiceListener(new AspectRatioTV$ChoiceListener(this, null));
+        this.ratioChoice = tVEnv.getChoiceModel(2600085);
+        this.ratioChoice.setChoiceListener(new ChoiceListener());
         this.ratioChoice.setValue(0);
     }
 
@@ -50,7 +50,7 @@ public class AspectRatioTV {
     }
 
     protected void restore() {
-        this.env.lcMain.log(-2137614336, "[AspectRatioTV.restore]");
+        this.env.lcMain.log(10000000, "[AspectRatioTV.restore]");
         int n = this.storage.loadAspectRatioTV();
         this.setAspectRatio(n);
     }
@@ -63,7 +63,7 @@ public class AspectRatioTV {
      * WARNING - Removed try catching itself - possible behaviour change.
      */
     private void setAspectRatio(int n) {
-        this.env.lcHMI.log(-2137614336, "[AspectRatioTV.setAspectRatio] ratio:%1", (long)n);
+        this.env.lcHMI.log(10000000, "[AspectRatioTV.setAspectRatio] ratio:%1", (long)n);
         this.storage.saveAspectRatioTV(n);
         if (this.selectedSource == 0) {
             Object object = this.mutex;
@@ -80,7 +80,7 @@ public class AspectRatioTV {
             return;
         }
         if (this.isInTerminalMode) {
-            this.env.lcMain.log(-2137614336, "[AspectRatioTV.setCropping]update video format to 15:9 for terminal mode.");
+            this.env.lcMain.log(10000000, "[AspectRatioTV.setCropping]update video format to 15:9 for terminal mode.");
             cropping = this.displayHandler.getCropping(2);
         } else {
             switch (this.ratioChoice.getValue()) {
@@ -133,12 +133,16 @@ public class AspectRatioTV {
         }
     }
 
-    static /* synthetic */ int access$100(AspectRatioTV aspectRatioTV) {
-        return aspectRatioTV.selectedSource;
-    }
+    private class ChoiceListener
+    extends DefaultChoiceListener {
+        private ChoiceListener() {
+        }
 
-    static /* synthetic */ void access$200(AspectRatioTV aspectRatioTV, int n) {
-        aspectRatioTV.setAspectRatio(n);
+        public void itemSelected(int n, int n2, int n3, int n4) {
+            if (AspectRatioTV.this.selectedSource == 0) {
+                AspectRatioTV.this.setAspectRatio(n2);
+            }
+        }
     }
 }
 

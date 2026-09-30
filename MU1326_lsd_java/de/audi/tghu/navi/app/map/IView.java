@@ -4,6 +4,6 @@
 package de.audi.tghu.navi.app.map;
 
 public interface IView {
-    public static final String DUMMY_TEXT;
+    public static final String DUMMY_TEXT = "";
 }
 

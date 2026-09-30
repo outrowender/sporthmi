@@ -17,7 +17,6 @@ extends AbstractModelEnvironment {
         super(iFrameworkAccess, iIDMapper, iIDMapper2);
     }
 
-    @Override
     public LogChannel getLogChannel() {
         return this.logChannel;
     }

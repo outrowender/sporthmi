@@ -22,11 +22,11 @@ public class OnlineDestinationResultSearchUtility {
         this.logger = logChannel;
         this.resultList = listModelApp;
         this.stateModel = choiceModelApp;
-        logChannel.log(1078071040, "OnlineDestinationResultSearchUtility#OnlineDestinationResultSearchUtility()");
+        logChannel.log(1000000, "OnlineDestinationResultSearchUtility#OnlineDestinationResultSearchUtility()");
     }
 
     public void handleResultSearch(String string, List list) {
-        this.logger.log(-2137614336, "OnlineDestinationResultSearchUtility#handleResultSearch() searchString %1", (Object)string);
+        this.logger.log(10000000, "OnlineDestinationResultSearchUtility#handleResultSearch() searchString %1", (Object)string);
         if (string != null) {
             string = string.trim();
             this.stateModel.setValue(0);

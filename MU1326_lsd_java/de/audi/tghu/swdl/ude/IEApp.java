@@ -8,51 +8,40 @@ import de.audi.tghu.swdl.ude.tasks.CleanupTask;
 import java.util.List;
 
 public interface IEApp {
-    public static final String MOUNT_POINT;
-    public static final String PREFIX_USB;
-    public static final String PREFIX_SDCARD;
-    public static final int MEDIUM_USB;
-    public static final int MEDIUM_SD;
-    public static final int RUN_IMPORT;
-    public static final int RUN_EXPORT;
-    public static final int RESULT_IMPORT_SUCCESS;
-    public static final int RESULT_EXPORT_SUCCESS;
-    public static final int RESULT_IMPORT_FAILURE;
-    public static final int RESULT_EXPORT_FAILURE;
-    public static final int STATUS_PROGRESS_SCREEN;
-    public static final int STATUS_RESULT_SCREEN;
+    public static final String MOUNT_POINT = "/fs";
+    public static final String PREFIX_USB = "usb";
+    public static final String PREFIX_SDCARD = "sd";
+    public static final int MEDIUM_USB = 0;
+    public static final int MEDIUM_SD = 1;
+    public static final int RUN_IMPORT = 0;
+    public static final int RUN_EXPORT = 1;
+    public static final int RESULT_IMPORT_SUCCESS = 0;
+    public static final int RESULT_EXPORT_SUCCESS = 1;
+    public static final int RESULT_IMPORT_FAILURE = 2;
+    public static final int RESULT_EXPORT_FAILURE = 3;
+    public static final int STATUS_PROGRESS_SCREEN = 0;
+    public static final int STATUS_RESULT_SCREEN = 1;
 
-    default public LogChannel getLogChannel() {
-    }
+    public LogChannel getLogChannel();
 
-    default public void importFinished(boolean bl) {
-    }
+    public void importFinished(boolean var1);
 
-    default public void exportFinished(boolean bl) {
-    }
+    public void exportFinished(boolean var1);
 
-    default public void zipFinished(boolean bl) {
-    }
+    public void zipFinished(boolean var1);
 
-    default public void unzipFinished(boolean bl) {
-    }
+    public void unzipFinished(boolean var1);
 
-    default public void encryptionFinished(boolean bl) {
-    }
+    public void encryptionFinished(boolean var1);
 
-    default public void decryptionFinished(boolean bl) {
-    }
+    public void decryptionFinished(boolean var1);
 
-    default public void copyFinished(boolean bl) {
-    }
+    public void copyFinished(boolean var1);
 
-    default public void mountFinished(boolean bl) {
-    }
+    public void mountFinished(boolean var1);
 
-    default public CleanupTask getCleanupTask() {
-    }
+    public CleanupTask getCleanupTask();
 
-    default public List getFiles() {
-    }
+    public List getFiles();
 }
 

@@ -13,13 +13,11 @@ extends SysProposalPkgRow {
         super(pkgNode);
     }
 
-    @Override
     void setValues() {
         super.setValues();
         super.setInteger(5, this.node.isLeaf() ? 0 : 1);
     }
 
-    @Override
     public EvoListRow copy() {
         return new NaviDataPkgRow(this.node);
     }

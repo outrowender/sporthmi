@@ -22,16 +22,16 @@ import org.dsi.ifc.media.TagInformation;
 public class TaggingManager
 implements TimerListener,
 ITaggingManager {
-    public static final int NO_DEVICE_SPACE_FREE;
-    public static final int NO_DEVICE_NO_SPACE;
-    public static final int DEVICE_FULL_SPACE_FREE;
-    public static final int DEVICE_FULL_NO_SPACE;
-    public static final int DEVICE_SPACE_FREE;
-    public static final int TAGGING_MAX_ENTRIES;
+    public static final int NO_DEVICE_SPACE_FREE = 1;
+    public static final int NO_DEVICE_NO_SPACE = 2;
+    public static final int DEVICE_FULL_SPACE_FREE = 5;
+    public static final int DEVICE_FULL_NO_SPACE = 3;
+    public static final int DEVICE_SPACE_FREE = 4;
+    public static final int TAGGING_MAX_ENTRIES = 50;
     private LinkedList data;
     private ITunesTaggingDSI taggingDSI;
     private final TaggingListStorage storage;
-    private final Timer tagStorageTimer = new Timer("tagStorageTimer", 0, true, this);
+    private final Timer tagStorageTimer = new Timer("tagStorageTimer", 10000L, true, this);
     private final Object mutex = new Object();
     private final TunerModels models;
     private final LogChannel log;
@@ -46,15 +46,14 @@ ITaggingManager {
         this.storage = new TaggingListStorage(tunerBasics.getFramework().getStorageMgr(), tunerBasics.getLogger().main);
         this.data = this.storage.read();
         this.setLabels(this.data.size());
-        this.models.getChoiceModel(92864768).setValue(50);
-        this.models.getLabelModel(126419200).setText(String.valueOf(50));
+        this.models.getChoiceModel(100613).setValue(50);
+        this.models.getLabelModel(100615).setText(String.valueOf(50));
     }
 
     public void init(ITunesTaggingDSI iTunesTaggingDSI) {
         this.taggingDSI = iTunesTaggingDSI;
     }
 
-    @Override
     public void register(ITaggingManagerListener iTaggingManagerListener) {
         ITaggingManagerListener[] iTaggingManagerListenerArray = new ITaggingManagerListener[this.listeners.length + 1];
         System.arraycopy((Object)this.listeners, 0, (Object)iTaggingManagerListenerArray, 0, this.listeners.length);
@@ -65,7 +64,6 @@ ITaggingManager {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public int addTag(TaggingData taggingData) {
         if (this.log.isDebug()) {
             Buffer buffer = new Buffer(100);
@@ -83,9 +81,9 @@ ITaggingManager {
                 buffer2.append("Title: ").append(tagInformation.title).append(' ');
                 buffer2.append("SongID: ").append(tagInformation.songID).append(' ');
                 buffer2.append("Button: ").append(tagInformation.buttonPressed);
-                this.log.log(-2137614336, "[TaggingManager.addTag] %1", (Object)buffer2);
+                this.log.log(10000000, "[TaggingManager.addTag] %1", (Object)buffer2);
             }
-            this.log.log(-2137614336, "[TaggingManager.addTag] %1", (Object)buffer);
+            this.log.log(10000000, "[TaggingManager.addTag] %1", (Object)buffer);
         }
         int n = this.getExpectedTagResult();
         for (int i2 = 0; i2 < this.listeners.length; ++i2) {
@@ -106,14 +104,13 @@ ITaggingManager {
     }
 
     private void setLabels(int n) {
-        this.models.getChoiceModel(59310336).setValue(n);
-        this.models.getLabelModel(109641984).setText(String.valueOf(n));
+        this.models.getChoiceModel(100611).setValue(n);
+        this.models.getLabelModel(100614).setText(String.valueOf(n));
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public boolean isAlreadyStored(TagInformation tagInformation) {
         Iterator iterator = this.data.iterator();
         Object object = this.mutex;
@@ -133,7 +130,6 @@ ITaggingManager {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public boolean isAlreadyStored(int n) {
         Iterator iterator = this.data.iterator();
         Object object = this.mutex;
@@ -216,7 +212,6 @@ ITaggingManager {
         return buffer;
     }
 
-    @Override
     public boolean isTaggingSpaceFree() {
         return this.data.size() < 50;
     }
@@ -243,7 +238,6 @@ ITaggingManager {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void fireTimer(Timer timer) {
         Object object = this.mutex;
         synchronized (object) {
@@ -251,11 +245,9 @@ ITaggingManager {
         }
     }
 
-    @Override
     public void cancelTimer(Timer timer) {
     }
 
-    @Override
     public int getExpectedTagResult() {
         int n = this.taggingDSI.getDeviceStatus();
         int n2 = this.taggingDSI.getLastTagResult();

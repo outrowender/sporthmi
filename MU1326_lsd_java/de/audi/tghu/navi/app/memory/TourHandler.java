@@ -3,12 +3,14 @@
  */
 package de.audi.tghu.navi.app.memory;
 
+import de.audi.atip.interapp.navigation.previewmap.gui.GuiTooltipInformationContainer;
 import de.audi.atip.log.LogChannel;
 import de.audi.atip.metrics.DateMetric;
 import de.audi.atip.power.PowerEventListener;
 import de.audi.tghu.command.CommandList;
 import de.audi.tghu.command.ICommandListFactory;
 import de.audi.tghu.navi.app.NavigationEnv;
+import de.audi.tghu.navi.app.command.NavCommand;
 import de.audi.tghu.navi.app.command.RGStopGuidanceCommand;
 import de.audi.tghu.navi.app.command.TrDeleteAllTraces;
 import de.audi.tghu.navi.app.command.TrExportTrails;
@@ -21,8 +23,6 @@ import de.audi.tghu.navi.app.command.storage.RmRouteDeleteCommand;
 import de.audi.tghu.navi.app.command.storage.RmRouteGet;
 import de.audi.tghu.navi.app.command.translate.TranslateTourCommand;
 import de.audi.tghu.navi.app.map.MapInterface;
-import de.audi.tghu.navi.app.memory.TourHandler$1;
-import de.audi.tghu.navi.app.memory.TourHandler$2;
 import de.audi.tghu.navi.app.memory.TourHandlerModelAccess;
 import de.audi.tghu.navi.app.routeguidance.IRouteManager;
 import de.audi.tghu.navi.app.routeguidance.commands.RgCalculateRouteCommand;
@@ -45,9 +45,9 @@ import org.dsi.ifc.navigation.Route;
 
 public class TourHandler
 implements PowerEventListener {
-    private static final int TRACING_ACTIVE;
-    public static final String TOUR_INDEX;
-    public static final String TOUR_BACKUP_TITLE;
+    private static final int TRACING_ACTIVE = 1;
+    public static final String TOUR_INDEX = "TOUR_INDEX";
+    public static final String TOUR_BACKUP_TITLE = "@_TOUR_BACKUP_@";
     protected final NavigationEnv env;
     protected final FunctionCounter fc;
     private LogChannel logChannel;
@@ -87,9 +87,9 @@ implements PowerEventListener {
                 navRmRouteListDataArray = navRmRouteListArrayDataArray[i2].getRouteList();
                 this.tourBackupID = -1L;
                 for (int i3 = 0; i3 < navRmRouteListDataArray.length; ++i3) {
-                    if (!navRmRouteListDataArray[i3].getName().equals("@_TOUR_BACKUP_@")) continue;
-                    this.logChannel.log(-2137614336, "TourHandler#updateRmRoutesTourplan() - <tour plan backup found>");
-                    this.env.getChoiceModel(-1441004032).setValue(1);
+                    if (!navRmRouteListDataArray[i3].getName().equals(TOUR_BACKUP_TITLE)) continue;
+                    this.logChannel.log(10000000, "TourHandler#updateRmRoutesTourplan() - <tour plan backup found>");
+                    this.env.getChoiceModel(400554).setValue(1);
                     this.tourBackupID = navRmRouteListDataArray[i3].getRouteId();
                     continue block0;
                 }
@@ -103,7 +103,7 @@ implements PowerEventListener {
                 navRmRouteListDataArray3 = navRmRouteListArrayDataArray[i2].getRouteList();
                 continue;
             }
-            this.logChannel.log(-1601830656, "TourHandler#updateRmRouteList() unknow route type");
+            this.logChannel.log(100000, "TourHandler#updateRmRouteList() unknow route type");
         }
         this.env.getContainer().setRmRoutesWaypoint(navRmRouteListDataArray);
         this.env.getContainer().setRmRoutesTourplan(navRmRouteListDataArray2);
@@ -180,7 +180,7 @@ implements PowerEventListener {
 
     public CommandList saveTourPlanBackup(Route route) {
         Route route2 = RouteUtil.cloneRoute(route, this.routeCriteriaManager.getRouteCriteria().getRouteOptions(false));
-        route2.routename = "@_TOUR_BACKUP_@";
+        route2.routename = TOUR_BACKUP_TITLE;
         CommandList commandList = this.commandListFactory.createCommandList();
         if (this.getTourBackupID() >= 0L) {
             commandList.add(new RmRouteDeleteCommand(1, this.getTourBackupID()));
@@ -192,26 +192,32 @@ implements PowerEventListener {
     }
 
     private void invalidateLoadedTour() {
-        this.logChannel.log(-2137614336, "TourHandler#invalidateLoadedTour()");
+        this.logChannel.log(10000000, "TourHandler#invalidateLoadedTour()");
         this.setLoadedMemoryID(-1);
         this.setLoadedTourID(-1L);
         this.loadedTour = null;
     }
 
-    public CommandList loadTour(int n, int n2, long l) {
+    public CommandList loadTour(final int n, final int n2, final long l) {
         CommandList commandList = this.commandListFactory.createCommandList(0);
-        commandList.put("TOUR_INDEX", new Integer(n2));
+        commandList.put(TOUR_INDEX, new Integer(n2));
         if (this.getLoadedMemoryID() != n || this.getLoadedTourID() != l || this.loadedTour == null) {
             commandList.add(new RmRouteGet(n, l));
             commandList.add(new TranslateTourCommand());
         } else {
-            commandList.add(new TourHandler$1(this, n2, n, l));
+            commandList.add(new NavCommand(){
+
+                public void execute() {
+                    TourHandler.this.showTour(n2, n, l, TourHandler.this.loadedTour);
+                    this.getCommandList().commandFinished();
+                }
+            });
         }
         return commandList;
     }
 
     public void showTour(int n, int n2, long l, Route route) {
-        this.logChannel.log(-2137614336, "TourHandler#showTour( %2, %1 )", (Object)RouteUtil.formatRouteShort(route), l);
+        this.logChannel.log(10000000, "TourHandler#showTour( %2, %1 )", (Object)RouteUtil.formatRouteShort(route), l);
         this.setLoadedMemoryID(n2);
         this.setLoadedTourID(l);
         this.loadedTour = route;
@@ -235,18 +241,28 @@ implements PowerEventListener {
         this.previewTour(n, this.lastTourName);
     }
 
-    public void previewTour(int n, String string) {
+    public void previewTour(int n, final String string) {
         this.lastTourName = string;
         NavLocation navLocation = this.getLocationFromNavSegmentId();
         Route route = this.routeManager.getOffroadRouteFromNavLocation(navLocation, n);
         CommandList commandList = this.commandListFactory.createCommandList();
-        if (this.env.getChoiceModel(52561408).getValue() == 1) {
+        if (this.env.getChoiceModel(401923).getValue() == 1) {
             commandList.add(new TrStopTraceRecording());
             commandList.add(new TrStoreTrace(null));
         }
         commandList.add(new RGStopGuidanceCommand());
         commandList.add(new RgCalculateRouteCommand(route, 1));
-        commandList.add(new TourHandler$2(this, "previewTour", string));
+        commandList.add(new NavCommand("previewTour"){
+
+            public void execute() {
+                GuiTooltipInformationContainer guiTooltipInformationContainer = new GuiTooltipInformationContainer();
+                guiTooltipInformationContainer.toolTipTwoLinesLine1st = string;
+                guiTooltipInformationContainer.toolTipTwoLinesLine2nd = "";
+                guiTooltipInformationContainer.toolTipOneLineLine1st = string;
+                TourHandler.this.mapInterface.getPreviewMap().setPreviewRouteOffroad(TourHandler.this.navSegmentId, 12, null, guiTooltipInformationContainer);
+                this.getCommandList().commandFinished();
+            }
+        });
         commandList.execute("TourHandler#previewTour");
     }
 
@@ -316,10 +332,9 @@ implements PowerEventListener {
         }
     }
 
-    @Override
     public void notifyPowerListenerOnEnterState(int n, int n2) {
-        if (n == 2 && this.env.getChoiceModel(52561408).getValue() == 1) {
-            this.env.getLogChannel().log(-2137614336, "TourHandler#setPowerEvent(POWERSTATE_STANDBY) - store active offroad trace!");
+        if (n == 2 && this.env.getChoiceModel(401923).getValue() == 1) {
+            this.env.getLogChannel().log(10000000, "TourHandler#setPowerEvent(POWERSTATE_STANDBY) - store active offroad trace!");
             StringBuffer stringBuffer = new StringBuffer();
             DateMetric dateMetric = new DateMetric(new Date(this.env.getFramework().getKombiTime()), 0);
             stringBuffer.append("Tour");
@@ -333,28 +348,13 @@ implements PowerEventListener {
         }
     }
 
-    @Override
     public void notifyPowerListenerOnExitState(int n, int n2) {
     }
 
-    @Override
     public void notifyPowerTriggerAction(int n, int n2) {
     }
 
-    @Override
     public void updateClampState(boolean bl, boolean bl2, boolean bl3, boolean bl4) {
-    }
-
-    static /* synthetic */ Route access$000(TourHandler tourHandler) {
-        return tourHandler.loadedTour;
-    }
-
-    static /* synthetic */ NavSegmentID access$100(TourHandler tourHandler) {
-        return tourHandler.navSegmentId;
-    }
-
-    static /* synthetic */ MapInterface access$200(TourHandler tourHandler) {
-        return tourHandler.mapInterface;
     }
 }
 

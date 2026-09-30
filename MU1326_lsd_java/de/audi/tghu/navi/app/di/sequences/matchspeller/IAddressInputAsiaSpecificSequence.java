@@ -6,19 +6,14 @@ package de.audi.tghu.navi.app.di.sequences.matchspeller;
 import de.audi.atip.hmi.modelaccess.MatchspellerModelApp;
 
 public interface IAddressInputAsiaSpecificSequence {
-    default public void addStroke(String string) {
-    }
+    public void addStroke(String var1);
 
-    default public void undoStroke() {
-    }
+    public void undoStroke();
 
-    default public void touchPadInputModeChanged(int n) {
-    }
+    public void touchPadInputModeChanged(int var1);
 
-    default public void requestValidHanziCharsWindow(int n, int n2, int n3) {
-    }
+    public void requestValidHanziCharsWindow(int var1, int var2, int var3);
 
-    default public void nonAlphaNumTPCharsChanged(int n, int n2, String string, MatchspellerModelApp matchspellerModelApp) {
-    }
+    public void nonAlphaNumTPCharsChanged(int var1, int var2, String var3, MatchspellerModelApp var4);
 }
 

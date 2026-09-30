@@ -14,14 +14,14 @@ import java.util.List;
 import java.util.Map;
 
 public class PoorMansXPathParser {
-    private static final int TOKEN_UNKNOWN;
-    private static final int TOKEN_NAME;
-    private static final int TOKEN_SELECTOR;
-    private static final int TOKEN_SELECTOR_LEFT;
-    private static final int TOKEN_SELECTOR_LEFT_ATTRIBUTE;
-    private static final int TOKEN_SELECTOR_RIGHT;
-    private static final int TOKEN_ATTRIBUTE;
-    private static final int TOKEN_FUNCTION;
+    private static final int TOKEN_UNKNOWN = 0;
+    private static final int TOKEN_NAME = 1;
+    private static final int TOKEN_SELECTOR = 2;
+    private static final int TOKEN_SELECTOR_LEFT = 3;
+    private static final int TOKEN_SELECTOR_LEFT_ATTRIBUTE = 5;
+    private static final int TOKEN_SELECTOR_RIGHT = 4;
+    private static final int TOKEN_ATTRIBUTE = 6;
+    private static final int TOKEN_FUNCTION = 7;
     private List items;
     private int currentToken;
     private int startPtr;
@@ -39,7 +39,7 @@ public class PoorMansXPathParser {
         if (string == null || string.length() == 0) {
             return null;
         }
-        this.toParse = new StringBuffer().append(string).append('\u0000').toString();
+        this.toParse = string + '\u0000';
         this.ptr = 0;
         this.startPtr = 0;
         this.currentToken = 0;
@@ -215,7 +215,7 @@ public class PoorMansXPathParser {
     }
 
     private void error(String string) {
-        throw new RuntimeException(new StringBuffer().append(string).append(", token ").append(this.currentToken).append(", character ").append(this.c).append(", index ").append(this.ptr).toString());
+        throw new RuntimeException(string + ", token " + this.currentToken + ", character " + this.c + ", index " + this.ptr);
     }
 }
 

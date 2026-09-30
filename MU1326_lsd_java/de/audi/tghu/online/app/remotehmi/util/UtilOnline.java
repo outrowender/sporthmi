@@ -14,7 +14,7 @@ public class UtilOnline {
             throw new IllegalArgumentException("Given expected class name is null!");
         }
         if (object == null) {
-            string4 = new StringBuffer().append("Object '").append(string).append("' is null.").toString();
+            string4 = "Object '" + string + "' is null.";
         } else {
             object2 = object.getClass();
             if (clazz.isAssignableFrom((Class)object2)) {
@@ -22,10 +22,10 @@ public class UtilOnline {
             }
             string3 = ((Class)object2).getName();
             String string5 = clazz.getName();
-            string4 = new StringBuffer().append("Object '").append(string).append("' has invalid class='").append(string3).append("' which cannot be cast to '").append(string5).append("'.").toString();
+            string4 = "Object '" + string + "' has invalid class='" + string3 + "' which cannot be cast to '" + string5 + "'.";
         }
         object2 = UtilOnline.getMethodName(new Throwable().getStackTrace(), 1);
-        string3 = new StringBuffer().append(string4).append(" It was obtained in method ").append((String)object2).append(" from method ").append(string2).append("!").toString();
+        string3 = string4 + " It was obtained in method " + (String)object2 + " from method " + string2 + "!";
         throw new IllegalArgumentException(string3);
     }
 
@@ -36,7 +36,7 @@ public class UtilOnline {
         StackTraceElement[] stackTraceElementArray = new Throwable().getStackTrace();
         String string2 = UtilOnline.getMethodName(stackTraceElementArray, 1);
         String string3 = UtilOnline.getMethodName(stackTraceElementArray, 2);
-        String string4 = new StringBuffer().append("Argument '").append(string).append("' is not allowed to be null. ").append("It was passed from method ").append(string3).append(" to method ").append(string2).append("!").toString();
+        String string4 = "Argument '" + string + "' is not allowed to be null. " + "It was passed from method " + string3 + " to method " + string2 + "!";
         throw new IllegalArgumentException(string4);
     }
 
@@ -57,7 +57,7 @@ public class UtilOnline {
     public static String getMethodName(StackTraceElement[] stackTraceElementArray, int n) {
         StackTraceElement stackTraceElement;
         if (stackTraceElementArray != null && stackTraceElementArray.length >= n && (stackTraceElement = stackTraceElementArray[n]) != null) {
-            return new StringBuffer().append(UtilOnline.getSuffix(stackTraceElement.getClassName(), ".")).append(".").append(stackTraceElement.getMethodName()).append("()").toString();
+            return UtilOnline.getSuffix(stackTraceElement.getClassName(), ".") + "." + stackTraceElement.getMethodName() + "()";
         }
         return "UNKNOWN";
     }
@@ -78,7 +78,7 @@ public class UtilOnline {
         if ("1".equals(string)) {
             return true;
         }
-        logChannel.log(-1601830656, "UtilEvo#getSafeBoolean: Cannot convert '%1' to a boolean value! Setting it to '%2'!", (Object)string, (Object)String.valueOf(bl));
+        logChannel.log(100000, "UtilEvo#getSafeBoolean: Cannot convert '%1' to a boolean value! Setting it to '%2'!", (Object)string, (Object)String.valueOf(bl));
         return bl;
     }
 
@@ -103,11 +103,11 @@ public class UtilOnline {
                 f2 = Float.parseFloat(string);
             }
             catch (NumberFormatException numberFormatException2) {
-                f2 = 49279;
+                f2 = Float.NaN;
             }
             if (Float.isNaN(f2) || Float.isInfinite(f2)) {
-                String string2 = new StringBuffer().append("Cannot convert '").append(string).append("' to an integer value! Setting it to '").append(n).append("'!").toString();
-                logChannel.log(-1601830656, string2);
+                String string2 = "Cannot convert '" + string + "' to an integer value! Setting it to '" + n + "'!";
+                logChannel.log(100000, string2);
                 return n;
             }
             return Math.round(f2);
@@ -123,11 +123,11 @@ public class UtilOnline {
             f3 = Float.parseFloat(string);
         }
         catch (NumberFormatException numberFormatException) {
-            f3 = 49279;
+            f3 = Float.NaN;
         }
         if (Float.isNaN(f3) || Float.isInfinite(f3)) {
-            String string2 = new StringBuffer().append("ViewGridAction#getComposedValueInt: Cannot convert '").append(string).append("' to a float value! Setting it to '").append(f2).append("'!").toString();
-            logChannel.log(-1601830656, string2);
+            String string2 = "ViewGridAction#getComposedValueInt: Cannot convert '" + string + "' to a float value! Setting it to '" + f2 + "'!";
+            logChannel.log(100000, string2);
             return f2;
         }
         return f3;

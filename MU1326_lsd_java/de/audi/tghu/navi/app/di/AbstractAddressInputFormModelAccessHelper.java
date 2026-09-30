@@ -15,20 +15,20 @@ import org.dsi.ifc.global.NavLocation;
 
 public abstract class AbstractAddressInputFormModelAccessHelper
 implements IAddressInputFormModelAccessHelper {
-    private static final int IS_STATE;
-    private static final int IS_COUNTRY;
+    private static final int IS_STATE = 1;
+    private static final int IS_COUNTRY = 0;
     protected final NavigationEnv env;
     protected final LogChannel logChannel;
-    protected final String CLASS_NAME = Util.getClassNameFromPackageName(super.getClass());
+    protected final String CLASS_NAME = Util.getClassNameFromPackageName(this.getClass());
     protected final INavigationInputModeManager inputModeManager;
-    protected static final String EMPTY_COUNTRY_STRING;
+    protected static final String EMPTY_COUNTRY_STRING = "---";
     protected final ChoiceModelApp countryStateModeChoiceModel;
 
     public AbstractAddressInputFormModelAccessHelper(NavigationEnv navigationEnv) {
         this.env = navigationEnv;
         this.inputModeManager = navigationEnv.getInputModeManager();
         this.logChannel = navigationEnv.getAddressInputLogChannel();
-        this.countryStateModeChoiceModel = navigationEnv.getChoiceModel(941360640);
+        this.countryStateModeChoiceModel = navigationEnv.getChoiceModel(400440);
     }
 
     protected boolean getValueFromMap(Map map, String string) {

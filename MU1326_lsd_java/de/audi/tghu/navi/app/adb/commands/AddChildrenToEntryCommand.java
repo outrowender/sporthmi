@@ -25,11 +25,10 @@ extends GetEntryCommand {
         this.parentRow = searchResultListRow;
     }
 
-    @Override
     public void getEntriesResult(int n, AdbEntry[] adbEntryArray) {
         if (n == 0) {
             if (adbEntryArray.length == 1) {
-                this.logger.log(-2137614336, "AddChildrenToEntryCommand#getEntriesResult(): got entry: %1", (Object)ADBDbgUtils.dbg(adbEntryArray[0]));
+                this.logger.log(10000000, "AddChildrenToEntryCommand#getEntriesResult(): got entry: %1", (Object)ADBDbgUtils.dbg(adbEntryArray[0]));
                 ADBUtils.checkAndFixADBEntry(adbEntryArray[0], this.getAdbHandler().getFramework());
                 this.getAdbHandler().setCurrentEntry(adbEntryArray[0]);
                 this.getSyncModel().setStatus(1);
@@ -44,7 +43,6 @@ extends GetEntryCommand {
         }
     }
 
-    protected abstract EvoListRow[] geteChildrenNodes(AdbEntry adbEntry) {
-    }
+    protected abstract EvoListRow[] geteChildrenNodes(AdbEntry var1);
 }
 

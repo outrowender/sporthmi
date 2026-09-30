@@ -3,45 +3,42 @@
  */
 package de.audi.tv.app.interapp;
 
+import de.audi.atip.hmi.model.DefaultButtonListener;
+import de.audi.atip.hmi.model.list.BaseListModelApp;
 import de.audi.atip.hmi.modelaccess.ChoiceModelApp;
 import de.audi.tv.app.BCDTime;
 import de.audi.tv.app.TVUtil;
 import de.audi.tv.app.base.ITVEventListener;
 import de.audi.tv.app.base.TVEnv;
+import de.audi.tv.app.base.TVEventDefaultListener;
 import de.audi.tv.app.dsi.DSICallListener;
 import de.audi.tv.app.dsi.DSIHandler;
+import de.audi.tv.app.dsi.DefaultTVListener;
 import de.audi.tv.app.interapp.IInterappConnectionListener;
 import de.audi.tv.app.interapp.ISourceActivator;
 import de.audi.tv.app.interapp.ITVInterappListener;
-import de.audi.tv.app.interapp.ITVInterappListener$ActiveStationInfo;
-import de.audi.tv.app.interapp.ITVInterappListener$AudioChannel;
-import de.audi.tv.app.interapp.ITVInterappListener$ProgramInfo;
-import de.audi.tv.app.interapp.ITVInterappListener$ServiceInfo;
-import de.audi.tv.app.interapp.ITVInterappListener$TvTunerConfig;
 import de.audi.tv.app.interapp.ITVInterappService;
 import de.audi.tv.app.interapp.InterappUtil;
 import de.audi.tv.app.interapp.NullTVInterappListener;
-import de.audi.tv.app.interapp.TvSdisManager$CallListener;
-import de.audi.tv.app.interapp.TvSdisManager$ListListener;
-import de.audi.tv.app.interapp.TvSdisManager$ParentalEnforcementListener;
-import de.audi.tv.app.interapp.TvSdisManager$TVEventListener;
-import de.audi.tv.app.interapp.TvSdisManager$TVListener;
 import de.audi.tv.app.lists.AbstractTVStationRow;
+import de.audi.tv.app.lists.DefaultTVListsListener;
 import de.audi.tv.app.lists.ITVListsListener;
 import de.audi.tv.app.lists.StationMapper;
 import de.audi.tv.app.tm.KeyPanelHandler;
 import de.esolutions.fw.util.commons.SimpleIntIntMap;
 import org.dsi.ifc.tvtuner.AudioChannel;
 import org.dsi.ifc.tvtuner.ProgramInfo;
+import org.dsi.ifc.tvtuner.ServiceInfo;
+import org.dsi.ifc.tvtuner.StartUpConfig;
 import org.dsi.ifc.tvtuner.Time;
 
 public class TvSdisManager
 implements ITVInterappService {
     private StationMapper mapper;
-    public final TvSdisManager$TVListener tvListener = new TvSdisManager$TVListener(this, null);
-    public final ITVListsListener listsListener = new TvSdisManager$ListListener(this, null);
-    public final ITVEventListener eventListener = new TvSdisManager$TVEventListener(this, null);
-    public final DSICallListener callListener = new TvSdisManager$CallListener(this, null);
+    public final TVListener tvListener = new TVListener();
+    public final ITVListsListener listsListener = new ListListener();
+    public final ITVEventListener eventListener = new TVEventListener();
+    public final DSICallListener callListener = new CallListener();
     private final TVEnv env;
     private final DSIHandler dsi;
     private final KeyPanelHandler keyPanelHandler;
@@ -56,8 +53,8 @@ implements ITVInterappService {
     private final Object stateUsageMutex = new Object();
     private ProgramInfo currentProgram = new ProgramInfo();
     private short[] keyPanel = new short[0];
-    private ITVInterappListener$TvTunerConfig tvConfig = new ITVInterappListener$TvTunerConfig();
-    private ITVInterappListener$ServiceInfo[] services = new ITVInterappListener$ServiceInfo[0];
+    private ITVInterappListener.TvTunerConfig tvConfig = new ITVInterappListener.TvTunerConfig();
+    private ITVInterappListener.ServiceInfo[] services = new ITVInterappListener.ServiceInfo[0];
     private int parentalLevel = 0;
     private boolean isParentalManagementRequired = false;
     private boolean isSearchRunning = false;
@@ -70,8 +67,8 @@ implements ITVInterappService {
         this.keyPanelHandler = keyPanelHandler;
         this.interappConnectionListener = iInterappConnectionListener;
         this.sourceActivator = iSourceActivator;
-        tVEnv.getChoiceModel(-760469760).setStatus(0);
-        tVEnv.getButtonModel(-1699993856).setButtonListener(new TvSdisManager$ParentalEnforcementListener(this, null));
+        tVEnv.getChoiceModel(2600146).setStatus(0);
+        tVEnv.getButtonModel(2600090).setButtonListener(new ParentalEnforcementListener());
     }
 
     /*
@@ -110,17 +107,15 @@ implements ITVInterappService {
         return InterappUtil.getSDISTerminalMode(this.currentTerminalMode, n, this.isTunerInEsm);
     }
 
-    @Override
     public void setActiveStation(long l) {
-        AbstractTVStationRow abstractTVStationRow = (AbstractTVStationRow)this.env.getBaseListModel(1085024000).getRowByUniqueID(l);
-        this.env.lcHMI.log(-2137614336, "[TVInterappManager.setActiveStation] %1", (Object)abstractTVStationRow);
+        AbstractTVStationRow abstractTVStationRow = (AbstractTVStationRow)this.env.getBaseListModel(2600000).getRowByUniqueID(l);
+        this.env.lcHMI.log(10000000, "[TVInterappManager.setActiveStation] %1", (Object)abstractTVStationRow);
         this.dsi.selectService(abstractTVStationRow.service, true);
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void setTerminalMode(byte by) {
         int n = InterappUtil.getMUTerminalMode(by);
         switch (n) {
@@ -134,7 +129,7 @@ implements ITVInterappService {
             default: {
                 this.env.properties.terminalMode.desiredTerminalMode.accept(new Integer(n));
                 this.setApplicationContext(n);
-                this.env.getChoiceModel(-760469760).setStatus(1);
+                this.env.getChoiceModel(2600146).setStatus(1);
                 Object object = this.stateUsageMutex;
                 synchronized (object) {
                     if (by == 2 && this.currentSource == 1) {
@@ -147,7 +142,7 @@ implements ITVInterappService {
     }
 
     private void setApplicationContext(int n) {
-        ChoiceModelApp choiceModelApp = this.env.getChoiceModel(-760469760);
+        ChoiceModelApp choiceModelApp = this.env.getChoiceModel(2600146);
         int n2 = CONTEXT_SYNCHRONIZATION_MAP.get(n);
         if (n2 != -1) {
             choiceModelApp.setValue(n2);
@@ -156,7 +151,6 @@ implements ITVInterappService {
         }
     }
 
-    @Override
     public void sendPressedPanelKey(short s) {
         this.keyPanelHandler.externalKeyPressed(s);
     }
@@ -164,7 +158,6 @@ implements ITVInterappService {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void logonToTV() {
         this.interappConnectionListener.onGotInterappConnection();
         Object object = this.stateUsageMutex;
@@ -177,7 +170,6 @@ implements ITVInterappService {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void logoffFromTV() {
         this.interappConnectionListener.onLostInterappConnection();
         Object object = this.stateUsageMutex;
@@ -190,11 +182,11 @@ implements ITVInterappService {
     private void sendSdisActiveStation(ProgramInfo programInfo) {
         long l = this.mapper.getServiceID(programInfo.getServiceInfo());
         if (l != 0L) {
-            this.service.updateActiveStation(new ITVInterappListener$ActiveStationInfo(l, programInfo.serviceInfo.name, programInfo.channelName, programInfo.normArea, programInfo.videoFormat, programInfo.selectedAudioChannel, programInfo.caDescriptor, programInfo.casStatus, TVUtil.singleByteBCDToDual(programInfo.parentalRating), InterappUtil.translateTvTunerFlag(programInfo.epgFlag), InterappUtil.translateTvTunerFlag(programInfo.teletextFlag), InterappUtil.translateTvTunerFlag(programInfo.variantDatabroadcastFlag), InterappUtil.translateTvTunerFlag(programInfo.databroadcastFlag1), InterappUtil.translateTvTunerFlag(programInfo.databroadcastFlag2), InterappUtil.translateTvTunerFlag(programInfo.bwsFlag), InterappUtil.translateTvTunerFlag(programInfo.slsFlag), InterappUtil.translateTvTunerFlag(programInfo.txtFlag), InterappUtil.translateTvTunerFlag(programInfo.casFlag), InterappUtil.translateTvTunerFlag(programInfo.visAudioFlag), InterappUtil.translateTvTunerFlag(programInfo.announcement), InterappUtil.translateTvTunerFlag(programInfo.subtitleFlag), TvSdisManager.getSdisProgramInfo(programInfo.nowProgramInfo, programInfo.nowStartTime, programInfo.nowEndTime), TvSdisManager.getSdisProgramInfo(programInfo.nextProgramInfo, programInfo.nextStartTime, programInfo.nextEndTime), TvSdisManager.getSdisAudioChannels(programInfo.availableAudioChannels)));
+            this.service.updateActiveStation(new ITVInterappListener.ActiveStationInfo(l, programInfo.serviceInfo.name, programInfo.channelName, programInfo.normArea, programInfo.videoFormat, programInfo.selectedAudioChannel, programInfo.caDescriptor, programInfo.casStatus, TVUtil.singleByteBCDToDual(programInfo.parentalRating), InterappUtil.translateTvTunerFlag(programInfo.epgFlag), InterappUtil.translateTvTunerFlag(programInfo.teletextFlag), InterappUtil.translateTvTunerFlag(programInfo.variantDatabroadcastFlag), InterappUtil.translateTvTunerFlag(programInfo.databroadcastFlag1), InterappUtil.translateTvTunerFlag(programInfo.databroadcastFlag2), InterappUtil.translateTvTunerFlag(programInfo.bwsFlag), InterappUtil.translateTvTunerFlag(programInfo.slsFlag), InterappUtil.translateTvTunerFlag(programInfo.txtFlag), InterappUtil.translateTvTunerFlag(programInfo.casFlag), InterappUtil.translateTvTunerFlag(programInfo.visAudioFlag), InterappUtil.translateTvTunerFlag(programInfo.announcement), InterappUtil.translateTvTunerFlag(programInfo.subtitleFlag), TvSdisManager.getSdisProgramInfo(programInfo.nowProgramInfo, programInfo.nowStartTime, programInfo.nowEndTime), TvSdisManager.getSdisProgramInfo(programInfo.nextProgramInfo, programInfo.nextStartTime, programInfo.nextEndTime), TvSdisManager.getSdisAudioChannels(programInfo.availableAudioChannels)));
         }
     }
 
-    private static ITVInterappListener$ProgramInfo getSdisProgramInfo(String string, Time time, Time time2) {
+    private static ITVInterappListener.ProgramInfo getSdisProgramInfo(String string, Time time, Time time2) {
         int n = -1;
         int n2 = -1;
         int n3 = -1;
@@ -211,69 +203,20 @@ implements ITVInterappService {
             n5 = TVUtil.singleByteBCDToDual(time2.minute);
             n6 = TVUtil.singleByteBCDToDual(time2.second);
         }
-        return new ITVInterappListener$ProgramInfo(string, n, n2, n3, n4, n5, n6);
+        return new ITVInterappListener.ProgramInfo(string, n, n2, n3, n4, n5, n6);
     }
 
-    private static ITVInterappListener$AudioChannel[] getSdisAudioChannels(AudioChannel[] audioChannelArray) {
-        ITVInterappListener$AudioChannel[] iTVInterappListener$AudioChannelArray = new ITVInterappListener$AudioChannel[audioChannelArray == null ? 0 : audioChannelArray.length];
-        for (int i2 = 0; i2 < iTVInterappListener$AudioChannelArray.length; ++i2) {
+    private static ITVInterappListener.AudioChannel[] getSdisAudioChannels(AudioChannel[] audioChannelArray) {
+        ITVInterappListener.AudioChannel[] audioChannelArray2 = new ITVInterappListener.AudioChannel[audioChannelArray == null ? 0 : audioChannelArray.length];
+        for (int i2 = 0; i2 < audioChannelArray2.length; ++i2) {
             AudioChannel audioChannel = audioChannelArray[i2];
-            iTVInterappListener$AudioChannelArray[i2] = new ITVInterappListener$AudioChannel(audioChannel.channelID, audioChannel.audioLanguage, audioChannel.audioFormat, audioChannel.audioDescription);
+            audioChannelArray2[i2] = new ITVInterappListener.AudioChannel(audioChannel.channelID, audioChannel.audioLanguage, audioChannel.audioFormat, audioChannel.audioDescription);
         }
-        return iTVInterappListener$AudioChannelArray;
+        return audioChannelArray2;
     }
 
     public void updateSdisTerminalMode(byte by) {
         this.service.updateTerminalMode(by);
-    }
-
-    static /* synthetic */ Object access$500(TvSdisManager tvSdisManager) {
-        return tvSdisManager.stateUsageMutex;
-    }
-
-    static /* synthetic */ int access$602(TvSdisManager tvSdisManager, int n) {
-        tvSdisManager.currentTerminalMode = n;
-        return tvSdisManager.currentTerminalMode;
-    }
-
-    static /* synthetic */ byte access$700(TvSdisManager tvSdisManager) {
-        return tvSdisManager.getSdisTerminalMode();
-    }
-
-    static /* synthetic */ ITVInterappListener access$800(TvSdisManager tvSdisManager) {
-        return tvSdisManager.service;
-    }
-
-    static /* synthetic */ boolean access$902(TvSdisManager tvSdisManager, boolean bl) {
-        tvSdisManager.muHasAudioFocus = bl;
-        return tvSdisManager.muHasAudioFocus;
-    }
-
-    static /* synthetic */ int access$1002(TvSdisManager tvSdisManager, int n) {
-        tvSdisManager.parentalLevel = n;
-        return tvSdisManager.parentalLevel;
-    }
-
-    static /* synthetic */ boolean access$1100(TvSdisManager tvSdisManager) {
-        return tvSdisManager.isParentalManagementRequired;
-    }
-
-    static /* synthetic */ ProgramInfo access$1202(TvSdisManager tvSdisManager, ProgramInfo programInfo) {
-        tvSdisManager.currentProgram = programInfo;
-        return tvSdisManager.currentProgram;
-    }
-
-    static /* synthetic */ void access$1300(TvSdisManager tvSdisManager, ProgramInfo programInfo) {
-        tvSdisManager.sendSdisActiveStation(programInfo);
-    }
-
-    static /* synthetic */ boolean access$1400(TvSdisManager tvSdisManager) {
-        return tvSdisManager.isSearchRunning;
-    }
-
-    static /* synthetic */ boolean access$1402(TvSdisManager tvSdisManager, boolean bl) {
-        tvSdisManager.isSearchRunning = bl;
-        return tvSdisManager.isSearchRunning;
     }
 
     static /* synthetic */ short[] access$1502(TvSdisManager tvSdisManager, short[] sArray) {
@@ -281,49 +224,9 @@ implements ITVInterappService {
         return sArray;
     }
 
-    static /* synthetic */ boolean access$1102(TvSdisManager tvSdisManager, boolean bl) {
-        tvSdisManager.isParentalManagementRequired = bl;
-        return tvSdisManager.isParentalManagementRequired;
-    }
-
-    static /* synthetic */ int access$1000(TvSdisManager tvSdisManager) {
-        return tvSdisManager.parentalLevel;
-    }
-
-    static /* synthetic */ ITVInterappListener$TvTunerConfig access$1602(TvSdisManager tvSdisManager, ITVInterappListener$TvTunerConfig tvTunerConfig) {
-        tvSdisManager.tvConfig = tvTunerConfig;
-        return tvSdisManager.tvConfig;
-    }
-
-    static /* synthetic */ ITVInterappListener$TvTunerConfig access$1600(TvSdisManager tvSdisManager) {
-        return tvSdisManager.tvConfig;
-    }
-
-    static /* synthetic */ int access$1702(TvSdisManager tvSdisManager, int n) {
-        tvSdisManager.currentSource = n;
-        return tvSdisManager.currentSource;
-    }
-
-    static /* synthetic */ void access$1800(TvSdisManager tvSdisManager, int n) {
-        tvSdisManager.setApplicationContext(n);
-    }
-
-    static /* synthetic */ boolean access$1902(TvSdisManager tvSdisManager, boolean bl) {
-        tvSdisManager.isTunerInEsm = bl;
-        return tvSdisManager.isTunerInEsm;
-    }
-
-    static /* synthetic */ ProgramInfo access$1200(TvSdisManager tvSdisManager) {
-        return tvSdisManager.currentProgram;
-    }
-
-    static /* synthetic */ TVEnv access$2000(TvSdisManager tvSdisManager) {
-        return tvSdisManager.env;
-    }
-
-    static /* synthetic */ ITVInterappListener$ServiceInfo[] access$2102(TvSdisManager tvSdisManager, ITVInterappListener$ServiceInfo[] iTVInterappListener$ServiceInfoArray) {
-        tvSdisManager.services = iTVInterappListener$ServiceInfoArray;
-        return iTVInterappListener$ServiceInfoArray;
+    static /* synthetic */ ITVInterappListener.ServiceInfo[] access$2102(TvSdisManager tvSdisManager, ITVInterappListener.ServiceInfo[] serviceInfoArray) {
+        tvSdisManager.services = serviceInfoArray;
+        return serviceInfoArray;
     }
 
     static {
@@ -338,6 +241,180 @@ implements ITVInterappService {
         CONTEXT_SYNCHRONIZATION_MAP.add(2, 5);
         CONTEXT_SYNCHRONIZATION_MAP.add(3, 5);
         CONTEXT_SYNCHRONIZATION_MAP.add(14, 6);
+    }
+
+    private class TVListener
+    extends DefaultTVListener {
+        private TVListener() {
+        }
+
+        public void updateTuneStatus(boolean bl, boolean bl2, boolean bl3) {
+            boolean bl4;
+            boolean bl5 = bl4 = bl || bl2;
+            if (bl4 != TvSdisManager.this.isSearchRunning) {
+                TvSdisManager.this.isSearchRunning = bl4;
+                TvSdisManager.this.service.updateSeekStatus(bl4);
+            }
+        }
+
+        public void updateStartUpMUConfig(StartUpConfig startUpConfig) {
+            TvSdisManager.access$1502(TvSdisManager.this, startUpConfig.requiredKeypanelList);
+            TvSdisManager.this.isParentalManagementRequired = startUpConfig.parentalControlReq;
+            TvSdisManager.this.service.updatePanelKeySet(startUpConfig.requiredKeypanelList);
+            TvSdisManager.this.service.updateParentalSettings(startUpConfig.parentalControlReq, TvSdisManager.this.parentalLevel);
+            TvSdisManager.this.tvConfig = new ITVInterappListener.TvTunerConfig(startUpConfig.linkingAvail, startUpConfig.avSrcAvail, startUpConfig.tvNormAvail, startUpConfig.audioChannelAvail, startUpConfig.videoFormatAvail, startUpConfig.avNormAvail, startUpConfig.avFormatAvail, startUpConfig.subtitleAvail, startUpConfig.ewsAvail, startUpConfig.logoListAvail, startUpConfig.casAvail, startUpConfig.skipBehaviourAvail, startUpConfig.visualAudioAvail, startUpConfig.browserListSortAvail, startUpConfig.parentalControlReq, startUpConfig.tmTeletextAvail, startUpConfig.tmDatabroadDMBAvail, startUpConfig.tmDatabroadISDBAvail, startUpConfig.tmDatabroadDTMBAvail, startUpConfig.tmDatabroadDMBAvail, startUpConfig.tmDatabroadATSCAvail, startUpConfig.tmDatabroad1Avail, startUpConfig.tmDatabroad2Avail, startUpConfig.tmBWSAvail, startUpConfig.tmSLSDLSAvail, startUpConfig.tmTXTAvail, startUpConfig.tmCASAvail, startUpConfig.tmEPGAvail, startUpConfig.tmVisualAudioAvail);
+            TvSdisManager.this.service.updateTvTunerConfig(TvSdisManager.this.tvConfig);
+        }
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void updateSelectedSource(int n) {
+            Object object = TvSdisManager.this.stateUsageMutex;
+            synchronized (object) {
+                TvSdisManager.this.currentSource = n;
+                TvSdisManager.this.service.updateTerminalMode(TvSdisManager.this.getSdisTerminalMode());
+            }
+        }
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void updateTerminalMode(int n, int n2) {
+            Object object = TvSdisManager.this.stateUsageMutex;
+            synchronized (object) {
+                TvSdisManager.this.currentTerminalMode = n;
+                TvSdisManager.this.setApplicationContext(n);
+                TvSdisManager.this.service.updateTerminalMode(TvSdisManager.this.getSdisTerminalMode());
+            }
+        }
+
+        public void updateMuteState(int n) {
+            TvSdisManager.this.service.updateTvState(new ITVInterappListener.TvState(InterappUtil.translateMuteState(n)));
+        }
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void updateMessageService(int n) {
+            Object object = TvSdisManager.this.stateUsageMutex;
+            synchronized (object) {
+                TvSdisManager.this.isTunerInEsm = n == 1;
+                TvSdisManager.this.service.updateTerminalMode(TvSdisManager.this.getSdisTerminalMode());
+            }
+        }
+    }
+
+    private class CallListener
+    extends DSICallListener {
+        private CallListener() {
+        }
+
+        public void selectService(ServiceInfo serviceInfo, boolean bl) {
+            TvSdisManager.this.currentProgram = new ProgramInfo();
+            ((TvSdisManager)TvSdisManager.this).currentProgram.serviceInfo = serviceInfo;
+            TvSdisManager.this.sendSdisActiveStation(TvSdisManager.this.currentProgram);
+            TvSdisManager.this.service.updateTvState(new ITVInterappListener.TvState(0));
+        }
+    }
+
+    private class ListListener
+    extends DefaultTVListsListener {
+        private ListListener() {
+        }
+
+        public void updateStationList() {
+            BaseListModelApp baseListModelApp = TvSdisManager.this.env.getBaseListModel(2600000).getCopy();
+            ITVInterappListener.ServiceInfo[] serviceInfoArray = new ITVInterappListener.ServiceInfo[baseListModelApp.getLength()];
+            for (int i2 = 0; i2 < serviceInfoArray.length; ++i2) {
+                AbstractTVStationRow abstractTVStationRow = (AbstractTVStationRow)baseListModelApp.getRow(i2);
+                ServiceInfo serviceInfo = abstractTVStationRow.service;
+                serviceInfoArray[i2] = new ITVInterappListener.ServiceInfo(abstractTVStationRow.getUniqueID(), serviceInfo.name, serviceInfo.sType, serviceInfo.getContentGroup());
+            }
+            TvSdisManager.access$2102(TvSdisManager.this, serviceInfoArray);
+            TvSdisManager.this.service.updateTVStationList(serviceInfoArray);
+        }
+    }
+
+    private class TVEventListener
+    extends TVEventDefaultListener {
+        private TVEventListener() {
+        }
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void onEsmLeft() {
+            Object object = TvSdisManager.this.stateUsageMutex;
+            synchronized (object) {
+                TvSdisManager.this.currentTerminalMode = 0;
+                TvSdisManager.this.service.updateTerminalMode(TvSdisManager.this.getSdisTerminalMode());
+            }
+        }
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void onTunerAvailable() {
+            Object object = TvSdisManager.this.stateUsageMutex;
+            synchronized (object) {
+                TvSdisManager.this.currentTerminalMode = 0;
+                TvSdisManager.this.service.updateTerminalMode(TvSdisManager.this.getSdisTerminalMode());
+            }
+        }
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void onTunerUnavailable() {
+            Object object = TvSdisManager.this.stateUsageMutex;
+            synchronized (object) {
+                TvSdisManager.this.currentTerminalMode = -2;
+                TvSdisManager.this.service.updateTerminalMode(TvSdisManager.this.getSdisTerminalMode());
+            }
+        }
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void onMuGotTvAudioFocus() {
+            Object object = TvSdisManager.this.stateUsageMutex;
+            synchronized (object) {
+                TvSdisManager.this.muHasAudioFocus = true;
+                TvSdisManager.this.service.updateTerminalMode(TvSdisManager.this.getSdisTerminalMode());
+            }
+        }
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void onMuLostTvAudioFocus() {
+            Object object = TvSdisManager.this.stateUsageMutex;
+            synchronized (object) {
+                TvSdisManager.this.muHasAudioFocus = false;
+                TvSdisManager.this.service.updateTerminalMode(TvSdisManager.this.getSdisTerminalMode());
+            }
+        }
+
+        public void parentalLevelSettingChanged(int n) {
+            TvSdisManager.this.parentalLevel = n;
+            TvSdisManager.this.service.updateParentalSettings(TvSdisManager.this.isParentalManagementRequired, n);
+        }
+
+        public void onSelectedServiceDebounced(ProgramInfo programInfo) {
+            TvSdisManager.this.currentProgram = programInfo;
+            TvSdisManager.this.sendSdisActiveStation(programInfo);
+        }
+    }
+
+    private class ParentalEnforcementListener
+    extends DefaultButtonListener {
+        private ParentalEnforcementListener() {
+        }
+
+        public void keyPressed(int n, int n2, int n3) {
+            TvSdisManager.this.service.enforceTV();
+        }
     }
 }
 

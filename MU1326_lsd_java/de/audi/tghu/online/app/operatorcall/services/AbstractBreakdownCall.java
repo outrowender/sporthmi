@@ -20,33 +20,27 @@ import org.dsi.ifc.online.OperatorCallData;
 
 public abstract class AbstractBreakdownCall
 extends AbstractOperatorCall {
-    @Override
-    protected abstract AbstractModelHandler createModelHandler() {
-    }
+    protected abstract AbstractModelHandler createModelHandler();
 
     public AbstractBreakdownCall(AbstractOperatorCallMain abstractOperatorCallMain, TelephoneHandler telephoneHandler, OperatorCallCommandListManager operatorCallCommandListManager, NavigationHandler navigationHandler, IFrameworkAccess iFrameworkAccess, OperatorCallModelHandlerCommon operatorCallModelHandlerCommon, IntelliDestOperatorCallDataProvider intelliDestOperatorCallDataProvider, OnlinePOICall onlinePOICall, RemoteHMIService remoteHMIService) {
         super(abstractOperatorCallMain, telephoneHandler, operatorCallCommandListManager, navigationHandler, iFrameworkAccess, operatorCallModelHandlerCommon, intelliDestOperatorCallDataProvider, onlinePOICall, remoteHMIService);
     }
 
-    @Override
     public int getServiceType() {
         return 0;
     }
 
-    @Override
     public String getServiceTypeName() {
         return "BreakdownCall";
     }
 
-    @Override
     protected boolean isReadyToEnableApplication(boolean bl, boolean bl2, boolean bl3, boolean bl4) {
-        this.logChannel.log(1078071040, "AbstractBreakdownCall#isReadyToEnableApplication: %1 | %2 | %3 (dsiAvailable, naviFullyOperable, telServiceAvailable)", bl, bl2, bl3);
+        this.logChannel.log(1000000, "AbstractBreakdownCall#isReadyToEnableApplication: %1 | %2 | %3 (dsiAvailable, naviFullyOperable, telServiceAvailable)", bl, bl2, bl3);
         boolean bl5 = bl && bl2 && bl3;
-        this.logChannel.log(-2137614336, "AbstractBreakdownCall#isReadyToEnableApplication: return %1", bl5);
+        this.logChannel.log(10000000, "AbstractBreakdownCall#isReadyToEnableApplication: return %1", bl5);
         return bl5;
     }
 
-    @Override
     protected OperatorCallData modifyCarData(OperatorCallData operatorCallData) {
         int n = operatorCallData.getValidBitMask();
         int n2 = operatorCallData.getAltitude();
@@ -58,12 +52,10 @@ extends AbstractOperatorCall {
         return new OperatorCallData(operatorCallData.getHeading(), n2, operatorCallData.getPosition(), operatorCallData.getDestination(), n);
     }
 
-    @Override
     public int getDefaultPermissionToTransmitCcp() {
         return 1;
     }
 
-    @Override
     public void startRouteGuidance() {
         AbstractHistoryCallData abstractHistoryCallData = this.getData().getLatestHistoryCall();
         if (abstractHistoryCallData == null) {
@@ -80,59 +72,48 @@ extends AbstractOperatorCall {
         }
     }
 
-    @Override
     public void routeGuidanceCancelled() {
         this.getModelHandler().deleteCachedPois();
     }
 
-    @Override
     public void startOperatorCallByJokerKey() {
     }
 
     public void audiConnectForThisLocation(int n) {
     }
 
-    @Override
     protected boolean shouldPersistLists() {
         return false;
     }
 
-    @Override
     public boolean shouldSendBAPSignalAnotherCallActive() {
         return false;
     }
 
-    @Override
     public boolean shouldSendBAPSignalGeneralError() {
         return false;
     }
 
-    @Override
     public boolean shouldSendBAPSignalNoSIM() {
         return false;
     }
 
-    @Override
     public boolean shouldCloseLeftDrawerAfterStartingWithJokerkey() {
         return false;
     }
 
-    @Override
     protected boolean shouldPersistCCP() {
         return false;
     }
 
-    @Override
     public boolean isTrufflesAvailable() {
         return false;
     }
 
-    @Override
     protected int getMaxNumberOfPoisPerCall() {
         return 1;
     }
 
-    @Override
     public int getMaxNumberOfCalls() {
         return 1;
     }

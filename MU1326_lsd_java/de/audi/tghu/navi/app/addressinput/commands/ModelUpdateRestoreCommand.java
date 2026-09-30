@@ -14,7 +14,6 @@ extends NavCommand {
         this.modelAccess = iRestorableModelAccess;
     }
 
-    @Override
     public void execute() {
         this.modelAccess.onRestore();
         this.getCommandList().commandFinished();

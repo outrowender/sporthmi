@@ -9,18 +9,17 @@ import de.audi.tuner.app.TunerBasics;
 import de.audi.tuner.app.rthyperlinking.RadiotextHyperlinkProcessor;
 import de.audi.tuner.app.uni.UniDsiDownInfo;
 import de.audi.tuner.app.uni.UniDsiUpInfo;
-import de.audi.tuner.app.uni.UniRadioTextHistory$DSIDownListener;
-import de.audi.tuner.app.uni.UniRadioTextHistory$DsiUpListener;
 import de.audi.tuner.app.uni.UnifiedStationExt;
+import org.dsi.ifc.radio.UnifiedRadioText;
 
 class UniRadioTextHistory
 extends RadioTextHistory {
-    final UniDsiUpInfo dsiUpListener = new UniRadioTextHistory$DsiUpListener(this, null);
-    final UniDsiDownInfo dsiDownListener = new UniRadioTextHistory$DSIDownListener(this, null);
+    final UniDsiUpInfo dsiUpListener = new DsiUpListener();
+    final UniDsiDownInfo dsiDownListener = new DSIDownListener();
     private UnifiedStationExt currentStation = new UnifiedStationExt();
 
     UniRadioTextHistory(TunerBasics tunerBasics, RadiotextHyperlinkProcessor radiotextHyperlinkProcessor) {
-        super(tunerBasics, radiotextHyperlinkProcessor, -1534590720, -796393216, -1433927424, "Uni", tunerBasics.getLogger().uniDSI);
+        super(tunerBasics, radiotextHyperlinkProcessor, 100516, 100560, 100522, "Uni", tunerBasics.getLogger().uniDSI);
     }
 
     private static boolean isRadioTextSupportedByNewStation(UnifiedStationExt unifiedStationExt) {
@@ -28,33 +27,36 @@ extends RadioTextHistory {
         return bl || unifiedStationExt.rds;
     }
 
-    static /* synthetic */ boolean access$200(UnifiedStationExt unifiedStationExt) {
-        return UniRadioTextHistory.isRadioTextSupportedByNewStation(unifiedStationExt);
+    private class DsiUpListener
+    extends UniDsiUpInfo {
+        private DsiUpListener() {
+        }
+
+        public void updateRadioText(UnifiedRadioText unifiedRadioText) {
+            UniRadioTextHistory.this.updateRadioText(unifiedRadioText.radioText);
+        }
+
+        public void updateRadioTextPlus(RadioTextPlusStorage radioTextPlusStorage) {
+            UniRadioTextHistory.this.updateRadiotextPlus(radioTextPlusStorage);
+        }
+
+        public void updateSelectedStation(UnifiedStationExt unifiedStationExt) {
+            if (!unifiedStationExt.rds && unifiedStationExt.ensId == 0 || unifiedStationExt.piSId != ((UniRadioTextHistory)UniRadioTextHistory.this).currentStation.piSId) {
+                UniRadioTextHistory.this.reset(UniRadioTextHistory.isRadioTextSupportedByNewStation(unifiedStationExt));
+            }
+            UniRadioTextHistory.this.currentStation = unifiedStationExt;
+        }
     }
 
-    static /* synthetic */ void access$300(UniRadioTextHistory uniRadioTextHistory, boolean bl) {
-        uniRadioTextHistory.reset(bl);
-    }
+    private class DSIDownListener
+    extends UniDsiDownInfo {
+        private DSIDownListener() {
+        }
 
-    static /* synthetic */ UnifiedStationExt access$402(UniRadioTextHistory uniRadioTextHistory, UnifiedStationExt unifiedStationExt) {
-        uniRadioTextHistory.currentStation = unifiedStationExt;
-        return uniRadioTextHistory.currentStation;
-    }
-
-    static /* synthetic */ void access$500(UniRadioTextHistory uniRadioTextHistory, String string) {
-        uniRadioTextHistory.updateRadioText(string);
-    }
-
-    static /* synthetic */ void access$600(UniRadioTextHistory uniRadioTextHistory, RadioTextPlusStorage radioTextPlusStorage) {
-        uniRadioTextHistory.updateRadiotextPlus(radioTextPlusStorage);
-    }
-
-    static /* synthetic */ UnifiedStationExt access$400(UniRadioTextHistory uniRadioTextHistory) {
-        return uniRadioTextHistory.currentStation;
-    }
-
-    static /* synthetic */ void access$700(UniRadioTextHistory uniRadioTextHistory, boolean bl) {
-        uniRadioTextHistory.reset(bl);
+        public void preTuneCommand(UnifiedStationExt unifiedStationExt) {
+            UniRadioTextHistory.this.reset(UniRadioTextHistory.isRadioTextSupportedByNewStation(unifiedStationExt));
+            UniRadioTextHistory.this.currentStation = unifiedStationExt;
+        }
     }
 }
 

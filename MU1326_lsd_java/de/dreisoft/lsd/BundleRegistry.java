@@ -4,7 +4,6 @@
 package de.dreisoft.lsd;
 
 import de.dreisoft.lsd.BundleInfo;
-import de.dreisoft.lsd.BundleRegistry$SingletonHolder;
 import de.dreisoft.lsd.LSDLogService;
 import de.dreisoft.lsd.ServiceDelegator;
 import java.io.BufferedInputStream;
@@ -20,8 +19,8 @@ import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleException;
 
 public final class BundleRegistry {
-    private static final String KEY_ACTIVATOR;
-    private static final String KEY_NAME;
+    private static final String KEY_ACTIVATOR = "Bundle.Activator.";
+    private static final String KEY_NAME = "Bundle.Name.";
     private String autostartBundleIds;
     private String autostartBundleNames;
     private BundleInfo[] bundles;
@@ -30,10 +29,10 @@ public final class BundleRegistry {
     }
 
     static BundleRegistry getInstance() {
-        return BundleRegistry$SingletonHolder.INSTANCE;
+        return SingletonHolder.INSTANCE;
     }
 
-    protected void load(ResourceBundle resourceBundle) {
+    protected void load(ResourceBundle resourceBundle) throws BundleException {
         if (resourceBundle == null) {
             throw new IllegalArgumentException("ResourceBundle is null!");
         }
@@ -47,7 +46,7 @@ public final class BundleRegistry {
         this.bundles = this.loadByPropertiesInternal(properties);
     }
 
-    protected void load(File file) {
+    protected void load(File file) throws BundleException {
         BufferedInputStream bufferedInputStream = null;
         try {
             Properties properties = new Properties();
@@ -68,7 +67,7 @@ public final class BundleRegistry {
         }
     }
 
-    protected void load(Properties properties) {
+    protected void load(Properties properties) throws BundleException {
         this.bundles = this.loadByPropertiesInternal(properties);
     }
 
@@ -78,7 +77,7 @@ public final class BundleRegistry {
         }
     }
 
-    private BundleInfo[] loadByPropertiesInternal(Properties properties) {
+    private BundleInfo[] loadByPropertiesInternal(Properties properties) throws BundleException {
         String string = properties.getProperty("MAX.BUNDLE.ID");
         if (string == null) {
             ArrayList arrayList = new ArrayList(150);
@@ -104,7 +103,7 @@ public final class BundleRegistry {
         ArrayList arrayList = new ArrayList(n + 1);
         for (int i2 = 0; i2 <= n; ++i2) {
             try {
-                BundleInfo bundleInfo = new BundleInfo(i2, this.getValue(properties, new StringBuffer().append("Bundle.Name.").append(i2).toString()), this.getValue(properties, new StringBuffer().append("Bundle.Activator.").append(i2).toString()));
+                BundleInfo bundleInfo = new BundleInfo(i2, this.getValue(properties, new StringBuffer().append(KEY_NAME).append(i2).toString()), this.getValue(properties, new StringBuffer().append(KEY_ACTIVATOR).append(i2).toString()));
                 arrayList.add(bundleInfo);
                 continue;
             }
@@ -117,7 +116,7 @@ public final class BundleRegistry {
         return objectArray;
     }
 
-    private String getValue(Properties properties, String string) {
+    private String getValue(Properties properties, String string) throws BundleException {
         String string2 = properties.getProperty(string);
         if (string2 == null) {
             throw new BundleException(new StringBuffer().append("Key \"").append(string).append("\" not found in bundles.properties!").toString());
@@ -152,7 +151,7 @@ public final class BundleRegistry {
         return null;
     }
 
-    protected Bundle[] getAutostartBundles() {
+    protected Bundle[] getAutostartBundles() throws BundleException {
         if (this.autostartBundleIds != null) {
             StringTokenizer stringTokenizer = new StringTokenizer(this.autostartBundleIds, ",");
             Bundle[] bundleArray = new Bundle[stringTokenizer.countTokens()];
@@ -182,6 +181,13 @@ public final class BundleRegistry {
             stringBuffer.append('\n');
         }
         return stringBuffer.toString();
+    }
+
+    private static class SingletonHolder {
+        static final BundleRegistry INSTANCE = new BundleRegistry();
+
+        private SingletonHolder() {
+        }
     }
 }
 

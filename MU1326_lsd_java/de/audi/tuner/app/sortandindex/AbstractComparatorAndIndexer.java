@@ -15,7 +15,7 @@ import java.util.List;
 
 public abstract class AbstractComparatorAndIndexer
 implements Comparator {
-    private static final int NO_INDEX_CHARACTER;
+    private static final int NO_INDEX_CHARACTER = -1;
     private final LanguageManager langMngr;
     private final boolean providesIndexInformation;
 
@@ -24,7 +24,6 @@ implements Comparator {
         this.providesIndexInformation = bl;
     }
 
-    @Override
     public int compare(Object object, Object object2) {
         return this.compare(object, object2, this.langMngr.getCollator());
     }
@@ -65,10 +64,8 @@ implements Comparator {
         return -1;
     }
 
-    protected abstract int compare(Object object, Object object2, Collator collator) {
-    }
+    protected abstract int compare(Object var1, Object var2, Collator var3);
 
-    protected abstract String getStringUsedForIndexing(Object object) {
-    }
+    protected abstract String getStringUsedForIndexing(Object var1);
 }
 

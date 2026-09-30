@@ -6,7 +6,6 @@ package de.audi.tghu.navi.app.favorite;
 import org.dsi.ifc.global.NavLocation;
 
 public interface IFavoriteLocationFormat {
-    default public String getDefaultName(NavLocation navLocation) {
-    }
+    public String getDefaultName(NavLocation var1);
 }
 

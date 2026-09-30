@@ -7,7 +7,6 @@ import de.audi.tghu.online.app.IOnlineTextConstants;
 
 public class OnlineTextConstantsImpl
 implements IOnlineTextConstants {
-    @Override
     public int mapToVariant(int n) {
         return -1;
     }

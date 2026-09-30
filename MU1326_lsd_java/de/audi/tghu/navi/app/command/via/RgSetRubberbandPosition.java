@@ -15,9 +15,8 @@ extends NavCommand {
         this.navPosition = navLocationWgs84;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "RgSetRubberbandPosition#execute() - calling rgSetRubberbandPosition( %1 ) ", (Object)this.navPosition);
+        this.logger.log(10000000, "RgSetRubberbandPosition#execute() - calling rgSetRubberbandPosition( %1 ) ", (Object)this.navPosition);
         this.getDSINavigation().rgSetRubberbandPosition(this.navPosition);
         this.getCommandList().commandFinished();
     }

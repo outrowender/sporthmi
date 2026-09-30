@@ -14,9 +14,8 @@ extends AudioState {
         super(navigationEnv, audioStateMachine, speechManager);
     }
 
-    @Override
     public void updateAudioRequest(int n) {
-        this.logChannel.log(-2137614336, "ConnectionStopped#updateAudioRequest( %1 ) ", (long)n);
+        this.logChannel.log(10000000, "ConnectionStopped#updateAudioRequest( %1 ) ", (long)n);
         super.updateAudioRequest(n);
         if (n == 3 || n == 1) {
             this.requestConnection();

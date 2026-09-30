@@ -11,82 +11,56 @@ import de.audi.tghu.navi.app.poi.poiwarning.PoiWarningManager;
 import org.dsi.ifc.global.NavLocation;
 
 public interface IPoiService {
-    default public void cleanup() {
-    }
+    public void cleanup();
 
-    default public void startPoiStackSequence(NavLocation navLocation) {
-    }
+    public void startPoiStackSequence(NavLocation var1);
 
-    default public void vehicleStatesEventsProviderAdded(IVehicleStatesEventsProvider iVehicleStatesEventsProvider) {
-    }
+    public void vehicleStatesEventsProviderAdded(IVehicleStatesEventsProvider var1);
 
-    default public void onFullyOperable() {
-    }
+    public void onFullyOperable();
 
-    default public void onDisclaimerAccepted() {
-    }
+    public void onDisclaimerAccepted();
 
-    default public CommandList getParkingNearDestinationSequenceWithDistanceFromCCP(NavLocation navLocation) {
-    }
+    public CommandList getParkingNearDestinationSequenceWithDistanceFromCCP(NavLocation var1);
 
-    default public CommandList getParkingNearDestinationSequenceWithDistanceFromDestination(NavLocation navLocation) {
-    }
+    public CommandList getParkingNearDestinationSequenceWithDistanceFromDestination(NavLocation var1);
 
-    default public void startParkingNearDestination(NavLocation navLocation) {
-    }
+    public void startParkingNearDestination(NavLocation var1);
 
-    default public CommandList getParkingAlongTheRouteSequence() {
-    }
+    public CommandList getParkingAlongTheRouteSequence();
 
-    default public PoiWarningManager getPoiWarningManager() {
-    }
+    public PoiWarningManager getPoiWarningManager();
 
-    default public IPoiFuelWarningService getPoiFuelWarningService() {
-    }
+    public IPoiFuelWarningService getPoiFuelWarningService();
 
-    default public void enterPoiMainScreen(boolean bl, boolean bl2) {
-    }
+    public void enterPoiMainScreen(boolean var1, boolean var2);
 
-    default public void destPOIHKReturn(int n, int n2) {
-    }
+    public void destPOIHKReturn(int var1, int var2);
 
-    default public void navFuelFeatureActive(int n, int n2) {
-    }
+    public void navFuelFeatureActive(int var1, int var2);
 
-    default public void startPoiWithSearchContext(int n, NavLocation navLocation, boolean bl) {
-    }
+    public void startPoiWithSearchContext(int var1, NavLocation var2, boolean var3);
 
-    default public void startPoiWithSearchContext(int n, NavLocation navLocation, boolean bl, boolean bl2) {
-    }
+    public void startPoiWithSearchContext(int var1, NavLocation var2, boolean var3, boolean var4);
 
-    default public void startPoiWithSearchContextAlongRoute() {
-    }
+    public void startPoiWithSearchContextAlongRoute();
 
-    default public void startPoiWithSearchContextLocationVicinity() {
-    }
+    public void startPoiWithSearchContextLocationVicinity();
 
-    default public void startPoiHybridSearch(int n, NavLocation navLocation, boolean bl) {
-    }
+    public void startPoiHybridSearch(int var1, NavLocation var2, boolean var3);
 
-    default public void deletePersonalPOIDataBases() {
-    }
+    public void deletePersonalPOIDataBases();
 
-    default public IPoiSDSHandler getPoiSDSHandler() {
-    }
+    public IPoiSDSHandler getPoiSDSHandler();
 
-    default public void setRouteGuidanceStartedByUser(boolean bl) {
-    }
+    public void setRouteGuidanceStartedByUser(boolean var1);
 
-    default public void showPoiDetailScreen(NavLocation navLocation) {
-    }
+    public void showPoiDetailScreen(NavLocation var1);
 
-    default public boolean isFuelWarningActive() {
-    }
+    public boolean isFuelWarningActive();
 
-    default public void setFuelWarningActive(boolean bl) {
-    }
+    public void setFuelWarningActive(boolean var1);
 
-    default public void resetSearchContext() {
-    }
+    public void resetSearchContext();
 }
 

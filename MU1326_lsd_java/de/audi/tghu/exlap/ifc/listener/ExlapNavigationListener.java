@@ -11,19 +11,14 @@ import de.audi.tghu.exlap.impl.container.LastDestinationsContainer;
 
 public interface ExlapNavigationListener
 extends ExlapListener {
-    default public void updateLocation(AddressContainer addressContainer) {
-    }
+    public void updateLocation(AddressContainer var1);
 
-    default public void updateGuidanceState(GuidanceStateContainer guidanceStateContainer) {
-    }
+    public void updateGuidanceState(GuidanceStateContainer var1);
 
-    default public void updateGuidanceDestination(AddressContainer addressContainer) {
-    }
+    public void updateGuidanceDestination(AddressContainer var1);
 
-    default public void updateGuidanceRemaining(GuidanceRemainingContainer guidanceRemainingContainer) {
-    }
+    public void updateGuidanceRemaining(GuidanceRemainingContainer var1);
 
-    default public void updateLastDestinations(LastDestinationsContainer lastDestinationsContainer) {
-    }
+    public void updateLastDestinations(LastDestinationsContainer var1);
 }
 

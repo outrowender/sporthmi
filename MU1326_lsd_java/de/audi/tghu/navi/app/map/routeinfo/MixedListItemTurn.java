@@ -6,7 +6,7 @@ package de.audi.tghu.navi.app.map.routeinfo;
 import de.audi.atip.hmi.model.HMIResourceLocator;
 import de.audi.atip.hmi.model.IconCell;
 import de.audi.tghu.navi.app.map.routeinfo.MixedListItem;
-import de.audi.tghu.navi.app.map.routeinfo.RouteInfoHandler$TravelData;
+import de.audi.tghu.navi.app.map.routeinfo.RouteInfoHandler;
 import de.audi.tghu.navi.app.map.routeinfo.RouteInfoHelper;
 import de.audi.tghu.navi.app.map.utils.MixedListRow;
 import de.esolutions.fw.util.commons.Buffer;
@@ -17,16 +17,15 @@ public class MixedListItemTurn
 extends MixedListItem {
     private TurnListElement mTurnElement;
 
-    public MixedListItemTurn(TurnListElement turnListElement, RouteInfoHandler$TravelData routeInfoHandler$TravelData, MixedListRow mixedListRow, long l, long l2, RouteInfoHelper routeInfoHelper) {
+    public MixedListItemTurn(TurnListElement turnListElement, RouteInfoHandler.TravelData travelData, MixedListRow mixedListRow, long l, long l2, RouteInfoHelper routeInfoHelper) {
         this.helper = routeInfoHelper;
         this.mTurnElement = turnListElement;
         this.mMixedListRow = mixedListRow;
         this.mMixedListRow.updateValuesForTurns(this.mTurnElement);
         this.mFormat = routeInfoHelper.getDefaultFormat(turnListElement, routeInfoHelper.env);
-        this.init(turnListElement, routeInfoHandler$TravelData, l, l2);
+        this.init(turnListElement, travelData, l, l2);
     }
 
-    @Override
     public boolean isRealTurnElement() {
         if (null == this.mTurnElement.getManeuver() || this.mTurnElement.getManeuver().length == 0) {
             return false;
@@ -34,7 +33,6 @@ extends MixedListItem {
         return this.helper.isRealTurnElement(this.mTurnElement.getManeuver()[0]);
     }
 
-    @Override
     public boolean updateDistanceToCar(long l) {
         int n;
         super.updateDistanceToCar(l);
@@ -47,7 +45,6 @@ extends MixedListItem {
         return false;
     }
 
-    @Override
     public boolean isBorderCrossingSpeedInfoAvailable() {
         if (this.mMixedListRow == null) {
             return false;
@@ -64,7 +61,6 @@ extends MixedListItem {
         return false;
     }
 
-    @Override
     public Object getEvent() {
         return this.mTurnElement;
     }
@@ -77,7 +73,6 @@ extends MixedListItem {
         return this.mTurnElement.additionalIcons;
     }
 
-    @Override
     public boolean isAsia() {
         switch (this.mTurnElement.getType()) {
             case 5: {
@@ -87,7 +82,6 @@ extends MixedListItem {
         return null != this.mTurnElement.additionalIcons && this.mTurnElement.additionalIcons.length > 0 && 4 == this.mTurnElement.additionalIcons[0].type;
     }
 
-    @Override
     public int getDestinationIndex() {
         return this.mTurnElement.destinationIndex;
     }

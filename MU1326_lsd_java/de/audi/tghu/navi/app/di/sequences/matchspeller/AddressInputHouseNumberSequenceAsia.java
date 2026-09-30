@@ -7,11 +7,13 @@ import de.audi.atip.interapp.navigation.previewmap.IPreviewMap;
 import de.audi.tghu.command.CommandList;
 import de.audi.tghu.command.ICommandListFactory;
 import de.audi.tghu.navi.app.NavigationEnv;
+import de.audi.tghu.navi.app.addressinput.CmdNaviPreviewMapUpdate;
 import de.audi.tghu.navi.app.addressinput.IMatchspellerModelAccess;
 import de.audi.tghu.navi.app.addressinput.commands.LISPSelectListItemCommand;
+import de.audi.tghu.navi.app.addressinput.commands.UpdateAddressInputFormScreenModelsCommand;
+import de.audi.tghu.navi.app.addressinput.country.SetBackupLocationForAddressInputFormCommand;
+import de.audi.tghu.navi.app.command.NavCommand;
 import de.audi.tghu.navi.app.di.IAddressInputManager;
-import de.audi.tghu.navi.app.di.sequences.matchspeller.AddressInputHouseNumberSequenceAsia$1;
-import de.audi.tghu.navi.app.di.sequences.matchspeller.AddressInputHouseNumberSequenceAsia$2;
 import de.audi.tghu.navi.app.di.sequences.matchspeller.AddressInputHousenumberMatchSpellerSequence;
 import de.audi.tghu.navi.app.li.SpellerStack;
 import de.audi.tghu.navi.app.util.Util;
@@ -26,12 +28,36 @@ extends AddressInputHousenumberMatchSpellerSequence {
         super(iCommandListFactory, navigationEnv, iMatchspellerModelAccess, iPreviewMap, spellerStack, iAddressInputManager);
     }
 
-    @Override
     public CommandList getSelectListElementCommandList(LIValueListElement lIValueListElement) {
         CommandList commandList = this.commandListFactory.createCommandList();
         commandList.add(new LISPSelectListItemCommand(lIValueListElement.getListIndex()));
-        commandList.add(new AddressInputHouseNumberSequenceAsia$1(this, "Check whether center is selected"));
-        commandList.add(new AddressInputHouseNumberSequenceAsia$2(this));
+        commandList.add(new NavCommand("Check whether center is selected"){
+
+            public void execute() {
+                NavLocation navLocation = this.dsiResponseContainer.getLiCurrentLD();
+                if (AddressInputHouseNumberSequenceAsia.this.isCenterSelected(navLocation)) {
+                    AddressInputHouseNumberSequenceAsia.setIsHouseNumberCenterSelected(true);
+                } else {
+                    AddressInputHouseNumberSequenceAsia.setIsHouseNumberCenterSelected(false);
+                }
+                this.getCommandList().commandFinished();
+            }
+        });
+        commandList.add(new NavCommand(){
+
+            public void execute() {
+                NavLocation navLocation = this.dsiResponseContainer.getLiCurrentLD();
+                if (navLocation.isPositionValid()) {
+                    CommandList commandList = AddressInputHouseNumberSequenceAsia.this.commandListFactory.createCommandList();
+                    commandList.add(new UpdateAddressInputFormScreenModelsCommand(AddressInputHouseNumberSequenceAsia.this.modelAccess));
+                    commandList.add(new CmdNaviPreviewMapUpdate(AddressInputHouseNumberSequenceAsia.this.previewMap, 1, null, null));
+                    commandList.add(new SetBackupLocationForAddressInputFormCommand(AddressInputHouseNumberSequenceAsia.this.inputManager));
+                    this.getCommandList().commandFinishedWithPostSequence(commandList);
+                } else {
+                    this.getCommandList().commandFinished();
+                }
+            }
+        });
         return commandList;
     }
 
@@ -49,10 +75,6 @@ extends AddressInputHousenumberMatchSpellerSequence {
 
     public static boolean isHouseNumberCenterSelected() {
         return isHouseNumberCenterSelected;
-    }
-
-    static /* synthetic */ boolean access$000(AddressInputHouseNumberSequenceAsia addressInputHouseNumberSequenceAsia, NavLocation navLocation) {
-        return addressInputHouseNumberSequenceAsia.isCenterSelected(navLocation);
     }
 }
 

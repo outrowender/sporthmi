@@ -22,46 +22,39 @@ implements INaviFormattingService {
         this.logger = navigationEnv.getLogChannel("App.Navi.Interapp");
     }
 
-    @Override
-    public abstract IFormattingResponse formatAddress(IFormattingRequest iFormattingRequest) {
-    }
+    public abstract IFormattingResponse formatAddress(IFormattingRequest var1);
 
-    @Override
     public IFormattingResponse formattingOneLine(IFormattingRequest iFormattingRequest) {
         if (!(iFormattingRequest instanceof LocationFormattingRequest)) {
             this.logger.log(10000, "AbstractNaviFormattingService#formattingOneLine formattingRequest is not an instance of LocationFormattingRequest");
             return null;
         }
-        this.logger.log(1078071040, "AbstractNaviFormattingService#formattingOneLine : formattingRequest(%1)", (Object)((Object)iFormattingRequest).toString());
+        this.logger.log(1000000, "AbstractNaviFormattingService#formattingOneLine : formattingRequest(%1)", (Object)((Object)iFormattingRequest).toString());
         return AddressFormatter.formatOneLine((LocationFormattingRequest)iFormattingRequest, this.env);
     }
 
-    @Override
     public IFormattingResponse formattingTwoLines(IFormattingRequest iFormattingRequest) {
         if (!(iFormattingRequest instanceof LocationFormattingRequest)) {
             this.logger.log(10000, "AbstractNaviFormattingService#formattingTwoLines formattingRequest is not an instance of LocationFormattingRequest");
             return null;
         }
-        this.logger.log(1078071040, "AbstractNaviFormattingService#formattingTwoLines : formattingRequest(%1)", (Object)((Object)iFormattingRequest).toString());
+        this.logger.log(1000000, "AbstractNaviFormattingService#formattingTwoLines : formattingRequest(%1)", (Object)((Object)iFormattingRequest).toString());
         return AddressFormatter.formatTwoLines((LocationFormattingRequest)iFormattingRequest, this.env);
     }
 
-    @Override
     public IFormattingResponse formattingThreeLines(IFormattingRequest iFormattingRequest) {
         if (!(iFormattingRequest instanceof LocationFormattingRequest)) {
             this.logger.log(10000, "AbstractNaviFormattingService#formattingThreeLines formattingRequest is not an instance of LocationFormattingRequest");
             return null;
         }
-        this.logger.log(1078071040, "AbstractNaviFormattingService#formattingThreeLines : formattingRequest(%1)", (Object)((Object)iFormattingRequest).toString());
+        this.logger.log(1000000, "AbstractNaviFormattingService#formattingThreeLines : formattingRequest(%1)", (Object)((Object)iFormattingRequest).toString());
         return AddressFormatter.formatThreeLines((LocationFormattingRequest)iFormattingRequest, this.env);
     }
 
-    @Override
     public IFormattingRequest createNewFormattingRequest() {
         return new LocationFormattingRequest();
     }
 
-    @Override
     public IFormattingRequest createNewFormattingRequest(NavLocation navLocation, boolean bl) {
         return new LocationFormattingRequest(navLocation, bl);
     }

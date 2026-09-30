@@ -11,7 +11,7 @@ import de.audi.tghu.swdl.app.list.ISwdlListItem;
 
 public class SwdlListItemHistory
 extends AbstractSwdlListItemText {
-    private static final String SWDL_CLASS_NAME;
+    private static final String SWDL_CLASS_NAME = "[SwdlHistory]";
     String date;
     int summary;
     int subUpdates;
@@ -53,12 +53,10 @@ extends AbstractSwdlListItemText {
         this.date = string;
     }
 
-    @Override
     public void select(int n) {
         this.getLoggingManager().selectHistory(n);
     }
 
-    @Override
     public void updateListRow(BaseListRow baseListRow) {
         baseListRow.setInteger(0, this.getId());
         baseListRow.setText(1, this.getDate());
@@ -68,7 +66,7 @@ extends AbstractSwdlListItemText {
     }
 
     public String getSwdlClassName() {
-        return "[SwdlHistory]";
+        return SWDL_CLASS_NAME;
     }
 }
 

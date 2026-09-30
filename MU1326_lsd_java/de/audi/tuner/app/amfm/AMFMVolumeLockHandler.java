@@ -5,15 +5,14 @@ package de.audi.tuner.app.amfm;
 
 import de.audi.atip.log.LogChannel;
 import de.audi.tuner.app.TunerAudioMgmt;
-import de.audi.tuner.app.amfm.AMFMVolumeLockHandler$DsiDownListener;
-import de.audi.tuner.app.amfm.AMFMVolumeLockHandler$DsiUpListener;
+import de.audi.tuner.app.amfm.AMFMStation;
 import de.audi.tuner.app.amfm.dsi.AMFMDsiDownInfo;
 import de.audi.tuner.app.amfm.dsi.AMFMDsiUpInfo;
 import de.esolutions.fw.util.commons.Buffer;
 
 class AMFMVolumeLockHandler {
-    final AMFMDsiDownInfo dsiDownListener = new AMFMVolumeLockHandler$DsiDownListener(this, null);
-    final AMFMDsiUpInfo dsiUpListener = new AMFMVolumeLockHandler$DsiUpListener(this, null);
+    final AMFMDsiDownInfo dsiDownListener = new DsiDownListener();
+    final AMFMDsiUpInfo dsiUpListener = new DsiUpListener();
     private final TunerAudioMgmt audio;
     private final LogChannel log;
     private boolean selectStationRunning = true;
@@ -51,75 +50,104 @@ class AMFMVolumeLockHandler {
         }
     }
 
-    static /* synthetic */ int access$200(AMFMVolumeLockHandler aMFMVolumeLockHandler) {
-        return aMFMVolumeLockHandler.waveband;
+    private class DsiUpListener
+    extends AMFMDsiUpInfo {
+        private DsiUpListener() {
+        }
+
+        private void dumpError() {
+            Buffer buffer = new Buffer(100);
+            buffer.append("Band:").append(AMFMVolumeLockHandler.this.waveband == 1 ? "FM" : "AM");
+            buffer.append(" selSt:").append(AMFMVolumeLockHandler.this.selectStationRunning);
+            buffer.append(" selFreq:").append(AMFMVolumeLockHandler.this.selectFrequencyRunning);
+            buffer.append(" seek:").append(AMFMVolumeLockHandler.this.seekStationsRunning);
+            buffer.append(" listUpd:").append(AMFMVolumeLockHandler.this.listUpdateRunning);
+            buffer.append(" HDMute:").append(AMFMVolumeLockHandler.this.audioStatus == 3);
+            AMFMVolumeLockHandler.this.log.log(10000, "VolumeLockHandler: wrong state: %1", (Object)buffer);
+        }
+
+        public void selectStationStatus(int n) {
+            boolean bl;
+            boolean bl2 = bl = n == 1;
+            if (bl != AMFMVolumeLockHandler.this.selectStationRunning) {
+                AMFMVolumeLockHandler.this.selectStationRunning = bl;
+                if (bl && (AMFMVolumeLockHandler.this.selectFrequencyRunning || AMFMVolumeLockHandler.this.seekStationsRunning)) {
+                    this.dumpError();
+                    AMFMVolumeLockHandler.this.selectFrequencyRunning = false;
+                    AMFMVolumeLockHandler.this.seekStationsRunning = false;
+                }
+                AMFMVolumeLockHandler.this.updateVolumeLock();
+            }
+        }
+
+        public void selectFrequencyStatus(int n) {
+            boolean bl;
+            boolean bl2 = bl = n == 1;
+            if (bl != AMFMVolumeLockHandler.this.selectFrequencyRunning) {
+                AMFMVolumeLockHandler.this.selectFrequencyRunning = bl;
+                if (bl && (AMFMVolumeLockHandler.this.selectStationRunning || AMFMVolumeLockHandler.this.seekStationsRunning)) {
+                    this.dumpError();
+                    AMFMVolumeLockHandler.this.selectStationRunning = false;
+                    AMFMVolumeLockHandler.this.seekStationsRunning = false;
+                }
+                AMFMVolumeLockHandler.this.updateVolumeLock();
+            }
+        }
+
+        public void seekStationStatus(boolean bl) {
+            if (bl != AMFMVolumeLockHandler.this.seekStationsRunning) {
+                AMFMVolumeLockHandler.this.seekStationsRunning = bl;
+                if (bl && (AMFMVolumeLockHandler.this.selectStationRunning || AMFMVolumeLockHandler.this.selectFrequencyRunning)) {
+                    this.dumpError();
+                    AMFMVolumeLockHandler.this.selectStationRunning = false;
+                    AMFMVolumeLockHandler.this.selectFrequencyRunning = false;
+                }
+                AMFMVolumeLockHandler.this.updateVolumeLock();
+            }
+        }
+
+        public void forceAMUpdateStatus(int n) {
+            boolean bl;
+            boolean bl2 = bl = n == 1;
+            if (bl != AMFMVolumeLockHandler.this.listUpdateRunning) {
+                AMFMVolumeLockHandler.this.listUpdateRunning = bl;
+                if (bl && (AMFMVolumeLockHandler.this.selectStationRunning || AMFMVolumeLockHandler.this.selectFrequencyRunning || AMFMVolumeLockHandler.this.seekStationsRunning)) {
+                    this.dumpError();
+                    AMFMVolumeLockHandler.this.selectStationRunning = false;
+                    AMFMVolumeLockHandler.this.selectFrequencyRunning = false;
+                    AMFMVolumeLockHandler.this.seekStationsRunning = false;
+                }
+                AMFMVolumeLockHandler.this.updateVolumeLock();
+            }
+        }
+
+        public void updateSelectedStation(AMFMStation aMFMStation) {
+            if (aMFMStation.getAudioStatus() != AMFMVolumeLockHandler.this.audioStatus || aMFMStation.waveband != AMFMVolumeLockHandler.this.waveband) {
+                AMFMVolumeLockHandler.this.audioStatus = aMFMStation.getAudioStatus();
+                AMFMVolumeLockHandler.this.waveband = aMFMStation.waveband;
+                AMFMVolumeLockHandler.this.updateVolumeLock();
+            }
+        }
+
+        public void updateDetectedDevice(int n) {
+            if (AMFMVolumeLockHandler.this.detectedDevice != n) {
+                AMFMVolumeLockHandler.this.detectedDevice = n;
+                AMFMVolumeLockHandler.this.updateVolumeLock();
+            }
+        }
     }
 
-    static /* synthetic */ int access$202(AMFMVolumeLockHandler aMFMVolumeLockHandler, int n) {
-        aMFMVolumeLockHandler.waveband = n;
-        return aMFMVolumeLockHandler.waveband;
-    }
+    private class DsiDownListener
+    extends AMFMDsiDownInfo {
+        private DsiDownListener() {
+        }
 
-    static /* synthetic */ void access$300(AMFMVolumeLockHandler aMFMVolumeLockHandler) {
-        aMFMVolumeLockHandler.updateVolumeLock();
-    }
-
-    static /* synthetic */ boolean access$400(AMFMVolumeLockHandler aMFMVolumeLockHandler) {
-        return aMFMVolumeLockHandler.selectStationRunning;
-    }
-
-    static /* synthetic */ boolean access$500(AMFMVolumeLockHandler aMFMVolumeLockHandler) {
-        return aMFMVolumeLockHandler.selectFrequencyRunning;
-    }
-
-    static /* synthetic */ boolean access$600(AMFMVolumeLockHandler aMFMVolumeLockHandler) {
-        return aMFMVolumeLockHandler.seekStationsRunning;
-    }
-
-    static /* synthetic */ boolean access$700(AMFMVolumeLockHandler aMFMVolumeLockHandler) {
-        return aMFMVolumeLockHandler.listUpdateRunning;
-    }
-
-    static /* synthetic */ int access$800(AMFMVolumeLockHandler aMFMVolumeLockHandler) {
-        return aMFMVolumeLockHandler.audioStatus;
-    }
-
-    static /* synthetic */ LogChannel access$900(AMFMVolumeLockHandler aMFMVolumeLockHandler) {
-        return aMFMVolumeLockHandler.log;
-    }
-
-    static /* synthetic */ boolean access$402(AMFMVolumeLockHandler aMFMVolumeLockHandler, boolean bl) {
-        aMFMVolumeLockHandler.selectStationRunning = bl;
-        return aMFMVolumeLockHandler.selectStationRunning;
-    }
-
-    static /* synthetic */ boolean access$502(AMFMVolumeLockHandler aMFMVolumeLockHandler, boolean bl) {
-        aMFMVolumeLockHandler.selectFrequencyRunning = bl;
-        return aMFMVolumeLockHandler.selectFrequencyRunning;
-    }
-
-    static /* synthetic */ boolean access$602(AMFMVolumeLockHandler aMFMVolumeLockHandler, boolean bl) {
-        aMFMVolumeLockHandler.seekStationsRunning = bl;
-        return aMFMVolumeLockHandler.seekStationsRunning;
-    }
-
-    static /* synthetic */ boolean access$702(AMFMVolumeLockHandler aMFMVolumeLockHandler, boolean bl) {
-        aMFMVolumeLockHandler.listUpdateRunning = bl;
-        return aMFMVolumeLockHandler.listUpdateRunning;
-    }
-
-    static /* synthetic */ int access$802(AMFMVolumeLockHandler aMFMVolumeLockHandler, int n) {
-        aMFMVolumeLockHandler.audioStatus = n;
-        return aMFMVolumeLockHandler.audioStatus;
-    }
-
-    static /* synthetic */ int access$1000(AMFMVolumeLockHandler aMFMVolumeLockHandler) {
-        return aMFMVolumeLockHandler.detectedDevice;
-    }
-
-    static /* synthetic */ int access$1002(AMFMVolumeLockHandler aMFMVolumeLockHandler, int n) {
-        aMFMVolumeLockHandler.detectedDevice = n;
-        return aMFMVolumeLockHandler.detectedDevice;
+        public void preTuneAction(AMFMStation aMFMStation, boolean bl) {
+            if (aMFMStation.waveband != AMFMVolumeLockHandler.this.waveband) {
+                AMFMVolumeLockHandler.this.waveband = aMFMStation.waveband;
+                AMFMVolumeLockHandler.this.updateVolumeLock();
+            }
+        }
     }
 }
 

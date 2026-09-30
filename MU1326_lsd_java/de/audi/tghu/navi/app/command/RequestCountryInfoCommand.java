@@ -18,10 +18,9 @@ extends NavCommand {
         this.countryAbbreviation = string;
     }
 
-    @Override
     public void execute() {
         if (!Util.isEmpty(this.countryAbbreviation)) {
-            this.logger.log(-2137614336, "RequestCountryInfoCommand#execute() - calling requestCountryInfo( %1 )", (Object)this.countryAbbreviation);
+            this.logger.log(10000000, "RequestCountryInfoCommand#execute() - calling requestCountryInfo( %1 )", (Object)this.countryAbbreviation);
             this.getDSINavigation().requestCountryInfo(this.countryAbbreviation);
         } else {
             this.logger.log(10000, "RequestCountryInfoCommand#execute() - countryAbbreviation not available");
@@ -29,9 +28,8 @@ extends NavCommand {
         }
     }
 
-    @Override
     public void requestCountryInfoResult(CountryInfo countryInfo, int n) {
-        this.logger.log(-2137614336, "RequestCountryInfoCommand#requestCountryInfoResult() - resultCode: %1", (long)n);
+        this.logger.log(10000000, "RequestCountryInfoCommand#requestCountryInfoResult() - resultCode: %1", (long)n);
         if (n == 0) {
             if (countryInfo != null && !Util.isEmpty(this.countryAbbreviation) && this.countryAbbreviation.equals(countryInfo.getCountryAbbreviation())) {
                 if (this.handler != null) {
@@ -40,7 +38,7 @@ extends NavCommand {
                     this.logger.log(10000, "RequestCountryInfoCommand#requestCountryInfoResult() - listener is null!");
                 }
             } else {
-                this.logger.log(-2137614336, "RequestCountryInfoCommand#requestCountryInfoResult() - result is null or countryAbbreviation (%1) does not match", (Object)this.countryAbbreviation);
+                this.logger.log(10000000, "RequestCountryInfoCommand#requestCountryInfoResult() - result is null or countryAbbreviation (%1) does not match", (Object)this.countryAbbreviation);
                 if (this.handler != null) {
                     this.handler.updateCountryInfo(null);
                 } else {

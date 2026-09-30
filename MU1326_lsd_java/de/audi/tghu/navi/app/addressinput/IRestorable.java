@@ -6,13 +6,10 @@ package de.audi.tghu.navi.app.addressinput;
 import de.audi.tghu.command.CommandList;
 
 public interface IRestorable {
-    default public void restore() {
-    }
+    public void restore();
 
-    default public boolean hasActiveSubSequence() {
-    }
+    public boolean hasActiveSubSequence();
 
-    default public CommandList createRestoreCommandList() {
-    }
+    public CommandList createRestoreCommandList();
 }
 

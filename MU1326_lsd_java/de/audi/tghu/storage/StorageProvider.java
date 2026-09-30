@@ -3,56 +3,42 @@
  */
 package de.audi.tghu.storage;
 
+import de.audi.atip.storage.ProviderFailedException;
+import de.audi.atip.storage.ValueMissingException;
+
 interface StorageProvider {
-    default public void start() {
-    }
+    public void start();
 
-    default public void stop() {
-    }
+    public void stop();
 
-    default public void flush() {
-    }
+    public void flush();
 
-    default public boolean getBoolean(int n, int n2) {
-    }
+    public boolean getBoolean(int var1, int var2);
 
-    default public byte[] getByteArray(int n, int n2) {
-    }
+    public byte[] getByteArray(int var1, int var2) throws ValueMissingException, ProviderFailedException;
 
-    default public int[] getIntArray(int n, int n2) {
-    }
+    public int[] getIntArray(int var1, int var2) throws ValueMissingException, ProviderFailedException;
 
-    default public int getInt(int n, int n2) {
-    }
+    public int getInt(int var1, int var2);
 
-    default public long getLong(int n, int n2) {
-    }
+    public long getLong(int var1, int var2) throws UnsupportedOperationException;
 
-    default public String getString(int n, int n2) {
-    }
+    public String getString(int var1, int var2) throws UnsupportedOperationException;
 
-    default public void setBoolean(int n, int n2, boolean bl) {
-    }
+    public void setBoolean(int var1, int var2, boolean var3) throws UnsupportedOperationException;
 
-    default public void setInt(int n, int n2, int n3) {
-    }
+    public void setInt(int var1, int var2, int var3) throws UnsupportedOperationException;
 
-    default public void setLong(int n, int n2, long l) {
-    }
+    public void setLong(int var1, int var2, long var3) throws UnsupportedOperationException;
 
-    default public void setString(int n, int n2, String string) {
-    }
+    public void setString(int var1, int var2, String var3) throws UnsupportedOperationException;
 
-    default public void setIntArray(int n, int n2, int[] nArray) {
-    }
+    public void setIntArray(int var1, int var2, int[] var3) throws ProviderFailedException;
 
-    default public void setByteArray(int n, int n2, byte[] byArray) {
-    }
+    public void setByteArray(int var1, int var2, byte[] var3) throws ProviderFailedException;
 
-    default public void blockFlush() {
-    }
+    public void blockFlush();
 
-    default public void unblockFlush() {
-    }
+    public void unblockFlush();
 }
 

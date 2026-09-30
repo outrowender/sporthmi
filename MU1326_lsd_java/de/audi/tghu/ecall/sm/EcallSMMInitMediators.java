@@ -11,6 +11,7 @@ import de.audi.atip.statemachine.MediatorManager;
 import de.audi.atip.statemachine.SMModuleConstants;
 import de.audi.atip.statemachine.mediator.ChangeMediator;
 import de.audi.atip.statemachine.mediator.WaitTimerMediator;
+import java.util.NoSuchElementException;
 
 public class EcallSMMInitMediators
 implements SMModuleConstants {
@@ -24,19 +25,19 @@ implements SMModuleConstants {
 
     protected void initMediators() {
         EventMediator[] eventMediatorArray = new EventMediator[19];
-        eventMediatorArray[0] = new ChangeMediator((long)0, (MediatorManager)this.smm, -1571147264, new int[]{-1504038400});
-        eventMediatorArray[1] = new ChangeMediator((long)0, (MediatorManager)this.smm, -1571147264, new int[]{-1504038400});
-        eventMediatorArray[11] = new ChangeMediator((long)0, (MediatorManager)this.smm, 1495, new int[]{363});
-        eventMediatorArray[12] = new WaitTimerMediator((long)0, (MediatorManager)this.smm, -1537592832, (long)0);
-        eventMediatorArray[13] = new WaitTimerMediator((long)0, (MediatorManager)this.smm, -1537592832, (long)0);
-        eventMediatorArray[14] = new WaitTimerMediator((long)0, (MediatorManager)this.smm, -1537592832, (long)0);
-        eventMediatorArray[15] = new WaitTimerMediator((long)0, (MediatorManager)this.smm, -1537592832, (long)0);
-        eventMediatorArray[16] = new WaitTimerMediator((long)0, (MediatorManager)this.smm, -1537592832, (long)0);
-        eventMediatorArray[17] = new WaitTimerMediator((long)0, (MediatorManager)this.smm, -1537592832, (long)0);
+        eventMediatorArray[0] = new ChangeMediator(3300000L, (MediatorManager)this.smm, 3300002, new int[]{3300006});
+        eventMediatorArray[1] = new ChangeMediator(3300001L, (MediatorManager)this.smm, 3300002, new int[]{3300006});
+        eventMediatorArray[11] = new ChangeMediator(3300011L, (MediatorManager)this.smm, 1495, new int[]{363});
+        eventMediatorArray[12] = new WaitTimerMediator(3300012L, (MediatorManager)this.smm, 3300004, 3000L);
+        eventMediatorArray[13] = new WaitTimerMediator(3300013L, (MediatorManager)this.smm, 3300004, 3000L);
+        eventMediatorArray[14] = new WaitTimerMediator(3300014L, (MediatorManager)this.smm, 3300004, 3000L);
+        eventMediatorArray[15] = new WaitTimerMediator(3300015L, (MediatorManager)this.smm, 3300004, 3000L);
+        eventMediatorArray[16] = new WaitTimerMediator(3300016L, (MediatorManager)this.smm, 3300004, 3000L);
+        eventMediatorArray[17] = new WaitTimerMediator(3300017L, (MediatorManager)this.smm, 3300004, 3000L);
         this.smm.setMediatorList(eventMediatorArray);
     }
 
-    public HMIModel getModel(int n) {
+    public HMIModel getModel(int n) throws NoSuchElementException {
         return this.smm.getModel(n);
     }
 }

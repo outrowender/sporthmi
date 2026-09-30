@@ -12,15 +12,15 @@ import de.audi.tghu.online.app.remotehmi.RemoteHMIService;
 
 public class LicenseHmiListener
 implements BaseListModelListener {
-    protected static final int DETAIL_TEASER_EXPIRED;
-    protected static final int DETAIL_TEASER;
-    protected static final int DETAIL_EXPIRED;
-    protected static final int DETAIL_ACTIVE_NEXT;
-    protected static final int DETAIL_ACTIVE;
-    protected static final int DETAIL_LICENSE_ERROR;
-    protected static final int DETAIL_NOT_LICENSED;
-    protected static final int DETAIL_NOT_ACTVIATED;
-    protected static final int DETAIL_OFFERED;
+    protected static final int DETAIL_TEASER_EXPIRED = 4;
+    protected static final int DETAIL_TEASER = 3;
+    protected static final int DETAIL_EXPIRED = 2;
+    protected static final int DETAIL_ACTIVE_NEXT = 1;
+    protected static final int DETAIL_ACTIVE = 0;
+    protected static final int DETAIL_LICENSE_ERROR = 5;
+    protected static final int DETAIL_NOT_LICENSED = 6;
+    protected static final int DETAIL_NOT_ACTVIATED = 7;
+    protected static final int DETAIL_OFFERED = 6;
     protected LogChannel log;
     protected LicenseCollectionService controller;
     protected LicenseModelManager modelManager;
@@ -30,7 +30,7 @@ implements BaseListModelListener {
         this.log = logChannel;
         this.controller = licenseCollectionService;
         this.remoteHMIService = remoteHMIService;
-        logChannel.log(-2137614336, "LicenseHMIListener#ctor: Called.");
+        logChannel.log(10000000, "LicenseHMIListener#ctor: Called.");
     }
 
     public void setModelManager(LicenseModelManager licenseModelManager) {
@@ -44,19 +44,15 @@ implements BaseListModelListener {
     public void deinit() {
     }
 
-    @Override
     public void itemReleased(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
     }
 
-    @Override
     public void itemSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
     }
 
-    @Override
     public void itemFocused(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
     }
 
-    @Override
     public void itemLongSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
     }
 }

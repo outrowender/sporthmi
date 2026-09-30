@@ -35,8 +35,8 @@ implements WavePlayer {
      */
     void registerWaveplayerService() {
         if (!this.waveplayerServiceRegistered) {
-            this.ringToneMaster.lc.log(1078071040, "WavePlayerImpl.registerWaveplayerService()");
-            this.systemToneMaster.lc.log(1078071040, "WavePlayerImpl.registerWaveplayerService()");
+            this.ringToneMaster.lc.log(1000000, "WavePlayerImpl.registerWaveplayerService()");
+            this.systemToneMaster.lc.log(1000000, "WavePlayerImpl.registerWaveplayerService()");
         }
         Object object = this.mutex;
         synchronized (object) {
@@ -56,7 +56,7 @@ implements WavePlayer {
     }
 
     public void registerRingTonePlayer(DSIWavePlayer dSIWavePlayer) {
-        this.ringToneMaster.lc.log(-2137614336, "WavePlayerImpl.registerRingTonePlayer( %1 ) ", (Object)dSIWavePlayer);
+        this.ringToneMaster.lc.log(10000000, "WavePlayerImpl.registerRingTonePlayer( %1 ) ", (Object)dSIWavePlayer);
         this.ringToneMaster.registerDSI(dSIWavePlayer);
         try {
             dSIWavePlayer.setNotification(new int[]{2, 1}, (DSIListener)this.ringToneMaster.getDSIListener());
@@ -67,7 +67,7 @@ implements WavePlayer {
     }
 
     public void registerSystemTonePlayer(DSIWavePlayer dSIWavePlayer) {
-        this.systemToneMaster.lc.log(-2137614336, "WavePlayerImpl.registerSystemTonePlayer( %1 ) ", (Object)dSIWavePlayer);
+        this.systemToneMaster.lc.log(10000000, "WavePlayerImpl.registerSystemTonePlayer( %1 ) ", (Object)dSIWavePlayer);
         this.systemToneMaster.registerDSI(dSIWavePlayer);
         try {
             dSIWavePlayer.setNotification(new int[]{2, 1}, (DSIListener)this.systemToneMaster.getDSIListener());
@@ -77,12 +77,10 @@ implements WavePlayer {
         }
     }
 
-    @Override
     public RingTonePlayer getRingTonePlayer() {
         return new WavePlayerClient(this.ringToneMaster, this.nextSessionID());
     }
 
-    @Override
     public SystemTonePlayer getSystemTonePlayer() {
         return new WavePlayerClient(this.systemToneMaster, this.nextSessionID());
     }
@@ -90,7 +88,7 @@ implements WavePlayer {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    public RingTonePlayer getRingTonePlayer(int n) {
+    public RingTonePlayer getRingTonePlayer(int n) throws IllegalArgumentException {
         WavePlayerImpl wavePlayerImpl = this;
         synchronized (wavePlayerImpl) {
             if (n <= this.lastSessionID) {

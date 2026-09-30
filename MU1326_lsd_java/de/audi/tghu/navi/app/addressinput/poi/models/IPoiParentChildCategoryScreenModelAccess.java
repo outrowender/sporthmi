@@ -12,7 +12,6 @@ public interface IPoiParentChildCategoryScreenModelAccess
 extends IPoiScreenOnStart,
 IPoiScreenUpdateResultList,
 IPoiScreenOnElementSelected {
-    default public void setParentElement(LIValueListElement lIValueListElement) {
-    }
+    public void setParentElement(LIValueListElement var1);
 }
 

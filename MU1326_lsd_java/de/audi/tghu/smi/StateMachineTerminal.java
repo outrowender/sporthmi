@@ -89,7 +89,7 @@ implements MediatorRegistry {
     }
 
     public synchronized boolean addSysSMM(SystemSMM systemSMM) {
-        this.logger.smi.log(1078071040, "[StateMachineTerminal#addSysSMM] SMI terminal '%1'", (Object)this.terminalName);
+        this.logger.smi.log(1000000, "[StateMachineTerminal#addSysSMM] SMI terminal '%1'", (Object)this.terminalName);
         int n = systemSMM.getSubterminalID();
         StateMachine stateMachine = this.retrieveSM(n);
         boolean bl = stateMachine.addSysSMM(systemSMM);
@@ -105,7 +105,7 @@ implements MediatorRegistry {
      */
     public synchronized boolean removeSysSMM(SystemSMM systemSMM) {
         void var5_6;
-        this.logger.smi.log(1078071040, "[StateMachineTerminal#removeSysSMM] SMI terminal '%1'", (Object)this.terminalName);
+        this.logger.smi.log(1000000, "[StateMachineTerminal#removeSysSMM] SMI terminal '%1'", (Object)this.terminalName);
         int n = systemSMM.getSubterminalID();
         StateMachine stateMachine = this.retrieveSM(n);
         int n2 = this.popupStack.size();
@@ -139,7 +139,7 @@ implements MediatorRegistry {
     public synchronized boolean removeAppSMM(ApplicationSMM applicationSMM) {
         int n = applicationSMM.getSubterminalID();
         StateMachine stateMachine = this.retrieveSM(n);
-        this.logger.smi.log(1078071040, "[StateMachineTerminal#removeAppSMM] SMI terminal '%1' ModuleId: %2)", (Object)this.terminalName, (long)applicationSMM.getModuleID());
+        this.logger.smi.log(1000000, "[StateMachineTerminal#removeAppSMM] SMI terminal '%1' ModuleId: %2)", (Object)this.terminalName, (long)applicationSMM.getModuleID());
         this.stopAllPopupsOfSMM(applicationSMM);
         boolean bl = stateMachine.removeAppSMM(applicationSMM);
         if (bl) {
@@ -151,7 +151,7 @@ implements MediatorRegistry {
 
     private StateMachine retrieveSM(int n) {
         if (n >= 4) {
-            this.logger.smi.log(1000, "[StateMachineTerminal#retrieveSM] [%1] unsupported Subterminal-ID (%2); Subterminal-ID must be lower than max value (%3).", (Object)this.terminalName, (long)n, (long)0);
+            this.logger.smi.log(1000, "[StateMachineTerminal#retrieveSM] [%1] unsupported Subterminal-ID (%2); Subterminal-ID must be lower than max value (%3).", (Object)this.terminalName, (long)n, 4L);
             return null;
         }
         StateMachine stateMachine = this.smList[n];
@@ -242,7 +242,7 @@ implements MediatorRegistry {
 
     public synchronized void setActiveSubterminal(int n) {
         if (this.logger.smi.isDebug2()) {
-            this.logger.smi.log(14808325, "[StateMachineTerminal#setActiveSubterminal] called");
+            this.logger.smi.log(100000000, "[StateMachineTerminal#setActiveSubterminal] called");
         }
         if (n != this.activeSubterminal) {
             StateMachine stateMachine = this.smList[this.activeSubterminal];
@@ -259,32 +259,32 @@ implements MediatorRegistry {
 
     private void stopAllPopupsOfSMM(ApplicationSMM applicationSMM) {
         int n;
-        this.logger.smi.log(-2137614336, "[StateMachineTerminal#stopAllPopupsOfSMM] TerminalID: '%1' ModuleID: %2", (long)this.terminalID, (long)applicationSMM.getModuleID());
+        this.logger.smi.log(10000000, "[StateMachineTerminal#stopAllPopupsOfSMM] TerminalID: '%1' ModuleID: %2", (long)this.terminalID, (long)applicationSMM.getModuleID());
         int n2 = this.popupStack.size();
         IntList intList = new IntList();
         for (n = n2 - 1; n >= 0; --n) {
             PopupStateMachine popupStateMachine = this.popupStack.get(n);
             if (popupStateMachine == null || applicationSMM.getModuleID() != this.getModuleId(popupStateMachine.getPopup().getPopupID())) continue;
-            this.logger.smi.log(-2137614336, "[StateMachineTerminal#stopAllPopupsOfSMM] TerminalID: '%1' mark (POPUPID#%2) for removal", (long)this.terminalID, (long)popupStateMachine.getPopup().getPopupID());
+            this.logger.smi.log(10000000, "[StateMachineTerminal#stopAllPopupsOfSMM] TerminalID: '%1' mark (POPUPID#%2) for removal", (long)this.terminalID, (long)popupStateMachine.getPopup().getPopupID());
             intList.add(popupStateMachine.getPopup().getPopupID());
         }
         for (n = 0; n < intList.size(); ++n) {
             this.doStopPopup(intList.get(n));
         }
-        this.logger.smi.log(-2137614336, "[StateMachineTerminal#stopAllPopupsOfSMM] TerminalID: '%1' ModuleID: %2 done", (long)this.terminalID, (long)applicationSMM.getModuleID());
+        this.logger.smi.log(10000000, "[StateMachineTerminal#stopAllPopupsOfSMM] TerminalID: '%1' ModuleID: %2 done", (long)this.terminalID, (long)applicationSMM.getModuleID());
     }
 
     public synchronized void startPopup(int n) {
-        this.logger.event.log(1078071040, "[StateMachineTerminal#startPopup] [%1] SMI terminal received start-popup event (TerminalID: %2), Popup: (POPUPID#%3).", (Object)this.terminalName, (long)this.terminalID, (long)n);
+        this.logger.event.log(1000000, "[StateMachineTerminal#startPopup] [%1] SMI terminal received start-popup event (TerminalID: %2), Popup: (POPUPID#%3).", (Object)this.terminalName, (long)this.terminalID, (long)n);
         if (!this.popupStack.contains(n)) {
             StateMachine stateMachine = this.smList[0];
             if (stateMachine == null) {
-                this.logger.smi.log(-1601830656, "[StateMachineTerminal#startPopup] [%1] SM-%2-%3 does not exist in System.", (Object)this.terminalName, (long)this.terminalID, 0L);
+                this.logger.smi.log(100000, "[StateMachineTerminal#startPopup] [%1] SM-%2-%3 does not exist in System.", (Object)this.terminalName, (long)this.terminalID, 0L);
                 return;
             }
             PopupStateMachine popupStateMachine = stateMachine.createPopup(n);
             if (popupStateMachine != null) {
-                this.logger.smi.log(1078071040, "[StateMachineTerminal#startPopup] [%1] start popup (POPUPID#%3) of SM-%2.", (Object)this.terminalName, (long)this.terminalID, (long)n);
+                this.logger.smi.log(1000000, "[StateMachineTerminal#startPopup] [%1] start popup (POPUPID#%3) of SM-%2.", (Object)this.terminalName, (long)this.terminalID, (long)n);
                 this.popupStack.add(this, popupStateMachine);
             } else {
                 this.logger.smi.log(1000, "[StateMachineTerminal#startPopup] [%1] popup (POPUPID#%3) of SM-%2 not found.", (Object)this.terminalName, (long)this.terminalID, (long)n);
@@ -297,15 +297,15 @@ implements MediatorRegistry {
     }
 
     public boolean doStopPopup(int n) {
-        this.logger.event.log(1078071040, "[StateMachineTerminal#stopPopup] [%1] SMI terminal received stop-popup event, Popup: (POPUPID#%2).", (Object)this.terminalName, (long)n);
+        this.logger.event.log(1000000, "[StateMachineTerminal#stopPopup] [%1] SMI terminal received stop-popup event, Popup: (POPUPID#%2).", (Object)this.terminalName, (long)n);
         StateMachine stateMachine = this.smList[0];
         if (stateMachine == null) {
-            this.logger.smi.log(-1601830656, "[StateMachineTerminal#stopPopup] [%1] SM-%2.%3 does not exist in System.", (Object)this.terminalName, (long)this.terminalID, 0L);
+            this.logger.smi.log(100000, "[StateMachineTerminal#stopPopup] [%1] SM-%2.%3 does not exist in System.", (Object)this.terminalName, (long)this.terminalID, 0L);
             return false;
         }
         PopupStateMachine popupStateMachine = this.popupStack.remove(this, n);
         if (popupStateMachine != null) {
-            this.logger.smi.log(1078071040, "[StateMachineTerminal#stopPopup] [%1] stopped popup (POPUPID#%3) of SM-%2.", (Object)this.terminalName, (long)this.terminalID, (long)n);
+            this.logger.smi.log(1000000, "[StateMachineTerminal#stopPopup] [%1] stopped popup (POPUPID#%3) of SM-%2.", (Object)this.terminalName, (long)this.terminalID, (long)n);
             if (this.terminalID != 6) {
                 this.getSMI().removePopupScreen(this.terminalID, popupStateMachine.getPopup(), popupStateMachine.getLastScreen());
             }
@@ -317,9 +317,9 @@ implements MediatorRegistry {
 
     public synchronized boolean processSMEvent(int n, AdditionalScreenData additionalScreenData) {
         if (this.logger.smi.isDebug2()) {
-            this.logger.smi.log(14808325, "[StateMachineTerminal#processSMEvent] [%1] eventID='(EVENTID#%2)', metaInfos='%3'", (Object)this.terminalName, (Object)Integer.toString(n), (Object)additionalScreenData);
+            this.logger.smi.log(100000000, "[StateMachineTerminal#processSMEvent] [%1] eventID='(EVENTID#%2)', metaInfos='%3'", (Object)this.terminalName, (Object)Integer.toString(n), (Object)additionalScreenData);
         }
-        this.logger.event.log(1078071040, "[StateMachineTerminal#processSMEvent] [%1] SMI terminal received state machine event (EVENTID#%2).", (Object)this.terminalName, (long)n);
+        this.logger.event.log(1000000, "[StateMachineTerminal#processSMEvent] [%1] SMI terminal received state machine event (EVENTID#%2).", (Object)this.terminalName, (long)n);
         this.unboundEventUnprocessed = false;
         this.unboundExtStateLabel = null;
         boolean bl = false;
@@ -327,7 +327,7 @@ implements MediatorRegistry {
             bl |= this.processSMEventBySM(n, additionalScreenData);
         } else if (this.isEventContextSensitive(n)) {
             if (this.logger.smi.isDebug2()) {
-                this.logger.smi.log(14808325, "[StateMachineTerminal#processSMEvent] [%1] event is context sensitive", (Object)this.terminalName);
+                this.logger.smi.log(100000000, "[StateMachineTerminal#processSMEvent] [%1] event is context sensitive", (Object)this.terminalName);
             }
             boolean bl2 = false;
             for (int i2 = 0; i2 < this.popupStack.size(); ++i2) {
@@ -340,20 +340,20 @@ implements MediatorRegistry {
                         break;
                     }
                     if (!this.logger.smi.isInfo()) continue;
-                    this.logger.smi.log(1078071040, "[StateMachineTerminal#processSMEvent] [%1] SMI assumes Popup %2 is active, but currently (according to HMIService) Popup %3 is visible.", (Object)this.terminalName, (Object)Integer.toString(popupStateMachine.getID()), (Object)Integer.toString(n2));
+                    this.logger.smi.log(1000000, "[StateMachineTerminal#processSMEvent] [%1] SMI assumes Popup %2 is active, but currently (according to HMIService) Popup %3 is visible.", (Object)this.terminalName, (Object)Integer.toString(popupStateMachine.getID()), (Object)Integer.toString(n2));
                     continue;
                 }
                 this.logger.event.log(1000, "[StateMachineTerminal#processSMEvent] [%1] PopupStateMachine is null!", (Object)this.terminalName);
             }
             if (!bl2) {
                 if (this.logger.smi.isInfo()) {
-                    this.logger.smi.log(1078071040, "[StateMachineTerminal#processSMEvent] [%1] no valid Popup was found to forward the event to, forwarding it to the main SM", (Object)this.terminalName);
+                    this.logger.smi.log(1000000, "[StateMachineTerminal#processSMEvent] [%1] no valid Popup was found to forward the event to, forwarding it to the main SM", (Object)this.terminalName);
                 }
                 bl |= this.processSMEventBySM(n, additionalScreenData);
             }
         } else {
             if (this.logger.smi.isDebug2()) {
-                this.logger.smi.log(14808325, "[StateMachineTerminal#processSMEvent] event is not context sensistive");
+                this.logger.smi.log(100000000, "[StateMachineTerminal#processSMEvent] event is not context sensistive");
             }
             bl |= this.processSMEventBySM(n, additionalScreenData);
             int n3 = this.popupStack.size();
@@ -367,15 +367,15 @@ implements MediatorRegistry {
             }
         }
         if (this.logger.smi.isDebug2()) {
-            this.logger.smi.log(14808325, "[StateMachineTerminal#processSMEvent] [%1] event (EVENTID#%2) processed", (Object)this.terminalName, (long)n);
+            this.logger.smi.log(100000000, "[StateMachineTerminal#processSMEvent] [%1] event (EVENTID#%2) processed", (Object)this.terminalName, (long)n);
         }
-        this.logger.event.log(1078071040, "[StateMachineTerminal#processSMEvent] [%1] SMI terminal processed state machine event (EVENTID#%2).", (Object)this.terminalName, (long)n);
+        this.logger.event.log(1000000, "[StateMachineTerminal#processSMEvent] [%1] SMI terminal processed state machine event (EVENTID#%2).", (Object)this.terminalName, (long)n);
         return bl;
     }
 
     private boolean processSMEventBySM(int n, AdditionalScreenData additionalScreenData) {
         if (this.logger.smi.isDebug2()) {
-            this.logger.smi.log(14808325, "[StateMachineTerminal#processSMEventBySM] [%1] eventID='(EVENTID#%2)'", (Object)this.terminalName, (long)n);
+            this.logger.smi.log(100000000, "[StateMachineTerminal#processSMEventBySM] [%1] eventID='(EVENTID#%2)'", (Object)this.terminalName, (long)n);
         }
         boolean bl = false;
         StateMachine stateMachine = this.smList[this.activeSubterminal];
@@ -400,11 +400,11 @@ implements MediatorRegistry {
 
     private boolean processSMEventByPopup(PopupStateMachine popupStateMachine, int n, AdditionalScreenData additionalScreenData) {
         if (this.logger.smi.isDebug2()) {
-            this.logger.smi.log(14808325, "[StateMachineTerminal#processSMEventByPopup] popup='(POPUPID#%1)', event='(EVENTID#%2)'", (long)popupStateMachine.getID(), (long)n);
+            this.logger.smi.log(100000000, "[StateMachineTerminal#processSMEventByPopup] popup='(POPUPID#%1)', event='(EVENTID#%2)'", (long)popupStateMachine.getID(), (long)n);
         }
         boolean bl = popupStateMachine.processSMEvent(n, additionalScreenData);
         if (!popupStateMachine.isStarted()) {
-            this.logger.smi.log(1078071040, "[StateMachineTerminal] event has stopped the Popup-SM (POPUPID#%1), clearing up...", (long)popupStateMachine.getID());
+            this.logger.smi.log(1000000, "[StateMachineTerminal] event has stopped the Popup-SM (POPUPID#%1), clearing up...", (long)popupStateMachine.getID());
             this.popupStack.remove(this, popupStateMachine.getID());
             this.getSMI().removePopupScreen(this.terminalID, popupStateMachine.getPopup(), popupStateMachine.getLastScreen());
             this.getSMI().getFramework().getErrorMgr().unregisterDumpInfoProvider(popupStateMachine.getErrorLog());
@@ -414,7 +414,7 @@ implements MediatorRegistry {
 
     public synchronized boolean jumpToState(String string) {
         if (this.logger.smi.isDebug2()) {
-            this.logger.smi.log(14808325, "[StateMachineTerminal#jumpToState] [%1] stateLabel='%2'", (Object)this.terminalName, (Object)string);
+            this.logger.smi.log(100000000, "[StateMachineTerminal#jumpToState] [%1] stateLabel='%2'", (Object)this.terminalName, (Object)string);
         }
         boolean bl = false;
         StateMachine stateMachine = this.smList[this.activeSubterminal];
@@ -429,9 +429,9 @@ implements MediatorRegistry {
      */
     public synchronized void processModelUpdate(ModelUpdateEvent modelUpdateEvent) {
         int n = modelUpdateEvent.getModelId();
-        this.logger.event.log(1078071040, "[StateMachineTerminal#processModelUpdate] [%1] SMI terminal received model-update event (MODELID#%2).", (Object)this.terminalName, (long)n);
+        this.logger.event.log(1000000, "[StateMachineTerminal#processModelUpdate] [%1] SMI terminal received model-update event (MODELID#%2).", (Object)this.terminalName, (long)n);
         if (this.logger.smi.isDebug2()) {
-            this.logger.smi.log(14808325, "[StateMachineTerminal#processModelUpdate] [%1] (MODELID#%2)", (Object)this.terminalName, (long)n);
+            this.logger.smi.log(100000000, "[StateMachineTerminal#processModelUpdate] [%1] (MODELID#%2)", (Object)this.terminalName, (long)n);
         }
         Map map = this.mediatorRegistry;
         synchronized (map) {
@@ -443,7 +443,7 @@ implements MediatorRegistry {
                 List list = (List)object;
                 int n2 = list.size();
                 for (int i2 = n2 - 1; i2 >= 0; --i2) {
-                    this.logger.event.log(-2137614336, "[StateMachineTerminal#processModelUpdate] [%1] SMI terminal forwards model-update event (MODELID#%2) to mediator.", (Object)this.terminalName, (long)n);
+                    this.logger.event.log(10000000, "[StateMachineTerminal#processModelUpdate] [%1] SMI terminal forwards model-update event (MODELID#%2) to mediator.", (Object)this.terminalName, (long)n);
                     try {
                         EventMediator eventMediator = (EventMediator)list.get(i2);
                         eventMediator.processUpdate(modelUpdateEvent);
@@ -454,7 +454,7 @@ implements MediatorRegistry {
                     }
                 }
             } else {
-                this.logger.event.log(-2137614336, "[StateMachineTerminal#processModelUpdate] [%1] SMI terminal forwards model-update event (MODELID#%2) to mediator.", (Object)this.terminalName, (long)n);
+                this.logger.event.log(10000000, "[StateMachineTerminal#processModelUpdate] [%1] SMI terminal forwards model-update event (MODELID#%2) to mediator.", (Object)this.terminalName, (long)n);
                 ((EventMediator)object).processUpdate(modelUpdateEvent);
             }
         }
@@ -463,10 +463,9 @@ implements MediatorRegistry {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void registerMediator(EventMediator eventMediator, int[] nArray) {
         if (this.logger.smi.isInfo()) {
-            this.logger.smi.log(1078071040, "[StateMachineTerminal#registerMediator] mediatorType='%1', models='%2'", (Object)Integer.toString(eventMediator.getType()), (Object)nArray);
+            this.logger.smi.log(1000000, "[StateMachineTerminal#registerMediator] mediatorType='%1', models='%2'", (Object)Integer.toString(eventMediator.getType()), (Object)nArray);
         }
         Map map = this.mediatorRegistry;
         synchronized (map) {
@@ -496,10 +495,9 @@ implements MediatorRegistry {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void unregisterMediator(EventMediator eventMediator, int[] nArray) {
         if (this.logger.smi.isInfo()) {
-            this.logger.smi.log(1078071040, "[StateMachineTerminal#unregisterMediator] mediatorType='%1', models='%2'", (Object)Integer.toString(eventMediator.getType()), (Object)nArray);
+            this.logger.smi.log(1000000, "[StateMachineTerminal#unregisterMediator] mediatorType='%1', models='%2'", (Object)Integer.toString(eventMediator.getType()), (Object)nArray);
         }
         Map map = this.mediatorRegistry;
         synchronized (map) {
@@ -529,7 +527,7 @@ implements MediatorRegistry {
 
     public synchronized void processSyncEvent(int n) {
         int n2;
-        this.logger.smi.log(-2137614336, "[StateMachineTerminal.processSyncEvent] [%1] (SYNC) processing SyncEvent (SYNCEVID#%2), forward event to all SMs", (Object)this.terminalName, (long)n, (long)this.terminalID);
+        this.logger.smi.log(10000000, "[StateMachineTerminal.processSyncEvent] [%1] (SYNC) processing SyncEvent (SYNCEVID#%2), forward event to all SMs", (Object)this.terminalName, (long)n, (long)this.terminalID);
         for (n2 = 0; n2 < 4; ++n2) {
             StateMachine stateMachine = this.smList[n2];
             if (stateMachine == null) continue;
@@ -564,7 +562,7 @@ implements MediatorRegistry {
     }
 
     private final int getModuleId(int n) {
-        return n / -1601830656;
+        return n / 100000;
     }
 }
 

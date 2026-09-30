@@ -3,8 +3,9 @@
  */
 package de.audi.tuner.app.cmd.sdars;
 
+import de.audi.atip.base.IFrameworkAccess;
+import de.audi.atip.log.LogChannel;
 import de.audi.tuner.app.cmd.AbstractRadioCmd;
-import de.audi.tuner.app.cmd.sdars.AbstractSDARSCmd$Builder;
 import de.audi.tuner.ifc.ISDARSTuner;
 import de.audi.tuner.ifc.SDARSTunerListener;
 import org.dsi.ifc.global.DateTime;
@@ -25,105 +26,100 @@ implements SDARSTunerListener {
     private final SDARSTunerListener defaultSDARSListener;
     protected final ISDARSTuner sdarsTuner;
 
-    public AbstractSDARSCmd(AbstractSDARSCmd$Builder abstractSDARSCmd$Builder) {
-        super(AbstractSDARSCmd$Builder.access$000(abstractSDARSCmd$Builder), AbstractSDARSCmd$Builder.access$100(abstractSDARSCmd$Builder), 6);
-        this.defaultSDARSListener = AbstractSDARSCmd$Builder.access$200(abstractSDARSCmd$Builder);
-        this.sdarsTuner = AbstractSDARSCmd$Builder.access$300(abstractSDARSCmd$Builder);
+    public AbstractSDARSCmd(Builder builder) {
+        super(builder.framework, builder.lc, 6);
+        this.defaultSDARSListener = builder.defaultSDARSListener;
+        this.sdarsTuner = builder.sdarsTuner;
     }
 
-    @Override
     public void updateElectronicSerialCode(String string) {
         this.defaultSDARSListener.updateElectronicSerialCode(string);
     }
 
-    @Override
     public void updateServiceStatus3(ServiceStatus3 serviceStatus3) {
         this.defaultSDARSListener.updateServiceStatus3(serviceStatus3);
     }
 
-    @Override
     public void updateSignalQuality(SignalQuality signalQuality) {
         this.defaultSDARSListener.updateSignalQuality(signalQuality);
     }
 
-    @Override
     public void updateSelectedStation(StationInfo stationInfo) {
         this.defaultSDARSListener.updateSelectedStation(stationInfo);
     }
 
-    @Override
     public void updateStationList(StationInfo[] stationInfoArray) {
         this.defaultSDARSListener.updateStationList(stationInfoArray);
     }
 
-    @Override
     public void updateCategoryList(CategoryInfo[] categoryInfoArray) {
         this.defaultSDARSListener.updateCategoryList(categoryInfoArray);
     }
 
-    @Override
     public void informationRadioText(RadioText radioText) {
         this.defaultSDARSListener.informationRadioText(radioText);
     }
 
-    @Override
     public void informationRadioText2(RadioText[] radioTextArray) {
         this.defaultSDARSListener.informationRadioText2(radioTextArray);
     }
 
-    @Override
     public void updateStaticTaggingInfo(String string, String string2) {
         this.defaultSDARSListener.updateStaticTaggingInfo(string, string2);
     }
 
-    @Override
     public void updateDetectedDevice(int n) {
         this.defaultSDARSListener.updateDetectedDevice(n);
     }
 
-    @Override
     public void selectStationStatus(int n) {
         this.defaultSDARSListener.selectStationStatus(n);
     }
 
-    @Override
     public void updateAvailability(int n) {
         this.defaultSDARSListener.updateAvailability(n);
     }
 
-    @Override
     public void updateStationDescription(StationDescription[] stationDescriptionArray) {
         this.defaultSDARSListener.updateStationDescription(stationDescriptionArray);
     }
 
-    @Override
     public void responseTime(DateTime dateTime) {
         this.defaultSDARSListener.responseTime(dateTime);
     }
 
-    @Override
     public void updateSubscriptionStatus(SubscriptionStatus subscriptionStatus) {
         this.defaultSDARSListener.updateSubscriptionStatus(subscriptionStatus);
     }
 
-    @Override
     public void informationEPGChannelList(EPGShortInfo[] ePGShortInfoArray) {
         this.defaultSDARSListener.informationEPGChannelList(ePGShortInfoArray);
     }
 
-    @Override
     public void informationChannelArt(ImageInformation[] imageInformationArray) {
         this.defaultSDARSListener.informationChannelArt(imageInformationArray);
     }
 
-    @Override
     public void responseEPG24Hour(EPGShortInfo ePGShortInfo) {
         this.defaultSDARSListener.responseEPG24Hour(ePGShortInfo);
     }
 
-    @Override
     public void responseEPGDescription(EPGDescription ePGDescription) {
         this.defaultSDARSListener.responseEPGDescription(ePGDescription);
+    }
+
+    public static class Builder {
+        private final LogChannel lc;
+        private final ISDARSTuner sdarsTuner;
+        private final SDARSTunerListener defaultSDARSListener;
+        private final IFrameworkAccess framework;
+
+        public Builder(IFrameworkAccess iFrameworkAccess, LogChannel logChannel, ISDARSTuner iSDARSTuner, SDARSTunerListener sDARSTunerListener) {
+            this.framework = iFrameworkAccess;
+            this.lc = logChannel;
+            this.sdarsTuner = iSDARSTuner;
+            this.defaultSDARSListener = sDARSTunerListener;
+        }
     }
 }
 

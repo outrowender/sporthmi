@@ -31,48 +31,44 @@ extends TMCCommand {
         this.requestId = n3;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "[RequestWindowCommand#execute] Requesting window, windowId: %1, windowSize: %2, offset: %3 ", (long)this.windowId, (long)this.windowSize, (long)this.offset);
-        this.logger.log(-2137614336, "[RequestWindowCommand#execute] Requesting window, %1, openedListAnchorId %2 ", (Object)TMCHelper.arrayToString("anchorId", this.possibleIds), (long)this.openedListAnchorId);
+        this.logger.log(10000000, "[RequestWindowCommand#execute] Requesting window, windowId: %1, windowSize: %2, offset: %3 ", (long)this.windowId, (long)this.windowSize, (long)this.offset);
+        this.logger.log(10000000, "[RequestWindowCommand#execute] Requesting window, %1, openedListAnchorId %2 ", (Object)TMCHelper.arrayToString("anchorId", this.possibleIds), (long)this.openedListAnchorId);
         this.listModelEmptyCopy = this.listManager.getEmptyListModelCopy();
         this.tmcApp.getTMCHandler().requestTMCWindow(this.windowSize, this.offset, this.possibleIds, this.openedListAnchorId, this.windowId, this.tmcApp.isNavigationOperable());
     }
 
-    @Override
     public void tmcWindowResult(int n, int n2, TmcListElement[] tmcListElementArray) {
         if (tmcListElementArray == null || tmcListElementArray.length == 0) {
-            this.logger.log(-1601830656, "[RequestWindowCommand#tmcWindowResult] messages is null or empty []: %1", (Object)tmcListElementArray);
+            this.logger.log(100000, "[RequestWindowCommand#tmcWindowResult] messages is null or empty []: %1", (Object)tmcListElementArray);
             this.getCommandList().commandFinished();
             return;
         }
-        this.logger.log(-2137614336, "[RequestWindowCommand#tmcWindowResult] Received, window: %2, usedAnchorId: %3, numberOfMessages: %1 ", (long)tmcListElementArray.length, (long)n, (long)n2);
+        this.logger.log(10000000, "[RequestWindowCommand#tmcWindowResult] Received, window: %2, usedAnchorId: %3, numberOfMessages: %1 ", (long)tmcListElementArray.length, (long)n, (long)n2);
         if (this.logger.isDebug2()) {
             for (int i2 = 0; i2 < tmcListElementArray.length; ++i2) {
                 TmcListElement tmcListElement = tmcListElementArray[i2];
-                this.logger.log(14808325, "RequestTmcWindowCommand#tmcWindowResult() received, tmcListElement(%1, uID=%2): [%3] %4", (Object)String.valueOf(i2), (Object)String.valueOf(tmcListElement.getUID()), (Object)String.valueOf(tmcListElement.positionInCompleteList), (Object)tmcListElement);
+                this.logger.log(100000000, "RequestTmcWindowCommand#tmcWindowResult() received, tmcListElement(%1, uID=%2): [%3] %4", (Object)String.valueOf(i2), (Object)String.valueOf(tmcListElement.getUID()), (Object)String.valueOf(tmcListElement.positionInCompleteList), (Object)tmcListElement);
             }
         } else if (tmcListElementArray.length != 0) {
-            this.logger.log(-2137614336, "RequestTmcWindowCommand#tmcWindowResult() received, {%1} elements from position {%2} to {%3}", (Object)String.valueOf(tmcListElementArray.length), (Object)String.valueOf(tmcListElementArray[0].positionInCompleteList), (Object)String.valueOf(tmcListElementArray[tmcListElementArray.length - 1].positionInCompleteList));
+            this.logger.log(10000000, "RequestTmcWindowCommand#tmcWindowResult() received, {%1} elements from position {%2} to {%3}", (Object)String.valueOf(tmcListElementArray.length), (Object)String.valueOf(tmcListElementArray[0].positionInCompleteList), (Object)String.valueOf(tmcListElementArray[tmcListElementArray.length - 1].positionInCompleteList));
         }
         this.listModelEmptyCopy.setLength(this.listManager.getLengthOfCurrentList());
         this.commandList.commandFinishedWithPostSequence(this.listManager.tmcWindowResult(tmcListElementArray, n2, this.requestId, this.possibleIds[0], this.listModelEmptyCopy));
     }
 
-    @Override
     public void updateEventsTotal(int n, long l, long l2, int n2) {
-        this.logger.log(-2137614336, "[RequestWindowCommand#updateEventsTotal] Called, windowId: %1, eventsTotal: %2, eventsVisible: %3", (long)n, l, l2);
-        this.logger.log(-2137614336, "[RequestWindowCommand#updateEventsTotal] validFlag: %1 ", (long)n2);
+        this.logger.log(10000000, "[RequestWindowCommand#updateEventsTotal] Called, windowId: %1, eventsTotal: %2, eventsVisible: %3", (long)n, l, l2);
+        this.logger.log(10000000, "[RequestWindowCommand#updateEventsTotal] validFlag: %1 ", (long)n2);
         if (n2 == 1) {
             this.tmcApp.listManager.updateEventsTotal((int)l2);
         } else {
-            this.logger.log(-2137614336, "[RequestWindowCommand#updateEventsTotal] Invalid value. ");
+            this.logger.log(10000000, "[RequestWindowCommand#updateEventsTotal] Invalid value. ");
         }
     }
 
-    @Override
     public String toString() {
-        return super.getClass().getName();
+        return this.getClass().getName();
     }
 }
 

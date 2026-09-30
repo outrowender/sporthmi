@@ -4,9 +4,9 @@
 package de.audi.tghu.navi.app.routeguidance;
 
 public class AlternativeRoutesHandler {
-    public static final int OPTIONS_INDEX_ALTERNATIVE_ROUTE_1;
-    public static final int OPTIONS_INDEX_ALTERNATIVE_ROUTE_2;
-    public static final int OPTIONS_INDEX_ALTERNATIVE_ROUTE_3;
+    public static final int OPTIONS_INDEX_ALTERNATIVE_ROUTE_1 = 0;
+    public static final int OPTIONS_INDEX_ALTERNATIVE_ROUTE_2 = 1;
+    public static final int OPTIONS_INDEX_ALTERNATIVE_ROUTE_3 = 2;
     private int lastSelectedRouteIndex = 0;
     private boolean expectsAlternativeRoutesCalculation = false;
 

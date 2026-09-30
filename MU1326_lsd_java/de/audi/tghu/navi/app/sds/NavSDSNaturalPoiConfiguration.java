@@ -8,7 +8,7 @@ import de.audi.tghu.navi.app.guidance.Vehicle;
 import de.audi.tghu.navi.app.util.Util;
 
 public class NavSDSNaturalPoiConfiguration {
-    private final String CLASS_NAME = Util.getClassNameFromPackageName(super.getClass());
+    private final String CLASS_NAME = Util.getClassNameFromPackageName(this.getClass());
 
     public int getTranslatedCategoryForNaturalPoi(int n, NavigationEnv navigationEnv) {
         int n2;
@@ -28,7 +28,7 @@ public class NavSDSNaturalPoiConfiguration {
             navigationEnv.getSDSLogChannel().log(10000, "%1#getTranslatedCategoryForNaturalPoi - no valid HU Region found. Returning default mapping.", (Object)this.CLASS_NAME);
             n2 = this.translateSDSCategoryToNaviCategoryForEU(n);
         }
-        navigationEnv.getSDSLogChannel().log(-2137614336, "%1#getTranslatedCategoryForNaturalPoi - matchedCategory=%2", (Object)this.CLASS_NAME, (long)n2);
+        navigationEnv.getSDSLogChannel().log(10000000, "%1#getTranslatedCategoryForNaturalPoi - matchedCategory=%2", (Object)this.CLASS_NAME, (long)n2);
         return n2;
     }
 

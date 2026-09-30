@@ -25,8 +25,8 @@ public final class ScreenChangeAnimationManagerEvo
 implements AnimationListener,
 IScreenChangeAnimationManager {
     private static final int[] CURRENT_ANIMATION_INFO_INIT = new int[]{0, 0, 0, 0};
-    private static final boolean SCREEN_EXIT;
-    private static final boolean SCREEN_ENTER;
+    private static final boolean SCREEN_EXIT = true;
+    private static final boolean SCREEN_ENTER = false;
     private final IScreenManager screenManager;
     private final PopupManager popupManager;
     private final ScreenChangeManager screenChangeUnit;
@@ -49,7 +49,7 @@ IScreenChangeAnimationManager {
     }
 
     public String toString() {
-        return new StringBuffer().append("ScreenChangeAnimationManager:").append(this.getTerminalId()).toString();
+        return "ScreenChangeAnimationManager:" + this.getTerminalId();
     }
 
     private IScreenManager getScreenManager() {
@@ -79,7 +79,6 @@ IScreenChangeAnimationManager {
         return this.animationController;
     }
 
-    @Override
     public int getScreenChangeState() {
         return this.screenChangeState;
     }
@@ -116,14 +115,13 @@ IScreenChangeAnimationManager {
         this.screenChangeAnimationInfo = this.getAnimationController().getScreenChangeTypes(nArray, iScreenData, iScreenData2, nArray2);
     }
 
-    @Override
     public boolean wasPopupFadedOut() {
         return this.startScreenData.isPopup();
     }
 
     private void setupExitAnimation() {
         this.animationRolledBack = false;
-        this.log.log(-2137614336, "AnimationState.setupExitAnimation()");
+        this.log.log(10000000, "AnimationState.setupExitAnimation()");
         this.screenChangeAnimation = this.getAnimationController().getIAnimation(this.screenChangeAnimationInfo[0]);
         this.screenChangeAnimation.addListener(this);
         if (((HMITerminalEvo)this.getTerminalContext().getHmiTerminal()).getDrawerFocusManager().getDrawerState() != 4) {
@@ -132,15 +130,14 @@ IScreenChangeAnimationManager {
     }
 
     private void setupEnterAnimation() {
-        this.log.log(-2137614336, "AnimationState.setupEnterAnimation()");
+        this.log.log(10000000, "AnimationState.setupEnterAnimation()");
         this.screenChangeAnimation = this.getAnimationController().getIAnimation(this.screenChangeAnimationInfo[2]);
         this.screenChangeAnimation.addListener(this);
     }
 
-    @Override
     public boolean startScreenChangeAnimation(IScreenData iScreenData, IScreenData iScreenData2) {
         try {
-            this.log.log(-2137614336, "ScreenChangeAnimationManager.startScreenChangeAnimation called");
+            this.log.log(10000000, "ScreenChangeAnimationManager.startScreenChangeAnimation called");
             if (!this.initialize(iScreenData, iScreenData2)) {
                 return false;
             }
@@ -165,14 +162,14 @@ IScreenChangeAnimationManager {
     }
 
     private void startFadeInAnimation() {
-        this.log.log(-2137614336, "ScreenChangeAnimationManager.startFadeInAnimation");
+        this.log.log(10000000, "ScreenChangeAnimationManager.startFadeInAnimation");
         this.setupEnterAnimation();
         this.setScreenChangeState(2);
         this.screenChangeAnimation.startScreenChangeAnimation(this.screenChangeAnimationInfo, true, this.startScreenData, this.targetScreenData);
     }
 
     private void cleanupAnimation() {
-        this.log.log(-2137614336, "ScreenChangeAnimationManager.cleanupAnimation()");
+        this.log.log(10000000, "ScreenChangeAnimationManager.cleanupAnimation()");
         this.setScreenChangeState(0);
         if (this.screenChangeAnimation != null && this.screenChangeAnimation.isAnimating()) {
             this.screenChangeAnimation.stopAnimation();
@@ -216,23 +213,23 @@ IScreenChangeAnimationManager {
     private boolean initialize(IScreenData iScreenData, IScreenData iScreenData2) {
         Screen screen;
         if (this.screenChangeState != 0) {
-            this.log.log(-1601830656, "initialize not allowed when state != SCREENCHANGE_STATE_FADEIN");
+            this.log.log(100000, "initialize not allowed when state != SCREENCHANGE_STATE_FADEIN");
             return false;
         }
         if (iScreenData == null || iScreenData2 == null) {
-            this.log.log(-2137614336, "intialize: no animation possible: current screen data: %1, target screen data:%2 ", (Object)iScreenData, (Object)iScreenData2);
+            this.log.log(10000000, "intialize: no animation possible: current screen data: %1, target screen data:%2 ", (Object)iScreenData, (Object)iScreenData2);
             return false;
         }
         if (!iScreenData.isScreenIDValid() || !iScreenData2.isScreenIDValid()) {
-            this.log.log(-2137614336, "intialize: no animation possible: current screen id: %1, target screen id:%2 ", (long)iScreenData.getId(), (long)iScreenData2.getId());
+            this.log.log(10000000, "intialize: no animation possible: current screen id: %1, target screen id:%2 ", (long)iScreenData.getId(), (long)iScreenData2.getId());
             return false;
         }
         if (iScreenData2.getScreen() == null && (screen = this.getScreenManager().getScreen(iScreenData2)) == null) {
-            this.log.log(-1601830656, "intialize: no animation possible: target screen is null ");
+            this.log.log(100000, "intialize: no animation possible: target screen is null ");
             return false;
         }
         if (!iScreenData.isPopup() && iScreenData2.isPopup() && this.popupManager.isLogicalPopup(iScreenData2)) {
-            this.log.log(-2137614336, "intialize: no animation possible: target screen is logical popup, current screen is no popup ");
+            this.log.log(10000000, "intialize: no animation possible: target screen is logical popup, current screen is no popup ");
             return false;
         }
         this.startScreenData = iScreenData;
@@ -244,7 +241,7 @@ IScreenChangeAnimationManager {
 
     private void updateTargetScreen(IScreenData iScreenData) {
         if (this.screenChangeState != 1) {
-            this.log.log(-1601830656, "updateTargetScreen not allowed when state != SCREENCHANGE_STATE_FADEOUT");
+            this.log.log(100000, "updateTargetScreen not allowed when state != SCREENCHANGE_STATE_FADEOUT");
             return;
         }
         this.targetScreenData = iScreenData;
@@ -257,7 +254,7 @@ IScreenChangeAnimationManager {
 
     private int[] computeModelledAnimationInfo(IScreenData iScreenData) {
         int n = iScreenData.getAnimationInfo();
-        this.log.log(-2137614336, "ScreenChangeAnimationManager#computeModelledAnimationInfo modelledInfo: %1", (long)n);
+        this.log.log(10000000, "ScreenChangeAnimationManager#computeModelledAnimationInfo modelledInfo: %1", (long)n);
         int[] nArray = new int[2];
         nArray[1] = n;
         if (this.animationRolledBack) {
@@ -284,7 +281,7 @@ IScreenChangeAnimationManager {
             nArray[1] = nArray[1] | 0x200;
         } else if (iScreenData.isAnimated()) {
             if ((n & 1) == 0) {
-                this.log.log(-1601830656, "ScreenChangeAnimationManager#computeModelledAnimationInfo old application change set, but not modelled in animationInfo");
+                this.log.log(100000, "ScreenChangeAnimationManager#computeModelledAnimationInfo old application change set, but not modelled in animationInfo");
             }
             nArray[0] = nArray[0] | 1;
             nArray[1] = nArray[1] | 1;
@@ -295,24 +292,21 @@ IScreenChangeAnimationManager {
     public void animate(int n, float f2) {
     }
 
-    @Override
     public void animate(int n, float f2, int n2) {
     }
 
-    @Override
     public void animationStarted(int n, int n2) {
     }
 
-    @Override
     public void animationFinished(int n, int n2) {
-        this.log.log(-2137614336, "ScreenChangeAnimationManager.animationFinished() type=%1, terminal=%2", (long)n, (long)this.getTerminalId());
+        this.log.log(10000000, "ScreenChangeAnimationManager.animationFinished() type=%1, terminal=%2", (long)n, (long)this.getTerminalId());
         switch (this.getScreenChangeState()) {
             case 0: {
                 this.log.log(10000, "ERR: state == SCREENCHANGE_STATE_INIT --> ignored");
                 break;
             }
             case 1: {
-                this.log.log(-2137614336, "state == SCREENCHANGE_STATE_FADEOUT");
+                this.log.log(10000000, "state == SCREENCHANGE_STATE_FADEOUT");
                 this.fadeOutAnimationFinished();
                 this.getDrawerFocusManager().screenFadedOut();
                 if (this.getScreenChangeState() != 0 || this.screenChangeUnit == null || this.screenChangeUnit.getViewSizeManager() == null) break;
@@ -320,7 +314,7 @@ IScreenChangeAnimationManager {
                 break;
             }
             case 2: {
-                this.log.log(-2137614336, "state == SCREENCHANGE_STATE_FADEIN");
+                this.log.log(10000000, "state == SCREENCHANGE_STATE_FADEIN");
                 this.cleanupAnimation();
                 this.getDrawerFocusManager().screenChangeFinished();
                 this.checkForDelayedDisconnecting();
@@ -344,12 +338,10 @@ IScreenChangeAnimationManager {
         }
     }
 
-    @Override
     public void setFocus(int n) {
         this.currentFocus = n;
     }
 
-    @Override
     public void rollBackEnterAnimation(boolean bl) {
         if (this.animationRolledBack) {
             if (!bl) {

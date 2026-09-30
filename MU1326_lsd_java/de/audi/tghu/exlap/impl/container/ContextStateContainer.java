@@ -13,19 +13,18 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Map$Entry;
 import org.dsi.ifc.has.HASDataContainer;
 import org.dsi.ifc.has.HASDataElement;
 
 public class ContextStateContainer
 extends AbstractContainer {
-    private static final int CONTAINER_ID_CONTEXT_STATE;
-    private static final int ELEMENT_ID_CONTEXT;
-    private static final int ELEMENT_ID_STATE;
+    private static final int CONTAINER_ID_CONTEXT_STATE = 0x1000000;
+    private static final int ELEMENT_ID_CONTEXT = 0x1000000;
+    private static final int ELEMENT_ID_STATE = 0x1000001;
     private Map map = new HashMap();
 
     public ContextStateContainer(String string, ContextStateEnumeration contextStateEnumeration) {
-        this.map.put(new Integer(1), string);
+        this.map.put(new Integer(0x1000000), string);
         this.map.put(new Integer(0x1000001), contextStateEnumeration);
     }
 
@@ -37,7 +36,7 @@ extends AbstractContainer {
         block4: for (int i2 = 0; i2 < hASDataElementArray.length; ++i2) {
             switch (hASDataElementArray[i2].elementId) {
                 case 0x1000000: {
-                    this.map.put(new Integer(1), hASDataElementArray[i2].stringData);
+                    this.map.put(new Integer(0x1000000), hASDataElementArray[i2].stringData);
                     continue block4;
                 }
                 case 0x1000001: {
@@ -49,21 +48,19 @@ extends AbstractContainer {
     }
 
     public String getContext() {
-        return (String)this.map.get(new Integer(1));
+        return (String)this.map.get(new Integer(0x1000000));
     }
 
     public ContextStateEnumeration getState() {
         return (ContextStateEnumeration)this.map.get(new Integer(0x1000001));
     }
 
-    @Override
     public List createContainer(int n, int n2, int n3) {
         ArrayList arrayList = new ArrayList();
-        arrayList.add(new HASDataContainer(1, n2, n, this.createElements(), n3));
+        arrayList.add(new HASDataContainer(0x1000000, n2, n, this.createElements(), n3));
         return arrayList;
     }
 
-    @Override
     public HASDataContainer[] createContainer() {
         List list = this.createContainer(-1, 1, -1);
         return (HASDataContainer[])list.toArray(new HASDataContainer[list.size()]);
@@ -74,15 +71,15 @@ extends AbstractContainer {
         HASDataElement[] hASDataElementArray = new HASDataElement[this.map.size()];
         Iterator iterator = this.map.entrySet().iterator();
         while (iterator.hasNext()) {
-            Map$Entry map$Entry = (Map$Entry)iterator.next();
-            if (map$Entry.getValue() == null) continue;
-            switch ((Integer)map$Entry.getKey()) {
+            Map.Entry entry = (Map.Entry)iterator.next();
+            if (entry.getValue() == null) continue;
+            switch ((Integer)entry.getKey()) {
                 case 0x1000000: {
-                    hASDataElementArray[n++] = new StringElement(1, (String)map$Entry.getValue());
+                    hASDataElementArray[n++] = new StringElement(0x1000000, (String)entry.getValue());
                     break;
                 }
                 case 0x1000001: {
-                    hASDataElementArray[n++] = new IntegerElement(0x1000001, ((ContextStateEnumeration)map$Entry.getValue()).ordinal());
+                    hASDataElementArray[n++] = new IntegerElement(0x1000001, ((ContextStateEnumeration)entry.getValue()).ordinal());
                     break;
                 }
             }
@@ -90,30 +87,29 @@ extends AbstractContainer {
         return hASDataElementArray;
     }
 
-    @Override
     public void toString(StringWriter stringWriter) {
         stringWriter.write("ContextStateContainer(");
         Iterator iterator = this.map.entrySet().iterator();
         while (iterator.hasNext()) {
-            Map$Entry map$Entry = (Map$Entry)iterator.next();
-            switch ((Integer)map$Entry.getKey()) {
+            Map.Entry entry = (Map.Entry)iterator.next();
+            switch ((Integer)entry.getKey()) {
                 case 0x1000000: {
-                    if (map$Entry.getValue() == null) {
+                    if (entry.getValue() == null) {
                         stringWriter.write("context(String)=null");
                         break;
                     }
                     stringWriter.write("context(String)='");
-                    stringWriter.write(map$Entry.getValue().toString());
+                    stringWriter.write(entry.getValue().toString());
                     stringWriter.write("'");
                     break;
                 }
                 case 0x1000001: {
-                    if (map$Entry.getValue() == null) {
+                    if (entry.getValue() == null) {
                         stringWriter.write("state(ContextStateEnumeration)=null");
                         break;
                     }
                     stringWriter.write("state(ContextStateEnumeration)='");
-                    stringWriter.write(map$Entry.getValue().toString());
+                    stringWriter.write(entry.getValue().toString());
                     stringWriter.write("'");
                     break;
                 }
@@ -124,7 +120,6 @@ extends AbstractContainer {
         stringWriter.write(")");
     }
 
-    @Override
     protected Object clone() {
         ContextStateContainer contextStateContainer = new ContextStateContainer(this);
         return contextStateContainer;

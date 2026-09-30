@@ -38,22 +38,18 @@ implements IAmFmDsiDownManager {
         this.globalAmFmLock = object;
     }
 
-    @Override
     public AMFMDsiUpInfo getDsiUpListener() {
         return this.tuningQueue.dsiUpListener;
     }
 
-    @Override
     public void setDeviceService(DSIAMFMTuner dSIAMFMTuner) {
         this.dsi = dSIAMFMTuner;
     }
 
-    @Override
     public boolean isDsiFound() {
         return !(this.dsi instanceof NullDSIAMFMTunerService);
     }
 
-    @Override
     public void register(RadioInfo radioInfo) {
         if (radioInfo instanceof AMFMDsiDownInfo) {
             AMFMDsiDownInfo[] aMFMDsiDownInfoArray = new AMFMDsiDownInfo[this.listeners.length + 1];
@@ -71,9 +67,8 @@ implements IAmFmDsiDownManager {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void setNotification(int[] nArray, DSIListener dSIListener) {
-        this.log.log(-2137614336, "[AMFMDSIDownManager.setNotification] %1", (Object)nArray);
+        this.log.log(10000000, "[AMFMDSIDownManager.setNotification] %1", (Object)nArray);
         Object object = this.globalAmFmLock;
         synchronized (object) {
             for (int i2 = 0; i2 < nArray.length; ++i2) {
@@ -86,9 +81,8 @@ implements IAmFmDsiDownManager {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void clearNotification(int[] nArray, DSIListener dSIListener) {
-        this.log.log(-2137614336, "[AMFMDSIDownManager.clearNotification] %1", (Object)nArray);
+        this.log.log(10000000, "[AMFMDSIDownManager.clearNotification] %1", (Object)nArray);
         Object object = this.globalAmFmLock;
         synchronized (object) {
             for (int i2 = 0; i2 < nArray.length; ++i2) {
@@ -101,7 +95,6 @@ implements IAmFmDsiDownManager {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void reNotification(int n) {
         Object object = this.globalAmFmLock;
         synchronized (object) {
@@ -113,7 +106,7 @@ implements IAmFmDsiDownManager {
                 }
             }
             if ((object2 = (DSIListener)this.notifications.get(n)) != null) {
-                this.log.log(-2137614336, "[AMFMDSIDownManager.setNotification] again for arrt %1", (long)n);
+                this.log.log(10000000, "[AMFMDSIDownManager.setNotification] again for arrt %1", (long)n);
                 this.dsi.setNotification(n, (DSIListener)object2);
             }
         }
@@ -127,7 +120,7 @@ implements IAmFmDsiDownManager {
             ((Buffer)object).append("f:").append(n);
             ((Buffer)object).append(" pi:0x").append(Integer.toHexString(n2));
             ((Buffer)object).append(" sc:").append(n3);
-            this.log.log(-2137614336, "[AMFMDSIDownManager.selectStation] %1", object);
+            this.log.log(10000000, "[AMFMDSIDownManager.selectStation] %1", object);
         }
         object = this.listeners;
         for (n4 = 0; n4 < ((Object)object).length; ++n4) {
@@ -146,7 +139,6 @@ implements IAmFmDsiDownManager {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void tuneStation(AMFMStation aMFMStation, boolean bl, boolean bl2, int n) {
         AMFMStation aMFMStation2 = new AMFMStation(aMFMStation);
         aMFMStation2.resetProgramData();
@@ -183,42 +175,37 @@ implements IAmFmDsiDownManager {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void seekStation(int n) {
         Object object = this.globalAmFmLock;
         synchronized (object) {
-            this.log.log(-2137614336, "[AMFMDSIDownManager.seekStation] %1", (long)n);
+            this.log.log(10000000, "[AMFMDSIDownManager.seekStation] %1", (long)n);
             this.dsi.seekStation(n);
             this.setERTDisplayable(true);
         }
     }
 
-    @Override
     public void switchAF(boolean bl) {
-        this.log.log(-2137614336, "[AMFMDSIDownManager.switchAF] %1", bl);
+        this.log.log(10000000, "[AMFMDSIDownManager.switchAF] %1", bl);
         this.dsi.switchAF(bl);
     }
 
-    @Override
     public void switchREG(int n) {
-        this.log.log(-2137614336, "[AMFMDSIDownManager.switchREG] %1", (long)n);
+        this.log.log(10000000, "[AMFMDSIDownManager.switchREG] %1", (long)n);
         this.dsi.switchREG(n);
     }
 
-    @Override
     public void switchLinkingDeviceUsage(int n) {
-        this.log.log(-2137614336, "[AMFMDSIDownManager.switchLinkingDeviceUsage] %1", (long)n);
+        this.log.log(10000000, "[AMFMDSIDownManager.switchLinkingDeviceUsage] %1", (long)n);
         this.dsi.switchLinkingDeviceUsage(n);
     }
 
-    @Override
     public void reset(int n) {
-        this.log.log(-2137614336, "[AMFMDSIDownManager.reset] %1", (long)n);
+        this.log.log(10000000, "[AMFMDSIDownManager.reset] %1", (long)n);
         this.dsi.reset(n);
     }
 
     void selectFrequency(int n) {
-        this.log.log(-2137614336, "[AMFMDSIDownManager.selectFrequency] %1", (long)n);
+        this.log.log(10000000, "[AMFMDSIDownManager.selectFrequency] %1", (long)n);
         AMFMDsiDownInfo[] aMFMDsiDownInfoArray = this.listeners;
         for (int i2 = 0; i2 < aMFMDsiDownInfoArray.length; ++i2) {
             aMFMDsiDownInfoArray[i2].blockUpdates();
@@ -227,7 +214,6 @@ implements IAmFmDsiDownManager {
         this.setERTDisplayable(true);
     }
 
-    @Override
     public void isOnPreset(int n, int n2, int n3, String string) {
         if (this.log.isDebug()) {
             Buffer buffer = new Buffer(30);
@@ -235,49 +221,43 @@ implements IAmFmDsiDownManager {
             buffer.append(" pi:0x").append(Integer.toHexString(n2));
             buffer.append(" loc:").append(n3);
             buffer.append(" name:").append(string);
-            this.log.log(-2137614336, "[AMFMDSIDownManager.isOnPreset] %1", (Object)buffer);
+            this.log.log(10000000, "[AMFMDSIDownManager.isOnPreset] %1", (Object)buffer);
         }
         this.dsi.isOnPreset(n, n2, n3, string);
     }
 
     public void freePreset(int n) {
-        this.log.log(-2137614336, "[AMFMDSIDownManager.freePreset] %1", (long)n);
+        this.log.log(10000000, "[AMFMDSIDownManager.freePreset] %1", (long)n);
         this.dsi.freePreset(n);
     }
 
-    @Override
     public void forceAMUpdate(int n) {
-        this.log.log(-2137614336, "[AMFMDSIDownManager.forceAMUpdate] %1", (long)n);
+        this.log.log(10000000, "[AMFMDSIDownManager.forceAMUpdate] %1", (long)n);
         this.dsi.forceAMUpdate(n);
     }
 
-    @Override
     public void switchRDSIgnore(boolean bl) {
-        this.log.log(-2137614336, "[AMFMDSIDownManager.switchRDSIgnore] %1", bl);
+        this.log.log(10000000, "[AMFMDSIDownManager.switchRDSIgnore] %1", bl);
         this.dsi.switchRDSIgnore(bl);
     }
 
-    @Override
     public void enableRadiotextPlus(int[] nArray) {
-        this.log.log(-2137614336, "[AMFMDSIDownManager.enableRadiotextPlus] %1", (Object)nArray);
+        this.log.log(10000000, "[AMFMDSIDownManager.enableRadiotextPlus] %1", (Object)nArray);
         this.dsi.enableRadiotextPlus(nArray);
     }
 
-    @Override
     public void setModeHD(int n) {
-        this.log.log(-2137614336, "[AMFMDSIDownManager.setModeHD] %1", (long)n);
+        this.log.log(10000000, "[AMFMDSIDownManager.setModeHD] %1", (long)n);
         this.dsi.setModeHD(n);
     }
 
-    @Override
     public void setERTPrefered(boolean bl) {
-        this.log.log(-2137614336, "[AMFMDSIDownManager.setERTPrefered] %1", bl);
+        this.log.log(10000000, "[AMFMDSIDownManager.setERTPrefered] %1", bl);
         this.dsi.setERTPrefered(bl);
     }
 
-    @Override
     public void setERTDisplayable(boolean bl) {
-        this.log.log(-2137614336, "[AMFMDSIDownManager.setERTDisplayable] %1", bl);
+        this.log.log(10000000, "[AMFMDSIDownManager.setERTDisplayable] %1", bl);
         if (bl != this.ertDisplayable) {
             this.ertDisplayable = bl;
             this.dsi.setERTDisplayable(bl);

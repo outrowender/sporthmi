@@ -12,49 +12,34 @@ import org.dsi.ifc.navigation.LIValueListElement;
 
 public interface IPoiSearchAreaHandler
 extends IMatchspellerInputSequence {
-    default public void start(boolean bl, int n) {
-    }
+    public void start(boolean var1, int var2);
 
-    default public void startCountryCity(boolean bl) {
-    }
+    public void startCountryCity(boolean var1);
 
-    default public void startCountryInputSequence(IMatchspellerModelAccess iMatchspellerModelAccess, boolean bl) {
-    }
+    public void startCountryInputSequence(IMatchspellerModelAccess var1, boolean var2);
 
-    default public void startCountryInputSequence(char c2, IMatchspellerModelAccess iMatchspellerModelAccess, boolean bl) {
-    }
+    public void startCountryInputSequence(char var1, IMatchspellerModelAccess var2, boolean var3);
 
-    default public void startPoiAreaCityZipInputSequence(IMatchspellerModelAccess iMatchspellerModelAccess, boolean bl) {
-    }
+    public void startPoiAreaCityZipInputSequence(IMatchspellerModelAccess var1, boolean var2);
 
-    default public void startPoiAreaCityZipInputSequence(IMatchspellerModelAccess iMatchspellerModelAccess, CommandList commandList, boolean bl) {
-    }
+    public void startPoiAreaCityZipInputSequence(IMatchspellerModelAccess var1, CommandList var2, boolean var3);
 
-    default public void updateSearchArea(int n, NavLocation navLocation) {
-    }
+    public void updateSearchArea(int var1, NavLocation var2);
 
-    default public void selectListElement(LICityHistoryEntry lICityHistoryEntry, CommandList commandList, boolean bl) {
-    }
+    public void selectListElement(LICityHistoryEntry var1, CommandList var2, boolean var3);
 
-    default public NavLocation getCountryLocation() {
-    }
+    public NavLocation getCountryLocation();
 
-    default public void showCityInPreviewMap(LIValueListElement lIValueListElement) {
-    }
+    public void showCityInPreviewMap(LIValueListElement var1);
 
-    default public void showCityInPreviewMap(LICityHistoryEntry lICityHistoryEntry) {
-    }
+    public void showCityInPreviewMap(LICityHistoryEntry var1);
 
-    default public void showCCPInPreviewMap() {
-    }
+    public void showCCPInPreviewMap();
 
-    default public void showRouteInPreviewMap() {
-    }
+    public void showRouteInPreviewMap();
 
-    default public void showDestinationAreaInPreviewMap(NavLocation navLocation) {
-    }
+    public void showDestinationAreaInPreviewMap(NavLocation var1);
 
-    default public void hidePreviewMap() {
-    }
+    public void hidePreviewMap();
 }
 

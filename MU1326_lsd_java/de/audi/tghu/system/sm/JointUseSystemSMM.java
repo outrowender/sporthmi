@@ -10,29 +10,28 @@ import de.audi.atip.statemachine.SMServices;
 
 public class JointUseSystemSMM
 extends AbstractSysSMM {
-    private static final int MAX_STATES;
-    private static final int STATE_ROOT;
-    private static final int STATE_DUMMY_SLOT;
-    private static final int STATE_NAVI_SLOT;
-    private static final int STATE_SWDL_SLOT;
-    private static final int MAX_MEDIATORS;
-    private static final int MAX_TRANSITIONS;
-    private static final int TRANSITION_ROOT_DEFAULT;
-    private static final int TRANSITION_ROOT_NAV;
-    private static final int TRANSITION_ROOT_JOINT_DUMMY;
-    private static final int TRANSITION_DUMMY_DEFAULT;
-    private static final int TRANSITION_NAVI_DEFAULT;
-    private static final int TRANSITION_SWDL_DEFAULT;
-    private static final int TRANSITION_ROOT_SWDL;
-    private static int EXT_STATE_NAVI_TLS;
-    private static int EXT_STATE_DUMMY_TLS;
-    private static int EXT_STATE_SWDL_TLS;
+    private static final int MAX_STATES = 5;
+    private static final int STATE_ROOT = 1;
+    private static final int STATE_DUMMY_SLOT = 2;
+    private static final int STATE_NAVI_SLOT = 3;
+    private static final int STATE_SWDL_SLOT = 4;
+    private static final int MAX_MEDIATORS = 0;
+    private static final int MAX_TRANSITIONS = 8;
+    private static final int TRANSITION_ROOT_DEFAULT = 1;
+    private static final int TRANSITION_ROOT_NAV = 2;
+    private static final int TRANSITION_ROOT_JOINT_DUMMY = 3;
+    private static final int TRANSITION_DUMMY_DEFAULT = 4;
+    private static final int TRANSITION_NAVI_DEFAULT = 5;
+    private static final int TRANSITION_SWDL_DEFAULT = 6;
+    private static final int TRANSITION_ROOT_SWDL = 7;
+    private static int EXT_STATE_NAVI_TLS = -1;
+    private static int EXT_STATE_DUMMY_TLS = -2;
+    private static int EXT_STATE_SWDL_TLS = -3;
 
     public JointUseSystemSMM(IFrameworkAccess iFrameworkAccess) {
         super(iFrameworkAccess, 5, "rearSeatJoint", 0, 0, "SystemSMM");
     }
 
-    @Override
     protected void init() {
         this.smmSlotList = new int[]{2, 3, 4};
         this.smmSlotModuleIDList = new int[]{23, 4, 17};
@@ -113,12 +112,10 @@ extends AbstractSysSMM {
         this.mediatorList = new EventMediator[0];
     }
 
-    @Override
     public boolean checkGuard(int n, int n2) {
-        throw new UnsupportedOperationException(new StringBuffer().append(super.getClass().getName()).append(" does not support method checkGuard(int,int)").toString());
+        throw new UnsupportedOperationException(this.getClass().getName() + " does not support method checkGuard(int,int)");
     }
 
-    @Override
     public boolean checkGuard(SMServices sMServices, int n, int n2) {
         switch (n) {
             case 3: {
@@ -128,26 +125,16 @@ extends AbstractSysSMM {
         return true;
     }
 
-    @Override
     public void execEnteredAction(SMServices sMServices, int n) {
     }
 
-    @Override
     public void execEnterAction(SMServices sMServices, int n) {
     }
 
-    @Override
     public void execExitAction(SMServices sMServices, int n) {
     }
 
-    @Override
     public void execTransitionAction(SMServices sMServices, int n, int n2) {
-    }
-
-    static {
-        EXT_STATE_NAVI_TLS = -1;
-        EXT_STATE_DUMMY_TLS = -2;
-        EXT_STATE_SWDL_TLS = -3;
     }
 }
 

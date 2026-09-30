@@ -25,17 +25,14 @@ implements RemoteHMITask {
         return this.logAppender;
     }
 
-    @Override
     public Long getDelayMillis() {
         return null;
     }
 
-    @Override
     public boolean isCoalescable() {
         return false;
     }
 
-    @Override
     public boolean coalesceWith(RemoteHMITask remoteHMITask) {
         return false;
     }

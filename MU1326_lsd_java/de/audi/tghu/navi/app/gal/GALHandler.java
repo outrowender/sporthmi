@@ -21,9 +21,8 @@ implements ITerminalModeUpdateListener {
         this.clusterService = clusterService;
     }
 
-    @Override
     public void updateAppStates(TerminalModeAppState[] terminalModeAppStateArray) {
-        this.navigationEnv.getLogChannel().log(-2137614336, "GALHandler#updateAppStates");
+        this.navigationEnv.getLogChannel().log(10000000, "GALHandler#updateAppStates");
         if (terminalModeAppStateArray == null) {
             return;
         }
@@ -36,7 +35,7 @@ implements ITerminalModeUpdateListener {
     }
 
     protected void updateNaviAppState(boolean bl) {
-        this.navigationEnv.getLogChannel().log(1078071040, "GALHandler#updateNaviAppState - naviIsRunningOnSmartphone: %1", bl);
+        this.navigationEnv.getLogChannel().log(1000000, "GALHandler#updateNaviAppState - naviIsRunningOnSmartphone: %1", bl);
         this.naviIsRunningOnSmartphone = bl;
         this.clusterService.updateGALState(bl);
     }

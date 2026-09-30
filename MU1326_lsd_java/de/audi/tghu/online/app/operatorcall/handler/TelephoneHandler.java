@@ -9,7 +9,6 @@ import de.audi.atip.log.LogChannel;
 import de.audi.atip.phone.ITelService;
 import de.audi.tghu.online.app.Online;
 import de.audi.tghu.online.app.operatorcall.abstractclasses.AbstractOperatorCall;
-import de.audi.tghu.online.app.operatorcall.handler.TelephoneHandler$1;
 import de.audi.tghu.online.app.operatorcall.handler.TestHandler;
 import de.audi.tghu.online.app.operatorcall.listener.TelephoneListener;
 
@@ -25,46 +24,46 @@ public class TelephoneHandler {
     public void setTelService(ITelService iTelService) {
         if (iTelService == null || this.telService == null) {
             if (iTelService == null) {
-                this.logChannel.log(1078071040, "TelephoneHandler#setTelService: TelService is null. Removing TelService");
+                this.logChannel.log(1000000, "TelephoneHandler#setTelService: TelService is null. Removing TelService");
             } else {
-                this.logChannel.log(1078071040, "TelephoneHandler#setTelService: New TelService is available");
+                this.logChannel.log(1000000, "TelephoneHandler#setTelService: New TelService is available");
             }
             this.telService = iTelService;
             return;
         }
-        this.logChannel.log(-1601830656, "TelephoneHandler#setTelService: TelService already exists. Ignoring new TelService!");
+        this.logChannel.log(100000, "TelephoneHandler#setTelService: TelService already exists. Ignoring new TelService!");
     }
 
     public boolean isTelServiceAvailable() {
         boolean bl = this.telService != null;
         boolean bl2 = TestHandler.isTelSimulation();
-        this.logChannel.log(-2137614336, "TelephoneHandler#isTelServiceAvailable: real = %1, simulation = %2", bl, bl2);
+        this.logChannel.log(10000000, "TelephoneHandler#isTelServiceAvailable: real = %1, simulation = %2", bl, bl2);
         return this.telService != null || TestHandler.isTelSimulation();
     }
 
     public void dialNumber(AbstractOperatorCall abstractOperatorCall) {
-        this.logChannel.log(1078071040, "TelephoneHandler#dialNumber: entered");
+        this.logChannel.log(1000000, "TelephoneHandler#dialNumber: entered");
         this.listener = abstractOperatorCall;
         this.isCallerHangUpTriggered = false;
         String string = abstractOperatorCall.getFirstPhoneNumber();
         if (TestHandler.isTelSimulation()) {
-            this.logChannel.log(-1601830656, "TelephoneHandler#dialNumber: TelSimulation is running!");
+            this.logChannel.log(100000, "TelephoneHandler#dialNumber: TelSimulation is running!");
             this.callSession = new TelephoneListener(string, this);
             abstractOperatorCall.resetCallInformation();
-            this.logChannel.log(-2137614336, "TelephoneHandler#dialNumber: phoneNumber = %1", (Object)this.callSession.getTelephoneNumber());
-            this.logChannel.log(-1601830656, "TelephoneHandler#dialNumber: TelSimulation is running!");
+            this.logChannel.log(10000000, "TelephoneHandler#dialNumber: phoneNumber = %1", (Object)this.callSession.getTelephoneNumber());
+            this.logChannel.log(100000, "TelephoneHandler#dialNumber: TelSimulation is running!");
             ITelCallControl iTelCallControl = this.createDummyTelControl();
             this.callSession.onActive(iTelCallControl);
         } else {
             this.callSession = new TelephoneListener(string, this);
             abstractOperatorCall.resetCallInformation();
-            this.logChannel.log(-2137614336, "TelephoneHandler#dialNumber: phoneNumber = %1", (Object)this.callSession.getTelephoneNumber());
+            this.logChannel.log(10000000, "TelephoneHandler#dialNumber: phoneNumber = %1", (Object)this.callSession.getTelephoneNumber());
             if (this.telService != null) {
                 this.callSession.setCallType(abstractOperatorCall.getServiceType());
                 this.setDialNumberTriggered(true);
                 this.telService.dialNumber(this.callSession, false);
             } else {
-                this.logChannel.log(-1601830656, "TelephoneHandler#dialNumber: not possible. TelService is null!");
+                this.logChannel.log(100000, "TelephoneHandler#dialNumber: not possible. TelService is null!");
                 abstractOperatorCall.replyToSDS(8);
                 abstractOperatorCall.getCommandListManager().getCommandList().commandAborted("TelephoneHandler#dialNumber: not possible. TelService is null!", "TelephoneHandler#dialNumber: not possible. TelService is null!");
                 return;
@@ -73,7 +72,7 @@ public class TelephoneHandler {
     }
 
     private void setDialNumberTriggered(boolean bl) {
-        this.logChannel.log(-2137614336, "TelephoneHandler#setDialNumberTriggered: %1 -> %2", this.isDialNumberTriggered, bl);
+        this.logChannel.log(10000000, "TelephoneHandler#setDialNumberTriggered: %1 -> %2", this.isDialNumberTriggered, bl);
         this.isDialNumberTriggered = bl;
     }
 
@@ -86,7 +85,16 @@ public class TelephoneHandler {
     }
 
     private ITelCallControl createDummyTelControl() {
-        return new TelephoneHandler$1(this);
+        return new ITelCallControl(){
+
+            public void hangupCall() {
+                TelephoneHandler.this.logChannel.log(100000, "TelephoneHandler#createDummyTelControl#hangupCall: TelSimulation is running!");
+            }
+
+            public void muteMicrophone(boolean bl) {
+                TelephoneHandler.this.logChannel.log(100000, "TelephoneHandler#createDummyTelControl#muteMicrophone: TelSimulation is running!");
+            }
+        };
     }
 
     public void setCallActive() {
@@ -102,9 +110,9 @@ public class TelephoneHandler {
     }
 
     public void hangUp() {
-        this.logChannel.log(1078071040, "TelephoneHandler#hangup: called -> finishing callSession");
+        this.logChannel.log(1000000, "TelephoneHandler#hangup: called -> finishing callSession");
         if (this.isCallerHangUpTriggeredAlready()) {
-            this.logChannel.log(-1601830656, "TelephoneHandler#hangup: Hang-up has already been triggered! Waiting for the disconnection of telephone");
+            this.logChannel.log(100000, "TelephoneHandler#hangup: Hang-up has already been triggered! Waiting for the disconnection of telephone");
             return;
         }
         this.setCallerHangUpTriggered(true);
@@ -112,12 +120,12 @@ public class TelephoneHandler {
     }
 
     private void setCallerHangUpTriggered(boolean bl) {
-        this.logChannel.log(-2137614336, "TelephoneHandler#setCallerTriggeredHangUp: %1 -> &2", this.isCallerHangUpTriggered, bl);
+        this.logChannel.log(10000000, "TelephoneHandler#setCallerTriggeredHangUp: %1 -> &2", this.isCallerHangUpTriggered, bl);
         this.isCallerHangUpTriggered = bl;
     }
 
     public void disconnected() {
-        this.logChannel.log(1078071040, "TelephoneHandler#disconnected: called");
+        this.logChannel.log(1000000, "TelephoneHandler#disconnected: called");
         this.setCallerHangUpTriggered(false);
         this.setDialNumberTriggered(false);
         this.listener.callDisconnected();
@@ -137,10 +145,6 @@ public class TelephoneHandler {
 
     public HMIService getHmiService() {
         return this.hmiService;
-    }
-
-    static /* synthetic */ LogChannel access$000(TelephoneHandler telephoneHandler) {
-        return telephoneHandler.logChannel;
     }
 }
 

@@ -6,7 +6,6 @@ package de.audi.tuner.app.rsdb;
 import de.audi.tuner.ifc.ILogoDatabase;
 
 public interface IRadioDatabaseListener {
-    default public void databaseReady(ILogoDatabase iLogoDatabase) {
-    }
+    public void databaseReady(ILogoDatabase var1);
 }
 

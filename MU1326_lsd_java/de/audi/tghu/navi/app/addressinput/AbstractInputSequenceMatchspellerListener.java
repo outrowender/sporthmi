@@ -77,9 +77,8 @@ TiledListModelListener {
         this.logChannel = navigationEnv.getAddressInputLogChannel();
     }
 
-    @Override
     public void textChanged(int n, String string, char c2, int n2) {
-        this.logChannel.log(-2137614336, "AbstractInputSequenceMatchspellerListener#textChanged(%1, %2, %3)", (Object)new StringBuffer().append(n).append("").toString(), (Object)string, (long)c2);
+        this.logChannel.log(10000000, "AbstractInputSequenceMatchspellerListener#textChanged(%1, %2, %3)", (Object)(n + ""), (Object)string, (long)c2);
         Util.setModelStatus(this.env.getMatchSpellerModel(n), 0);
         if ("".equals(string)) {
             this.getInputSequence().deleteAllCharacters();
@@ -90,53 +89,43 @@ TiledListModelListener {
         }
     }
 
-    @Override
     public void requestItems(int n, int n2, int n3, int n4, int n5) {
-        this.logChannel.log(-2137614336, "AbstractInputSequence#requestItems - was called with requestID = %1, startIndex = %2, model = %3", (long)n3, (long)n, (long)n4);
+        this.logChannel.log(10000000, "AbstractInputSequence#requestItems - was called with requestID = %1, startIndex = %2, model = %3", (long)n3, (long)n, (long)n4);
         this.getInputSequence().requestNextResultListWindow(n, n3);
     }
 
-    @Override
     public void unrequestItems(int n, int n2, int n3, int n4) {
         this.getInputSequence().unrequestItems(n, n2);
     }
 
-    public abstract IMatchspellerInputSequence getInputSequence() {
-    }
+    public abstract IMatchspellerInputSequence getInputSequence();
 
-    @Override
     public void itemReleased(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
-        this.logChannel.log(-2137614336, "AbstractInputSequenceMatchspellerListener#itemReleased() was invoked");
+        this.logChannel.log(10000000, "AbstractInputSequenceMatchspellerListener#itemReleased() was invoked");
     }
 
-    @Override
     public void itemLongSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
-        this.logChannel.log(-2137614336, "AbstractInputSequenceMatchspellerListener#itemLongSelected() was invoked");
+        this.logChannel.log(10000000, "AbstractInputSequenceMatchspellerListener#itemLongSelected() was invoked");
     }
 
-    @Override
     public void focusedCharacter(int n, char c2, int n2) {
-        this.logChannel.log(-2137614336, "AbstractInputSequenceMatchspellerListener#focusedCharacter() was invoked");
+        this.logChannel.log(10000000, "AbstractInputSequenceMatchspellerListener#focusedCharacter() was invoked");
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3) {
-        this.logChannel.log(-2137614336, "AbstractInputSequenceMatchspellerListener#keyPressed() was invoked");
+        this.logChannel.log(10000000, "AbstractInputSequenceMatchspellerListener#keyPressed() was invoked");
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3) {
-        this.logChannel.log(-2137614336, "AbstractInputSequenceMatchspellerListener#keyReleased() was invoked");
+        this.logChannel.log(10000000, "AbstractInputSequenceMatchspellerListener#keyReleased() was invoked");
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
-        this.logChannel.log(-2137614336, "AbstractInputSequenceMatchspellerListener#keyTyped() was invoked");
+        this.logChannel.log(10000000, "AbstractInputSequenceMatchspellerListener#keyTyped() was invoked");
     }
 
-    @Override
     public void commandPressed(int n, int n2, int n3) {
-        this.logChannel.log(-2137614336, "AbstractInputSequenceMatchspellerListener#textChanged() was invoked");
+        this.logChannel.log(10000000, "AbstractInputSequenceMatchspellerListener#textChanged() was invoked");
     }
 }
 

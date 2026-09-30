@@ -18,62 +18,50 @@ implements DSIRadioData {
         super(logChannel, "DSIRadioData");
     }
 
-    @Override
     public void requestRadioStationData(RadioStationDataRequest[] radioStationDataRequestArray, int n) {
         this.log();
     }
 
-    @Override
     public void requestRadioStationLogos(RadioStationLogoRequest[] radioStationLogoRequestArray, int n) {
         this.log();
     }
 
-    @Override
     public void requestDynamicDatabaseAlteration(RadioStationData radioStationData, ResourceLocator resourceLocator, int n, int n2) {
         this.log();
     }
 
-    @Override
     public void requestCountryListUpdate(int n) {
         this.log();
     }
 
-    @Override
     public void requestDatabaseVersionInfo(int n) {
         this.log();
     }
 
-    @Override
     public void requestPersistStationLogos(RadioStationData[] radioStationDataArray, ResourceLocator[] resourceLocatorArray, int n, int n2) {
         this.log();
     }
 
-    @Override
     public void requestCountryRegionData(int n) {
         this.log();
     }
 
-    @Override
     public void requestCountryRegionTranslationData(int n, String string, int n2) {
         this.log();
     }
 
-    @Override
     public void profileChange(int n) {
         this.log();
     }
 
-    @Override
     public void profileCopy(int n, int n2) {
         this.log();
     }
 
-    @Override
     public void profileReset(int n) {
         this.log();
     }
 
-    @Override
     public void profileResetAll() {
         this.log();
     }

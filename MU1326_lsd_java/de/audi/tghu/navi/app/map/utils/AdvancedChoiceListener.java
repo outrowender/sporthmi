@@ -24,7 +24,7 @@ extends DefaultChoiceListener {
 
     public void addChoiceListener(ChoiceListener choiceListener) {
         if (!this.listeners.contains(choiceListener)) {
-            this.getLogger().log(14808325, "%1#addChoiceListener( %2 )", (Object)this, (Object)choiceListener);
+            this.getLogger().log(100000000, "%1#addChoiceListener( %2 )", (Object)this, (Object)choiceListener);
             this.listeners.add(choiceListener);
         }
     }
@@ -39,11 +39,10 @@ extends DefaultChoiceListener {
         this.listeners.clear();
     }
 
-    @Override
     public void itemSelected(int n, int n2, int n3, int n4) {
         for (int i2 = 0; i2 < this.listeners.size(); ++i2) {
             try {
-                this.getLogger().log(14808325, "AdvancedChoiceListener[%1/%2]#itemSelected( %3 )", (long)i2, (long)this.listeners.size(), (long)n);
+                this.getLogger().log(100000000, "AdvancedChoiceListener[%1/%2]#itemSelected( %3 )", (long)i2, (long)this.listeners.size(), (long)n);
                 ((ChoiceListener)this.listeners.get(i2)).itemSelected(n, n2, n3, n4);
                 continue;
             }
@@ -53,7 +52,6 @@ extends DefaultChoiceListener {
         }
     }
 
-    @Override
     public void itemFocused(int n, int n2, int n3, int n4) {
         for (int i2 = 0; i2 < this.listeners.size(); ++i2) {
             try {
@@ -66,7 +64,6 @@ extends DefaultChoiceListener {
         }
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3) {
         for (int i2 = 0; i2 < this.listeners.size(); ++i2) {
             try {
@@ -79,7 +76,6 @@ extends DefaultChoiceListener {
         }
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3) {
         for (int i2 = 0; i2 < this.listeners.size(); ++i2) {
             try {
@@ -92,7 +88,6 @@ extends DefaultChoiceListener {
         }
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
         for (int i2 = 0; i2 < this.listeners.size(); ++i2) {
             try {
@@ -105,7 +100,6 @@ extends DefaultChoiceListener {
         }
     }
 
-    @Override
     public void keyLongTyped(int n, int n2, int n3) {
         for (int i2 = 0; i2 < this.listeners.size(); ++i2) {
             try {

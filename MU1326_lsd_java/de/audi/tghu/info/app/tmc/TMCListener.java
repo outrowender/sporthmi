@@ -13,23 +13,6 @@ import de.audi.tghu.info.app.InfoEnv;
 import de.audi.tghu.info.app.tmc.AppTMC;
 import de.audi.tghu.info.app.tmc.TMCDefaultListener;
 import de.audi.tghu.info.app.tmc.TMCHelper;
-import de.audi.tghu.info.app.tmc.TMCListener$1;
-import de.audi.tghu.info.app.tmc.TMCListener$10;
-import de.audi.tghu.info.app.tmc.TMCListener$11;
-import de.audi.tghu.info.app.tmc.TMCListener$12;
-import de.audi.tghu.info.app.tmc.TMCListener$13;
-import de.audi.tghu.info.app.tmc.TMCListener$14;
-import de.audi.tghu.info.app.tmc.TMCListener$15;
-import de.audi.tghu.info.app.tmc.TMCListener$16;
-import de.audi.tghu.info.app.tmc.TMCListener$17;
-import de.audi.tghu.info.app.tmc.TMCListener$2;
-import de.audi.tghu.info.app.tmc.TMCListener$3;
-import de.audi.tghu.info.app.tmc.TMCListener$4;
-import de.audi.tghu.info.app.tmc.TMCListener$5;
-import de.audi.tghu.info.app.tmc.TMCListener$6;
-import de.audi.tghu.info.app.tmc.TMCListener$7;
-import de.audi.tghu.info.app.tmc.TMCListener$8;
-import de.audi.tghu.info.app.tmc.TMCListener$9;
 import de.audi.tghu.info.app.tmc.TMCSimulation;
 import de.audi.tghu.info.app.tmc.TMCTitleLineManager;
 import org.dsi.ifc.base.DSIBase;
@@ -58,140 +41,194 @@ ICommandResponseSupplier {
         this.app = appTMC;
         this.defaultListener = new TMCDefaultListener(infoEnv, appTMC);
         this.logCh = iFrameworkAccess.getLogChannel("App.TMC.DSI");
-        this.logCh.log(-2137614336, "[TMCListener#TMCListener] Finished. ");
+        this.logCh.log(10000000, "[TMCListener#TMCListener] Finished. ");
     }
 
-    @Override
-    public void tmcWindowResult(int n, int n2, TmcListElement[] tmcListElementArray) {
+    public void tmcWindowResult(final int n, final int n2, final TmcListElement[] tmcListElementArray) {
         String string = tmcListElementArray == null ? "null" : String.valueOf(tmcListElementArray.length);
-        this.logCh.log(-2137614336, "[TMCListener#tmcWindowResult] Called, windowId: %2, usedAnchorId: %3, tmcListElements.length: %1 ", (Object)string, (long)n, (long)n2);
-        CommandResponse.execute(this, new TMCListener$1(this, n, n2, tmcListElementArray));
+        this.logCh.log(10000000, "[TMCListener#tmcWindowResult] Called, windowId: %2, usedAnchorId: %3, tmcListElements.length: %1 ", (Object)string, (long)n, (long)n2);
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((DSITmcListener)dSIListener).tmcWindowResult(n, n2, tmcListElementArray);
+            }
+        });
     }
 
-    @Override
-    public void updateEventsOnRoute(long l, int n) {
-        this.logCh.log(-2137614336, "[TMCListener#updateEventsOnRoute] Called, eventsOnRoute: %1, validFlag: %2 ", l, (long)n);
-        CommandResponse.execute(this, new TMCListener$2(this, l, n));
+    public void updateEventsOnRoute(final long l, final int n) {
+        this.logCh.log(10000000, "[TMCListener#updateEventsOnRoute] Called, eventsOnRoute: %1, validFlag: %2 ", l, (long)n);
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((DSITmcListener)dSIListener).updateEventsOnRoute(l, n);
+            }
+        });
     }
 
-    @Override
-    public void updateEventsTotal(int n, long l, long l2, int n2) {
-        this.logCh.log(-2137614336, "[TMCListener#updateEventsTotal] Called, windowId: %1, eventsTotal: %2, eventsVisible: %3", (long)n, l, l2);
-        this.logCh.log(-2137614336, "[TMCListener#updateEventsTotal] validFlag: %1 ", (long)n2);
-        CommandResponse.execute(this, new TMCListener$3(this, n, l, l2, n2));
+    public void updateEventsTotal(final int n, final long l, final long l2, final int n2) {
+        this.logCh.log(10000000, "[TMCListener#updateEventsTotal] Called, windowId: %1, eventsTotal: %2, eventsVisible: %3", (long)n, l, l2);
+        this.logCh.log(10000000, "[TMCListener#updateEventsTotal] validFlag: %1 ", (long)n2);
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((DSITmcListener)dSIListener).updateEventsTotal(n, l, l2, n2);
+            }
+        });
     }
 
-    @Override
-    public void updateIsEngineeringMode(boolean bl, int n) {
-        this.logCh.log(-2137614336, "[TMCListener#updateIsEngineeringMode] Called, isEngineeringMode: %1, validFlag: %2 ", bl, (long)n);
-        CommandResponse.execute(this, new TMCListener$4(this, bl, n));
+    public void updateIsEngineeringMode(final boolean bl, final int n) {
+        this.logCh.log(10000000, "[TMCListener#updateIsEngineeringMode] Called, isEngineeringMode: %1, validFlag: %2 ", bl, (long)n);
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((DSITmcListener)dSIListener).updateIsEngineeringMode(bl, n);
+            }
+        });
     }
 
-    @Override
-    public void updateIsTmcProAvailable(boolean bl, int n) {
-        this.logCh.log(-2137614336, "[TMCListener#updateIsTmcProAvailable] Called, isTmcAvailable: %1, validFlag: %2 ", bl, (long)n);
-        CommandResponse.execute(this, new TMCListener$5(this, bl, n));
+    public void updateIsTmcProAvailable(final boolean bl, final int n) {
+        this.logCh.log(10000000, "[TMCListener#updateIsTmcProAvailable] Called, isTmcAvailable: %1, validFlag: %2 ", bl, (long)n);
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((DSITmcListener)dSIListener).updateIsTmcProAvailable(bl, n);
+            }
+        });
     }
 
-    @Override
-    public void windowChange(int n) {
-        this.logCh.log(-2137614336, "[TMCListener#windowChange] Called, windowId: %1 ", (long)n);
+    public void windowChange(final int n) {
+        this.logCh.log(10000000, "[TMCListener#windowChange] Called, windowId: %1 ", (long)n);
         switch (n) {
             case 0: {
-                this.logCh.log(-2137614336, "[TMCListener#windowChange] Forward to overview list cmd manager. ");
-                CommandResponse.execute(this, new TMCListener$6(this, n));
+                this.logCh.log(10000000, "[TMCListener#windowChange] Forward to overview list cmd manager. ");
+                CommandResponse.execute(this, new CommandResponse(){
+
+                    public void call(DSIListener dSIListener) {
+                        ((DSITmcListener)dSIListener).windowChange(n);
+                    }
+                });
                 break;
             }
             case 1: {
                 if (this.framework.isFrontMU()) break;
-                this.logCh.log(-2137614336, "[TMCListener#windowChange] Forward to RSE overview list cmd manager.");
-                CommandResponse.execute(this, new TMCListener$7(this, n));
+                this.logCh.log(10000000, "[TMCListener#windowChange] Forward to RSE overview list cmd manager.");
+                CommandResponse.execute(this, new CommandResponse(){
+
+                    public void call(DSIListener dSIListener) {
+                        ((DSITmcListener)dSIListener).windowChange(n);
+                    }
+                });
                 break;
             }
             case 2: {
                 if (this.framework.isFrontMU()) break;
-                this.logCh.log(-2137614336, "[TMCListener#windowChange] Forward to RSE overview list cmd manager.");
-                CommandResponse.execute(this, new TMCListener$8(this, n));
+                this.logCh.log(10000000, "[TMCListener#windowChange] Forward to RSE overview list cmd manager.");
+                CommandResponse.execute(this, new CommandResponse(){
+
+                    public void call(DSIListener dSIListener) {
+                        ((DSITmcListener)dSIListener).windowChange(n);
+                    }
+                });
                 break;
             }
             default: {
-                this.logCh.log(-2137614336, "[TMCListener#windowChange] Unknown window ID, do nothing. ");
+                this.logCh.log(10000000, "[TMCListener#windowChange] Unknown window ID, do nothing. ");
                 return;
             }
         }
     }
 
-    @Override
-    public void asyncException(int n, String string, int n2) {
-        this.logCh.log(-2137614336, "[TMCListener#asyncException] Called, errorCode: %2, errorMsg: %1, requestType: %3 ", (Object)string, (long)n, (long)n2);
-        CommandResponse.execute(this, new TMCListener$9(this, n, string, n2));
+    public void asyncException(final int n, final String string, final int n2) {
+        this.logCh.log(10000000, "[TMCListener#asyncException] Called, errorCode: %2, errorMsg: %1, requestType: %3 ", (Object)string, (long)n, (long)n2);
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((DSITmcListener)dSIListener).asyncException(n, string, n2);
+            }
+        });
     }
 
-    @Override
-    public void updateCurrentLanguage(String string, int n) {
-        this.logCh.log(-2137614336, "[TMCListener#updateCurrentLanguage] Called, currentLanguage: %1, validFlag: %2 ", (Object)string, (long)n);
-        CommandResponse.execute(this, new TMCListener$10(this, string, n));
+    public void updateCurrentLanguage(final String string, final int n) {
+        this.logCh.log(10000000, "[TMCListener#updateCurrentLanguage] Called, currentLanguage: %1, validFlag: %2 ", (Object)string, (long)n);
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((DSITmcListener)dSIListener).updateCurrentLanguage(string, n);
+            }
+        });
     }
 
-    @Override
-    public void updateTmcState(int n, int n2) {
-        this.logCh.log(-2137614336, "[TMCListener#tmcState] Called, tmcStatus: %1, validFlag: %2 ", (long)n, (long)n2);
-        CommandResponse.execute(this, new TMCListener$11(this, n, n2));
+    public void updateTmcState(final int n, final int n2) {
+        this.logCh.log(10000000, "[TMCListener#tmcState] Called, tmcStatus: %1, validFlag: %2 ", (long)n, (long)n2);
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((DSITmcListener)dSIListener).updateTmcState(n, n2);
+            }
+        });
     }
 
-    @Override
-    public void setMessageFilterResult(int n, int n2) {
-        this.logCh.log(-2137614336, "[TMCListener#setMessageFilterResult] Called, windowId: %1, messageFilter: %2", (long)n, (long)n2);
-        CommandResponse.execute(this, new TMCListener$12(this, n, n2));
+    public void setMessageFilterResult(final int n, final int n2) {
+        this.logCh.log(10000000, "[TMCListener#setMessageFilterResult] Called, windowId: %1, messageFilter: %2", (long)n, (long)n2);
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((DSITmcListener)dSIListener).setMessageFilterResult(n, n2);
+            }
+        });
     }
 
-    @Override
     public DSIListener getDSIDefaultHandler() {
         return this.defaultListener;
     }
 
-    @Override
     public CommandList getActiveCommandList() {
         return this.cmdListManagerOverview.getActiveCommandList();
     }
 
-    @Override
     public LogChannel getLogChannel() {
         return this.logCh;
     }
 
-    @Override
     public String getHandlerName() {
-        return super.getClass().getName();
+        return this.getClass().getName();
     }
 
-    @Override
-    public void updateActiveTrafficSources(int[] nArray, int n) {
-        this.logCh.log(-2137614336, "[TMCListener#updateActiveTrafficSources] Called, activeTrafficSources.length: %1", nArray != null ? (long)nArray.length : 0L);
-        CommandResponse.execute(this, new TMCListener$13(this, nArray, n));
+    public void updateActiveTrafficSources(final int[] nArray, final int n) {
+        this.logCh.log(10000000, "[TMCListener#updateActiveTrafficSources] Called, activeTrafficSources.length: %1", nArray != null ? (long)nArray.length : 0L);
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((DSITmcListener)dSIListener).updateActiveTrafficSources(nArray, n);
+            }
+        });
     }
 
-    @Override
-    public void updateTrafficSourceInformation(TrafficSource[] trafficSourceArray, int n) {
-        this.logCh.log(-2137614336, "[TMCListener#updateTrafficSourceInformation] %1 trafficSources validFlag=%2", (Object)(null == trafficSourceArray ? "null" : String.valueOf(trafficSourceArray.length)), (long)n);
-        CommandResponse.execute(this, new TMCListener$14(this, trafficSourceArray, n));
+    public void updateTrafficSourceInformation(final TrafficSource[] trafficSourceArray, final int n) {
+        this.logCh.log(10000000, "[TMCListener#updateTrafficSourceInformation] %1 trafficSources validFlag=%2", (Object)(null == trafficSourceArray ? "null" : String.valueOf(trafficSourceArray.length)), (long)n);
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((DSITmcListener)dSIListener).updateTrafficSourceInformation(trafficSourceArray, n);
+            }
+        });
     }
 
     public void requestTMCWindow(int n, int n2, int[] nArray, int n3, int n4, boolean bl) {
         if (this.dsiTmc == null) {
-            this.logCh.log(1078071040, "[TMCListener#requestTMCWindow] No TMC DSI available!");
+            this.logCh.log(1000000, "[TMCListener#requestTMCWindow] No TMC DSI available!");
             return;
         }
         if (!bl) {
-            this.logCh.log(1078071040, "[TMCListener#requestTMCWindow] Navigation is not fully operable!");
+            this.logCh.log(1000000, "[TMCListener#requestTMCWindow] Navigation is not fully operable!");
             return;
         }
         if (this.logCh.isInfo()) {
-            this.logCh.log(1078071040, "[TMCListener#requestTMCWindow] windowId: %1, windowSize: %2, offset: %3", (long)n4, (long)n, (long)n2);
-            this.logCh.log(1078071040, "[TMCListener#requestTMCWindow] %1, openedListAnchorId: %2", (Object)TMCHelper.arrayToString("anchorID", nArray), (long)n3);
+            this.logCh.log(1000000, "[TMCListener#requestTMCWindow] windowId: %1, windowSize: %2, offset: %3", (long)n4, (long)n, (long)n2);
+            this.logCh.log(1000000, "[TMCListener#requestTMCWindow] %1, openedListAnchorId: %2", (Object)TMCHelper.arrayToString("anchorID", nArray), (long)n3);
         }
         try {
-            this.logCh.log(-2137614336, "[TMCListener#requestTMCWindow] Call for list window %1", (long)n4);
+            this.logCh.log(10000000, "[TMCListener#requestTMCWindow] Call for list window %1", (long)n4);
             this.dsiTmc.requestTmcWindow(n4, n, n2, nArray, n3);
         }
         catch (Exception exception) {
@@ -201,11 +238,11 @@ ICommandResponseSupplier {
 
     public void getBoundingRectangle(long[] lArray) {
         if (this.dsiTmc == null) {
-            this.logCh.log(1078071040, "[TMCListener#getBoundingRectangle] No TMC DSI available!");
+            this.logCh.log(1000000, "[TMCListener#getBoundingRectangle] No TMC DSI available!");
             return;
         }
         try {
-            this.logCh.log(-2137614336, "[TMCListener#getBoundingRectangle] Call for getBoundingRectangleForTrafficMessages %1", (Object)lArray);
+            this.logCh.log(10000000, "[TMCListener#getBoundingRectangle] Call for getBoundingRectangleForTrafficMessages %1", (Object)lArray);
             this.dsiTmc.getBoundingRectangleForTrafficMessages(lArray);
         }
         catch (Exception exception) {
@@ -215,11 +252,11 @@ ICommandResponseSupplier {
 
     public void setMessageFilter(int n, int n2) {
         if (this.dsiTmc == null) {
-            this.logCh.log(1078071040, "[TMCListener#setMessageFilter] No TMC DSI available!");
+            this.logCh.log(1000000, "[TMCListener#setMessageFilter] No TMC DSI available!");
             return;
         }
         try {
-            this.logCh.log(-2137614336, "[TMCListener#setMessageFilter] Call for setMessageFilter %1, %2", (long)n, (long)n2);
+            this.logCh.log(10000000, "[TMCListener#setMessageFilter] Call for setMessageFilter %1, %2", (long)n, (long)n2);
             this.dsiTmc.setMessageFilter(n, n2);
         }
         catch (Exception exception) {
@@ -228,7 +265,7 @@ ICommandResponseSupplier {
     }
 
     public void setTmcService(DSIBase dSIBase) {
-        this.logCh.log(1078071040, "[TMCListener#setTmcService] TMC DSI was found and is set on TMC application");
+        this.logCh.log(1000000, "[TMCListener#setTmcService] TMC DSI was found and is set on TMC application");
         this.dsiTmc = (DSITmc)dSIBase;
         try {
             this.dsiTmc.setNotification(new int[]{1, 2, 5, 6, 7, 11, 16, 8, 14}, (DSIListener)this);
@@ -276,41 +313,50 @@ ICommandResponseSupplier {
     }
 
     public void getMessageIdsForListElement(long l) {
-        this.logCh.log(-2137614336, "[TMCListener#getMessageIdsForListElement] listElementUId = %1", l);
+        this.logCh.log(10000000, "[TMCListener#getMessageIdsForListElement] listElementUId = %1", l);
         this.dsiTmc.getMessageIdsForListElement(l);
     }
 
-    @Override
-    public void getMessageIdsForListElementResult(long[] lArray) {
-        this.logCh.log(-2137614336, "[TMCListener#getMessageIdsForListElementResult] messageIds = %1", (Object)lArray);
-        CommandResponse.execute(this, new TMCListener$15(this, lArray));
+    public void getMessageIdsForListElementResult(final long[] lArray) {
+        this.logCh.log(10000000, "[TMCListener#getMessageIdsForListElementResult] messageIds = %1", (Object)lArray);
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((DSITmcListener)dSIListener).getMessageIdsForListElementResult(lArray);
+            }
+        });
     }
 
-    @Override
-    public void getBoundingRectangleForTrafficMessagesResult(NavRectangle navRectangle) {
-        this.logCh.log(-2137614336, "[TMCListener#getBoundingRectangleForTrafficMessagesResult] rectangle = %1", (Object)navRectangle);
-        CommandResponse.execute(this, new TMCListener$16(this, navRectangle));
+    public void getBoundingRectangleForTrafficMessagesResult(final NavRectangle navRectangle) {
+        this.logCh.log(10000000, "[TMCListener#getBoundingRectangleForTrafficMessagesResult] rectangle = %1", (Object)navRectangle);
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((DSITmcListener)dSIListener).getBoundingRectangleForTrafficMessagesResult(navRectangle);
+            }
+        });
     }
 
-    @Override
     public void updateAreaWarning(AreaWarningInfo areaWarningInfo, int n) {
-        this.logCh.log(-2137614336, "[TMCListener#updateAreaWarning]");
+        this.logCh.log(10000000, "[TMCListener#updateAreaWarning]");
     }
 
-    @Override
     public void updateAreaWarnings(AreaWarningInfo[] areaWarningInfoArray, int n) {
-        this.logCh.log(-2137614336, "[TMCListener#updateAreaWarnings]");
+        this.logCh.log(10000000, "[TMCListener#updateAreaWarnings]");
     }
 
-    @Override
-    public void updateLocalHazardInformation(LocalHazardInformation[] localHazardInformationArray, int n) {
-        this.logCh.log(-2137614336, "[TMCListener#updateLocalHazardInformation]");
-        CommandResponse.execute(this, new TMCListener$17(this, localHazardInformationArray, n));
+    public void updateLocalHazardInformation(final LocalHazardInformation[] localHazardInformationArray, final int n) {
+        this.logCh.log(10000000, "[TMCListener#updateLocalHazardInformation]");
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((DSITmcListener)dSIListener).updateLocalHazardInformation(localHazardInformationArray, n);
+            }
+        });
     }
 
-    @Override
     public void updateTrafficFlowStatisticsStatus(boolean bl, int n) {
-        this.logCh.log(-2137614336, "[TMCListener#updateTrafficFlowStatisticsStatus]");
+        this.logCh.log(10000000, "[TMCListener#updateTrafficFlowStatisticsStatus]");
     }
 }
 

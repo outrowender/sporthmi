@@ -24,8 +24,7 @@ implements DSIListener {
         return this.logChannel;
     }
 
-    protected abstract String getName() {
-    }
+    protected abstract String getName();
 
     public void bind(AbstractMap abstractMap) {
         this.naviMap = abstractMap;
@@ -42,7 +41,6 @@ implements DSIListener {
         return this.getMap().getActiveContext();
     }
 
-    public abstract void resetMemberVariables() {
-    }
+    public abstract void resetMemberVariables();
 }
 

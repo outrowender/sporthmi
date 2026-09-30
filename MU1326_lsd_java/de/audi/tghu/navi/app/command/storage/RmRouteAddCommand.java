@@ -19,15 +19,13 @@ extends NavCommand {
         this.name = string;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "RmRouteAddCommand#execute() - calling rmRouteAdd( %3, %1, %2 ) ", (Object)RouteUtil.formatRouteShort(this.route), (Object)this.name, (long)this.rmID);
+        this.logger.log(10000000, "RmRouteAddCommand#execute() - calling rmRouteAdd( %3, %1, %2 ) ", (Object)RouteUtil.formatRouteShort(this.route), (Object)this.name, (long)this.rmID);
         this.getDSINavigation().rmRouteAdd(this.rmID, this.route, this.name);
     }
 
-    @Override
     public void rmRouteAddResult(int n, long l) {
-        this.logger.log(-2137614336, "RmRouteAddCommand#rmRouteAddResult( %1, %2 ) ", (long)n, l);
+        this.logger.log(10000000, "RmRouteAddCommand#rmRouteAddResult( %1, %2 ) ", (long)n, l);
         if (n == 0) {
             this.dsiResponseContainer.setAddedRouteId(l);
             this.getCommandList().commandFinished();

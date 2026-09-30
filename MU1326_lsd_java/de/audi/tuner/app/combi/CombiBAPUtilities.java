@@ -77,7 +77,7 @@ class CombiBAPUtilities {
                 return 7;
             }
         }
-        throw new IllegalArgumentException(new StringBuffer().append("ConbiBAPUtilities.getTunerSourceType() ").append(n).toString());
+        throw new IllegalArgumentException("ConbiBAPUtilities.getTunerSourceType() " + n);
     }
 
     static int getBAPReceptionListType(int n) {

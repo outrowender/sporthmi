@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class h {
-    public static final String a;
+    public static final String a = "VTIMEZONE";
     private String d;
     List b;
     List c;

@@ -4,7 +4,7 @@
 package de.audi.tghu.navi.app.sdis;
 
 import de.audi.atip.activator.AbstractActivator;
-import de.audi.atip.sdis.IHMISyncNaviReplies$LastDestination;
+import de.audi.atip.sdis.IHMISyncNaviReplies;
 import de.audi.tghu.command.CommandList;
 import de.audi.tghu.navi.app.NavigationEnv;
 import de.audi.tghu.navi.app.command.NavCommand;
@@ -15,37 +15,26 @@ import org.dsi.ifc.navigation.PosPosition;
 import org.dsi.ifc.navigation.RgInfoForNextDestination;
 
 public interface INaviTabletService {
-    default public boolean isReady() {
-    }
+    public boolean isReady();
 
-    default public IHMISyncNaviReplies$LastDestination[] requestLastDestinationList() {
-    }
+    public IHMISyncNaviReplies.LastDestination[] requestLastDestinationList();
 
-    default public void registerListener(INaviTabletServiceListener iNaviTabletServiceListener) {
-    }
+    public void registerListener(INaviTabletServiceListener var1);
 
-    default public void updateCarPosition(PosPosition posPosition) {
-    }
+    public void updateCarPosition(PosPosition var1);
 
-    default public void updateRouteGuidanceActive(boolean bl) {
-    }
+    public void updateRouteGuidanceActive(boolean var1);
 
-    default public void updateRgInfoForNextDestination(RgInfoForNextDestination rgInfoForNextDestination) {
-    }
+    public void updateRgInfoForNextDestination(RgInfoForNextDestination var1);
 
-    default public void updateRgDestinationInfo(NavRouteListData[] navRouteListDataArray, NavigationEnv navigationEnv) {
-    }
+    public void updateRgDestinationInfo(NavRouteListData[] var1, NavigationEnv var2);
 
-    default public void startGuidanceToDestinations(NavLocation[] navLocationArray, NavCommand navCommand, NavCommand navCommand2) {
-    }
+    public void startGuidanceToDestinations(NavLocation[] var1, NavCommand var2, NavCommand var3);
 
-    default public CommandList getTransformCommandList(NavLocation[] navLocationArray) {
-    }
+    public CommandList getTransformCommandList(NavLocation[] var1);
 
-    default public void routeChanged() {
-    }
+    public void routeChanged();
 
-    default public void registerService(AbstractActivator abstractActivator) {
-    }
+    public void registerService(AbstractActivator var1);
 }
 

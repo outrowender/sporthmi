@@ -4,7 +4,6 @@
 package de.audi.tv.app.interapp;
 
 public interface ISourceActivator {
-    default public void activate(int n) {
-    }
+    public void activate(int var1);
 }
 

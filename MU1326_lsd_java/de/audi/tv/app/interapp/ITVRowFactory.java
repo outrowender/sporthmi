@@ -8,13 +8,10 @@ import de.audi.tv.app.lists.IRowProperties;
 import org.dsi.ifc.tvtuner.ServiceInfo;
 
 public interface ITVRowFactory {
-    default public AbstractTVStationRow createTVStationRow(long l, ServiceInfo serviceInfo, int n) {
-    }
+    public AbstractTVStationRow createTVStationRow(long var1, ServiceInfo var3, int var4);
 
-    default public AbstractTVStationRow createTVStationRow(long l, ServiceInfo serviceInfo, int n, boolean bl) {
-    }
+    public AbstractTVStationRow createTVStationRow(long var1, ServiceInfo var3, int var4, boolean var5);
 
-    default public IRowProperties createProperties(ServiceInfo serviceInfo) {
-    }
+    public IRowProperties createProperties(ServiceInfo var1);
 }
 

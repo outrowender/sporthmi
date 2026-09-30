@@ -15,10 +15,9 @@ public class ResumeRequest
 extends AbstractRequest {
     public ResumeRequest(LogChannel logChannel, TTSListener tTSListener, DSITTSCaller dSITTSCaller, RequestQueue requestQueue, short s) {
         super(logChannel, tTSListener, dSITTSCaller, requestQueue, s, 0);
-        this.logCh.log(-2137614336, "[ResumeRequest#ctor] Called.");
+        this.logCh.log(10000000, "[ResumeRequest#ctor] Called.");
     }
 
-    @Override
     public String toString() {
         Buffer buffer = new Buffer();
         buffer.append("ResumeRequest{");
@@ -28,27 +27,25 @@ extends AbstractRequest {
         return buffer.toString();
     }
 
-    @Override
     public void process() {
         AbstractRequest abstractRequest = this.requestProcessor.getRunningRequest();
         if (abstractRequest == null) {
-            this.logCh.log(-2137614336, "[ResumeRequest#process] No running request, nothing to resume.");
+            this.logCh.log(10000000, "[ResumeRequest#process] No running request, nothing to resume.");
         } else if (abstractRequest.getType() == 0) {
-            this.logCh.log(-2137614336, "[ResumeRequest#process] Speak request is running: %1", (Object)abstractRequest);
+            this.logCh.log(10000000, "[ResumeRequest#process] Speak request is running: %1", (Object)abstractRequest);
             if (abstractRequest.getSourceId() == this.sourceId) {
-                this.logCh.log(-2137614336, "[ResumeRequest#process] Resume speaking of source ID '%1'", (long)abstractRequest.getSourceId());
+                this.logCh.log(10000000, "[ResumeRequest#process] Resume speaking of source ID '%1'", (long)abstractRequest.getSourceId());
                 ((SpeakRequest)abstractRequest).resume();
             } else {
-                this.logCh.log(-2137614336, "[ResumeRequest#process] Running speak request is not of the same source, do nothing.");
+                this.logCh.log(10000000, "[ResumeRequest#process] Running speak request is not of the same source, do nothing.");
             }
         } else {
-            this.logCh.log(-2137614336, "[ResumeRequest#process] No running speak request, nothing to resume.");
+            this.logCh.log(10000000, "[ResumeRequest#process] No running speak request, nothing to resume.");
         }
     }
 
-    @Override
     public void execute() {
-        this.logCh.log(-2137614336, "[ResumeRequest#process] Nothing to do.");
+        this.logCh.log(10000000, "[ResumeRequest#process] Nothing to do.");
     }
 }
 

@@ -130,7 +130,7 @@ public class c {
 
     public void a(String string, String string2, int n, String string3) {
         e e2 = new e();
-        e2.c = new StringBuffer().append(string).append(";").append(string2).toString();
+        e2.c = string + ";" + string2;
         e2.a = n;
         e2.b = string3;
         this.a(e2);

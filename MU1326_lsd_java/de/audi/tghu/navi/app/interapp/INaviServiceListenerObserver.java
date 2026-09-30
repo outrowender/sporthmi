@@ -6,7 +6,6 @@ package de.audi.tghu.navi.app.interapp;
 import de.audi.atip.interapp.NaviServiceListener;
 
 public interface INaviServiceListenerObserver {
-    default public void listenerAdded(NaviServiceListener naviServiceListener) {
-    }
+    public void listenerAdded(NaviServiceListener var1);
 }
 

@@ -19,7 +19,7 @@ public class MediaSubEntryPointsContainer {
     }
 
     public void setCurrentEntryPoint(EntryPoint entryPoint) {
-        this.logChannel.log(1078071040, "MediaSubEntryPointsContainer#setCurrentEntryPoint: current entry point id for Media is '%1'", entryPoint == null ? -1L : (long)entryPoint.getEntryPointId());
+        this.logChannel.log(1000000, "MediaSubEntryPointsContainer#setCurrentEntryPoint: current entry point id for Media is '%1'", entryPoint == null ? -1L : (long)entryPoint.getEntryPointId());
         this.currentEntryPoint = entryPoint;
     }
 
@@ -28,7 +28,7 @@ public class MediaSubEntryPointsContainer {
     }
 
     public EntryPoint getEntryPointByAppContext(String string) {
-        this.logChannel.log(1078071040, "MediaSubEntryPointsContainer#getEntryPointById: called for entry point id '%1'", (Object)string);
+        this.logChannel.log(1000000, "MediaSubEntryPointsContainer#getEntryPointById: called for entry point id '%1'", (Object)string);
         if (string == null) {
             return null;
         }

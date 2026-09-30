@@ -5,24 +5,20 @@ package de.audi.tuner.app;
 
 import de.audi.atip.log.LogChannel;
 import de.audi.tuner.app.ArtistAndTitlePair;
-import de.audi.tuner.app.RadioTextPlus$ArtistAndTitlePairExtractor;
-import de.audi.tuner.app.RadioTextPlus$PairExtractor;
-import de.audi.tuner.app.RadioTextPlus$SingleArtistItemExtractor;
-import de.audi.tuner.app.RadioTextPlus$SingleTitleItemExtractor;
 import de.esolutions.fw.util.commons.SimpleIntObjectMap;
 
 public class RadioTextPlus {
     protected final LogChannel log;
-    private static final RadioTextPlus$ArtistAndTitlePairExtractor[] RT_ITEM_EXTRACTORS = new RadioTextPlus$ArtistAndTitlePairExtractor[]{new RadioTextPlus$PairExtractor(4, 1), new RadioTextPlus$PairExtractor(4, 33), new RadioTextPlus$PairExtractor(7, 1), new RadioTextPlus$PairExtractor(8, 1), new RadioTextPlus$SingleTitleItemExtractor(1), new RadioTextPlus$SingleArtistItemExtractor(4), new RadioTextPlus$SingleArtistItemExtractor(8), new RadioTextPlus$SingleArtistItemExtractor(7), new RadioTextPlus$PairExtractor(36, 33), new RadioTextPlus$SingleArtistItemExtractor(36), new RadioTextPlus$SingleTitleItemExtractor(33)};
+    private static final ArtistAndTitlePairExtractor[] RT_ITEM_EXTRACTORS = new ArtistAndTitlePairExtractor[]{new PairExtractor(4, 1), new PairExtractor(4, 33), new PairExtractor(7, 1), new PairExtractor(8, 1), new SingleTitleItemExtractor(1), new SingleArtistItemExtractor(4), new SingleArtistItemExtractor(8), new SingleArtistItemExtractor(7), new PairExtractor(36, 33), new SingleArtistItemExtractor(36), new SingleTitleItemExtractor(33)};
     private final SimpleIntObjectMap rtPlus;
     private final ArtistAndTitlePair extractedArtistAndTitlePair;
 
     public RadioTextPlus(SimpleIntObjectMap simpleIntObjectMap, LogChannel logChannel) {
         this.log = logChannel;
         this.rtPlus = simpleIntObjectMap;
-        logChannel.log(-2137614336, "[RadioTextPlus.extractArtistAndTitlePair]Available Items: %1", (Object)simpleIntObjectMap.getValues());
+        logChannel.log(10000000, "[RadioTextPlus.extractArtistAndTitlePair]Available Items: %1", (Object)simpleIntObjectMap.getValues());
         this.extractedArtistAndTitlePair = RadioTextPlus.extractArtistAndTitlePair(simpleIntObjectMap);
-        logChannel.log(-2137614336, "[RadioTextPlus.extractArtistAndTitlePair]Extracted Artist: %1 , Title: %2", (Object)this.extractedArtistAndTitlePair.artistString, (Object)this.extractedArtistAndTitlePair.titleString);
+        logChannel.log(10000000, "[RadioTextPlus.extractArtistAndTitlePair]Extracted Artist: %1 , Title: %2", (Object)this.extractedArtistAndTitlePair.artistString, (Object)this.extractedArtistAndTitlePair.titleString);
     }
 
     public RadioTextPlus(RadioTextPlus radioTextPlus) {
@@ -30,12 +26,12 @@ public class RadioTextPlus {
     }
 
     public String getTag(int[] nArray) {
-        this.log.log(-2137614336, "[RadioTextPlus.getTag]wanted Tags: %1", (Object)nArray);
+        this.log.log(10000000, "[RadioTextPlus.getTag]wanted Tags: %1", (Object)nArray);
         String string = null;
         for (int i2 = 0; i2 < nArray.length; ++i2) {
             string = (String)this.rtPlus.get(nArray[i2]);
             if (string == null) continue;
-            this.log.log(-2137614336, "[RadioTextPlus.getTag]return text: %1", (Object)string);
+            this.log.log(10000000, "[RadioTextPlus.getTag]return text: %1", (Object)string);
             return string;
         }
         return "";
@@ -85,6 +81,65 @@ public class RadioTextPlus {
             return RT_ITEM_EXTRACTORS[i2].extract(simpleIntObjectMap);
         }
         return ArtistAndTitlePair.EMPTY_PAIR;
+    }
+
+    private static class PairExtractor
+    extends AbstractSingleItemExtractor {
+        private final int otherRtItem;
+
+        public PairExtractor(int n, int n2) {
+            super(n);
+            this.otherRtItem = n2;
+        }
+
+        public boolean canBeExtractedFrom(SimpleIntObjectMap simpleIntObjectMap) {
+            return super.canBeExtractedFrom(simpleIntObjectMap) && simpleIntObjectMap.get(this.otherRtItem) != null;
+        }
+
+        public ArtistAndTitlePair extract(SimpleIntObjectMap simpleIntObjectMap) {
+            return new ArtistAndTitlePair((String)simpleIntObjectMap.get(this.rtItem), (String)simpleIntObjectMap.get(this.otherRtItem));
+        }
+    }
+
+    private static class SingleTitleItemExtractor
+    extends AbstractSingleItemExtractor {
+        public SingleTitleItemExtractor(int n) {
+            super(n);
+        }
+
+        public ArtistAndTitlePair extract(SimpleIntObjectMap simpleIntObjectMap) {
+            return new ArtistAndTitlePair("", (String)simpleIntObjectMap.get(this.rtItem));
+        }
+    }
+
+    private static class SingleArtistItemExtractor
+    extends AbstractSingleItemExtractor {
+        public SingleArtistItemExtractor(int n) {
+            super(n);
+        }
+
+        public ArtistAndTitlePair extract(SimpleIntObjectMap simpleIntObjectMap) {
+            return new ArtistAndTitlePair((String)simpleIntObjectMap.get(this.rtItem), "");
+        }
+    }
+
+    private static abstract class AbstractSingleItemExtractor
+    implements ArtistAndTitlePairExtractor {
+        protected final int rtItem;
+
+        public AbstractSingleItemExtractor(int n) {
+            this.rtItem = n;
+        }
+
+        public boolean canBeExtractedFrom(SimpleIntObjectMap simpleIntObjectMap) {
+            return simpleIntObjectMap.get(this.rtItem) != null;
+        }
+    }
+
+    private static interface ArtistAndTitlePairExtractor {
+        public boolean canBeExtractedFrom(SimpleIntObjectMap var1);
+
+        public ArtistAndTitlePair extract(SimpleIntObjectMap var1);
     }
 }
 

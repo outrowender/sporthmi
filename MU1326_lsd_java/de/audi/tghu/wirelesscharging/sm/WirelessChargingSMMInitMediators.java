@@ -8,6 +8,7 @@ import de.audi.atip.log.LogChannel;
 import de.audi.atip.statemachine.AbstractSMM;
 import de.audi.atip.statemachine.EventMediator;
 import de.audi.atip.statemachine.SMModuleConstants;
+import java.util.NoSuchElementException;
 
 public class WirelessChargingSMMInitMediators
 implements SMModuleConstants {
@@ -24,7 +25,7 @@ implements SMModuleConstants {
         this.smm.setMediatorList(eventMediatorArray);
     }
 
-    public HMIModel getModel(int n) {
+    public HMIModel getModel(int n) throws NoSuchElementException {
         return this.smm.getModel(n);
     }
 }

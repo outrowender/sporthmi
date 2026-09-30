@@ -32,8 +32,7 @@ public abstract class CoreMapCodeInputManager {
         this.locationDisambiguatonPopupHandler = iLocationDisambiguatorPopupHandler;
     }
 
-    protected abstract void initMapcodeScreenListener() {
-    }
+    protected abstract void initMapcodeScreenListener();
 
     public IMapCodeScreenListener getMapcodeScreenListener() {
         return this.mapcodeScreenListener;

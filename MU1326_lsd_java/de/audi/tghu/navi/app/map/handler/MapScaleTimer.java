@@ -13,8 +13,8 @@ import de.audi.tghu.navi.app.map.handler.MapScaleInfo;
 
 public class MapScaleTimer
 implements TimerListener {
-    static final int MAP_SCALE_TIMEOUT;
-    static final int MAP_SCALE_TIMEOUT_MAX;
+    static final int MAP_SCALE_TIMEOUT = 3000;
+    static final int MAP_SCALE_TIMEOUT_MAX = 2000;
     private final NavigationEnv env;
     private final ClusterService clusterService;
     private final MapScaleHandler mapScaleHandler;
@@ -27,28 +27,27 @@ implements TimerListener {
         this.clusterService = clusterService;
         this.mapScaleHandler = mapScaleHandler;
         this.logger = navigationEnv.getClusterKOMOLogChannel();
-        this.scaleTimer = new Timer("MapScaleTimer", 0, true, this);
+        this.scaleTimer = new Timer("MapScaleTimer", 3000L, true, this);
     }
 
     public void restart(MapScaleInfo mapScaleInfo) {
         this.mapScaleInfo = mapScaleInfo;
-        this.logger.log(14808325, "MapScaleTimer#restart()");
-        this.scaleTimer.setDelay(mapScaleInfo.isMaxScale ? 0 : 0);
+        this.logger.log(100000000, "MapScaleTimer#restart()");
+        this.scaleTimer.setDelay(mapScaleInfo.isMaxScale ? 2000L : 3000L);
         this.clusterService.updateMapScale(mapScaleInfo.scale, mapScaleInfo.scaleUnit, mapScaleInfo.scaleValidity);
         this.scaleTimer.restart();
     }
 
     public void cancel() {
-        this.logger.log(14808325, "MapScaleTimer#cancel()");
+        this.logger.log(100000000, "MapScaleTimer#cancel()");
         this.clusterService.updateMapScale(0, 255, false);
         this.scaleTimer.cancel();
     }
 
-    @Override
     public void fireTimer(Timer timer) {
-        this.logger.log(14808325, "MapScaleTimer#fireTimer()");
-        if (this.mapScaleInfo.scale == -16842752 && this.mapScaleInfo.isMaxScale) {
-            this.scaleTimer.setDelay(0);
+        this.logger.log(100000000, "MapScaleTimer#fireTimer()");
+        if (this.mapScaleInfo.scale == 65534 && this.mapScaleInfo.isMaxScale) {
+            this.scaleTimer.setDelay(2000L);
             this.mapScaleInfo.isMaxScale = false;
             this.mapScaleInfo.scale = this.mapScaleHandler.getMaximumScaleValue();
             this.mapScaleInfo.scaleUnit = this.mapScaleHandler.getMaximumScaleUnit();
@@ -58,7 +57,6 @@ implements TimerListener {
         }
     }
 
-    @Override
     public void cancelTimer(Timer timer) {
     }
 }

@@ -16,64 +16,44 @@ import org.dsi.ifc.radio.ServiceInfo;
 
 public interface IDABTuner
 extends ISimpleTuner {
-    default public void dabSelected(DabStation dabStation, int n) {
-    }
+    public void dabSelected(DabStation var1, int var2);
 
-    default public void selectStation(DabStation dabStation, int n, int n2) {
-    }
+    public void selectStation(DabStation var1, int var2, int var3);
 
-    default public void switchLinking(int n) {
-    }
+    public void switchLinking(int var1);
 
-    default public void switchFrequencyTable(int n) {
-    }
+    public void switchFrequencyTable(int var1);
 
-    default public int getCurSyncState() {
-    }
+    public int getCurSyncState();
 
-    default public int getCurLinkState() {
-    }
+    public int getCurLinkState();
 
-    default public ServiceInfo getActiveService() {
-    }
+    public ServiceInfo getActiveService();
 
-    default public ComponentInfo getActiveComponent() {
-    }
+    public ComponentInfo getActiveComponent();
 
-    default public EnsembleInfo getActiveEnsemble() {
-    }
+    public EnsembleInfo getActiveEnsemble();
 
-    default public void switchDebugInfos(boolean bl) {
-    }
+    public void switchDebugInfos(boolean var1);
 
-    default public void abortSeek() {
-    }
+    public void abortSeek();
 
-    default public DabReceptionStatus prepareReceptionStatus(DabStation dabStation) {
-    }
+    public DabReceptionStatus prepareReceptionStatus(DabStation var1);
 
-    default public DabStation getActiveStation() {
-    }
+    public DabStation getActiveStation();
 
-    default public IPrevNext getPrevNextHandler() {
-    }
+    public IPrevNext getPrevNextHandler();
 
-    default public void addUpdateListener(IUpdateListener iUpdateListener) {
-    }
+    public void addUpdateListener(IUpdateListener var1);
 
-    default public void getEPGDetailData(DabStation dabStation) {
-    }
+    public void getEPGDetailData(DabStation var1);
 
-    default public TunerActionProxyListener getActionProxyListener() {
-    }
+    public TunerActionProxyListener getActionProxyListener();
 
-    default public IUpdateListener getUpdateListener(IMemoryList iMemoryList) {
-    }
+    public IUpdateListener getUpdateListener(IMemoryList var1);
 
-    default public void setSoftlinking(int n) {
-    }
+    public void setSoftlinking(int var1);
 
-    default public void reNotification(int n) {
-    }
+    public void reNotification(int var1);
 }
 

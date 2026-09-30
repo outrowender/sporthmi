@@ -10,43 +10,30 @@ import org.dsi.ifc.base.DSIListener;
 import org.dsi.ifc.sdars.DSISDARSTuner;
 
 public interface ISdarsDsiDownManager {
-    default public void reNotification(int n) {
-    }
+    public void reNotification(int var1);
 
-    default public void register(RadioInfo radioInfo) {
-    }
+    public void register(RadioInfo var1);
 
-    default public void setNotification(int[] nArray, DSIListener dSIListener) {
-    }
+    public void setNotification(int[] var1, DSIListener var2);
 
-    default public void setHmiReady() {
-    }
+    public void setHmiReady();
 
-    default public void clearNotification(int[] nArray, DSIListener dSIListener) {
-    }
+    public void clearNotification(int[] var1, DSIListener var2);
 
-    default public boolean isDsiFound() {
-    }
+    public boolean isDsiFound();
 
-    default public void setDeviceService(DSISDARSTuner dSISDARSTuner) {
-    }
+    public void setDeviceService(DSISDARSTuner var1);
 
-    default public void reset(int n) {
-    }
+    public void reset(int var1);
 
-    default public void selectStation(StationInfoExt stationInfoExt, int n) {
-    }
+    public void selectStation(StationInfoExt var1, int var2);
 
-    default public void getTime() {
-    }
+    public void getTime();
 
-    default public void getEPG24Hour(int n) {
-    }
+    public void getEPG24Hour(int var1);
 
-    default public void getEPGDescription(int n, int n2) {
-    }
+    public void getEPGDescription(int var1, int var2);
 
-    default public SDARSDsiUpInfo getDsiUpListener() {
-    }
+    public SDARSDsiUpInfo getDsiUpListener();
 }
 

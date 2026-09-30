@@ -40,7 +40,6 @@ implements de.eso.a.a.a {
         this.e = n2;
     }
 
-    @Override
     public void a() {
         block14: {
             AdbEntry adbEntry = new AdbEntry();
@@ -81,7 +80,7 @@ implements de.eso.a.a.a {
             }
             catch (Throwable throwable) {
                 try {
-                    de.eso.a.d.b.d(new StringBuffer().append("Severe vcard error: ").append(throwable.getMessage()).toString());
+                    de.eso.a.d.b.d("Severe vcard error: " + throwable.getMessage());
                     this.c.parseVCardResult(3, adbEntry, this.d, this.e);
                 }
                 catch (MethodException methodException) {

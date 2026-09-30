@@ -6,9 +6,9 @@ package de.audi.tuner.app.dab;
 public class DabReceptionStatus {
     public final int syncStatus;
     public final int linkStatus;
-    public static final int RECEPTION_MUTE;
-    public static final int RECEPTION_FM_LINKED;
-    public static final int RECEPTION_OK;
+    public static final int RECEPTION_MUTE = 2;
+    public static final int RECEPTION_FM_LINKED = 1;
+    public static final int RECEPTION_OK = 0;
 
     public DabReceptionStatus(int n, int n2) {
         this.syncStatus = n;

@@ -28,7 +28,7 @@ import org.dsi.ifc.global.DateTime;
 
 public class LicensingModelManagerEvo
 extends LicenseModelManager {
-    protected static final int LIST_SERVICE_ID_FIELD;
+    protected static final int LIST_SERVICE_ID_FIELD = 6;
     private RemoteHMIService remoteHMIService;
     private IStorageAccess storageManager;
     private boolean isWarnedInBusCycle = false;
@@ -43,11 +43,10 @@ extends LicenseModelManager {
         if (remoteHMIService != null) {
             this.storageManager = remoteHMIService.getFrameworkAccess().getStorageMgr();
         } else {
-            logChannel.log(-1601830656, "LicensingModelManagerEvo#ctor: remoteHMIService is null, not able to retrieve StorageManager");
+            logChannel.log(100000, "LicensingModelManagerEvo#ctor: remoteHMIService is null, not able to retrieve StorageManager");
         }
     }
 
-    @Override
     public void initBaseListModel(int n, BaseListModelListener baseListModelListener) {
         this.baseListModel = this.hmiService.getBaseListModel(n);
         if (this.baseListModel != null) {
@@ -55,7 +54,6 @@ extends LicenseModelManager {
         }
     }
 
-    @Override
     public void initButtonModel(int n, ButtonListener buttonListener) {
         ButtonModelApp buttonModelApp = this.hmiService.getButtonModel(n);
         if (buttonModelApp != null) {
@@ -70,7 +68,6 @@ extends LicenseModelManager {
         }
     }
 
-    @Override
     public void initChoiceModel(int n, ChoiceListener choiceListener) {
         ChoiceModelApp choiceModelApp = this.hmiService.getChoiceModel(n);
         if (choiceModelApp != null) {
@@ -92,73 +89,68 @@ extends LicenseModelManager {
         }
     }
 
-    @Override
     public void fireEvent(int n, int n2) {
         this.hmiService.getBaseListModel(n).fireEvent(n2);
     }
 
-    @Override
     public void setServiceLabel(String string, AbstractMetrics abstractMetrics, AbstractMetrics abstractMetrics2) {
         MetricsModelApp metricsModelApp;
-        LabelModelApp labelModelApp = this.hmiService.getLabelModel(-1055186176);
+        LabelModelApp labelModelApp = this.hmiService.getLabelModel(2300865);
         labelModelApp.setText(string);
         if (abstractMetrics != null) {
-            metricsModelApp = this.hmiService.getMetricsModel(-1071963392);
+            metricsModelApp = this.hmiService.getMetricsModel(2300864);
             metricsModelApp.setMetric(abstractMetrics);
         }
         if (abstractMetrics2 != null) {
-            metricsModelApp = this.hmiService.getMetricsModel(1562125056);
+            metricsModelApp = this.hmiService.getMetricsModel(2301021);
             metricsModelApp.setMetric(abstractMetrics2);
         }
     }
 
-    @Override
     public boolean getWarnFlagFromPersistence() {
         if (this.storageManager != null) {
             boolean bl = this.storageManager.getBoolean(1023, 10, false);
-            this.log.log(-2137614336, "[LicensingModelManagerEvo#getWarnFlagFromPersistence: persisted value for warn flag: %1", bl);
+            this.log.log(10000000, "[LicensingModelManagerEvo#getWarnFlagFromPersistence: persisted value for warn flag: %1", bl);
             return bl;
         }
-        this.log.log(-1601830656, "[LicensingModelManagerEvo#getWarnFlagFromPersistence: storageManager is null, not able to get Persistency");
+        this.log.log(100000, "[LicensingModelManagerEvo#getWarnFlagFromPersistence: storageManager is null, not able to get Persistency");
         return false;
     }
 
-    @Override
     public boolean setWarnFlagFromPersistence(boolean bl) {
         if (this.storageManager != null) {
-            this.log.log(1078071040, "LicensingModelManagerEvo#setWarnFlagFromPersistence: called %1]", (Object)Boolean.toString(bl));
+            this.log.log(1000000, "LicensingModelManagerEvo#setWarnFlagFromPersistence: called %1]", (Object)Boolean.toString(bl));
             this.storageManager.setBoolean(1023, 10, bl);
             return true;
         }
-        this.log.log(-1601830656, "LicensingModelManagerEvo#setWarnFlagFromPersistence: storageManager is null, not able to get Persistency");
+        this.log.log(100000, "LicensingModelManagerEvo#setWarnFlagFromPersistence: storageManager is null, not able to get Persistency");
         return false;
     }
 
-    @Override
     public void setListContent(BaseListModelApp baseListModelApp, List list, String string, int n) {
         if (list == null || list.isEmpty()) {
-            this.log.log(1078071040, "LicensingModelManagerEvo#setListContent: no license for application %1", (Object)string);
+            this.log.log(1000000, "LicensingModelManagerEvo#setListContent: no license for application %1", (Object)string);
             return;
         }
         IRemoteHMILicense iRemoteHMILicense = (IRemoteHMILicense)list.get(0);
         if (iRemoteHMILicense != null && iRemoteHMILicense.getState() == 8) {
-            this.log.log(1078071040, "LicensingModelManagerEvo#setListContent: skipping license free service %1 %2 %3", (Object)string, (Object)iRemoteHMILicense.getServiceID(), (Object)iRemoteHMILicense.getName());
+            this.log.log(1000000, "LicensingModelManagerEvo#setListContent: skipping license free service %1 %2 %3", (Object)string, (Object)iRemoteHMILicense.getServiceID(), (Object)iRemoteHMILicense.getName());
             return;
         }
         switch (iRemoteHMILicense.getState()) {
             case 1: {
                 if (this.remoteHMIService != null && !this.remoteHMIService.isTT() && iRemoteHMILicense.warn) {
                     if (iRemoteHMILicense.getType() != 0) {
-                        this.log.log(1078071040, "LicensingModelManagerEvo#setListContent: setting warn for teaser license to true for app %1", (Object)string);
+                        this.log.log(1000000, "LicensingModelManagerEvo#setListContent: setting warn for teaser license to true for app %1", (Object)string);
                         this.isWarnTeaser = true;
                         break;
                     }
-                    this.log.log(1078071040, "LicensingModelManagerEvo#setListContent: setting warn for online license to true for app %1", (Object)string);
+                    this.log.log(1000000, "LicensingModelManagerEvo#setListContent: setting warn for online license to true for app %1", (Object)string);
                     this.isWarnLicense = true;
                     break;
                 }
                 if (!iRemoteHMILicense.warn) break;
-                this.log.log(1078071040, "LicensingModelManagerEvo#setListContent: setting warn for online license to true for app %1", (Object)string);
+                this.log.log(1000000, "LicensingModelManagerEvo#setListContent: setting warn for online license to true for app %1", (Object)string);
                 this.isWarnLicense = true;
                 break;
             }
@@ -169,21 +161,20 @@ extends LicenseModelManager {
         this.setLicenseEntryInList(baseListModelApp, n, string, iRemoteHMILicense);
     }
 
-    @Override
     public void handleWarnPopups() {
         boolean bl = this.getWarnFlagFromPersistence();
-        this.log.log(-2137614336, "LicensingModelManagerEvo#handleWarnPopups: Called with warningActivated %1, isWarnedInBusCycle %2", bl, this.isWarnedInBusCycle);
+        this.log.log(10000000, "LicensingModelManagerEvo#handleWarnPopups: Called with warningActivated %1, isWarnedInBusCycle %2", bl, this.isWarnedInBusCycle);
         if (this.isWarnedInBusCycle) {
-            this.log.log(1078071040, "LicensingModelManagerEvo#handleWarnPopups: already warned in this buscycle, not doing it again");
+            this.log.log(1000000, "LicensingModelManagerEvo#handleWarnPopups: already warned in this buscycle, not doing it again");
             return;
         }
         if (this.isWarnLicense && bl) {
-            this.log.log(1078071040, "LicensingModelManagerEvo#handleWarnPopups: showing license warning screen");
+            this.log.log(1000000, "LicensingModelManagerEvo#handleWarnPopups: showing license warning screen");
             this.hmiService.showPopup(16);
             this.isWarnedInBusCycle = true;
         }
         if (this.isWarnTeaser && bl) {
-            this.log.log(1078071040, "LicensingModelManagerEvo#handleWarnPopups: showing teaser warning screen");
+            this.log.log(1000000, "LicensingModelManagerEvo#handleWarnPopups: showing teaser warning screen");
             this.hmiService.showPopup(17);
             this.isWarnedInBusCycle = true;
         }
@@ -197,7 +188,6 @@ extends LicenseModelManager {
         return "AN_ERROR_HAPPENED";
     }
 
-    @Override
     protected EvoListRow createLicenseListRow(String string) {
         return new EvoListRow(this.getRowIndex(string), 7);
     }
@@ -209,7 +199,7 @@ extends LicenseModelManager {
         evoListRow.setText(6, iRemoteHMILicense.getServiceID());
         int n2 = 0;
         DateMetric dateMetric = this.getDateFromDateTime(iRemoteHMILicense);
-        ChoiceModelApp choiceModelApp = this.hmiService.getChoiceModel(-1826872576);
+        ChoiceModelApp choiceModelApp = this.hmiService.getChoiceModel(2301075);
         if (iRemoteHMILicense.getState() == 3 || iRemoteHMILicense.getState() == 2) {
             String string3 = this.resolveTextConstant("TEXT_CONST_RHMI_LICENSE_EXPIRED_NOT_AVAILABLE");
             evoListRow.setText(2, string3);
@@ -236,7 +226,7 @@ extends LicenseModelManager {
         String string2 = null;
         String string3 = iRemoteHMILicense.description;
         String string4 = iRemoteHMILicense.getName();
-        this.log.log(1078071040, "LicensingModelManagerEvo#resolveLicenseName: having license for app %1, with description %2 and licenseName %3", (Object)string, (Object)string3, (Object)string4);
+        this.log.log(1000000, "LicensingModelManagerEvo#resolveLicenseName: having license for app %1, with description %2 and licenseName %3", (Object)string, (Object)string3, (Object)string4);
         if (string3 != null && string3.length() > 0) {
             string2 = string3;
         } else if (string4 != null && string4.length() > 0) {
@@ -344,13 +334,12 @@ extends LicenseModelManager {
         return string2;
     }
 
-    @Override
     protected DateMetric getDateFromDateTime(IRemoteHMILicense iRemoteHMILicense) {
         DateTime dateTime = iRemoteHMILicense.getExpires();
         Calendar calendar = Calendar.getInstance();
         DateMetric dateMetric = new DateMetric(calendar.getTime(), 0);
         if (dateTime == null) {
-            this.log.log(-2137614336, "LicensingModelManagerEvo#getDateFromDateTime: no expire dateTime set for license using current date");
+            this.log.log(10000000, "LicensingModelManagerEvo#getDateFromDateTime: no expire dateTime set for license using current date");
             return dateMetric;
         }
         dateMetric.setDate(dateTime.getTime());
@@ -360,7 +349,7 @@ extends LicenseModelManager {
     protected String getStringFromDateTime(IRemoteHMILicense iRemoteHMILicense) {
         DateTime dateTime = iRemoteHMILicense.getExpires();
         if (dateTime == null) {
-            this.log.log(-1601830656, "LicensingModelManagerEvo#getStringFromDateTime: no expire dateTime set for license");
+            this.log.log(100000, "LicensingModelManagerEvo#getStringFromDateTime: no expire dateTime set for license");
             return "";
         }
         Calendar calendar = Calendar.getInstance();
@@ -373,50 +362,46 @@ extends LicenseModelManager {
         return stringBuffer.toString();
     }
 
-    @Override
     public IRemoteHMILicense getLicenseByState(IRemoteHMILicense[] iRemoteHMILicenseArray, int n) {
         for (int i2 = 0; i2 < iRemoteHMILicenseArray.length; ++i2) {
             IRemoteHMILicense iRemoteHMILicense = iRemoteHMILicenseArray[i2];
             if (iRemoteHMILicense.getState() != n) continue;
-            this.log.log(-2137614336, "LicensingModelManagerEvo#getLicenseByState: found license with state %1", (long)n);
+            this.log.log(10000000, "LicensingModelManagerEvo#getLicenseByState: found license with state %1", (long)n);
             return iRemoteHMILicense;
         }
-        this.log.log(-2137614336, "LicensingModelManagerEvo#getLicenseByState: no license found with requested state %1", (long)n);
+        this.log.log(10000000, "LicensingModelManagerEvo#getLicenseByState: no license found with requested state %1", (long)n);
         return null;
     }
 
-    @Override
     public void setLicenseAvailableStatus(int n) {
         switch (n) {
             case 2: {
-                this.log.log(-2137614336, "LicensingModelManagerEvo#setLicenseAvailableStatus: showing error screen");
+                this.log.log(10000000, "LicensingModelManagerEvo#setLicenseAvailableStatus: showing error screen");
                 break;
             }
             case 0: {
-                this.log.log(-2137614336, "LicensingModelManagerEvo#setLicenseAvailableStatus: showing 'Please wait screen'");
+                this.log.log(10000000, "LicensingModelManagerEvo#setLicenseAvailableStatus: showing 'Please wait screen'");
                 break;
             }
             case 1: {
-                this.log.log(-2137614336, "LicensingModelManagerEvo#setLicenseAvailableStatus: showing license overview");
+                this.log.log(10000000, "LicensingModelManagerEvo#setLicenseAvailableStatus: showing license overview");
                 break;
             }
             default: {
-                this.log.log(-2137614336, "LicensingModelManagerEvo#setLicenseAvailableStatus: default");
+                this.log.log(10000000, "LicensingModelManagerEvo#setLicenseAvailableStatus: default");
             }
         }
-        ChoiceModelApp choiceModelApp = this.hmiService.getChoiceModel(1495016192);
+        ChoiceModelApp choiceModelApp = this.hmiService.getChoiceModel(2301017);
         choiceModelApp.setValue(n);
     }
 
-    @Override
     public void setLabelForEnteredApplication(String string) {
         LabelModelApp labelModelApp = this.hmiService.getLabelModel(3949);
         labelModelApp.setText(string);
     }
 
-    @Override
     public void setLicenseExpirationDetail(int n) {
-        this.log.log(-2137614336, "LicensingModelManagerEvo#setLicenseExpirationDetail: setting status of detail screen to %1", (long)n);
+        this.log.log(10000000, "LicensingModelManagerEvo#setLicenseExpirationDetail: setting status of detail screen to %1", (long)n);
         ChoiceModelApp choiceModelApp = this.hmiService.getChoiceModel(3945);
         choiceModelApp.setValue(n);
     }

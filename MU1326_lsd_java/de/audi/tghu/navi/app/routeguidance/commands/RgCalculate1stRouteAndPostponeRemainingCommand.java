@@ -19,17 +19,15 @@ extends NavCommand {
         this.resumeRoute = bl;
     }
 
-    @Override
     public void execute() {
         this.dsiResponseContainer.setIndexOfCalculatedRoutes(0);
-        this.logger.log(-2137614336, "RgCalculate1stRouteAndPostponeRemainingCommand#execute() - calling rgCalculate1stRouteAndPostponeRemaining( %1, %2, %3 ) ", (Object)RouteUtil.formatRouteShort(this.route), (Object)Integer.toString(this.numberOfRoutes), (Object)Boolean.toString(this.resumeRoute));
+        this.logger.log(10000000, "RgCalculate1stRouteAndPostponeRemainingCommand#execute() - calling rgCalculate1stRouteAndPostponeRemaining( %1, %2, %3 ) ", (Object)RouteUtil.formatRouteShort(this.route), (Object)Integer.toString(this.numberOfRoutes), (Object)Boolean.toString(this.resumeRoute));
         this.getDSINavigation().rgCalculate1stRouteAndPostponeRemaining(this.route, this.numberOfRoutes, this.resumeRoute);
         this.getCommandList().commandFinished();
     }
 
-    @Override
     public void rgResult(int n) {
-        this.logger.log(-2137614336, "RgCalculate1stRouteAndPostponeRemainingCommand#rgResult( %1 )", (long)n);
+        this.logger.log(10000000, "RgCalculate1stRouteAndPostponeRemainingCommand#rgResult( %1 )", (long)n);
     }
 }
 

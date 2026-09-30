@@ -9,73 +9,50 @@ import org.dsi.ifc.global.NavLocation;
 import org.dsi.ifc.navigation.PosPosition;
 
 public interface IVehicle {
-    default public void unitsChanged() {
-    }
+    public void unitsChanged();
 
-    default public void refreshPositionDescription() {
-    }
+    public void refreshPositionDescription();
 
-    default public void refreshPosPosition(PosPosition posPosition) {
-    }
+    public void refreshPosPosition(PosPosition var1);
 
-    default public void refreshHeight() {
-    }
+    public void refreshHeight();
 
-    default public NavLocation getVehicleLocation() {
-    }
+    public NavLocation getVehicleLocation();
 
-    default public NavLocation getVehicleLocationDescription() {
-    }
+    public NavLocation getVehicleLocationDescription();
 
-    default public NavLocation getVehicleCountryLocation() {
-    }
+    public NavLocation getVehicleCountryLocation();
 
-    default public void setVehicleCountryLocation(NavLocation navLocation) {
-    }
+    public void setVehicleCountryLocation(NavLocation var1);
 
-    default public boolean isMatchedToDigitalMap() {
-    }
+    public boolean isMatchedToDigitalMap();
 
-    default public String getCountryAbbreviation() {
-    }
+    public String getCountryAbbreviation();
 
-    default public String getCountry() {
-    }
+    public String getCountry();
 
-    default public String getCity() {
-    }
+    public String getCity();
 
-    default public String getStreet() {
-    }
+    public String getStreet();
 
-    default public String getLatitude() {
-    }
+    public String getLatitude();
 
-    default public String getLongitude() {
-    }
+    public String getLongitude();
 
-    default public int getHeading(PosPosition posPosition) {
-    }
+    public int getHeading(PosPosition var1);
 
-    default public PosPosition getFrontUnitPosition() {
-    }
+    public PosPosition getFrontUnitPosition();
 
-    default public PosPosition getPosition() {
-    }
+    public PosPosition getPosition();
 
-    default public void updateESPData(int n, boolean bl) {
-    }
+    public void updateESPData(int var1, boolean var2);
 
-    default public int getCarVelocity() {
-    }
+    public int getCarVelocity();
 
-    default public void vehicleStatesEventsProviderAdded(IVehicleStatesEventsProvider iVehicleStatesEventsProvider) {
-    }
+    public void vehicleStatesEventsProviderAdded(IVehicleStatesEventsProvider var1);
 
-    default public void setModelAccess(IVehicleModelAccess iVehicleModelAccess) {
-    }
+    public void setModelAccess(IVehicleModelAccess var1);
 
-    default public void cleanUp() {
-    }
+    public void cleanUp();
 }
 

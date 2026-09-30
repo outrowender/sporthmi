@@ -7,10 +7,8 @@ import de.audi.atip.hmi.model.ListCell;
 import org.dsi.ifc.navigation.LICityHistoryEntry;
 
 public interface IHistoryRowBuilder {
-    default public ListCell[] buildListRow(LICityHistoryEntry lICityHistoryEntry) {
-    }
+    public ListCell[] buildListRow(LICityHistoryEntry var1);
 
-    default public int getColumnCount() {
-    }
+    public int getColumnCount();
 }
 

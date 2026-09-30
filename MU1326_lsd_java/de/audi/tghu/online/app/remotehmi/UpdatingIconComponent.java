@@ -5,11 +5,12 @@ package de.audi.tghu.online.app.remotehmi;
 
 import de.audi.atip.hmi.modelaccess.ChoiceModelApp;
 import de.audi.atip.log.LogChannel;
+import de.audi.remotehmi.HMIProperties;
+import de.audi.tghu.online.app.remotehmi.AbstractCommandHandler;
 import de.audi.tghu.online.app.remotehmi.AbstractRemoteHMIComponent;
 import de.audi.tghu.online.app.remotehmi.OnlineModelBankAccess;
 import de.audi.tghu.online.app.remotehmi.RemoteHMIContext;
 import de.audi.tghu.online.app.remotehmi.RemoteHMIService;
-import de.audi.tghu.online.app.remotehmi.UpdatingIconComponent$1;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,10 +18,22 @@ public class UpdatingIconComponent
 extends AbstractRemoteHMIComponent {
     Map visibleMap = new HashMap();
 
-    @Override
-    public void init(LogChannel logChannel, RemoteHMIService remoteHMIService) {
+    public void init(final LogChannel logChannel, RemoteHMIService remoteHMIService) {
         super.init(logChannel, remoteHMIService);
-        remoteHMIService.addCommandHandler(570, new UpdatingIconComponent$1(this, "updating-icon-component", logChannel));
+        remoteHMIService.addCommandHandler(570, new AbstractCommandHandler("updating-icon-component"){
+
+            public void indicateCommand(int n, Object object) {
+                if (!(object instanceof HMIProperties)) {
+                    logChannel.log(10000, new StringBuffer().append("UpdatingIconComponent#indicateCommand() invalid payload: ").append(object).toString());
+                    return;
+                }
+                boolean bl = ((HMIProperties)object).getBoolean("updating");
+                String string = ((HMIProperties)object).getString("appContextName");
+                String string2 = ((HMIProperties)object).getString("actionData");
+                logChannel.log(1000000, "UpdatingIconComponent#indicateCommand(): setting updating-icon %1 for context %2 and source %3", (Object)(bl ? "visible" : "hidden"), (Object)string, (Object)string2);
+                UpdatingIconComponent.this.switchIconState(UpdatingIconComponent.this.determineUpdatingVisible(bl, string, string2));
+            }
+        });
     }
 
     private boolean determineUpdatingVisible(boolean bl, String string, String string2) {
@@ -52,9 +65,9 @@ extends AbstractRemoteHMIComponent {
         Object object = this.visibleMap.get(string);
         if (object == null || !bl) {
             this.visibleMap.remove(string);
-            this.logChannel.log(1078071040, "UpdatingIconComponent#removeContext context %1 was removed from visibility map", (Object)string);
+            this.logChannel.log(1000000, "UpdatingIconComponent#removeContext context %1 was removed from visibility map", (Object)string);
         } else {
-            this.logChannel.log(1078071040, "UpdatingIconComponent#removeContext context %1 tried to remove visibility but action forces visiblity");
+            this.logChannel.log(1000000, "UpdatingIconComponent#removeContext context %1 tried to remove visibility but action forces visiblity");
         }
     }
 
@@ -78,14 +91,6 @@ extends AbstractRemoteHMIComponent {
 
     public void removeContext(String string) {
         this.visibleMap.remove(string);
-    }
-
-    static /* synthetic */ boolean access$000(UpdatingIconComponent updatingIconComponent, boolean bl, String string, String string2) {
-        return updatingIconComponent.determineUpdatingVisible(bl, string, string2);
-    }
-
-    static /* synthetic */ void access$100(UpdatingIconComponent updatingIconComponent, boolean bl) {
-        updatingIconComponent.switchIconState(bl);
     }
 }
 

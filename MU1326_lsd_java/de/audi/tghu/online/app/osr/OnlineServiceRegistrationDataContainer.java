@@ -12,7 +12,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Map$Entry;
 import org.dsi.ifc.online.OSRApplication;
 import org.dsi.ifc.online.OSRNotifyProperties;
 
@@ -74,26 +73,25 @@ implements IOnlineDataStateListener {
         synchronized (object) {
             OnlineService onlineService = this.getApplication(oSRApplication.getId());
             if (onlineService != null) {
-                this.logChannel.log(-2137614336, "[OnlineServiceRegistrationDataContainer#addOrUpdateOnlineApplication] update app id:%1", (Object)oSRApplication.getId());
+                this.logChannel.log(10000000, "[OnlineServiceRegistrationDataContainer#addOrUpdateOnlineApplication] update app id:%1", (Object)oSRApplication.getId());
                 onlineService.setOnlineApplication(oSRApplication);
             } else {
                 for (int i2 = 0; i2 < OnlineServiceRegistrationSubsystem.WHITE_FILTER.length; ++i2) {
                     if (oSRApplication.getId().equals(OnlineServiceRegistrationSubsystem.WHITE_FILTER[i2])) {
                         onlineService = new OnlineService(oSRApplication.getId(), onlineServiceRegistrationSubsystem);
                         onlineService.setOnlineApplication(oSRApplication);
-                        this.logChannel.log(-2137614336, "[OnlineServiceRegistrationDataContainer#addOrUpdateOnlineApplication] create new app id:%1", (Object)oSRApplication.getId());
+                        this.logChannel.log(10000000, "[OnlineServiceRegistrationDataContainer#addOrUpdateOnlineApplication] create new app id:%1", (Object)oSRApplication.getId());
                         this.addApplication(onlineService);
                         continue;
                     }
-                    this.logChannel.log(-2137614336, "[OnlineServiceRegistrationDataContainer#addOrUpdateOnlineApplication] filtered out! app id:%1", (Object)oSRApplication.getId());
+                    this.logChannel.log(10000000, "[OnlineServiceRegistrationDataContainer#addOrUpdateOnlineApplication] filtered out! app id:%1", (Object)oSRApplication.getId());
                 }
             }
         }
     }
 
-    @Override
     public void updateRoamingSetting(boolean bl) {
-        this.logChannel.log(1078071040, "[OnlineServiceRegistrationDataContainer#updateRoamingState] roaming active: %1", bl);
+        this.logChannel.log(1000000, "[OnlineServiceRegistrationDataContainer#updateRoamingState] roaming active: %1", bl);
         Iterator iterator = this.getApplications().iterator();
         while (iterator.hasNext()) {
             this.setOnlineServiceRoamingState((OnlineService)iterator.next(), bl);
@@ -105,24 +103,24 @@ implements IOnlineDataStateListener {
     }
 
     public void sendApplicationStatus(OSRNotifyProperties[] oSRNotifyPropertiesArray) {
-        this.logChannel.log(1078071040, "[OnlineServiceRegistrationDataContainer#sendApplicationStatus] %1 props", (long)oSRNotifyPropertiesArray.length);
+        this.logChannel.log(1000000, "[OnlineServiceRegistrationDataContainer#sendApplicationStatus] %1 props", (long)oSRNotifyPropertiesArray.length);
         HashMap hashMap = this.sortPropertiesByAppID(oSRNotifyPropertiesArray);
         Iterator iterator = hashMap.entrySet().iterator();
         while (iterator.hasNext()) {
-            Map$Entry map$Entry = (Map$Entry)iterator.next();
-            String string = (String)map$Entry.getKey();
-            Object object = map$Entry.getValue();
+            Map.Entry entry = (Map.Entry)iterator.next();
+            String string = (String)entry.getKey();
+            Object object = entry.getValue();
             if (object instanceof OSRNotifyProperties[] && string != null) {
                 OnlineService onlineService = this.getApplication(string);
                 if (onlineService != null) {
-                    this.logChannel.log(1078071040, "[OnlineServiceRegistrationDataContainer#sendApplicationStatus] updateApplicationState for onlineApp %1 with props %2", (Object)string, object);
+                    this.logChannel.log(1000000, "[OnlineServiceRegistrationDataContainer#sendApplicationStatus] updateApplicationState for onlineApp %1 with props %2", (Object)string, object);
                     onlineService.updateApplicationState((OSRNotifyProperties[])object);
                     continue;
                 }
-                this.logChannel.log(1078071040, "[OnlineServiceRegistrationDataContainer#sendApplicationStatus] no suitable application found for app %1", (Object)string);
+                this.logChannel.log(1000000, "[OnlineServiceRegistrationDataContainer#sendApplicationStatus] no suitable application found for app %1", (Object)string);
                 continue;
             }
-            this.logChannel.log(-1601830656, "[OnlineServiceRegistrationDataContainer#sendApplicationStatus] properties of wrong class %1", (Object)object.getClass().getName());
+            this.logChannel.log(100000, "[OnlineServiceRegistrationDataContainer#sendApplicationStatus] properties of wrong class %1", (Object)object.getClass().getName());
         }
     }
 

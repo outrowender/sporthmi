@@ -140,14 +140,14 @@ public final class EngineeringEnv {
     }
 
     public String getHUSwVersion() {
-        this.getLogMain().log(-2137614336, "EngineeringEnv: MU SW Version: Enter");
+        this.getLogMain().log(10000000, "EngineeringEnv: MU SW Version: Enter");
         String string = null;
         if (this.isSimulator()) {
             string = "WinHU";
         } else if (this.isRebootToDownload()) {
             string = this.getTextFactory().getTextConstantDownload();
         } else {
-            byte[] byArray = this.readBytes(553765890, 400, new byte[0]);
+            byte[] byArray = this.readBytes(46924065, 400, new byte[0]);
             if (byArray.length >= 26) {
                 byte[] byArray2 = new byte[4];
                 System.arraycopy((Object)byArray, 22, (Object)byArray2, 0, 4);
@@ -155,13 +155,13 @@ public final class EngineeringEnv {
             } else {
                 string = "UNDEF";
             }
-            this.getLogMain().log(-1601830656, "EngineeringEnv: Release Version HIGH: calling getString %1", (Object)string);
+            this.getLogMain().log(100000, "EngineeringEnv: Release Version HIGH: calling getString %1", (Object)string);
         }
         return string;
     }
 
     public String getFOTTemp() {
-        this.getLogMain().log(-2137614336, "EngineeringEnv: FOT Temp: Enter");
+        this.getLogMain().log(10000000, "EngineeringEnv: FOT Temp: Enter");
         String string = "1";
         if (this.isSimulator()) {
             string = "10";
@@ -181,9 +181,9 @@ public final class EngineeringEnv {
             string = this.getTextFactory().getTextConstantDownload();
             return string;
         }
-        byte[] byArray = this.readBytes(553765890, 401, new byte[0]);
-        string = byArray.length > 10 ? new String(byArray) : this.readString(553765890, 401, "UNDEF");
-        this.getLogMain().log(-2137614336, "EngineeringEnv: Returned Train Version = %1", (Object)string);
+        byte[] byArray = this.readBytes(46924065, 401, new byte[0]);
+        string = byArray.length > 10 ? new String(byArray) : this.readString(46924065, 401, "UNDEF");
+        this.getLogMain().log(10000000, "EngineeringEnv: Returned Train Version = %1", (Object)string);
         return string;
     }
 
@@ -209,12 +209,12 @@ public final class EngineeringEnv {
     }
 
     private void blockPTT(boolean bl) {
-        this.getLogMain().log(1078071040, "[EngineeringEnv] blockPTT(%1)", bl);
+        this.getLogMain().log(1000000, "[EngineeringEnv] blockPTT(%1)", bl);
         if (this.isFrontMU()) {
             if (this.getSdsService() != null) {
                 this.getSdsService().disablePTT(bl, true, (byte)4);
             } else {
-                this.getLogMain().log(-1601830656, "[EngineeringEnv] blockPTT: No SDS service available!");
+                this.getLogMain().log(100000, "[EngineeringEnv] blockPTT: No SDS service available!");
             }
         }
     }
@@ -228,13 +228,13 @@ public final class EngineeringEnv {
     }
 
     public void enterREM() {
-        this.getLogMain().log(1078071040, "[EngineeringEnv] enterREM");
+        this.getLogMain().log(1000000, "[EngineeringEnv] enterREM");
         this.setREMHMIactive(true);
         if (this.isRebootToDownload()) {
-            this.getLogMain().log(-2137614336, "[EngineeringEnv] enterREM: during progress enable popups");
+            this.getLogMain().log(10000000, "[EngineeringEnv] enterREM: during progress enable popups");
             this.getHMIService().enablePopups();
         } else {
-            this.getLogMain().log(-2137614336, "[EngineeringEnv] enterREM: disable popups");
+            this.getLogMain().log(10000000, "[EngineeringEnv] enterREM: disable popups");
             this.getHMIService().disablePopups(17);
         }
         this.getHMIService().setPartialPopupsEnabled(-1, false);
@@ -242,9 +242,9 @@ public final class EngineeringEnv {
     }
 
     public void leaveREM() {
-        this.getLogMain().log(1078071040, "[EngineeringEnv] leaveREM");
+        this.getLogMain().log(1000000, "[EngineeringEnv] leaveREM");
         this.blockPTT(false);
-        this.getLogMain().log(-2137614336, "[EngineeringEnv] leaveREM: enable popups");
+        this.getLogMain().log(10000000, "[EngineeringEnv] leaveREM: enable popups");
         this.getHMIService().setPartialPopupsEnabled(-1, true);
         this.getHMIService().enablePopups();
         this.setREMHMIactive(false);

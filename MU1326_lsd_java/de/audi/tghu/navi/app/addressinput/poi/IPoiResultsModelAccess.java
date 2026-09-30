@@ -7,7 +7,6 @@ import de.audi.tghu.navi.app.addressinput.poi.IPoiSpellerModelAccess;
 
 public interface IPoiResultsModelAccess
 extends IPoiSpellerModelAccess {
-    default public void onUpdateBrandsCount(int n) {
-    }
+    public void onUpdateBrandsCount(int var1);
 }
 

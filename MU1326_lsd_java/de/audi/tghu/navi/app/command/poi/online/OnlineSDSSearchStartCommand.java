@@ -21,15 +21,13 @@ extends AbstractOnlineSearchCommand {
         this.form = iOnlineSearchForm;
     }
 
-    @Override
     public void poiResult(int n, int n2, int n3) {
-        this.logger.log(-2137614336, "OnlineSDSSearchStartCommand#poiResult( %1, %2 )", (long)n2, (long)n3);
+        this.logger.log(10000000, "OnlineSDSSearchStartCommand#poiResult( %1, %2 )", (long)n2, (long)n3);
         this.getCommandList().commandFinished();
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "OnlineSDSSearchStartCommand#execute");
+        this.logger.log(10000000, "OnlineSDSSearchStartCommand#execute");
         if (this.form != null) {
             this.form.setSearchTextLabel("");
         }

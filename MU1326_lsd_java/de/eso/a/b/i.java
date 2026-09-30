@@ -8,31 +8,18 @@ import java.util.Map;
 
 public interface i
 extends Map {
-    default public Object b(Object object, Object object2) {
-    }
+    public Object b(Object var1, Object var2);
 
-    @Override
-    default public int size() {
-    }
+    public int size();
 
-    @Override
-    default public Object get(Object object) {
-    }
+    public Object get(Object var1);
 
-    @Override
-    default public boolean containsValue(Object object) {
-    }
+    public boolean containsValue(Object var1);
 
-    @Override
-    default public Object put(Object object, Object object2) {
-    }
+    public Object put(Object var1, Object var2);
 
-    @Override
-    default public Object remove(Object object) {
-    }
+    public Object remove(Object var1);
 
-    @Override
-    default public Collection values() {
-    }
+    public Collection values();
 }
 

@@ -17,9 +17,6 @@ import de.audi.tghu.hmi.evo.IDrawerControllerEvo;
 import de.audi.tghu.hmi.evo.IDrawerFocusManagerEvo;
 import de.audi.tghu.hmi.evo.IPopupManagerEvo;
 import de.audi.tghu.hmi.evo.IScreenEvo;
-import de.audi.tghu.hmi.evo.PopupManagerEvo$1;
-import de.audi.tghu.hmi.evo.PopupManagerEvo$2;
-import de.audi.tghu.hmi.evo.PopupManagerEvo$3;
 import de.esolutions.fw.util.commons.Buffer;
 import java.util.HashMap;
 import java.util.Map;
@@ -34,12 +31,24 @@ implements IPopupManagerEvo {
         super(iScreenManager, iFrameworkAccess, logChannel);
     }
 
-    @Override
-    public void showPopup(int n) {
+    public void showPopup(final int n) {
         if (this.showPopupInEntertainmentDrawer(n)) {
             if (this.correctPopupMapping(n)) {
-                this.logPopup.log(-2137614336, "PopupManagerEvo#showPopup showing popup with id: %1 in entertainmentdrawer, posting event", (long)n);
-                this.postRunnable(new PopupManagerEvo$1(this, n));
+                this.logPopup.log(10000000, "PopupManagerEvo#showPopup showing popup with id: %1 in entertainmentdrawer, posting event", (long)n);
+                this.postRunnable(new Runnable(){
+
+                    public void run() {
+                        PopupManagerEvo.this.logPopup.log(10000000, "ShowPopupRunnable in entertainmentdrawer for popupID: %1, calling entertainment drawer now) ", (long)n);
+                        IDrawerFocusManagerEvo iDrawerFocusManagerEvo = PopupManagerEvo.this.getDrawerFocusManager();
+                        if (iDrawerFocusManagerEvo != null && iDrawerFocusManagerEvo.getDrawerState() != 32) {
+                            iDrawerFocusManagerEvo.requestDrawerState(32);
+                        }
+                    }
+
+                    public String toString() {
+                        return new StringBuffer().append("ShowPopupRunnable in entertainmentdrawer(terminal: ").append(PopupManagerEvo.this.getTerminalContext().getTerminalID()).append(" popupId: ").append(n).append(")").toString();
+                    }
+                });
             }
         } else {
             super.showPopup(n);
@@ -57,36 +66,51 @@ implements IPopupManagerEvo {
         int n2 = -1;
         if (iDrawerControllerEvo != null) {
             int n3 = iDrawerControllerEvo.getCurrentAudioSource();
-            boolean bl2 = n == -527236096 && iDrawerControllerEvo.isPhoneAudioSource(n3);
+            boolean bl2 = n == 300000 && iDrawerControllerEvo.isPhoneAudioSource(n3);
             boolean bl3 = this.isSDSFurtherCommandPopup(n) && iDrawerControllerEvo.isSDSAudioSource(n3);
             bl = bl2 || bl3;
             n2 = iDrawerControllerEvo.getCurrentAudioSource() / 1000;
         }
-        this.logPopup.log(-2137614336, "correctPopupMapping(popupID %1) contentID %2 ret %3", (long)n, (long)n2, bl);
+        this.logPopup.log(10000000, "correctPopupMapping(popupID %1) contentID %2 ret %3", (long)n, (long)n2, bl);
         return bl;
     }
 
     private boolean showPopupInEntertainmentDrawer(int n) {
-        return (n == -527236096 || this.isSDSFurtherCommandPopup(n)) && this.framework.getKombiType() != 4;
+        return (n == 300000 || this.isSDSFurtherCommandPopup(n)) && this.framework.getKombiType() != 4;
     }
 
-    @Override
-    public void removePopup(int n) {
+    public void removePopup(final int n) {
         if (this.showPopupInEntertainmentDrawer(n)) {
-            this.logPopup.log(-2137614336, "PopupManagerEvo#removePopup removing popup with id: %1 from entertainmentdrawer", (long)n);
+            this.logPopup.log(10000000, "PopupManagerEvo#removePopup removing popup with id: %1 from entertainmentdrawer", (long)n);
             if (this.correctPopupMapping(n)) {
-                this.postRunnable(new PopupManagerEvo$2(this, n));
+                this.postRunnable(new Runnable(){
+
+                    public void run() {
+                        PopupManagerEvo.this.logPopup.log(10000000, "RemovePopupRunnable in entertainmentdrawer for popupID %1, calling entertainment drawer now ", (long)n);
+                        IDrawerFocusManagerEvo iDrawerFocusManagerEvo = PopupManagerEvo.this.getDrawerFocusManager();
+                        if (iDrawerFocusManagerEvo != null && iDrawerFocusManagerEvo.getDrawerState() == 32) {
+                            if (n == 300000) {
+                                iDrawerFocusManagerEvo.setDrawerState(16, true);
+                            } else {
+                                iDrawerFocusManagerEvo.requestDrawerState(16);
+                            }
+                        }
+                    }
+
+                    public String toString() {
+                        return new StringBuffer().append("RemovePopupRunnable in entertainmentdrawer(terminal: ").append(PopupManagerEvo.this.getTerminalContext().getTerminalID()).append(" popupId: ").append(n).append(")").toString();
+                    }
+                });
             }
         } else {
             super.removePopup(n);
         }
     }
 
-    @Override
-    public void setPopupKeyConsuptionStrategy(IPopupKeyConsuptionStrategy iPopupKeyConsuptionStrategy) {
+    public void setPopupKeyConsuptionStrategy(final IPopupKeyConsuptionStrategy iPopupKeyConsuptionStrategy) {
         Buffer buffer;
         if (iPopupKeyConsuptionStrategy != null) {
-            this.logPopup.log(-2137614336, "PopupManagerEvo#setPopupKeyConsumptionStrategy(%1) for PopupID='%2'", (Object)iPopupKeyConsuptionStrategy, (long)iPopupKeyConsuptionStrategy.getPopupID());
+            this.logPopup.log(10000000, "PopupManagerEvo#setPopupKeyConsumptionStrategy(%1) for PopupID='%2'", (Object)iPopupKeyConsuptionStrategy, (long)iPopupKeyConsuptionStrategy.getPopupID());
             int[] nArray = iPopupKeyConsuptionStrategy.getHKPressFilter();
             buffer = new Buffer();
             buffer.append("PopupKeyConsumptionStrategy - HKPressFilter IDs: ");
@@ -103,19 +127,38 @@ implements IPopupManagerEvo {
         } else {
             return;
         }
-        this.logPopup.log(-2137614336, buffer.toString());
+        this.logPopup.log(10000000, buffer.toString());
         this.popupKeyConsumptionCache.put(new Integer(iPopupKeyConsuptionStrategy.getPopupID()), iPopupKeyConsuptionStrategy);
-        this.postRunnable(new PopupManagerEvo$3(this, iPopupKeyConsuptionStrategy));
+        this.postRunnable(new Runnable(){
+
+            public void run() {
+                IScreenData iScreenData = PopupManagerEvo.this.getPopup(iPopupKeyConsuptionStrategy.getPopupID());
+                if (iScreenData == null) {
+                    PopupManagerEvo.this.logPopup.log(100000, "setPopupKeyConsumptionStrategy popup for id=%1 is null", (long)iPopupKeyConsuptionStrategy.getPopupID());
+                    return;
+                }
+                Screen screen = iScreenData.getScreen();
+                if (screen instanceof IScreenEvo) {
+                    PopupManagerEvo.this.logPopup.log(10000000, "setPopupKeyConsuptionStrategy(%1) ", (Object)iPopupKeyConsuptionStrategy);
+                    ((IScreenEvo)screen).setPopupKeyConsuptionStrategy(iPopupKeyConsuptionStrategy);
+                } else {
+                    PopupManagerEvo.this.logPopup.log(10000, "setPopupKeyConsuptionStrategy(%1) is not IScreenEvo", (Object)iPopupKeyConsuptionStrategy);
+                }
+            }
+
+            public String toString() {
+                return new StringBuffer().append("setPopupKeyConsuptionStrategy: ").append(iPopupKeyConsuptionStrategy).toString();
+            }
+        });
     }
 
-    @Override
     protected void inspectCachedPopupConsumtionStrategies(IScreenData iScreenData) {
-        this.logPopup.log(-2137614336, "inspectCachedPopupConsumtionStrategies for PopupID='%1'", (long)iScreenData.getPopupId());
+        this.logPopup.log(10000000, "inspectCachedPopupConsumtionStrategies for PopupID='%1'", (long)iScreenData.getPopupId());
         IPopupKeyConsuptionStrategy iPopupKeyConsuptionStrategy = (IPopupKeyConsuptionStrategy)this.popupKeyConsumptionCache.remove(new Integer(iScreenData.getPopupId()));
         if (iPopupKeyConsuptionStrategy != null) {
             Screen screen = iScreenData.getScreen();
             if (screen instanceof IScreenEvo) {
-                this.logPopup.log(-2137614336, "setPopupKeyConsumptionStrategy(%1) ", (Object)iPopupKeyConsuptionStrategy);
+                this.logPopup.log(10000000, "setPopupKeyConsumptionStrategy(%1) ", (Object)iPopupKeyConsuptionStrategy);
                 ((IScreenEvo)screen).setPopupKeyConsuptionStrategy(iPopupKeyConsuptionStrategy);
             } else {
                 this.logPopup.log(10000, "inspectChashedPopupConsumtionStrategies(%1) is not IScreenEvo", (Object)iPopupKeyConsuptionStrategy);
@@ -127,17 +170,14 @@ implements IPopupManagerEvo {
         return ((HMITerminalEvo)this.getTerminalContext().getHmiTerminal()).getDrawerFocusManager();
     }
 
-    @Override
     public boolean isLogicalPopup(IScreenData iScreenData) {
         return iScreenData != null && iScreenData.getPopupId() == 19;
     }
 
-    @Override
     public int getHMIInternalPrio(int n, int n2) {
         return this.framework.getSysConstManager().getHMIInternalPopupPrio(n, n2);
     }
 
-    @Override
     public int getCurrentPopupPriority() {
         if (this.popupAvailable()) {
             int n = MMIKombiPopupIDMapper.getMMIKombiSlotID(this.getCurrentPopupID());
@@ -147,7 +187,6 @@ implements IPopupManagerEvo {
         return -1;
     }
 
-    @Override
     public boolean isInPopupList(int n) {
         if (this.combiSyncPopupManager != null) {
             return this.combiSyncPopupManager.isInPopupList(n);
@@ -155,36 +194,14 @@ implements IPopupManagerEvo {
         return super.isInPopupList(n);
     }
 
-    @Override
     public void setCombiSyncPopupManager(IPopupManager iPopupManager) {
         this.combiSyncPopupManager = iPopupManager;
     }
 
-    @Override
     protected int getPopupPriority(IScreenData iScreenData) {
         int n = MMIKombiPopupIDMapper.getMMIKombiSlotID(iScreenData.getPopupId());
         int n2 = MMIKombiPopupIDMapper.getMMIKombiPrio(iScreenData.getPopupId());
         return this.getHMIInternalPrio(n, n2);
-    }
-
-    static /* synthetic */ LogChannel access$000(PopupManagerEvo popupManagerEvo) {
-        return popupManagerEvo.logPopup;
-    }
-
-    static /* synthetic */ LogChannel access$100(PopupManagerEvo popupManagerEvo) {
-        return popupManagerEvo.logPopup;
-    }
-
-    static /* synthetic */ LogChannel access$200(PopupManagerEvo popupManagerEvo) {
-        return popupManagerEvo.logPopup;
-    }
-
-    static /* synthetic */ LogChannel access$300(PopupManagerEvo popupManagerEvo) {
-        return popupManagerEvo.logPopup;
-    }
-
-    static /* synthetic */ LogChannel access$400(PopupManagerEvo popupManagerEvo) {
-        return popupManagerEvo.logPopup;
     }
 }
 

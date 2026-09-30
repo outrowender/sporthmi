@@ -11,37 +11,26 @@ import org.dsi.ifc.navigation.LIValueListElement;
 public interface IMatchspellerInputSequence
 extends IRestorable,
 IPreviewMapHandler {
-    default public void start(boolean bl) {
-    }
+    public void start(boolean var1);
 
-    default public void requestNextResultListWindow(int n, int n2) {
-    }
+    public void requestNextResultListWindow(int var1, int var2);
 
-    default public void requestPreviousResultListWindow(int n) {
-    }
+    public void requestPreviousResultListWindow(int var1);
 
-    default public void addCharacter(String string) {
-    }
+    public void addCharacter(String var1);
 
-    default public void addCharacter(String string, int n, boolean bl) {
-    }
+    public void addCharacter(String var1, int var2, boolean var3);
 
-    default public void undoCharacter() {
-    }
+    public void undoCharacter();
 
-    default public void deleteAllCharacters() {
-    }
+    public void deleteAllCharacters();
 
-    default public void selectListElement(LIValueListElement lIValueListElement, boolean bl) {
-    }
+    public void selectListElement(LIValueListElement var1, boolean var2);
 
-    default public CommandList getSelectListElementCommandList(LIValueListElement lIValueListElement, boolean bl) {
-    }
+    public CommandList getSelectListElementCommandList(LIValueListElement var1, boolean var2);
 
-    default public void selectElementByIdentifier(String string) {
-    }
+    public void selectElementByIdentifier(String var1);
 
-    default public void unrequestItems(int n, int n2) {
-    }
+    public void unrequestItems(int var1, int var2);
 }
 

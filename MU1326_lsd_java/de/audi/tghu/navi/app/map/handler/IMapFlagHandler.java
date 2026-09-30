@@ -3,49 +3,63 @@
  */
 package de.audi.tghu.navi.app.map.handler;
 
+import de.audi.atip.log.LogChannel;
+import de.audi.tghu.navi.app.favorite.IFavorite;
+import de.audi.tghu.navi.app.map.MapDataContainer;
 import de.audi.tghu.navi.app.map.utils.MapPin;
+import org.dsi.ifc.global.NavLocation;
+import org.dsi.ifc.map.MapFlag;
+import org.dsi.ifc.organizer.AdbEntry;
 
 public interface IMapFlagHandler {
-    public static final int PERSONAL_DEST_INDEX_UNDEFINED;
-    public static final int PERSONAL_DEST_INDEX_FOR_REMOVE;
-    public static final int PERSONAL_DEST_INDEX_FOR_REPLACE;
-    public static final int PERSONAL_DEST_INDEX_FOR_ADD;
-    public static final int PERSONAL_DEST_INDEX_MAX;
+    public static final int PERSONAL_DEST_INDEX_UNDEFINED = -1;
+    public static final int PERSONAL_DEST_INDEX_FOR_REMOVE = 0;
+    public static final int PERSONAL_DEST_INDEX_FOR_REPLACE = 1;
+    public static final int PERSONAL_DEST_INDEX_FOR_ADD = 2;
+    public static final int PERSONAL_DEST_INDEX_MAX = 3;
 
-    default public void refresh(boolean bl) {
-    }
+    public void refresh(boolean var1);
 
-    default public void refresh(boolean bl, boolean bl2) {
-    }
+    public void refresh(boolean var1, boolean var2);
 
-    default public void setTemporaryPins(MapPin[] mapPinArray) {
-    }
+    public void setTemporaryPins(MapPin[] var1);
 
-    default public void addTemporaryPins(MapPin[] mapPinArray) {
-    }
+    public void addTemporaryPins(MapPin[] var1);
 
-    default public void removeTemporaryPins(MapPin[] mapPinArray) {
-    }
+    public void removeTemporaryPins(MapPin[] var1);
 
-    default public void cleanPins(MapPin[] mapPinArray) {
-    }
+    public void cleanPins(MapPin[] var1);
 
-    default public void setPins(MapPin[] mapPinArray) {
-    }
+    public void setPins(MapPin[] var1);
 
-    default public void cleanAllPins() {
-    }
+    public void cleanAllPins();
 
-    default public MapPin[] getPins() {
-    }
+    public MapPin[] getPins();
 
-    default public MapPin getPin(long l) {
-    }
+    public MapPin getPin(long var1);
 
-    default public boolean configureFlags(long[] lArray) {
-    }
+    public boolean configureFlags(long[] var1);
 
-    default public void onChangedRenderer(int n) {
+    public void onChangedRenderer(int var1);
+
+    public static interface IMapFlagHandlerEnv {
+        public LogChannel getLogger();
+
+        public NavLocation getHome();
+
+        public NavLocation getOffice();
+
+        public AdbEntry[] getTops();
+
+        public MapPin[] getContextDependedPins();
+
+        public boolean isFavoriteVisible(int var1);
+
+        public IFavorite[] getFavorites();
+
+        public MapDataContainer getMapDataContainer();
+
+        public void configureFlags(int var1, MapFlag[] var2);
     }
 }
 

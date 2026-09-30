@@ -9,7 +9,6 @@ import de.audi.tghu.connectivity.sm.ConnectivitySMMActions;
 
 public class Activator
 extends AbstractSMMActivator {
-    @Override
     public void init() {
         this.smmList = new ConnectivitySMM[8];
         if (this.framework.isFrontMU()) {

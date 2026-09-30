@@ -21,7 +21,7 @@ implements UotaNavListener {
     public void setListener(UotaNavListener uotaNavListener) {
         this.listener = uotaNavListener;
         if (uotaNavListener != null) {
-            this.logChannel.log(1078071040, "UotaNavListenerImpl#setListener() - listener registered");
+            this.logChannel.log(1000000, "UotaNavListenerImpl#setListener() - listener registered");
             if (this.rgActive) {
                 try {
                     uotaNavListener.startNewGuidance(this.latitude, this.longitude, true);
@@ -31,11 +31,10 @@ implements UotaNavListener {
                 }
             }
         } else {
-            this.logChannel.log(1078071040, "UotaNavListenerImpl#setListener() - listener deregistered");
+            this.logChannel.log(1000000, "UotaNavListenerImpl#setListener() - listener deregistered");
         }
     }
 
-    @Override
     public void startNewGuidance(int n, int n2, boolean bl) {
         this.rgActive = true;
         this.latitude = n;
@@ -48,11 +47,10 @@ implements UotaNavListener {
                 this.logChannel.log(10000, "UotaNavListenerImpl#startNewGuidance()", (Throwable)exception);
             }
         } else if (this.logChannel.isDebug2()) {
-            this.logChannel.log(14808325, "UotaNavListenerImpl#startNewGuidance() - listener not registered! ");
+            this.logChannel.log(100000000, "UotaNavListenerImpl#startNewGuidance() - listener not registered! ");
         }
     }
 
-    @Override
     public void cancelLastGuidance() {
         this.rgActive = false;
         if (this.listener != null) {
@@ -63,7 +61,7 @@ implements UotaNavListener {
                 this.logChannel.log(10000, "UotaNavListenerImpl#cancelLastGuidance()", (Throwable)exception);
             }
         } else if (this.logChannel.isDebug2()) {
-            this.logChannel.log(14808325, "UotaNavListenerImpl#cancelLastGuidance() - listener not registered! ");
+            this.logChannel.log(100000000, "UotaNavListenerImpl#cancelLastGuidance() - listener not registered! ");
         }
     }
 }

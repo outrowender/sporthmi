@@ -7,14 +7,14 @@ import de.audi.atip.interapp.tts.TTSListener;
 import de.audi.atip.interapp.tts.TTSToneListener;
 
 public class TTSResult {
-    static final int TTS_RESULT_NONE;
-    static final int TTS_RESULT_FINISHED;
-    static final int TTS_RESULT_FAILED;
-    static final int TTS_RESULT_ABORTED;
-    public static final int TTS_RESULT_PROMPT_STARTED;
-    public static final int TTS_RESULT_TONE_STARTED;
-    public static final int TTS_RESULT_TONE_FINISHED;
-    public static final int TTS_RESULT_PROMPT_PAUSED;
+    static final int TTS_RESULT_NONE = 1;
+    static final int TTS_RESULT_FINISHED = 2;
+    static final int TTS_RESULT_FAILED = 3;
+    static final int TTS_RESULT_ABORTED = 4;
+    public static final int TTS_RESULT_PROMPT_STARTED = 5;
+    public static final int TTS_RESULT_TONE_STARTED = 6;
+    public static final int TTS_RESULT_TONE_FINISHED = 7;
+    public static final int TTS_RESULT_PROMPT_PAUSED = 8;
     private int type;
     private TTSListener listener;
 
@@ -91,7 +91,7 @@ public class TTSResult {
                 return "PAUSED";
             }
         }
-        return new StringBuffer().append("UNKNOWN (").append(n).append(")").toString();
+        return "UNKNOWN (" + n + ")";
     }
 }
 

@@ -20,12 +20,12 @@ public abstract class AbstractOnlineSearchCommand
 extends Command
 implements DSIPoiOnlineSearchListener {
     protected DSIPoiOnlineSearch dsiOnlineSearch;
-    public static final int SEARCH_RADIUS_KM;
-    public static final int ERRORCODE_UNDEFINED;
-    public static final int ERRORCODE_NOSIGNAL;
-    public static final int ERRORCODE_CONNECTIONFAILED;
-    public static final int ERRORCODE_PROXYDOWN;
-    public static final int ERRORCODE_THIRDPARTYDOWN;
+    public static final int SEARCH_RADIUS_KM = 500;
+    public static final int ERRORCODE_UNDEFINED = 0;
+    public static final int ERRORCODE_NOSIGNAL = 1;
+    public static final int ERRORCODE_CONNECTIONFAILED = 2;
+    public static final int ERRORCODE_PROXYDOWN = 3;
+    public static final int ERRORCODE_THIRDPARTYDOWN = 4;
     protected int returnCode = 0;
     protected boolean spellingSuggestion;
     protected IOnlineSearchForm form;
@@ -41,9 +41,8 @@ implements DSIPoiOnlineSearchListener {
         this.onlineSearchStatus = onlineSearchContext;
     }
 
-    @Override
     public void setCommandList(ICommandList iCommandList) {
-        this.logger.log(1078071040, "OnlinePoiCommand#setCommandList()");
+        this.logger.log(1000000, "OnlinePoiCommand#setCommandList()");
         super.setCommandList(iCommandList);
         if (!(iCommandList instanceof OnlinePoiCommandList)) {
             throw new ClassCastException("Expected OnlinePoiCommandList!");
@@ -53,13 +52,12 @@ implements DSIPoiOnlineSearchListener {
     }
 
     protected void init(DSIPoiOnlineSearch dSIPoiOnlineSearch) {
-        this.logger.log(1078071040, "OnlinePoiCommand#init()");
+        this.logger.log(1000000, "OnlinePoiCommand#init()");
         this.dsiOnlineSearch = dSIPoiOnlineSearch;
     }
 
-    @Override
     public void poiResult(int n, int n2, int n3) {
-        this.logger.log(-2137614336, "AbstractOnlineSearchCommand#poiResult( %1, %2 )", (long)n2, (long)n3);
+        this.logger.log(10000000, "AbstractOnlineSearchCommand#poiResult( %1, %2 )", (long)n2, (long)n3);
         this.returnCode = n3;
         if (n3 == 10 || n3 == 11 || n3 == 12) {
             return;
@@ -69,16 +67,15 @@ implements DSIPoiOnlineSearchListener {
             this.form.indicateError(this.statusToErrorCode(n3), Integer.toString(n3));
         }
         catch (Exception exception) {
-            this.logger.log(-2137614336, "AbstractOnlineSearchCommand#poiResult: exception occured %1", (Throwable)exception);
+            this.logger.log(10000000, "AbstractOnlineSearchCommand#poiResult: exception occured %1", (Throwable)exception);
         }
     }
 
-    @Override
     public void poiValueList(int n, int n2, PoiOnlineSearchValuelist poiOnlineSearchValuelist, int n3, int n4) {
-        this.logger.log(1078071040, "AbstractOnlineSearchCommand#poiValueList()");
+        this.logger.log(1000000, "AbstractOnlineSearchCommand#poiValueList()");
         Buffer buffer = new Buffer();
         buffer.append("AbstractOnlineSearchCommand#poiValueList  valueList='").append(poiOnlineSearchValuelist.toString()).append("',totalItems='").append(n4).append("', indexOfFirstItem='").append(n3).append("', returnCode='").append(this.returnCode).append("'");
-        this.logger.log(-2137614336, buffer.toString());
+        this.logger.log(10000000, buffer.toString());
         int n5 = -1;
         if (this.returnCode == 11) {
             this.form.updateProvider(n2, poiOnlineSearchValuelist.sourceName, poiOnlineSearchValuelist.imageUrl, poiOnlineSearchValuelist.imageCheckSum, poiOnlineSearchValuelist.imageMapUrl, poiOnlineSearchValuelist.imageMapCheckSum, poiOnlineSearchValuelist.imageVoiceUrl, poiOnlineSearchValuelist.imageVoiceCheckSum);
@@ -86,7 +83,7 @@ implements DSIPoiOnlineSearchListener {
             n5 = this.form.updateResults(n2, poiOnlineSearchValuelist, n3, n4, true, this.onlineSearchStatus.getResultList());
             this.onlineSearchStatus.setResultsLength(n5);
             if (this.spellingSuggestion) {
-                this.logger.log(-2137614336, "AbstractOnlineSearchCommand#poiValueList() Sending spelling suggestion request.");
+                this.logger.log(10000000, "AbstractOnlineSearchCommand#poiValueList() Sending spelling suggestion request.");
                 this.getCommandList().commandFinishedWithPostCommand(new SpellingSuggestionCommand(this.logger, this.form));
             } else {
                 this.form.setResultsComplete();
@@ -100,7 +97,7 @@ implements DSIPoiOnlineSearchListener {
 
     protected int statusToErrorCode(int n) {
         int n2;
-        this.logger.log(-2137614336, "AbstractOnlineSearchCommand#statusToErrorCode() status : %1", (long)n);
+        this.logger.log(10000000, "AbstractOnlineSearchCommand#statusToErrorCode() status : %1", (long)n);
         if (n == 44) {
             return 4;
         }
@@ -137,11 +134,9 @@ implements DSIPoiOnlineSearchListener {
         return n2;
     }
 
-    @Override
     public void poiSpellingSuggestion(int n, String string, String[] stringArray) {
     }
 
-    @Override
     public void precheckDynamicPOICategoryResponse(int n, OSRServiceState oSRServiceState) {
     }
 }

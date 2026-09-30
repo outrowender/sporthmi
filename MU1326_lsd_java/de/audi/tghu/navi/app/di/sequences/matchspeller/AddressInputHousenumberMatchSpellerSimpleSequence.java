@@ -15,10 +15,12 @@ import de.audi.tghu.navi.app.addressinput.commands.LispSelectListItemByIdent;
 import de.audi.tghu.navi.app.addressinput.commands.ModelSelectListElementCommand;
 import de.audi.tghu.navi.app.addressinput.commands.ModelStartCommand;
 import de.audi.tghu.navi.app.addressinput.commands.ModelUpdateSpellerAndResultListCommand;
+import de.audi.tghu.navi.app.addressinput.commands.UpdateAddressInputFormScreenModelsCommand;
+import de.audi.tghu.navi.app.addressinput.country.SetBackupLocationForAddressInputFormCommand;
 import de.audi.tghu.navi.app.command.LISPCancelSpellerCommand;
+import de.audi.tghu.navi.app.command.NavCommand;
 import de.audi.tghu.navi.app.di.IAddressInputManager;
 import de.audi.tghu.navi.app.di.sequences.matchspeller.AbstractAddressInputMatchSpellerSequence;
-import de.audi.tghu.navi.app.di.sequences.matchspeller.AddressInputHousenumberMatchSpellerSimpleSequence$1;
 import de.audi.tghu.navi.app.li.SpellerStack;
 import org.dsi.ifc.navigation.LIValueListElement;
 
@@ -28,7 +30,6 @@ extends AbstractAddressInputMatchSpellerSequence {
         super(iCommandListFactory, navigationEnv, iMatchspellerModelAccess, iPreviewMap, spellerStack, iAddressInputManager);
     }
 
-    @Override
     public CommandList getStartCommandList() {
         CommandList commandList = this.commandListFactory.createCommandList();
         commandList.add(new LISPCancelSpellerCommand());
@@ -36,11 +37,25 @@ extends AbstractAddressInputMatchSpellerSequence {
         return commandList;
     }
 
-    @Override
-    public CommandList getSelectListElementCommandList(LIValueListElement lIValueListElement) {
+    public CommandList getSelectListElementCommandList(final LIValueListElement lIValueListElement) {
         CommandList commandList = this.commandListFactory.createCommandList();
         commandList.add(new LISPSelectListItemCommand(lIValueListElement.getListIndex()));
-        commandList.add(new AddressInputHousenumberMatchSpellerSimpleSequence$1(this, lIValueListElement));
+        commandList.add(new NavCommand(){
+
+            public void execute() {
+                if (lIValueListElement.isToRefine()) {
+                    AddressInputHousenumberMatchSpellerSimpleSequence.this.modelAccess.onAmbiguousElementSelected();
+                    this.getCommandList().commandFinishedWithPostSequence(AddressInputHousenumberMatchSpellerSimpleSequence.this.createStartSequence(127, false));
+                } else {
+                    AddressInputHousenumberMatchSpellerSimpleSequence.this.modelAccess.onElementSelected(this.dsiResponseContainer.getLiCurrentLD());
+                    CommandList commandList = AddressInputHousenumberMatchSpellerSimpleSequence.this.commandListFactory.createCommandList();
+                    commandList.add(new UpdateAddressInputFormScreenModelsCommand(AddressInputHousenumberMatchSpellerSimpleSequence.this.modelAccess));
+                    commandList.add(new CmdNaviPreviewMapUpdate(AddressInputHousenumberMatchSpellerSimpleSequence.this.previewMap, 1, null, null));
+                    commandList.add(new SetBackupLocationForAddressInputFormCommand(AddressInputHousenumberMatchSpellerSimpleSequence.this.inputManager));
+                    this.getCommandList().commandFinishedWithPostSequence(commandList);
+                }
+            }
+        });
         return commandList;
     }
 
@@ -56,16 +71,11 @@ extends AbstractAddressInputMatchSpellerSequence {
         return commandList;
     }
 
-    @Override
     public CommandList getSelectElementByIdentifierCommandList(String string) {
         CommandList commandList = this.commandListFactory.createCommandList();
         commandList.add(new LispSelectListItemByIdent(string));
         commandList.add(new ModelSelectListElementCommand(this.modelAccess));
         return commandList;
-    }
-
-    static /* synthetic */ CommandList access$000(AddressInputHousenumberMatchSpellerSimpleSequence addressInputHousenumberMatchSpellerSimpleSequence, int n, boolean bl) {
-        return addressInputHousenumberMatchSpellerSimpleSequence.createStartSequence(n, bl);
     }
 }
 

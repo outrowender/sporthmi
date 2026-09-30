@@ -20,18 +20,16 @@ extends NavCommand {
         this.logChannel = logChannel;
     }
 
-    @Override
     public void execute() {
         if (this.logChannel.isDebug2()) {
-            this.logChannel.log(14808325, "PoiGetAllCategoriesCommand#execute() - calling ehGetAllCategories() ");
+            this.logChannel.log(100000000, "PoiGetAllCategoriesCommand#execute() - calling ehGetAllCategories() ");
         }
         this.getDSINavigation().ehGetAllCategories(this.mapStyleType);
     }
 
-    @Override
     public void ehGetAllCategoriesResult(int n, Category[] categoryArray, int n2) {
         if (this.logChannel.isDebug2()) {
-            this.logChannel.log(14808325, "PoiGetAllCategoriesCommand#ehGetAllCategoriesResult( %1 )", (long)n2);
+            this.logChannel.log(100000000, "PoiGetAllCategoriesCommand#ehGetAllCategoriesResult( %1 )", (long)n2);
         }
         if (n2 == 0) {
             if (this.poiWarningManager != null) {

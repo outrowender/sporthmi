@@ -20,39 +20,39 @@ public class OnlineModelBankAccess {
     private final HMIService hmiService;
 
     public static int getUpdatingIconChoiceId() {
-        return 1494950656;
+        return 2300761;
     }
 
     public int getViewTextDisplayAction1ButtonId() {
-        return 605692672;
+        return 2300452;
     }
 
     public int getViewTextDisplayAction1LabelId() {
-        return 622469888;
+        return 2300453;
     }
 
     public int getViewTextDisplayAction2ButtonId() {
-        return 639247104;
+        return 2300454;
     }
 
     public int getViewTextDisplayAction2LabelId() {
-        return 656024320;
+        return 2300455;
     }
 
     public int getViewTextDisplayMsgLabelId() {
-        return 672801536;
+        return 2300456;
     }
 
     public int getViewTextDisplaySubTitle1LabelId() {
-        return 840573696;
+        return 2300466;
     }
 
     public int getViewTextDisplaySubTitle2LabelId() {
-        return 857350912;
+        return 2300467;
     }
 
     public int getCurrentViewChoiceId() {
-        return -1508367616;
+        return 2300070;
     }
 
     public OnlineModelBankAccess(HMIService hMIService) {

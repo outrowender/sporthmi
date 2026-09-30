@@ -10,6 +10,7 @@ import de.audi.tghu.online.app.Online;
 import de.audi.tghu.online.app.operatorcall.data.OperatorCallPoiStorage;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import org.dsi.ifc.global.NavLocationWgs84;
 import org.dsi.ifc.online.OperatorCallAddressEntry;
@@ -17,8 +18,8 @@ import org.dsi.ifc.online.OperatorCallResult;
 
 public class OperatorCallPoiStorageDataContainer
 extends AbstractStorageDataContainer {
-    private static final int MAX_POIS;
-    private static final int POI_VERSION;
+    private static final int MAX_POIS = 5;
+    private static final int POI_VERSION = 1;
     private final LogChannel logChannel = Online.getInstance().getOperatorCallLogChannel();
     private ArrayList poiStorages;
     private boolean used = false;
@@ -31,23 +32,19 @@ extends AbstractStorageDataContainer {
         return this.getKey();
     }
 
-    @Override
     protected void handleCRC32Error() {
-        this.logChannel.log(-1601830656, "OperatorCallPoiStorageDataContainer#handleCRC32Error");
+        this.logChannel.log(100000, "OperatorCallPoiStorageDataContainer#handleCRC32Error");
     }
 
-    @Override
     protected void handleStorageReadError(Exception exception) {
-        this.logChannel.log(-1601830656, "OperatorCallPoiStorageDataContainer#handleStorageReadError!", (Throwable)exception);
+        this.logChannel.log(100000, "OperatorCallPoiStorageDataContainer#handleStorageReadError!", (Throwable)exception);
     }
 
-    @Override
-    protected void convertContainer(int n, int n2, DataInputStream dataInputStream) {
-        this.logChannel.log(-2137614336, "OperatorCallPoiStorageDataContainer#convertContainer!");
+    protected void convertContainer(int n, int n2, DataInputStream dataInputStream) throws IOException {
+        this.logChannel.log(10000000, "OperatorCallPoiStorageDataContainer#convertContainer!");
     }
 
-    @Override
-    protected void serialize(DataOutputStream dataOutputStream) {
+    protected void serialize(DataOutputStream dataOutputStream) throws IOException {
         if (this.poiStorages == null) {
             this.logChannel.log(10000, "OperatorCallPoiStorageDataContainer#serialize: arraylist for saving pois is null! This should never happen!");
             return;
@@ -57,15 +54,14 @@ extends AbstractStorageDataContainer {
         for (int i2 = 0; i2 < n; ++i2) {
             OperatorCallPoiStorage operatorCallPoiStorage = (OperatorCallPoiStorage)this.poiStorages.get(i2);
             operatorCallPoiStorage.serialize(dataOutputStream);
-            this.logChannel.log(14808325, "OperatorCallPoiStorageDataContainer#serialize: poi = %1", (Object)operatorCallPoiStorage);
+            this.logChannel.log(100000000, "OperatorCallPoiStorageDataContainer#serialize: poi = %1", (Object)operatorCallPoiStorage);
         }
     }
 
-    @Override
-    protected void deserialize(DataInputStream dataInputStream) {
+    protected void deserialize(DataInputStream dataInputStream) throws IOException {
         int n = dataInputStream.readInt();
         if (n < 0 || n > 5) {
-            this.logChannel.log(-1601830656, "OperatorCallPoiStorageDataContainer#deserialize: Number of pois (%1) exceeds the valid number of pois [0,%2]! Persistence must be corrupt. Ignoring the POIs of this call.", (long)n, (long)0);
+            this.logChannel.log(100000, "OperatorCallPoiStorageDataContainer#deserialize: Number of pois (%1) exceeds the valid number of pois [0,%2]! Persistence must be corrupt. Ignoring the POIs of this call.", (long)n, 5L);
             return;
         }
         this.poiStorages = new ArrayList(n);
@@ -76,11 +72,11 @@ extends AbstractStorageDataContainer {
             String string2 = dataInputStream.readUTF();
             int n3 = dataInputStream.readInt();
             if (n3 != 2 && n3 != 1) {
-                this.logChannel.log(-1601830656, "OperatorCallPoiStorageDataContainer#deserialize: serviceType unknown! Persistence must be corrupt. Ignoring this POI.");
+                this.logChannel.log(100000, "OperatorCallPoiStorageDataContainer#deserialize: serviceType unknown! Persistence must be corrupt. Ignoring this POI.");
                 bl = false;
             }
             if ((string = this.getNullForEmptyString(dataInputStream.readUTF())) == null || string.length() < 1) {
-                this.logChannel.log(-1601830656, "OperatorCallPoiStorageDataContainer#deserialize: poi name is null or empty! Persistence must be corrupt. Ignoring this POI.");
+                this.logChannel.log(100000, "OperatorCallPoiStorageDataContainer#deserialize: poi name is null or empty! Persistence must be corrupt. Ignoring this POI.");
                 bl = false;
             }
             String string3 = this.getNullForEmptyString(dataInputStream.readUTF());
@@ -92,12 +88,12 @@ extends AbstractStorageDataContainer {
             String string9 = this.getNullForEmptyString(dataInputStream.readUTF());
             String string10 = this.getNullForEmptyString(dataInputStream.readUTF());
             int n4 = dataInputStream.readInt();
-            if (n4 < 0x400000C0 || n4 > -1056964801) {
-                this.logChannel.log(-1601830656, "OperatorCallPoiStorageDataContainer#deserialize: latitude invalid! Persistence must be corrupt. Ignoring this POI.");
+            if (n4 < -1073741760 || n4 > 1073741760) {
+                this.logChannel.log(100000, "OperatorCallPoiStorageDataContainer#deserialize: latitude invalid! Persistence must be corrupt. Ignoring this POI.");
                 bl = false;
             }
-            if ((n2 = dataInputStream.readInt()) < -2147483520 || n2 > -2130706561) {
-                this.logChannel.log(-1601830656, "OperatorCallPoiStorageDataContainer#deserialize: longitude invalid! Persistence must be corrupt. Ignoring this POI.");
+            if ((n2 = dataInputStream.readInt()) < -2147483520 || n2 > 2147483520) {
+                this.logChannel.log(100000, "OperatorCallPoiStorageDataContainer#deserialize: longitude invalid! Persistence must be corrupt. Ignoring this POI.");
                 bl = false;
             }
             if (!bl) continue;
@@ -106,7 +102,7 @@ extends AbstractStorageDataContainer {
             OperatorCallResult operatorCallResult = new OperatorCallResult(string2, n3, string, operatorCallAddressEntry, navLocationWgs84);
             OperatorCallPoiStorage operatorCallPoiStorage = new OperatorCallPoiStorage(operatorCallResult);
             this.poiStorages.add(operatorCallPoiStorage);
-            this.logChannel.log(14808325, "OperatorCallPoiStorageDataContainer#deserialize: poi = %1", (Object)operatorCallPoiStorage);
+            this.logChannel.log(100000000, "OperatorCallPoiStorageDataContainer#deserialize: poi = %1", (Object)operatorCallPoiStorage);
         }
     }
 
@@ -134,7 +130,7 @@ extends AbstractStorageDataContainer {
         if (operatorCallResultArray.length <= 5) {
             n = operatorCallResultArray.length;
         } else {
-            this.logChannel.log(-1601830656, "OperatorCallPoiStorageDataContainer#addPois: too many POIs (%1). Persisting only the first %2 POIs", (long)operatorCallResultArray.length, (long)0);
+            this.logChannel.log(100000, "OperatorCallPoiStorageDataContainer#addPois: too many POIs (%1). Persisting only the first %2 POIs", (long)operatorCallResultArray.length, 5L);
             n = 5;
         }
         this.poiStorages = new ArrayList(n);

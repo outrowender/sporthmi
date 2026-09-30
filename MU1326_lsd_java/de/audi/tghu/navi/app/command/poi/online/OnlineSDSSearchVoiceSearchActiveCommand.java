@@ -12,9 +12,8 @@ extends AbstractOnlineSearchCommand {
         super(logChannel);
     }
 
-    @Override
     public void execute() {
-        this.logger.log(1078071040, "OnlineSDSSearchVoiceSearchActiveCommand#execute: Called.");
+        this.logger.log(1000000, "OnlineSDSSearchVoiceSearchActiveCommand#execute: Called.");
         this.dsiOnlineSearch.poiVoiceSearchActive();
         this.getCommandList().commandFinished();
     }

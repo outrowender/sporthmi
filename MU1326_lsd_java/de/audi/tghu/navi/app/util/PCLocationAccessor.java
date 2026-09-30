@@ -95,7 +95,6 @@ implements IMyLocationAccessor {
         this.addSelCrit(138, string2);
     }
 
-    @Override
     public final void setLocation(NavLocation navLocation) {
         this.trans = navLocation;
     }
@@ -131,87 +130,70 @@ implements IMyLocationAccessor {
         this.trans.proprietaryData = navLocationDescriptorArray;
     }
 
-    @Override
     public final int getAdditionalFlags() {
         return 0;
     }
 
-    @Override
     public int getAdditionalPoiAttributeBoolean(int n) {
         return 0;
     }
 
-    @Override
     public String getAdditionalPoiAttributeString(int n) {
         return "";
     }
 
-    @Override
     public int getAdditionalPoiAttributeInt(int n) {
         return 0;
     }
 
-    @Override
     public float getAdditionalPoiAttributeFloat(int n) {
         return 0.0f;
     }
 
-    @Override
     public int getConnectorCount() {
         return 0;
     }
 
-    @Override
     public int getConnectorAttributeBoolean(int n, int n2) {
         return 0;
     }
 
-    @Override
     public float getConnectorAttributeFloat(int n, int n2) {
         return 0.0f;
     }
 
-    @Override
     public String getConnectorAttributeString(int n, int n2) {
         return "";
     }
 
-    @Override
     public int getConnectorAttributeInt(int n, int n2) {
         return 0;
     }
 
-    @Override
     public final String getCountry() {
         return this.trans.getCountry();
     }
 
-    @Override
     public final String getCountryAbbreviation() {
         return this.trans.getCountryAbbreviation();
     }
 
-    @Override
     public int getCountryIconIndex() {
         return 0;
     }
 
-    @Override
     public final String getHousenumber() {
         return this.trans.getHousenumber();
     }
 
-    @Override
     public final int getIconIndex() {
         return this.parseInt(this.getDataOfSelectionCriteria(520));
     }
 
-    @Override
     public final String getJunction() {
         return this.trans.getJunction();
     }
 
-    @Override
     public final int getLatitude() {
         if (this.trans.isPositionValid()) {
             return this.trans.getLatitude();
@@ -219,7 +201,6 @@ implements IMyLocationAccessor {
         return 0;
     }
 
-    @Override
     public final int getLongitude() {
         if (this.trans.isPositionValid()) {
             return this.trans.getLongitude();
@@ -227,72 +208,58 @@ implements IMyLocationAccessor {
         return 0;
     }
 
-    @Override
     public final String getMmiInternalData() {
         return this.getDataOfSelectionCriteria(768);
     }
 
-    @Override
     public final String getMotorWayExit() {
         return this.getDataOfSelectionCriteria(4);
     }
 
-    @Override
     public final String getPhonenumber() {
-        return this.getDataOfSelectionCriteria(0x8800000);
+        return this.getDataOfSelectionCriteria(32776);
     }
 
-    @Override
     public final String getPoiCategory() {
-        return this.getDataOfSelectionCriteria(0x2800000);
+        return this.getDataOfSelectionCriteria(32770);
     }
 
-    @Override
     public final int getPoiCategoryNumber() {
-        return this.parseInt(this.getDataOfSelectionCriteria(0x800000));
+        return this.parseInt(this.getDataOfSelectionCriteria(32768));
     }
 
-    @Override
     public final String getPoiClass() {
-        return this.getDataOfSelectionCriteria(0x1800000);
+        return this.getDataOfSelectionCriteria(32769);
     }
 
-    @Override
     public final String getPoiName() {
-        return this.getDataOfSelectionCriteria(0x3800000);
+        return this.getDataOfSelectionCriteria(32771);
     }
 
-    @Override
     public final String getStreet() {
         return this.trans.getStreet();
     }
 
-    @Override
     public final String getStreetRefinement() {
         return this.trans.getStreetRefinement();
     }
 
-    @Override
     public final int getSubIconIndex() {
         return this.parseInt(this.getDataOfSelectionCriteria(282));
     }
 
-    @Override
     public final String getTown() {
         return this.trans.getTown();
     }
 
-    @Override
     public final String getTowncenter() {
         return this.trans.getTowncenter();
     }
 
-    @Override
     public final String getTownRefinement() {
         return this.trans.getTownRefinement();
     }
 
-    @Override
     public final int getType() {
         int n = 0;
         NavLocationDescriptor[] navLocationDescriptorArray = this.trans.proprietaryData;
@@ -306,17 +273,14 @@ implements IMyLocationAccessor {
         return n;
     }
 
-    @Override
     public final String getURLAddress() {
         return this.getDataOfSelectionCriteria(128);
     }
 
-    @Override
     public final String getZipCode() {
         return this.trans.getZipCode();
     }
 
-    @Override
     public final boolean isNavigable() {
         return this.trans.isPositionValid();
     }
@@ -330,7 +294,6 @@ implements IMyLocationAccessor {
         }
     }
 
-    @Override
     public final void removeAll() {
         this.trans.positionValid = false;
         this.trans.longitude = 0;
@@ -351,132 +314,106 @@ implements IMyLocationAccessor {
         this.trans.versionOfLocationStructureValid = false;
     }
 
-    @Override
-    public void setMmiInternalData(String string) {
+    public void setMmiInternalData(String string) throws IllegalArgumentException {
         this.addSelCrit(768, string);
     }
 
-    @Override
     public boolean isParentOfPOIs() {
         return false;
     }
 
-    @Override
     public boolean isZipCodeNeededForRefinement() {
         return false;
     }
 
-    @Override
     public boolean isTownRefinementNeededForRefinement() {
         return false;
     }
 
-    @Override
     public boolean isZipCodeSpelled() {
         return false;
     }
 
-    @Override
     public boolean isTownOrder9() {
         return false;
     }
 
-    @Override
     public String getState() {
         return this.getDataOfSelectionCriteria(138);
     }
 
-    @Override
     public String getStateAbbreviation() {
         return this.getDataOfSelectionCriteria(138);
     }
 
-    @Override
     public boolean isStateSpelled() {
         return false;
     }
 
-    @Override
     public boolean isStreetBasename() {
         return false;
     }
 
-    @Override
     public PhonemeData getPhoneme(int n) {
         return null;
     }
 
-    @Override
     public String getPlaceName() {
         return this.getDataOfSelectionCriteria(147);
     }
 
-    @Override
     public String getWard() {
         return this.getDataOfSelectionCriteria(152);
     }
 
-    @Override
     public String getSubmunicipalTown() {
         return this.getDataOfSelectionCriteria(148);
     }
 
-    @Override
     public String getVillage() {
         return this.getDataOfSelectionCriteria(149);
     }
 
-    @Override
     public String getChome() {
         return this.getDataOfSelectionCriteria(144);
     }
 
-    @Override
     public String getDistrict() {
         return this.getDataOfSelectionCriteria(143);
     }
 
-    @Override
     public String getMapCode() {
         return this.getDataOfSelectionCriteria(142);
     }
 
-    @Override
     public String getTownOriginalName() {
         return null;
     }
 
-    @Override
     public boolean isLocationDisambiguationPossible() {
         return false;
     }
 
-    @Override
     public String getCountryCode() {
         return null;
     }
 
-    @Override
     public String getStreetIconText() {
         return null;
     }
 
-    @Override
     public int getStreetIconId() {
         return -1;
     }
 
-    @Override
     public String getAdditionalLocationInformation(int n) {
         return "";
     }
 
-    @Override
     public boolean isFullPostalCode() {
         return false;
     }
 
-    @Override
     public boolean isLocationInCityState() {
         return false;
     }

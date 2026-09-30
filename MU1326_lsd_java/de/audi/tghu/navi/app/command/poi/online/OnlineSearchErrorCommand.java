@@ -14,9 +14,8 @@ extends AbstractOnlineSearchCommand {
         super(logChannel, iOnlineSearchForm, onlineSearchContext);
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-1601830656, "OnlineSearchErrorCommand#execute: A timeout occurred");
+        this.logger.log(100000, "OnlineSearchErrorCommand#execute: A timeout occurred");
         this.form.indicateError(this.statusToErrorCode(51), Integer.toString(51));
     }
 }

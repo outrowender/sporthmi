@@ -15,16 +15,18 @@ import de.audi.tghu.navi.app.addressinput.poi.commands.ModelOnElementSelectedCom
 import de.audi.tghu.navi.app.addressinput.poi.commands.ModelUpdateFullListCommand;
 import de.audi.tghu.navi.app.addressinput.poi.commands.ModelUpdatePoiListCommand;
 import de.audi.tghu.navi.app.addressinput.poi.commands.ModelUpdateSpellerCommand;
+import de.audi.tghu.navi.app.addressinput.poi.commands.PoiSelectSelectionCriteriaCommand;
 import de.audi.tghu.navi.app.addressinput.poi.commands.PoiSetSortOrderCommand;
 import de.audi.tghu.navi.app.addressinput.poi.searcharea.PoiSearchArea;
 import de.audi.tghu.navi.app.addressinput.poi.sequences.AbstractPoiSequence;
 import de.audi.tghu.navi.app.addressinput.poi.sequences.PoiBrandsInputSequence;
-import de.audi.tghu.navi.app.addressinput.poi.sequences.PoiClassCategoriesInputSequence$1;
-import de.audi.tghu.navi.app.addressinput.poi.sequences.PoiClassCategoriesInputSequence$2;
 import de.audi.tghu.navi.app.addressinput.poi.sequences.PoiResultsGeneralInputSequence;
 import de.audi.tghu.navi.app.addressinput.poi.sequences.wrappers.PoiResultsFromSpellerStateWrapperSequence;
+import de.audi.tghu.navi.app.command.NavCommand;
+import de.audi.tghu.navi.app.command.poi.CommandUtil;
 import de.audi.tghu.navi.app.details.IDetailsScreen;
 import de.audi.tghu.navi.app.guidance.IVehicle;
+import org.dsi.ifc.navigation.LIValueList;
 import org.dsi.ifc.navigation.LIValueListElement;
 
 public class PoiClassCategoriesInputSequence
@@ -46,20 +48,18 @@ extends AbstractPoiSequence {
         this(iPoiSpellerModelAccess, iCommandListFactory, poiSearchArea, navigationEnv, lIValueListElement, iVehicle, false, iDetailsScreen);
     }
 
-    @Override
     public void start() {
-        this.env.getLogChannel().log(-2137614336, "[PoiInput] PoiClassCategoriesInputSequence#start() - classElementIndex: %1 ", (Object)this.classElement);
+        this.env.getLogChannel().log(10000000, "[PoiInput] PoiClassCategoriesInputSequence#start() - classElementIndex: %1 ", (Object)this.classElement);
         CommandList commandList = this.createStartSequence();
         commandList.execute("PoiClassCategoriesInputSequence#start()");
     }
 
-    @Override
     public void startResultsSequence(IPoiSpellerModelAccess iPoiSpellerModelAccess, int n) {
         if (this.hasActiveSubSequence()) {
             this.currentInputSequence.startResultsSequence(iPoiSpellerModelAccess, n);
             return;
         }
-        this.env.getLogChannel().log(-2137614336, "[PoiInput] PoiClassCategoriesInputSequence#startResultsSequence() - element: %1", (Object)this.selectedElement);
+        this.env.getLogChannel().log(10000000, "[PoiInput] PoiClassCategoriesInputSequence#startResultsSequence() - element: %1", (Object)this.selectedElement);
         if (this.selectedElement == null) {
             this.currentInputSequence = new PoiResultsFromSpellerStateWrapperSequence(iPoiSpellerModelAccess, this.commandListFactory, this.env, this.searchArea, this.classElement, this.initialSpellerState, this.vehicle, n, this.selectByUID, this.detailsScreen);
             this.currentInputSequence.start();
@@ -69,24 +69,22 @@ extends AbstractPoiSequence {
         }
     }
 
-    @Override
     public void startSubstringSearch(IPoiSpellerModelAccess iPoiSpellerModelAccess) {
         if (this.hasActiveSubSequence()) {
             this.currentInputSequence.startSubstringSearch(iPoiSpellerModelAccess);
             return;
         }
-        this.env.getLogChannel().log(-2137614336, "[PoiInput] PoiClassCategoriesInputSequence#startSubstringSearch() - element: %1", (Object)this.selectedElement);
+        this.env.getLogChannel().log(10000000, "[PoiInput] PoiClassCategoriesInputSequence#startSubstringSearch() - element: %1", (Object)this.selectedElement);
         this.currentInputSequence = new PoiResultsFromSpellerStateWrapperSequence(iPoiSpellerModelAccess, this.commandListFactory, this.env, this.searchArea, this.classElement, this.initialSpellerState, this.vehicle, this.selectByUID, this.detailsScreen);
         this.currentInputSequence.start();
     }
 
-    @Override
     public void startBrands(IPoiSpellerModelAccess iPoiSpellerModelAccess) {
         if (this.hasActiveSubSequence()) {
             this.currentInputSequence.startBrands(iPoiSpellerModelAccess);
             return;
         }
-        this.env.getLogChannel().log(-2137614336, "[PoiInput] PoiClassCategoriesInputSequence#startBrands() - element: %1", (Object)this.selectedElement);
+        this.env.getLogChannel().log(10000000, "[PoiInput] PoiClassCategoriesInputSequence#startBrands() - element: %1", (Object)this.selectedElement);
         this.currentInputSequence = new PoiBrandsInputSequence(iPoiSpellerModelAccess, this.commandListFactory, this.searchArea, this.env, this.selectedElement, this.vehicle, this.detailsScreen);
         this.currentInputSequence.start();
     }
@@ -94,7 +92,13 @@ extends AbstractPoiSequence {
     public CommandList createStartSequence() {
         CommandList commandList = this.commandListFactory.createCommandList();
         commandList.add(new LiGetStateCommand());
-        commandList.add(new PoiClassCategoriesInputSequence$1(this, "SaveSpellerState"));
+        commandList.add(new NavCommand("SaveSpellerState"){
+
+            public void execute() {
+                PoiClassCategoriesInputSequence.this.initialSpellerState = this.dsiResponseContainer.getSpellerState();
+                this.getCommandList().commandFinished();
+            }
+        });
         if (this.modelAccess != null) {
             commandList.add(new ModelStartCommand(this.modelAccess));
         }
@@ -108,7 +112,22 @@ extends AbstractPoiSequence {
             commandList.add(new ModelOnElementSelectedCommand(this.modelAccess, this.classElement));
             commandList.add(new ModelUpdatePoiListCommand(this.modelAccess));
         }
-        commandList.add(new PoiClassCategoriesInputSequence$2(this, "CheckSelectionCriteria"));
+        commandList.add(new NavCommand("CheckSelectionCriteria"){
+
+            public void execute() {
+                LIValueList lIValueList = this.dsiResponseContainer.getPOIValueList();
+                if (lIValueList == null || lIValueList.getList() == null) {
+                    this.getCommandList().commandAborted("PoiValueList is empty.");
+                    return;
+                }
+                int n = CommandUtil.getIndexForCriteria(2, lIValueList);
+                if (n >= 0) {
+                    this.getCommandList().commandFinishedWithPostCommand(new PoiSelectSelectionCriteriaCommand(n));
+                } else {
+                    this.getCommandList().commandAborted("No matching selection criteria found.");
+                }
+            }
+        });
         if (this.modelAccess != null) {
             commandList.add(new ModelUpdateSpellerCommand(this.modelAccess));
             commandList.add(new ModelUpdateFullListCommand(this.modelAccess, this.commandListFactory));
@@ -116,12 +135,10 @@ extends AbstractPoiSequence {
         return commandList;
     }
 
-    @Override
     protected int getSortOrder() {
         return 1;
     }
 
-    @Override
     protected String getStringId() {
         return "PoiClassCategoriesInputSequence";
     }

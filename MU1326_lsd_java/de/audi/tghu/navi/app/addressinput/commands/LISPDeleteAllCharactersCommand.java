@@ -20,7 +20,6 @@ extends NavCommand {
         this.touchPadInputModeChanged = bl;
     }
 
-    @Override
     public void execute() {
         if (this.dsiResponseContainer.isLispIsUndoAvailable() || this.touchPadInputModeChanged) {
             this.getDSINavigation().lispDeleteAllCharacters();
@@ -35,7 +34,6 @@ extends NavCommand {
         }
     }
 
-    @Override
     public void lispUpdateSpellerResult(String string, int n, boolean bl, boolean bl2, String string2, int n2, int n3, boolean bl3, boolean bl4, int n4, long l) {
         this.dsiResponseContainer.setLispUpdateSpellerResult(string, n, bl, bl2, string2, n2, n3, bl3, bl4, n4);
         if (l == 0L) {
@@ -46,7 +44,6 @@ extends NavCommand {
         }
     }
 
-    @Override
     public void liValueList(LIValueList lIValueList, long l) {
         this.dsiResponseContainer.setLiValueList(lIValueList, l);
         this.liValueListResponded = true;

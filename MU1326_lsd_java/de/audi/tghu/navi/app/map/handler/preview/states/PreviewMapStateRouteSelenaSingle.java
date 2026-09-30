@@ -15,13 +15,11 @@ extends PreviewMapStateRouteSelenaOverview {
         super(previewMapHandlerAbstract, new NavSegmentID[]{navSegmentID}, guiModelAccessForPreviewMapDetailScreen, guiTooltipInformationContainer);
     }
 
-    @Override
     public void applyToScreenDetail() {
         this.getMapForPreview().getNaviInterface().focusSelenaRoutes(false);
         this.applyToScreenDetailRouteSegments();
     }
 
-    @Override
     public String toString() {
         return "PreviewMapStateRouteSelenaSingle()";
     }

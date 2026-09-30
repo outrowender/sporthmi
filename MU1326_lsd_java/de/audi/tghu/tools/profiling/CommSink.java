@@ -11,7 +11,6 @@ import de.esolutions.fw.util.tracing.entity.TraceEntityURIWithLevel;
 import de.esolutions.fw.util.tracing.frontend.ITraceFrontendListener;
 import de.esolutions.fw.util.tracing.frontend.TraceFrontend;
 import de.esolutions.fw.util.tracing.util.ThreadCache;
-import de.esolutions.fw.util.tracing.util.ThreadCache$Info;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -20,20 +19,20 @@ import java.util.WeakHashMap;
 public class CommSink
 extends AbstractLogSink
 implements ITraceFrontendListener {
-    private static final short LOG_CUTOFF_LEVEL;
-    private static final short LOG_COMMSINK_LEVEL;
-    private static final String LOG_COMMSINK_NAME;
+    private static final short LOG_CUTOFF_LEVEL = 0;
+    private static final short LOG_COMMSINK_LEVEL = 4;
+    private static final String LOG_COMMSINK_NAME = "Ext.CommSink";
     private final TraceFrontend frontend;
     private int commId = -1;
     private final Map channels = new HashMap(350);
     private final WeakHashMap threadName2threadIDMap = new WeakHashMap(100);
-    private static final Integer DUMMY_INT;
-    private static final boolean DEBUG;
+    private static final Integer DUMMY_INT = new Integer(0);
+    private static final boolean DEBUG = false;
     private ThreadCache threadCache = null;
 
     CommSink(TraceFrontend traceFrontend) {
         Map map = this.getConfiguration();
-        map.put("Ext.CommSink", new Integer(this.level2COMM(4)));
+        map.put(LOG_COMMSINK_NAME, new Integer(this.level2COMM(4)));
         this.setConfiguration(map);
         try {
             this.threadCache = TraceClient.getTraceClient().getThreadCache();
@@ -47,7 +46,7 @@ implements ITraceFrontendListener {
 
     private final int createChannel(String string, short s) {
         int n = 0;
-        TraceEntityURIWithLevel traceEntityURIWithLevel = this.frontend.createChannelPath(new StringBuffer().append("hmi.").append(string).toString(), s);
+        TraceEntityURIWithLevel traceEntityURIWithLevel = this.frontend.createChannelPath("hmi." + string, s);
         if (traceEntityURIWithLevel != null) {
             n = traceEntityURIWithLevel.getId();
             this.updateLogLevel(string, this.level2HMI(traceEntityURIWithLevel.getLevel()));
@@ -56,7 +55,7 @@ implements ITraceFrontendListener {
     }
 
     private void logInternal(short s, String string) {
-        System.out.println(new StringBuffer().append("CommSink: ").append(string).toString());
+        System.out.println("CommSink: " + string);
         if (this.commId >= 0) {
             this.frontend.log(this.commId, this.getThreadID(), s, (short)0, string);
         }
@@ -71,16 +70,16 @@ implements ITraceFrontendListener {
                 return 10000;
             }
             case 3: {
-                return -1601830656;
+                return 100000;
             }
             case 2: {
-                return 1078071040;
+                return 1000000;
             }
             case 1: {
-                return -2137614336;
+                return 10000000;
             }
             case 0: {
-                return 14808325;
+                return 100000000;
             }
         }
         return 0;
@@ -141,7 +140,6 @@ implements ITraceFrontendListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public int getLogThreshold(String string) {
         Map map = this.channels;
         synchronized (map) {
@@ -154,17 +152,15 @@ implements ITraceFrontendListener {
         return super.getLogThreshold(string);
     }
 
-    @Override
     public void writeLog(LogEntry logEntry) {
         if (this.threadCache != null) {
-            ThreadCache$Info threadCache$Info = this.threadCache.getThreadInfo(Thread.currentThread());
-            this.frontend.log(this.lookupCid(logEntry.getChannelName()), threadCache$Info.id, this.level2COMM(logEntry.getLevel()), (short)0, logEntry.getLogMessage(threadCache$Info.msgPrefix));
+            ThreadCache.Info info = this.threadCache.getThreadInfo(Thread.currentThread());
+            this.frontend.log(this.lookupCid(logEntry.getChannelName()), info.id, this.level2COMM(logEntry.getLevel()), (short)0, logEntry.getLogMessage(info.msgPrefix));
         } else {
             this.frontend.log(this.lookupCid(logEntry.getChannelName()), this.getThreadID(), this.level2COMM(logEntry.getLevel()), (short)0, logEntry.getLogMessage(null));
         }
     }
 
-    @Override
     public void executeCallback(int n, byte[] byArray) {
     }
 
@@ -174,13 +170,11 @@ implements ITraceFrontendListener {
         this.updateConfiguration(map, string);
     }
 
-    @Override
     public void requestFilterLevel(TraceEntityURI traceEntityURI, short s) {
         this.updateLogLevel(this.lookupChannelName(traceEntityURI.getId()), this.level2HMI(s));
         this.frontend.changeFilterLevel(traceEntityURI, s);
     }
 
-    @Override
     public void requestQuit() {
     }
 
@@ -193,16 +187,12 @@ implements ITraceFrontendListener {
         synchronized (weakHashMap) {
             Integer n = (Integer)this.threadName2threadIDMap.get(thread);
             if (n == null) {
-                TraceEntityURIWithLevel traceEntityURIWithLevel = this.frontend.createThread(new StringBuffer().append("hmi.").append(thread.getName()).toString(), (short)0);
+                TraceEntityURIWithLevel traceEntityURIWithLevel = this.frontend.createThread("hmi." + thread.getName(), (short)0);
                 n = new Integer(traceEntityURIWithLevel.getId());
                 this.threadName2threadIDMap.put(thread, n);
             }
             return n;
         }
-    }
-
-    static {
-        DUMMY_INT = new Integer(0);
     }
 }
 

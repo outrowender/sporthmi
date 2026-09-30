@@ -4,7 +4,7 @@
 package de.audi.tghu.navi.app.addressinput;
 
 import de.audi.atip.hmi.model.list.EvoListRow;
-import de.audi.tghu.navi.app.CityHistory$HistoryEntry;
+import de.audi.tghu.navi.app.CityHistory;
 
 public abstract class AbstractAddressInputHistoryElementListRow
 extends EvoListRow {
@@ -16,7 +16,6 @@ extends EvoListRow {
         super(l, n);
     }
 
-    public abstract CityHistory$HistoryEntry getHistoryEntry() {
-    }
+    public abstract CityHistory.HistoryEntry getHistoryEntry();
 }
 
