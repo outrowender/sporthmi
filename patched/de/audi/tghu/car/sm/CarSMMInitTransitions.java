@@ -38,6 +38,7 @@ implements SMModuleConstants {
         nArray[1] = 8;
         nArray[2] = 8;
         nArray[3] = 8;
+        nArray[8] = 8;
         nArray[29] = 264;
         nArray[34] = 4;
         nArray[127] = 4;
@@ -240,6 +241,7 @@ implements SMModuleConstants {
     private void initTransTrgtFlagList0(int[][] nArray) {
         nArray[0] = new int[]{64, 72, 64, 0};
         nArray[1] = new int[]{72};
+        nArray[8] = new int[]{72};
         nArray[2] = nArray[1];
         nArray[3] = nArray[1];
         nArray[4] = new int[]{64};
@@ -682,6 +684,7 @@ implements SMModuleConstants {
         nArray[5] = new int[]{600012};
         nArray[6] = new int[]{600010};
         nArray[7] = new int[]{600007};
+        nArray[8] = new int[]{604147};
         nArray[9] = new int[]{600016};
         nArray[10] = new int[]{600006};
         nArray[11] = new int[]{600005};
