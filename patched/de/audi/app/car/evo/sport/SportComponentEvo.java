@@ -94,17 +94,55 @@ extends AbstractDSICarVehicleStatesAdapter {
         }
     }
 
-    private void updateVisibleValues() {
-        if (this.currentInfoHighFrequent != null && this.currentSemiStaticData != null && this.currentSemiStaticData.maxTorque != 0 && this.currentSemiStaticData.maxOutputPower != 0) {
-            int n = this.currentInfoHighFrequent.currentTorque * 100 / this.currentSemiStaticData.maxTorque;
-            int n2 = Math.round(this.currentInfoHighFrequent.currentOutputPower * 100.0f / (float)this.currentSemiStaticData.maxOutputPower);
-            this.getRangeModel(602115).setValue(n2);
-            this.getRangeModel(602112).setValue(n);
-            this.getRangeModel(602111).setValue(this.currentInfoHighFrequent.relChargingAirPressure);
-            if (this.getLogChannel().isInfo()) {
-                this.getLogChannel().log(1000000, "updateVisibleValues: currentTorquePercentage=%1, currentPowerPercentage=%2", (long)n, (long)n2);
-            }
+    private void updateVisibleValues() {        
+        if (this.currentInfoHighFrequent != null) {
+            int rpm = this.currentInfoHighFrequent.engineSpeed;
+            int pedal = this.currentInfoHighFrequent.acceleratorPosition;
+
+            int wotTorque = this.wotTorquePercent(rpm);
+            int tqPct = this.clampPercent(Math.round(wotTorque * pedal / 100.0f));
+            int pwPct = this.clampPercent(tqPct * rpm / 4297);
+
+            this.getRangeModel(602115).setValue(pwPct); // power
+            this.getRangeModel(602112).setValue(tqPct); // torque
+            this.getRangeModel(602111).setValue(pedal); // boost
         }
+    }
+
+    private static final int[] rpmPoints = new int[]{750, 1000, 1400, 4000, 4500, 5000, 5500, 6000};
+    private static final int[] tqPercent = new int[]{  0,   50,  100,  100,   96,   86,   78,   71};
+
+    private int wotTorquePercent(int rpm) {
+        int last = rpmPoints.length - 1;
+
+        if (rpm <= rpmPoints[0]) {
+            return tqPercent[0];
+        }
+
+        if (rpm >= rpmPoints[last]) {
+            return tqPercent[last];
+        }
+
+        for (int i2 = 1; i2 <= last; ++i2){
+            if (rpm > rpmPoints[i2]) continue;
+            int r0 = rpmPoints[i2 - 1];
+            int r1 = rpmPoints[i2];
+            int p0 = tqPercent[i2 - 1];
+            int p1 = tqPercent[i2];
+            return p0 + (p1 - p0) * (rpm - r0) / (r1 - r0);
+        }
+
+        return tqPercent[last];
+    }
+
+    private int clampPercent(int n) {
+        if (n < 0) {
+            return 0;
+        }
+        if (n > 100) {
+            return 100;
+        }
+        return n;
     }
 
     public CarDSIAttributesSet[] getDSIAttributesSets() {

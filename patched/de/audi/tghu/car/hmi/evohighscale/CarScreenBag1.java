@@ -1057,7 +1057,7 @@ public class CarScreenBag1 {
         menuItemController.setBitmaps(new int[]{600023, 600060, 600140});
         menuItemController.setModelID(601227);
         menuItemController.setEvent(600050);
-        menuItemController.setLabelId(601352);
+        menuItemController.setLabelId(601352); // Audi drive select
         menuItemController.setGlassplateInsetsBottom(6);
         menuItemController.setGlassplateInsetsTop(7);
         menuItemController.setInternalID(600159);
@@ -1073,7 +1073,7 @@ public class CarScreenBag1 {
         menuItemController2.setBitmaps(new int[]{600024, 600061});
         menuItemController2.setModelID(601227);
         menuItemController2.setEvent(600290);
-        menuItemController2.setLabelId(603599);
+        menuItemController2.setLabelId(603599); // Hybrid charge
         menuItemController2.setGlassplateInsetsBottom(6);
         menuItemController2.setGlassplateInsetsTop(7);
         menuItemController2.setInternalID(600614);
@@ -1085,7 +1085,7 @@ public class CarScreenBag1 {
         menuItemController3.setBitmaps(new int[]{600042, 600068});
         menuItemController3.setModelID(601227);
         menuItemController3.setEvent(600312);
-        menuItemController3.setLabelId(603727);
+        menuItemController3.setLabelId(603727); // Eficiency statistics
         menuItemController3.setGlassplateInsetsBottom(6);
         menuItemController3.setGlassplateInsetsTop(7);
         menuItemController3.setInternalID(600632);
@@ -1096,7 +1096,7 @@ public class CarScreenBag1 {
         menuItemController4.setBitmaps(new int[]{600042, 600068});
         menuItemController4.setModelID(601227);
         menuItemController4.setEvent(600312);
-        menuItemController4.setLabelId(605882);
+        menuItemController4.setLabelId(605882); // Statistics
         menuItemController4.setGlassplateInsetsBottom(6);
         menuItemController4.setGlassplateInsetsTop(7);
         menuItemController4.setInternalID(600809);
@@ -1111,7 +1111,7 @@ public class CarScreenBag1 {
         menuItemController5.setBitmaps(new int[]{600025, 600062, 600030});
         menuItemController5.setModelID(601227);
         menuItemController5.setEvent(600025);
-        menuItemController5.setLabelId(601354);
+        menuItemController5.setLabelId(601354); // Car settings
         menuItemController5.setGlassplateInsetsBottom(6);
         menuItemController5.setGlassplateInsetsTop(7);
         menuItemController5.setInternalID(600161);
@@ -1127,7 +1127,7 @@ public class CarScreenBag1 {
         menuItemController6.setBitmaps(new int[]{600026, 600063, 600135});
         menuItemController6.setModelID(601227);
         menuItemController6.setEvent(600024);
-        menuItemController6.setLabelId(601355);
+        menuItemController6.setLabelId(601355); // Driver assistance
         menuItemController6.setGlassplateInsetsBottom(6);
         menuItemController6.setGlassplateInsetsTop(7);
         menuItemController6.setInternalID(600162);
@@ -1143,7 +1143,7 @@ public class CarScreenBag1 {
         menuItemController7.setBitmaps(new int[]{600027, 600064, 600136});
         menuItemController7.setModelID(601227);
         menuItemController7.setEvent(600026);
-        menuItemController7.setLabelId(601356);
+        menuItemController7.setLabelId(601356); // Air conditioning
         menuItemController7.setGlassplateInsetsBottom(6);
         menuItemController7.setGlassplateInsetsTop(7);
         menuItemController7.setInternalID(600163);
@@ -1159,7 +1159,7 @@ public class CarScreenBag1 {
         menuItemController8.setBitmaps(new int[]{600028, 600065, 600137});
         menuItemController8.setModelID(601227);
         menuItemController8.setEvent(600023);
-        menuItemController8.setLabelId(601357);
+        menuItemController8.setLabelId(601357); // Aux Heating
         menuItemController8.setGlassplateInsetsBottom(6);
         menuItemController8.setGlassplateInsetsTop(7);
         menuItemController8.setInternalID(600164);
@@ -1175,7 +1175,7 @@ public class CarScreenBag1 {
         menuItemController9.setBitmaps(new int[]{600041, 600066, 600364});
         menuItemController9.setModelID(601227);
         menuItemController9.setEvent(600301);
-        menuItemController9.setLabelId(603898);
+        menuItemController9.setLabelId(603898); // Aux AC
         menuItemController9.setGlassplateInsetsBottom(6);
         menuItemController9.setGlassplateInsetsTop(7);
         menuItemController9.setInternalID(600654);
@@ -1191,7 +1191,7 @@ public class CarScreenBag1 {
         menuItemController10.setBitmaps(new int[]{601191, 601192, 601193});
         menuItemController10.setModelID(601227);
         menuItemController10.setEvent(600302);
-        menuItemController10.setLabelId(603899);
+        menuItemController10.setLabelId(603899); // Aux Combined
         menuItemController10.setGlassplateInsetsBottom(6);
         menuItemController10.setGlassplateInsetsTop(7);
         menuItemController10.setInternalID(600655);
@@ -1205,9 +1205,9 @@ public class CarScreenBag1 {
         visibilityProxyWidget9.setDisableAvailable(false);
         MenuItemController menuItemController11 = new MenuItemController();
         menuItemController11.setBitmaps(new int[]{600029, 600067, 600138});
-        menuItemController11.setModelID(601227);
+        menuItemController11.setModelID(602119);
         menuItemController11.setEvent(600027);
-        menuItemController11.setLabelId(601359);
+        menuItemController11.setLabelId(601359); // Service
         menuItemController11.setGlassplateInsetsBottom(6);
         menuItemController11.setGlassplateInsetsTop(7);
         menuItemController11.setInternalID(600166);
@@ -1226,7 +1226,7 @@ public class CarScreenBag1 {
         menuItemController12.setBitmaps(new int[]{422, 423, 600139});
         menuItemController12.setModelID(601227);
         menuItemController12.setEvent(600148);
-        menuItemController12.setLabelId(602086);
+        menuItemController12.setLabelId(602086); // Bordbook
         menuItemController12.setGlassplateInsetsBottom(6);
         menuItemController12.setGlassplateInsetsTop(7);
         menuItemController12.setInternalID(600390);
@@ -1241,13 +1241,14 @@ public class CarScreenBag1 {
         MenuItemController menuItemController13 = new MenuItemController();
         menuItemController13.setBitmaps(new int[]{600721, 600722, 600723});
         menuItemController13.setModelID(601227);
-        menuItemController13.setLabelId(605468);
+        menuItemController13.setLabelId(605468); // Sportanzeige
+        menuItemController13.setEvent(600338);
         menuItemController13.setGlassplateInsetsBottom(6);
         menuItemController13.setGlassplateInsetsTop(7);
         menuItemController13.setInternalID(600772);
         menuItemController13.setKeyHandler(3);
         menuItemController13.setType(2);
-        menuItemController13.setVisible(false);
+        menuItemController13.setVisible(true);
         menuItemController13.setWidgetID(7);
         menuItemController13.add(visibilityProxyWidget11);
         SelectionMenuController selectionMenuController = new SelectionMenuController();
@@ -1325,7 +1326,7 @@ public class CarScreenBag1 {
         drawerController.setColorIndices(new int[]{2, 0, 4, 0});
         drawerController.setDrawerMain(selectionMenuController);
         drawerController.setDrawerIcon(containerController);
-        drawerController.setViews(new int[]{600815, 601005, 601006, 601007, 601008, 601009, 601010, 601172, 601227, 601234, 601672, 1700231}, new HMIView[][]{{visibilityProxyWidget}, {visibilityProxyWidget5}, {visibilityProxyWidget7}, {visibilityProxyWidget6}, {visibilityProxyWidget4}, {visibilityProxyWidget9}, {visibilityProxyWidget3}, {visibilityProxyWidget10}, {menuItemController, menuItemController2, menuItemController3, menuItemController4, menuItemController5, menuItemController6, menuItemController7, menuItemController8, menuItemController9, menuItemController10, menuItemController11, menuItemController12, menuItemController13, iconController3}, {visibilityProxyWidget2}, {visibilityProxyWidget8}, {modelStubController}});
+        drawerController.setViews(new int[]{600815, 601005, 601006, 601007, 601008, 601009, 601010, 601172, 601227, 601234, 601672, 1700231, 602119}, new HMIView[][]{{visibilityProxyWidget}, {visibilityProxyWidget5}, {visibilityProxyWidget7}, {visibilityProxyWidget6}, {visibilityProxyWidget4}, {visibilityProxyWidget9}, {visibilityProxyWidget3}, {visibilityProxyWidget10}, {menuItemController, menuItemController2, menuItemController3, menuItemController4, menuItemController5, menuItemController6, menuItemController7, menuItemController8, menuItemController9, menuItemController10, menuItemController11, menuItemController12, menuItemController13, iconController3}, {visibilityProxyWidget2}, {visibilityProxyWidget8}, {modelStubController}, {visibilityProxyWidget11}});
         drawerController.setModelIDs(new int[]{601227});
         drawerController.setEventIDs(new int[]{600148});
         drawerController.setConditionWidgets(new int[]{522, 4159, 601579, 602240}, new AbstractWidget[][]{{menuItemController2, menuItemController3, menuItemController4}, {menuItemController12, visibilityProxyWidget10}, {menuItemController4}, {menuItemController3, menuItemController4}});
@@ -1679,7 +1680,7 @@ public class CarScreenBag1 {
         return screenWidgetEVO;
     }
 
-    public static Screen cARSEARCHRESULTS(final CarScreenFactory carScreenFactory, /*final*/ int n) {
+    public static Screen cARSEARCHRESULTS(final CarScreenFactory carScreenFactory, final int n) {
         AbstractWidgetController abstractWidgetController = carScreenFactory.getRefWidget(n, 0, carScreenFactory);
         CarViewerController carViewerController = new CarViewerController();
         CarViewerRendererHigh carViewerRendererHigh = new CarViewerRendererHigh(carViewerController);
@@ -3413,7 +3414,7 @@ public class CarScreenBag1 {
         return drawerController;
     }
 
-    public static Screen cARSPORTMAIN(CarScreenFactory carScreenFactory, int n) {
+    public static Screen cARSPORTMAIN(final CarScreenFactory carScreenFactory, final int n) {
         AbstractWidgetController abstractWidgetController = carScreenFactory.getRefWidget(n, 0, carScreenFactory);
         GlassplateController glassplateController = new GlassplateController();
         GlassplateRendererHigh glassplateRendererHigh = new GlassplateRendererHigh(glassplateController);
@@ -3544,7 +3545,7 @@ public class CarScreenBag1 {
         screenWidgetEVO.add(containerController5, 2);
         screenWidgetEVO.add(statusBarStubController);
         screenWidgetEVO.setViews(new int[]{138, 602111, 602112, 602115, 602117}, new HMIView[][]{{statusBarStubController}, {chargingAirPressureGaugeController}, {circularGaugeController2}, {circularGaugeController}, {oilTemperatureGaugeController}});
-        screenWidgetEVO.setConditionWidgets(new int[]{601056, 602113, 602114, 602116, 602118}, new AbstractWidget[][]{{screenWidgetEVO}, {containerController3, oilTemperatureGaugeController}, {chargingAirPressureGaugeController}, {containerController}, {containerController2}});
+        screenWidgetEVO.setConditionWidgets(new int[]{601056, 602113, 602118}, new AbstractWidget[][]{{screenWidgetEVO}, {containerController3, oilTemperatureGaugeController}, {containerController2}});
         return screenWidgetEVO;
     }
 

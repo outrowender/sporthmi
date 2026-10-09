@@ -4,12 +4,11 @@ set -e
 
 # Order matters! Dependency/library files first.
 FILES="\
-de/audi/app/car/evo/mer/CarEvoMenuEntryStructure.java \
-de/audi/app/car/evo/sport/SportComponentEvo.java \
-de/audi/app/car/evo/sport/SportKombiComponentEvo.java \
+de/audi/tghu/car/hmi/evohighscale/CarScreenBag1.java \
+de/audi/tghu/car/sm/CarSMMInitStates.java \
+de/audi/tghu/car/sm/CarSMMInitTransitions.java \
+de/audi/app/car/evo/sport/SportComponentEvo.java
 "
-${JAVA_HOME}/bin/javac -version
-${JAVA_HOME}/bin/java -version
 
 rm -f SportHMI.jar
 

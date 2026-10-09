@@ -608,7 +608,10 @@ DSIListener {
             return Class.forName(string);
         }
         catch (ClassNotFoundException classNotFoundException) {
-            //throw new NoClassDefFoundError().initCause(classNotFoundException);
+            NoClassDefFoundError err = new NoClassDefFoundError();
+            err.initCause(classNotFoundException);
+
+            throw err;
         }
     }
 }
