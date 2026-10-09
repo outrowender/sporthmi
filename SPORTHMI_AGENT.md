@@ -52,6 +52,29 @@ Four sub-goals, with status:
 - **ID namespaces** (all in the `6000xx` range, mutually distinct): state IDs, event IDs,
   transition IDs, screen IDs, choice-model IDs, bitmap IDs, text/label IDs.
 
+### 3.1 PATCH WORKFLOW — `patched/` is the only place you edit
+
+The decompiled trees (`MU1326_lsd_java/`, `VW_lsd_java/`) are **read-only references** — they are
+the pristine decompilation and must **never** be modified. **Everything inside `patched/` is what
+actually gets patched** into the firmware; it is the build input and the source of truth for edits.
+
+**Rule:** to modify a class, do **not** touch its original under `MU1326_lsd_java/` (or
+`VW_lsd_java/`). Instead:
+1. From inside `patched/`, run `./add_original.sh <fully.qualified.ClassName>` (e.g.
+   `./add_original.sh de.audi.tghu.car.hmi.evohighscale.CarScreenBag1`). The script copies the
+   pristine original from the decompiled tree (`$JAVA/...`, resolved via `process.sh`), recreates
+   its package path under `patched/`, runs `./cleanup.sh` on it (strips decompiler-only constructs
+   so it recompiles under Java 1.2 — comments out `final`/`@Override`, fixes `default` method stubs),
+   and `git add`s it.
+2. Edit the copy **inside `patched/`** only.
+3. Add the class to the `FILES` list in `patched/build.sh` if it isn't already there.
+
+**The set of files in the patch == the `FILES` list in `build.sh`.** Only those classes are compiled
+and jarred into `SportHMI.jar`. If a patched file is not in `FILES`, it is not in the patch. Keep
+`FILES` and the `patched/` tree in sync (currently: `CarScreenBag1`, `CarSMMInitStates`,
+`CarSMMInitTransitions`, `SportComponentEvo` — add `CarEvoMenuEntryStructure` /
+`SportKombiComponentEvo` when their patches are active).
+
 ### Key files
 | Path | Role |
 |---|---|
