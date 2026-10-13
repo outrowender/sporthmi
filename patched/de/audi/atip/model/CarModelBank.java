@@ -4060,6 +4060,10 @@ IEvoCarModelBank {
                     this.models[2123] = new LabelModel(602123);
                     break;
                 }
+                case 2124: {
+                    this.models[2124] = new LabelModel(602124);
+                    break;
+                }
                 case 1027: {
                     this.models[1027] = new ButtonModel(601027);
                     break;

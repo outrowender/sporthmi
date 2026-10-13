@@ -116,36 +116,38 @@ extends AbstractDSICarVehicleStatesAdapter {
         StringBuffer b = new StringBuffer(512);
         DynamicVehicleInfoHighFrequent h = this.currentInfoHighFrequent;
         if (h != null) {
-            b.append("longitudinalAcceleration=").append(h.longitudinalAcceleration).append('\n');
-            b.append("             engineSpeed=").append(h.engineSpeed).append('\n');
-            b.append("              powermeter=").append(h.powermeter).append('\n');
-            b.append("     lateralAcceleration=").append(h.lateralAcceleration).append('\n');
-            b.append("  relChargingAirPressure=").append(h.relChargingAirPressure).append('\n');
-            b.append("  absChargingAirPressure=").append(h.absChargingAirPressure).append('\n');
-            b.append("      currentOutputPower=").append(h.currentOutputPower).append('\n');
-            b.append("                 yawRate=").append(h.yawRate).append('\n');
-            b.append("           brakePressure=").append(h.brakePressure).append('\n');
-            b.append("              wheelAngle=").append(h.wheelAngle).append('\n');
-            b.append("     acceleratorPosition=").append(h.acceleratorPosition).append('\n');
-            b.append("            vehicleSpeed=").append(String.valueOf(h.vehicleSpeed)).append('\n');
-            b.append("           currentTorque=").append(h.currentTorque).append('\n');
-            b.append("              sysCycDist=").append(h.systemCycleDistance).append('\n');
-            b.append("     systemCycleDistance=").append(h.torqueDistributionFrontLeft).append('\n');
-            b.append("        realVehicleSpeed=").append(String.valueOf(h.realVehicleSpeed)).append('\n');
-            b.append("              shiftLight=").append(h.shiftLight).append('\n');
-            b.append("  relAllWheelDriveTorque=").append(h.relAllWheelDriveTorque).append('\n');
+            b.append("longAccele=").append(h.longitudinalAcceleration).append('\n');
+            b.append("latAcceler=").append(h.lateralAcceleration).append('\n');
+            b.append("---yawRate=").append(h.yawRate).append('\n');
+            b.append("wheelAngle=").append(h.wheelAngle).append('\n');
+            b.append("bkPressure=").append(h.brakePressure).append('\n');
+
+            b.append("enginSpeed=").append(h.engineSpeed).append('\n');
+            b.append("powerMeter=").append(h.powermeter).append('\n');
+            b.append("outptPower=").append(h.currentOutputPower).append('\n');
+            b.append("currTorque=").append(h.currentTorque).append('\n');
+            
+            b.append("relatBoost=").append(h.relChargingAirPressure).append('\n');
+            b.append("absolBoost=").append(h.absChargingAirPressure).append('\n');
+            
+            b.append("pedalPosit=").append(h.acceleratorPosition).append('\n');
+            b.append("vehicSpeed=").append(String.valueOf(h.vehicleSpeed)).append('\n');
+            
+            b.append("cycleDista=").append(h.systemCycleDistance).append('\n');
+            b.append("speedValue=").append(String.valueOf(h.realVehicleSpeed.speedValue)).append('\n');
+            b.append("shiftLight=").append(h.shiftLight).append('\n');
         } else {
-            b.append("                highFreq=null\n");
+            b.append("highFreque=null\n");
         }
         SemiStaticDataViewOptions v = this.currentSemiStaticDataViewOptions;
         if (v != null) {
-            b.append("  maxChargingAirPressure=").append(String.valueOf(v.maxChargingAirPressure)).append('\n');
-            b.append("          maxOutputPower=").append(String.valueOf(v.maxOutputPower)).append('\n');
-            b.append("               maxTorque=").append(String.valueOf(v.maxTorque)).append('\n');
-            b.append("      engineDisplacement=").append(String.valueOf(v.engineDisplacement)).append('\n');
-            b.append("   typeOfInjectionSystem=").append(String.valueOf(v.typeOfInjectionSystem));
+            b.append("--maxBoost=").append(String.valueOf(v.maxChargingAirPressure)).append('\n');
+            b.append("--maxPower=").append(String.valueOf(v.maxOutputPower)).append('\n');
+            b.append("-maxTorque=").append(String.valueOf(v.maxTorque)).append('\n');
+            b.append("enginDispl=").append(String.valueOf(v.engineDisplacement)).append('\n');
+            b.append("injcSystem=").append(String.valueOf(v.typeOfInjectionSystem));
         } else {
-            b.append("            semiStaticVO=null");
+            b.append("semiViewOp=null");
         }
         return b.toString();
     }
