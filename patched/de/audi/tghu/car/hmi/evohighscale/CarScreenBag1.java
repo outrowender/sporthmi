@@ -3533,10 +3533,10 @@ public class CarScreenBag1 {
         LabelController debugLabelController = new LabelController();
         MultiLineLabelRendererHigh debugLabelRendererHigh = new MultiLineLabelRendererHigh(debugLabelController);
         debugLabelController.setRenderer(debugLabelRendererHigh);
-        debugLabelRendererHigh.setFonts(carScreenFactory.getFonts(4, n));
+        debugLabelRendererHigh.setFonts(carScreenFactory.getFonts(20, n));
         debugLabelRendererHigh.setAlignment(1, 4);
         debugLabelController.setModelID(602123);
-        debugLabelController.setBounds(0, 0, 800, 480);
+        debugLabelController.setBounds(40, 0, 800, 480);
         debugLabelController.setColorIndices(new int[]{0, 0, 0, 0});
         debugLabelController.setMaxLines(40);
         debugLabelController.setText("DEBUG VISIBLE");
