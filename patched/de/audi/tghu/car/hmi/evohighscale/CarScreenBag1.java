@@ -3537,7 +3537,7 @@ public class CarScreenBag1 {
         debugLabelRendererHigh.setAlignment(1, 4);
         debugLabelRendererHigh.setLineHeight(17);
         debugLabelController.setModelID(602123);
-        debugLabelController.setBounds(50, 10, 800, 480);
+        debugLabelController.setBounds(60, 10, 800, 480);
         debugLabelController.setColorIndices(new int[]{0, 0, 0, 0});
         debugLabelController.setMaxLines(40);
         debugLabelController.setText("DEBUG VISIBLE");

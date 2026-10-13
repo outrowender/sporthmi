@@ -8,6 +8,7 @@ import de.audi.app.car.common.comp.CarDSIAttributesSet;
 import de.audi.app.car.common.service.AbstractDSICarVehicleStatesAdapter;
 import org.dsi.ifc.carvehiclestates.DynamicVehicleInfoHighFrequent;
 import org.dsi.ifc.carvehiclestates.DynamicVehicleInfoHighFrequentViewOptions;
+import org.dsi.ifc.carvehiclestates.DynamicVehicleInfoMidFrequent;
 import org.dsi.ifc.carvehiclestates.SemiStaticDataViewOptions;
 import org.dsi.ifc.carvehiclestates.SemiStaticVehicleData;
 
@@ -19,6 +20,7 @@ extends AbstractDSICarVehicleStatesAdapter {
     private volatile SemiStaticVehicleData currentSemiStaticData;
     private volatile SemiStaticDataViewOptions currentSemiStaticDataViewOptions;
     private volatile DynamicVehicleInfoHighFrequentViewOptions currentDynamicVehicleInfoHighFrequentViewOptions;
+    private volatile DynamicVehicleInfoMidFrequent currentMidFrequent;
 
     public SportComponentEvo(ICarApplication iCarApplication) {
         super(iCarApplication, LOGCHANNEL_NAME);
@@ -73,6 +75,13 @@ extends AbstractDSICarVehicleStatesAdapter {
         }
     }
 
+    public void updateDynamicVehicleInfoMidFrequent(DynamicVehicleInfoMidFrequent dynamicVehicleInfoMidFrequent, int n) {
+        if (n == 1 || true) {
+            this.currentMidFrequent = dynamicVehicleInfoMidFrequent;
+            this.getLabelModel(602123).setText(this.buildDebugText());
+        }
+    }
+
     public void updateSemiStaticVehicleDataViewOptions(SemiStaticDataViewOptions semiStaticDataViewOptions, int n) {
         if (this.getLogChannel().isInfo()) {
             this.getLogChannel().log(1000000, "updateSemiStaticVehicleDataViewOptions:%1, valid:%2", (Object)semiStaticDataViewOptions, (long)n);
@@ -119,7 +128,7 @@ extends AbstractDSICarVehicleStatesAdapter {
             b.append("SportCompEv").append('\n');
             b.append("longAccele=").append(h.longitudinalAcceleration).append('\n');
             b.append("latAcceler=").append(h.lateralAcceleration).append('\n');
-            b.append("---yawRate=").append(h.yawRate).append('\n');
+            b.append("yawRate=").append(h.yawRate).append('\n');
             b.append("wheelAngle=").append(h.wheelAngle).append('\n');
             b.append("bkPressure=").append(h.brakePressure).append('\n');
 
@@ -142,13 +151,21 @@ extends AbstractDSICarVehicleStatesAdapter {
         }
         SemiStaticVehicleData v = this.currentSemiStaticData;
         if (v != null) {
-            b.append("--maxBoost=").append(v.maxChargingAirPressure).append('\n');
-            b.append("--maxPower=").append(v.maxOutputPower).append('\n');
-            b.append("-maxTorque=").append(v.maxTorque).append('\n');
+            b.append("maxBoost=").append(v.maxChargingAirPressure).append('\n');
+            b.append("maxPower=").append(v.maxOutputPower).append('\n');
+            b.append("maxTorque=").append(v.maxTorque).append('\n');
             b.append("enginDispl=").append(v.engineDisplacement).append('\n');
             b.append("injcSystem=").append(v.typeOfInjectionSystem);
         } else {
-            b.append("--semiData=null");
+            b.append("semiFData=null");
+        }
+        DynamicVehicleInfoMidFrequent m = this.currentMidFrequent;
+        if (m != null) {
+            b.append('\n');
+            b.append("gearbxTemp=").append(m.gearboxOilTemperature).append('\n');
+            b.append("currntGear=").append(m.currentGear);
+        } else {
+            b.append("midFData=null");
         }
         return b.toString();
     }
@@ -190,7 +207,7 @@ extends AbstractDSICarVehicleStatesAdapter {
     }
 
     public CarDSIAttributesSet[] getDSIAttributesSets() {
-        return new CarDSIAttributesSet[]{new CarDSIAttributesSet(0, new int[]{16, 12}, new int[]{17, 14})};
+        return new CarDSIAttributesSet[]{new CarDSIAttributesSet(0, new int[]{16, 12}, new int[]{17, 14, 15})};
     }
 
     public String getCurrentViewOptions() {
