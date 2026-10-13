@@ -6,6 +6,7 @@ set -e
 FILES="\
 de/audi/atip/model/CarModelBank.java \
 de/esolutions/hmi/widgets/audi/evo/widgets/sport/OilTemperatureGaugeController.java \
+de/esolutions/hmi/widgets/audi/evo/high/widgets/sport/OilTemperatureGaugeRendererHigh.java \
 de/audi/tghu/car/hmi/evohighscale/CarScreenBag1.java \
 de/audi/tghu/car/sm/CarSMMInitStates.java \
 de/audi/tghu/car/sm/CarSMMInitTransitions.java \
