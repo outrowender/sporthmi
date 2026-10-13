@@ -3530,6 +3530,15 @@ public class CarScreenBag1 {
         StatusBarStubController statusBarStubController = new StatusBarStubController();
         statusBarStubController.setModelID(138);
         statusBarStubController.setBounds(0, 0, 100, 100);
+        LabelController debugLabelController = new LabelController();
+        MultiLineLabelRendererHigh debugLabelRendererHigh = new MultiLineLabelRendererHigh(debugLabelController);
+        debugLabelController.setRenderer(debugLabelRendererHigh);
+        debugLabelRendererHigh.setFonts(carScreenFactory.getFonts(4, n));
+        debugLabelRendererHigh.setAlignment(1, 4);
+        debugLabelController.setModelID(602123);
+        debugLabelController.setBounds(60, 60, 680, 360);
+        debugLabelController.setColorIndices(new int[]{1, 2, 4, 0});
+        debugLabelController.setMaxLines(20);
         ScreenWidgetEVO screenWidgetEVO = new ScreenWidgetEVO(600289);
         screenWidgetEVO.setScreenFactory(carScreenFactory);
         ScreenRendererHigh screenRendererHigh = new ScreenRendererHigh(screenWidgetEVO);
@@ -3544,7 +3553,8 @@ public class CarScreenBag1 {
         screenWidgetEVO.add(containerController4, 1);
         screenWidgetEVO.add(containerController5, 2);
         screenWidgetEVO.add(statusBarStubController);
-        screenWidgetEVO.setViews(new int[]{138, 602111, 602112, 602115, 602117}, new HMIView[][]{{statusBarStubController}, {chargingAirPressureGaugeController}, {circularGaugeController2}, {circularGaugeController}, {oilTemperatureGaugeController}});
+        screenWidgetEVO.add(debugLabelController, 2);
+        screenWidgetEVO.setViews(new int[]{138, 602111, 602112, 602115, 602117, 602123}, new HMIView[][]{{statusBarStubController}, {chargingAirPressureGaugeController}, {circularGaugeController2}, {circularGaugeController}, {oilTemperatureGaugeController}, {debugLabelController}});
         screenWidgetEVO.setConditionWidgets(new int[]{601056, 602113, 602118}, new AbstractWidget[][]{{screenWidgetEVO}, {containerController3, oilTemperatureGaugeController}, {containerController2}});
         return screenWidgetEVO;
     }

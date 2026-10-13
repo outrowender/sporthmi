@@ -4,6 +4,7 @@ set -e
 
 # Order matters! Dependency/library files first.
 FILES="\
+de/audi/atip/model/CarModelBank.java \
 de/esolutions/hmi/widgets/audi/evo/widgets/sport/OilTemperatureGaugeController.java \
 de/audi/tghu/car/hmi/evohighscale/CarScreenBag1.java \
 de/audi/tghu/car/sm/CarSMMInitStates.java \
