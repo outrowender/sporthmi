@@ -106,6 +106,8 @@ extends AbstractDSICarVehicleStatesAdapter {
             this.getRangeModel(602115).setValue(pwPct); // power
             this.getRangeModel(602112).setValue(tqPct); // torque
             this.getRangeModel(602111).setValue(pedal); // boost
+
+            this.getLabelModel(602123).setText("rpm=" + rpm + "\npedal=" + pedal + "\ntq%=" + tqPct + "\npw%=" + pwPct);
         }
     }
 
