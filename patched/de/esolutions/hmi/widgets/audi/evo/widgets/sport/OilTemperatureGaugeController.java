@@ -16,6 +16,12 @@ extends AbstractWidgetController {
     private int temperatureUnit = 2;
     private IRenderer renderer;
 
+    protected void initializeWidget() {
+        // immediate model bind fires no event; read stored metric on connect
+        super.initializeWidget();
+        this.updateContent();
+    }
+
     private void updateContent() {
         if (this.model == null) {
             return;
