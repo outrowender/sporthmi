@@ -43,7 +43,7 @@ extends AbstractDSICarKombiAdapter {
             temperature.setUseInstanceUnit(true);
             this.getMetricsModel(602117).setMetric(temperature);
         } else {
-            Temperature temperature = new Temperature(carBCTemperature.temperatureValue, carBCTemperature.temperatureUnit == 0 ? 1 : 2);
+            Temperature temperature = new Temperature(120.0f, carBCTemperature.temperatureUnit == 0 ? 1 : 2);
             temperature.setUseInstanceUnit(true);
             this.getMetricsModel(602117).setMetric(temperature);
         }
