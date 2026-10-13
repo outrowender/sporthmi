@@ -25,6 +25,7 @@ extends AbstractDSICarVehicleStatesAdapter {
     private volatile float boostEstimate;
     private volatile float torqueEstimate;
     private volatile float powerEstimate;
+    private volatile float idlePhase;
 
     public SportComponentEvo(ICarApplication iCarApplication) {
         super(iCarApplication, LOGCHANNEL_NAME);
@@ -34,7 +35,7 @@ extends AbstractDSICarVehicleStatesAdapter {
         this.getRangeModel(602115).setLimits(0, 100, 1);
         this.getRangeModel(602112).setLimits(0, 100, 1);
         this.getRangeModel(602111).setLimits(0, 100, 1);
-        this.getLabelModel(602123).setText("sport debug ready");
+        //this.getLabelModel(602123).setText("sport debug ready");
     }
 
     protected void deinitModels() {
@@ -82,7 +83,7 @@ extends AbstractDSICarVehicleStatesAdapter {
     public void updateDynamicVehicleInfoMidFrequent(DynamicVehicleInfoMidFrequent dynamicVehicleInfoMidFrequent, int n) {
         if (n == 1) {
             this.currentMidFrequent = dynamicVehicleInfoMidFrequent;
-            Temperature temperature = new Temperature(dynamicVehicleInfoMidFrequent.gearboxOilTemperature + 10f, Temperature.CELSIUS);
+            Temperature temperature = new Temperature(dynamicVehicleInfoMidFrequent.gearboxOilTemperature, Temperature.CELSIUS);
             temperature.setUseInstanceUnit(true);
             this.getMetricsModel(602117).setMetric(temperature);
             //this.getLabelModel(602123).setText(this.buildDebugText());
@@ -119,6 +120,12 @@ extends AbstractDSICarVehicleStatesAdapter {
             int wotTorque = this.wotTorquePercent(rpm);
             int tqPct = this.clampPercent(Math.round(wotTorque * pedal / 100.0f));
             int pwPct = this.clampPercent(tqPct * rpm / 4297);
+
+            // idle: engine running, no throttle -> torque floats 8..10% (power stays 0)
+            if (pedal == 0 && rpm > 400) {
+                this.idlePhase += 0.15f;
+                tqPct = 9 + Math.round((float)Math.sin(this.idlePhase));
+            }
 
             // power/torque lag up slowly, fall ~1s (100->0 in ~10 ticks)
             float tqA = (float)tqPct > this.torqueEstimate ? 0.20f : 0.42f;

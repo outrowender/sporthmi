@@ -25,7 +25,7 @@ extends AbstractDSICarKombiAdapter {
     }
 
     protected void initModels() {
-        this.getLabelModel(602128).setText("kombi debug ready");
+        // this.getLabelModel(602128).setText("kombi debug ready");
         // Temperature temperature = new Temperature(0.0f, Temperature.CELSIUS);
         // temperature.setUseInstanceUnit(true);
         // this.getMetricsModel(602117).setMetric(temperature);
