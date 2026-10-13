@@ -106,16 +106,16 @@ extends AbstractDSICarVehicleStatesAdapter {
 
     private void updateVisibleValues() {
         if (this.currentInfoHighFrequent != null) {
-            int rpm = this.currentInfoHighFrequent.engineSpeed;
-            int pedal = this.currentInfoHighFrequent.acceleratorPosition;
+            // int rpm = this.currentInfoHighFrequent.engineSpeed;
+            // int pedal = this.currentInfoHighFrequent.acceleratorPosition;
 
-            int wotTorque = this.wotTorquePercent(rpm);
-            int tqPct = this.clampPercent(Math.round(wotTorque * pedal / 100.0f));
-            int pwPct = this.clampPercent(tqPct * rpm / 4297);
+            // int wotTorque = this.wotTorquePercent(rpm);
+            // int tqPct = this.clampPercent(Math.round(wotTorque * pedal / 100.0f));
+            // int pwPct = this.clampPercent(tqPct * rpm / 4297);
 
-            this.getRangeModel(602115).setValue(pwPct); // power
-            this.getRangeModel(602112).setValue(tqPct); // torque
-            this.getRangeModel(602111).setValue(pedal); // boost
+            // this.getRangeModel(602115).setValue(pwPct); // power
+            // this.getRangeModel(602112).setValue(tqPct); // torque
+            // this.getRangeModel(602111).setValue(pedal); // boost
 
             this.getLabelModel(602123).setText(this.buildDebugText());
         }

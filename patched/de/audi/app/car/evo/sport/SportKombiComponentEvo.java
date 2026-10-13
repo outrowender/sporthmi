@@ -16,6 +16,8 @@ extends AbstractDSICarKombiAdapter {
     private volatile BCViewOptions currentBCViewOptions;
     private volatile CarBCTemperature currentOilTemp;
     private volatile int currentOilTempValid;
+    private volatile CarBCTemperature currentCoolant;
+    private volatile int currentCoolantValid;
     private static /*final*/ String LOGCHANNEL_NAME = "App.Car.Sport";
 
     public SportKombiComponentEvo(ICarApplication iCarApplication) {
@@ -24,7 +26,7 @@ extends AbstractDSICarKombiAdapter {
 
     protected void initModels() {
         this.getLabelModel(602128).setText("kombi debug ready");
-        Temperature temperature = new Temperature(105.0f, Temperature.CELSIUS);
+        Temperature temperature = new Temperature(0.0f, Temperature.CELSIUS);
         temperature.setUseInstanceUnit(true);
         this.getMetricsModel(602117).setMetric(temperature);
     }
@@ -57,6 +59,12 @@ extends AbstractDSICarKombiAdapter {
         }
     }
 
+    public void updateBCCoolantTemperature(CarBCTemperature carBCTemperature, int n) {
+        this.currentCoolant = carBCTemperature;
+        this.currentCoolantValid = n;
+        this.getLabelModel(602128).setText(this.buildKombiDebug());
+    }
+
     public void updateBCViewOptions(BCViewOptions bCViewOptions, int n) {
         if (this.getLogChannel().isInfo()) {
             this.getLogChannel().log(1000000, "updateBCViewOptions:%1, valid:%2", (Object)bCViewOptions, (long)n);
@@ -74,8 +82,8 @@ extends AbstractDSICarKombiAdapter {
         CarBCTemperature t = this.currentOilTemp;
         b.append("SportKombi").append('\n');
         if (t != null) {
-            b.append("--oilState=").append(t.state).append('\n');
-            b.append("--oilValue=").append(t.temperatureValue).append('\n');
+            b.append("oilState=").append(t.state).append('\n');
+            b.append("oilValue=").append(t.temperatureValue).append('\n');
             b.append("oilTemUnit=").append(t.temperatureUnit).append('\n');
         } else {
             b.append("oilTempera=null\n");
@@ -88,11 +96,21 @@ extends AbstractDSICarKombiAdapter {
         } else {
             b.append("viewOption=null");
         }
+        CarBCTemperature c = this.currentCoolant;
+        b.append('\n');
+        if (c != null) {
+            b.append("coolState=").append(c.state).append('\n');
+            b.append("coolValue=").append(c.temperatureValue).append('\n');
+            b.append("coolUnit=").append(c.temperatureUnit).append('\n');
+            b.append("coolValid=").append(this.currentCoolantValid);
+        } else {
+            b.append("coolTemp=null");
+        }
         return b.toString();
     }
 
     public CarDSIAttributesSet[] getDSIAttributesSets() {
-        return new CarDSIAttributesSet[]{new CarDSIAttributesSet(0, new int[]{4}, new int[]{64})};
+        return new CarDSIAttributesSet[]{new CarDSIAttributesSet(0, new int[]{4}, new int[]{64, 63})};
     }
 
     public String getCurrentViewOptions() {
