@@ -22,6 +22,9 @@ extends AbstractDSICarVehicleStatesAdapter {
     private volatile SemiStaticDataViewOptions currentSemiStaticDataViewOptions;
     private volatile DynamicVehicleInfoHighFrequentViewOptions currentDynamicVehicleInfoHighFrequentViewOptions;
     private volatile DynamicVehicleInfoMidFrequent currentMidFrequent;
+    private volatile float boostEstimate;
+    private volatile float torqueEstimate;
+    private volatile float powerEstimate;
 
     public SportComponentEvo(ICarApplication iCarApplication) {
         super(iCarApplication, LOGCHANNEL_NAME);
@@ -117,9 +120,21 @@ extends AbstractDSICarVehicleStatesAdapter {
             int tqPct = this.clampPercent(Math.round(wotTorque * pedal / 100.0f));
             int pwPct = this.clampPercent(tqPct * rpm / 4297);
 
-            this.getRangeModel(602115).setValue(pwPct); // power
-            this.getRangeModel(602112).setValue(tqPct); // torque
-            this.getRangeModel(602111).setValue(pedal); // boost
+            // power/torque lag up slowly, fall ~1s (100->0 in ~10 ticks)
+            float tqA = (float)tqPct > this.torqueEstimate ? 0.20f : 0.42f;
+            float pwA = (float)pwPct > this.powerEstimate ? 0.20f : 0.42f;
+            this.torqueEstimate += ((float)tqPct - this.torqueEstimate) * tqA;
+            this.powerEstimate += ((float)pwPct - this.powerEstimate) * pwA;
+            this.getRangeModel(602112).setValue(this.clampPercent(Math.round(this.torqueEstimate))); // torque (lagged)
+            this.getRangeModel(602115).setValue(this.clampPercent(Math.round(this.powerEstimate))); // power (lagged)
+
+            // simulated turbo lag: spool up slowly, dump to pedal instantly on lift
+            if ((float)pedal < this.boostEstimate) {
+                this.boostEstimate = pedal;
+            } else {
+                this.boostEstimate += ((float)pedal - this.boostEstimate) * 0.12f;
+            }
+            this.getRangeModel(602111).setValue(this.clampPercent(Math.round(this.boostEstimate))); // boost (lagged)
 
             //this.getLabelModel(602123).setText(this.buildDebugText());
         }
