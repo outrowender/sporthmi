@@ -3,3 +3,4 @@
 *.jar
 /patched/**/*.class
 /VW_lsd_java
+.DS_Store
