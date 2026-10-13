@@ -6,6 +6,7 @@ package de.audi.app.car.evo.sport;
 import de.audi.app.car.common.app.ICarApplication;
 import de.audi.app.car.common.comp.CarDSIAttributesSet;
 import de.audi.app.car.common.service.AbstractDSICarVehicleStatesAdapter;
+import de.audi.atip.metrics.Temperature;
 import org.dsi.ifc.carvehiclestates.DynamicVehicleInfoHighFrequent;
 import org.dsi.ifc.carvehiclestates.DynamicVehicleInfoHighFrequentViewOptions;
 import org.dsi.ifc.carvehiclestates.DynamicVehicleInfoMidFrequent;
@@ -76,9 +77,12 @@ extends AbstractDSICarVehicleStatesAdapter {
     }
 
     public void updateDynamicVehicleInfoMidFrequent(DynamicVehicleInfoMidFrequent dynamicVehicleInfoMidFrequent, int n) {
-        if (n == 1 || true) {
+        if (n == 1) {
             this.currentMidFrequent = dynamicVehicleInfoMidFrequent;
-            this.getLabelModel(602123).setText(this.buildDebugText());
+            Temperature temperature = new Temperature(dynamicVehicleInfoMidFrequent.gearboxOilTemperature + 10f, Temperature.CELSIUS);
+            temperature.setUseInstanceUnit(true);
+            this.getMetricsModel(602117).setMetric(temperature);
+            //this.getLabelModel(602123).setText(this.buildDebugText());
         }
     }
 
@@ -106,18 +110,18 @@ extends AbstractDSICarVehicleStatesAdapter {
 
     private void updateVisibleValues() {
         if (this.currentInfoHighFrequent != null) {
-            // int rpm = this.currentInfoHighFrequent.engineSpeed;
-            // int pedal = this.currentInfoHighFrequent.acceleratorPosition;
+            int rpm = this.currentInfoHighFrequent.engineSpeed;
+            int pedal = this.currentInfoHighFrequent.acceleratorPosition;
 
-            // int wotTorque = this.wotTorquePercent(rpm);
-            // int tqPct = this.clampPercent(Math.round(wotTorque * pedal / 100.0f));
-            // int pwPct = this.clampPercent(tqPct * rpm / 4297);
+            int wotTorque = this.wotTorquePercent(rpm);
+            int tqPct = this.clampPercent(Math.round(wotTorque * pedal / 100.0f));
+            int pwPct = this.clampPercent(tqPct * rpm / 4297);
 
-            // this.getRangeModel(602115).setValue(pwPct); // power
-            // this.getRangeModel(602112).setValue(tqPct); // torque
-            // this.getRangeModel(602111).setValue(pedal); // boost
+            this.getRangeModel(602115).setValue(pwPct); // power
+            this.getRangeModel(602112).setValue(tqPct); // torque
+            this.getRangeModel(602111).setValue(pedal); // boost
 
-            this.getLabelModel(602123).setText(this.buildDebugText());
+            //this.getLabelModel(602123).setText(this.buildDebugText());
         }
     }
 
@@ -171,7 +175,7 @@ extends AbstractDSICarVehicleStatesAdapter {
     }
 
     private static final int[] rpmPoints = new int[]{750, 1000, 1400, 4000, 4500, 5000, 5500, 6000};
-    private static final int[] tqPercent = new int[]{  0,   50,  100,  100,   96,   86,   78,   71};
+    private static final int[] tqPercent = new int[]{  0,   50,  100,  100,   96,   92,   89,   86};
 
     private int wotTorquePercent(int rpm) {
         int last = rpmPoints.length - 1;
