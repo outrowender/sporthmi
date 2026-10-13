@@ -3,3 +3,7 @@
 *.jar
 /patched/**/*.class
 /VW_lsd_java
+/MIBHMI_java
+/delphi_java
+mst2-decompiled.tar.gz
+/robson_sporthmi
