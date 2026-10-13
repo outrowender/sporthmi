@@ -21,9 +21,6 @@ extends AbstractDSICarKombiAdapter {
     }
 
     protected void initModels() {
-        Temperature temperature = new Temperature(90.0f, Temperature.CELSIUS);
-        temperature.setUseInstanceUnit(true);
-        this.getMetricsModel(602117).setMetric(temperature);
     }
 
     protected void deinitModels() {
@@ -41,15 +38,12 @@ extends AbstractDSICarKombiAdapter {
         this.getLogChannel().log(1000, "updateBCOilTemperatureValue:%1, valid:%2", (Object)carBCTemperature, (long)n);
 
         if (carBCTemperature.state == 0) {
-            Temperature temperature = new Temperature(90.0f, Temperature.CELSIUS);
+            //Temperature temperature = new Temperature(100.0f, Temperature.CELSIUS);
+            Temperature temperature = new Temperature(100.0f, carBCTemperature.temperatureUnit == 0 ? 1 : 2);
             temperature.setUseInstanceUnit(true);
             this.getMetricsModel(602117).setMetric(temperature);
         } else {
-            float f = carBCTemperature.temperatureValue;
-            if (carBCTemperature.temperatureUnit != 0) {
-                f = (f - 32.0f) / 1.8f;
-            }
-            Temperature temperature = new Temperature(f, Temperature.CELSIUS);
+            Temperature temperature = new Temperature(carBCTemperature.temperatureValue, carBCTemperature.temperatureUnit == 0 ? 1 : 2);
             temperature.setUseInstanceUnit(true);
             this.getMetricsModel(602117).setMetric(temperature);
         }
