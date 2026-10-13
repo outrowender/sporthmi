@@ -24,6 +24,9 @@ extends AbstractDSICarKombiAdapter {
 
     protected void initModels() {
         this.getLabelModel(602128).setText("kombi debug ready");
+        Temperature temperature = new Temperature(105.0f, Temperature.CELSIUS);
+        temperature.setUseInstanceUnit(true);
+        this.getMetricsModel(602117).setMetric(temperature);
     }
 
     protected void deinitModels() {
@@ -70,6 +73,7 @@ extends AbstractDSICarKombiAdapter {
     private String buildKombiDebug() {
         StringBuffer b = new StringBuffer(256);
         CarBCTemperature t = this.currentOilTemp;
+        b.append("SportKombi").append('\n');
         if (t != null) {
             b.append("--oilState=").append(t.state).append('\n');
             b.append("--oilValue=").append(t.temperatureValue).append('\n');
@@ -78,9 +82,10 @@ extends AbstractDSICarKombiAdapter {
             b.append("oilTempera=null\n");
         }
             b.append("oilTpValid=").append(this.currentOilTempValid).append('\n');
+            
         BCViewOptions vo = this.currentBCViewOptions;
         if (vo != null) {
-            b.append("voOilTempe=").append(String.valueOf(vo.oilTemperatureValue));
+            b.append("VOpOilTemp=").append(String.valueOf(vo.oilTemperatureValue));
         } else {
             b.append("viewOption=null");
         }

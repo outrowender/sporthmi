@@ -116,6 +116,7 @@ extends AbstractDSICarVehicleStatesAdapter {
         StringBuffer b = new StringBuffer(512);
         DynamicVehicleInfoHighFrequent h = this.currentInfoHighFrequent;
         if (h != null) {
+            b.append("SportCompEv").append('\n');
             b.append("longAccele=").append(h.longitudinalAcceleration).append('\n');
             b.append("latAcceler=").append(h.lateralAcceleration).append('\n');
             b.append("---yawRate=").append(h.yawRate).append('\n');
@@ -131,23 +132,23 @@ extends AbstractDSICarVehicleStatesAdapter {
             b.append("absolBoost=").append(h.absChargingAirPressure).append('\n');
             
             b.append("pedalPosit=").append(h.acceleratorPosition).append('\n');
-            b.append("vehicSpeed=").append(String.valueOf(h.vehicleSpeed)).append('\n');
-            
-            b.append("cycleDista=").append(h.systemCycleDistance).append('\n');
+            b.append("vehicSpeed=").append(String.valueOf(h.vehicleSpeed.speedValue)).append('\n');
             b.append("speedValue=").append(String.valueOf(h.realVehicleSpeed.speedValue)).append('\n');
+            
+            b.append("cycleDista=").append(h.systemCycleDistance).append('\n');            
             b.append("shiftLight=").append(h.shiftLight).append('\n');
         } else {
             b.append("highFreque=null\n");
         }
-        SemiStaticDataViewOptions v = this.currentSemiStaticDataViewOptions;
+        SemiStaticVehicleData v = this.currentSemiStaticData;
         if (v != null) {
-            b.append("--maxBoost=").append(String.valueOf(v.maxChargingAirPressure)).append('\n');
-            b.append("--maxPower=").append(String.valueOf(v.maxOutputPower)).append('\n');
-            b.append("-maxTorque=").append(String.valueOf(v.maxTorque)).append('\n');
-            b.append("enginDispl=").append(String.valueOf(v.engineDisplacement)).append('\n');
-            b.append("injcSystem=").append(String.valueOf(v.typeOfInjectionSystem));
+            b.append("--maxBoost=").append(v.maxChargingAirPressure).append('\n');
+            b.append("--maxPower=").append(v.maxOutputPower).append('\n');
+            b.append("-maxTorque=").append(v.maxTorque).append('\n');
+            b.append("enginDispl=").append(v.engineDisplacement).append('\n');
+            b.append("injcSystem=").append(v.typeOfInjectionSystem);
         } else {
-            b.append("semiViewOp=null");
+            b.append("--semiData=null");
         }
         return b.toString();
     }
