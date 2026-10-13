@@ -4060,8 +4060,8 @@ IEvoCarModelBank {
                     this.models[2123] = new LabelModel(602123);
                     break;
                 }
-                case 2124: {
-                    this.models[2124] = new LabelModel(602124);
+                case 2128: {
+                    this.models[2128] = new LabelModel(602128);
                     break;
                 }
                 case 1027: {

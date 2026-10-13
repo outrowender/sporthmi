@@ -3547,7 +3547,7 @@ public class CarScreenBag1 {
         debugLabelRendererHigh2.setFonts(carScreenFactory.getFonts(20, n));
         debugLabelRendererHigh2.setAlignment(1, 4);
         debugLabelRendererHigh2.setLineHeight(14);
-        debugLabelController2.setModelID(602124);
+        debugLabelController2.setModelID(602128);
         debugLabelController2.setBounds(400, 0, 800, 480);
         debugLabelController2.setColorIndices(new int[]{0, 0, 0, 0});
         debugLabelController2.setMaxLines(40);
@@ -3568,7 +3568,7 @@ public class CarScreenBag1 {
         screenWidgetEVO.add(statusBarStubController);
         screenWidgetEVO.add(debugLabelController);
         screenWidgetEVO.add(debugLabelController2);
-        screenWidgetEVO.setViews(new int[]{138, 602111, 602112, 602115, 602117, 602123, 602124}, new HMIView[][]{{statusBarStubController}, {chargingAirPressureGaugeController}, {circularGaugeController2}, {circularGaugeController}, {oilTemperatureGaugeController}, {debugLabelController}, {debugLabelController2}});
+        screenWidgetEVO.setViews(new int[]{138, 602111, 602112, 602115, 602117, 602123, 602128}, new HMIView[][]{{statusBarStubController}, {chargingAirPressureGaugeController}, {circularGaugeController2}, {circularGaugeController}, {oilTemperatureGaugeController}, {debugLabelController}, {debugLabelController2}});
         screenWidgetEVO.setConditionWidgets(new int[]{601056, 602118}, new AbstractWidget[][]{{screenWidgetEVO}, {containerController2}});
         return screenWidgetEVO;
     }

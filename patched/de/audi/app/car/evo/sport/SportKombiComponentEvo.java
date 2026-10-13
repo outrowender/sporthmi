@@ -23,7 +23,7 @@ extends AbstractDSICarKombiAdapter {
     }
 
     protected void initModels() {
-        this.getLabelModel(602124).setText("kombi debug ready");
+        this.getLabelModel(602128).setText("kombi debug ready");
     }
 
     protected void deinitModels() {
@@ -41,7 +41,7 @@ extends AbstractDSICarKombiAdapter {
         this.getLogChannel().log(1000, "updateBCOilTemperatureValue:%1, valid:%2", (Object)carBCTemperature, (long)n);
         this.currentOilTemp = carBCTemperature;
         this.currentOilTempValid = n;
-        this.getLabelModel(602124).setText(this.buildKombiDebug());
+        this.getLabelModel(602128).setText(this.buildKombiDebug());
 
         if (carBCTemperature.state == 0) {
             //Temperature temperature = new Temperature(100.0f, Temperature.CELSIUS);
@@ -61,7 +61,7 @@ extends AbstractDSICarKombiAdapter {
         }
         if (n == 1) {
             this.currentBCViewOptions = bCViewOptions;
-            this.getLabelModel(602124).setText(this.buildKombiDebug());
+            this.getLabelModel(602128).setText(this.buildKombiDebug());
             this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(607, this.getMenuEntryVisibilityState(bCViewOptions.oilTemperatureValue));
             this.primaryAttributeFirstSetReceived();
         }
