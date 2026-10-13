@@ -41,18 +41,17 @@ extends AbstractDSICarKombiAdapter {
     }
 
     public void updateBCOilTemperatureValue(CarBCTemperature carBCTemperature, int n) {
-        this.getLogChannel().log(1000, "updateBCOilTemperatureValue:%1, valid:%2", (Object)carBCTemperature, (long)n);
+        //this.getLogChannel().log(1000, "updateBCOilTemperatureValue:%1, valid:%2", (Object)carBCTemperature, (long)n);
         this.currentOilTemp = carBCTemperature;
         this.currentOilTempValid = n;
         this.getLabelModel(602128).setText(this.buildKombiDebug());
 
         if (carBCTemperature.state == 0) {
-            //Temperature temperature = new Temperature(100.0f, Temperature.CELSIUS);
-            Temperature temperature = new Temperature(100.0f, carBCTemperature.temperatureUnit == 0 ? 1 : 2);
+            Temperature temperature = new Temperature(150, Temperature.CELSIUS);
             temperature.setUseInstanceUnit(true);
             this.getMetricsModel(602117).setMetric(temperature);
         } else {
-            Temperature temperature = new Temperature(120.0f, carBCTemperature.temperatureUnit == 0 ? 1 : 2);
+            Temperature temperature = new Temperature(carBCTemperature.temperatureValue, carBCTemperature.temperatureUnit == 0 ? 1 : 2);
             temperature.setUseInstanceUnit(true);
             this.getMetricsModel(602117).setMetric(temperature);
         }
@@ -62,7 +61,7 @@ extends AbstractDSICarKombiAdapter {
         if (this.getLogChannel().isInfo()) {
             this.getLogChannel().log(1000000, "updateBCViewOptions:%1, valid:%2", (Object)bCViewOptions, (long)n);
         }
-        if (n == 1) {
+        if (n == 1 || true) {
             this.currentBCViewOptions = bCViewOptions;
             this.getLabelModel(602128).setText(this.buildKombiDebug());
             this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(607, this.getMenuEntryVisibilityState(bCViewOptions.oilTemperatureValue));
