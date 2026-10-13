@@ -26,9 +26,9 @@ extends AbstractDSICarKombiAdapter {
 
     protected void initModels() {
         this.getLabelModel(602128).setText("kombi debug ready");
-        Temperature temperature = new Temperature(0.0f, Temperature.CELSIUS);
-        temperature.setUseInstanceUnit(true);
-        this.getMetricsModel(602117).setMetric(temperature);
+        // Temperature temperature = new Temperature(0.0f, Temperature.CELSIUS);
+        // temperature.setUseInstanceUnit(true);
+        // this.getMetricsModel(602117).setMetric(temperature);
     }
 
     protected void deinitModels() {
@@ -46,7 +46,7 @@ extends AbstractDSICarKombiAdapter {
         //this.getLogChannel().log(1000, "updateBCOilTemperatureValue:%1, valid:%2", (Object)carBCTemperature, (long)n);
         this.currentOilTemp = carBCTemperature;
         this.currentOilTempValid = n;
-        this.getLabelModel(602128).setText(this.buildKombiDebug());
+        //this.getLabelModel(602128).setText(this.buildKombiDebug());
 
         if (carBCTemperature.state == 0) {
             Temperature temperature = new Temperature(150, Temperature.CELSIUS);
@@ -62,7 +62,7 @@ extends AbstractDSICarKombiAdapter {
     public void updateBCCoolantTemperature(CarBCTemperature carBCTemperature, int n) {
         this.currentCoolant = carBCTemperature;
         this.currentCoolantValid = n;
-        this.getLabelModel(602128).setText(this.buildKombiDebug());
+        //this.getLabelModel(602128).setText(this.buildKombiDebug());
     }
 
     public void updateBCViewOptions(BCViewOptions bCViewOptions, int n) {
@@ -71,7 +71,7 @@ extends AbstractDSICarKombiAdapter {
         }
         if (n == 1 || true) {
             this.currentBCViewOptions = bCViewOptions;
-            this.getLabelModel(602128).setText(this.buildKombiDebug());
+            //this.getLabelModel(602128).setText(this.buildKombiDebug());
             this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(607, this.getMenuEntryVisibilityState(bCViewOptions.oilTemperatureValue));
             this.primaryAttributeFirstSetReceived();
         }
