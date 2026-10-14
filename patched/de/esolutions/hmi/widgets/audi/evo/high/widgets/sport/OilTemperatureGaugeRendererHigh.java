@@ -16,8 +16,9 @@ extends AbstractKanziTemplateRenderer {
     private static /*final*/ float FAHRENHEIT_MIN_TEMPERATURE = 115.0f;
     private static /*final*/ float FAHRENHEIT_MAX_TEMPERATURE = 315.0f;
     private static /*final*/ float KZB_CELSIUS_UNIT = 1.0f;
-    private static /*final*/ float CELSIUS_MIN_TEMPERATURE = 45.0f;
-    private static /*final*/ float CELSIUS_MAX_TEMPERATURE = 165.0f;
+    // range shifted -30 so repainted atlas ticks read 30/60/90/120
+    private static /*final*/ float CELSIUS_MIN_TEMPERATURE = 15.0f;
+    private static /*final*/ float CELSIUS_MAX_TEMPERATURE = 135.0f;
     private static /*final*/ String TEMPERATURE_UNIT_PROPERTY = "eg_bc_degreeUnit";
     private static /*final*/ String BAR_LENGTH_PROPERTY = "tg_barLength";
     private OilTemperatureGaugeController controller;
@@ -52,8 +53,8 @@ extends AbstractKanziTemplateRenderer {
             }
             case 1: {
                 f4 = 1.0f;
-                f3 = 45.0f;
-                f2 = 165.0f;
+                f3 = 15.0f;
+                f2 = 135.0f;
                 break;
             }
             default: {
