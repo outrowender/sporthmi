@@ -3557,9 +3557,9 @@ public class CarScreenBag1 {
         labelTempScale1.setRenderer(labelTempScale1Renderer);
         labelTempScale1Renderer.setFonts(carScreenFactory.getFonts(22, n));
         labelTempScale1Renderer.setAlignment(1, 4);
-        labelTempScale1Renderer.setLineHeight(17);
+        labelTempScale1Renderer.setLineHeight(14);
         labelTempScale1.setModelID(602131);
-        labelTempScale1.setBounds(530, 180, 100, 30);
+        labelTempScale1.setBounds(532, 180, 100, 14);
         labelTempScale1.setColorIndices(new int[]{0, 0, 0, 0});
         labelTempScale1.setMaxLines(1);
         labelTempScale1.setText("30");
@@ -3568,9 +3568,9 @@ public class CarScreenBag1 {
         labelTempScale2.setRenderer(labelTempScale2Renderer);
         labelTempScale2Renderer.setFonts(carScreenFactory.getFonts(22, n));
         labelTempScale2Renderer.setAlignment(1, 4);
-        labelTempScale2Renderer.setLineHeight(17);
+        labelTempScale2Renderer.setLineHeight(14);
         labelTempScale2.setModelID(602133);
-        labelTempScale2.setBounds(585, 180, 100, 30);
+        labelTempScale2.setBounds(585, 180, 100, 14);
         labelTempScale2.setColorIndices(new int[]{0, 0, 0, 0});
         labelTempScale2.setMaxLines(1);
         labelTempScale2.setText("60");
@@ -3579,9 +3579,9 @@ public class CarScreenBag1 {
         labelTempScale3.setRenderer(labelTempScale3Renderer);
         labelTempScale3Renderer.setFonts(carScreenFactory.getFonts(22, n));
         labelTempScale3Renderer.setAlignment(1, 4);
-        labelTempScale3Renderer.setLineHeight(17);
+        labelTempScale3Renderer.setLineHeight(14);
         labelTempScale3.setModelID(602135);
-        labelTempScale3.setBounds(637, 180, 100, 30);
+        labelTempScale3.setBounds(637, 180, 100, 14);
         labelTempScale3.setColorIndices(new int[]{0, 0, 0, 0});
         labelTempScale3.setMaxLines(1);
         labelTempScale3.setText("90");
@@ -3590,9 +3590,9 @@ public class CarScreenBag1 {
         labelTempScale4.setRenderer(labelTempScale4Renderer);
         labelTempScale4Renderer.setFonts(carScreenFactory.getFonts(22, n));
         labelTempScale4Renderer.setAlignment(1, 4);
-        labelTempScale4Renderer.setLineHeight(17);
+        labelTempScale4Renderer.setLineHeight(14);
         labelTempScale4.setModelID(602137);
-        labelTempScale4.setBounds(689, 180, 100, 30);
+        labelTempScale4.setBounds(689, 180, 100, 14);
         labelTempScale4.setColorIndices(new int[]{0, 0, 0, 0});
         labelTempScale4.setMaxLines(1);
         labelTempScale4.setText("120");
