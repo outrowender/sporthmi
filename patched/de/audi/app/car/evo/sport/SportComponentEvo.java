@@ -197,7 +197,7 @@ extends AbstractDSICarVehicleStatesAdapter {
     }
 
     private static final int[] rpmPoints = new int[]{750, 1000, 1400, 4000, 4500, 5000, 5500, 6000};
-    private static final int[] tqPercent = new int[]{  0,   50,  100,  100,   96,   92,   89,   86};
+    private static final int[] tqPercent = new int[]{  8,   50,  100,  100,   96,   92,   89,   86};
 
     private int wotTorquePercent(int rpm) {
         int last = rpmPoints.length - 1;
