@@ -3557,8 +3557,8 @@ public class CarScreenBag1 {
         labelTempScale1.setRenderer(labelTempScale1Renderer);
         labelTempScale1Renderer.setFonts(carScreenFactory.getFonts(1, n));
         labelTempScale1Renderer.setAlignment(2, 5);
-        labelTempScale1Renderer.setLineHeight(14);
-        labelTempScale1.setBounds(12, 78, 48, 14);
+        labelTempScale1Renderer.setLineHeight(10);
+        labelTempScale1.setBounds(12, 78, 48, 10);
         labelTempScale1.setColorIndices(new int[]{1, 0, 4, 0});
         labelTempScale1.setMaxLines(1);
         labelTempScale1.setText("30");
@@ -3567,8 +3567,8 @@ public class CarScreenBag1 {
         labelTempScale2.setRenderer(labelTempScale2Renderer);
         labelTempScale2Renderer.setFonts(carScreenFactory.getFonts(1, n));
         labelTempScale2Renderer.setAlignment(2, 5);
-        labelTempScale2Renderer.setLineHeight(14);
-        labelTempScale2.setBounds(65, 78, 48, 14);
+        labelTempScale2Renderer.setLineHeight(10);
+        labelTempScale2.setBounds(65, 78, 48, 10);
         labelTempScale2.setColorIndices(new int[]{1, 0, 4, 0});
         labelTempScale2.setMaxLines(1);
         labelTempScale2.setText("60");
@@ -3577,8 +3577,8 @@ public class CarScreenBag1 {
         labelTempScale3.setRenderer(labelTempScale3Renderer);
         labelTempScale3Renderer.setFonts(carScreenFactory.getFonts(1, n));
         labelTempScale3Renderer.setAlignment(2, 5);
-        labelTempScale3Renderer.setLineHeight(14);
-        labelTempScale3.setBounds(117, 78, 48, 14);
+        labelTempScale3Renderer.setLineHeight(10);
+        labelTempScale3.setBounds(117, 78, 48, 10);
         labelTempScale3.setColorIndices(new int[]{1, 0, 4, 0});
         labelTempScale3.setMaxLines(1);
         labelTempScale3.setText("90");
@@ -3587,8 +3587,8 @@ public class CarScreenBag1 {
         labelTempScale4.setRenderer(labelTempScale4Renderer);
         labelTempScale4Renderer.setFonts(carScreenFactory.getFonts(1, n));
         labelTempScale4Renderer.setAlignment(2, 5);
-        labelTempScale4Renderer.setLineHeight(14);
-        labelTempScale4.setBounds(169, 78, 48, 14);
+        labelTempScale4Renderer.setLineHeight(10);
+        labelTempScale4.setBounds(169, 78, 48, 10);
         labelTempScale4.setColorIndices(new int[]{1, 0, 4, 0});
         labelTempScale4.setMaxLines(1);
         labelTempScale4.setText("120");
