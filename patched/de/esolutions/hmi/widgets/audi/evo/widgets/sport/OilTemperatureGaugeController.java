@@ -9,12 +9,17 @@ import de.audi.atip.metrics.AbstractMetrics;
 import de.audi.atip.metrics.Temperature;
 import de.esolutions.hmi.widgets.audi.base.widgets.AbstractWidgetController;
 import de.esolutions.hmi.widgets.audi.base.widgets.IRenderer;
+import de.esolutions.hmi.widgets.audi.evo.widgets.LabelController;
 
 public class OilTemperatureGaugeController
 extends AbstractWidgetController {
     private float temperature;
     private int temperatureUnit = 2;
     private IRenderer renderer;
+    private LabelController[] scaleLabels;
+    // tick values at bar fractions 0.125/0.375/0.625/0.875 for each unit range
+    private static /*final*/ String[] CELSIUS_SCALE = new String[]{"30", "60", "90", "120"};
+    private static /*final*/ String[] FAHRENHEIT_SCALE = new String[]{"140", "190", "240", "290"};
 
     protected void initializeWidget() {
         // immediate model bind fires no event; read stored metric on connect
@@ -81,6 +86,24 @@ extends AbstractWidgetController {
     public void setTemperatureValues(int n, float f2) {
         this.temperatureUnit = n;
         this.temperature = f2;
+        this.updateScaleLabels();
+    }
+
+    public void setScaleLabels(LabelController[] labelControllerArray) {
+        this.scaleLabels = labelControllerArray;
+        this.updateScaleLabels();
+    }
+
+    private void updateScaleLabels() {
+        if (this.scaleLabels == null) {
+            return;
+        }
+        String[] scale = this.temperatureUnit == 1 ? CELSIUS_SCALE : FAHRENHEIT_SCALE;
+        for (int i2 = 0; i2 < this.scaleLabels.length && i2 < scale.length; ++i2) {
+            if (this.scaleLabels[i2] != null) {
+                this.scaleLabels[i2].setText(scale[i2]);
+            }
+        }
     }
 
     public int getTemperatureUnit() {
