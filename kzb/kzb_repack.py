@@ -32,6 +32,28 @@ import struct
 import sys
 
 PNG_SIG = b"\x89PNG\r\n\x1a\n"
+# the car's embedded decoder only reads bare PNGs; everything else = silent fail
+PNG_KEEP_CHUNKS = {b"IHDR", b"PLTE", b"IDAT", b"IEND", b"tRNS"}
+
+
+def strip_png(data):
+    """Return (clean_png, dropped) keeping only critical chunks."""
+    if not data.startswith(PNG_SIG):
+        raise SystemExit("not a PNG")
+    out = bytearray(data[:8])
+    dropped = []
+    p = 8
+    while p < len(data):
+        ln = struct.unpack(">I", data[p:p + 4])[0]
+        typ = data[p + 4:p + 8]
+        if typ in PNG_KEEP_CHUNKS:
+            out += data[p:p + 12 + ln]
+        else:
+            dropped.append(typ.decode("latin1"))
+        p += 12 + ln
+        if typ == b"IEND":
+            break
+    return bytes(out), dropped
 
 
 def find_all(buf, sub):
@@ -107,6 +129,10 @@ def main():
         data = open(path, "rb").read()
         if not data.startswith(PNG_SIG):
             raise SystemExit("%s is not a PNG" % path)
+        data, dropped = strip_png(data)
+        if dropped:
+            print("stripped ancillary chunks from %s: %s"
+                  % (path, ", ".join(dropped)))
         repl[name] = data
 
     known = set(t["name"] for t in textures)
@@ -144,6 +170,15 @@ def main():
     # patch descriptors (offset @+0, size @+4) in the header copy inside out
     for desc_pos, new_off, new_size in new:
         struct.pack_into(">II", out, desc_pos, new_off, new_size)
+
+    # header @0x04 is a big-endian total-file-size field; the loader trusts it,
+    # so it must match the new length or textures past the old end won't load.
+    old_declared = struct.unpack_from(">I", kzb, 0x04)[0]
+    if old_declared != len(kzb):
+        print("WARNING: header @0x04 (0x%X) != original size (0x%X); not patching"
+              % (old_declared, len(kzb)), file=sys.stderr)
+    else:
+        struct.pack_into(">I", out, 0x04, len(out))
 
     # validate the result by re-parsing
     verify, _ = parse(bytes(out))
