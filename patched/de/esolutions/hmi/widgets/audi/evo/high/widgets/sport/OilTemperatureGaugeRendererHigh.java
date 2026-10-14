@@ -10,8 +10,8 @@ import de.esolutions.hmi.widgets.audi.evo.widgets.sport.OilTemperatureGaugeContr
 
 public class OilTemperatureGaugeRendererHigh
 extends AbstractKanziTemplateRenderer {
-    private static /*final*/ String TEMPLATE_NODE_PATH = "Prefabs/tg_temp";
-    private static /*final*/ String EAL_NODE_NAME = "tg_temp";
+    private static /*final*/ String TEMPLATE_NODE_PATH = "Prefabs/tg_boost";
+    private static /*final*/ String EAL_NODE_NAME = "tg_boost";
     private static /*final*/ float KZB_FAHRENHEIT_UNIT = 0.0f;
     private static /*final*/ float FAHRENHEIT_MIN_TEMPERATURE = 115.0f;
     private static /*final*/ float FAHRENHEIT_MAX_TEMPERATURE = 315.0f;
