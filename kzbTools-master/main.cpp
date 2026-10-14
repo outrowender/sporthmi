@@ -4,8 +4,10 @@
 // Adds: `pack` mode that rebuilds a .kzb from an extracted tree.
 //
 // Usage:
-//   Unpack (same as original):  ./kzbTools <input.kzb>
-//   Pack:                       ./kzbTools pack <extracted_dir> <output.kzb>
+//   Unpack:                     ./kzbTools <input.kzb>
+//   Unpack to chosen directory: ./kzbTools unpack <input.kzb> <output_dir>
+//   Pack generic KZB tree:      ./kzbTools pack <extracted_dir> <output.kzb>
+//   Repack original KZB:        ./kzbTools pack <original.kzb> <extracted_dir> <output.kzb>
 //
 // Notes/assumptions (match your extractor):
 // - KZB metadata starts at 0x4C; bytes [0..0x3] must NOT equal "KZBF" or the tool will go KZBF path.
@@ -15,7 +17,7 @@
 // - Non-leaf: count==num_subfolders, then subfolders; if folder has elements too, an elem_count + elements block follows.
 // - Folder.size is set to sum of contained resource blob sizes (including each 4-byte prefix).
 //
-// Caveats:
+// Generic pack caveats:
 // - Unknown fields (unk1/2 on elements, unk1..3 on root) are written as 0.
 // - Root header: we write rootName, unk1..3=0, zero=0, count=#top-level folders.
 //
@@ -23,6 +25,7 @@
 
 #include <iostream>
 #include <fstream>
+#include <algorithm>
 #include <vector>
 #include <string>
 #include <filesystem>
@@ -67,10 +70,20 @@ struct KZB_Element {
     std::string name;
 };
 
+struct KZB_ResourceRef {
+    fs::path relative_path;
+    std::string name;
+    uint32_t address;
+    uint32_t size;
+    size_t address_pos;
+    size_t size_pos;
+};
+
 bool G_extract = true;
 fs::path G_extract_path;
 int G_idx = 0x4c;
 std::vector<uint8_t> G_bin;
+std::vector<KZB_ResourceRef> G_resources;
 
 static inline void align_idx4() {
     G_idx = (G_idx % 4) ? (G_idx / 4 + 1) * 4 : G_idx;
@@ -86,7 +99,9 @@ void extract_resource(const fs::path &resource_path, uint32_t address, uint32_t 
 uint32_t parseElements(const fs::path &prefix, unsigned count, int depth) {
     for (unsigned i = 0; i < count; ++i) {
         KZB_Element element{};
+        size_t address_pos = G_idx;
         element.addr = ntohl(*(uint32_t*)&G_bin[G_idx]); G_idx+=4;
+        size_t size_pos = G_idx;
         element.size = ntohl(*(uint32_t*)&G_bin[G_idx]); G_idx+=4;
         element.unk1 = ntohl(*(uint32_t*)&G_bin[G_idx]); G_idx+=4;
         element.unk2 = ntohl(*(uint32_t*)&G_bin[G_idx]); G_idx+=4;
@@ -97,6 +112,8 @@ uint32_t parseElements(const fs::path &prefix, unsigned count, int depth) {
         G_idx += str_sz; align_idx4();
 
         auto file_path = fs::path(prefix) / FTUtils::escape_path(element.name);
+        G_resources.push_back({FTUtils::escape_path(file_path), element.name,
+                       element.addr, element.size, address_pos, size_pos});
 
         for (int j = 0; j < depth; ++j) printf("\t");
         printf("File: %s Size: 0x%x(%u) Addr: 0x%x(%u) Unk1: 0x%x Unk2: 0x%x\n",
@@ -139,8 +156,8 @@ uint32_t parseFolder(const fs::path &prefix, int depth) {
         for (uint32_t i = 0; i < folder.count; ++i) parseFolder(folder_path, depth+1);
         // optional elements after children
         uint32_t elem_count = ntohl(*(uint32_t*)&G_bin[G_idx]);
+        G_idx += 4;
         if (elem_count) {
-            G_idx += 4;
             parseElements(folder_path, elem_count, depth+1);
         }
     }
@@ -148,6 +165,37 @@ uint32_t parseFolder(const fs::path &prefix, int depth) {
 }
 
 void parse_kzb(const fs::path &in_file) {
+    if (G_bin.size() >= 0x46) {
+        uint32_t direct_count = ntohl(*(uint32_t*)&G_bin[0x3c]);
+        auto has_folder_record = [](const std::vector<uint8_t> &data, size_t offset) {
+            if (offset + 6 > data.size()) return false;
+            uint32_t size = ntohl(*(uint32_t*)&data[offset]);
+            uint16_t name_size = ntohs(*(uint16_t*)&data[offset + 4]);
+            if (size == 0 || size > data.size() || name_size == 0 ||
+                offset + 6 + name_size > data.size()) return false;
+            for (uint16_t i = 0; i < name_size; ++i) {
+                uint8_t ch = data[offset + 6 + i];
+                if (ch < 0x20 || ch > 0x7e) return false;
+            }
+            return true;
+        };
+
+        if (direct_count > 0 && direct_count <= (G_bin.size() - 0x40) / 12 &&
+            has_folder_record(G_bin, 0x40)) {
+            G_idx = 0x40;
+            printf("KZB folders:\n");
+            for (uint32_t i = 0; i < direct_count; ++i) {
+                if (!has_folder_record(G_bin, G_idx)) {
+                    printf("Stopped at invalid folder record 0x%x\n", G_idx);
+                    break;
+                }
+                parseFolder("", 1);
+            }
+            printf("End at 0x%x\n", G_idx);
+            return;
+        }
+    }
+
     G_idx = 0x4c;
 
     KZB_Root_Folder root{};
@@ -234,6 +282,248 @@ void parse_kzbf(const fs::path &in_file) {
 }
 
 // -------------------- Repacker (KZB) --------------------
+
+static uint16_t read_u16_be_at(const std::vector<uint8_t> &data, size_t offset) {
+    uint16_t value;
+    memcpy(&value, &data[offset], sizeof(value));
+    return ntohs(value);
+}
+
+static uint32_t read_u32_be_at(const std::vector<uint8_t> &data, size_t offset) {
+    uint32_t value;
+    memcpy(&value, &data[offset], sizeof(value));
+    return ntohl(value);
+}
+
+static bool write_u32_be_at(std::vector<uint8_t> &data, size_t offset, uint32_t value) {
+    if (offset + sizeof(value) > data.size()) return false;
+    value = htonl(value);
+    memcpy(&data[offset], &value, sizeof(value));
+    return true;
+}
+
+static bool is_png_resource(const std::string &name) {
+    return name.size() >= 4 && name.compare(name.size() - 4, 4, ".png") == 0;
+}
+
+static bool strip_unsupported_png_chunks(std::vector<uint8_t> &png, bool &stripped) {
+    static const uint8_t signature[] = {0x89, 'P', 'N', 'G', 0x0d, 0x0a, 0x1a, 0x0a};
+    if (png.size() < sizeof(signature) ||
+        !std::equal(std::begin(signature), std::end(signature), png.begin())) return false;
+
+    std::vector<uint8_t> clean(png.begin(), png.begin() + sizeof(signature));
+    size_t offset = sizeof(signature);
+    bool has_ihdr = false;
+    bool has_idat = false;
+    bool has_iend = false;
+    stripped = false;
+    while (offset + 12 <= png.size()) {
+        uint32_t chunk_size = read_u32_be_at(png, offset);
+        if (chunk_size > png.size() - offset - 12) return false;
+        const uint8_t *type = &png[offset + 4];
+        bool keep = memcmp(type, "IHDR", 4) == 0 || memcmp(type, "PLTE", 4) == 0 ||
+                    memcmp(type, "IDAT", 4) == 0 || memcmp(type, "IEND", 4) == 0 ||
+                    memcmp(type, "tRNS", 4) == 0;
+        if (keep) clean.insert(clean.end(), png.begin() + offset,
+                               png.begin() + offset + chunk_size + 12);
+        else stripped = true;
+        has_ihdr |= memcmp(type, "IHDR", 4) == 0;
+        has_idat |= memcmp(type, "IDAT", 4) == 0;
+        offset += chunk_size + 12;
+        if (memcmp(type, "IEND", 4) == 0) {
+            has_iend = true;
+            break;
+        }
+    }
+    if (!has_ihdr || !has_idat || !has_iend || offset != png.size()) return false;
+    png.swap(clean);
+    return true;
+}
+
+static int pack_original_kzb(const fs::path &original_file,
+                             const fs::path &extracted_dir,
+                             const fs::path &output_file)
+{
+    if (!fs::is_regular_file(original_file) || !fs::is_directory(extracted_dir)) {
+        cerr << "Pack: original KZB or extracted directory not found.\n";
+        return 2;
+    }
+    if (original_file.lexically_normal() == output_file.lexically_normal()) {
+        cerr << "Pack: output must not overwrite the original KZB.\n";
+        return 2;
+    }
+
+    G_bin = FTUtils::fileToVector(original_file);
+    if (G_bin.size() < 4 || memcmp(G_bin.data(), FZBF_sign, 4) == 0) {
+        cerr << "Pack: archive-aware repack currently supports KZB, not KZBF.\n";
+        return 2;
+    }
+
+    G_resources.clear();
+    G_extract = false;
+    G_idx = 0;
+    parse_kzb(original_file);
+    G_extract = true;
+
+    size_t file_count = 0;
+    for (const auto &entry : fs::recursive_directory_iterator(extracted_dir)) {
+        if (entry.is_regular_file() && entry.path().filename() != ".DS_Store") ++file_count;
+    }
+    if (file_count != G_resources.size()) {
+        cerr << "Pack: extracted file count mismatch (expected " << G_resources.size()
+             << ", found " << file_count << ").\n";
+        return 3;
+    }
+
+    std::vector<std::vector<uint8_t>> contents(G_resources.size());
+    std::vector<uint32_t> new_sizes(G_resources.size());
+    std::vector<size_t> address_order(G_resources.size());
+    for (size_t i = 0; i < G_resources.size(); ++i) address_order[i] = i;
+
+    for (size_t i = 0; i < G_resources.size(); ++i) {
+        const auto &resource = G_resources[i];
+        fs::path resource_file = extracted_dir / resource.relative_path;
+        if (!fs::is_regular_file(resource_file)) {
+            cerr << "Pack: missing resource: " << resource_file << "\n";
+            return 3;
+        }
+
+        ifstream input(resource_file, ios::binary);
+        if (!input) {
+            cerr << "Pack: cannot read resource: " << resource_file << "\n";
+            return 3;
+        }
+        contents[i] = vector<uint8_t>((istreambuf_iterator<char>(input)), istreambuf_iterator<char>());
+        if (is_png_resource(resource.name)) {
+            bool stripped = false;
+            if (!strip_unsupported_png_chunks(contents[i], stripped)) {
+                cerr << "Pack: invalid PNG resource: " << resource_file << "\n";
+                return 3;
+            }
+            if (stripped) cout << "Stripped unsupported PNG metadata from " << resource.name << "\n";
+        }
+        if (contents[i].size() > UINT32_MAX) {
+            cerr << "Pack: resource is too large: " << resource_file << "\n";
+            return 3;
+        }
+        new_sizes[i] = static_cast<uint32_t>(contents[i].size());
+    }
+
+    std::sort(address_order.begin(), address_order.end(), [](size_t left, size_t right) {
+        return G_resources[left].address < G_resources[right].address;
+    });
+
+    size_t data_start = G_bin.size();
+    size_t previous_end = 0;
+    for (size_t index : address_order) {
+        const auto &resource = G_resources[index];
+        uint64_t resource_end = static_cast<uint64_t>(resource.address) + 4 + resource.size;
+        if (resource.address < previous_end || resource_end > G_bin.size()) {
+            cerr << "Pack: overlapping or out-of-range resource " << resource.name << "\n";
+            return 3;
+        }
+        data_start = std::min(data_start, static_cast<size_t>(resource.address));
+        previous_end = static_cast<size_t>(resource_end);
+    }
+    if (address_order.empty() || data_start >= G_bin.size()) {
+        cerr << "Pack: archive contains no resource data.\n";
+        return 3;
+    }
+
+    std::vector<size_t> texture_descriptors(G_resources.size(), std::string::npos);
+    for (size_t i = 0; i < G_resources.size(); ++i) {
+        const auto &resource = G_resources[i];
+        if (!is_png_resource(resource.name)) continue;
+        size_t match = std::string::npos;
+        for (size_t name_pos = 18; name_pos + resource.name.size() <= data_start; ++name_pos) {
+            if (memcmp(&G_bin[name_pos], resource.name.data(), resource.name.size()) != 0) continue;
+            size_t descriptor = name_pos - 18;
+            if (read_u16_be_at(G_bin, descriptor + 16) != resource.name.size() ||
+                read_u32_be_at(G_bin, descriptor) != resource.address ||
+                read_u32_be_at(G_bin, descriptor + 4) != resource.size ||
+                read_u32_be_at(G_bin, descriptor + 8) != 10) continue;
+            if (match != std::string::npos) {
+                cerr << "Pack: ambiguous texture descriptor for " << resource.name << "\n";
+                return 3;
+            }
+            match = descriptor;
+        }
+        texture_descriptors[i] = match;
+    }
+
+    std::vector<uint32_t> new_addresses(G_resources.size());
+    bool fits_original_slots = true;
+    for (size_t i = 0; i < G_resources.size(); ++i) {
+        fits_original_slots &= new_sizes[i] <= G_resources[i].size;
+    }
+
+    std::vector<uint8_t> output;
+    if (fits_original_slots) {
+        output = G_bin;
+        for (size_t i = 0; i < G_resources.size(); ++i) {
+            const auto &resource = G_resources[i];
+            size_t payload = resource.address + sizeof(uint32_t);
+            std::copy(contents[i].begin(), contents[i].end(), output.begin() + payload);
+            std::fill(output.begin() + payload + new_sizes[i],
+                      output.begin() + payload + resource.size, 0);
+            new_addresses[i] = resource.address;
+        }
+    } else {
+        output.assign(G_bin.begin(), G_bin.begin() + data_start);
+        size_t old_cursor = data_start;
+        for (size_t index : address_order) {
+            const auto &resource = G_resources[index];
+            if (resource.address > old_cursor) {
+                output.insert(output.end(), G_bin.begin() + old_cursor,
+                              G_bin.begin() + resource.address);
+            }
+            new_addresses[index] = static_cast<uint32_t>(output.size());
+            output.insert(output.end(), G_bin.begin() + resource.address,
+                          G_bin.begin() + resource.address + 4);
+            output.insert(output.end(), contents[index].begin(), contents[index].end());
+            old_cursor = resource.address + 4 + resource.size;
+        }
+        output.insert(output.end(), G_bin.begin() + old_cursor, G_bin.end());
+    }
+
+    if (output.size() > UINT32_MAX) {
+        cerr << "Pack: rebuilt archive exceeds the KZB size limit.\n";
+        return 3;
+    }
+    for (size_t i = 0; i < G_resources.size(); ++i) {
+        const auto &resource = G_resources[i];
+        if (!write_u32_be_at(output, resource.address_pos, new_addresses[i]) ||
+            !write_u32_be_at(output, resource.size_pos, new_sizes[i])) {
+            cerr << "Pack: resource metadata offset is invalid.\n";
+            return 3;
+        }
+        if (texture_descriptors[i] != std::string::npos &&
+            (!write_u32_be_at(output, texture_descriptors[i], new_addresses[i]) ||
+             !write_u32_be_at(output, texture_descriptors[i] + 4, new_sizes[i]))) {
+            cerr << "Pack: texture descriptor offset is invalid.\n";
+            return 3;
+        }
+    }
+
+    if (!write_u32_be_at(output, 4, static_cast<uint32_t>(output.size()))) {
+        cerr << "Pack: cannot update KZB size header.\n";
+        return 3;
+    }
+
+    ofstream out_file(output_file, ios::binary);
+    if (!out_file) {
+        cerr << "Pack: cannot create output archive: " << output_file << "\n";
+        return 4;
+    }
+    out_file.write(reinterpret_cast<const char*>(output.data()), output.size());
+    if (!out_file) {
+        cerr << "Pack: failed while writing output archive.\n";
+        return 4;
+    }
+    cout << "Repacked " << G_resources.size() << " resources to " << output_file
+         << " (" << output.size() << " bytes)\n";
+    return 0;
+}
 
 static inline void write_u16_be(std::vector<uint8_t> &buf, uint16_t v) {
     uint16_t be = htons(v);
@@ -334,18 +624,16 @@ static void write_folder_metadata(const FolderNode &node,
         write_u32_be(meta, (uint32_t)node.children.size());
         for (const auto &c : node.children) write_folder_metadata(c, meta, folderPH, elemPH);
 
-        if (!node.elements.empty()) {
-            write_u32_be(meta, (uint32_t)node.elements.size());
-            for (const auto &el : node.elements) {
-                elemPH.push_back({ meta.size(), &el });
-                write_u32_be(meta, 0);               // addr
-                write_u32_be(meta, el.size);         // size
-                write_u32_be(meta, 0);               // unk1
-                write_u32_be(meta, 0);               // unk2
-                write_u16_be(meta, (uint16_t)el.name.size());
-                write_bytes(meta, (const uint8_t*)el.name.data(), el.name.size());
-                align4(meta);
-            }
+        write_u32_be(meta, (uint32_t)node.elements.size());
+        for (const auto &el : node.elements) {
+            elemPH.push_back({ meta.size(), &el });
+            write_u32_be(meta, 0);               // addr
+            write_u32_be(meta, el.size);         // size
+            write_u32_be(meta, 0);               // unk1
+            write_u32_be(meta, 0);               // unk2
+            write_u16_be(meta, (uint16_t)el.name.size());
+            write_bytes(meta, (const uint8_t*)el.name.data(), el.name.size());
+            align4(meta);
         }
     }
 }
@@ -426,6 +714,7 @@ static int pack_kzb(const fs::path &extracted_dir, const fs::path &output_file)
     vector<uint32_t> folderSizes;
     std::function<void(const FolderNode&)> collectSizes = [&](const FolderNode& n){
         folderSizes.push_back(compute_total_data_size(n));
+        for (const auto &child : n.children) collectSizes(child);
     };
     for (const auto &child : root.children) collectSizes(child);
     if (!root.elements.empty()) {
@@ -481,6 +770,9 @@ static int pack_kzb(const fs::path &extracted_dir, const fs::path &output_file)
     }
 
     // Write output
+    uint32_t total_size_be = htonl(static_cast<uint32_t>(out.size()));
+    memcpy(&out[4], &total_size_be, sizeof(total_size_be));
+
     ofstream ofs(output_file, ios::binary);
     if (!ofs) {
         cerr << "Pack: failed to open output file: " << output_file << "\n";
@@ -498,27 +790,47 @@ static int pack_kzb(const fs::path &extracted_dir, const fs::path &output_file)
 int main(int argc, const char* argv[]) {
     if (argc <= 1) {
         std::cerr << "Usage:\n  " << argv[0] << " <input.kzb|kzbf>\n  "
-                  << argv[0] << " pack <extracted_dir> <output.kzb>\n";
+                  << argv[0] << " unpack <input.kzb> <output_dir>\n  "
+                  << argv[0] << " pack <extracted_dir> <output.kzb>\n  "
+                  << argv[0] << " pack <original.kzb> <extracted_dir> <output.kzb>\n";
         return 1;
     }
 
     // PACK MODE
     if (std::string(argv[1]) == "pack") {
-        if (argc != 4) {
-            std::cerr << "Pack usage: " << argv[0] << " pack <extracted_dir> <output.kzb>\n";
-            return 1;
+        if (argc == 4) {
+            fs::path in_dir = fs::absolute(argv[2]);
+            fs::path out_kzb = fs::absolute(argv[3]);
+            return pack_kzb(in_dir, out_kzb);
         }
-        fs::path in_dir  = fs::absolute(argv[2]);
-        fs::path out_kzb = fs::absolute(argv[3]);
-        return pack_kzb(in_dir, out_kzb);
+        if (argc == 5) {
+            fs::path original = fs::absolute(argv[2]);
+            fs::path in_dir = fs::absolute(argv[3]);
+            fs::path out_kzb = fs::absolute(argv[4]);
+            return pack_original_kzb(original, in_dir, out_kzb);
+        }
+        std::cerr << "Pack usage:\n  " << argv[0] << " pack <extracted_dir> <output.kzb>\n  "
+                  << argv[0] << " pack <original.kzb> <extracted_dir> <output.kzb>\n";
+        return 1;
     }
 
-    // UNPACK MODE (original behavior)
-    auto in_file = fs::absolute(fs::path(argv[1]));
-    G_extract_path = in_file.parent_path()/(in_file.filename().string()+"_unpacked");
-    fs::create_directory(G_extract_path);
+    bool explicit_unpack = std::string(argv[1]) == "unpack";
+    if (explicit_unpack && argc != 4) {
+        std::cerr << "Unpack usage: " << argv[0] << " unpack <input.kzb> <output_dir>\n";
+        return 1;
+    }
+
+    auto in_file = fs::absolute(fs::path(argv[explicit_unpack ? 2 : 1]));
+    if (explicit_unpack) {
+        G_extract_path = fs::absolute(fs::path(argv[3]));
+    } else {
+        G_extract_path = in_file.parent_path()/(in_file.filename().string()+"_unpacked");
+    }
+    fs::create_directories(G_extract_path);
 
     G_idx = 0;
+    G_resources.clear();
+    G_extract = true;
     G_bin = FTUtils::fileToVector(in_file);
 
     char sign[5] = {};
