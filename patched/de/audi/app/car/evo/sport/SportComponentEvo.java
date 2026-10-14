@@ -25,6 +25,7 @@ extends AbstractDSICarVehicleStatesAdapter {
     private volatile float boostEstimate;
     private volatile float torqueEstimate;
     private volatile float powerEstimate;
+    private volatile float idlePhase;
 
     public SportComponentEvo(ICarApplication iCarApplication) {
         super(iCarApplication, LOGCHANNEL_NAME);
@@ -120,10 +121,16 @@ extends AbstractDSICarVehicleStatesAdapter {
             int tqPct = this.clampPercent(Math.round(wotTorque * pedal / 100.0f));
             int pwPct = this.clampPercent(tqPct * rpm / 4297);
 
-            // idle: engine running, no throttle -> torque jitters randomly 8..10% (power stays 0)
+            // foot on throttle -> torque never reads below 8%
+            if (pedal > 0 && tqPct < 8) {
+                tqPct = 8;
+            }
+
+            // idle: engine running, no throttle -> torque floats 8..9% (power stays 0)
             if (pedal == 0 && rpm > 400) {
-                tqPct = 8 + (int)(Math.random() * 3);
-                this.torqueEstimate = tqPct; // snap so it jitters, not lagged
+                this.idlePhase += 0.15f;
+                tqPct = Math.round(8.5f + 0.5f * (float)Math.sin(this.idlePhase));
+                this.torqueEstimate = tqPct; // snap so the float shows
             }
 
             // power/torque: more lag on accel (0.10), unchanged fall (0.42)
@@ -195,7 +202,7 @@ extends AbstractDSICarVehicleStatesAdapter {
         return b.toString();
     }
 
-    private static final int[] rpmPoints = new int[]{750, 1000, 1400, 4000, 4500, 5000, 5500, 6000};
+    private static final int[] rpmPoints = new int[]{750, 1000, 2000, 4000, 4500, 5000, 5500, 6000};
     private static final int[] tqPercent = new int[]{  8,   50,  100,  100,   96,   92,   89,   86};
 
     private int wotTorquePercent(int rpm) {
