@@ -25,7 +25,6 @@ extends AbstractDSICarVehicleStatesAdapter {
     private volatile float boostEstimate;
     private volatile float torqueEstimate;
     private volatile float powerEstimate;
-    private volatile float idlePhase;
 
     public SportComponentEvo(ICarApplication iCarApplication) {
         super(iCarApplication, LOGCHANNEL_NAME);
@@ -121,15 +120,15 @@ extends AbstractDSICarVehicleStatesAdapter {
             int tqPct = this.clampPercent(Math.round(wotTorque * pedal / 100.0f));
             int pwPct = this.clampPercent(tqPct * rpm / 4297);
 
-            // idle: engine running, no throttle -> torque floats 8..10% (power stays 0)
+            // idle: engine running, no throttle -> torque jitters randomly 8..10% (power stays 0)
             if (pedal == 0 && rpm > 400) {
-                this.idlePhase += 0.15f;
-                tqPct = 9 + Math.round((float)Math.sin(this.idlePhase));
+                tqPct = 8 + (int)(Math.random() * 3);
+                this.torqueEstimate = tqPct; // snap so it jitters, not lagged
             }
 
-            // power/torque lag up slowly, fall ~1s (100->0 in ~10 ticks)
-            float tqA = (float)tqPct > this.torqueEstimate ? 0.20f : 0.42f;
-            float pwA = (float)pwPct > this.powerEstimate ? 0.20f : 0.42f;
+            // power/torque: more lag on accel (0.10), unchanged fall (0.42)
+            float tqA = (float)tqPct > this.torqueEstimate ? 0.10f : 0.42f;
+            float pwA = (float)pwPct > this.powerEstimate ? 0.10f : 0.42f;
             this.torqueEstimate += ((float)tqPct - this.torqueEstimate) * tqA;
             this.powerEstimate += ((float)pwPct - this.powerEstimate) * pwA;
             this.getRangeModel(602112).setValue(this.clampPercent(Math.round(this.torqueEstimate))); // torque (lagged)
@@ -139,7 +138,7 @@ extends AbstractDSICarVehicleStatesAdapter {
             if ((float)pedal < this.boostEstimate) {
                 this.boostEstimate = pedal;
             } else {
-                this.boostEstimate += ((float)pedal - this.boostEstimate) * 0.12f;
+                this.boostEstimate += ((float)pedal - this.boostEstimate) * 0.06f;
             }
             this.getRangeModel(602111).setValue(this.clampPercent(Math.round(this.boostEstimate))); // boost (lagged)
 
