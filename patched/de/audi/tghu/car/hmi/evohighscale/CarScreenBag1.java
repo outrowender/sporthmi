@@ -3558,8 +3558,8 @@ public class CarScreenBag1 {
         labelTempScale1Renderer.setFonts(carScreenFactory.getBoldFont(n, 15));
         labelTempScale1Renderer.setAlignment(2, 5);
         labelTempScale1Renderer.setLineHeight(15);
-        labelTempScale1.setBounds(12, 78, 48, 16);
-        labelTempScale1.setColorIndices(new int[]{1, 0, 4, 0});
+        labelTempScale1.setBounds(8, 82, 48, 16);
+        labelTempScale1.setColorIndices(new int[]{9, 0, 4, 0});
         labelTempScale1.setMaxLines(1);
         labelTempScale1.setText("30");
         LabelController labelTempScale2 = new LabelController();
@@ -3568,8 +3568,8 @@ public class CarScreenBag1 {
         labelTempScale2Renderer.setFonts(carScreenFactory.getBoldFont(n, 15));
         labelTempScale2Renderer.setAlignment(2, 5);
         labelTempScale2Renderer.setLineHeight(15);
-        labelTempScale2.setBounds(65, 78, 48, 16);
-        labelTempScale2.setColorIndices(new int[]{1, 0, 4, 0});
+        labelTempScale2.setBounds(61, 82, 48, 16);
+        labelTempScale2.setColorIndices(new int[]{9, 0, 4, 0});
         labelTempScale2.setMaxLines(1);
         labelTempScale2.setText("60");
         LabelController labelTempScale3 = new LabelController();
@@ -3578,8 +3578,8 @@ public class CarScreenBag1 {
         labelTempScale3Renderer.setFonts(carScreenFactory.getBoldFont(n, 15));
         labelTempScale3Renderer.setAlignment(2, 5);
         labelTempScale3Renderer.setLineHeight(15);
-        labelTempScale3.setBounds(117, 78, 48, 16);
-        labelTempScale3.setColorIndices(new int[]{1, 0, 4, 0});
+        labelTempScale3.setBounds(113, 82, 48, 16);
+        labelTempScale3.setColorIndices(new int[]{9, 0, 4, 0});
         labelTempScale3.setMaxLines(1);
         labelTempScale3.setText("90");
         LabelController labelTempScale4 = new LabelController();
@@ -3588,8 +3588,8 @@ public class CarScreenBag1 {
         labelTempScale4Renderer.setFonts(carScreenFactory.getBoldFont(n, 15));
         labelTempScale4Renderer.setAlignment(2, 5);
         labelTempScale4Renderer.setLineHeight(15);
-        labelTempScale4.setBounds(169, 78, 48, 16);
-        labelTempScale4.setColorIndices(new int[]{1, 0, 4, 0});
+        labelTempScale4.setBounds(165, 82, 48, 16);
+        labelTempScale4.setColorIndices(new int[]{9, 0, 4, 0});
         labelTempScale4.setMaxLines(1);
         labelTempScale4.setText("120");
         containerController3.add(labelTempScale1);
@@ -3603,7 +3603,7 @@ public class CarScreenBag1 {
         screenWidgetEVO.setRenderer(screenRendererHigh);
         screenRendererHigh.setFonts(carScreenFactory.getFonts(0, n));
         screenWidgetEVO.setColorIndices(new int[]{1, 2, 4, 0});
-        screenWidgetEVO.setColorPalettes(new int[][]{{-1, -16777216, -1, -1, -6645094, -5592406, -4868683, -6645094, -1}, {-1, -16777216, -65511, -5546136, -6645094, -5592406, -4868683, -6645094, -4703671}, {-1, -16777216, -19456, -6123155, -6645094, -5592406, -4868683, -6645094, -6123155}, {-1, -16777216, -14775126, -9594974, -6645094, -5592406, -4868683, -6645094, -9594974}, {-1, -16777216, -10180096, -9200779, -6645094, -5592406, -4868683, -6645094, -9200779}});
+        screenWidgetEVO.setColorPalettes(new int[][]{{-1, -16777216, -1, -1, -6645094, -5592406, -4868683, -6645094, -1, -1973791}, {-1, -16777216, -65511, -5546136, -6645094, -5592406, -4868683, -6645094, -4703671, -1973791}, {-1, -16777216, -19456, -6123155, -6645094, -5592406, -4868683, -6645094, -6123155, -1973791}, {-1, -16777216, -14775126, -9594974, -6645094, -5592406, -4868683, -6645094, -9594974, -1973791}, {-1, -16777216, -10180096, -9200779, -6645094, -5592406, -4868683, -6645094, -9200779, -1973791}});
         screenWidgetEVO.setOpenSelectionDrawerByHkReturn(true);
         screenWidgetEVO.setSmallStageType(3);
         screenWidgetEVO.setToplevelScreen(true);
