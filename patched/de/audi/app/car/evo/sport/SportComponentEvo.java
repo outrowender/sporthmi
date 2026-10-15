@@ -78,7 +78,7 @@ extends AbstractDSICarVehicleStatesAdapter {
     public void updateDynamicVehicleInfoMidFrequent(DynamicVehicleInfoMidFrequent dynamicVehicleInfoMidFrequent, int n) {
         if (n == 1) {
             this.currentMidFrequent = dynamicVehicleInfoMidFrequent;
-            Temperature temperature = new Temperature(dynamicVehicleInfoMidFrequent.gearboxOilTemperature, Temperature.CELSIUS);
+            Temperature temperature = new Temperature(dynamicVehicleInfoMidFrequent.gearboxOilTemperature, Temperature.CELSIUS); // TODO: fix temperature units
             temperature.setUseInstanceUnit(true);
             this.getMetricsModel(602117).setMetric(temperature);
         }
@@ -139,7 +139,7 @@ extends AbstractDSICarVehicleStatesAdapter {
         int calculatedBoost = Math.round((boost / maxBoost) * 100);
         this.getRangeModel(602111).setValue(calculatedBoost);
 
-        this.buildDebugText();
+        this.getLabelModel(602123).setText(this.buildDebugText());
     }
 
     private String buildDebugText() {
@@ -181,7 +181,7 @@ extends AbstractDSICarVehicleStatesAdapter {
     }
 
     public CarDSIAttributesSet[] getDSIAttributesSets() {
-        return new CarDSIAttributesSet[]{new CarDSIAttributesSet(0, new int[]{16, 12}, new int[]{17, 14})};
+        return new CarDSIAttributesSet[]{new CarDSIAttributesSet(0, new int[]{16, 12}, new int[]{17, 14, 15})};
     }
 
     public String getCurrentViewOptions() {
