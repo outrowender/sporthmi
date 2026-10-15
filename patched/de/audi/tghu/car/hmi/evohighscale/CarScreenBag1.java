@@ -3555,7 +3555,7 @@ public class CarScreenBag1 {
         LabelController labelTempScale1 = new LabelController();
         MultiLineLabelRendererHigh labelTempScale1Renderer = new MultiLineLabelRendererHigh(labelTempScale1);
         labelTempScale1.setRenderer(labelTempScale1Renderer);
-        labelTempScale1Renderer.setFonts(carScreenFactory.getFonts(20, n));
+        labelTempScale1Renderer.setFonts(carScreenFactory.getBoldFont(n, 15));
         labelTempScale1Renderer.setAlignment(2, 5);
         labelTempScale1Renderer.setLineHeight(15);
         labelTempScale1.setBounds(12, 78, 48, 16);
@@ -3565,7 +3565,7 @@ public class CarScreenBag1 {
         LabelController labelTempScale2 = new LabelController();
         MultiLineLabelRendererHigh labelTempScale2Renderer = new MultiLineLabelRendererHigh(labelTempScale2);
         labelTempScale2.setRenderer(labelTempScale2Renderer);
-        labelTempScale2Renderer.setFonts(carScreenFactory.getFonts(20, n));
+        labelTempScale2Renderer.setFonts(carScreenFactory.getBoldFont(n, 15));
         labelTempScale2Renderer.setAlignment(2, 5);
         labelTempScale2Renderer.setLineHeight(15);
         labelTempScale2.setBounds(65, 78, 48, 16);
@@ -3575,7 +3575,7 @@ public class CarScreenBag1 {
         LabelController labelTempScale3 = new LabelController();
         MultiLineLabelRendererHigh labelTempScale3Renderer = new MultiLineLabelRendererHigh(labelTempScale3);
         labelTempScale3.setRenderer(labelTempScale3Renderer);
-        labelTempScale3Renderer.setFonts(carScreenFactory.getFonts(20, n));
+        labelTempScale3Renderer.setFonts(carScreenFactory.getBoldFont(n, 15));
         labelTempScale3Renderer.setAlignment(2, 5);
         labelTempScale3Renderer.setLineHeight(15);
         labelTempScale3.setBounds(117, 78, 48, 16);
@@ -3585,7 +3585,7 @@ public class CarScreenBag1 {
         LabelController labelTempScale4 = new LabelController();
         MultiLineLabelRendererHigh labelTempScale4Renderer = new MultiLineLabelRendererHigh(labelTempScale4);
         labelTempScale4.setRenderer(labelTempScale4Renderer);
-        labelTempScale4Renderer.setFonts(carScreenFactory.getFonts(20, n));
+        labelTempScale4Renderer.setFonts(carScreenFactory.getBoldFont(n, 15));
         labelTempScale4Renderer.setAlignment(2, 5);
         labelTempScale4Renderer.setLineHeight(15);
         labelTempScale4.setBounds(169, 78, 48, 16);

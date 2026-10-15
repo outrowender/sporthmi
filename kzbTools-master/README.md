@@ -31,8 +31,9 @@ For an archive that needs its original metadata and texture table preserved, use
 ```
 ./kzbTools pack <original.kzb> <extracted_dir> <output.kzb>
 ```
-This mode rebuilds resource data from the extracted tree, updates resource offsets, texture descriptors, and the archive size, and preserves the original folder metadata. PNG metadata unsupported by the target decoder is removed during packing; changed PNGs are re-encoded with filter 0, while unchanged PNGs retain their original image data. The extracted tree should use the structure produced by `unpack`.
-When every resource fits in its original slot, the archive size and resource offsets remain unchanged. If a resource grows beyond its original slot, later resource offsets are updated.
+This mode rebuilds resource data from the extracted tree, updates resource offsets, texture descriptors, and the archive size, and preserves the original folder metadata. Unsupported ancillary PNG chunks are removed during packing. Run `png_filter0.py` separately when a changed PNG also needs filter-0 encoding. The extracted tree should use the structure produced by `unpack`.
+The archive-aware repacker supports the KZB metadata layouts recognized by the parser. KZBF files can be unpacked, but archive-aware repacking of KZBF is not supported yet.
+Resources are kept in their original locations when their updated sizes fit within the available data area. Otherwise the resource area is rebuilt and offsets are updated.
 
 To re-encode a PNG independently, run:
 ```
