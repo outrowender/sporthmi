@@ -117,10 +117,11 @@ extends AbstractDSICarVehicleStatesAdapter {
         }
         int rpm = this.currentInfoHighFrequent.engineSpeed;
         int pedal = this.currentInfoHighFrequent.acceleratorPosition;
+        float speed = this.currentInfoHighFrequent.realVehicleSpeed != null ? this.currentInfoHighFrequent.realVehicleSpeed.speedValue : 0.0f;
 
         this.updateTurbo(rpm, pedal);
         int boost = this.clampPercent(Math.round(this.turbo));
-        int torque = this.torquePercent(rpm, pedal);
+        int torque = this.torquePercent(rpm, speed);
         int power = this.clampPercent(torque * rpm / 4297);
 
         this.getRangeModel(602111).setValue(boost);   // turbo / boost
@@ -156,27 +157,20 @@ extends AbstractDSICarVehicleStatesAdapter {
         }
     }
 
-    // torque = WOT curve loaded by the lagged turbo, plus idle behaviour
-    private int torquePercent(int rpm, int pedal) {
+    // torque rides the lagged turbo; below SPEED_IDLE_MAX it holds the idle floor
+    private int torquePercent(int rpm, float speed) {
         if (rpm <= ENGINE_ON_RPM) {
             return 0; // engine off
         }
         // torque rides the lagged turbo, so it spools up AND down at the turbo rate
         int tq = Math.round(this.wotTorquePercent(rpm) * this.turbo / 100.0f);
 
-        if (pedal > 0) {
-            // on the gas: never below the idle floor
-            if (tq < IDLE_TORQUE) {
-                tq = IDLE_TORQUE;
-            }
-            return this.clampPercent(tq);
-        }
-        // off the gas, idling with the turbo bled away -> float around 7 (6..8)
-        if (rpm <= IDLE_RPM_MAX && tq < IDLE_TORQUE) {
+        // below ~10 km/h: never drop below the idle floor (floats 7..8)
+        if (speed < SPEED_IDLE_MAX && tq < IDLE_TORQUE) {
             this.idlePhase += 0.15f;
-            return IDLE_TORQUE + Math.round((float)Math.sin(this.idlePhase));
+            return IDLE_TORQUE + Math.round(0.5f + 0.5f * (float)Math.sin(this.idlePhase));
         }
-        // otherwise bleed down with the turbo (reaches 0 when coasting above idle)
+        // moving: ride the turbo (lifting off bleeds down to 0)
         return this.clampPercent(tq);
     }
 
@@ -230,8 +224,8 @@ extends AbstractDSICarVehicleStatesAdapter {
     }
 
     private static /*final*/ int ENGINE_ON_RPM = 400;        // above this = engine running
-    private static /*final*/ int IDLE_RPM_MAX = 1100;        // at/below this (off gas) = idling
-    private static /*final*/ int IDLE_TORQUE = 7;            // idle torque floor, floats 6..8
+    private static /*final*/ float SPEED_IDLE_MAX = 6.0f;   // below this km/h = idle, torque floored at 7
+    private static /*final*/ int IDLE_TORQUE = 7;            // idle torque floor, floats 7..8
     private static /*final*/ float TURBO_SPOOL_UP_MS = 2000.0f;   // 0->100 in ~2 s
     private static /*final*/ float TURBO_SPOOL_DOWN_MS = 1000.0f; // 100->0 in ~1 s
 
