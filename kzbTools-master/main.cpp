@@ -452,21 +452,29 @@ static int pack_original_kzb(const fs::path &original_file,
     }
 
     std::vector<uint32_t> new_addresses(G_resources.size());
-    bool fits_original_slots = true;
-    for (size_t i = 0; i < G_resources.size(); ++i) {
-        fits_original_slots &= new_sizes[i] <= G_resources[i].size;
+    uint64_t placed_end = data_start;
+    for (size_t index : address_order) {
+        const auto &resource = G_resources[index];
+        uint64_t placed_address = std::max<uint64_t>(resource.address, placed_end);
+        if (placed_address > UINT32_MAX) {
+            cerr << "Pack: resource offset exceeds the KZB limit.\n";
+            return 3;
+        }
+        new_addresses[index] = static_cast<uint32_t>(placed_address);
+        placed_end = placed_address + sizeof(uint32_t) + new_sizes[index];
     }
 
     std::vector<uint8_t> output;
-    if (fits_original_slots) {
+    if (placed_end <= previous_end) {
         output = G_bin;
         for (size_t i = 0; i < G_resources.size(); ++i) {
             const auto &resource = G_resources[i];
-            size_t payload = resource.address + sizeof(uint32_t);
-            std::copy(contents[i].begin(), contents[i].end(), output.begin() + payload);
-            std::fill(output.begin() + payload + new_sizes[i],
-                      output.begin() + payload + resource.size, 0);
-            new_addresses[i] = resource.address;
+            size_t destination = new_addresses[i];
+            std::copy(G_bin.begin() + resource.address,
+                      G_bin.begin() + resource.address + sizeof(uint32_t),
+                      output.begin() + destination);
+            std::copy(contents[i].begin(), contents[i].end(),
+                      output.begin() + destination + sizeof(uint32_t));
         }
     } else {
         output.assign(G_bin.begin(), G_bin.begin() + data_start);

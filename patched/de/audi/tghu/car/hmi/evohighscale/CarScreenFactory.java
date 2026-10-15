@@ -97,6 +97,10 @@ extends AbstractScreenFactory {
         return FontFactory.getFonts(n, n2, this.getFramework());
     }
 
+    IWrappedFont[] getBoldFont(int n2, int size) {
+        return new IWrappedFont[]{(IWrappedFont)((HMITerminalImpl)this.getFramework().getHMIService().getHMITerminal(n2)).getFontLoader().getFont(FontLoader.STANDARD_FONT_BOLD, 1, size)};
+    }
+
     public static HMIModel getModel(int n, int n2) throws NoSuchElementException {
         HMIModel hMIModel = hmiService.getModel(n2, n);
         if (hMIModel == null) {
