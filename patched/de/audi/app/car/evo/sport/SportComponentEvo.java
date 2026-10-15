@@ -161,21 +161,23 @@ extends AbstractDSICarVehicleStatesAdapter {
         if (rpm <= ENGINE_ON_RPM) {
             return 0; // engine off
         }
+        // torque rides the lagged turbo, so it spools up AND down at the turbo rate
+        int tq = Math.round(this.wotTorquePercent(rpm) * this.turbo / 100.0f);
+
         if (pedal > 0) {
-            // on the gas: torque spools with the turbo, never below the idle floor
-            int tq = Math.round(this.wotTorquePercent(rpm) * this.turbo / 100.0f);
+            // on the gas: never below the idle floor
             if (tq < IDLE_TORQUE) {
                 tq = IDLE_TORQUE;
             }
             return this.clampPercent(tq);
         }
-        // off the gas
-        if (rpm <= IDLE_RPM_MAX) {
-            // idling: float around 7 (6..8)
+        // off the gas, idling with the turbo bled away -> float around 7 (6..8)
+        if (rpm <= IDLE_RPM_MAX && tq < IDLE_TORQUE) {
             this.idlePhase += 0.15f;
             return IDLE_TORQUE + Math.round((float)Math.sin(this.idlePhase));
         }
-        return 0; // coasting above idle: no torque
+        // otherwise bleed down with the turbo (reaches 0 when coasting above idle)
+        return this.clampPercent(tq);
     }
 
     private String buildDebugText() {
