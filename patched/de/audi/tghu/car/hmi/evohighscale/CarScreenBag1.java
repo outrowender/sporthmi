@@ -3558,7 +3558,7 @@ public class CarScreenBag1 {
         labelTempScale1Renderer.setFonts(carScreenFactory.getBoldFont(n, 17));
         labelTempScale1Renderer.setAlignment(2, 5);
         labelTempScale1Renderer.setLineHeight(17);
-        labelTempScale1.setBounds(9, 82, 48, 18);
+        labelTempScale1.setBounds(10, 82, 48, 18);
         labelTempScale1.setColorIndices(new int[]{9, 0, 4, 0});
         labelTempScale1.setMaxLines(1);
         labelTempScale1.setText("30");
