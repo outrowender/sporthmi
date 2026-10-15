@@ -122,7 +122,7 @@ extends AbstractDSICarVehicleStatesAdapter {
             int pwPct = this.clampPercent(tqPct * rpm / 4297);
 
             // foot on throttle -> torque never reads below 8%
-            if (pedal > 0 && tqPct < 8) {
+            if (pedal > 0 && tqPct < 8 && rpm > 400) {
                 tqPct = 8;
             }
 
