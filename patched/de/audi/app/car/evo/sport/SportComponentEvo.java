@@ -22,10 +22,9 @@ extends AbstractDSICarVehicleStatesAdapter {
     private volatile SemiStaticDataViewOptions currentSemiStaticDataViewOptions;
     private volatile DynamicVehicleInfoHighFrequentViewOptions currentDynamicVehicleInfoHighFrequentViewOptions;
     private volatile DynamicVehicleInfoMidFrequent currentMidFrequent;
-    private volatile float boostEstimate;
-    private volatile float torqueEstimate;
-    private volatile float powerEstimate;
-    private volatile float idlePhase;
+    private volatile float turbo;     // lagged boost 0..100, follows the pedal
+    private volatile float idlePhase; // drives the idle torque float
+    private volatile long lastTick;   // last update time (ms), for turbo lag timing
 
     public SportComponentEvo(ICarApplication iCarApplication) {
         super(iCarApplication, LOGCHANNEL_NAME);
@@ -113,44 +112,70 @@ extends AbstractDSICarVehicleStatesAdapter {
     }
 
     private void updateVisibleValues() {
-        if (this.currentInfoHighFrequent != null) {
-            int rpm = this.currentInfoHighFrequent.engineSpeed;
-            int pedal = this.currentInfoHighFrequent.acceleratorPosition;
-
-            int wotTorque = this.wotTorquePercent(rpm);
-            int tqPct = this.clampPercent(Math.round(wotTorque * pedal / 100.0f));
-            int pwPct = this.clampPercent(tqPct * rpm / 4297);
-
-            // foot on throttle -> torque never reads below 8%
-            if (pedal > 0 && tqPct < 8 && rpm > 400) {
-                tqPct = 8;
-            }
-
-            // idle: engine running, no throttle -> torque floats 8..9% (power stays 0)
-            if (pedal == 0 && rpm > 400) {
-                this.idlePhase += 0.15f;
-                tqPct = Math.round(8.5f + 0.5f * (float)Math.sin(this.idlePhase));
-                this.torqueEstimate = tqPct; // snap so the float shows
-            }
-
-            // power/torque: more lag on accel (0.10), unchanged fall (0.42)
-            float tqA = (float)tqPct > this.torqueEstimate ? 0.10f : 0.42f;
-            float pwA = (float)pwPct > this.powerEstimate ? 0.10f : 0.42f;
-            this.torqueEstimate += ((float)tqPct - this.torqueEstimate) * tqA;
-            this.powerEstimate += ((float)pwPct - this.powerEstimate) * pwA;
-            this.getRangeModel(602112).setValue(this.clampPercent(Math.round(this.torqueEstimate))); // torque (lagged)
-            this.getRangeModel(602115).setValue(this.clampPercent(Math.round(this.powerEstimate))); // power (lagged)
-
-            // simulated turbo lag: spool up slowly, dump to pedal instantly on lift
-            if ((float)pedal < this.boostEstimate) {
-                this.boostEstimate = pedal;
-            } else {
-                this.boostEstimate += ((float)pedal - this.boostEstimate) * 0.06f;
-            }
-            this.getRangeModel(602111).setValue(this.clampPercent(Math.round(this.boostEstimate))); // boost (lagged)
-
-            //this.getLabelModel(602123).setText(this.buildDebugText());
+        if (this.currentInfoHighFrequent == null) {
+            return;
         }
+        int rpm = this.currentInfoHighFrequent.engineSpeed;
+        int pedal = this.currentInfoHighFrequent.acceleratorPosition;
+
+        this.updateTurbo(rpm, pedal);
+        int boost = this.clampPercent(Math.round(this.turbo));
+        int torque = this.torquePercent(rpm, pedal);
+        int power = this.clampPercent(torque * rpm / 4297);
+
+        this.getRangeModel(602111).setValue(boost);   // turbo / boost
+        this.getRangeModel(602112).setValue(torque);  // torque
+        this.getRangeModel(602115).setValue(power);   // power
+
+        //this.getLabelModel(602123).setText(this.buildDebugText());
+    }
+
+    // turbo follows the pedal (0..100) with lag: ~2 s to spool up, ~1 s to fall
+    private void updateTurbo(int rpm, int pedal) {
+        long now = System.currentTimeMillis();
+        long dt = now - this.lastTick;
+        this.lastTick = now;
+        if (dt <= 0L) {
+            return;
+        }
+        if (dt > 500L) {
+            dt = 500L; // ignore long gaps between updates
+        }
+        // engine off -> no boost, only let it bleed down
+        float target = rpm <= ENGINE_ON_RPM ? 0.0f : (float)pedal;
+        if (target > this.turbo) {
+            this.turbo += 100.0f * (float)dt / TURBO_SPOOL_UP_MS;
+            if (this.turbo > target) {
+                this.turbo = target;
+            }
+        } else {
+            this.turbo -= 100.0f * (float)dt / TURBO_SPOOL_DOWN_MS;
+            if (this.turbo < target) {
+                this.turbo = target;
+            }
+        }
+    }
+
+    // torque = WOT curve loaded by the lagged turbo, plus idle behaviour
+    private int torquePercent(int rpm, int pedal) {
+        if (rpm <= ENGINE_ON_RPM) {
+            return 0; // engine off
+        }
+        if (pedal > 0) {
+            // on the gas: torque spools with the turbo, never below the idle floor
+            int tq = Math.round(this.wotTorquePercent(rpm) * this.turbo / 100.0f);
+            if (tq < IDLE_TORQUE) {
+                tq = IDLE_TORQUE;
+            }
+            return this.clampPercent(tq);
+        }
+        // off the gas
+        if (rpm <= IDLE_RPM_MAX) {
+            // idling: float around 7 (6..8)
+            this.idlePhase += 0.15f;
+            return IDLE_TORQUE + Math.round((float)Math.sin(this.idlePhase));
+        }
+        return 0; // coasting above idle: no torque
     }
 
     private String buildDebugText() {
@@ -201,6 +226,12 @@ extends AbstractDSICarVehicleStatesAdapter {
         }
         return b.toString();
     }
+
+    private static /*final*/ int ENGINE_ON_RPM = 400;        // above this = engine running
+    private static /*final*/ int IDLE_RPM_MAX = 1100;        // at/below this (off gas) = idling
+    private static /*final*/ int IDLE_TORQUE = 7;            // idle torque floor, floats 6..8
+    private static /*final*/ float TURBO_SPOOL_UP_MS = 2000.0f;   // 0->100 in ~2 s
+    private static /*final*/ float TURBO_SPOOL_DOWN_MS = 1000.0f; // 100->0 in ~1 s
 
     private static final int[] rpmPoints = new int[]{750, 1000, 2000, 4000, 4500, 5000, 5500, 6000};
     private static final int[] tqPercent = new int[]{  8,   50,  100,  100,   96,   92,   89,   86};

@@ -3558,7 +3558,7 @@ public class CarScreenBag1 {
         labelTempScale1Renderer.setFonts(carScreenFactory.getBoldFont(n, 17));
         labelTempScale1Renderer.setAlignment(2, 5);
         labelTempScale1Renderer.setLineHeight(17);
-        labelTempScale1.setBounds(8, 82, 48, 18);
+        labelTempScale1.setBounds(9, 82, 48, 18);
         labelTempScale1.setColorIndices(new int[]{9, 0, 4, 0});
         labelTempScale1.setMaxLines(1);
         labelTempScale1.setText("30");
@@ -3588,7 +3588,7 @@ public class CarScreenBag1 {
         labelTempScale4Renderer.setFonts(carScreenFactory.getBoldFont(n, 17));
         labelTempScale4Renderer.setAlignment(2, 5);
         labelTempScale4Renderer.setLineHeight(17);
-        labelTempScale4.setBounds(165, 82, 48, 18);
+        labelTempScale4.setBounds(166, 82, 48, 18);
         labelTempScale4.setColorIndices(new int[]{9, 0, 4, 0});
         labelTempScale4.setMaxLines(1);
         labelTempScale4.setText("120");
