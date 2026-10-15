@@ -108,19 +108,17 @@ extends AbstractDSICarVehicleStatesAdapter {
     }
 
     private void calculateMissingStaticValues() {
-        if (this.currentSemiStaticData == null || this.currentSemiStaticData.engineDisplacement == null) { 
+        if (this.currentSemiStaticData == null) { 
             return; 
         }
 
-        switch (this.currentSemiStaticData.engineDisplacement.toString()) {
-            case "2.0": 
-                maxSimulatedTorque = 350;
-                break;
-            default:
-                maxSimulatedTorque = 250;
-                break;
+        if (this.currentSemiStaticData.engineDisplacement == 2.0f) {
+            maxSimulatedTorque = 350;
+        } else {
+            maxSimulatedTorque = 250;
         }
     }
+
 
     private void updateVisibleValues() {
         if (this.currentInfoHighFrequent == null || this.currentSemiStaticData == null) { 
@@ -180,5 +178,24 @@ extends AbstractDSICarVehicleStatesAdapter {
             b.append("currentGear=").append(m.currentGear);
         }
         return b.toString();
+    }
+
+    public CarDSIAttributesSet[] getDSIAttributesSets() {
+        return new CarDSIAttributesSet[]{new CarDSIAttributesSet(0, new int[]{16, 12}, new int[]{17, 14})};
+    }
+
+    public String getCurrentViewOptions() {
+        if (this.currentDynamicVehicleInfoHighFrequentViewOptions != null && this.currentSemiStaticDataViewOptions != null) {
+            return this.currentDynamicVehicleInfoHighFrequentViewOptions.toString() + this.currentSemiStaticDataViewOptions.toString();
+        }
+        return "not yet received";
+    }
+    
+    public int getID() {
+        return 52;
+    }
+
+    public String getName() {
+        return "SportHMI";
     }
 }
