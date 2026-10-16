@@ -3614,7 +3614,7 @@ public class CarScreenBag1 {
         screenWidgetEVO.add(debugLabelController);
         screenWidgetEVO.add(debugLabelController2);
         screenWidgetEVO.setViews(new int[]{138, 602111, 602112, 602115, 602117, 602123, 602128}, new HMIView[][]{{statusBarStubController}, {chargingAirPressureGaugeController}, {circularGaugeController2}, {circularGaugeController}, {oilTemperatureGaugeController}, {debugLabelController}, {debugLabelController2}});
-        screenWidgetEVO.setConditionWidgets(new int[]{601056, 602118}, new AbstractWidget[][]{{screenWidgetEVO}, {containerController2}});
+        screenWidgetEVO.setConditionWidgets(new int[]{601056}, new AbstractWidget[][]{{screenWidgetEVO}});
         return screenWidgetEVO;
     }
 
