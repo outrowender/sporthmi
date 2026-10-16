@@ -132,7 +132,7 @@ extends AbstractDSICarVehicleStatesAdapter {
         int maxPower = this.currentSemiStaticData.maxOutputPower;
         int calculatedPower = Math.round((power / (float)maxPower) * 100);
         
-        float boost = this.currentInfoHighFrequent.relChargingAirPressure;
+        int boost = this.currentInfoHighFrequent.relChargingAirPressure;
         
         this.getRangeModel(602112).setValue(calculatedTorque);
         this.getRangeModel(602115).setValue(calculatedPower);
