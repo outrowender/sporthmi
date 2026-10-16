@@ -58,7 +58,7 @@ extends AbstractDSICarVehicleStatesAdapter {
         }
         if (n == 1) {
             this.currentDynamicVehicleInfoHighFrequentViewOptions = dynamicVehicleInfoHighFrequentViewOptions;
-            this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(606, 0);
+            this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(606, this.getMenuEntryVisibilityState(dynamicVehicleInfoHighFrequentViewOptions.currentTorque));
             this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(603, this.getMenuEntryVisibilityState(dynamicVehicleInfoHighFrequentViewOptions.currentOutputPower));
             this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(608, this.getMenuEntryVisibilityState(dynamicVehicleInfoHighFrequentViewOptions.relChargingAirPressure));
             this.primaryAttributeReceived(0, 12);
@@ -90,7 +90,7 @@ extends AbstractDSICarVehicleStatesAdapter {
         }
         if (n == 1) {
             this.currentSemiStaticDataViewOptions = semiStaticDataViewOptions;
-            this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(605, 0);
+            this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(605, this.getMenuEntryVisibilityState(semiStaticDataViewOptions.maxTorque));
             this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(602, this.getMenuEntryVisibilityState(semiStaticDataViewOptions.maxOutputPower));
             this.primaryAttributeReceived(0, 16);
         }
@@ -112,6 +112,11 @@ extends AbstractDSICarVehicleStatesAdapter {
             return; 
         }
 
+        if (this.currentSemiStaticData.maxTorque > 0) {
+            maxSimulatedTorque = this.currentSemiStaticData.maxTorque;
+            return;
+        }
+
         if (this.currentSemiStaticData.engineDisplacement == 2.0f) {
             maxSimulatedTorque = 350;
         } else {
@@ -126,11 +131,11 @@ extends AbstractDSICarVehicleStatesAdapter {
         }
 
         int torque = this.currentInfoHighFrequent.currentTorque;
-        int calculatedTorque = Math.round(((float)torque / maxSimulatedTorque) * 100);
-        
+        int calculatedTorque = torque * 100 / maxSimulatedTorque;
+
         float power = this.currentInfoHighFrequent.currentOutputPower;
         int maxPower = this.currentSemiStaticData.maxOutputPower;
-        int calculatedPower = Math.round((power / (float)maxPower) * 100);
+        int calculatedPower = Math.round(power * 100.0f / (float)maxPower);
         
         int boost = this.currentInfoHighFrequent.relChargingAirPressure;
         
@@ -198,3 +203,4 @@ extends AbstractDSICarVehicleStatesAdapter {
         return "SportHMI";
     }
 }
+
