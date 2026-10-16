@@ -1,0 +1,15 @@
+#pragma profilepragma blendoperation(gl_FragColor, GL_FUNC_ADD, GL_ONE, GL_ONE_MINUS_SRC_ALPHA, GL_FUNC_ADD, GL_ONE, GL_ONE_MINUS_SRC_ALPHA)
+//simple shader with a solid color, cut out by an alpha provided in a greyscale texture
+
+precision lowp float;
+
+uniform sampler2D Texture;
+uniform float BlendIntensity;
+varying mediump vec2 vTexCoord; //main uv coordinates
+
+
+void main()
+{
+   float alpha = texture2D(Texture, vTexCoord).r;
+   gl_FragColor.rgba = vec4(1.0,1.0,1.0,1.0) * alpha * BlendIntensity;
+}

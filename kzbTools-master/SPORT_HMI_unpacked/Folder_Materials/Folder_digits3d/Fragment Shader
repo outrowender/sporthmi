@@ -1,0 +1,14 @@
+#pragma profilepragma blendoperation(gl_FragColor, GL_FUNC_ADD, GL_ONE, GL_ONE_MINUS_SRC_ALPHA, GL_FUNC_ADD, GL_ONE, GL_ONE_MINUS_SRC_ALPHA)
+
+precision lowp float;
+
+uniform sampler2D digit_texture1;
+varying mediump vec2 vTexCoord; //main uv coordinates
+uniform float BlendIntensity;
+void main()
+{
+  
+  vec2 lookup = texture2D(digit_texture1, vTexCoord).ra;
+   
+   gl_FragColor.rgba = lookup.rrrg * BlendIntensity;
+}

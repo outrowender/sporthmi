@@ -1,0 +1,23 @@
+attribute vec3 kzPosition;
+attribute vec2 kzTextureCoordinate0;
+
+uniform highp mat4 kzProjectionCameraWorldMatrix;
+uniform highp mat4 kzWorldMatrix;
+
+
+
+varying mediump vec3 vTexCoord;
+
+
+
+
+void main()
+{
+   precision mediump float;
+   
+
+   vTexCoord.xy = kzTextureCoordinate0;
+   vTexCoord.z = kzPosition.z;
+
+   gl_Position = kzProjectionCameraWorldMatrix * vec4(vec3(kzPosition.xy,0.0), 1.0);
+}
