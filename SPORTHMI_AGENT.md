@@ -45,10 +45,11 @@ Four sub-goals, with status:
 - **Workspace root:** `MU1326_lsd_java/` — decompiled `LSD.jxe` (CFR 0.152). Compiled with
   `javac -source 1.2 -target 1.2` → **keep all edits Java 1.2-compatible** (no generics,
   autoboxing, enhanced-for, etc.).
-- **Build script:** `patched/build.sh` recompiles only a FILES list. Currently includes:
-  `CarEvoMenuEntryStructure`, `SportComponentEvo`, `SportKombiComponentEvo`.
-  **Must also add** when their patches are active: `CarScreenBag1`, `CarSMMInitStates`,
-  `CarSMMInitTransitions`.
+- **Build script:** `patched/build.sh` recompiles only a FILES list. **Current FILES (in order):**
+  `CarModelBank`, `OilTemperatureGaugeController`, `OilTemperatureGaugeRendererHigh`,
+  `CarScreenFactory`, `CarScreenBag1`, `CarSMMInitStates`, `CarSMMInitTransitions`,
+  `SportComponentEvo`, `SportKombiComponentEvo`. Build: `cd patched; bash build.sh`
+  (→ `SportHMI.jar`).
 - **ID namespaces** (all in the `6000xx` range, mutually distinct): state IDs, event IDs,
   transition IDs, screen IDs, choice-model IDs, bitmap IDs, text/label IDs.
 
@@ -187,10 +188,26 @@ Menu-entry→model map (`CarEvoMenuEntryStructure`): 608 SPORT_AIR_PRESSURE→**
 **This car:** torque(602118)+oiltemp(602113) available; power(602116)+boost(602114) NOT.
 
 ### 7.3 PATCH APPLIED — ungate all 4
-`cARSPORTMAIN` `setConditionWidgets` changed from
-`{601056, 602113, 602114, 602116, 602118}` (5 groups) to
-`{601056, 602113, 602118}` (3 groups) — removing 602116 (power) and 602114 (boost) so those
-gauges always render (read 0 if no data). Keep the `int[]` and `AbstractWidget[][]` aligned.
+`cARSPORTMAIN` `setConditionWidgets` is now reduced to **`{601056}` only** (one group,
+binding `screenWidgetEVO`). All gauge-container condition bindings (602113 oil-temp,
+602114 boost, 602116 power, **602118 torque**) were removed, so every gauge container stays
+at its default-visible state on every car regardless of per-car DSI view-options. Keep the
+`int[]` and `AbstractWidget[][]` arrays length-aligned.
+
+```java
+screenWidgetEVO.setConditionWidgets(new int[]{601056}, new AbstractWidget[][]{{screenWidgetEVO}});
+```
+
+**Why this is the real gate (key mechanism — do NOT chase menu entries):** gauge *widget*
+visibility on this screen is driven by **screen condition widgets** (`setConditionWidgets` →
+handler `CarScreenFactory.executeConditioncARSPORTMAINScreen`), **NOT** by the
+`MenuEntryRegistry` / `updateMenuEntryVisibility` path. Forcing menu entries (606/603/608/…)
+visible does nothing to the gauges. The torque container (`containerController2`, holding
+`circularGaugeController2`/model 602112) was hidden on cars where choice model **602118 != 1**
+— that is exactly why only the torque meter disappeared while boost/power/oil-temp (not wired
+in the patched `setConditionWidgets`) stayed visible. `601056` = `CAR_VIEWSTATE_CHOICE`
+(`IEvoCarModelBank`), a ChoiceModel holding the active car view-state; in this screen it only
+toggles Return-key drawer behavior (`!= 604147`), not visibility — safe to keep.
 
 ---
 
@@ -341,8 +358,9 @@ difference is **gateway/ECU routing + coding**, not hardware. So the A3 should b
       value**, mirroring the Golf 1.4 TSI. If routable → real boost with zero code change.
 - [ ] If not routable: decide between external OBD bridge (path 2) or leave boost empty.
 - [ ] Verify/retain the oil-temp `setBCOilTemperature(true)` + coolant-fallback patch on device.
-- [ ] Keep `build.sh` FILES in sync: `CarScreenBag1`, `CarSMMInitStates`, `CarSMMInitTransitions`,
-      `CarEvoMenuEntryStructure`, `SportComponentEvo`, `SportKombiComponentEvo`.
+- [ ] Keep `build.sh` FILES in sync: `CarModelBank`, `OilTemperatureGaugeController`,
+      `OilTemperatureGaugeRendererHigh`, `CarScreenFactory`, `CarScreenBag1`, `CarSMMInitStates`,
+      `CarSMMInitTransitions`, `SportComponentEvo`, `SportKombiComponentEvo`.
 - [ ] Fine-tune the `wotTorque` curve and `4297` divisor against a dyno/reference for the exact PS.
 
 ---
@@ -381,3 +399,181 @@ difference is **gateway/ECU routing + coding**, not hardware. So the A3 should b
 4. Prefer **gateway coding** (Golf-parity) over native hooks for real boost.
 5. Before editing, **re-read current file state** — the user frequently reverts edits.
 6. Keep `build.sh` FILES in sync with active patches.
+
+---
+
+## 16. SESSION CHANGELOG (2026-10)
+
+Chronological record of everything done in the latest session. Newest topics grouped by area.
+
+### 16.1 Gauge value logic — reverted to REAL DSI values
+`SportComponentEvo.updateVisibleValues()` currently reads the **real** DSI fields (an earlier
+full turbo/torque/power *simulation* from pedal+RPM was written then reverted by the user):
+- `torque% = currentTorque * 100 / maxSimulatedTorque`
+- `power% = round(currentOutputPower * 100 / maxOutputPower)`
+- `boost  = relChargingAirPressure`
+- `maxSimulatedTorque` set in `calculateMissingStaticValues()`: uses `maxTorque` if >0, else
+  350 when `engineDisplacement == 2.0f`, else 250.
+- `getDSIAttributesSets()` = `CarDSIAttributesSet(0, {16,12}, {17,14,15})`.
+- Debug label (model 602123) still rendered via `buildDebugText()` (dumps RPM, pedal, speed,
+  boost rel/abs, power, torque, oil temp, gear). `vehicleSpeed`/`realVehicleSpeed` are
+  `CarBCSpeed` with a **float** `speedValue` (km/h), `speedValueState`, `speedUnit`.
+- NOTE: if the throttle/RPM-based simulation is reintroduced, it lived in the same method with
+  a time-lagged turbo model (2 s spool-up / 1 s spool-down) feeding a `wotTorquePercent(rpm)`
+  table, plus a speed-based idle floor (below ~10 km/h torque never drops under 7%).
+
+### 16.2 Torque meter "missing on some cars" — root cause + fix
+- Symptom: torque gauge absent on certain cars; boost/power/oil-temp fine.
+- **False trails:** menu-entry visibility (`updateMenuEntryVisibility(606,…)`) and forcing all
+  SPORT menu entries visible — **neither works**; the MenuEntryRegistry path doesn't gate the
+  on-screen gauges (and coding gate `isMenuDisplayActivated(52)` can block registration anyway).
+- **Real cause:** condition widget **602118** bound to the torque container in
+  `cARSPORTMAIN.setConditionWidgets`; handler hides it when model `602118 != 1`.
+- **Fix:** removed that binding (now `setConditionWidgets(new int[]{601056}, {{screenWidgetEVO}})`).
+  See §7.3. Repo memory: `/memories/repo/sporthmi_screen.md`.
+
+### 16.3 Oil-temperature scale labels (30/60/90/120)
+Added 4 on-screen numeric labels along the oil-temp gauge in `cARSPORTMAIN`:
+- `labelTempScale1..4` = `MultiLineLabelRendererHigh`, children of **containerController3**
+  (the oil-temp/boost container at 500,96,280,288) so they animate with the screen.
+- Each: `setFonts(carScreenFactory.getBoldFont(n,17))`, `setAlignment(2,5)`, `setLineHeight(17)`,
+  `setBounds(x,82,48,18)` with x = 10/61/113/166, `setColorIndices({9,0,4,0})`, `setMaxLines(1)`,
+  text "30"/"60"/"90"/"120".
+- Registered via `oilTemperatureGaugeController.setScaleLabels(new LabelController[]{…})`.
+- **Palette:** appended a 10th column (index 9) `-1973791` (=0xFFE1E1E1, light grey) to all 5
+  rows of the screen's `setColorPalettes` so `colorIndices[0]=9` resolves to that grey.
+- **New helper** `CarScreenFactory.getBoldFont(int n, int size)` →
+  `fontLoader.getFont(FontLoader.STANDARD_FONT_BOLD, 1, size)` (built-in `getFonts` sizes are
+  fixed; `setLineHeight` only sizes the line box, not the glyph — custom size needs this helper).
+- `OilTemperatureGaugeController` got `scaleLabels` + `CELSIUS_SCALE={30,60,90,120}` /
+  `FAHRENHEIT_SCALE={140,190,240,290}` + `updateScaleLabels()` (picks set by `temperatureUnit`).
+
+### 16.4 Oil-temp gauge Celsius range
+`OilTemperatureGaugeRendererHigh`: Celsius range widened to **min=15 / max=135** (both the
+constants and the `case 1:` literals `f3=15.0f`, `f2=135.0f`).
+
+### 16.5 HMI label/font facts (reference)
+- `CarScreenFactory.getFonts(i,n)` built-in px sizes: 0=29, 1=23, 4=29 bold, 11=19, 15=17,
+  19=20 bold, 20=15 (smallest single), 21=16, 22=18.
+- Label color resolves as `activeColorPlate[colorIndices[0]]` (a palette column); no direct-ARGB
+  path. `colorIndices[0]=0` → white (-1).
+- No per-character letter-spacing in `MultiLineLabelRendererHigh`/`LabelRendererHigh`
+  (glyph advances are font-baked).
+
+### 16.6 KZB texture repacker — `kzb/kzb_repack.py`
+Size-safe repacker for the monolithic big-endian `SPORT_HMI.kzb` (Kanzi, kzb constant 21 =
+`IKzbMappingHelper.SPORTHMI_KZB`):
+- Header `@0x00` magic `.KZB`; **`@0x04` = TOTAL FILE SIZE** (loader trusts it — MUST be patched
+  on repack, this was the "textures silently don't load" bug); `@0x1C` = 16-byte build GUID
+  (not a content hash).
+- Per-texture 16-byte descriptor (near 0x1230) right before `u16 nameLen + name`:
+  `[u32 chunkOffset=sig-4][u32 chunkSize=PNG bytelen][u32 type=10][u32 flags=0]`; textures packed
+  `[4-byte 00000000 sep][PNG]…` + trailing footer; offsets ABSOLUTE.
+- The car's embedded PNG decoder accepts **bare PNGs only** (IHDR/IDAT/IEND); ancillary chunks
+  (iCCP/eXIf/iTXt) cause **silent** decode failure → repacker auto-strips them (keeps
+  {IHDR,PLTE,IDAT,IEND,tRNS}), patches descriptors + `@0x04`, self-validates. Proven byte-exact
+  round-trip. Usage: `python3 kzb_repack.py IN.kzb OUT.kzb name.png=new.png` or `--list`.
+- `kzbTools` (C++) unpack/pack is unreliable for this variant (wrong hardcoded root offset,
+  zeroes 0x4C, wrong magic, never sets 0x04) — prefer `kzb_repack.py`. Full resource set was
+  extracted via a Python descriptor scan into `kzb/SPORT_HMI_textures/` and `kzb/SPORT_HMI_all/`.
+- Repo memory with full kzb/font/label facts: `/memories/repo/kzb_format.md`.
+
+### 16.7 build.sh FILES now also includes
+`CarModelBank`, `OilTemperatureGaugeController`, `OilTemperatureGaugeRendererHigh`,
+`CarScreenFactory` (for the scale-label + gauge-range + getBoldFont patches).
+
+---
+
+## 17. SPORT MENU ARCHITECTURE (end-to-end)
+
+How a tap on **"Sportanzeige"** turns into moving gauges. Four decoupled layers: **(A) menu
+drawer**, **(B) state machine**, **(C) screen + widgets**, **(D) DSI data → models**. Audi
+crippled one thing in each of A/B and starved D; the patches restore each independently.
+
+```
+ USER taps "Sportanzeige" in Car drawer
+        │
+ (A) DRAWER   cARSEL (screen 600043, CarScreenBag1)
+        │     menuItemController13  ── internalID 600772, label 605468, icons {600721..723}
+        │        ├─ VisibilityProxyWidget (modelID 602119)  → controls item visibility
+        │        └─ setEvent(600338)  LD_CAR_SEL_SPORTDISPLAY
+        ▼
+ (B) STATE MACHINE   AbstractSMM (arrayIndex = ID − 600000)
+        │     root state 604167 (Car-drawer nav) : event 600338 → transition 600008
+        │     transition 600008 → leaf state 604147  (entry action setCarContext(9))
+        ▼
+ (C) SCREEN   leaf 604147 → DHS/screen 600289  cARSPORTMAIN (CarScreenBag1)
+        │     4 gauge controllers bound to range/metrics models:
+        │        circularGaugeController   602115  power
+        │        circularGaugeController2  602112  torque
+        │        oilTemperatureGaugeController 602117  oil temp (+ scale labels 30/60/90/120)
+        │        chargingAirPressureGaugeController 602111  boost bar
+        │     visibility = setConditionWidgets → executeConditioncARSPORTMAINScreen (NOT MER)
+        ▲
+ (D) DATA   SportComponentEvo / SportKombiComponentEvo  (DSI consumers)
+        │     subscribe DSICarVehicleStates attrs (viewopts 16/12, data 17/14/15)
+        │     updateVisibleValues(): currentTorque→602112, currentOutputPower→602115,
+        │                            relChargingAirPressure→602111 ; oil temp→602117
+        └─ native DSI provider (libdsi_car.so on RCC board) feeds pre-digested bytes
+```
+
+### 17.1 Layer A — the Car drawer (visibility)
+- The Car menu is a **`DrawerController`** built by `cARSEL`. Each row is a `MenuItemController`
+  whose visibility is driven by a **`VisibilityProxyWidget`** bound to an availability **choice
+  model** via `drawerController.setViews(modelId → {proxy})`.
+- Sport row = `menuItemController13` (internalID **600772**). Audi crippled it 3 ways: default
+  `setVisible(false)`, no `setEvent`, and its proxy had no `setModelID` / wasn't in `setViews`.
+- **Patch:** bind proxy to **602119** (`MAIN_MENU_SPORT_AVAILABLE_CHOICE`), `setEvent(600338)`,
+  drop `setVisible(false)`, append `602119 → {proxy}` to `setViews`. (See §5.)
+- Gate upstream of all this: coding channel **52** (`[LO]_menu_display_SportHMI`) must be ON, else
+  `MenuEntryRegistry.registerMenuEntry(…, 52)` refuses and nothing registers.
+
+### 17.2 Layer B — navigation (state machine)
+- `AbstractSMM` runs the menu SM; every state/event/transition ID maps to an array via
+  `arrayIndex = ID − 600000`. Tables live in `CarSMMInitStates` (state → events + out-transitions)
+  and `CarSMMInitTransitions` (transition flags + target state).
+- Tapping the Sport row fires **600338**, but Audi deleted the transition into the Sport screen.
+- **Patch:** created transition **600008** (mirrors Charisma's) targeting leaf **604147**
+  (screen 600289), and appended `600338→600008` under root nav state **604167** (append-only,
+  index-aligned). (See §6.)
+
+### 17.3 Layer C — the screen + gauge widgets
+- Leaf **604147** displays screen **600289** = `cARSPORTMAIN`. It builds the 4 gauge controllers
+  (bound to models 602115/602112/602117/602111), the title bar, the oil-temp **scale labels**
+  (§16.3), and a hidden debug label (model 602123).
+- **Visibility of each gauge is a screen condition widget**, handled by
+  `CarScreenFactory.executeConditioncARSPORTMAINScreen` — **not** the MenuEntryRegistry. The
+  torque container was hidden on cars where model `602118 != 1`. **Patch:** reduce
+  `setConditionWidgets` to `{601056}` so all gauge containers stay visible. (See §7.3 / §16.2.)
+- Gauges render via Kanzi templates in the **KZB** (`SPORT_HMI.kzb`); the boost bar is
+  `tg_barLength = model/100`. Texture edits go through `kzb/kzb_repack.py` (§16.6).
+
+### 17.4 Layer D — data (DSI → models)
+- Two DSI consumers subclass `AbstractDSICarVehicleStatesAdapter`:
+  **`SportComponentEvo`** (power/torque/boost: models 602115/602112/602111, 0–100 range) and
+  **`SportKombiComponentEvo`** (oil temp: metrics model 602117).
+- `getDSIAttributesSets()` subscribes view-option attrs (16 semistatic-viewopts, 12 highfreq-
+  viewopts) + data attrs (17 semistatic, 14 highfreq, 15 midfreq). On each `update…` callback,
+  `updateVisibleValues()` writes the gauge models from the live fields
+  (`currentTorque`, `currentOutputPower`, `relChargingAirPressure`; §16.1).
+- The Java side is only a **DSI client** — the real producer is native (`libdsi_car.so` on the RCC
+  board). On this A3 the powertrain CAN isn't routed to infotainment, so torque/power/boost arrive
+  **pre-zeroed**; that non-routing is *why Audi disabled Sport here* (data flow in §8, exhaustive
+  source hunt in §9, real-boost leads in §12).
+
+### 17.5 ID cross-reference (who talks to whom)
+| Layer | Artifact | ID |
+|---|---|---|
+| A | Sport drawer item internalID | 600772 |
+| A | Sport availability choice model (proxy) | 602119 |
+| A | Nav event | 600338 |
+| A | Coding channel | 52 |
+| B | Root nav state (Car drawer) | 604167 |
+| B | Created transition | 600008 |
+| B | Sport leaf state | 604147 |
+| C | Sport screen | 600289 (`cARSPORTMAIN`) |
+| C | Gauge models | 602115 / 602112 / 602117 / 602111 |
+| C | Gauge condition models (now ungated) | 602116 / 602118 / 602113 / 602114 |
+| C | Return-key view-state model (kept) | 601056 |
+| D | DSI consumers | `SportComponentEvo`, `SportKombiComponentEvo` |
+| D | DSI attrs | 12/16 view-opts, 14/15/17 data |
