@@ -47,8 +47,9 @@ Four sub-goals, with status:
   autoboxing, enhanced-for, etc.).
 - **Build script:** `patched/build.sh` recompiles only a FILES list. **Current FILES (in order):**
   `CarModelBank`, `OilTemperatureGaugeController`, `OilTemperatureGaugeRendererHigh`,
-  `CarScreenFactory`, `CarScreenBag1`, `CarSMMInitStates`, `CarSMMInitTransitions`,
-  `SportComponentEvo`, `SportKombiComponentEvo`. Build: `cd patched; bash build.sh`
+  `CarScreenFactory`, `MenuItemBuilder`, `CarScreenBag1`, `CarSMMInitStates`,
+  `CarSMMInitTransitions`, `SportComponentEvo`, `SportKombiComponentEvo`.
+  Build: `cd patched; bash build.sh`
   (→ `SportHMI.jar`).
 - **ID namespaces** (all in the `6000xx` range, mutually distinct): state IDs, event IDs,
   transition IDs, screen IDs, choice-model IDs, bitmap IDs, text/label IDs.
@@ -70,17 +71,15 @@ actually gets patched** into the firmware; it is the build input and the source 
 2. Edit the copy **inside `patched/`** only.
 3. Add the class to the `FILES` list in `patched/build.sh` if it isn't already there.
 
-**The set of files in the patch == the `FILES` list in `build.sh`.** Only those classes are compiled
-and jarred into `SportHMI.jar`. If a patched file is not in `FILES`, it is not in the patch. Keep
-`FILES` and the `patched/` tree in sync (currently: `CarScreenBag1`, `CarSMMInitStates`,
-`CarSMMInitTransitions`, `SportComponentEvo` — add `CarEvoMenuEntryStructure` /
-`SportKombiComponentEvo` when their patches are active).
+**Only files in the `FILES` list are compiled and jarred into `SportHMI.jar`.** If a patched file is
+not in `FILES`, it is not in the patch. Keep the list in sync with active patched classes.
 
 ### Key files
 | Path | Role |
 |---|---|
 | `de/audi/tghu/car/hmi/evohighscale/CarScreenBag1.java` | Builds Car screens. Contains `cARSEL` (Car drawer, screen 600043) and `cARSPORTMAIN` (Sport gauges, screen 600289). |
 | `de/audi/tghu/car/hmi/evohighscale/CarScreenFactory.java` | `executeCondition` — per-gauge visibility by condition-model ID. |
+| `de/esolutions/hmi/widgets/audi/evo/MenuItemBuilder.java` | Converts each `MenuItemController` type to its label, icon, layout, and key-handler widgets; patched for the Sport label override. |
 | `de/audi/tghu/car/sm/CarSMMInitStates.java` | State → trigger-events + out-transitions tables. |
 | `de/audi/tghu/car/sm/CarSMMInitTransitions.java` | Transition flag/target tables (size 587, ids 600000–600586). |
 | `de/audi/atip/statemachine/AbstractSMM.java` | SM engine. `arrayIndex = ID − 600000`. |
@@ -561,7 +560,24 @@ crippled one thing in each of A/B and starved D; the patches restore each indepe
   **pre-zeroed**; that non-routing is *why Audi disabled Sport here* (data flow in §8, exhaustive
   source hunt in §9, real-boost leads in §12).
 
-### 17.5 ID cross-reference (who talks to whom)
+### 17.5 Layer E — menu label construction
+- `CarScreenBag1.cARSEL` creates Sport's `MenuItemController` with type **2** (action),
+  internalID **600772**, and localized text ID **605468**. `MenuItemBuilder.configureMenuItem`
+  dispatches type 2 to `setupActionMenuItem`, which gets the row label from the shared
+  `createLeftLabel` path.
+- `createLeftLabel` normally selects the controller's `labelId` (or, if unset, its `textIds`),
+  configures the `LabelController` renderer and text replacements, then lets the screen's text
+  resources resolve the text ID for the active view size/language. This is where menu labels
+  become visible strings; changing the drawer's event, visibility proxy, or internal ID does not
+  translate the label.
+- **Patch:** in the shared `createLeftLabel` path, match internalID **600772** and call
+  `labelController.setText("Sport Display")`. This overrides ID 605468 only for the Sport row;
+  navigation/event wiring is unchanged. It is a hardcoded English string, not a new catalog
+  translation, so it does not follow the vehicle's selected language. Keep
+  `MenuItemBuilder.java` in `patched/build.sh`'s `FILES` list or this override will not enter the
+  jar.
+
+### 17.6 ID cross-reference (who talks to whom)
 | Layer | Artifact | ID |
 |---|---|---|
 | A | Sport drawer item internalID | 600772 |
