@@ -1,0 +1,25 @@
+#pragma profilepragma blendoperation(gl_FragColor, GL_FUNC_ADD, GL_ONE, GL_ONE_MINUS_SRC_ALPHA, GL_FUNC_ADD, GL_ONE, GL_ONE_MINUS_SRC_ALPHA)
+
+precision lowp float;
+
+uniform sampler2D Texture;
+
+uniform float BlendIntensity;
+
+varying mediump vec2 vTexCoord;
+varying mediump vec2 vTexCoord1;
+
+uniform float power;
+void main()
+{
+   
+   vec2 color = texture2D(Texture, vTexCoord).ra;
+   float AlphaTheholder = clamp((vTexCoord1.x -(1.0-power))*1000.0,0.0,1.0);
+   //float AlphaTheholder = step(1.0-power,vTexCoord1.x);
+     
+   vec3 InColor = (vec3 (1.0,0.0,0.0) * color.g * AlphaTheholder) * ((((1.0-vTexCoord1.x)/power) * 0.64)+0.235);
+   vec3 OutColor = (vec3 (1.0,0.0,0.0) * color.r * AlphaTheholder) * ((((1.0-vTexCoord1.x)/power) * 0.85)+0.25);
+
+   gl_FragColor.rgb = (((1.0-color.r) * InColor) +OutColor) * BlendIntensity;
+   gl_FragColor.a = AlphaTheholder * color.g * BlendIntensity;
+}

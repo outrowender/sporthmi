@@ -1,0 +1,16 @@
+#pragma profilepragma blendoperation(gl_FragColor, GL_FUNC_ADD, GL_ONE, GL_ONE_MINUS_SRC_ALPHA, GL_FUNC_ADD, GL_ONE, GL_ONE_MINUS_SRC_ALPHA)
+//this basic shader uses one diffuse greyscale and an alpha channel
+
+precision lowp float;
+
+uniform sampler2D Texture;
+varying mediump vec2 vTexCoord; //main uv coordinates
+uniform float BlendIntensity;
+
+void main()
+{
+   vec4 color = texture2D(Texture, vTexCoord);
+   gl_FragColor.rgb = vec3(color.r) * BlendIntensity;
+   gl_FragColor.a = color.a * BlendIntensity;
+   
+}
