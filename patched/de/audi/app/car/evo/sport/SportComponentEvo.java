@@ -58,7 +58,7 @@ extends AbstractDSICarVehicleStatesAdapter {
         }
         if (n == 1) {
             this.currentDynamicVehicleInfoHighFrequentViewOptions = dynamicVehicleInfoHighFrequentViewOptions;
-            this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(606, this.getMenuEntryVisibilityState(dynamicVehicleInfoHighFrequentViewOptions.currentTorque));
+            this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(606, 0);
             this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(603, this.getMenuEntryVisibilityState(dynamicVehicleInfoHighFrequentViewOptions.currentOutputPower));
             this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(608, this.getMenuEntryVisibilityState(dynamicVehicleInfoHighFrequentViewOptions.relChargingAirPressure));
             this.primaryAttributeReceived(0, 12);
@@ -90,7 +90,7 @@ extends AbstractDSICarVehicleStatesAdapter {
         }
         if (n == 1) {
             this.currentSemiStaticDataViewOptions = semiStaticDataViewOptions;
-            this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(605, this.getMenuEntryVisibilityState(semiStaticDataViewOptions.maxTorque));
+            this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(605, 0);
             this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(602, this.getMenuEntryVisibilityState(semiStaticDataViewOptions.maxOutputPower));
             this.primaryAttributeReceived(0, 16);
         }
@@ -127,17 +127,16 @@ extends AbstractDSICarVehicleStatesAdapter {
 
         int torque = this.currentInfoHighFrequent.currentTorque;
         int calculatedTorque = Math.round(((float)torque / maxSimulatedTorque) * 100);
-        this.getRangeModel(602112).setValue(calculatedTorque);
         
         float power = this.currentInfoHighFrequent.currentOutputPower;
         int maxPower = this.currentSemiStaticData.maxOutputPower;
         int calculatedPower = Math.round((power / (float)maxPower) * 100);
-        this.getRangeModel(602115).setValue(calculatedPower);
         
-        float boost = this.currentInfoHighFrequent.absChargingAirPressure;
-        float maxBoost = this.currentSemiStaticData.maxChargingAirPressure;
-        int calculatedBoost = Math.round((boost / maxBoost) * 100);
-        this.getRangeModel(602111).setValue(calculatedBoost);
+        float boost = this.currentInfoHighFrequent.relChargingAirPressure;
+        
+        this.getRangeModel(602112).setValue(calculatedTorque);
+        this.getRangeModel(602115).setValue(calculatedPower);
+        this.getRangeModel(602111).setValue(boost);
 
         this.getLabelModel(602123).setText(this.buildDebugText());
     }
