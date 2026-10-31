@@ -8027,6 +8027,12 @@ extends AbstractScreenFactory {
 
     private void executeConditioncAROPTScreen(int n, HMIView[] hMIViewArray, int n2) {
         switch (n) {
+            case 601227: {
+                if (hMIViewArray[0] != null) {
+                    ((MenuItemController)hMIViewArray[0]).setVisible(((ChoiceModel)CarScreenFactory.getModel(601227, n2)).getValue() == 9);
+                }
+                return;
+            }
             case 52: {
                 if (hMIViewArray[0] != null) {
                     ((MenuItemController)hMIViewArray[0]).setEnabled(hmiService.getComponentConditionManager().isTrue(604121, n2));
