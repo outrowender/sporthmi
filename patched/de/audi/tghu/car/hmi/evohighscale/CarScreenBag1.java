@@ -934,6 +934,7 @@ public class CarScreenBag1 {
         MenuItemController helloWorldCheckbox = new MenuItemController();
         CompositeRendererHigh compositeRendererHighHello = new CompositeRendererHigh(helloWorldCheckbox);
         helloWorldCheckbox.setRenderer(compositeRendererHighHello);
+        compositeRendererHighHello.setFonts(carScreenFactory.getFonts(0, n));
         helloWorldCheckbox.setLabelId(605678);
         helloWorldCheckbox.setGlassplateInsetsBottom(6);
         helloWorldCheckbox.setGlassplateInsetsTop(7);
