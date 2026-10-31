@@ -11,6 +11,7 @@ de/audi/tghu/car/hmi/evohighscale/CarScreenFactory.java \
 de/audi/tghu/car/hmi/evohighscale/CarScreenBag1.java \
 de/audi/tghu/car/sm/CarSMMInitStates.java \
 de/audi/tghu/car/sm/CarSMMInitTransitions.java \
+de/audi/tghu/car/sm/CarSMMActions.java \
 de/audi/app/car/evo/sport/SportComponentEvo.java \
 de/audi/app/car/evo/sport/SportKombiComponentEvo.java
 "
