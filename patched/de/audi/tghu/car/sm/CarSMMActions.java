@@ -21,8 +21,8 @@ import java.util.NoSuchElementException;
 
 public class CarSMMActions
 implements SMModuleConstants {
-    private final AbstractSMM smm;
-    private final LogChannel logChannel;
+    private /*final*/ AbstractSMM smm;
+    private /*final*/ LogChannel logChannel;
     private volatile MMICombiActionProxy ap0;
     private volatile CarActionProxy ap1;
     private volatile OnlineActionProxy ap2;
