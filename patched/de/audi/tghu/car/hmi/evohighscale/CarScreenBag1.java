@@ -3617,6 +3617,7 @@ public class CarScreenBag1 {
         screenWidgetEVO.setOpenSelectionDrawerByHkReturn(true);
         screenWidgetEVO.setSmallStageType(3);
         screenWidgetEVO.setToplevelScreen(true);
+        screenWidgetEVO.setOptionIconVisible(true);
         screenWidgetEVO.add(abstractWidgetController);
         screenWidgetEVO.add(containerController4, 1);
         screenWidgetEVO.add(containerController5, 2);
