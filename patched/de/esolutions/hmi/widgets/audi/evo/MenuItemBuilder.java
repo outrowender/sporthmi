@@ -64,12 +64,12 @@ import java.util.Map;
 
 public class MenuItemBuilder
 implements WidgetConstants {
-    public static final int CHAIN_ALL_ACTIONS = 17;
-    public static final int CHAIN_ALL_TRIGGER = 3;
-    public static final int TABULATOR_ROW_END = 9;
-    public static final int PRIMARY_BITMAP_INDEX = 0;
-    public static final int RRB_RANGE_OVERLAY_BITMAP_IDX = 1;
-    public static final int SECONDARY_BITMAP_INDEX = 4;
+    public static /*final*/ int CHAIN_ALL_ACTIONS = 17;
+    public static /*final*/ int CHAIN_ALL_TRIGGER = 3;
+    public static /*final*/ int TABULATOR_ROW_END = 9;
+    public static /*final*/ int PRIMARY_BITMAP_INDEX = 0;
+    public static /*final*/ int RRB_RANGE_OVERLAY_BITMAP_IDX = 1;
+    public static /*final*/ int SECONDARY_BITMAP_INDEX = 4;
 
     public static void configureMenuItem(MenuItemController menuItemController, ExtHMITerminalEvo extHMITerminalEvo) {
         int n = menuItemController.getType();
@@ -383,7 +383,7 @@ implements WidgetConstants {
     }
 
     private static IWidgetKeyHandler createAutomaticallyReplacingKeyHandlerWhenModelIsAvailable(final MenuItemController menuItemController) {
-        final CloseDrawerKeyHandler closeDrawerKeyHandler = MenuItemBuilder.createDrawerClosingKeyHandler(null, true);
+        /*final*/ CloseDrawerKeyHandler closeDrawerKeyHandler = MenuItemBuilder.createDrawerClosingKeyHandler(null, true);
         IWidgetKeyHandler iWidgetKeyHandler = new IWidgetKeyHandler(){
 
             public void keyTurned(AbstractWidgetController abstractWidgetController, WheelButtonEvent wheelButtonEvent) {
@@ -700,7 +700,7 @@ implements WidgetConstants {
         int n = menuItemController.getModelID();
         Object object = menuItemController.getModel();
         int[] nArray = menuItemController.getTextIds();
-        final DateSettingsWidgetController dateSettingsWidgetController = new DateSettingsWidgetController();
+        /*final*/ DateSettingsWidgetController dateSettingsWidgetController = new DateSettingsWidgetController();
         ITimeDateSetttingsRenderer iTimeDateSetttingsRenderer = extHMITerminalEvo.getRendererFactory().createInternalCursorWidgetRenderer(dateSettingsWidgetController, iRenderer, null);
         dateSettingsWidgetController.setRenderer(iTimeDateSetttingsRenderer);
         dateSettingsWidgetController.setMenu(menuController);
