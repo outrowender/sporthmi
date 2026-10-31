@@ -156,6 +156,9 @@ implements WidgetConstants {
 
     private static void setupCheckboxMenuItem(MenuItemController menuItemController, ExtHMITerminalEvo extHMITerminalEvo) {
         LabelController labelController = MenuItemBuilder.createLeftLabel(menuItemController, extHMITerminalEvo);
+        if (menuItemController.getInternalID() == 609900) {
+            labelController.setText("Hello World");
+        }
         menuItemController.add(labelController);
         IconController iconController = MenuItemBuilder.createAndAddIcon(menuItemController, extHMITerminalEvo, 0);
         CheckboxController checkboxController = new CheckboxController();
