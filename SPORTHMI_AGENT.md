@@ -47,8 +47,8 @@ Four sub-goals, with status:
   autoboxing, enhanced-for, etc.).
 - **Build script:** `patched/build.sh` recompiles only a FILES list. **Current FILES (in order):**
   `CarModelBank`, `OilTemperatureGaugeController`, `OilTemperatureGaugeRendererHigh`,
-  `CarScreenFactory`, `MenuItemBuilder`, `CarScreenBag1`, `CarSMMInitStates`,
-  `CarSMMInitTransitions`, `SportComponentEvo`, `SportKombiComponentEvo`.
+  `CustomStrings`, `CarScreenFactory`, `CarScreenBag1`, `CarSMMInitStates`,
+  `CarSMMInitTransitions`, `CarSMMActions`, `SportComponentEvo`, `SportKombiComponentEvo`.
   Build: `cd patched; bash build.sh`
   (→ `SportHMI.jar`).
 - **ID namespaces** (all in the `6000xx` range, mutually distinct): state IDs, event IDs,
@@ -79,7 +79,8 @@ not in `FILES`, it is not in the patch. Keep the list in sync with active patche
 |---|---|
 | `de/audi/tghu/car/hmi/evohighscale/CarScreenBag1.java` | Builds Car screens. Contains `cARSEL` (Car drawer, screen 600043) and `cARSPORTMAIN` (Sport gauges, screen 600289). |
 | `de/audi/tghu/car/hmi/evohighscale/CarScreenFactory.java` | `executeCondition` — per-gauge visibility by condition-model ID. |
-| `de/esolutions/hmi/widgets/audi/evo/MenuItemBuilder.java` | Converts each `MenuItemController` type to its label, icon, layout, and key-handler widgets; patched for the Sport label override. |
+| `de/esolutions/hmi/widgets/audi/evo/MenuItemBuilder.java` | Converts each `MenuItemController` type to its label, icon, layout, and key-handler widgets. |
+| `de/audi/tghu/car/hmi/evohighscale/CustomStrings.java` | Resolves custom Car-module text IDs to language-specific strings before falling back to dataset text. |
 | `de/audi/tghu/car/sm/CarSMMInitStates.java` | State → trigger-events + out-transitions tables. |
 | `de/audi/tghu/car/sm/CarSMMInitTransitions.java` | Transition flag/target tables (size 587, ids 600000–600586). |
 | `de/audi/atip/statemachine/AbstractSMM.java` | SM engine. `arrayIndex = ID − 600000`. |
@@ -566,16 +567,21 @@ crippled one thing in each of A/B and starved D; the patches restore each indepe
   dispatches type 2 to `setupActionMenuItem`, which gets the row label from the shared
   `createLeftLabel` path.
 - `createLeftLabel` normally selects the controller's `labelId` (or, if unset, its `textIds`),
-  configures the `LabelController` renderer and text replacements, then lets the screen's text
-  resources resolve the text ID for the active view size/language. This is where menu labels
-  become visible strings; changing the drawer's event, visibility proxy, or internal ID does not
-  translate the label.
-- **Patch:** in the shared `createLeftLabel` path, match internalID **600772** and call
-  `labelController.setText("Sport Display")`. This overrides ID 605468 only for the Sport row;
-  navigation/event wiring is unchanged. It is a hardcoded English string, not a new catalog
-  translation, so it does not follow the vehicle's selected language. Keep
-  `MenuItemBuilder.java` in `patched/build.sh`'s `FILES` list or this override will not enter the
-  jar.
+  configures the `LabelController` renderer and text replacements, then the active screen factory
+  resolves the text ID for the current language.
+- **Patch:** `CarScreenFactory.getText` checks `CustomStrings` before the dataset catalog.
+  Text ID **605468** resolves to **"Sports Display"** for English; other languages retain their
+  built-in text. This is a text-ID override, so it applies to the actual type-2 action item without
+  changing its event, visibility proxy, or navigation.
+- The `cAROPT` screen (drawer ID **600042**, right-side options drawer) also contains a static
+  type-1 row with internalID **609900** and custom text ID **609901**. `CustomStrings` resolves it
+  to **"Hello World"** by default and **"Olá mundo"** when the HMI language code is `pt_BR`.
+  The row is informational; it has no model or action. Keep `CustomStrings.java` in
+  `patched/build.sh`'s `FILES` list so both custom labels make it into the jar.
+- `CustomStrings` stores translations in a nested `HashMap`: text ID → HMI language code → text.
+  Add a language entry directly to the relevant map; use the `"default"` key for a generic
+  fallback. `get(textId, langCode)` handles lookup and falls back without language-specific
+  conditionals.
 
 ### 17.6 ID cross-reference (who talks to whom)
 | Layer | Artifact | ID |
@@ -593,3 +599,5 @@ crippled one thing in each of A/B and starved D; the patches restore each indepe
 | C | Return-key view-state model (kept) | 601056 |
 | D | DSI consumers | `SportComponentEvo`, `SportKombiComponentEvo` |
 | D | DSI attrs | 12/16 view-opts, 14/15/17 data |
+| E | Sport Display text ID | 605468 |
+| E | Hello World row / text IDs | 609900 / 609901 |

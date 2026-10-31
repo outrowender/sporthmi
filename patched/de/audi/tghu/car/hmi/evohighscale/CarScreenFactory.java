@@ -93,6 +93,39 @@ extends AbstractScreenFactory {
         return "HMICarEvoHighScale";
     }
 
+    // --- Custom string override hook (see CustomStrings.java) ---
+    private String customLangCode = null;
+    private int customLangCodeFor = -2;
+
+    private String currentLangCode() {
+        if (this.currentLanguage != this.customLangCodeFor) {
+            try {
+                this.customLangCode = this.getFramework().getLanguageMgr().getCurrentLanguage("LANG_COMPONENT_HMI").getHmiCode();
+            }
+            catch (Exception exception) {
+                this.customLangCode = null;
+            }
+            this.customLangCodeFor = this.currentLanguage;
+        }
+        return this.customLangCode;
+    }
+
+    public String getText(int n) {
+        String string = CustomStrings.get(n, this.currentLangCode());
+        if (string != null) {
+            return string;
+        }
+        return super.getText(n);
+    }
+
+    public String getText(int n, int n2) {
+        String string = CustomStrings.get(n, this.currentLangCode());
+        if (string != null) {
+            return string;
+        }
+        return super.getText(n, n2);
+    }
+
     IWrappedFont[] getFonts(int n, int n2) {
         return FontFactory.getFonts(n, n2, this.getFramework());
     }
