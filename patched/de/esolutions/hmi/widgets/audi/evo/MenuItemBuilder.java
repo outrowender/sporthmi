@@ -131,9 +131,6 @@ implements WidgetConstants {
             labelController.setModel(menuItemController.getModel());
             MenuItemBuilder.setupScreenViews(menuItemController.getInitContext().getScreen(), labelController, menuItemController.getModelID());
         }
-        if (menuItemController.getInternalID() == 600772) {
-            labelController.setText("Sport Display");
-        }
         menuItemController.add(labelController);
         IconController iconController = MenuItemBuilder.createAndAddIcon(menuItemController, extHMITerminalEvo, 0);
         menuItemController.setLayoutManager(MenuItemBuilder.createMenuItemLayout(iconController, labelController, null, extHMITerminalEvo));

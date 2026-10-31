@@ -931,15 +931,15 @@ public class CarScreenBag1 {
         menuItemController56.setGlassplateInsetsTop(7);
         menuItemController56.setInternalID(600749);
         menuItemController56.setType(64);
-        MenuItemController helloWorldCheckbox = new MenuItemController();
-        CompositeRendererHigh compositeRendererHighHello = new CompositeRendererHigh(helloWorldCheckbox);
-        helloWorldCheckbox.setRenderer(compositeRendererHighHello);
+        MenuItemController helloWorldItem = new MenuItemController();
+        CompositeRendererHigh compositeRendererHighHello = new CompositeRendererHigh(helloWorldItem);
+        helloWorldItem.setRenderer(compositeRendererHighHello);
         compositeRendererHighHello.setFonts(carScreenFactory.getFonts(0, n));
-        helloWorldCheckbox.setLabelId(605678);
-        helloWorldCheckbox.setGlassplateInsetsBottom(6);
-        helloWorldCheckbox.setGlassplateInsetsTop(7);
-        helloWorldCheckbox.setInternalID(609900);
-        helloWorldCheckbox.setType(8);
+        helloWorldItem.setLabelId(609901);
+        helloWorldItem.setGlassplateInsetsBottom(6);
+        helloWorldItem.setGlassplateInsetsTop(7);
+        helloWorldItem.setInternalID(609900);
+        helloWorldItem.setType(1);
         MenuController menuController = new MenuController();
         MenuRendererHigh menuRendererHigh = new MenuRendererHigh(menuController);
         menuController.setRenderer(menuRendererHigh);
@@ -1018,7 +1018,7 @@ public class CarScreenBag1 {
         menuController.add(menuItemController54);
         menuController.add(menuItemController55);
         menuController.add(menuItemController56);
-        menuController.add(helloWorldCheckbox);
+        menuController.add(helloWorldItem);
         ContainerController containerController2 = new ContainerController();
         ContainerRendererHigh containerRendererHigh2 = new ContainerRendererHigh(containerController2);
         containerController2.setRenderer(containerRendererHigh2);
@@ -5476,4 +5476,3 @@ public class CarScreenBag1 {
         return screenWidgetEVO;
     }
 }
-
