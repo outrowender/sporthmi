@@ -8029,7 +8029,8 @@ extends AbstractScreenFactory {
         switch (n) {
             case 601227: {
                 if (hMIViewArray[0] != null) {
-                    ((MenuItemController)hMIViewArray[0]).setVisible(((ChoiceModel)CarScreenFactory.getModel(601227, n2)).getValue() == 9);
+                    HMIModel hMIModel = hmiService.getModel(n2, 601227);
+                    ((MenuItemController)hMIViewArray[0]).setVisible(hMIModel instanceof ChoiceModel && ((ChoiceModel)hMIModel).getValue() == 9);
                 }
                 return;
             }
