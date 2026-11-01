@@ -1,16 +1,11 @@
-version: '3.8'
-
 services:
   sporthmi-build:
+    platform: linux/386
     build:
       context: .
       dockerfile: Dockerfile
     image: sporthmi-builder:latest
-    container_name: sporthmi-builder
     volumes:
       - .:/workspace
-    working_dir: /workspace
-    environment:
-      - JAVA_HOME=/workspace/jdk
-      - PATH=/workspace/jdk/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-    command: /bin/bash
+    working_dir: /workspace/patched
+    command: ["bash", "build.sh"]

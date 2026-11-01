@@ -8,7 +8,7 @@ JXE=MU1326_lsd.jxe
 #JXE=bench_vw_lsd.jxe
 fi
 
-JAVA_HOME=${SCRIPT_DIR}/jdk
+JAVA_HOME=${JAVA_HOME:-${SCRIPT_DIR}/jdk}
 
 JAR=${SCRIPT_DIR}/${JXE%.jxe}.jar
 JAVA=${SCRIPT_DIR}/${JXE%.jxe}_java
