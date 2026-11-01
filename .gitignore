@@ -1,6 +1,6 @@
-*.jxe
+MIBHMI.*
+delphi.*
 /jdk
-*.jar
 /patched/**/*.class
 /VW_lsd_java
 /MIBHMI_java
