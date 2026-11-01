@@ -389,20 +389,20 @@ implements SMModuleConstants {
                 return;
             }
             case 600140: {
-                ActionProxy actionProxy = this.ap1;
+                CarActionProxy carActionProxy = this.ap1;
                 try {
-                    actionProxy.browserScreenEndMediaPlayback(this.smm.getTerminalID());
+                    carActionProxy.browserScreenEndMediaPlayback(this.smm.getTerminalID());
                 }
                 catch (NullPointerException nullPointerException) {
-                    this.catchActionExceptionCarActionProxy(actionProxy, nullPointerException, "browserScreenEndMediaPlayback");
+                    this.catchActionExceptionCarActionProxy(carActionProxy, nullPointerException, "browserScreenEndMediaPlayback");
                 }
                 sMServices.popDrawerIDs();
-                actionProxy = this.ap3;
+                EntertainmentActionProxy entertainmentActionProxy = this.ap3;
                 try {
-                    actionProxy.entertainmentBlacklist(this.smm.getTerminalID(), -1);
+                    entertainmentActionProxy.entertainmentBlacklist(this.smm.getTerminalID(), -1);
                 }
                 catch (NullPointerException nullPointerException) {
-                    this.catchActionExceptionEntertainmentActionProxy(actionProxy, nullPointerException, "entertainmentBlacklist");
+                    this.catchActionExceptionEntertainmentActionProxy(entertainmentActionProxy, nullPointerException, "entertainmentBlacklist");
                 }
                 return;
             }
@@ -881,37 +881,37 @@ implements SMModuleConstants {
                 return;
             }
             case 600131: {
-                ActionProxy actionProxy = this.ap0;
+                MMICombiActionProxy mMICombiActionProxy = this.ap0;
                 try {
-                    actionProxy.setMMICombiContext(this.smm.getTerminalID(), 139);
+                    mMICombiActionProxy.setMMICombiContext(this.smm.getTerminalID(), 139);
                 }
                 catch (NullPointerException nullPointerException) {
-                    this.catchActionExceptionMMICombiActionProxy(actionProxy, nullPointerException, "setMMICombiContext");
+                    this.catchActionExceptionMMICombiActionProxy(mMICombiActionProxy, nullPointerException, "setMMICombiContext");
                 }
-                actionProxy = this.ap1;
+                CarActionProxy carActionProxy = this.ap1;
                 try {
-                    actionProxy.setCarContext(this.smm.getTerminalID(), 6);
+                    carActionProxy.setCarContext(this.smm.getTerminalID(), 6);
                 }
                 catch (NullPointerException nullPointerException) {
-                    this.catchActionExceptionCarActionProxy(actionProxy, nullPointerException, "setCarContext");
+                    this.catchActionExceptionCarActionProxy(carActionProxy, nullPointerException, "setCarContext");
                 }
                 return;
             }
             case 600134: {
-                ActionProxy actionProxy = this.ap0;
+                MMICombiActionProxy mMICombiActionProxy = this.ap0;
                 try {
-                    actionProxy.setMMICombiContext(this.smm.getTerminalID(), 136);
+                    mMICombiActionProxy.setMMICombiContext(this.smm.getTerminalID(), 136);
                 }
                 catch (NullPointerException nullPointerException) {
-                    this.catchActionExceptionMMICombiActionProxy(actionProxy, nullPointerException, "setMMICombiContext");
+                    this.catchActionExceptionMMICombiActionProxy(mMICombiActionProxy, nullPointerException, "setMMICombiContext");
                 }
                 sMServices.addContext(-1246329379L);
-                actionProxy = this.ap1;
+                CarActionProxy carActionProxy = this.ap1;
                 try {
-                    actionProxy.setCarContext(this.smm.getTerminalID(), 0);
+                    carActionProxy.setCarContext(this.smm.getTerminalID(), 0);
                 }
                 catch (NullPointerException nullPointerException) {
-                    this.catchActionExceptionCarActionProxy(actionProxy, nullPointerException, "setCarContext");
+                    this.catchActionExceptionCarActionProxy(carActionProxy, nullPointerException, "setCarContext");
                 }
                 return;
             }
@@ -936,20 +936,20 @@ implements SMModuleConstants {
                 return;
             }
             case 600140: {
-                ActionProxy actionProxy = this.ap1;
+                CarActionProxy carActionProxy = this.ap1;
                 try {
-                    actionProxy.browserScreenStartMediaPlayback(this.smm.getTerminalID());
+                    carActionProxy.browserScreenStartMediaPlayback(this.smm.getTerminalID());
                 }
                 catch (NullPointerException nullPointerException) {
-                    this.catchActionExceptionCarActionProxy(actionProxy, nullPointerException, "browserScreenStartMediaPlayback");
+                    this.catchActionExceptionCarActionProxy(carActionProxy, nullPointerException, "browserScreenStartMediaPlayback");
                 }
                 sMServices.pushDrawerIDs(600043L, 0L);
-                actionProxy = this.ap3;
+                EntertainmentActionProxy entertainmentActionProxy = this.ap3;
                 try {
-                    actionProxy.entertainmentBlacklist(this.smm.getTerminalID(), 7001);
+                    entertainmentActionProxy.entertainmentBlacklist(this.smm.getTerminalID(), 7001);
                 }
                 catch (NullPointerException nullPointerException) {
-                    this.catchActionExceptionEntertainmentActionProxy(actionProxy, nullPointerException, "entertainmentBlacklist");
+                    this.catchActionExceptionEntertainmentActionProxy(entertainmentActionProxy, nullPointerException, "entertainmentBlacklist");
                 }
                 return;
             }
@@ -1082,20 +1082,20 @@ implements SMModuleConstants {
                 return;
             }
             case 604167: {
-                ActionProxy actionProxy = this.ap4;
+                FrameworkActionProxy frameworkActionProxy = this.ap4;
                 try {
-                    actionProxy.activeApplication(this.smm.getTerminalID(), 7);
+                    frameworkActionProxy.activeApplication(this.smm.getTerminalID(), 7);
                 }
                 catch (NullPointerException nullPointerException) {
-                    this.catchActionExceptionFrameworkActionProxy(actionProxy, nullPointerException, "activeApplication");
+                    this.catchActionExceptionFrameworkActionProxy(frameworkActionProxy, nullPointerException, "activeApplication");
                 }
                 sMServices.pushDrawerIDs(600043L, 600042L);
-                actionProxy = this.ap5;
+                EarlyAppsActionProxy earlyAppsActionProxy = this.ap5;
                 try {
-                    actionProxy.carMenusEnteredEarly(this.smm.getTerminalID(), true);
+                    earlyAppsActionProxy.carMenusEnteredEarly(this.smm.getTerminalID(), true);
                 }
                 catch (NullPointerException nullPointerException) {
-                    this.catchActionExceptionEarlyAppsActionProxy(actionProxy, nullPointerException, "carMenusEnteredEarly");
+                    this.catchActionExceptionEarlyAppsActionProxy(earlyAppsActionProxy, nullPointerException, "carMenusEnteredEarly");
                 }
                 sMServices.setColor(1);
                 return;
@@ -1213,19 +1213,19 @@ implements SMModuleConstants {
             }
             case 600249: {
                 sMServices.setColor(0);
-                ActionProxy actionProxy = this.ap6;
+                SettingsActionProxy settingsActionProxy = this.ap6;
                 try {
-                    actionProxy.enterInstructionBookUpdate(this.smm.getTerminalID());
+                    settingsActionProxy.enterInstructionBookUpdate(this.smm.getTerminalID());
                 }
                 catch (NullPointerException nullPointerException) {
-                    this.catchActionExceptionSettingsActionProxy(actionProxy, nullPointerException, "enterInstructionBookUpdate");
+                    this.catchActionExceptionSettingsActionProxy(settingsActionProxy, nullPointerException, "enterInstructionBookUpdate");
                 }
-                actionProxy = this.ap7;
+                CustDownloadActionProxy custDownloadActionProxy = this.ap7;
                 try {
-                    actionProxy.swdlCustomerUpdateEntered(this.smm.getTerminalID());
+                    custDownloadActionProxy.swdlCustomerUpdateEntered(this.smm.getTerminalID());
                 }
                 catch (NullPointerException nullPointerException) {
-                    this.catchActionExceptionCustDownloadActionProxy(actionProxy, nullPointerException, "swdlCustomerUpdateEntered");
+                    this.catchActionExceptionCustDownloadActionProxy(custDownloadActionProxy, nullPointerException, "swdlCustomerUpdateEntered");
                 }
                 return;
             }
@@ -1664,4 +1664,3 @@ implements SMModuleConstants {
         return this.smm.getModel(n);
     }
 }
-
