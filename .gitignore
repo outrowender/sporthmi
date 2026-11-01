@@ -1,6 +1,10 @@
 *.jxe
-/jdk
 *.jar
+!MU1326_lsd.jar
+!MU1326_lsd.jxe
+MIBHMI.*
+delphi.*
+/jdk
 /patched/**/*.class
 /VW_lsd_java
 /MIBHMI_java
