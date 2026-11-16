@@ -28,19 +28,23 @@ public final class CustomStrings {
 
     static {
         Map sportsDisplay = new HashMap();
-        sportsDisplay.put("en_GB", "Sports Display");
-        sportsDisplay.put("en_SA", "Sports Display");
-        sportsDisplay.put("en_US", "Sports Display");
-        sportsDisplay.put("en_JP", "Sports Display");
-        sportsDisplay.put("en_CN", "Sports Display");
-        sportsDisplay.put("en_KR", "Sports Display");
-        sportsDisplay.put("en_TW", "Sports Display");
+        sportsDisplay.put("en_GB", "en_GB Sport Displays");
+        sportsDisplay.put("en_SA", "en_SA Sports Display");
+        sportsDisplay.put("en_US", "en_US Sport Displays");
+        sportsDisplay.put("en_JP", "en_JP Sports Display");
+        sportsDisplay.put("en_CN", "en_CN Sports Display");
+        sportsDisplay.put("en_KR", "en_KR Sports Display");
+        sportsDisplay.put("en_TW", "en_TW Sports Display");
+        sportsDisplay.put("pt_BR", "pt_BR Indicações de esporte");
         STRINGS_BY_ID.put(new Integer(605468), sportsDisplay);
 
-        Map helloWorld = new HashMap();
-        helloWorld.put(DEFAULT_LANGUAGE, "Hello World");
-        helloWorld.put("pt_BR", "Ol\u00e1 mundo");
-        STRINGS_BY_ID.put(new Integer(609901), helloWorld);
+        Map developmentMode = new HashMap();
+        developmentMode.put(DEFAULT_LANGUAGE, "Development mode");
+        STRINGS_BY_ID.put(new Integer(609902), developmentMode);
+
+        Map simulatedValues = new HashMap();
+        simulatedValues.put(DEFAULT_LANGUAGE, "Simulated values");
+        STRINGS_BY_ID.put(new Integer(609903), simulatedValues);
     }
 
     private CustomStrings() {

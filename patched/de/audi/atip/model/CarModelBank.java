@@ -32,6 +32,18 @@ IEvoCarModelBank {
                     this.models[710] = new ChoiceModel(600710);
                     break;
                 }
+                case 2738: {
+                    ChoiceModel choiceModel2738 = new ChoiceModel(602738);
+                    choiceModel2738.setChoiceListener(new de.audi.tghu.car.hmi.evohighscale.SelfToggleChoiceListener(choiceModel2738));
+                    this.models[2738] = choiceModel2738;
+                    break;
+                }
+                case 2739: {
+                    ChoiceModel choiceModel2739 = new ChoiceModel(602739);
+                    choiceModel2739.setChoiceListener(new de.audi.tghu.car.hmi.evohighscale.SelfToggleChoiceListener(choiceModel2739));
+                    this.models[2739] = choiceModel2739;
+                    break;
+                }
                 case 1471: {
                     this.models[1471] = new ChoiceModel(601471);
                     break;
@@ -4653,7 +4665,7 @@ IEvoCarModelBank {
     }
 
     public CarModelBank() {
-        super(6, 2738, 1147);
+        super(6, 2740, 1149);
         this.modelIDs = new int[1147];
         this.modelIDs[0] = 600710;
         this.modelIDs[1] = 601471;

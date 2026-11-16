@@ -573,15 +573,15 @@ crippled one thing in each of A/B and starved D; the patches restore each indepe
   Text ID **605468** resolves to **"Sports Display"** for English; other languages retain their
   built-in text. This is a text-ID override, so it applies to the actual type-2 action item without
   changing its event, visibility proxy, or navigation.
-- The `cAROPT` screen (drawer ID **600042**, right-side options drawer) also contains a static
-  type-1 row with internalID **609900** and custom text ID **609901**. `CustomStrings` resolves it
-  to **"Hello World"** by default and **"Olá mundo"** when the HMI language code is `pt_BR`.
-  The row is informational; it has no model or action. Keep `CustomStrings.java` in
-  `patched/build.sh`'s `FILES` list so both custom labels make it into the jar.
+- The `cAROPT` screen (drawer ID **600042**, right-side options drawer) is **shared by every Car
+  screen** but is now gated to appear **only on Sportanzeige** and hosts two real checkboxes.
+  See **§18** for the full mechanism (sport-only gating via context 9, the option-icon hint, the
+  string-override label path, and the self-toggling checkbox widgets).
 - `CustomStrings` stores translations in a nested `HashMap`: text ID → HMI language code → text.
   Add a language entry directly to the relevant map; use the `"default"` key for a generic
   fallback. `get(textId, langCode)` handles lookup and falls back without language-specific
-  conditionals.
+  conditionals. Keep `CustomStrings.java` in `patched/build.sh`'s `FILES` list so the overrides
+  make it into the jar.
 
 ### 17.6 ID cross-reference (who talks to whom)
 | Layer | Artifact | ID |
@@ -600,4 +600,99 @@ crippled one thing in each of A/B and starved D; the patches restore each indepe
 | D | DSI consumers | `SportComponentEvo`, `SportKombiComponentEvo` |
 | D | DSI attrs | 12/16 view-opts, 14/15/17 data |
 | E | Sport Display text ID | 605468 |
-| E | Hello World row / text IDs | 609900 / 609901 |
+| F | Right option drawer (shared, sport-gated) | 600042 (`cAROPT`) |
+| F | Sport drawer context (added on 604147 enter) | 9 |
+| F | "Development mode" checkbox: model / label / internalID | 602738 / 609902 / 609910 |
+| F | "Simulated values" checkbox: model / label / internalID | 602739 / 609903 / 609911 |
+
+---
+
+## 18. RIGHT OPTION DRAWER (`cAROPT` 600042) — sport-only menu, string overrides, checkboxes
+
+The right-side **options drawer** is a single shared `DrawerController` (ID **600042**, built in
+`CarScreenBag1` just before `cARSEL`). Every Car screen inherits it from the root state's
+`pushDrawerIDs(600043, 600042)`. Three independent capabilities were added here.
+
+### 18.1 Show the drawer **only on Sportanzeige**
+- **Why the obvious approach fails:** per-screen conditions (`setConditionWidgets` +
+  `executeCondition`) **cannot** gate a drawer **menu item**. For an option drawer
+  (`DrawerController.isOptionDrawer()` == true), both `executeAllConditions` and
+  `findConditionWidgets` pass the widget array through `findWidgetsOfClosedOptionDrawer`, which
+  **nulls out every widget whose `partOfOptionDrawer == 2`** — and any item inside the
+  `MenuController` is part-2. So the condition handler always receives `null` and does nothing.
+  (A leftover `case 601227` handler + its `conditionIDs`/`conditionWidgets` entry are dead but
+  harmless — the widget is nulled before it runs.)
+- **The mechanism that DOES work — drawer contexts** (`DrawerConditionEngine`): each
+  `PropertyObject(widget, type, visibleCCID, enabledCCID, contextIDs[], …)` gates a row. Types:
+  **2** = always visible (main-group), **1** = `TYPE_MENU_SPECIFIC` (context-gated, **not**
+  focus-category gated), **0** = `TYPE_CONTEXT_SPECIFIC` (context-gated **and** hidden by
+  `updateFocusedProperty` unless its focus category matches). A row is visible when
+  `evaluateCondition(visibleCCID)` (use **-2** = always true) **and** its `contextIDs` intersect
+  the drawer's active contexts. `refreshDrawerContextID` updates type-0/1 rows on screen
+  navigation; `processCCEvent` on component-condition change.
+- **Root cause of "shows everywhere":** the Sport state **604147** was the only Car state that
+  set its car-context *model* (`setCarContext(9)` → model 601227=9) but **never pushed a drawer
+  context**. Its exit already called `removeContext(9L)` (unbalanced/dead). Every other Car state
+  does `addContext(<hashedCtx>) + setCarContext(<smallInt>)` on enter, `removeContext(<hashedCtx>)`
+  on exit.
+- **PATCH:** add **`sMServices.addContext(9L);`** to state **604147**'s enter action in
+  `CarSMMActions` (now symmetric with the existing `removeContext(9L)`), and make each
+  sport-only row a **type-1 `PropertyObject` with `contextIDs = {9}`, `visibleCCID = -2`**. Context
+  9 is active on the drawer **only on Sportanzeige** ⇒ those rows appear only there.
+  `CarSMMActions.java` is copied into `patched/` and added to `build.sh` FILES (Java-1.2-safe).
+
+### 18.2 Option-icon hint on the title bar
+- The drawer opens on Sport, but the little right-drawer **icon hint** only shows if the screen
+  calls `setOptionIconVisible(true)` (media/BT screens do; `cARSPORTMAIN` did not).
+- **PATCH:** add `screenWidgetEVO.setOptionIconVisible(true);` in `cARSPORTMAIN` (after
+  `setToplevelScreen(true)`). Confirmed on device: icon appears only on Sportanzeige.
+
+### 18.3 String overrides (how UI text is replaced by ID)
+- Labels store numeric **text IDs** (`setLabelId` / `setTextIds`). They resolve through the
+  **module** screen factory: `AbstractScreenFactory.getText(n)` →
+  `stringResources.getString(n - moduleID*100000)` (Car module = 6, IDs `6xxxxx`), loaded from
+  per-language files `resources/HMICarEvoHighScale/strings_<hmiCode>.data`. Menu-item labels use
+  `getText(id, viewSize)`. **There is no plain-text `setText` path for drawer menu items** — the
+  only lever is the text ID.
+- **PATCH:** `CarScreenFactory` overrides `getText(int)` and `getText(int,int)` to consult
+  **`CustomStrings`** first (non-null ⇒ use it) then fall back to `super`. Language code is
+  resolved + cached from `getFramework().getLanguageMgr().getCurrentLanguage("LANG_COMPONENT_HMI")
+  .getHmiCode()`, recomputed only on language change. `CustomStrings` is a nested map
+  *textID → langCode → string* with a `"default"` fallback; add `CustomStrings.java` to
+  `build.sh` FILES (before `CarScreenFactory.java`) or its `.class` won't be packaged.
+- Example overrides shipped: **605468** ("Sportanzeige" selection item) → "Sports Display" (per
+  English locale); **609902/609903** → "Development mode" / "Simulated values" (all languages).
+
+### 18.4 Real (tickable) checkboxes
+- A **real checkbox menu item** is just `MenuItemController.setType(8)` (type 8/9).
+  `MenuItemBuilder.configureMenuItem` (from the jar) dispatches type 8 →
+  `setupCheckboxMenuItem`, which builds a `CheckboxController` bound to the item's `modelID`,
+  wires `setChainedAction(3,17)` and the `CheckboxChoiceModelKeyHandler`. Reference pattern already
+  in this drawer: `menuItemController37`. Minimal config: `setModelID`, `setLabelId`, glassplate
+  insets, `setInternalID`, `setType(8)` (no bitmaps/fonts needed; `createAndAddIcon` returns null
+  when no bitmap). Default `mapping == null` ⇒ the key handler toggles the model between **0 and 1**.
+- **Backing state + self-toggle:** a `ChoiceModel` does **not** change its own value on
+  `itemSelected()` — it only notifies its listener. For a standalone checkbox with no app logic,
+  attach **`SelfToggleChoiceListener`** (new class, `patched/.../SelfToggleChoiceListener.java`)
+  which echoes the selected value back via `model.setValue(value)`, so the box visibly ticks.
+  The model's update event routes to the checkbox because the item is listed in the drawer's
+  `setViews` (`modifyModelReferenceInView` connects each listed view's own `modelID`, and events
+  flow `findViews(modelId)` → menu item → its `CheckboxController` child).
+- **New models:** `CarModelBank` array enlarged `super(6, 2738, 1147)` → `super(6, 2740, 1149)`
+  and two `ChoiceModel`s added — **602738** (Development mode), **602739** (Simulated values) —
+  each wired with a `SelfToggleChoiceListener`. (Model IDs must be `< moduleID*100000 + arraySize`;
+  `getModelIndex` returns -1 otherwise.)
+- **The two checkboxes** (`devModeCheckbox` 602738/609902/609910, `simValuesCheckbox`
+  602739/609903/609911) are added to `menuController`, to `setViews` (sorted-ascending, binary-
+  searched!), and each gets a **type-1 `PropertyObject` with `contextIDs = {9}`** so they appear
+  **only on Sportanzeige**. They toggle visually but drive nothing yet — ready to hook real
+  behavior onto models 602738 / 602739.
+
+### 18.5 GOTCHAS (drawer edits)
+- `conditionIDs`, `setViews` model-id arrays, and `setModelIDs` are **binary-searched** →
+  must stay **sorted ascending**; the parallel `HMIView[][]` / `AbstractWidget[][]` must stay
+  index-aligned. Insert in sorted position, never append.
+- Option-drawer menu items can't be gated by `executeCondition` (see §18.1) — use context +
+  `PropertyObject` type.
+- `CarModelBank` `modelCount` (3rd ctor arg) sizes `getAllModelIds()`; bump it by the number of
+  models added.
