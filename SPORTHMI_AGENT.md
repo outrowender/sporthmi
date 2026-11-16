@@ -46,9 +46,10 @@ Four sub-goals, with status:
   `javac -source 1.2 -target 1.2` → **keep all edits Java 1.2-compatible** (no generics,
   autoboxing, enhanced-for, etc.).
 - **Build script:** `patched/build.sh` recompiles only a FILES list. **Current FILES (in order):**
-  `CarModelBank`, `OilTemperatureGaugeController`, `OilTemperatureGaugeRendererHigh`,
-  `CustomStrings`, `CarScreenFactory`, `CarScreenBag1`, `CarSMMInitStates`,
-  `CarSMMInitTransitions`, `CarSMMActions`, `SportComponentEvo`, `SportKombiComponentEvo`.
+  `SelfToggleChoiceListener`, `CarModelBank`, `OilTemperatureGaugeController`,
+  `OilTemperatureGaugeRendererHigh`, `CustomStrings`, `CarScreenFactory`, `CarScreenBag1`,
+  `CarSMMInitStates`, `CarSMMInitTransitions`, `CarSMMActions`, `SportComponentEvo`,
+  `SportKombiComponentEvo`.
   Build: `cd patched; bash build.sh`
   (→ `SportHMI.jar`).
 - **ID namespaces** (all in the `6000xx` range, mutually distinct): state IDs, event IDs,

@@ -143,7 +143,11 @@ extends AbstractDSICarVehicleStatesAdapter {
         this.getRangeModel(602115).setValue(calculatedPower);
         this.getRangeModel(602111).setValue(boost);
 
-        //this.getLabelModel(602123).setText(this.buildDebugText());
+        if (this.getChoiceModel(602738).getValue() == 1) {
+            this.getLabelModel(602123).setText(this.buildDebugText());
+        } else {
+            this.getLabelModel(602123).setText("");
+        }
     }
 
     private String buildDebugText() {

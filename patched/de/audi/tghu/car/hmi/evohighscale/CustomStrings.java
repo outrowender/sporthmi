@@ -29,13 +29,13 @@ public final class CustomStrings {
     static {
         Map sportsDisplay = new HashMap();
         sportsDisplay.put("en_GB", "en_GB Sport Displays");
-        sportsDisplay.put("en_SA", "en_SA Sport Displays");
+        sportsDisplay.put("en_SA", "en_SA Sports Display");
         sportsDisplay.put("en_US", "en_US Sport Displays");
-        sportsDisplay.put("en_JP", "en_JP Sport Displays");
-        sportsDisplay.put("en_CN", "en_CN Sport Displays");
-        sportsDisplay.put("en_KR", "en_KR Sport Displays");
-        sportsDisplay.put("en_TW", "en_TW Sport Displays");
-        sportsDisplay.put("pt_BR", "pt_BR Indica\u00e7\u00f5es de esporte");
+        sportsDisplay.put("en_JP", "en_JP Sports Display");
+        sportsDisplay.put("en_CN", "en_CN Sports Display");
+        sportsDisplay.put("en_KR", "en_KR Sports Display");
+        sportsDisplay.put("en_TW", "en_TW Sports Display");
+        sportsDisplay.put("pt_BR", "pt_BR Indicações de esporte");
         STRINGS_BY_ID.put(new Integer(605468), sportsDisplay);
 
         Map developmentMode = new HashMap();
