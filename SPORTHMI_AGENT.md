@@ -686,8 +686,7 @@ The right-side **options drawer** is a single shared `DrawerController` (ID **60
 - **The two checkboxes** (`devModeCheckbox` 602738/609902/609910, `simValuesCheckbox`
   602739/609903/609911) are added to `menuController`, to `setViews` (sorted-ascending, binary-
   searched!), and each gets a **type-1 `PropertyObject` with `contextIDs = {9}`** so they appear
-  **only on Sportanzeige**. They toggle visually but drive nothing yet — ready to hook real
-  behavior onto models 602738 / 602739.
+  **only on Sportanzeige**. Their current behavior and persistence are described in §18.6.
 
 ### 18.5 GOTCHAS (drawer edits)
 - `conditionIDs`, `setViews` model-id arrays, and `setModelIDs` are **binary-searched** →
@@ -697,3 +696,23 @@ The right-side **options drawer** is a single shared `DrawerController` (ID **60
   `PropertyObject` type.
 - `CarModelBank` `modelCount` (3rd ctor arg) sizes `getAllModelIds()`; bump it by the number of
   models added.
+
+### 18.6 Checkbox behavior and persistence (current implementation)
+- **Development mode (602738):** `SportComponentEvo.checkConfigurations()` shows the debug text
+  in label model **602123** while the checkbox value is `1`, and clears it when unchecked.
+- **Simulated values (602739):** its selected state is currently persisted; it does not yet alter
+  gauge calculations or substitute simulated values.
+- Both settings use storage area **1006**. Keys are **900** (Development mode) and **901**
+  (Simulated values), with default value `0`.
+- `SportComponentEvo.initModels()` reads each stored value once during model initialization,
+  initializes the corresponding `ChoiceModel`, and seeds `lastPersistedDevMode` /
+  `lastPersistedSimValues` from those values.
+- `updateVisibleValues()` calls `checkConfigurations()` after updating the gauge models.
+  `checkConfigurations()` reads the two in-memory `ChoiceModel` values and calls `setInt()` only
+  when a value differs from its cached last-persisted value. The storage manager is **not read on
+  each telemetry/frame update**; persistence writes are change-only.
+- The self-toggle listener updates the model when the checkbox is selected. With the current
+  persistence path, saving occurs on the next `checkConfigurations()` call from
+  `updateVisibleValues()`. For immediate click-time persistence independent of telemetry timing,
+  move the write into the checkbox's `ChoiceListener.itemSelected()` path and keep model
+  initialization from storage in `initModels()`.
