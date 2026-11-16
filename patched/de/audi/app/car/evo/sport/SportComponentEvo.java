@@ -23,6 +23,9 @@ extends AbstractDSICarVehicleStatesAdapter {
     private volatile SemiStaticDataViewOptions currentSemiStaticDataViewOptions;
     private volatile DynamicVehicleInfoMidFrequent currentMidFrequent;
     private volatile int maxSimulatedTorque = 250;
+    private static /*final*/ int STORAGE_AREA_CAR = 1006;
+    private static /*final*/ int STORAGE_KEY_DEV_MODE = 900;
+    private volatile int lastPersistedDevMode = -1;
 
     public SportComponentEvo(ICarApplication iCarApplication) {
         super(iCarApplication, LOGCHANNEL_NAME);
@@ -32,6 +35,9 @@ extends AbstractDSICarVehicleStatesAdapter {
         this.getRangeModel(602115).setLimits(0, 100, 1);
         this.getRangeModel(602112).setLimits(0, 100, 1);
         this.getRangeModel(602111).setLimits(0, 100, 1);
+        int savedDevMode = this.getApplication().getFrameworkAccess().getStorageMgr().getInt(STORAGE_AREA_CAR, STORAGE_KEY_DEV_MODE, 0);
+        this.lastPersistedDevMode = savedDevMode;
+        this.getChoiceModel(602738).setValue(savedDevMode);
     }
 
     protected void deinitModels() { }
@@ -143,7 +149,12 @@ extends AbstractDSICarVehicleStatesAdapter {
         this.getRangeModel(602115).setValue(calculatedPower);
         this.getRangeModel(602111).setValue(boost);
 
-        if (this.getChoiceModel(602738).getValue() == 1) {
+        int devMode = this.getChoiceModel(602738).getValue();
+        if (devMode != this.lastPersistedDevMode) {
+            this.lastPersistedDevMode = devMode;
+            this.getApplication().getFrameworkAccess().getStorageMgr().setInt(STORAGE_AREA_CAR, STORAGE_KEY_DEV_MODE, devMode);
+        }
+        if (devMode == 1) {
             this.getLabelModel(602123).setText(this.buildDebugText());
         } else {
             this.getLabelModel(602123).setText("");
