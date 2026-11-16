@@ -29,6 +29,19 @@ extends AbstractDSICarVehicleStatesAdapter {
     private volatile int lastPersistedDevMode = -1;
     private volatile int lastPersistedSimValues = -1;
 
+    private static /*final*/ int[] SIM_RPM = new int[]{1000, 1500, 2000, 3000, 4000, 5000, 6000, 6500};
+    // Max boost % the turbo can reach at each rpm.
+    private static /*final*/ int[] SIM_BOOST_LIMIT = new int[]{10, 45, 85, 100, 100, 95, 85, 75};
+    // Torque % at full boost for each rpm.
+    private static /*final*/ int[] SIM_TORQUE_CURVE = new int[]{45, 70, 95, 100, 100, 90, 78, 70};
+    // Share of torque produced from throttle alone, before boost.
+    private static /*final*/ float SIM_NA_TORQUE_SHARE = 0.35f;
+    private static /*final*/ float SIM_SPOOL_UP_MS = 700.0f;
+    private static /*final*/ float SIM_SPOOL_DOWN_MS = 350.0f;
+    private static /*final*/ int SIM_DEFAULT_MAX_POWER_KW = 90;
+    private float simBoost = 0.0f;
+    private long lastSimTime = 0L;
+
     public SportComponentEvo(ICarApplication iCarApplication) {
         super(iCarApplication, LOGCHANNEL_NAME);
     }
@@ -141,6 +154,16 @@ extends AbstractDSICarVehicleStatesAdapter {
             return;
         }
 
+        if (this.getChoiceModel(602739).getValue() == 1) {
+            this.updateSimulatedValues();
+        } else {
+            this.updateRealValues();
+        }
+
+        this.checkConfigurations();
+    }
+
+    private void updateRealValues() {
         int torque = this.currentInfoHighFrequent.currentTorque;
         int calculatedTorque = torque * 100 / maxSimulatedTorque;
 
@@ -153,8 +176,65 @@ extends AbstractDSICarVehicleStatesAdapter {
         this.getRangeModel(602112).setValue(calculatedTorque);
         this.getRangeModel(602115).setValue(calculatedPower);
         this.getRangeModel(602111).setValue(boost);
+    }
 
-        this.checkConfigurations();
+    private void updateSimulatedValues() {
+        int rpm = this.currentInfoHighFrequent.engineSpeed;
+        int pedal = this.clampPercent(this.currentInfoHighFrequent.acceleratorPosition & 0xFF);
+
+        float boost = this.updateSimulatedBoost(pedal, rpm);
+        int torque = this.simulateTorquePercent(boost, pedal, rpm);
+        int power = this.simulatePowerPercent(torque, rpm);
+
+        this.getRangeModel(602112).setValue(torque);
+        this.getRangeModel(602115).setValue(power);
+        this.getRangeModel(602111).setValue(this.clampPercent(Math.round(boost)));
+    }
+
+    private float updateSimulatedBoost(int pedal, int rpm) {
+        long now = System.currentTimeMillis();
+        long dt = this.lastSimTime == 0L ? 0L : now - this.lastSimTime;
+        this.lastSimTime = now;
+        if (dt > 500L) {
+            dt = 500L;
+        }
+
+        float target = pedal * this.interpolate(SIM_RPM, SIM_BOOST_LIMIT, rpm) / 100.0f;
+        float spoolMs = target > this.simBoost ? SIM_SPOOL_UP_MS : SIM_SPOOL_DOWN_MS;
+        this.simBoost += (target - this.simBoost) * Math.min(1.0f, dt / spoolMs);
+        return this.simBoost;
+    }
+
+    private int simulateTorquePercent(float boost, int pedal, int rpm) {
+        float load = SIM_NA_TORQUE_SHARE * pedal / 100.0f + (1.0f - SIM_NA_TORQUE_SHARE) * boost / 100.0f;
+        return this.clampPercent(Math.round(this.interpolate(SIM_RPM, SIM_TORQUE_CURVE, rpm) * load));
+    }
+
+    private int simulatePowerPercent(int torquePercent, int rpm) {
+        int maxPowerKw = this.currentSemiStaticData.maxOutputPower > 0 ? this.currentSemiStaticData.maxOutputPower : SIM_DEFAULT_MAX_POWER_KW;
+        float torqueNm = torquePercent * maxSimulatedTorque / 100.0f;
+        float powerKw = torqueNm * rpm / 9549.0f;
+        return this.clampPercent(Math.round(powerKw * 100.0f / maxPowerKw));
+    }
+
+    private float interpolate(int[] xs, int[] ys, int x) {
+        if (x <= xs[0]) {
+            return ys[0];
+        }
+        for (int i = 1; i < xs.length; ++i) {
+            if (x <= xs[i]) {
+                float t = (float)(x - xs[i - 1]) / (float)(xs[i] - xs[i - 1]);
+                return ys[i - 1] + (ys[i] - ys[i - 1]) * t;
+            }
+        }
+        return ys[ys.length - 1];
+    }
+
+    private int clampPercent(int value) {
+        if (value < 0) {
+            return 0;
+        }
+        return value > 100 ? 100 : value;
     }
 
     private void checkConfigurations() {
